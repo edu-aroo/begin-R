@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Aroo Falinirina" />
+
+
+<title>R pour grands débutants</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<!-- ===========================================================================
+  slides-engine.html — turns a normal R Markdown html_document into slides.
+  Inserted in <head> by the YAML of each deck (includes: in_header).
+  In the .Rmd:  "## Title" = one slide · "## Title {.segue}" = section divider
+                <div class="notes"> ... </div> = speaker notes (press N)
+  Keys: → / Space / PageDown = next · ← / PageUp = previous · Home / End
+        F = full screen · N = show/hide notes · O = overview of all slides
+  Each slide is a 1280 × 720 box scaled to the window, so it looks the same on
+  any screen or projector. Content that is too long is shrunk automatically.
+=========================================================================== -->
+<script>
+(function () {
+  "use strict";
+  let slides = [], cur = 0;
+
+  function build() {
+    document.body.classList.add("deck");
+    const stage = document.createElement("div");
+    stage.id = "stage";
+    // slide 0 = the title block made by R Markdown (#header)
+    // (theme: null puts h1.title / h3.subtitle / h4.author directly in <body>)
+    const header = document.getElementById("header");
+    const titleParts = header ? [header]
+      : Array.from(document.querySelectorAll("h1.title, h3.subtitle, h4.author, h4.date"));
+    if (titleParts.length) { const s = wrap(titleParts); s.classList.add("title-slide"); stage.appendChild(s); }
+    // every "## Title" section = one slide
+    document.querySelectorAll("div.section.level2").forEach(sec => {
+      const s = wrap([sec]);
+      if (sec.classList.contains("segue")) s.classList.add("segue");
+      stage.appendChild(s);
+    });
+    document.body.innerHTML = "";
+    document.body.appendChild(stage);
+    slides = Array.from(stage.children);
+
+    const bar = document.createElement("div");
+    bar.id = "deck-bar";
+    document.body.appendChild(bar);
+    const sig = document.createElement("div");
+    sig.id = "deck-sign"; sig.textContent = "by Aroo Falinirina";
+    document.body.appendChild(sig);
+
+    const n = parseInt(location.hash.replace("#", ""), 10);
+    show(isNaN(n) ? 0 : Math.min(Math.max(n - 1, 0), slides.length - 1));
+    window.addEventListener("resize", scale);
+    scale();
+    slides.forEach(fit);
+  }
+
+  function wrap(nodes) {
+    const s = document.createElement("section");
+    s.className = "slide";
+    const inner = document.createElement("div");
+    inner.className = "slide-inner";
+    nodes.forEach(n => inner.appendChild(n));
+    s.appendChild(inner);
+    return s;
+  }
+
+  // scale the 1280 x 720 slide to the window
+  function scale() {
+    const k = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    document.documentElement.style.setProperty("--k", k);
+  }
+
+  // shrink the font of a slide until its content fits in the box
+  function fit(s) {
+    const inner = s.querySelector(".slide-inner");
+    let size = 100;
+    s.style.display = "block";
+    const base = parseFloat(getComputedStyle(inner).fontSize);   // 27px in slides.css
+    while (inner.scrollHeight > inner.clientHeight + 2 && size > 62) {
+      size -= 4; inner.style.fontSize = (base * size / 100) + "px";
+    }
+    s.style.display = "";
+  }
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    slides[cur].classList.remove("current");
+    cur = i;
+    slides[cur].classList.add("current");
+    history.replaceState(null, "", "#" + (cur + 1));
+    const bar = document.getElementById("deck-bar");
+    bar.textContent = (cur + 1) + " / " + slides.length;
+    bar.style.setProperty("--p", ((cur + 1) / slides.length * 100) + "%");
+  }
+
+  document.addEventListener("keydown", e => {
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+    else if (e.key === "Home") show(0);
+    else if (e.key === "End") show(slides.length - 1);
+    else if (e.key === "f" || e.key === "F") {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen();
+    }
+    else if (e.key === "n" || e.key === "N") document.body.classList.toggle("show-notes");
+    else if (e.key === "o" || e.key === "O") document.body.classList.toggle("overview");
+  });
+  // click on a slide in overview mode jumps to it; otherwise click = next
+  document.addEventListener("click", e => {
+    const s = e.target.closest(".slide");
+    if (document.body.classList.contains("overview") && s) {
+      document.body.classList.remove("overview"); show(slides.indexOf(s)); return;
+    }
+    if (e.target.closest("a, pre, code, button")) return;
+    if (e.clientX > window.innerWidth * 0.5) show(cur + 1); else show(cur - 1);
+  });
+
+  document.addEventListener("DOMContentLoaded", build);
+})();
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #204a87; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #8f5902; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #204a87; font-weight: bold; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #ce5c00; font-weight: bold; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">
+:root { --ocean: #0b3d5c; --lagoon: #1b7f8c; --seagrass: #4a7d3a; --coral: #d9694a;
+--sand: #f6f1e7; --ink: #1f2a33; --muted: #5d6b75; --k: 1; }
+
+.en { display: none !important; }
+html, body { margin: 0; height: 100%; background: #0f1d26; overflow: hidden; }
+body.deck { font-family: "Source Sans 3", "Segoe UI", Calibri, Arial, sans-serif; color: var(--ink); }
+
+.slide { display: none; position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px;
+transform: translate(-50%, -50%) scale(var(--k)); background: #fff;
+box-shadow: 0 10px 40px rgba(0,0,0,.4); overflow: hidden; }
+.slide.current { display: block; }
+.slide-inner { box-sizing: border-box; height: 100%; padding: 46px 70px 56px; font-size: 100%; overflow: hidden; }
+.slide::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 7px;
+background: linear-gradient(90deg, var(--seagrass), var(--lagoon), var(--coral)); }
+
+.slide-inner { font-size: 27px; line-height: 1.4; }
+.slide h2 { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; color: var(--ocean);
+font-size: 1.65em; font-weight: 600; margin: 0 0 .45em; padding-bottom: .2em; border-bottom: 2px solid #e3e9ec; }
+.slide h3 { color: var(--lagoon); font-size: 1.1em; margin: .4em 0 .2em; }
+.slide p { margin: .35em 0; }
+.slide ul, .slide ol { margin: .3em 0; padding-left: 1.3em; }
+.slide li { margin: .22em 0; }
+.slide a { color: var(--lagoon); }
+.slide strong { color: var(--ocean); }
+
+.slide.title-slide { background: linear-gradient(135deg, #0b3d5c 0%, #1b7f8c 70%, #4a7d3a 100%); }
+.slide.title-slide .slide-inner { display: flex; flex-direction: column; justify-content: center; padding: 80px 100px; }
+.slide.title-slide h1 { font-family: "Source Serif 4", Georgia, serif; color: #fff; font-size: 64px; margin: 0 0 20px; line-height: 1.1; }
+.slide.title-slide .subtitle { color: #d8eef1; font-size: 30px; font-weight: 400; margin: 0 0 40px; }
+.slide.title-slide .author { color: #fff; font-family: Georgia, serif; font-style: italic; font-size: 26px; font-weight: 400; margin: 0; }
+
+.slide.segue { background: var(--ocean); }
+.slide.segue .slide-inner { display: flex; align-items: center; }
+.slide.segue h2 { color: #fff; border: 0; font-size: 2.3em; }
+
+pre, code { font-family: "JetBrains Mono", Consolas, "Courier New", monospace; }
+.slide pre { font-size: .66em; line-height: 1.35; background: #f7f9fa; border: 1px solid #dde3e6;
+border-left: 5px solid var(--lagoon); border-radius: 6px; padding: 8px 14px; margin: .35em 0; white-space: pre-wrap; }
+.slide pre:not(.r) { border-left-color: #b9c4ca; background: #fbfcfc; }
+.slide :not(pre) > code { background: #eef4f5; color: #0d4f63; padding: 0 5px; border-radius: 4px; font-size: .9em; }
+.slide img { max-width: 100%; max-height: 420px; display: block; margin: 6px auto; }
+.slide .svg-fig { margin: 0 auto; text-align: center; }
+.slide .svg-fig svg { max-height: 540px; width: auto; max-width: 100%; }
+
+.slide table { border-collapse: collapse; margin: .4em 0; font-size: .8em; }
+.slide th { background: var(--ocean); color: #fff; padding: 6px 12px; text-align: left; }
+.slide td { padding: 5px 12px; border-bottom: 1px solid #dde3e6; }
+
+.box { border-radius: 10px; padding: 8px 18px; margin: 12px 0; background: var(--sand); font-size: .92em; }
+.box.tip { background: #eef5ea; border-left: 6px solid var(--seagrass); }
+.box.warn { background: #fdf0eb; border-left: 6px solid var(--coral); }
+.box.eco { background: #e9f4f6; border-left: 6px solid var(--lagoon); }
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.cols > .c > p:first-child { margin: 0; font-weight: 700; font-size: .7em; letter-spacing: .06em; text-transform: uppercase; }
+.cols > .base > p:first-child { color: #8a6a32; }
+.cols > .pkg > p:first-child { color: var(--lagoon); }
+.cols img { max-height: 330px; }
+
+.notes { display: none; }
+body.show-notes .notes { display: block; position: absolute; left: 0; right: 0; bottom: 0; max-height: 40%; overflow: auto;
+background: #fff7e6; border-top: 3px solid #e3b04b; padding: 10px 70px; font-size: 20px; color: #5a4a20; }
+
+#deck-bar { --p: 0%; position: fixed; left: 0; right: 0; bottom: 0; height: 22px; color: #9fb3bd; font-size: 13px;
+text-align: right; padding-right: 12px; line-height: 22px;
+background: linear-gradient(90deg, var(--lagoon) var(--p), transparent var(--p)) no-repeat bottom / 100% 3px; }
+#deck-sign { position: fixed; left: 14px; bottom: 3px; color: #9fb3bd; font-family: Georgia, serif; font-style: italic; font-size: 13px; }
+
+body.overview { overflow: auto; }
+body.overview #stage { display: grid; grid-template-columns: repeat(auto-fill, 330px); gap: 16px; padding: 16px; }
+body.overview .slide { display: block; position: relative; left: auto; top: auto; transform: scale(.25);
+transform-origin: top left; width: 1280px; height: 720px; margin: 0 -960px -540px 0; cursor: pointer; }
+body.overview .slide.current { outline: 12px solid var(--coral); }
+
+@media print {
+@page { size: 1280px 720px; margin: 0; }
+html, body { overflow: visible; background: #fff; }
+.slide { display: block !important; position: relative; left: 0; top: 0; transform: none; box-shadow: none; page-break-after: always; }
+#deck-bar, #deck-sign { display: none; }
+}
+.slide pre code { white-space: pre-wrap; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">R pour grands débutants</h1>
+<h3 class="subtitle">Partie 2 · Séances 4 à 6 — Data frames en détail,
+nettoyage, statistiques</h3>
+<h4 class="author">Aroo Falinirina</h4>
+
+
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+<div id="rappel-de-la-partie-1" class="section level2">
+<h2>Rappel de la partie 1</h2>
+<ul>
+<li>Scripts, projet RStudio, objets <code>&lt;-</code>, fonctions et
+arguments</li>
+<li>Vecteurs : <code>c()</code>, <code>seq()</code>, <code>rep()</code>,
+<code>sample()</code>, <code>[ ]</code>, <code>NA</code></li>
+<li>Data frame : <code>read.csv()</code>, <code>str()</code>,
+<code>summary()</code>, <code>$</code></li>
+</ul>
+<div class="box tip">
+<p>Aujourd’hui : <strong>lire et modifier</strong> n’importe quelle
+partie d’un tableau, <strong>nettoyer</strong> des données de terrain,
+<strong>résumer</strong> par site et par statut d’AMP.</p>
+</div>
+<div class="notes">
+<p>~20 min séance 4 · ~20 min séance 5 · ~20 min séance 6.</p>
+</div>
+</div>
+<div id="séance-4-dans-un-data-frame" class="section level2 segue">
+<h2 class="segue">Séance 4 — Dans un data frame</h2>
+</div>
+<div id="ladresse-ligne-colonne" class="section level2">
+<h2>L’adresse <code>[ligne, colonne]</code></h2>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" role="img" aria-label="Selecting rows, columns and blocks with [row, column]" font-family="Source Sans 3, Arial, sans-serif">
+<defs>
+<g id="grid"><g fill="#f7f9fa" stroke="#c9d3d8"><rect x="0" y="0" width="50" height="26"></rect><rect x="50" y="0" width="50" height="26"></rect><rect x="100" y="0" width="50" height="26"></rect><rect x="150" y="0" width="50" height="26"></rect><rect x="0" y="26" width="50" height="26"></rect><rect x="50" y="26" width="50" height="26"></rect><rect x="100" y="26" width="50" height="26"></rect><rect x="150" y="26" width="50" height="26"></rect><rect x="0" y="52" width="50" height="26"></rect><rect x="50" y="52" width="50" height="26"></rect><rect x="100" y="52" width="50" height="26"></rect><rect x="150" y="52" width="50" height="26"></rect><rect x="0" y="78" width="50" height="26"></rect><rect x="50" y="78" width="50" height="26"></rect><rect x="100" y="78" width="50" height="26"></rect><rect x="150" y="78" width="50" height="26"></rect><rect x="0" y="104" width="50" height="26"></rect><rect x="50" y="104" width="50" height="26"></rect><rect x="100" y="104" width="50" height="26"></rect><rect x="150" y="104" width="50" height="26"></rect></g>
+<g font-size="11" fill="#5d6b75" text-anchor="middle"><text x="25" y="-6">1</text><text x="75" y="-6">2</text><text x="125" y="-6">3</text><text x="175" y="-6">4</text><text x="-10" y="17">1</text><text x="-10" y="43">2</text><text x="-10" y="69">3</text><text x="-10" y="95">4</text><text x="-10" y="121">5</text></g></g>
+</defs>
+<g transform="translate(40,60)"><use href="#grid"></use><rect x="0" y="26" width="200" height="26" fill="#d9694a" opacity=".55"></rect></g>
+<g transform="translate(330,60)"><use href="#grid"></use><rect x="100" y="0" width="50" height="130" fill="#1b7f8c" opacity=".55"></rect></g>
+<g transform="translate(620,60)"><use href="#grid"></use><rect x="0" y="26" width="50" height="52" fill="#4a7d3a" opacity=".6"></rect><rect x="100" y="26" width="50" height="52" fill="#4a7d3a" opacity=".6"></rect></g>
+<g font-family="JetBrains Mono, monospace" font-size="17" font-weight="600" fill="#0b3d5c" text-anchor="middle"><text x="140" y="30">df[2,
+]</text><text x="430" y="30">df[, 3]</text><text x="720" y="30">df[2:3,
+c(1, 3)]</text></g>
+<g font-size="15" fill="#3c4a52" text-anchor="middle">
+<text class="en" x="140" y="222">row 2, all
+columns</text><text class="fr" x="140" y="222">ligne 2, toutes les
+colonnes</text> <text class="en" x="430" y="222">all rows, column
+3</text><text class="fr" x="430" y="222">toutes les lignes, colonne
+3</text> <text class="en" x="720" y="222">rows 2 to 3, columns 1 and
+3</text><text class="fr" x="720" y="222">lignes 2 à 3, colonnes 1 et
+3</text> <text class="en" x="430" y="246" fill="#5d6b75">Rule: [ ROWS ,
+COLUMNS ] — empty means
+“all”</text><text class="fr" x="430" y="246" fill="#5d6b75">Règle : [
+LIGNES , COLONNES ] — vide signifie « tout »</text> </g>
+</svg>
+</figure>
+</div>
+<div id="par-numéro-par-nom-par-condition" class="section level2">
+<h2>Par numéro, par nom, par condition</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>sg[<span class="dv">2</span>, <span class="dv">7</span>]                                    <span class="co"># une valeur</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; [1] 47</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>sg[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;quadrat&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt;        site quadrat seagrass_cover</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt; 1 Ambalaboy       1             69</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; 2 Ambalaboy       2             47</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; 3 Ambalaboy       3             64</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>sg[sg<span class="sc">$</span>seagrass_cover <span class="sc">&gt;</span> <span class="dv">70</span>, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;          site seagrass_cover</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; 23   Fasimena             71</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; 28   Fasimena             74</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt; 42 Tsiandamba             71</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; 58  Belitsaky             72</span></span></code></pre></div>
+</div>
+<div id="exclure-et-le-piège-du-drop" class="section level2">
+<h2>Exclure, et le piège du <code>drop</code></h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>sg[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">57</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]                  <span class="co"># le signe moins exclut</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt;         site mpa_status quadrat</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; 58 Belitsaky    Outside      13</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; 59 Belitsaky    Outside      14</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; 60 Belitsaky    Outside      15</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">class</span>(sg[, <span class="st">&quot;site&quot;</span>])               <span class="co"># une colonne -&gt; un vecteur</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot;character&quot;</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="fu">class</span>(sg[, <span class="st">&quot;site&quot;</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>]) <span class="co"># reste un data frame</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.frame&quot;</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="fu">class</span>(sg[<span class="st">&quot;site&quot;</span>])                 <span class="co"># idem</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.frame&quot;</span></span></code></pre></div>
+</div>
+<div id="ou" class="section level2">
+<h2><code>$</code>, <code>[ , ]</code> ou <code>[[ ]]</code> ?</h2>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Syntaxe</th>
+<th>Renvoie</th>
+<th>Plusieurs colonnes</th>
+<th>Nom dans un objet</th>
+<th>Lignes aussi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sg$cover</code></td>
+<td>vecteur</td>
+<td>non</td>
+<td>non</td>
+<td>non</td>
+</tr>
+<tr class="even">
+<td><code>sg[[&quot;cover&quot;]]</code></td>
+<td>vecteur</td>
+<td>non</td>
+<td><strong>oui</strong></td>
+<td>non</td>
+</tr>
+<tr class="odd">
+<td><code>sg[, &quot;cover&quot;]</code></td>
+<td>vecteur</td>
+<td><strong>oui</strong></td>
+<td><strong>oui</strong></td>
+<td><strong>oui</strong></td>
+</tr>
+<tr class="even">
+<td><code>sg[&quot;cover&quot;]</code></td>
+<td>data frame</td>
+<td><strong>oui</strong></td>
+<td><strong>oui</strong></td>
+<td>non</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>var <span class="ot">&lt;-</span> <span class="st">&quot;depth_m&quot;</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>sg[[var]][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]       <span class="co"># fonctionne ; sg$var ne fonctionne pas</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; [1] 2.8 0.9 2.3 0.4 1.9</span></span></code></pre></div>
+</div>
+<div id="modifier-des-valeurs" class="section level2">
+<h2>Modifier des valeurs</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>sg2 <span class="ot">&lt;-</span> sg                                           <span class="co"># toujours sur une copie</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>sg2[<span class="dv">3</span>, <span class="st">&quot;depth_m&quot;</span>] <span class="ot">&lt;-</span> <span class="fl">2.5</span>                            <span class="co"># une cellule</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>sg2<span class="sc">$</span>seagrass_cover[<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="dv">58</span>                         <span class="co"># même chose avec $</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>sg2<span class="sc">$</span>canopy_height_cm[<span class="fu">which</span>(sg2<span class="sc">$</span>canopy_height_cm <span class="sc">&gt;</span> <span class="dv">30</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span>   <span class="co"># par condition</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>sg2[sg2<span class="sc">$</span>site <span class="sc">==</span> <span class="st">&quot;Fasimena&quot;</span>, <span class="st">&quot;site&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Fasimena Nord&quot;</span>         <span class="co"># recoder</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">table</span>(sg2<span class="sc">$</span>site)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;     Ambalaboy     Belitsaky Fasimena Nord    Tsiandamba </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;            15            15            15            15</span></span></code></pre></div>
+<div class="box warn">
+Pas d’annulation dans R : on réimporte et on relance le script.
+</div>
+</div>
+<div id="ajouter-des-colonnes" class="section level2">
+<h2>Ajouter des colonnes</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>sg2<span class="sc">$</span>campaign      <span class="ot">&lt;-</span> <span class="st">&quot;2026-A&quot;</span>                               <span class="co"># constante</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>sg2<span class="sc">$</span>cover_prop    <span class="ot">&lt;-</span> sg2<span class="sc">$</span>seagrass_cover <span class="sc">/</span> <span class="dv">100</span>               <span class="co"># 1 colonne</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>sg2<span class="sc">$</span>canopy_index  <span class="ot">&lt;-</span> sg2<span class="sc">$</span>cover_prop <span class="sc">*</span> sg2<span class="sc">$</span>canopy_height_cm  <span class="co"># 2 colonnes</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>sg2<span class="sc">$</span>quadrat_id    <span class="ot">&lt;-</span> <span class="fu">paste</span>(sg2<span class="sc">$</span>site, sg2<span class="sc">$</span>quadrat, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">head</span>(sg2[, <span class="fu">c</span>(<span class="st">&quot;quadrat_id&quot;</span>, <span class="st">&quot;cover_prop&quot;</span>, <span class="st">&quot;canopy_index&quot;</span>)], <span class="dv">3</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;    quadrat_id cover_prop canopy_index</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 1 Ambalaboy_1       0.69       12.972</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 2 Ambalaboy_2       0.47        7.990</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 3 Ambalaboy_3       0.64       12.032</span></span></code></pre></div>
+</div>
+<div id="biomasse-de-poissons-3-colonnes" class="section level2">
+<h2>Biomasse de poissons : 3 colonnes</h2>
+<div class="box eco">
+<p>Comptage visuel (UVC) : pour chaque groupe, l’espèce, la taille
+<code>length_cm</code> et le nombre <code>count</code>. Poids d’un
+poisson : <strong>W = a × L^b</strong> (paramètres FishBase).</p>
+</div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>fish<span class="sc">$</span>weight_g  <span class="ot">&lt;-</span> fish<span class="sc">$</span>a <span class="sc">*</span> fish<span class="sc">$</span>length_cm<span class="sc">^</span>fish<span class="sc">$</span>b     <span class="co"># un poisson (g)</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>fish<span class="sc">$</span>biomass_g <span class="ot">&lt;-</span> fish<span class="sc">$</span>count <span class="sc">*</span> fish<span class="sc">$</span>weight_g          <span class="co"># le groupe (g)</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>fish<span class="sc">$</span>kg_ha     <span class="ot">&lt;-</span> fish<span class="sc">$</span>biomass_g <span class="sc">/</span> <span class="dv">1000</span> <span class="sc">/</span> <span class="dv">250</span> <span class="sc">*</span> <span class="dv">10000</span> <span class="co"># transect de 250 m²</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">head</span>(fish[, <span class="fu">c</span>(<span class="st">&quot;species&quot;</span>, <span class="st">&quot;length_cm&quot;</span>, <span class="st">&quot;count&quot;</span>, <span class="st">&quot;biomass_g&quot;</span>, <span class="st">&quot;kg_ha&quot;</span>)], <span class="dv">3</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt;              species length_cm count biomass_g    kg_ha</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 1   Chaetodon auriga        12    15   699.840 27.99360</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 2 Chlorurus sordidus        12    14   411.264 16.45056</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 3 Chlorurus sordidus        19    14  1632.442 65.29768</span></span></code></pre></div>
+</div>
+<div id="supprimer-renommer-réordonner" class="section level2">
+<h2>Supprimer, renommer, réordonner</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>sg2<span class="sc">$</span>campaign <span class="ot">&lt;-</span> <span class="cn">NULL</span>                                   <span class="co"># une colonne</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>sg2 <span class="ot">&lt;-</span> <span class="fu">subset</span>(sg2, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(cover_prop, canopy_index))  <span class="co"># plusieurs</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">names</span>(sg2)[<span class="fu">names</span>(sg2) <span class="sc">==</span> <span class="st">&quot;seagrass_cover&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;cover_pct&quot;</span>  <span class="co"># renommer</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>sg2 <span class="ot">&lt;-</span> sg2[, <span class="fu">c</span>(<span class="st">&quot;quadrat_id&quot;</span>, <span class="st">&quot;site&quot;</span>, <span class="st">&quot;cover_pct&quot;</span>, <span class="st">&quot;depth_m&quot;</span>)] <span class="co"># réordonner</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">head</span>(sg2, <span class="dv">3</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;    quadrat_id      site cover_pct depth_m</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 1 Ambalaboy_1 Ambalaboy        69     2.8</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; 2 Ambalaboy_2 Ambalaboy        47     0.9</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 3 Ambalaboy_3 Ambalaboy        64     2.5</span></span></code></pre></div>
+</div>
+<div id="ajouter-et-retirer-des-lignes" class="section level2">
+<h2>Ajouter et retirer des lignes</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>new_q <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">quadrat_id =</span> <span class="st">&quot;Fasimena_16&quot;</span>, <span class="at">site =</span> <span class="st">&quot;Fasimena&quot;</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                    <span class="at">cover_pct =</span> <span class="dv">61</span>, <span class="at">depth_m =</span> <span class="fl">1.4</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>sg2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(sg2, new_q)      <span class="co"># mêmes noms de colonnes</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">nrow</span>(sg2)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; [1] 61</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>sg2 <span class="ot">&lt;-</span> sg2[<span class="sc">-</span><span class="dv">61</span>, ]             <span class="co"># retirer la ligne 61</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">nrow</span>(sg2)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; [1] 60</span></span></code></pre></div>
+</div>
+<div id="la-famille-apply" class="section level2">
+<h2>La famille apply</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Fonction</th>
+<th>Applique à…</th>
+<th>Renvoie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sapply(df, FUN)</code></td>
+<td>chaque colonne</td>
+<td>vecteur / matrice</td>
+</tr>
+<tr class="even">
+<td><code>lapply(df, FUN)</code></td>
+<td>chaque colonne</td>
+<td>liste</td>
+</tr>
+<tr class="odd">
+<td><code>apply(df, 1, FUN)</code></td>
+<td>chaque <strong>ligne</strong></td>
+<td>vecteur</td>
+</tr>
+<tr class="even">
+<td><code>apply(df, 2, FUN)</code></td>
+<td>chaque <strong>colonne</strong></td>
+<td>vecteur</td>
+</tr>
+<tr class="odd">
+<td><code>tapply(x, g, FUN)</code></td>
+<td>chaque <strong>groupe</strong></td>
+<td>séance 6</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">sapply</span>(sg, class)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt;             site       mpa_status          quadrat             date </span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt;      &quot;character&quot;      &quot;character&quot;        &quot;integer&quot;      &quot;character&quot; </span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt;          depth_m          species   seagrass_cover canopy_height_cm </span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt;        &quot;numeric&quot;      &quot;character&quot;        &quot;integer&quot;        &quot;numeric&quot; </span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt;    shoot_density </span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt;        &quot;integer&quot;</span></span></code></pre></div>
+</div>
+<div id="sapply-et-apply-en-pratique" class="section level2">
+<h2><code>sapply()</code> et <code>apply()</code> en pratique</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>num <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;seagrass_cover&quot;</span>, <span class="st">&quot;depth_m&quot;</span>, <span class="st">&quot;canopy_height_cm&quot;</span>, <span class="st">&quot;shoot_density&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">sapply</span>(sg[, num], mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)     <span class="co"># arguments après la fonction</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt;   seagrass_cover          depth_m canopy_height_cm    shoot_density </span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt;         48.50000          1.63000         16.63966        425.73333</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">apply</span>(sg[, num], <span class="dv">2</span>, max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># 2 = par colonne</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt;   seagrass_cover          depth_m canopy_height_cm    shoot_density </span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt;             74.0              3.0             22.8            664.0</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="fu">lapply</span>(sg[, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;species&quot;</span>)], unique)</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; $site</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Ambalaboy&quot;  &quot;Fasimena&quot;   &quot;Tsiandamba&quot; &quot;Belitsaky&quot; </span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; $species</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Thalassia hemprichii&quot;     &quot;Syringodium isoetifolium&quot;</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Cymodocea serrulata&quot;      &quot;Thalassodendron ciliatum&quot;</span></span></code></pre></div>
+</div>
+<div id="séance-5-filtrer-et-nettoyer" class="section level2 segue">
+<h2 class="segue">Séance 5 — Filtrer et nettoyer</h2>
+</div>
+<div id="combiner-des-conditions" class="section level2">
+<h2>Combiner des conditions</h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Opérateur</th>
+<th>Sens</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&amp;</code></td>
+<td>ET</td>
+<td><code>cover &gt; 50 &amp; depth &lt; 1</code></td>
+</tr>
+<tr class="even">
+<td><code>|</code></td>
+<td>OU</td>
+<td><code>site == &quot;A&quot; | site == &quot;B&quot;</code></td>
+</tr>
+<tr class="odd">
+<td><code>!</code></td>
+<td>NON</td>
+<td><code>!is.na(cover)</code></td>
+</tr>
+<tr class="even">
+<td><code>%in%</code></td>
+<td>dans la liste</td>
+<td><code>site %in% c(&quot;A&quot;, &quot;B&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">55</span>, <span class="dv">70</span>, <span class="dv">90</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>x <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> x <span class="sc">&lt;</span> <span class="dv">80</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt; [1] FALSE  TRUE  TRUE FALSE</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;HC&quot;</span>, <span class="st">&quot;SD&quot;</span>, <span class="st">&quot;MA&quot;</span>) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;HC&quot;</span>, <span class="st">&quot;SC&quot;</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; [1]  TRUE FALSE FALSE</span></span></code></pre></div>
+</div>
+<div id="filtrer-avec" class="section level2">
+<h2>Filtrer avec <code>[ , ]</code></h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>inside <span class="ot">&lt;-</span> sg[sg<span class="sc">$</span>mpa_status <span class="sc">==</span> <span class="st">&quot;Inside&quot;</span>, ]</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">nrow</span>(inside)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt; [1] 30</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>sg[sg<span class="sc">$</span>seagrass_cover <span class="sc">&gt;</span> <span class="dv">60</span> <span class="sc">&amp;</span> sg<span class="sc">$</span>depth_m <span class="sc">&lt;</span> <span class="fl">1.5</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>   <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;quadrat&quot;</span>, <span class="st">&quot;depth_m&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt;         site quadrat depth_m seagrass_cover</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; 4  Ambalaboy       4     0.4             61</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; 26  Fasimena      11     0.7             62</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; 30  Fasimena      15     0.7             61</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt; 52 Belitsaky       7     0.8             61</span></span></code></pre></div>
+<div class="box warn">
+Si la condition contient des <code>NA</code>, utiliser
+<code>which()</code> ou <code>subset()</code>.
+</div>
+</div>
+<div id="subset-en-détail" class="section level2">
+<h2><code>subset()</code> en détail</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">subset</span>(sg, site <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Belitsaky&quot;</span>) <span class="sc">&amp;</span> depth_m <span class="sc">&lt;</span> <span class="dv">1</span>,</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>       <span class="at">select =</span> <span class="fu">c</span>(site, quadrat, depth_m, seagrass_cover))</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt;         site quadrat depth_m seagrass_cover</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt; 2  Ambalaboy       2     0.9             47</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt; 4  Ambalaboy       4     0.4             61</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt; 7  Ambalaboy       7     0.9             52</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt; 15 Ambalaboy      15     0.6             26</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; 49 Belitsaky       4     0.5             55</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; 50 Belitsaky       5     0.5             44</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; 52 Belitsaky       7     0.8             61</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">#&gt; 55 Belitsaky      10     0.5             32</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co">#&gt; 59 Belitsaky      14     0.8             46</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">subset</span>(sg, depth_m <span class="sc">&gt;=</span> <span class="fl">2.5</span>, <span class="at">select =</span> site<span class="sc">:</span>species))   <span class="co"># plage</span></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="co">#&gt; [1] &quot;site&quot;       &quot;mpa_status&quot; &quot;quadrat&quot;    &quot;date&quot;       &quot;depth_m&quot;   </span></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="co">#&gt; [6] &quot;species&quot;</span></span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">subset</span>(sg, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(date, quadrat)))              <span class="co"># exclusion</span></span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a><span class="co">#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;depth_m&quot;          &quot;species&quot;         </span></span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a><span class="co">#&gt; [5] &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</span></span></code></pre></div>
+</div>
+<div id="trier" class="section level2">
+<h2>Trier</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>top <span class="ot">&lt;-</span> sg[<span class="fu">order</span>(sg<span class="sc">$</span>seagrass_cover, <span class="at">decreasing =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>          <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;quadrat&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">head</span>(top, <span class="dv">4</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt;          site quadrat seagrass_cover</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; 28   Fasimena      13             74</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt; 58  Belitsaky      13             72</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt; 23   Fasimena       8             71</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt; 42 Tsiandamba      12             71</span></span></code></pre></div>
+<ul>
+<li><code>order()</code> renvoie les <strong>positions</strong> qui
+trient → à placer en lignes</li>
+<li>tri multiple :
+<code>sg[order(sg$site, -sg$seagrass_cover), ]</code></li>
+</ul>
+</div>
+<div id="les-vraies-données-sont-sales" class="section level2">
+<h2>Les vraies données sont sales</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>raw <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/seagrass_messy.csv&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">dim</span>(raw)                  <span class="co"># 62 lignes au lieu de 60</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co">#&gt; [1] 62  9</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="fu">names</span>(raw)[<span class="dv">7</span>]             <span class="co"># nom de colonne étrange</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Seagrass.cover....&quot;</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="fu">unique</span>(raw<span class="sc">$</span>site)          <span class="co"># 12 orthographes pour 4 sites</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Ambalaboy&quot;   &quot;ambalaboy&quot;   &quot;Ambalaboy &quot;  &quot;Fasimena&quot;    &quot;FASIMENA&quot;   </span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;fasimena&quot;    &quot;Tsiandamba&quot;  &quot; Tsiandamba&quot; &quot;Belitsaky&quot;   &quot;belitsaky&quot;  </span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#&gt; [11] &quot;Belitsaky &quot;  &quot;BELITSAKY&quot;</span></span></code></pre></div>
+</div>
+<div id="corriger-le-texte" class="section level2">
+<h2>Corriger le texte</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Fonction</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>trimws(x)</code></td>
+<td>retire les espaces début/fin</td>
+</tr>
+<tr class="even">
+<td><code>tolower()</code> / <code>toupper()</code></td>
+<td>minuscules / majuscules</td>
+</tr>
+<tr class="odd">
+<td><code>tools::toTitleCase(x)</code></td>
+<td>majuscule à chaque mot</td>
+</tr>
+<tr class="even">
+<td><code>gsub(ancien, nouveau, x)</code></td>
+<td>remplace un motif</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>raw<span class="sc">$</span>site <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">toTitleCase</span>(<span class="fu">tolower</span>(<span class="fu">trimws</span>(raw<span class="sc">$</span>site)))</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">table</span>(raw<span class="sc">$</span>site)</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co">#&gt;  Ambalaboy  Belitsaky   Fasimena Tsiandamba </span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co">#&gt;         16         16         15         15</span></span></code></pre></div>
+</div>
+<div id="corriger-des-nombres-stockés-en-texte" class="section level2">
+<h2>Corriger des nombres stockés en texte</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">names</span>(raw)[<span class="fu">names</span>(raw) <span class="sc">==</span> <span class="st">&quot;Seagrass.cover....&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;seagrass_cover&quot;</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="fu">unique</span>(raw<span class="sc">$</span>seagrass_cover)[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;69&quot;  &quot;47&quot;  &quot;64&quot;  &quot;61&quot;  &quot;53%&quot; &quot;27&quot;  &quot;52&quot;  &quot;48&quot;  &quot;55&quot;  &quot;56&quot;  &quot;-&quot;   &quot;59&quot;</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>raw<span class="sc">$</span>seagrass_cover <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;%&quot;</span>, <span class="st">&quot;&quot;</span>, raw<span class="sc">$</span>seagrass_cover)</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>raw<span class="sc">$</span>seagrass_cover[raw<span class="sc">$</span>seagrass_cover <span class="sc">==</span> <span class="st">&quot;-&quot;</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>raw<span class="sc">$</span>seagrass_cover <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(raw<span class="sc">$</span>seagrass_cover)</span></code></pre></div>
+</div>
+<div id="valeurs-impossibles-et-doublons" class="section level2">
+<h2>Valeurs impossibles et doublons</h2>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>raw[<span class="fu">which</span>(raw<span class="sc">$</span>seagrass_cover <span class="sc">&gt;</span> <span class="dv">100</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="co">#&gt;        site mpa_status quadrat       date depth_m                  species</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co">#&gt; 29 Fasimena     Inside      14 2026-03-11     0.7 Syringodium isoetifolium</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt;    seagrass_cover</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#&gt; 29            130</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>raw<span class="sc">$</span>seagrass_cover[<span class="fu">which</span>(raw<span class="sc">$</span>seagrass_cover <span class="sc">&gt;</span> <span class="dv">100</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(raw))</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>clean <span class="ot">&lt;-</span> raw[<span class="sc">!</span><span class="fu">duplicated</span>(raw), ]</span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="fu">nrow</span>(clean)</span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a><span class="co">#&gt; [1] 60</span></span></code></pre></div>
+<div class="box tip">
+Corriger l’orthographe <strong>avant</strong> de chercher les doublons.
+Ne jamais modifier le fichier brut.
+</div>
+</div>
+<div id="séance-6-statistiques-descriptives" class="section level2 segue">
+<h2 class="segue">Séance 6 — Statistiques descriptives</h2>
+</div>
+<div id="décrire-une-variable" class="section level2">
+<h2>Décrire une variable</h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> sg<span class="sc">$</span>seagrass_cover</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">mean</span>(x); <span class="fu">median</span>(x); <span class="fu">sd</span>(x)</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="co">#&gt; [1] 48.5</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co">#&gt; [1] 50</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="co">#&gt; [1] 13.6301</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="fu">quantile</span>(x)</span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="co">#&gt;    0%   25%   50%   75%  100% </span></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="co">#&gt; 10.00 40.75 50.00 59.00 74.00</span></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="fu">IQR</span>(x)</span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="co">#&gt; [1] 18.25</span></span></code></pre></div>
+</div>
+<div id="écart-type-ou-erreur-standard" class="section level2">
+<h2>Écart-type ou erreur standard ?</h2>
+<ul>
+<li><strong>ET (SD)</strong> : variabilité <strong>entre
+quadrats</strong> — ne diminue pas avec n</li>
+<li><strong>ES (SE)</strong> = ET / √n : <strong>précision de la
+moyenne</strong> — diminue quand n augmente</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="co">#&gt; [1] 1.759639</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>h <span class="ot">&lt;-</span> sg<span class="sc">$</span>canopy_height_cm</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="fu">sd</span>(h, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(h)))   <span class="co"># n sans les NA</span></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="co">#&gt; [1] 0.4946351</span></span></code></pre></div>
+<div class="box warn">
+Toujours préciser dans la légende : barres = ET ou ES, et n.
+</div>
+</div>
+<div id="par-groupe-tapply" class="section level2">
+<h2>Par groupe : <code>tapply()</code></h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, sg<span class="sc">$</span>site, mean)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="co">#&gt;  Ambalaboy  Belitsaky   Fasimena Tsiandamba </span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="co">#&gt;   52.80000   46.93333   52.60000   41.66667</span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, sg<span class="sc">$</span>mpa_status, sd)</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="co">#&gt;   Inside  Outside </span></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="co">#&gt; 12.21122 13.86922</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="fu">tapply</span>(sg<span class="sc">$</span>canopy_height_cm, sg<span class="sc">$</span>site, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="co">#&gt;  Ambalaboy  Belitsaky   Fasimena Tsiandamba </span></span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a><span class="co">#&gt;   17.05714   16.49333   16.69333   16.32143</span></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, <span class="fu">list</span>(sg<span class="sc">$</span>site, sg<span class="sc">$</span>mpa_status), mean), <span class="dv">1</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a><span class="co">#&gt;            Inside Outside</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a><span class="co">#&gt; Ambalaboy    52.8      NA</span></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a><span class="co">#&gt; Belitsaky      NA    46.9</span></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a><span class="co">#&gt; Fasimena     52.6      NA</span></span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a><span class="co">#&gt; Tsiandamba     NA    41.7</span></span></code></pre></div>
+</div>
+<div id="par-groupe-aggregate" class="section level2">
+<h2>Par groupe : <code>aggregate()</code></h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">aggregate</span>(seagrass_cover <span class="sc">~</span> site, <span class="at">data =</span> sg, <span class="at">FUN =</span> mean)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="co">#&gt;         site seagrass_cover</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="co">#&gt; 1  Ambalaboy       52.80000</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="co">#&gt; 2  Belitsaky       46.93333</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="co">#&gt; 3   Fasimena       52.60000</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="co">#&gt; 4 Tsiandamba       41.66667</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a><span class="fu">aggregate</span>(<span class="fu">cbind</span>(seagrass_cover, shoot_density) <span class="sc">~</span> mpa_status, <span class="at">data =</span> sg, <span class="at">FUN =</span> mean)</span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a><span class="co">#&gt;   mpa_status seagrass_cover shoot_density</span></span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a><span class="co">#&gt; 1     Inside           52.7      445.7333</span></span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a><span class="co">#&gt; 2    Outside           44.3      405.7333</span></span></code></pre></div>
+<ul>
+<li>résultat = <strong>data frame</strong> · formule
+<code>variable ~ groupe</code></li>
+</ul>
+</div>
+<div id="construire-un-tableau-de-synthèse" class="section level2">
+<h2>Construire un tableau de synthèse</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>n_site    <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, sg<span class="sc">$</span>site, length)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>mean_site <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, sg<span class="sc">$</span>site, mean)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>sd_site   <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, sg<span class="sc">$</span>site, sd)</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">site =</span> <span class="fu">names</span>(mean_site), <span class="at">n =</span> <span class="fu">as.vector</span>(n_site),</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>                  <span class="at">mean =</span> <span class="fu">round</span>(<span class="fu">as.vector</span>(mean_site), <span class="dv">1</span>),</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>                  <span class="at">sd =</span> <span class="fu">round</span>(<span class="fu">as.vector</span>(sd_site), <span class="dv">1</span>))</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>tab<span class="sc">$</span>se <span class="ot">&lt;-</span> <span class="fu">round</span>(tab<span class="sc">$</span>sd <span class="sc">/</span> <span class="fu">sqrt</span>(tab<span class="sc">$</span>n), <span class="dv">1</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>tab</span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="co">#&gt;         site  n mean   sd  se</span></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a><span class="co">#&gt; 1  Ambalaboy 15 52.8 12.3 3.2</span></span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a><span class="co">#&gt; 2  Belitsaky 15 46.9 12.0 3.1</span></span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a><span class="co">#&gt; 3   Fasimena 15 52.6 12.6 3.3</span></span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a><span class="co">#&gt; 4 Tsiandamba 15 41.7 15.5 4.0</span></span></code></pre></div>
+</div>
+<div id="une-valeur-par-unité-déchantillonnage" class="section level2">
+<h2>Une valeur par unité d’échantillonnage</h2>
+<div class="box eco">
+<p>Le <strong>transect</strong> (ou le quadrat) est le réplicat. Pour la
+biomasse de poissons : d’abord <strong>une valeur par transect</strong>,
+ensuite moyenne et ET par site.</p>
+</div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(biomass_g <span class="sc">~</span> site <span class="sc">+</span> transect, <span class="at">data =</span> fish, <span class="at">FUN =</span> sum)</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>tr<span class="sc">$</span>kg_ha <span class="ot">&lt;-</span> tr<span class="sc">$</span>biomass_g <span class="sc">/</span> <span class="dv">1000</span> <span class="sc">/</span> <span class="dv">250</span> <span class="sc">*</span> <span class="dv">10000</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(tr<span class="sc">$</span>kg_ha, tr<span class="sc">$</span>site, mean), <span class="dv">1</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="co">#&gt;     Ambola   Andavaka Belavenoke    Tsifota </span></span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a><span class="co">#&gt;      183.0      422.8      469.3      178.2</span></span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(tr<span class="sc">$</span>kg_ha, tr<span class="sc">$</span>site, sd), <span class="dv">1</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a><span class="co">#&gt;     Ambola   Andavaka Belavenoke    Tsifota </span></span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a><span class="co">#&gt;      103.4      335.3      195.5      120.6</span></span></code></pre></div>
+</div>
+<div id="à-retenir-partie-2" class="section level2">
+<h2>À retenir — Partie 2</h2>
+<ul>
+<li><code>df[lignes, colonnes]</code> pour lire <strong>et</strong>
+modifier ; <code>$</code> pour une colonne</li>
+<li>Colonnes calculées : <code>df$new &lt;- df$a * df$b^df$c</code> ;
+suppression : <code>&lt;- NULL</code></li>
+<li><code>sapply()</code> / <code>apply()</code> : une fonction sur
+chaque colonne</li>
+<li><code>subset()</code>, <code>%in%</code>, <code>order()</code> ;
+nettoyage : <code>trimws</code>, <code>tolower</code>,
+<code>gsub</code>, <code>duplicated</code></li>
+<li><code>tapply()</code> / <code>aggregate()</code> ; ET ≠ ES</li>
+</ul>
+<div class="box tip">
+<strong>À faire</strong> : séances 4 à 6 en ligne, avec leurs quiz.
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+
+</body>
+</html>

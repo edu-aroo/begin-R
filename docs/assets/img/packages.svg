@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="From CRAN to your R session: install.packages then library" font-family="Source Sans 3, Arial, sans-serif">
+<defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0b3d5c"/></marker></defs>
+<!-- CRAN: shop with shelves -->
+<rect x="20" y="40" width="220" height="190" rx="12" fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"/>
+<text x="130" y="70" text-anchor="middle" font-size="20" font-weight="700" fill="#0b3d5c">CRAN</text>
+<g fill="#1b7f8c"><rect x="45" y="88" width="16" height="34" rx="2"/><rect x="65" y="94" width="14" height="28" rx="2" opacity=".7"/><rect x="83" y="86" width="18" height="36" rx="2" opacity=".85"/><rect x="105" y="92" width="14" height="30" rx="2" opacity=".6"/><rect x="123" y="88" width="16" height="34" rx="2"/><rect x="143" y="96" width="14" height="26" rx="2" opacity=".7"/><rect x="161" y="86" width="18" height="36" rx="2" opacity=".85"/><rect x="183" y="92" width="16" height="30" rx="2" opacity=".6"/></g>
+<line x1="40" y1="124" x2="220" y2="124" stroke="#0b3d5c" stroke-width="3"/>
+<g fill="#1b7f8c"><rect x="45" y="134" width="14" height="30" rx="2" opacity=".6"/><rect x="63" y="130" width="18" height="34" rx="2"/><rect x="85" y="138" width="14" height="26" rx="2" opacity=".75"/><rect x="103" y="132" width="16" height="32" rx="2" opacity=".9"/><rect x="123" y="136" width="14" height="28" rx="2" opacity=".6"/><rect x="141" y="130" width="18" height="34" rx="2"/><rect x="163" y="134" width="16" height="30" rx="2" opacity=".75"/><rect x="183" y="138" width="14" height="26" rx="2" opacity=".6"/></g>
+<line x1="40" y1="166" x2="220" y2="166" stroke="#0b3d5c" stroke-width="3"/>
+<text class="en" x="130" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="130">online "library" of R packages,</tspan><tspan x="130" dy="17">checked by volunteers</tspan></text>
+<text class="fr" x="130" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="130">« bibliothèque » en ligne de</tspan><tspan x="130" dy="17">packages R, vérifiés par des bénévoles</tspan></text>
+<!-- your computer library -->
+<rect x="320" y="40" width="220" height="190" rx="12" fill="#f6f1e7" stroke="#b08a4a" stroke-width="2"/>
+<text class="en" x="430" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Your computer</text>
+<text class="fr" x="430" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Votre ordinateur</text>
+<g transform="translate(375,88)"><path d="M0 8 h40 l8 8 h62 v62 h-110 z" fill="#e3c98f" stroke="#b08a4a" stroke-width="2"/><rect x="18" y="30" width="16" height="30" rx="2" fill="#1b7f8c"/><rect x="38" y="34" width="14" height="26" rx="2" fill="#1b7f8c" opacity=".7"/><rect x="56" y="30" width="16" height="30" rx="2" fill="#4a7d3a"/></g>
+<text class="en" x="430" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="430">packages stored in your</tspan><tspan x="430" dy="17">R "library" folder</tspan></text>
+<text class="fr" x="430" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="430">packages rangés dans votre</tspan><tspan x="430" dy="17">dossier « library » de R</tspan></text>
+<!-- R session -->
+<rect x="620" y="40" width="220" height="190" rx="12" fill="#eef5ea" stroke="#4a7d3a" stroke-width="2"/>
+<text class="en" x="730" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Your R session</text>
+<text class="fr" x="730" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Votre session R</text>
+<g font-family="JetBrains Mono, monospace" font-size="13" fill="#3c4a52"><text x="645" y="104">filter()</text><text x="645" y="124">mutate()</text><text x="645" y="144">ggplot()</text><text x="740" y="104">mean()</text><text x="740" y="124">subset()</text><text x="740" y="144">plot()</text></g>
+<line x1="730" y1="90" x2="730" y2="152" stroke="#c9d3d8"/>
+<text class="en" x="730" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="730">package functions now usable</tspan><tspan x="730" dy="17">next to base R functions</tspan></text>
+<text class="fr" x="730" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="730">fonctions du package utilisables</tspan><tspan x="730" dy="17">à côté des fonctions de base</tspan></text>
+<!-- arrows -->
+<path d="M242 135 H316" stroke="#0b3d5c" stroke-width="2.5" marker-end="url(#ar3)"/>
+<path d="M542 135 H616" stroke="#0b3d5c" stroke-width="2.5" marker-end="url(#ar3)"/>
+<g font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#d9694a" text-anchor="middle"><text x="280" y="255">install.packages()</text><text x="580" y="255">library()</text></g>
+<text class="en" x="280" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">ONCE per computer (internet)</text>
+<text class="fr" x="280" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">UNE FOIS par ordinateur (internet)</text>
+<text class="en" x="580" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">EVERY time you open R / in each script</text>
+<text class="fr" x="580" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">À CHAQUE ouverture de R / dans chaque script</text>
+</svg>

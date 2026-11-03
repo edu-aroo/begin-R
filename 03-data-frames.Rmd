@@ -192,6 +192,15 @@ write.csv(sg, "outputs/seagrass_with_new_columns.csv", row.names = FALSE)
 # row.names = FALSE avoids an extra unnamed column of row numbers
 ```
 
+::: {.callout .tip}
+::: en
+This was a first look at `$`, `[row, column]` and new columns. **Session 4** goes much deeper: changing values, columns calculated from several columns, removing columns, and applying a function to every column.
+:::
+::: fr
+C'était un premier aperçu de `$`, `[ligne, colonne]` et des nouvelles colonnes. La **séance 4** va beaucoup plus loin : modifier des valeurs, colonnes calculées à partir de plusieurs colonnes, suppression de colonnes, et application d'une fonction à chaque colonne.
+:::
+:::
+
 ## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
 
 ```{r answers03, include=FALSE}

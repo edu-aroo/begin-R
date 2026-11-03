@@ -164,10 +164,51 @@ raw <- raw[sample(nrow(raw)), ]
 write.csv(raw, "data/coral_cover_raw.csv", row.names = FALSE)
 
 # -----------------------------------------------------------------------------
-# 5. One zip file with everything, for easy download by the students
+# 5. fish_uvc.csv  (underwater visual census of reef fish: sessions 4 and 9)
+#    4 reef sites x 3 belt transects (50 m x 5 m = 250 m2)
+#    One row = one group of fish of the same species and size seen on a transect.
+#    a and b = length-weight parameters (W = a * L^b, W in g, L in cm).
+#    The a/b values are APPROXIMATE, for teaching only (use FishBase for real work).
+# -----------------------------------------------------------------------------
+lw <- data.frame(
+  family  = c("Scaridae", "Scaridae", "Acanthuridae", "Lutjanidae",
+              "Serranidae", "Chaetodontidae", "Siganidae", "Labridae"),
+  species = c("Scarus ghobban", "Chlorurus sordidus", "Acanthurus triostegus",
+              "Lutjanus kasmira", "Epinephelus merra", "Chaetodon auriga",
+              "Siganus sutor", "Thalassoma hardwicke"),
+  a       = c(0.0145, 0.0170, 0.0250, 0.0135, 0.0110, 0.0270, 0.0160, 0.0100),
+  b       = c(3.02, 3.00, 3.00, 3.05, 3.10, 3.00, 3.00, 3.05),
+  max_len = c(40, 28, 22, 30, 26, 18, 35, 18)
+)
+reefs  <- c("Andavaka", "Belavenoke", "Tsifota", "Ambola")
+rstat  <- c("Inside", "Inside", "Outside", "Outside")
+
+fish <- do.call(rbind, lapply(seq_along(reefs), function(i) {
+  do.call(rbind, lapply(1:3, function(t) {
+    n   <- sample(9:14, 1)                         # number of fish groups seen
+    sp  <- lw[sample(nrow(lw), n, replace = TRUE), ]
+    big <- if (rstat[i] == "Inside") 0.65 else 0.45  # bigger fish inside the MPA
+    data.frame(
+      site       = reefs[i],
+      mpa_status = rstat[i],
+      transect   = t,
+      family     = sp$family,
+      species    = sp$species,
+      length_cm  = round(pmax(4, rnorm(n, big * sp$max_len, 0.15 * sp$max_len))),
+      count      = sample(1:15, n, replace = TRUE),
+      a          = sp$a,
+      b          = sp$b
+    )
+  }))
+}))
+write.csv(fish, "data/fish_uvc.csv", row.names = FALSE)
+
+# -----------------------------------------------------------------------------
+# 6. One zip file with everything, for easy download by the students
 # -----------------------------------------------------------------------------
 files <- c("data/seagrass_quadrats.csv", "data/seagrass_messy.csv",
-           "data/coral_pit_example.csv", "data/coral_cover_raw.csv")
+           "data/coral_pit_example.csv", "data/coral_cover_raw.csv",
+           "data/fish_uvc.csv")
 if (nzchar(Sys.which("zip"))) {
   unlink("data/r_course_data.zip")
   utils::zip("data/r_course_data.zip", files, flags = "-j9q")  # -j: no folder paths

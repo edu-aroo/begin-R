@@ -1,0 +1,480 @@
+---
+title: "[4 · Inside a data frame: [ , ], $ and columns]{.en}[4 · Dans un data frame : [ , ], $ et colonnes]{.fr}"
+pagetitle: "R course · Session 4"
+subtitle: "~3.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+sg <- read.csv("data/seagrass_quadrats.csv")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- read and write any **address** in a data frame with `[row, column]`;
+- explain the difference between `$`, `[ , ]` and `[[ ]]`, and choose the right one;
+- **change** one value, a group of values or a whole column;
+- **add** columns, including columns calculated from two or three other columns;
+- **remove**, rename and reorder columns; add and remove rows;
+- apply a function to every column at once with `sapply()`, `lapply()` and `apply()`.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- lire et écrire n'importe quelle **adresse** d'un data frame avec `[ligne, colonne]` ;
+- expliquer la différence entre `$`, `[ , ]` et `[[ ]]`, et choisir le bon ;
+- **modifier** une valeur, un groupe de valeurs ou une colonne entière ;
+- **ajouter** des colonnes, y compris calculées à partir de deux ou trois autres colonnes ;
+- **supprimer**, renommer et réordonner des colonnes ; ajouter et supprimer des lignes ;
+- appliquer une fonction à toutes les colonnes d'un coup avec `sapply()`, `lapply()` et `apply()`.
+:::
+:::
+
+::: {.callout .tip}
+::: en
+New script `scripts/s04_inside_df.R`, starting with `sg <- read.csv("data/seagrass_quadrats.csv")`. The boxes marked **›** are small exercises: do them before reading on. They are not graded; the graded quiz is at the end.
+:::
+::: fr
+Nouveau script `scripts/s04_inside_df.R`, commençant par `sg <- read.csv("data/seagrass_quadrats.csv")`. Les encadrés marqués **›** sont de petits exercices : faites-les avant de continuer. Ils ne sont pas notés ; le quiz noté est à la fin.
+:::
+:::
+
+## [The address system `[row, column]`]{.en}[Le système d'adresse `[ligne, colonne]`]{.fr} {#address}
+
+::: en
+Every value in a data frame has an **address**: its row and its column, like a cell in a spreadsheet (B4) or a square on a map grid. In R you write the address inside square brackets, **rows first, then a comma, then columns**. Leaving one side empty means "all".
+:::
+::: fr
+Chaque valeur d'un data frame a une **adresse** : sa ligne et sa colonne, comme une cellule de tableur (B4) ou une case sur une carte quadrillée. En R, on écrit l'adresse entre crochets, **d'abord les lignes, puis une virgule, puis les colonnes**. Laisser un côté vide signifie « tout ».
+:::
+
+`r fig_svg("df-selection")`
+
+### [Rows and columns by number]{.en}[Lignes et colonnes par numéro]{.fr}
+
+```{r}
+sg[2, 7]                  # row 2, column 7 -> one value
+sg[2, ]                   # row 2, all columns -> one row (a data frame)
+sg[1:3, 1:4]              # rows 1 to 3, columns 1 to 4
+sg[c(1, 16, 31), c(1, 7)] # rows 1, 16 and 31; columns 1 and 7
+sg[-(1:57), 1:3]          # a minus sign REMOVES: all rows except 1 to 57
+```
+
+### [Columns by name (safer)]{.en}[Colonnes par nom (plus sûr)]{.fr}
+
+::: en
+Column numbers change when you add or remove columns; **names do not**. Prefer names in your scripts.
+:::
+::: fr
+Les numéros de colonnes changent quand on ajoute ou supprime des colonnes ; **les noms non**. Préférez les noms dans vos scripts.
+:::
+
+```{r}
+sg[2, "seagrass_cover"]
+sg[1:3, c("site", "quadrat", "seagrass_cover")]
+```
+
+### [Rows by condition]{.en}[Lignes par condition]{.fr}
+
+::: en
+Instead of row numbers you can give a **logical vector** (Session 2): R keeps the rows where it is `TRUE`.
+:::
+::: fr
+Au lieu de numéros de lignes, on peut donner un **vecteur logique** (séance 2) : R garde les lignes où il vaut `TRUE`.
+:::
+
+```{r}
+sg[sg$seagrass_cover > 70, c("site", "quadrat", "seagrass_cover")]
+```
+
+::: {.callout .warning}
+::: en
+**One column comes back as a vector.** `sg[, "site"]` returns a plain vector, not a data frame. To keep a one-column data frame, add `drop = FALSE`: `sg[, "site", drop = FALSE]`, or use single brackets without a comma: `sg["site"]`.
+:::
+::: fr
+**Une seule colonne revient sous forme de vecteur.** `sg[, "site"]` renvoie un simple vecteur, pas un data frame. Pour garder un data frame d'une colonne, ajoutez `drop = FALSE` : `sg[, "site", drop = FALSE]`, ou utilisez des crochets simples sans virgule : `sg["site"]`.
+:::
+:::
+
+```{r}
+class(sg[, "site"])               # a vector
+class(sg[, "site", drop = FALSE]) # still a data frame
+```
+
+::: {.callout .try}
+::: en
+**Try it.** (a) Show the species and depth of quadrats 10 to 14. (b) Show everything except columns 4 and 5 for the first 3 rows. (c) Show the site and cover of the quadrats deeper than 2.8 m.
+:::
+::: fr
+**À vous.** (a) Affichez l'espèce et la profondeur des quadrats 10 à 14. (b) Affichez tout sauf les colonnes 4 et 5 pour les 3 premières lignes. (c) Affichez le site et le recouvrement des quadrats à plus de 2,8 m de profondeur.
+:::
+:::
+
+## [`$`, `[ , ]` or `[[ ]]`?]{.en}[`$`, `[ , ]` ou `[[ ]]` ?]{.fr} {#dollar}
+
+::: en
+Three ways to reach a column. They are not interchangeable:
+
+| Syntax | Returns | Several columns? | Column name stored in an object? | Can also select rows? |
+|---|---|---|---|---|
+| `sg$seagrass_cover` | a vector | no | no | no |
+| `sg[["seagrass_cover"]]` | a vector | no | **yes** | no |
+| `sg[, "seagrass_cover"]` | a vector | **yes** (`c(...)`) | **yes** | **yes** |
+| `sg["seagrass_cover"]` | a data frame | **yes** | **yes** | no |
+
+**In practice:** use `$` when you type a column name directly (short, with autocompletion); use `[ , ]` when you need rows *and* columns, or several columns; use `[[ ]]` when the name of the column is stored in an object.
+:::
+::: fr
+Trois façons d'atteindre une colonne. Elles ne sont pas interchangeables :
+
+| Syntaxe | Renvoie | Plusieurs colonnes ? | Nom de colonne stocké dans un objet ? | Sélectionne aussi des lignes ? |
+|---|---|---|---|---|
+| `sg$seagrass_cover` | un vecteur | non | non | non |
+| `sg[["seagrass_cover"]]` | un vecteur | non | **oui** | non |
+| `sg[, "seagrass_cover"]` | un vecteur | **oui** (`c(...)`) | **oui** | **oui** |
+| `sg["seagrass_cover"]` | un data frame | **oui** | **oui** | non |
+
+**En pratique :** utilisez `$` quand vous tapez directement un nom de colonne (court, avec autocomplétion) ; `[ , ]` quand il faut des lignes *et* des colonnes, ou plusieurs colonnes ; `[[ ]]` quand le nom de la colonne est stocké dans un objet.
+:::
+
+```{r}
+# the three give the same 5 values
+sg$seagrass_cover[1:5]
+sg[["seagrass_cover"]][1:5]
+sg[1:5, "seagrass_cover"]
+```
+
+```{r}
+var <- "depth_m"     # the column name is stored in an object
+sg[[var]][1:5]       # works
+sg$var               # does NOT work: R looks for a column literally called "var"
+```
+
+::: {.callout .tip}
+::: en
+`sg$seagrass_cover[3]` and `sg[3, "seagrass_cover"]` give the same value. With `$` you first take the column (a vector) and then its 3rd element with single-number brackets; with `[ , ]` you give the full address at once.
+:::
+::: fr
+`sg$seagrass_cover[3]` et `sg[3, "seagrass_cover"]` donnent la même valeur. Avec `$` on prend d'abord la colonne (un vecteur), puis son 3e élément avec des crochets à un seul nombre ; avec `[ , ]` on donne l'adresse complète d'un coup.
+:::
+:::
+
+## [Changing values]{.en}[Modifier des valeurs]{.fr} {#change}
+
+::: en
+Any address you can **read** you can also **write**: put it on the left of `<-`. Work on a **copy** while you practise, so that the original stays intact.
+:::
+::: fr
+Toute adresse que l'on peut **lire**, on peut aussi l'**écrire** : il suffit de la placer à gauche de `<-`. Travaillez sur une **copie** pendant l'entraînement, pour garder l'original intact.
+:::
+
+```{r}
+sg2 <- sg                                   # a copy
+
+sg2[3, "depth_m"]                           # before
+sg2[3, "depth_m"] <- 2.5                    # one cell: the diver re-measured quadrat 3
+sg2[3, "depth_m"]                           # after
+
+sg2$seagrass_cover[5] <- 58                 # same thing with $ then a position
+```
+
+::: en
+**Several values at once** — combine a condition with the column you want to change. Here a canopy height above 30 cm is impossible for these species, so we replace it by `NA` (none exists in this dataset, so nothing changes, which is fine):
+:::
+::: fr
+**Plusieurs valeurs d'un coup** — on combine une condition et la colonne à modifier. Ici une hauteur de canopée supérieure à 30 cm est impossible pour ces espèces ; on la remplace par `NA` (il n'y en a aucune dans ce jeu de données, donc rien ne change, ce qui est normal) :
+:::
+
+```{r}
+sg2$canopy_height_cm[which(sg2$canopy_height_cm > 30)] <- NA
+```
+
+::: en
+Recode a text value: the site *Fasimena* was renamed *Fasimena Nord* by the MPA manager.
+:::
+::: fr
+Recoder une valeur texte : le site *Fasimena* a été renommé *Fasimena Nord* par le gestionnaire de l'AMP.
+:::
+
+```{r}
+sg2[sg2$site == "Fasimena", "site"] <- "Fasimena Nord"   # condition in rows, column by name
+table(sg2$site)
+```
+
+::: {.callout .warning}
+::: en
+There is **no undo** in R. If you overwrite the wrong cells, re-import the file and re-run the script from the top: this is why every step must be in the script.
+:::
+::: fr
+Il n'y a **pas d'annulation** dans R. Si vous écrasez les mauvaises cellules, réimportez le fichier et relancez le script depuis le début : c'est pourquoi chaque étape doit être dans le script.
+:::
+:::
+
+::: {.callout .try}
+::: en
+**Try it.** In `sg2`: (a) set the cover of row 10 to 0; (b) change the `mpa_status` of all Belitsaky quadrats to `"Inside"` (imagine the MPA was extended); (c) check with `table(sg2$site, sg2$mpa_status)`.
+:::
+::: fr
+**À vous.** Dans `sg2` : (a) mettez le recouvrement de la ligne 10 à 0 ; (b) changez le `mpa_status` de tous les quadrats de Belitsaky en `"Inside"` (imaginez que l'AMP a été agrandie) ; (c) vérifiez avec `table(sg2$site, sg2$mpa_status)`.
+:::
+:::
+
+## [Adding columns]{.en}[Ajouter des colonnes]{.fr} {#add}
+
+::: en
+Assigning to a column that does not exist **creates** it. The value can be a constant, a vector of the right length, or — most often — a **calculation on other columns**. Calculations are done row by row automatically (Session 2: vector maths).
+:::
+::: fr
+Affecter une valeur à une colonne qui n'existe pas la **crée**. La valeur peut être une constante, un vecteur de la bonne longueur, ou — le plus souvent — un **calcul sur d'autres colonnes**. Les calculs se font automatiquement ligne par ligne (séance 2 : calcul vectoriel).
+:::
+
+```{r}
+sg$campaign <- "2026-A"                              # a constant, repeated on every row
+sg$cover_prop <- sg$seagrass_cover / 100             # from one column
+sg$shoots_counted <- sg$shoot_density * 0.25         # density x quadrat area (0.25 m2)
+sg$quadrat_id <- paste(sg$site, sg$quadrat, sep = "_")   # a label from two columns
+head(sg[, c("site", "quadrat", "quadrat_id", "cover_prop", "shoots_counted")], 3)
+```
+
+### [A column from two or three other columns]{.en}[Une colonne à partir de deux ou trois colonnes]{.fr}
+
+::: en
+A canopy index combines cover and canopy height: a quadrat 80 % covered by 20 cm leaves holds more seagrass than one 80 % covered by 5 cm leaves.
+:::
+::: fr
+Un indice de canopée combine recouvrement et hauteur : un quadrat couvert à 80 % par des feuilles de 20 cm contient plus d'herbier qu'un quadrat couvert à 80 % par des feuilles de 5 cm.
+:::
+
+```{r}
+sg$canopy_index <- sg$cover_prop * sg$canopy_height_cm     # 2 columns
+head(sg[, c("seagrass_cover", "canopy_height_cm", "canopy_index")], 4)
+```
+
+::: {.callout .ecology}
+::: en
+**Fish biomass: a classic 3-column calculation.** In underwater visual census (UVC) the diver records, for each group of fish, the species, its size (`length_cm`) and the number of individuals (`count`). The weight of one fish is estimated with the **length–weight relationship** W = a × L^b, where *a* and *b* are species-specific parameters (from FishBase). The biomass of the group is then count × a × L^b — three columns in one line of R. You will do it in the application work.
+:::
+::: fr
+**Biomasse de poissons : un calcul classique sur 3 colonnes.** En comptage visuel sous-marin (UVC), le plongeur note pour chaque groupe de poissons l'espèce, la taille (`length_cm`) et le nombre d'individus (`count`). Le poids d'un poisson est estimé par la **relation taille–poids** W = a × L^b, où *a* et *b* sont des paramètres propres à chaque espèce (issus de FishBase). La biomasse du groupe vaut alors count × a × L^b — trois colonnes en une ligne de R. Vous le ferez dans le travail d'application.
+:::
+:::
+
+```{r}
+fish <- read.csv("data/fish_uvc.csv")
+fish$weight_g <- fish$a * fish$length_cm^fish$b          # weight of ONE fish (g)
+fish$biomass_g <- fish$count * fish$weight_g             # weight of the whole group (g)
+head(fish[, c("species", "length_cm", "count", "a", "b", "weight_g", "biomass_g")], 3)
+```
+
+::: {.callout .tip}
+::: en
+`^` means "to the power of". R applies the usual order of operations (Session 1): `a * length_cm^b` computes the power first, then the multiplication.
+:::
+::: fr
+`^` signifie « puissance ». R applique l'ordre habituel des opérations (séance 1) : `a * length_cm^b` calcule d'abord la puissance, puis la multiplication.
+:::
+:::
+
+## [Removing, renaming and reordering columns]{.en}[Supprimer, renommer et réordonner des colonnes]{.fr} {#remove}
+
+```{r}
+sg$campaign <- NULL                     # 1. delete one column with NULL
+sg <- sg[, -c(12, 13)]                  # 2. delete by position (minus sign)
+names(sg)
+```
+
+```{r}
+# 3. delete by name: keep the columns whose name is NOT in the list
+sg <- sg[, !(names(sg) %in% c("canopy_index"))]
+# 4. same with subset() and select = -c(...)
+sg <- subset(sg, select = -c(cover_prop))
+names(sg)
+```
+
+::: en
+**Rename** a column by changing its entry in `names()`; **reorder** columns by listing them in the new order.
+:::
+::: fr
+**Renommer** une colonne en modifiant son entrée dans `names()` ; **réordonner** les colonnes en les listant dans le nouvel ordre.
+:::
+
+```{r}
+names(sg)[names(sg) == "seagrass_cover"] <- "cover_pct"   # rename
+sg <- sg[, c("site", "quadrat", "cover_pct", "species", "mpa_status",
+             "date", "depth_m", "canopy_height_cm", "shoot_density")]  # reorder (and keep 9)
+head(sg, 3)
+```
+
+## [Adding and removing rows]{.en}[Ajouter et supprimer des lignes]{.fr} {#rows}
+
+::: en
+`rbind()` (*row bind*) adds rows: the new rows must have **the same column names**. Remove rows with a minus sign.
+:::
+::: fr
+`rbind()` (*row bind*) ajoute des lignes : les nouvelles lignes doivent avoir **les mêmes noms de colonnes**. On supprime des lignes avec un signe moins.
+:::
+
+```{r}
+new_q <- data.frame(site = "Fasimena", quadrat = 16, cover_pct = 61,
+                    species = "Thalassia hemprichii", mpa_status = "Inside",
+                    date = "2026-03-11", depth_m = 1.4, canopy_height_cm = 19,
+                    shoot_density = 520)
+sg <- rbind(sg, new_q)       # a quadrat entered late
+nrow(sg)
+sg <- sg[-61, ]              # remove it again
+nrow(sg)
+```
+
+## [Applying a function to every column: `sapply()`, `lapply()`, `apply()`]{.en}[Appliquer une fonction à chaque colonne : `sapply()`, `lapply()`, `apply()`]{.fr} {#apply}
+
+::: en
+Often you want the same function for every column: the type of each column, the mean of each numeric column, the maximum of each measurement. The **apply family** does this without copying the same line ten times.
+
+| Function | Applies a function to… | Returns |
+|---|---|---|
+| `sapply(df, FUN)` | each column (or each element of a vector/list) | a **simplified** result: a vector or a matrix |
+| `lapply(df, FUN)` | each column (or element) | a **list** (one element per column) |
+| `apply(df, 1, FUN)` | each **row** (MARGIN = 1) | a vector |
+| `apply(df, 2, FUN)` | each **column** (MARGIN = 2) | a vector |
+| `tapply(x, group, FUN)` | each **group** of a vector | see Session 6 |
+:::
+::: fr
+On veut souvent la même fonction pour chaque colonne : le type de chaque colonne, la moyenne de chaque colonne numérique, le maximum de chaque mesure. La **famille apply** le fait sans copier dix fois la même ligne.
+
+| Fonction | Applique une fonction à… | Renvoie |
+|---|---|---|
+| `sapply(df, FUN)` | chaque colonne (ou chaque élément d'un vecteur/d'une liste) | un résultat **simplifié** : vecteur ou matrice |
+| `lapply(df, FUN)` | chaque colonne (ou élément) | une **liste** (un élément par colonne) |
+| `apply(df, 1, FUN)` | chaque **ligne** (MARGIN = 1) | un vecteur |
+| `apply(df, 2, FUN)` | chaque **colonne** (MARGIN = 2) | un vecteur |
+| `tapply(x, groupe, FUN)` | chaque **groupe** d'un vecteur | voir séance 6 |
+:::
+
+```{r}
+sapply(sg, class)                    # the type of every column, in one line
+num <- c("cover_pct", "depth_m", "canopy_height_cm", "shoot_density")
+sapply(sg[, num], mean, na.rm = TRUE)    # extra arguments go after the function
+sapply(sg[, num], max, na.rm = TRUE)
+```
+
+```{r}
+lapply(sg[, c("site", "species")], unique)   # a list: the columns have different lengths
+```
+
+```{r}
+apply(sg[, num], 2, median, na.rm = TRUE)    # 2 = by column
+apply(fish[1:3, c("length_cm", "count")], 1, max)   # 1 = by row: largest value of each row
+```
+
+::: {.callout .tip}
+::: en
+For sums and means there are fast ready-made versions: `colSums()`, `colMeans()`, `rowSums()`, `rowMeans()`. `apply()` works with **numeric** columns only: select them first.
+:::
+::: fr
+Pour les sommes et les moyennes, il existe des versions rapides prêtes à l'emploi : `colSums()`, `colMeans()`, `rowSums()`, `rowMeans()`. `apply()` ne fonctionne qu'avec des colonnes **numériques** : sélectionnez-les d'abord.
+:::
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers04, include=FALSE}
+f <- read.csv("data/fish_uvc.csv")
+a_dim_r <- nrow(f); a_dim_c <- ncol(f)
+a_len25 <- f[25, "length_cm"]
+a_sp40  <- f[40, "species"]
+f[12, "length_cm"] <- 18
+a_meanlen <- round(mean(f$length_cm), 2)
+f$weight_g  <- f$a * f$length_cm^f$b
+a_w1    <- round(f$weight_g[1], 2)
+f$biomass_g <- f$count * f$weight_g
+a_totkg <- round(sum(f$biomass_g) / 1000, 2)
+f$biomass_kg_ha <- f$biomass_g / 1000 / 250 * 10000
+a_b5    <- round(f$biomass_kg_ha[5], 2)
+f$a <- NULL; f$b <- NULL
+a_ncol  <- ncol(f)
+a_chr   <- sum(sapply(f, class) == "character")
+f$transect_id <- paste(f$site, f$transect, sep = "_")
+a_ntr   <- length(unique(f$transect_id))
+a_maxcount <- max(sapply(f[, c("length_cm", "count")], max))
+```
+
+::: application
+::: en
+### Application work 4 — reef fish census
+
+The file `fish_uvc.csv` contains an underwater visual census on 4 reefs (2 inside, 2 outside an MPA), 3 belt transects of 50 m × 5 m (= 250 m²) per reef. One row = one group of fish of the same species and size. Columns `a` and `b` are the length–weight parameters (approximate values for teaching).
+
+1. Import it as `fish`. How many rows and columns?
+2. With `[row, column]`: what is the `length_cm` in row 25? What is the `species` in row 40?
+3. The diver noticed a mistake: the length in **row 12** should be **18** cm. Correct it, then give the mean `length_cm` of all rows (2 decimals).
+4. Add `weight_g` = a × length_cm^b (weight of one fish). What is `weight_g` in row 1 (2 decimals)?
+5. Add `biomass_g` = count × weight_g. What is the **total** biomass of the survey in **kg** (2 decimals)?
+6. Add `biomass_kg_ha` = biomass_g / 1000 / 250 × 10000 (kg per hectare). Value in row 5 (2 decimals)?
+7. Remove the columns `a` and `b`. How many columns are left?
+8. With `sapply(fish, class)`: how many columns are of class `"character"`?
+9. Add `transect_id` = site and transect pasted with `"_"`. How many different transects are there (`unique()`)?
+10. With `sapply()` on the columns `length_cm` and `count`, find the maximum of each. What is the largest of the two maxima?
+:::
+::: fr
+### Travail d'application 4 — comptage de poissons récifaux
+
+Le fichier `fish_uvc.csv` contient un comptage visuel sous-marin sur 4 récifs (2 dans une AMP, 2 hors AMP), 3 transects-couloirs de 50 m × 5 m (= 250 m²) par récif. Une ligne = un groupe de poissons de même espèce et de même taille. Les colonnes `a` et `b` sont les paramètres taille–poids (valeurs approximatives pour l'enseignement).
+
+1. Importez-le sous le nom `fish`. Combien de lignes et de colonnes ?
+2. Avec `[ligne, colonne]` : quelle est la `length_cm` de la ligne 25 ? Quelle est l'espèce (`species`) de la ligne 40 ?
+3. Le plongeur a relevé une erreur : la taille de la **ligne 12** doit être **18** cm. Corrigez-la, puis donnez la moyenne de `length_cm` sur toutes les lignes (2 décimales).
+4. Ajoutez `weight_g` = a × length_cm^b (poids d'un poisson). Quelle est la valeur de `weight_g` à la ligne 1 (2 décimales) ?
+5. Ajoutez `biomass_g` = count × weight_g. Quelle est la biomasse **totale** du relevé en **kg** (2 décimales) ?
+6. Ajoutez `biomass_kg_ha` = biomass_g / 1000 / 250 × 10000 (kg par hectare). Valeur à la ligne 5 (2 décimales) ?
+7. Supprimez les colonnes `a` et `b`. Combien de colonnes reste-t-il ?
+8. Avec `sapply(fish, class)` : combien de colonnes sont de classe `"character"` ?
+9. Ajoutez `transect_id` = site et transect collés avec `"_"`. Combien de transects différents y a-t-il (`unique()`) ?
+10. Avec `sapply()` sur les colonnes `length_cm` et `count`, trouvez le maximum de chacune. Quel est le plus grand des deux maxima ?
+:::
+:::
+
+```{r quiz04, echo=FALSE}
+quiz("s04", list(
+  q_num("1a. Number of rows?", "1a. Nombre de lignes ?", a_dim_r, tol = 0),
+  q_num("1b. Number of columns?", "1b. Nombre de colonnes ?", a_dim_c, tol = 0),
+  q_num("2a. length_cm in row 25?", "2a. length_cm à la ligne 25 ?", a_len25, tol = 0),
+  q_text("2b. Species in row 40 (Latin name)?", "2b. Espèce à la ligne 40 (nom latin) ?", a_sp40),
+  q_num("3. Mean length_cm after the correction (2 decimals)?", "3. Moyenne de length_cm après correction (2 décimales) ?", a_meanlen, tol = 0.006),
+  q_num("4. weight_g in row 1 (2 decimals)?", "4. weight_g à la ligne 1 (2 décimales) ?", a_w1, tol = 0.006),
+  q_num("5. Total biomass in kg (2 decimals)?", "5. Biomasse totale en kg (2 décimales) ?", a_totkg, tol = 0.006),
+  q_num("6. biomass_kg_ha in row 5 (2 decimals)?", "6. biomass_kg_ha à la ligne 5 (2 décimales) ?", a_b5, tol = 0.006),
+  q_num("7. Number of columns after removing a and b?", "7. Nombre de colonnes après suppression de a et b ?", a_ncol, tol = 0),
+  q_num("8. Number of character columns?", "8. Nombre de colonnes de classe character ?", a_chr, tol = 0),
+  q_num("9. Number of different transects?", "9. Nombre de transects différents ?", a_ntr, tol = 0),
+  q_num("10. Largest of the two maxima?", "10. Plus grand des deux maxima ?", a_maxcount, tol = 0),
+  q_mcq("11. Which one returns a data frame (not a vector)?", "11. Lequel renvoie un data frame (et non un vecteur) ?",
+        c("fish$count", "fish[, \"count\"]", "fish[\"count\"]", "fish[[\"count\"]]"), correct = 3),
+  q_mcq("12. col <- \"count\". Which one returns the count column?", "12. col <- \"count\". Lequel renvoie la colonne count ?",
+        c("fish$col", "fish[[col]]", "fish[col, ]", "fish$\"col\""), correct = 2)
+))
+```
+
+::: {.solution data-quiz="s04"}
+```{r, eval=FALSE}
+fish <- read.csv("data/fish_uvc.csv")
+dim(fish)                                         # 1
+fish[25, "length_cm"]                             # 2a
+fish[40, "species"]                               # 2b
+fish[12, "length_cm"] <- 18                       # 3. correct one cell
+round(mean(fish$length_cm), 2)
+fish$weight_g <- fish$a * fish$length_cm^fish$b   # 4
+round(fish$weight_g[1], 2)
+fish$biomass_g <- fish$count * fish$weight_g      # 5
+round(sum(fish$biomass_g) / 1000, 2)
+fish$biomass_kg_ha <- fish$biomass_g / 1000 / 250 * 10000   # 6
+round(fish[5, "biomass_kg_ha"], 2)
+fish$a <- NULL                                    # 7
+fish$b <- NULL
+ncol(fish)
+sapply(fish, class)                               # 8: count the "character"
+sum(sapply(fish, class) == "character")
+fish$transect_id <- paste(fish$site, fish$transect, sep = "_")   # 9
+length(unique(fish$transect_id))
+sapply(fish[, c("length_cm", "count")], max)      # 10
+```
+:::

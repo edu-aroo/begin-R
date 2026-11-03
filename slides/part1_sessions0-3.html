@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Aroo Falinirina" />
+
+
+<title>R pour grands débutants</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<!-- ===========================================================================
+  slides-engine.html — turns a normal R Markdown html_document into slides.
+  Inserted in <head> by the YAML of each deck (includes: in_header).
+  In the .Rmd:  "## Title" = one slide · "## Title {.segue}" = section divider
+                <div class="notes"> ... </div> = speaker notes (press N)
+  Keys: → / Space / PageDown = next · ← / PageUp = previous · Home / End
+        F = full screen · N = show/hide notes · O = overview of all slides
+  Each slide is a 1280 × 720 box scaled to the window, so it looks the same on
+  any screen or projector. Content that is too long is shrunk automatically.
+=========================================================================== -->
+<script>
+(function () {
+  "use strict";
+  let slides = [], cur = 0;
+
+  function build() {
+    document.body.classList.add("deck");
+    const stage = document.createElement("div");
+    stage.id = "stage";
+    // slide 0 = the title block made by R Markdown (#header)
+    // (theme: null puts h1.title / h3.subtitle / h4.author directly in <body>)
+    const header = document.getElementById("header");
+    const titleParts = header ? [header]
+      : Array.from(document.querySelectorAll("h1.title, h3.subtitle, h4.author, h4.date"));
+    if (titleParts.length) { const s = wrap(titleParts); s.classList.add("title-slide"); stage.appendChild(s); }
+    // every "## Title" section = one slide
+    document.querySelectorAll("div.section.level2").forEach(sec => {
+      const s = wrap([sec]);
+      if (sec.classList.contains("segue")) s.classList.add("segue");
+      stage.appendChild(s);
+    });
+    document.body.innerHTML = "";
+    document.body.appendChild(stage);
+    slides = Array.from(stage.children);
+
+    const bar = document.createElement("div");
+    bar.id = "deck-bar";
+    document.body.appendChild(bar);
+    const sig = document.createElement("div");
+    sig.id = "deck-sign"; sig.textContent = "by Aroo Falinirina";
+    document.body.appendChild(sig);
+
+    const n = parseInt(location.hash.replace("#", ""), 10);
+    show(isNaN(n) ? 0 : Math.min(Math.max(n - 1, 0), slides.length - 1));
+    window.addEventListener("resize", scale);
+    scale();
+    slides.forEach(fit);
+  }
+
+  function wrap(nodes) {
+    const s = document.createElement("section");
+    s.className = "slide";
+    const inner = document.createElement("div");
+    inner.className = "slide-inner";
+    nodes.forEach(n => inner.appendChild(n));
+    s.appendChild(inner);
+    return s;
+  }
+
+  // scale the 1280 x 720 slide to the window
+  function scale() {
+    const k = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    document.documentElement.style.setProperty("--k", k);
+  }
+
+  // shrink the font of a slide until its content fits in the box
+  function fit(s) {
+    const inner = s.querySelector(".slide-inner");
+    let size = 100;
+    s.style.display = "block";
+    const base = parseFloat(getComputedStyle(inner).fontSize);   // 27px in slides.css
+    while (inner.scrollHeight > inner.clientHeight + 2 && size > 62) {
+      size -= 4; inner.style.fontSize = (base * size / 100) + "px";
+    }
+    s.style.display = "";
+  }
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    slides[cur].classList.remove("current");
+    cur = i;
+    slides[cur].classList.add("current");
+    history.replaceState(null, "", "#" + (cur + 1));
+    const bar = document.getElementById("deck-bar");
+    bar.textContent = (cur + 1) + " / " + slides.length;
+    bar.style.setProperty("--p", ((cur + 1) / slides.length * 100) + "%");
+  }
+
+  document.addEventListener("keydown", e => {
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+    else if (e.key === "Home") show(0);
+    else if (e.key === "End") show(slides.length - 1);
+    else if (e.key === "f" || e.key === "F") {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen();
+    }
+    else if (e.key === "n" || e.key === "N") document.body.classList.toggle("show-notes");
+    else if (e.key === "o" || e.key === "O") document.body.classList.toggle("overview");
+  });
+  // click on a slide in overview mode jumps to it; otherwise click = next
+  document.addEventListener("click", e => {
+    const s = e.target.closest(".slide");
+    if (document.body.classList.contains("overview") && s) {
+      document.body.classList.remove("overview"); show(slides.indexOf(s)); return;
+    }
+    if (e.target.closest("a, pre, code, button")) return;
+    if (e.clientX > window.innerWidth * 0.5) show(cur + 1); else show(cur - 1);
+  });
+
+  document.addEventListener("DOMContentLoaded", build);
+})();
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #204a87; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #8f5902; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #204a87; font-weight: bold; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #ce5c00; font-weight: bold; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">
+:root { --ocean: #0b3d5c; --lagoon: #1b7f8c; --seagrass: #4a7d3a; --coral: #d9694a;
+--sand: #f6f1e7; --ink: #1f2a33; --muted: #5d6b75; --k: 1; }
+
+.en { display: none !important; }
+html, body { margin: 0; height: 100%; background: #0f1d26; overflow: hidden; }
+body.deck { font-family: "Source Sans 3", "Segoe UI", Calibri, Arial, sans-serif; color: var(--ink); }
+
+.slide { display: none; position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px;
+transform: translate(-50%, -50%) scale(var(--k)); background: #fff;
+box-shadow: 0 10px 40px rgba(0,0,0,.4); overflow: hidden; }
+.slide.current { display: block; }
+.slide-inner { box-sizing: border-box; height: 100%; padding: 46px 70px 56px; font-size: 100%; overflow: hidden; }
+.slide::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 7px;
+background: linear-gradient(90deg, var(--seagrass), var(--lagoon), var(--coral)); }
+
+.slide-inner { font-size: 27px; line-height: 1.4; }
+.slide h2 { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; color: var(--ocean);
+font-size: 1.65em; font-weight: 600; margin: 0 0 .45em; padding-bottom: .2em; border-bottom: 2px solid #e3e9ec; }
+.slide h3 { color: var(--lagoon); font-size: 1.1em; margin: .4em 0 .2em; }
+.slide p { margin: .35em 0; }
+.slide ul, .slide ol { margin: .3em 0; padding-left: 1.3em; }
+.slide li { margin: .22em 0; }
+.slide a { color: var(--lagoon); }
+.slide strong { color: var(--ocean); }
+
+.slide.title-slide { background: linear-gradient(135deg, #0b3d5c 0%, #1b7f8c 70%, #4a7d3a 100%); }
+.slide.title-slide .slide-inner { display: flex; flex-direction: column; justify-content: center; padding: 80px 100px; }
+.slide.title-slide h1 { font-family: "Source Serif 4", Georgia, serif; color: #fff; font-size: 64px; margin: 0 0 20px; line-height: 1.1; }
+.slide.title-slide .subtitle { color: #d8eef1; font-size: 30px; font-weight: 400; margin: 0 0 40px; }
+.slide.title-slide .author { color: #fff; font-family: Georgia, serif; font-style: italic; font-size: 26px; font-weight: 400; margin: 0; }
+
+.slide.segue { background: var(--ocean); }
+.slide.segue .slide-inner { display: flex; align-items: center; }
+.slide.segue h2 { color: #fff; border: 0; font-size: 2.3em; }
+
+pre, code { font-family: "JetBrains Mono", Consolas, "Courier New", monospace; }
+.slide pre { font-size: .66em; line-height: 1.35; background: #f7f9fa; border: 1px solid #dde3e6;
+border-left: 5px solid var(--lagoon); border-radius: 6px; padding: 8px 14px; margin: .35em 0; white-space: pre-wrap; }
+.slide pre:not(.r) { border-left-color: #b9c4ca; background: #fbfcfc; }
+.slide :not(pre) > code { background: #eef4f5; color: #0d4f63; padding: 0 5px; border-radius: 4px; font-size: .9em; }
+.slide img { max-width: 100%; max-height: 420px; display: block; margin: 6px auto; }
+.slide .svg-fig { margin: 0 auto; text-align: center; }
+.slide .svg-fig svg { max-height: 540px; width: auto; max-width: 100%; }
+
+.slide table { border-collapse: collapse; margin: .4em 0; font-size: .8em; }
+.slide th { background: var(--ocean); color: #fff; padding: 6px 12px; text-align: left; }
+.slide td { padding: 5px 12px; border-bottom: 1px solid #dde3e6; }
+
+.box { border-radius: 10px; padding: 8px 18px; margin: 12px 0; background: var(--sand); font-size: .92em; }
+.box.tip { background: #eef5ea; border-left: 6px solid var(--seagrass); }
+.box.warn { background: #fdf0eb; border-left: 6px solid var(--coral); }
+.box.eco { background: #e9f4f6; border-left: 6px solid var(--lagoon); }
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.cols > .c > p:first-child { margin: 0; font-weight: 700; font-size: .7em; letter-spacing: .06em; text-transform: uppercase; }
+.cols > .base > p:first-child { color: #8a6a32; }
+.cols > .pkg > p:first-child { color: var(--lagoon); }
+.cols img { max-height: 330px; }
+
+.notes { display: none; }
+body.show-notes .notes { display: block; position: absolute; left: 0; right: 0; bottom: 0; max-height: 40%; overflow: auto;
+background: #fff7e6; border-top: 3px solid #e3b04b; padding: 10px 70px; font-size: 20px; color: #5a4a20; }
+
+#deck-bar { --p: 0%; position: fixed; left: 0; right: 0; bottom: 0; height: 22px; color: #9fb3bd; font-size: 13px;
+text-align: right; padding-right: 12px; line-height: 22px;
+background: linear-gradient(90deg, var(--lagoon) var(--p), transparent var(--p)) no-repeat bottom / 100% 3px; }
+#deck-sign { position: fixed; left: 14px; bottom: 3px; color: #9fb3bd; font-family: Georgia, serif; font-style: italic; font-size: 13px; }
+
+body.overview { overflow: auto; }
+body.overview #stage { display: grid; grid-template-columns: repeat(auto-fill, 330px); gap: 16px; padding: 16px; }
+body.overview .slide { display: block; position: relative; left: auto; top: auto; transform: scale(.25);
+transform-origin: top left; width: 1280px; height: 720px; margin: 0 -960px -540px 0; cursor: pointer; }
+body.overview .slide.current { outline: 12px solid var(--coral); }
+
+@media print {
+@page { size: 1280px 720px; margin: 0; }
+html, body { overflow: visible; background: #fff; }
+.slide { display: block !important; position: relative; left: 0; top: 0; transform: none; box-shadow: none; page-break-after: always; }
+#deck-bar, #deck-sign { display: none; }
+}
+.slide pre code { white-space: pre-wrap; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">R pour grands débutants</h1>
+<h3 class="subtitle">Partie 1 · Séances 0 à 3 — Installer R, objets,
+vecteurs, data frames</h3>
+<h4 class="author">Aroo Falinirina</h4>
+
+
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+<div id="programme-de-la-formation" class="section level2">
+<h2>Programme de la formation</h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Partie</th>
+<th>Séances</th>
+<th>Durée</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>1</strong></td>
+<td>0 Installation · 1 Premiers pas · 2 Vecteurs · 3 Data frames</td>
+<td>~1 h</td>
+</tr>
+<tr class="even">
+<td><strong>2</strong></td>
+<td>4 Dans un data frame · 5 Filtrer et nettoyer · 6 Statistiques</td>
+<td>~1 h</td>
+</tr>
+<tr class="odd">
+<td><strong>3</strong></td>
+<td>7 Graphiques · 8 Packages, dplyr, ggplot2 · 9 Exercices · 10 Projet
+final</td>
+<td>~1 h</td>
+</tr>
+</tbody>
+</table>
+<div class="box tip">
+<p>Le cours en ligne (avec quiz) reprend tout en détail : ces
+diapositives en sont la version présentée.</p>
+</div>
+<div class="notes">
+<p>Partie 1 : ~10 min installation, 15 min premiers pas, 20 min
+vecteurs, 15 min data frames.</p>
+</div>
+</div>
+<div id="pourquoi-r" class="section level2">
+<h2>Pourquoi R ?</h2>
+<ul>
+<li><strong>Gratuit</strong> et libre, sur Windows, macOS, Linux</li>
+<li><strong>Reproductible</strong> : tout est écrit dans un script,
+relançable en un clic</li>
+<li><strong>Complet</strong> : nettoyage, statistiques, graphiques,
+cartes, rapports</li>
+<li>Plus de 20 000 <strong>packages</strong> (écologie, pêche, enquêtes
+socio-économiques…)</li>
+<li>Une très grande communauté : la plupart des problèmes ont déjà une
+réponse en ligne</li>
+</ul>
+<div class="box eco">
+<p>Dans ce cours, tous les exemples portent sur des données (simulées)
+d’<strong>herbiers</strong>, de <strong>récifs coralliens</strong> et de
+<strong>poissons récifaux</strong>.</p>
+</div>
+</div>
+<div id="séance-0-installer-r-rtools-et-rstudio" class="section level2 segue">
+<h2 class="segue">Séance 0 — Installer R, Rtools et RStudio</h2>
+</div>
+<div id="trois-logiciels-trois-rôles" class="section level2">
+<h2>Trois logiciels, trois rôles</h2>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" role="img" aria-label="R, Rtools and RStudio roles" font-family="Source Sans 3, Arial, sans-serif">
+<defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5d6b75"></path></marker></defs>
+<rect x="10" y="40" width="250" height="230" rx="14" fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"></rect>
+<rect x="305" y="40" width="250" height="230" rx="14" fill="#f6f1e7" stroke="#b08a4a" stroke-width="2"></rect>
+<rect x="600" y="40" width="250" height="230" rx="14" fill="#eef5ea" stroke="#4a7d3a" stroke-width="2"></rect>
+<circle cx="40" cy="40" r="20" fill="#1b7f8c"></circle><text x="40" y="47" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">1</text>
+<circle cx="335" cy="40" r="20" fill="#b08a4a"></circle><text x="335" y="47" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">2</text>
+<circle cx="630" cy="40" r="20" fill="#4a7d3a"></circle><text x="630" y="47" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">3</text>
+<text x="135" y="85" text-anchor="middle" font-size="30" font-weight="700" fill="#0b3d5c">R</text>
+<text x="430" y="85" text-anchor="middle" font-size="30" font-weight="700" fill="#0b3d5c">Rtools</text>
+<text x="725" y="85" text-anchor="middle" font-size="30" font-weight="700" fill="#0b3d5c">RStudio</text>
+<!-- engine -->
+<g transform="translate(95,100)" fill="none" stroke="#1b7f8c" stroke-width="3"><rect x="10" y="10" width="60" height="40" rx="5"></rect><path d="M0 22h10M70 22h10M25 10v-8h30v8M40 50v10"></path><circle cx="40" cy="30" r="9"></circle></g>
+<!-- toolbox -->
+<g transform="translate(390,100)" fill="none" stroke="#b08a4a" stroke-width="3"><rect x="0" y="18" width="80" height="44" rx="5"></rect><path d="M28 18v-10h24v10M0 36h80"></path><rect x="34" y="31" width="12" height="10" fill="#b08a4a"></rect></g>
+<!-- dashboard -->
+<g transform="translate(680,100)" fill="none" stroke="#4a7d3a" stroke-width="3"><rect x="0" y="4" width="90" height="56" rx="5"></rect><path d="M45 4v56M0 32h45"></path><path d="M52 50l10-12 8 6 12-18" stroke-width="2.5"></path></g>
+<text class="en" x="135" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="135">The
+language and the</tspan><tspan x="135" dy="21">“engine” that does
+every</tspan><tspan x="135" dy="21">calculation</tspan></text>
+<text class="fr" x="135" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="135">Le
+langage et le « moteur »</tspan><tspan x="135" dy="21">qui fait
+tous</tspan><tspan x="135" dy="21">les calculs</tspan></text>
+<text class="en" x="430" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="430">Windows
+only: tools to</tspan><tspan x="430" dy="21">build packages
+from</tspan><tspan x="430" dy="21">source code</tspan></text>
+<text class="fr" x="430" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="430">Windows
+seulement : outils</tspan><tspan x="430" dy="21">pour compiler des
+packages</tspan><tspan x="430" dy="21">depuis le code
+source</tspan></text>
+<text class="en" x="725" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="725">The
+“dashboard” where you</tspan><tspan x="725" dy="21">write scripts, see
+results,</tspan><tspan x="725" dy="21">plots and files</tspan></text>
+<text class="fr" x="725" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="725">Le
+« tableau de bord » où l’on</tspan><tspan x="725" dy="21">écrit les
+scripts, voit résultats,</tspan><tspan x="725" dy="21">graphiques et
+fichiers</tspan></text>
+<path d="M262 155 H300" stroke="#5d6b75" stroke-width="2" marker-end="url(#ar1)"></path>
+<path d="M557 155 H595" stroke="#5d6b75" stroke-width="2" marker-end="url(#ar1)"></path>
+<text class="en" x="430" y="310" text-anchor="middle" font-size="16" fill="#5d6b75">Install
+in this order: 1 → 2 → 3. RStudio needs R; R does not need
+RStudio.</text>
+<text class="fr" x="430" y="310" text-anchor="middle" font-size="16" fill="#5d6b75">Installer
+dans cet ordre : 1 → 2 → 3. RStudio a besoin de R ; R n’a pas besoin de
+RStudio.</text>
+</svg>
+</figure>
+</div>
+<div id="le-rôle-de-chacun" class="section level2">
+<h2>Le rôle de chacun</h2>
+<ul>
+<li><strong>R</strong> = le <strong>moteur</strong> : le langage et le
+programme qui fait tous les calculs</li>
+<li><strong>RStudio</strong> = le <strong>tableau de bord</strong> : on
+y écrit les scripts, on voit données, graphiques, fichiers, aide. Il ne
+calcule rien lui-même</li>
+<li><strong>Rtools</strong> = la <strong>boîte à outils</strong>
+(Windows seulement) : compile certains packages depuis leur code
+source</li>
+</ul>
+<div class="box warn">
+<p>Ordre d’installation : <strong>R → Rtools → RStudio</strong>.
+Ensuite, on ouvre toujours <strong>RStudio</strong>, jamais R
+directement.</p>
+</div>
+</div>
+<div id="installation-pas-à-pas" class="section level2">
+<h2>Installation pas à pas</h2>
+<ol style="list-style-type: decimal">
+<li><strong>R</strong> : <a href="https://cran.r-project.org" class="uri">https://cran.r-project.org</a> → <em>Download R for Windows
+/ macOS</em> → dernière version</li>
+<li><strong>Rtools</strong> (Windows) : <a href="https://cran.r-project.org/bin/windows/Rtools/" class="uri">https://cran.r-project.org/bin/windows/Rtools/</a> → version
+correspondant à R (R 4.5.x → Rtools45)</li>
+<li><strong>RStudio Desktop</strong> : <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a></li>
+</ol>
+<p>Vérifier dans la console :</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>R.version.string        <span class="co"># version de R utilisée</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">Sys.which</span>(<span class="st">&quot;make&quot;</span>)       <span class="co"># Windows : un chemin = Rtools trouvé</span></span></code></pre></div>
+</div>
+<div id="les-quatre-panneaux-de-rstudio" class="section level2">
+<h2>Les quatre panneaux de RStudio</h2>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="The four panes of RStudio" font-family="Source Sans 3, Arial, sans-serif">
+<rect x="10" y="10" width="840" height="450" rx="12" fill="#f2f4f5" stroke="#9aa7ae" stroke-width="2"></rect>
+<rect x="10" y="10" width="840" height="30" rx="12" fill="#d7dde0"></rect><circle cx="32" cy="25" r="6" fill="#d9694a"></circle><circle cx="52" cy="25" r="6" fill="#e3b04b"></circle><circle cx="72" cy="25" r="6" fill="#4a7d3a"></circle>
+<text x="430" y="31" text-anchor="middle" font-size="15" fill="#3c4a52">RStudio</text>
+<rect x="22" y="50" width="490" height="210" rx="8" fill="#fff" stroke="#1b7f8c" stroke-width="2.5"></rect>
+<rect x="22" y="270" width="490" height="180" rx="8" fill="#fff" stroke="#0b3d5c" stroke-width="2.5"></rect>
+<rect x="522" y="50" width="316" height="170" rx="8" fill="#fff" stroke="#b08a4a" stroke-width="2.5"></rect>
+<rect x="522" y="230" width="316" height="220" rx="8" fill="#fff" stroke="#4a7d3a" stroke-width="2.5"></rect>
+<text x="40" y="80" font-size="20" font-weight="700" fill="#1b7f8c">1 ·
+Source / Script</text>
+<text x="40" y="300" font-size="20" font-weight="700" fill="#0b3d5c">2 ·
+Console</text>
+<text x="540" y="80" font-size="20" font-weight="700" fill="#b08a4a">3 ·
+Environment</text>
+<text x="540" y="260" font-size="20" font-weight="700" fill="#4a7d3a">4
+· Files / Plots / Help</text>
+<g font-family="JetBrains Mono, monospace" font-size="14" fill="#3c4a52"><text x="40" y="112">#
+my_script.R</text><text x="40" y="134">cover &lt;- c(45, 60,
+12)</text><text x="40" y="156">mean(cover)</text><text x="40" y="332">&gt;
+mean(cover)</text><text x="40" y="354">[1]
+39</text><text x="40" y="376">&gt; |</text><text x="540" y="112">cover
+num [1:3] 45 60 12</text></g> <g font-size="15" fill="#5d6b75">
+<text class="en" x="40" y="200"><tspan x="40">Where you WRITE and SAVE
+your code (.R file).</tspan><tspan x="40" dy="20">Run a line with Ctrl +
+Enter (Cmd + Enter on Mac).</tspan></text>
+<text class="fr" x="40" y="200"><tspan x="40">Où l’on ÉCRIT et
+ENREGISTRE son code (fichier .R).</tspan><tspan x="40" dy="20">Exécuter
+une ligne : Ctrl + Entrée (Cmd + Entrée sur Mac).</tspan></text>
+<text class="en" x="40" y="410"><tspan x="40">Where R RUNS the code and
+prints results.</tspan><tspan x="40" dy="20">Nothing typed here is
+saved.</tspan></text> <text class="fr" x="40" y="410"><tspan x="40">Où R
+EXÉCUTE le code et affiche les
+résultats.</tspan><tspan x="40" dy="20">Rien de ce qui est tapé ici
+n’est enregistré.</tspan></text>
+<text class="en" x="540" y="150"><tspan x="540">The objects currently in
+memory</tspan><tspan x="540" dy="20">(data, vectors,
+results).</tspan></text>
+<text class="fr" x="540" y="150"><tspan x="540">Les objets actuellement
+en mémoire</tspan><tspan x="540" dy="20">(données, vecteurs,
+résultats).</tspan></text>
+<text class="en" x="540" y="300"><tspan x="540">Files of your project,
+your graphs,</tspan><tspan x="540" dy="20">installed packages and the
+help pages.</tspan></text>
+<text class="fr" x="540" y="300"><tspan x="540">Fichiers du projet,
+graphiques,</tspan><tspan x="540" dy="20">packages installés et pages
+d’aide.</tspan></text> </g>
+<g transform="translate(600,350)"><rect x="0" y="0" width="22" height="60" fill="#4a7d3a" opacity=".8"></rect><rect x="34" y="20" width="22" height="40" fill="#4a7d3a" opacity=".6"></rect><rect x="68" y="35" width="22" height="25" fill="#4a7d3a" opacity=".45"></rect><path d="M-6 62h110" stroke="#5d6b75"></path></g>
+</svg>
+</figure>
+</div>
+<div id="deux-réglages-et-un-projet" class="section level2">
+<h2>Deux réglages et un projet</h2>
+<p><em>Tools → Global Options → General</em></p>
+<ul>
+<li>décocher <strong>Restore .RData into workspace at
+startup</strong></li>
+<li><strong>Save workspace on exit : Never</strong> → les résultats
+viennent toujours du script</li>
+</ul>
+<p><em>File → New Project → New Directory</em> :
+<code>R_course_reef</code></p>
+<pre><code>R_course_reef/
+├── R_course_reef.Rproj   &lt;- double-cliquer pour ouvrir
+├── data/                 &lt;- les 5 fichiers CSV du cours
+├── scripts/              &lt;- un script par séance
+└── outputs/              &lt;- figures et tableaux produits</code></pre>
+</div>
+<div id="séance-1-premiers-pas" class="section level2 segue">
+<h2 class="segue">Séance 1 — Premiers pas</h2>
+</div>
+<div id="script-ou-console" class="section level2">
+<h2>Script ou console ?</h2>
+<ul>
+<li><strong>Script</strong> (panneau 1) : on <strong>écrit</strong> et
+on <strong>enregistre</strong> → c’est le cahier de labo</li>
+<li><strong>Console</strong> (panneau 2) : R <strong>exécute</strong> →
+rien n’est gardé</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Raccourci</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ctrl + Entrée</td>
+<td>exécuter la ligne / la sélection</td>
+</tr>
+<tr class="even">
+<td>Ctrl + Maj + Entrée</td>
+<td>exécuter tout le script</td>
+</tr>
+<tr class="odd">
+<td>Ctrl + Maj + N</td>
+<td>nouveau script</td>
+</tr>
+<tr class="even">
+<td>Ctrl + Maj + R</td>
+<td>insérer une section</td>
+</tr>
+<tr class="odd">
+<td>Alt + −</td>
+<td>insérer <code>&lt;-</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="r-comme-calculatrice" class="section level2">
+<h2>R comme calculatrice</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="dv">12</span> <span class="sc">+</span> <span class="dv">30</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; [1] 42</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="dv">87</span> <span class="sc">/</span> <span class="fl">0.25</span>          <span class="co"># 87 pousses dans un quadrat de 0,25 m² -&gt; pousses/m²</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; [1] 348</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">3</span>                <span class="co"># puissance</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="dv">10</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> <span class="dv">2</span>         <span class="co"># priorités habituelles</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>(<span class="dv">10</span> <span class="sc">+</span> <span class="dv">5</span>) <span class="sc">*</span> <span class="dv">2</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; [1] 30</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="fl">7.4</span> <span class="sc">/</span> <span class="dv">20</span> <span class="sc">*</span> <span class="dv">100</span>     <span class="co"># 7,4 m de corail dur sur 20 m de transect -&gt; %</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; [1] 37</span></span></code></pre></div>
+<div class="box warn">
+Séparateur décimal : le <strong>point</strong> (<code>7.4</code>),
+jamais la virgule.
+</div>
+</div>
+<div id="les-objets--" class="section level2">
+<h2>Les objets : <code>&lt;-</code></h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>quadrat_area <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fl">0.5</span>     <span class="co"># m²</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>shoots       <span class="ot">&lt;-</span> <span class="dv">87</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>density      <span class="ot">&lt;-</span> shoots <span class="sc">/</span> quadrat_area</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>density</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; [1] 348</span></span></code></pre></div>
+<ul>
+<li><code>x &lt;- 5</code> se lit « x <strong>reçoit</strong> 5 » ;
+l’objet apparaît dans <em>Environment</em></li>
+<li>Une nouvelle affectation <strong>remplace</strong> l’ancienne
+valeur</li>
+<li>Les objets ne se mettent <strong>pas</strong> à jour tout seuls</li>
+</ul>
+</div>
+<div id="bien-nommer-ses-objets" class="section level2">
+<h2>Bien nommer ses objets</h2>
+<ul>
+<li>commencer par une <strong>lettre</strong> : <code>site1</code> ✔
+<code>1site</code> ✘</li>
+<li>pas d’espace : <code>coral_cover</code> ✔ <code>coral cover</code>
+✘</li>
+<li>R distingue <strong>majuscules et minuscules</strong> :
+<code>Cover</code> ≠ <code>cover</code></li>
+<li>noms explicites : <code>mean_cover_inside</code> plutôt que
+<code>m1</code></li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">ls</span>()               <span class="co"># objets en mémoire</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;density&quot;      &quot;dl&quot;           &quot;f&quot;            &quot;fig_svg&quot;      &quot;fish&quot;        </span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;q_mcq&quot;        &quot;q_num&quot;        &quot;q_text&quot;       &quot;quadrat_area&quot; &quot;quiz&quot;        </span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; [11] &quot;sg&quot;           &quot;shoots&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">rm</span>(density)        <span class="co"># supprimer un objet</span></span></code></pre></div>
+</div>
+<div id="fonctions-et-arguments" class="section level2">
+<h2>Fonctions et arguments</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">144</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; [1] 12</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">348.6667</span>, <span class="at">digits =</span> <span class="dv">1</span>)   <span class="co"># argument nommé</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; [1] 348.7</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">348.6667</span>, <span class="dv">1</span>)            <span class="co"># argument par position</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; [1] 348.7</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">100</span>, <span class="at">base =</span> <span class="dv">10</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sqrt</span>(<span class="dv">2</span>), <span class="dv">3</span>)             <span class="co"># imbrication : de l&#39;intérieur vers l&#39;extérieur</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; [1] 1.414</span></span></code></pre></div>
+<div class="box tip">
+Aide : <code>?round</code> → sections <em>Usage</em>,
+<em>Arguments</em>, <em>Examples</em>.
+</div>
+</div>
+<div id="lire-les-messages-derreur" class="section level2">
+<h2>Lire les messages d’erreur</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>Shoots <span class="sc">/</span> quadrat_area      <span class="co"># S majuscule : objet inexistant</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; Error in eval(expr, envir, enclos): object &#39;Shoots&#39; not found</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">3.456</span>, <span class="at">digit =</span> <span class="dv">1</span>)    <span class="co"># faute dans le nom de l&#39;argument</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; [1] 3.5</span></span></code></pre></div>
+<ul>
+<li>Invite <strong><code>+</code></strong> dans la console = commande
+inachevée (<code>)</code> ou <code>&quot;</code> manquant) →
+<strong>Échap</strong></li>
+</ul>
+</div>
+<div id="séance-2-vecteurs-et-types-de-données" class="section level2 segue">
+<h2 class="segue">Séance 2 — Vecteurs et types de données</h2>
+</div>
+<div id="un-vecteur-une-série-de-valeurs-du-même-type" class="section level2">
+<h2>Un vecteur = une série de valeurs du même type</h2>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" role="img" aria-label="A vector and its positions" font-family="Source Sans 3, Arial, sans-serif">
+<text x="20" y="40" font-family="JetBrains Mono, monospace" font-size="18" fill="#0b3d5c">cover
+&lt;- c(45, 60, 12, NA, 80, 33, 0, 55)</text>
+<g font-family="JetBrains Mono, monospace" font-size="22" text-anchor="middle">
+<g fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"><rect x="20" y="70" width="90" height="56" rx="6"></rect><rect x="120" y="70" width="90" height="56" rx="6"></rect><rect x="220" y="70" width="90" height="56" rx="6" fill="#fde3d9" stroke="#d9694a"></rect><rect x="320" y="70" width="90" height="56" rx="6" fill="#eee"></rect><rect x="420" y="70" width="90" height="56" rx="6"></rect><rect x="520" y="70" width="90" height="56" rx="6"></rect><rect x="620" y="70" width="90" height="56" rx="6"></rect><rect x="720" y="70" width="90" height="56" rx="6"></rect></g>
+<g fill="#1f2a33"><text x="65" y="106">45</text><text x="165" y="106">60</text><text x="265" y="106">12</text><text x="365" y="106" fill="#888">NA</text><text x="465" y="106">80</text><text x="565" y="106">33</text><text x="665" y="106">0</text><text x="765" y="106">55</text></g>
+<g fill="#5d6b75" font-size="16"><text x="65" y="150">[1]</text><text x="165" y="150">[2]</text><text x="265" y="150" fill="#d9694a" font-weight="700">[3]</text><text x="365" y="150">[4]</text><text x="465" y="150">[5]</text><text x="565" y="150">[6]</text><text x="665" y="150">[7]</text><text x="765" y="150">[8]</text></g>
+</g>
+<text class="en" x="20" y="190" font-size="16" fill="#5d6b75">cover[3]
+returns 12 — positions start at 1 in R. NA = a missing value (quadrat
+not measured).</text>
+<text class="fr" x="20" y="190" font-size="16" fill="#5d6b75">cover[3]
+renvoie 12 — les positions commencent à 1 dans R. NA = valeur manquante
+(quadrat non mesuré).</text>
+</svg>
+</figure>
+</div>
+<div id="seq-suites-régulières" class="section level2">
+<h2><code>seq()</code> : suites régulières</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="dv">5</span>)                 <span class="co"># pas de 5</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; [1]  0  5 10 15 20 25</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="fl">0.5</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]        <span class="co"># points PIT tous les 0,5 m (8 premiers)</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; [1] 0.5 1.0 1.5 2.0 2.5 3.0 3.5 4.0</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">length.out =</span> <span class="dv">5</span>)        <span class="co"># 5 valeurs régulières</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; [1]   0  25  50  75 100</span></span></code></pre></div>
+<ul>
+<li><code>by</code> = le <strong>pas</strong> · <code>length.out</code>
+= le <strong>nombre</strong> de valeurs</li>
+</ul>
+</div>
+<div id="rep-répéter" class="section level2">
+<h2><code>rep()</code> : répéter</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">rep</span>(<span class="st">&quot;Inside&quot;</span>, <span class="at">times =</span> <span class="dv">3</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Inside&quot; &quot;Inside&quot; &quot;Inside&quot;</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>), <span class="at">times =</span> <span class="dv">2</span>)     <span class="co"># I O I O</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Inside&quot;  &quot;Outside&quot; &quot;Inside&quot;  &quot;Outside&quot;</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>), <span class="at">each =</span> <span class="dv">2</span>)      <span class="co"># I I O O</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Inside&quot;  &quot;Inside&quot;  &quot;Outside&quot; &quot;Outside&quot;</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>site    <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Fasimena&quot;</span>), <span class="at">each =</span> <span class="dv">3</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>quadrat <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">times =</span> <span class="dv">2</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="fu">paste</span>(site, quadrat, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Ambalaboy_1&quot; &quot;Ambalaboy_2&quot; &quot;Ambalaboy_3&quot; &quot;Fasimena_1&quot;  &quot;Fasimena_2&quot; </span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; [6] &quot;Fasimena_3&quot;</span></span></code></pre></div>
+</div>
+<div id="sample-et-set.seed-tirages-aléatoires" class="section level2">
+<h2><code>sample()</code> et <code>set.seed()</code> : tirages
+aléatoires</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">size =</span> <span class="dv">5</span>)                     <span class="co"># 5 positions au hasard sur 50</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt; [1] 31 15 14  3 42</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;HC&quot;</span>, <span class="st">&quot;SD&quot;</span>, <span class="st">&quot;MA&quot;</span>), <span class="dv">6</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;SD&quot; &quot;SD&quot; &quot;MA&quot; &quot;HC&quot; &quot;SD&quot; &quot;SD&quot;</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">size =</span> <span class="dv">5</span>)                     <span class="co"># même graine -&gt; même tirage</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt; [1] 31 15 14  3 42</span></span></code></pre></div>
+<div class="box eco">
+Choisir des quadrats ou des sites <strong>au hasard</strong>, de façon
+<strong>reproductible</strong>.
+</div>
+</div>
+<div id="les-types-de-données" class="section level2">
+<h2>Les types de données</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Exemple</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>numeric</code></td>
+<td><code>45.5</code>, <code>0</code></td>
+<td>mesures, comptages</td>
+</tr>
+<tr class="even">
+<td><code>character</code></td>
+<td><code>&quot;Ambalaboy&quot;</code>, <code>&quot;HC&quot;</code></td>
+<td>noms, codes (guillemets)</td>
+</tr>
+<tr class="odd">
+<td><code>logical</code></td>
+<td><code>TRUE</code>, <code>FALSE</code></td>
+<td>réponses oui/non</td>
+</tr>
+<tr class="even">
+<td><code>factor</code></td>
+<td><code>Inside</code>, <code>Outside</code></td>
+<td>catégories (niveaux)</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>mixed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="st">&quot;-&quot;</span>, <span class="dv">12</span>)    <span class="co"># un seul type par vecteur !</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">class</span>(mixed)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;character&quot;</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">as.numeric</span>(mixed)              <span class="co"># &quot;-&quot; devient NA</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt; Warning: NAs introduced by coercion</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; [1] 45 60 NA 12</span></span></code></pre></div>
+</div>
+<div id="facteurs-et-effectifs" class="section level2">
+<h2>Facteurs et effectifs</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>status <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>))</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">levels</span>(status)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Inside&quot;  &quot;Outside&quot;</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">table</span>(status)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt; status</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt;  Inside Outside </span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt;       3       2</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="fu">factor</span>(status, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>))   <span class="co"># choisir l&#39;ordre</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; [1] Outside Inside  Inside  Outside Inside </span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; Levels: Outside Inside</span></span></code></pre></div>
+</div>
+<div id="calculer-sur-tout-le-vecteur" class="section level2">
+<h2>Calculer sur tout le vecteur</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>shoots <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">87</span>, <span class="dv">132</span>, <span class="dv">45</span>, <span class="dv">160</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>shoots <span class="sc">/</span> <span class="fl">0.25</span>                 <span class="co"># densité de chaque quadrat</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co">#&gt; [1] 348 528 180 640</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="fu">sum</span>(shoots); <span class="fu">mean</span>(shoots); <span class="fu">sd</span>(shoots)</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; [1] 424</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt; [1] 106</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt; [1] 50.57667</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>depth <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.4</span>, <span class="fl">0.8</span>, <span class="fl">1.9</span>, <span class="fl">3.1</span>, <span class="fl">0.8</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="fu">sort</span>(depth); <span class="fu">rev</span>(depth); <span class="fu">unique</span>(depth)</span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co">#&gt; [1] 0.8 0.8 1.9 2.4 3.1</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#&gt; [1] 0.8 3.1 1.9 0.8 2.4</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#&gt; [1] 2.4 0.8 1.9 3.1</span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="fu">which.max</span>(depth)              <span class="co"># position du maximum</span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+</div>
+<div id="extraire-avec" class="section level2">
+<h2>Extraire avec <code>[ ]</code></h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="dv">12</span>, <span class="cn">NA</span>, <span class="dv">80</span>, <span class="dv">33</span>, <span class="dv">0</span>, <span class="dv">55</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>cover[<span class="dv">3</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co">#&gt; [1] 12</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>cover[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>)]</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; [1] 45 80</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>cover[<span class="sc">-</span><span class="dv">1</span>]                     <span class="co"># tout sauf le 1er</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt; [1] 60 12 NA 80 33  0 55</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>cover <span class="sc">&gt;</span> <span class="dv">50</span>                    <span class="co"># vecteur logique</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#&gt; [1] FALSE  TRUE FALSE    NA  TRUE FALSE FALSE  TRUE</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>cover[cover <span class="sc">&gt;</span> <span class="dv">50</span>]</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; [1] 60 NA 80 55</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="fu">sum</span>(cover <span class="sc">&gt;</span> <span class="dv">50</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="co"># TRUE compte 1</span></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+</div>
+<div id="les-valeurs-manquantes-na" class="section level2">
+<h2>Les valeurs manquantes <code>NA</code></h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">mean</span>(cover)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="fu">mean</span>(cover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co">#&gt; [1] 40.71429</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(cover))</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>cover[<span class="sc">!</span><span class="fu">is.na</span>(cover)]</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co">#&gt; [1] 45 60 12 80 33  0 55</span></span></code></pre></div>
+<div class="box warn">
+<code>0</code> ≠ <code>NA</code> : 0 % = mesuré, pas d’herbier ; NA =
+non mesuré.
+</div>
+</div>
+<div id="séance-3-data-frames-et-importation" class="section level2 segue">
+<h2 class="segue">Séance 3 — Data frames et importation</h2>
+</div>
+<div id="le-suivi-des-herbiers" class="section level2">
+<h2>Le suivi des herbiers</h2>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="Quadrat sampling inside and outside an MPA" font-family="Source Sans 3, Arial, sans-serif">
+<defs><pattern id="sg" width="14" height="22" patternUnits="userSpaceOnUse"><path d="M3 22 Q5 10 2 0 M9 22 Q11 12 13 2" stroke="#4a7d3a" stroke-width="1.6" fill="none"></path></pattern></defs>
+<rect x="0" y="0" width="860" height="300" fill="#e9f4f6"></rect>
+<rect x="0" y="230" width="860" height="70" fill="#f1e6cc"></rect>
+<rect x="30" y="70" width="380" height="170" fill="url(#sg)" opacity=".95"></rect>
+<rect x="450" y="120" width="380" height="120" fill="url(#sg)" opacity=".55"></rect>
+<rect x="20" y="40" width="400" height="215" fill="none" stroke="#0b3d5c" stroke-width="3" stroke-dasharray="10 6" rx="8"></rect>
+<g fill="none" stroke="#d9694a" stroke-width="3"><rect x="70" y="170" width="44" height="44"></rect><rect x="170" y="150" width="44" height="44"></rect><rect x="270" y="175" width="44" height="44"></rect><rect x="345" y="140" width="44" height="44"></rect><rect x="490" y="175" width="44" height="44"></rect><rect x="590" y="160" width="44" height="44"></rect><rect x="690" y="180" width="44" height="44"></rect><rect x="770" y="150" width="44" height="44"></rect></g>
+<text class="en" x="35" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Inside
+the MPA</text>
+<text class="fr" x="35" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Dans
+l’AMP</text>
+<text class="en" x="460" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Outside
+the MPA</text>
+<text class="fr" x="460" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Hors
+AMP</text>
+<g transform="translate(470,50)"><rect width="28" height="28" fill="none" stroke="#d9694a" stroke-width="3"></rect>
+<text class="en" x="38" y="20" font-size="15" fill="#1f2a33">quadrat 50
+× 50 cm = 0.25 m² → one row of data</text>
+<text class="fr" x="38" y="20" font-size="15" fill="#1f2a33">quadrat 50
+× 50 cm = 0,25 m² → une ligne de données</text></g>
+<text class="en" x="30" y="280" font-size="15" fill="#5d6b75">In each
+quadrat we record: % seagrass cover, dominant species, canopy height,
+number of shoots, depth.</text>
+<text class="fr" x="30" y="280" font-size="15" fill="#5d6b75">Dans
+chaque quadrat : % de recouvrement, espèce dominante, hauteur de
+canopée, nombre de pousses, profondeur.</text>
+</svg>
+</figure>
+</div>
+<div id="un-data-frame-un-tableau" class="section level2">
+<h2>Un data frame = un tableau</h2>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="Anatomy of a data frame" font-family="Source Sans 3, Arial, sans-serif">
+<g font-family="JetBrains Mono, monospace" font-size="15">
+<rect x="150" y="40" width="560" height="36" fill="#0b3d5c"></rect>
+<g fill="#fff"><text x="160" y="64">site</text><text x="300" y="64">mpa_status</text><text x="430" y="64">quadrat</text><text x="540" y="64">seagrass_cover</text></g>
+<g fill="#f7f9fa" stroke="#dde3e6"><rect x="150" y="76" width="560" height="34"></rect><rect x="150" y="110" width="560" height="34"></rect><rect x="150" y="144" width="560" height="34"></rect><rect x="150" y="178" width="560" height="34"></rect></g>
+<rect x="150" y="110" width="560" height="34" fill="#fde3d9" stroke="#d9694a" stroke-width="2"></rect>
+<rect x="530" y="40" width="180" height="172" fill="none" stroke="#4a7d3a" stroke-width="3" rx="4"></rect>
+<g fill="#1f2a33"><text x="160" y="99">Ambalaboy</text><text x="300" y="99">Inside</text><text x="460" y="99">1</text><text x="600" y="99">69</text><text x="160" y="133">Ambalaboy</text><text x="300" y="133">Inside</text><text x="460" y="133">2</text><text x="600" y="133">47</text><text x="160" y="167">Ambalaboy</text><text x="300" y="167">Inside</text><text x="460" y="167">3</text><text x="600" y="167">64</text><text x="160" y="201">…</text><text x="300" y="201">…</text><text x="460" y="201">…</text><text x="600" y="201">…</text></g>
+<g fill="#5d6b75" font-size="13"><text x="120" y="99" text-anchor="end">1</text><text x="120" y="133" text-anchor="end">2</text><text x="120" y="167" text-anchor="end">3</text></g>
+</g> <g font-size="16">
+<text class="en" x="20" y="133" fill="#d9694a" font-weight="700"><tspan x="20">a
+ROW =</tspan><tspan x="20" dy="19">one quadrat</tspan></text>
+<text class="fr" x="20" y="133" fill="#d9694a" font-weight="700"><tspan x="20">une
+LIGNE =</tspan><tspan x="20" dy="19">un quadrat</tspan></text>
+<text class="en" x="725" y="110" fill="#4a7d3a" font-weight="700"><tspan x="725">a
+COLUMN =</tspan><tspan x="725" dy="19">one variable</tspan></text>
+<text class="fr" x="725" y="110" fill="#4a7d3a" font-weight="700"><tspan x="725">une
+COLONNE =</tspan><tspan x="725" dy="19">une variable</tspan></text>
+<text x="150" y="250" font-family="JetBrains Mono, monospace" font-size="15" fill="#0b3d5c">df[2,
+] df$seagrass_cover df[2, “seagrass_cover”] → 47</text>
+<text class="en" x="150" y="280" fill="#5d6b75">row 2, all columns · one
+whole column · one single cell</text>
+<text class="fr" x="150" y="280" fill="#5d6b75">ligne 2, toutes colonnes
+· une colonne entière · une seule cellule</text> </g>
+</svg>
+</figure>
+</div>
+<div id="données-bien-rangées-tidy" class="section level2">
+<h2>Données bien rangées (« tidy »)</h2>
+<ul>
+<li><strong>une ligne = une observation</strong> (un quadrat, un
+transect, un ménage…)</li>
+<li><strong>une colonne = une variable</strong></li>
+<li><strong>une cellule = une valeur</strong></li>
+</ul>
+<div class="box warn">
+<p>À éviter dans Excel : cellules fusionnées, couleurs porteuses
+d’information, plusieurs valeurs dans une cellule (« 45% Thalassia
+»).</p>
+</div>
+</div>
+<div id="importer-un-fichier-csv" class="section level2">
+<h2>Importer un fichier CSV</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>sg <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/seagrass_quadrats.csv&quot;</span>)</span></code></pre></div>
+<ul>
+<li>CSV « à la française » (séparateur <code>;</code>) →
+<code>read.csv2()</code></li>
+<li><em>cannot open file</em> → mauvais chemin, ou projet non
+ouvert</li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">dim</span>(sg)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="co">#&gt; [1] 60  9</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="fu">names</span>(sg)</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;            </span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#&gt; [5] &quot;depth_m&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot;</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt; [9] &quot;shoot_density&quot;</span></span></code></pre></div>
+</div>
+<div id="toujours-explorer-après-limport" class="section level2">
+<h2>Toujours explorer après l’import</h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">str</span>(sg, <span class="at">vec.len =</span> <span class="dv">2</span>)    <span class="co"># vec.len: fewer example values per line</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    60 obs. of  9 variables:</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="co">#&gt;  $ site            : chr  &quot;Ambalaboy&quot; &quot;Ambalaboy&quot; ...</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co">#&gt;  $ mpa_status      : chr  &quot;Inside&quot; &quot;Inside&quot; ...</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="co">#&gt;  $ quadrat         : int  1 2 3 4 5 ...</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="co">#&gt;  $ date            : chr  &quot;2026-03-10&quot; &quot;2026-03-10&quot; ...</span></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="co">#&gt;  $ depth_m         : num  2.8 0.9 2.3 0.4 1.9 ...</span></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="co">#&gt;  $ species         : chr  &quot;Thalassia hemprichii&quot; &quot;Syringodium isoetifolium&quot; ...</span></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="co">#&gt;  $ seagrass_cover  : int  69 47 64 61 53 ...</span></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="co">#&gt;  $ canopy_height_cm: num  18.8 17 18.8 20 18.1 ...</span></span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a><span class="co">#&gt;  $ shoot_density   : int  648 464 504 560 484 ...</span></span></code></pre></div>
+</div>
+<div id="summary" class="section level2">
+<h2><code>summary()</code></h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">summary</span>(sg[, <span class="fu">c</span>(<span class="st">&quot;depth_m&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>, <span class="st">&quot;canopy_height_cm&quot;</span>, <span class="st">&quot;shoot_density&quot;</span>)])</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="co">#&gt;     depth_m      seagrass_cover  canopy_height_cm shoot_density  </span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="co">#&gt;  Min.   :0.400   Min.   :10.00   Min.   : 6.70    Min.   :168.0  </span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:0.875   1st Qu.:40.75   1st Qu.:14.07    1st Qu.:375.0  </span></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="co">#&gt;  Median :1.600   Median :50.00   Median :17.30    Median :438.0  </span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="co">#&gt;  Mean   :1.630   Mean   :48.50   Mean   :16.64    Mean   :425.7  </span></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:2.225   3rd Qu.:59.00   3rd Qu.:19.48    3rd Qu.:493.0  </span></span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="co">#&gt;  Max.   :3.000   Max.   :74.00   Max.   :22.80    Max.   :664.0  </span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="co">#&gt;                                  NA&#39;s   :2</span></span></code></pre></div>
+</div>
+<div id="accéder-aux-colonnes-et-aux-cellules" class="section level2">
+<h2>Accéder aux colonnes et aux cellules</h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">mean</span>(sg<span class="sc">$</span>seagrass_cover)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="co">#&gt; [1] 48.5</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="fu">table</span>(sg<span class="sc">$</span>species)</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="co">#&gt;      Cymodocea serrulata Syringodium isoetifolium     Thalassia hemprichii </span></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="co">#&gt;                       17                       13                       21 </span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="co">#&gt; Thalassodendron ciliatum </span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="co">#&gt;                        9</span></span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>sg[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]</span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a><span class="co">#&gt;        site seagrass_cover</span></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a><span class="co">#&gt; 1 Ambalaboy             69</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a><span class="co">#&gt; 2 Ambalaboy             47</span></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a><span class="co">#&gt; 3 Ambalaboy             64</span></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>sg[<span class="fu">which.max</span>(sg<span class="sc">$</span>seagrass_cover), <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;quadrat&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]</span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a><span class="co">#&gt;        site quadrat seagrass_cover</span></span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a><span class="co">#&gt; 28 Fasimena      13             74</span></span></code></pre></div>
+</div>
+<div id="ajouter-une-colonne-enregistrer" class="section level2">
+<h2>Ajouter une colonne, enregistrer</h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>sg<span class="sc">$</span>cover_prop <span class="ot">&lt;-</span> sg<span class="sc">$</span>seagrass_cover <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="fu">head</span>(sg[, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>, <span class="st">&quot;cover_prop&quot;</span>)], <span class="dv">3</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="co">#&gt;        site seagrass_cover cover_prop</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="co">#&gt; 1 Ambalaboy             69       0.69</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="co">#&gt; 2 Ambalaboy             47       0.47</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="co">#&gt; 3 Ambalaboy             64       0.64</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">write.csv</span>(sg, <span class="st">&quot;outputs/seagrass_s03.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
+<div id="à-retenir-partie-1" class="section level2">
+<h2>À retenir — Partie 1</h2>
+<ul>
+<li>Tout s’écrit dans un <strong>script</strong>, dans un
+<strong>projet</strong> RStudio</li>
+<li><code>&lt;-</code> crée des objets ; les fonctions prennent des
+<strong>arguments</strong></li>
+<li>Vecteurs : <code>c()</code>, <code>seq()</code>, <code>rep()</code>,
+<code>sample()</code> ; indexation <code>[ ]</code> ; <code>NA</code> et
+<code>na.rm = TRUE</code></li>
+<li>Data frame : <code>read.csv()</code>, <code>str()</code>,
+<code>summary()</code>, <code>$</code>,
+<code>[ligne, colonne]</code></li>
+</ul>
+<div class="box tip">
+<p><strong>À faire</strong> : séances 0 à 3 en ligne, avec leurs travaux
+d’application et leurs quiz (une seule tentative par quiz).</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+---
+title: "R pour grands débutants"
+subtitle: "Partie 2 · Séances 4 à 6 — Data frames en détail, nettoyage, statistiques"
+author: "Aroo Falinirina"
+output:
+  html_document:
+    theme: null
+    highlight: tango
+    mathjax: null
+    self_contained: true
+    css: slides.css
+    includes:
+      in_header: slides-engine.html
+---
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+
+```{r, include=FALSE}
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+```{r, include=FALSE}
+source("slides/_setup.R")
+```
+
+## Rappel de la partie 1
+
+- Scripts, projet RStudio, objets `<-`, fonctions et arguments
+- Vecteurs : `c()`, `seq()`, `rep()`, `sample()`, `[ ]`, `NA`
+- Data frame : `read.csv()`, `str()`, `summary()`, `$`
+
+<div class="box tip">
+Aujourd'hui : **lire et modifier** n'importe quelle partie d'un tableau, **nettoyer** des données de terrain, **résumer** par site et par statut d'AMP.
+</div>
+
+<div class="notes">
+~20 min séance 4 · ~20 min séance 5 · ~20 min séance 6.
+</div>
+
+## Séance 4 — Dans un data frame {.segue}
+
+## L'adresse `[ligne, colonne]`
+
+`r fig_svg("df-selection")`
+
+## Par numéro, par nom, par condition
+
+```{r}
+sg[2, 7]                                    # une valeur
+sg[1:3, c("site", "quadrat", "seagrass_cover")]
+sg[sg$seagrass_cover > 70, c("site", "seagrass_cover")]
+```
+
+## Exclure, et le piège du `drop`
+
+```{r}
+sg[-(1:57), 1:3]                  # le signe moins exclut
+class(sg[, "site"])               # une colonne -> un vecteur
+class(sg[, "site", drop = FALSE]) # reste un data frame
+class(sg["site"])                 # idem
+```
+
+## `$`, `[ , ]` ou `[[ ]]` ?
+
+| Syntaxe | Renvoie | Plusieurs colonnes | Nom dans un objet | Lignes aussi |
+|---|---|---|---|---|
+| `sg$cover` | vecteur | non | non | non |
+| `sg[["cover"]]` | vecteur | non | **oui** | non |
+| `sg[, "cover"]` | vecteur | **oui** | **oui** | **oui** |
+| `sg["cover"]` | data frame | **oui** | **oui** | non |
+
+```{r}
+var <- "depth_m"
+sg[[var]][1:5]       # fonctionne ; sg$var ne fonctionne pas
+```
+
+## Modifier des valeurs
+
+```{r}
+sg2 <- sg                                           # toujours sur une copie
+sg2[3, "depth_m"] <- 2.5                            # une cellule
+sg2$seagrass_cover[5] <- 58                         # même chose avec $
+sg2$canopy_height_cm[which(sg2$canopy_height_cm > 30)] <- NA   # par condition
+sg2[sg2$site == "Fasimena", "site"] <- "Fasimena Nord"         # recoder
+table(sg2$site)
+```
+
+<div class="box warn">Pas d'annulation dans R : on réimporte et on relance le script.</div>
+
+## Ajouter des colonnes
+
+```{r}
+sg2$campaign      <- "2026-A"                               # constante
+sg2$cover_prop    <- sg2$seagrass_cover / 100               # 1 colonne
+sg2$canopy_index  <- sg2$cover_prop * sg2$canopy_height_cm  # 2 colonnes
+sg2$quadrat_id    <- paste(sg2$site, sg2$quadrat, sep = "_")
+head(sg2[, c("quadrat_id", "cover_prop", "canopy_index")], 3)
+```
+
+## Biomasse de poissons : 3 colonnes
+
+<div class="box eco">
+Comptage visuel (UVC) : pour chaque groupe, l'espèce, la taille `length_cm` et le nombre `count`. Poids d'un poisson : **W = a × L^b** (paramètres FishBase).
+</div>
+
+```{r}
+fish$weight_g  <- fish$a * fish$length_cm^fish$b     # un poisson (g)
+fish$biomass_g <- fish$count * fish$weight_g          # le groupe (g)
+fish$kg_ha     <- fish$biomass_g / 1000 / 250 * 10000 # transect de 250 m²
+head(fish[, c("species", "length_cm", "count", "biomass_g", "kg_ha")], 3)
+```
+
+## Supprimer, renommer, réordonner
+
+```{r}
+sg2$campaign <- NULL                                   # une colonne
+sg2 <- subset(sg2, select = -c(cover_prop, canopy_index))  # plusieurs
+names(sg2)[names(sg2) == "seagrass_cover"] <- "cover_pct"  # renommer
+sg2 <- sg2[, c("quadrat_id", "site", "cover_pct", "depth_m")] # réordonner
+head(sg2, 3)
+```
+
+## Ajouter et retirer des lignes
+
+```{r}
+new_q <- data.frame(quadrat_id = "Fasimena_16", site = "Fasimena",
+                    cover_pct = 61, depth_m = 1.4)
+sg2 <- rbind(sg2, new_q)      # mêmes noms de colonnes
+nrow(sg2)
+sg2 <- sg2[-61, ]             # retirer la ligne 61
+nrow(sg2)
+```
+
+## La famille apply
+
+| Fonction | Applique à… | Renvoie |
+|---|---|---|
+| `sapply(df, FUN)` | chaque colonne | vecteur / matrice |
+| `lapply(df, FUN)` | chaque colonne | liste |
+| `apply(df, 1, FUN)` | chaque **ligne** | vecteur |
+| `apply(df, 2, FUN)` | chaque **colonne** | vecteur |
+| `tapply(x, g, FUN)` | chaque **groupe** | séance 6 |
+
+```{r}
+sapply(sg, class)
+```
+
+## `sapply()` et `apply()` en pratique
+
+```{r}
+num <- c("seagrass_cover", "depth_m", "canopy_height_cm", "shoot_density")
+sapply(sg[, num], mean, na.rm = TRUE)     # arguments après la fonction
+apply(sg[, num], 2, max, na.rm = TRUE)    # 2 = par colonne
+lapply(sg[, c("site", "species")], unique)
+```
+
+## Séance 5 — Filtrer et nettoyer {.segue}
+
+## Combiner des conditions
+
+| Opérateur | Sens | Exemple |
+|---|---|---|
+| `&` | ET | `cover > 50 & depth < 1` |
+| <code>&#124;</code> | OU | <code>site == &quot;A&quot; &#124; site == &quot;B&quot;</code> |
+| `!` | NON | `!is.na(cover)` |
+| `%in%` | dans la liste | `site %in% c("A", "B")` |
+
+```{r}
+x <- c(20, 55, 70, 90)
+x > 50 & x < 80
+c("HC", "SD", "MA") %in% c("HC", "SC")
+```
+
+## Filtrer avec `[ , ]`
+
+```{r}
+inside <- sg[sg$mpa_status == "Inside", ]
+nrow(inside)
+sg[sg$seagrass_cover > 60 & sg$depth_m < 1.5,
+   c("site", "quadrat", "depth_m", "seagrass_cover")]
+```
+
+<div class="box warn">Si la condition contient des `NA`, utiliser `which()` ou `subset()`.</div>
+
+## `subset()` en détail
+
+```{r}
+subset(sg, site %in% c("Ambalaboy", "Belitsaky") & depth_m < 1,
+       select = c(site, quadrat, depth_m, seagrass_cover))
+names(subset(sg, depth_m >= 2.5, select = site:species))   # plage
+names(subset(sg, select = -c(date, quadrat)))              # exclusion
+```
+
+## Trier
+
+```{r}
+top <- sg[order(sg$seagrass_cover, decreasing = TRUE),
+          c("site", "quadrat", "seagrass_cover")]
+head(top, 4)
+```
+
+- `order()` renvoie les **positions** qui trient → à placer en lignes
+- tri multiple : `sg[order(sg$site, -sg$seagrass_cover), ]`
+
+## Les vraies données sont sales
+
+```{r}
+raw <- read.csv("data/seagrass_messy.csv")
+dim(raw)                  # 62 lignes au lieu de 60
+names(raw)[7]             # nom de colonne étrange
+unique(raw$site)          # 12 orthographes pour 4 sites
+```
+
+## Corriger le texte
+
+| Fonction | Effet |
+|---|---|
+| `trimws(x)` | retire les espaces début/fin |
+| `tolower()` / `toupper()` | minuscules / majuscules |
+| `tools::toTitleCase(x)` | majuscule à chaque mot |
+| `gsub(ancien, nouveau, x)` | remplace un motif |
+
+```{r}
+raw$site <- tools::toTitleCase(tolower(trimws(raw$site)))
+table(raw$site)
+```
+
+## Corriger des nombres stockés en texte
+
+```{r}
+names(raw)[names(raw) == "Seagrass.cover...."] <- "seagrass_cover"
+unique(raw$seagrass_cover)[1:12]
+raw$seagrass_cover <- gsub("%", "", raw$seagrass_cover)
+raw$seagrass_cover[raw$seagrass_cover == "-"] <- NA
+raw$seagrass_cover <- as.numeric(raw$seagrass_cover)
+```
+
+## Valeurs impossibles et doublons
+
+```{r}
+raw[which(raw$seagrass_cover > 100), 1:7]
+raw$seagrass_cover[which(raw$seagrass_cover > 100)] <- NA
+sum(duplicated(raw))
+clean <- raw[!duplicated(raw), ]
+nrow(clean)
+```
+
+<div class="box tip">Corriger l'orthographe **avant** de chercher les doublons. Ne jamais modifier le fichier brut.</div>
+
+## Séance 6 — Statistiques descriptives {.segue}
+
+## Décrire une variable
+
+```{r}
+x <- sg$seagrass_cover
+mean(x); median(x); sd(x)
+quantile(x)
+IQR(x)
+```
+
+## Écart-type ou erreur standard ?
+
+- **ET (SD)** : variabilité **entre quadrats** — ne diminue pas avec n
+- **ES (SE)** = ET / √n : **précision de la moyenne** — diminue quand n augmente
+
+```{r}
+sd(x) / sqrt(length(x))
+h <- sg$canopy_height_cm
+sd(h, na.rm = TRUE) / sqrt(sum(!is.na(h)))   # n sans les NA
+```
+
+<div class="box warn">Toujours préciser dans la légende : barres = ET ou ES, et n.</div>
+
+## Par groupe : `tapply()`
+
+```{r}
+tapply(sg$seagrass_cover, sg$site, mean)
+tapply(sg$seagrass_cover, sg$mpa_status, sd)
+tapply(sg$canopy_height_cm, sg$site, mean, na.rm = TRUE)
+round(tapply(sg$seagrass_cover, list(sg$site, sg$mpa_status), mean), 1)
+```
+
+## Par groupe : `aggregate()`
+
+```{r}
+aggregate(seagrass_cover ~ site, data = sg, FUN = mean)
+aggregate(cbind(seagrass_cover, shoot_density) ~ mpa_status, data = sg, FUN = mean)
+```
+
+- résultat = **data frame** · formule `variable ~ groupe`
+
+## Construire un tableau de synthèse
+
+```{r}
+n_site    <- tapply(sg$seagrass_cover, sg$site, length)
+mean_site <- tapply(sg$seagrass_cover, sg$site, mean)
+sd_site   <- tapply(sg$seagrass_cover, sg$site, sd)
+tab <- data.frame(site = names(mean_site), n = as.vector(n_site),
+                  mean = round(as.vector(mean_site), 1),
+                  sd = round(as.vector(sd_site), 1))
+tab$se <- round(tab$sd / sqrt(tab$n), 1)
+tab
+```
+
+## Une valeur par unité d'échantillonnage
+
+<div class="box eco">
+Le **transect** (ou le quadrat) est le réplicat. Pour la biomasse de poissons : d'abord **une valeur par transect**, ensuite moyenne et ET par site.
+</div>
+
+```{r}
+tr <- aggregate(biomass_g ~ site + transect, data = fish, FUN = sum)
+tr$kg_ha <- tr$biomass_g / 1000 / 250 * 10000
+round(tapply(tr$kg_ha, tr$site, mean), 1)
+round(tapply(tr$kg_ha, tr$site, sd), 1)
+```
+
+## À retenir — Partie 2
+
+- `df[lignes, colonnes]` pour lire **et** modifier ; `$` pour une colonne
+- Colonnes calculées : `df$new <- df$a * df$b^df$c` ; suppression : `<- NULL`
+- `sapply()` / `apply()` : une fonction sur chaque colonne
+- `subset()`, `%in%`, `order()` ; nettoyage : `trimws`, `tolower`, `gsub`, `duplicated`
+- `tapply()` / `aggregate()` ; ET ≠ ES
+
+<div class="box tip">**À faire** : séances 4 à 6 en ligne, avec leurs quiz.</div>

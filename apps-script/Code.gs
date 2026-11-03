@@ -103,7 +103,39 @@ function writeState(student, state) {
   else sh.getRange(r, 1, 1, row.length).setValues([row]);
 }
 
+// Records a quiz attempt. Quizzes are single-attempt on the website; if the
+// same quiz arrives again (e.g. a student tampering with the page), the extra
+// attempt is ignored so that the FIRST score stays the official one.
 function logScore(student, req) {
-  sheet("scores").appendRow([new Date(), student.user, student.name, req.quiz, req.page,
-                             req.score, req.max, JSON.stringify(req.answers)]);
+  const sh = sheet("scores");
+  const rows = sh.getDataRange().getValues();
+  for (let i = 1; i < rows.length; i++) {
+    if (String(rows[i][1]).toLowerCase() === student.user && String(rows[i][3]) === String(req.quiz)) return;
+  }
+  sh.appendRow([new Date(), student.user, student.name, req.quiz, req.page,
+                req.score, req.max, JSON.stringify(req.answers)]);
+}
+
+// ---------------------------------------------------------------------------
+// TEACHER TOOL: give a student a new attempt on one quiz.
+// 1. Edit the two values below.  2. Select "resetQuiz" in the menu.  3. Run.
+// It deletes the quiz from the student's saved progress and its row in "scores".
+// ---------------------------------------------------------------------------
+function resetQuiz() {
+  const USER = "hrakoto";   // <- username
+  const QUIZ = "s04";       // <- quiz id (s00 ... s10, p1 ... p6)
+
+  const prog = sheet("progress");
+  const r = findRow(prog, USER);
+  if (r !== -1) {
+    const state = JSON.parse(prog.getRange(r, 6).getValue() || "{}");
+    if (state.quizzes) delete state.quizzes[QUIZ];
+    prog.getRange(r, 6).setValue(JSON.stringify(state));
+  }
+  const sc = sheet("scores");
+  const rows = sc.getDataRange().getValues();
+  for (let i = rows.length - 1; i >= 1; i--) {
+    if (String(rows[i][1]).toLowerCase() === USER && String(rows[i][3]) === QUIZ) sc.deleteRow(i + 1);
+  }
+  Logger.log("Quiz " + QUIZ + " reset for " + USER + ". The student must log out and in again.");
 }

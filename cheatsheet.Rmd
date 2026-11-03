@@ -1,0 +1,207 @@
+---
+title: "[Cheatsheet — every function of the course]{.en}[Aide-mémoire — toutes les fonctions du cours]{.fr}"
+pagetitle: "R course · Cheatsheet"
+subtitle: "[Print it (Ctrl + P) and keep it next to your keyboard]{.en}[Imprimez-le (Ctrl + P) et gardez-le près du clavier]{.fr}"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+<!-- Each table cell holds both languages: [English]{.en}[Français]{.fr}.
+     {.no-track} keeps these sections out of the progress bar. -->
+
+::: cheat
+
+## [RStudio essentials]{.en}[L'essentiel de RStudio]{.fr} {.no-track}
+
+| [Shortcut / action]{.en}[Raccourci / action]{.fr} | [What it does]{.en}[Ce que ça fait]{.fr} |
+|---|---|
+| Ctrl + Enter | [Run the current line or selection]{.en}[Exécuter la ligne courante ou la sélection]{.fr} |
+| Ctrl + Shift + Enter | [Run the whole script]{.en}[Exécuter tout le script]{.fr} |
+| Ctrl + Shift + N | [New script]{.en}[Nouveau script]{.fr} |
+| Ctrl + S | [Save]{.en}[Enregistrer]{.fr} |
+| Ctrl + Shift + R | [Insert a script section]{.en}[Insérer une section de script]{.fr} |
+| Ctrl + Shift + M | [Insert the pipe <code>&#124;&gt;</code>]{.en}[Insérer le pipe <code>&#124;&gt;</code>]{.fr} |
+| Alt + − | [Insert `<-`]{.en}[Insérer `<-`]{.fr} |
+| Esc | [Cancel an unfinished command (`+` prompt)]{.en}[Annuler une commande inachevée (invite `+`)]{.fr} |
+| Tab | [Autocomplete names]{.en}[Compléter automatiquement les noms]{.fr} |
+
+## [Session 1 — First steps]{.en}[Séance 1 — Premiers pas]{.fr} {.no-track}
+
+::: keypoints
+- [Write code in a **script**, not in the console. `#` starts a comment.]{.en}[Écrivez le code dans un **script**, pas dans la console. `#` commence un commentaire.]{.fr}
+- [`x <- 5` stores a value; R is case-sensitive; the decimal separator is the dot.]{.en}[`x <- 5` stocke une valeur ; R distingue majuscules et minuscules ; le séparateur décimal est le point.]{.fr}
+:::
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `+ - * / ^` | [Arithmetic, power]{.en}[Arithmétique, puissance]{.fr} | `2^3` |
+| `<-` | [Assign a value to an object]{.en}[Affecter une valeur à un objet]{.fr} | `area <- 0.25` |
+| `sqrt()`, `log()`, `exp()`, `abs()` | [Square root, logarithm, exponential, absolute value]{.en}[Racine carrée, logarithme, exponentielle, valeur absolue]{.fr} | `log(100, base = 10)` |
+| `round(x, digits)` | [Round]{.en}[Arrondir]{.fr} | `round(3.456, 1)` |
+| `ls()`, `rm()` | [List / remove objects]{.en}[Lister / supprimer des objets]{.fr} | `rm(area)` |
+| `?name`, `help()` | [Open a help page]{.en}[Ouvrir une page d'aide]{.fr} | `?round` |
+
+## [Session 2 — Vectors]{.en}[Séance 2 — Vecteurs]{.fr} {.no-track}
+
+::: keypoints
+- [A vector holds values of **one type**. Positions start at 1.]{.en}[Un vecteur contient des valeurs d'**un seul type**. Les positions commencent à 1.]{.fr}
+- [`NA` = missing value; add `na.rm = TRUE` to ignore it. `0` and `NA` are different.]{.en}[`NA` = valeur manquante ; ajoutez `na.rm = TRUE` pour l'ignorer. `0` et `NA` sont différents.]{.fr}
+- [`sum()` of TRUE/FALSE counts the TRUE; `mean()` gives their proportion.]{.en}[`sum()` de TRUE/FALSE compte les TRUE ; `mean()` donne leur proportion.]{.fr}
+:::
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `c()` | [Combine values into a vector]{.en}[Combiner des valeurs en vecteur]{.fr} | `c(45, 60, 12)` |
+| `a:b` | [Integers from a to b]{.en}[Entiers de a à b]{.fr} | `1:10` |
+| `seq()` | [Regular sequence (`by` = step, `length.out` = number)]{.en}[Suite régulière (`by` = pas, `length.out` = nombre)]{.fr} | `seq(0.5, 25, by = 0.5)` |
+| `rep()` | [Repeat (`times`, `each`)]{.en}[Répéter (`times`, `each`)]{.fr} | `rep(c("In", "Out"), each = 2)` |
+| `sample()` | [Random draw (`replace = TRUE` to allow repeats)]{.en}[Tirage aléatoire (`replace = TRUE` pour autoriser les répétitions)]{.fr} | `sample(1:50, 5)` |
+| `set.seed()` | [Make random draws reproducible]{.en}[Rendre les tirages reproductibles]{.fr} | `set.seed(123)` |
+| `length()` | [Number of values]{.en}[Nombre de valeurs]{.fr} | `length(x)` |
+| `class()` | [Type of an object]{.en}[Type d'un objet]{.fr} | `class(x)` |
+| `as.numeric()`, `as.character()` | [Convert type]{.en}[Convertir le type]{.fr} | `as.numeric("12")` |
+| `factor()`, `levels()`, `table()` | [Categories, their levels, counts per level]{.en}[Catégories, leurs niveaux, effectifs par niveau]{.fr} | `table(zone)` |
+| `sum()`, `mean()`, `median()`, `min()`, `max()`, `range()` | [Summaries]{.en}[Résumés]{.fr} | `mean(x, na.rm = TRUE)` |
+| `sort()`, `rev()`, `unique()` | [Sort, reverse, distinct values]{.en}[Trier, inverser, valeurs distinctes]{.fr} | `sort(x, decreasing = TRUE)` |
+| `head()`, `tail()` | [First / last values]{.en}[Premières / dernières valeurs]{.fr} | `head(x, 3)` |
+| `which()`, `which.max()`, `which.min()` | [Positions where TRUE / of max / of min]{.en}[Positions des TRUE / du max / du min]{.fr} | `which(x > 50)` |
+| `paste()`, `paste0()` | [Glue texts]{.en}[Coller des textes]{.fr} | `paste0("Q", 1:3)` |
+| `cumsum()` | [Cumulative sum]{.en}[Somme cumulée]{.fr} | `cumsum(x)` |
+| `x[i]`, `x[-i]`, `x[x > 50]` | [Select by position, exclude, by condition]{.en}[Sélection par position, exclusion, par condition]{.fr} | `cover[2:4]` |
+| `is.na()`, `!` | [Which values are missing; NOT]{.en}[Valeurs manquantes ; NON]{.fr} | `x[!is.na(x)]` |
+| `== != > >= < <=` | [Comparisons]{.en}[Comparaisons]{.fr} | `zone == "Inside"` |
+
+## [Session 3 — Data frames & import]{.en}[Séance 3 — Data frames et importation]{.fr} {.no-track}
+
+::: keypoints
+- [One row = one observation, one column = one variable. Always inspect data right after import.]{.en}[Une ligne = une observation, une colonne = une variable. Inspectez toujours les données juste après l'import.]{.fr}
+- [Use an RStudio project so that paths are short: `"data/file.csv"`.]{.en}[Utilisez un projet RStudio pour des chemins courts : `"data/fichier.csv"`.]{.fr}
+:::
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `data.frame()` | [Build a table by hand]{.en}[Créer un tableau à la main]{.fr} | `data.frame(a = 1:2, b = c("x", "y"))` |
+| `read.csv()`, `read.csv2()` | [Import CSV (`,` / `;` separator)]{.en}[Importer un CSV (séparateur `,` / `;`)]{.fr} | `read.csv("data/seagrass_quadrats.csv")` |
+| `write.csv()` | [Save a table]{.en}[Enregistrer un tableau]{.fr} | `write.csv(df, "outputs/x.csv", row.names = FALSE)` |
+| `head()`, `tail()`, `View()` | [Look at the data]{.en}[Regarder les données]{.fr} | `View(sg)` |
+| `str()`, `summary()` | [Structure; distribution and NA of each column]{.en}[Structure ; distribution et NA de chaque colonne]{.fr} | `str(sg)` |
+| `dim()`, `nrow()`, `ncol()`, `names()` | [Size and column names]{.en}[Taille et noms de colonnes]{.fr} | `nrow(sg)` |
+| `list.files()` | [Files in a folder]{.en}[Fichiers d'un dossier]{.fr} | `list.files("data")` |
+
+## [Session 4 — Inside a data frame]{.en}[Séance 4 — Dans un data frame]{.fr} {.no-track}
+
+::: keypoints
+- [`df[rows, columns]` — rows first; empty = all; minus = exclude. Names are safer than numbers.]{.en}[`df[lignes, colonnes]` — lignes d'abord ; vide = tout ; moins = exclure. Les noms sont plus sûrs que les numéros.]{.fr}
+- [`$` one column by name · `[ , ]` rows and/or several columns · `[[ ]]` column name stored in an object.]{.en}[`$` une colonne par nom · `[ , ]` lignes et/ou plusieurs colonnes · `[[ ]]` nom de colonne stocké dans un objet.]{.fr}
+- [Any address you can read, you can write: put it left of `<-`.]{.en}[Toute adresse lisible est modifiable : placez-la à gauche de `<-`.]{.fr}
+:::
+
+| [Code]{.en}[Code]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `df[i, j]` | [Read by row and column]{.en}[Lire par ligne et colonne]{.fr} | `sg[2, "seagrass_cover"]` |
+| `df[cond, ]` | [Rows meeting a condition]{.en}[Lignes remplissant une condition]{.fr} | `sg[sg$depth_m > 2, ]` |
+| `df[, j, drop = FALSE]`, `df["col"]` | [Keep a one-column data frame]{.en}[Garder un data frame d'une colonne]{.fr} | `sg["site"]` |
+| `df$col`, `df[["col"]]` | [One column as a vector]{.en}[Une colonne sous forme de vecteur]{.fr} | `sg[[var]]` |
+| `df[i, j] <- value` | [Change one cell]{.en}[Modifier une cellule]{.fr} | `sg[3, "depth_m"] <- 2.5` |
+| `df$col[cond] <- value` | [Change values by condition]{.en}[Modifier des valeurs par condition]{.fr} | `x$h[which(x$h > 30)] <- NA` |
+| `df$new <- calc` | [Add a column (constant or calculation)]{.en}[Ajouter une colonne (constante ou calcul)]{.fr} | `f$w <- f$a * f$length_cm^f$b` |
+| `df$col <- NULL` | [Remove a column]{.en}[Supprimer une colonne]{.fr} | `fish$a <- NULL` |
+| `df[, -c(...)]`, `subset(df, select = -c(...))` | [Remove several columns]{.en}[Supprimer plusieurs colonnes]{.fr} | `subset(f, select = -c(a, b))` |
+| `names(df)[...] <- "new"` | [Rename a column]{.en}[Renommer une colonne]{.fr} | `names(sg)[7] <- "cover"` |
+| `rbind()`, `df[-i, ]` | [Add rows / remove rows]{.en}[Ajouter / supprimer des lignes]{.fr} | `rbind(sg, new_row)` |
+| `sapply()`, `lapply()` | [Apply a function to each column (vector / list result)]{.en}[Appliquer une fonction à chaque colonne (résultat vecteur / liste)]{.fr} | `sapply(sg, class)` |
+| `apply(df, 1 or 2, FUN)` | [Apply by row (1) or column (2), numeric data]{.en}[Appliquer par ligne (1) ou colonne (2), données numériques]{.fr} | `apply(m, 2, max)` |
+| `colMeans()`, `colSums()`, `rowSums()` | [Fast column/row means and sums]{.en}[Moyennes et sommes rapides par colonne/ligne]{.fr} | `colMeans(m)` |
+
+## [Session 5 — Filtering & cleaning]{.en}[Séance 5 — Filtrer et nettoyer]{.fr} {.no-track}
+
+::: keypoints
+- [Never edit the raw file: every correction is a line in the script.]{.en}[Ne modifiez jamais le fichier brut : chaque correction est une ligne du script.]{.fr}
+- [Fix spelling **before** looking for duplicates. Look at suspicious rows before deciding.]{.en}[Corrigez l'orthographe **avant** de chercher les doublons. Regardez les lignes suspectes avant de décider.]{.fr}
+:::
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `&`, <code>&#124;</code>, `!`, `%in%` | [AND, OR, NOT, "is in the list"]{.en}[ET, OU, NON, « est dans la liste »]{.fr} | `site %in% c("A", "B")` |
+| `subset(df, cond, select)` | [Filter rows and choose columns (`a:d`, `-c()`)]{.en}[Filtrer des lignes et choisir des colonnes (`a:d`, `-c()`)]{.fr} | `subset(sg, depth_m < 1, select = site:species)` |
+| `order()` | [Positions that sort; use in rows]{.en}[Positions qui trient ; à utiliser en lignes]{.fr} | `sg[order(-sg$seagrass_cover), ]` |
+| `trimws()` | [Remove start/end spaces]{.en}[Retirer les espaces de début/fin]{.fr} | `trimws(" Ifaty")` |
+| `tolower()`, `toupper()`, `tools::toTitleCase()` | [Change case]{.en}[Changer la casse]{.fr} | `tools::toTitleCase("nosy fasika")` |
+| `gsub(old, new, x)` | [Replace a pattern (`"\\s+"` = spaces)]{.en}[Remplacer un motif (`"\\s+"` = espaces)]{.fr} | `gsub("%", "", x)` |
+| `duplicated()` | [TRUE for repeated rows]{.en}[TRUE pour les lignes répétées]{.fr} | `df[!duplicated(df), ]` |
+| `complete.cases()`, `colSums(is.na())` | [Rows without NA; NA per column]{.en}[Lignes sans NA ; NA par colonne]{.fr} | `colSums(is.na(df))` |
+
+## [Session 6 — Descriptive statistics]{.en}[Séance 6 — Statistiques descriptives]{.fr} {.no-track}
+
+::: keypoints
+- [SD = variability between observations; SE = SD / √n = precision of the mean.]{.en}[ET = variabilité entre observations ; ES = ET / √n = précision de la moyenne.]{.fr}
+- [Compute one value per **sampling unit** (quadrat, transect) before averaging per site.]{.en}[Calculez une valeur par **unité d'échantillonnage** (quadrat, transect) avant de moyenner par site.]{.fr}
+:::
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `sd()`, `var()` | [Standard deviation, variance]{.en}[Écart-type, variance]{.fr} | `sd(x, na.rm = TRUE)` |
+| `sd(x) / sqrt(n)` | [Standard error]{.en}[Erreur standard]{.fr} | `sd(x) / sqrt(length(x))` |
+| `quantile()`, `IQR()` | [Quantiles, interquartile range]{.en}[Quantiles, écart interquartile]{.fr} | `quantile(x, c(0.1, 0.9))` |
+| `tapply(x, group, FUN)` | [A statistic per group (vector/matrix)]{.en}[Une statistique par groupe (vecteur/matrice)]{.fr} | `tapply(sg$seagrass_cover, sg$site, mean)` |
+| `aggregate(y ~ g, data, FUN)` | [A statistic per group (data frame)]{.en}[Une statistique par groupe (data frame)]{.fr} | `aggregate(seagrass_cover ~ site, sg, mean)` |
+| `as.vector()`, `names()` | [Turn a tapply result into table columns]{.en}[Transformer un résultat de tapply en colonnes]{.fr} | `names(m)` |
+
+## [Session 7 — Base R graphs]{.en}[Séance 7 — Graphiques R de base]{.fr} {.no-track}
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `hist()` | [Histogram]{.en}[Histogramme]{.fr} | `hist(x, breaks = seq(0, 100, 10))` |
+| `plot(x, y)` | [Scatter plot]{.en}[Nuage de points]{.fr} | `plot(x, y, pch = 19)` |
+| `boxplot(y ~ g)` | [Boxplot per group]{.en}[Boxplot par groupe]{.fr} | `boxplot(seagrass_cover ~ site, sg)` |
+| `barplot()` | [Bars (`beside = TRUE` for groups)]{.en}[Barres (`beside = TRUE` pour des groupes)]{.fr} | `bp <- barplot(m)` |
+| `arrows()` | [Error bars (`angle = 90, code = 3`)]{.en}[Barres d'erreur (`angle = 90, code = 3`)]{.fr} | `arrows(bp, m - s, bp, m + s, angle = 90, code = 3)` |
+| `legend()`, `abline()`, `points()`, `text()` | [Add to the current plot]{.en}[Ajouter au graphique courant]{.fr} | `legend("topright", ...)` |
+| `main, xlab, ylab, xlim, ylim, col, las, pch` | [Common arguments]{.en}[Arguments courants]{.fr} | `las = 1` |
+| `par(mfrow = c(r, c))`, `par(mar = ...)` | [Several plots; margins]{.en}[Plusieurs graphiques ; marges]{.fr} | `par(mfrow = c(1, 2))` |
+| `png()` / `pdf()` … `dev.off()` | [Save a figure]{.en}[Enregistrer une figure]{.fr} | `png("f.png", res = 300, ...)` |
+
+## [Session 8 — Packages, dplyr, ggplot2]{.en}[Séance 8 — Packages, dplyr, ggplot2]{.fr} {.no-track}
+
+::: keypoints
+- [`install.packages()` **once** per computer; `library()` in **every** script. `pkg::fun()` uses one function without loading.]{.en}[`install.packages()` **une fois** par ordinateur ; `library()` dans **chaque** script. `pkg::fun()` utilise une fonction sans charger.]{.fr}
+- [<code>&#124;&gt;</code> = "then": passes the result as first argument of the next function.]{.en}[<code>&#124;&gt;</code> = « puis » : passe le résultat comme premier argument de la fonction suivante.]{.fr}
+:::
+
+| dplyr | [Base R equivalent]{.en}[Équivalent R de base]{.fr} |
+|---|---|
+| `filter(df, a > 1, b == "x")` | `subset(df, a > 1 & b == "x")` / `df[df$a > 1 & df$b == "x", ]` |
+| `select(df, a, b)`, `select(df, -c)` | `df[, c("a", "b")]`, `subset(df, select = -c)` |
+| `mutate(df, z = x * y)` | `df$z <- df$x * df$y` |
+| `arrange(df, desc(x))` | `df[order(df$x, decreasing = TRUE), ]` |
+| `rename(df, new = old)` | `names(df)[names(df) == "old"] <- "new"` |
+| <code>group_by(g) &#124;&gt; summarise(m = mean(x))</code> | `tapply(df$x, df$g, mean)` / `aggregate(x ~ g, df, mean)` |
+| `count(df, g)` | `table(df$g)` |
+| `n()` | `length()` |
+
+| ggplot2 | [Base R equivalent]{.en}[Équivalent R de base]{.fr} |
+|---|---|
+| `ggplot(df, aes(x, y)) + geom_point()` | `plot(df$x, df$y)` |
+| `geom_histogram()` | `hist()` |
+| `geom_boxplot()` | `boxplot(y ~ g)` |
+| `geom_col()` | `barplot()` |
+| `geom_errorbar(aes(ymin, ymax))` | `arrows(..., angle = 90, code = 3)` |
+| `labs(x = , y = )` | `xlab = , ylab = ` |
+| `facet_wrap(~ g)` | `par(mfrow = c(r, c))` |
+| `scale_colour_manual()` | `col = ` + `legend()` |
+| `ggsave()` | `png()` … `dev.off()` |
+
+## [Session 9 & 10 — Workflow of an analysis]{.en}[Séances 9 et 10 — Déroulé d'une analyse]{.fr} {.no-track}
+
+::: keypoints
+1. [**Import** and inspect (`read.csv`, `str`, `unique`, `table(..., useNA = "always")`).]{.en}[**Importer** et inspecter (`read.csv`, `str`, `unique`, `table(..., useNA = "always")`).]{.fr}
+2. [**Clean** text, numbers, impossible values, duplicates, missing values — in the script.]{.en}[**Nettoyer** textes, nombres, valeurs impossibles, doublons, valeurs manquantes — dans le script.]{.fr}
+3. [**Build the database**: one row per sampling unit (`aggregate`), save it.]{.en}[**Construire la base** : une ligne par unité d'échantillonnage (`aggregate`), l'enregistrer.]{.fr}
+4. [**Summarise**: n, mean, SD, SE per group (`tapply`).]{.en}[**Résumer** : n, moyenne, ET, ES par groupe (`tapply`).]{.fr}
+5. [**Plot** and save the figure; write a caption saying what the error bars are and n.]{.en}[**Représenter** et enregistrer la figure ; légende indiquant ce que sont les barres d'erreur et n.]{.fr}
+6. [**Interpret** with care: sample size, variability, limits.]{.en}[**Interpréter** avec prudence : effectif, variabilité, limites.]{.fr}
+:::
+
+:::

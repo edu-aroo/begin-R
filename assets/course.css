@@ -120,7 +120,7 @@ table { font-size: .95em; }
 /* ---- quiz -------------------------------------------------------------------- */
 .quiz { border: 2px solid var(--lagoon); border-radius: var(--radius); padding: 8px 22px 18px; margin: 2em 0; background: #fcfefe; }
 .rc-quiz-title { margin-top: 12px; }
-.rc-q-list { padding-left: 20px; }
+.rc-q-list { padding-left: 0; list-style: none; }   /* questions are already numbered */
 .rc-q { margin: 16px 0; padding: 10px 12px; border-radius: 8px; border: 1px solid transparent; }
 .rc-q.ok { border-color: #bcd9b0; background: #f2f8ef; }
 .rc-q.ko { border-color: #f0c4b6; background: #fdf3ef; }
@@ -182,5 +182,33 @@ table { font-size: .95em; }
 @media (max-width: 600px) { body { font-size: 16px; } .callout { padding-left: 44px; } .callout::before { left: 12px; } }
 @media print { .rc-side, .rc-done-btn, .navbar, .rc-copy { display: none !important; } body { padding-top: 0; } }
 
-.rc-login-by { display: none; }   /* hide the author line on the login screen */
+/* ---- single-attempt quiz ------------------------------------------------------ */
+.rc-quiz-rule { font-size: .92em; color: var(--muted); background: #fff7e6; border-radius: 6px; padding: 6px 10px; }
+.rc-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.rc-submit.rc-armed { background: var(--coral); }
+.rc-cancel { background: #fff; border: 1px solid #b9c7cd; border-radius: 8px; padding: 9px 18px; color: var(--ink); }
+.rc-warn { color: #b4472a; font-weight: 600; margin-top: 8px; }
+.rc-warn:empty { display: none; }
+.quiz.rc-locked .rc-opt { cursor: default; }
+.quiz.rc-locked .rc-input { background: #f4f6f7; }
 
+/* ---- base R vs package, side by side: ::: compare  ::: {.col} ... ::: :::  ----- */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 1em 0; }
+.compare > .col { min-width: 0; border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 12px; background: #fff; }
+.compare > .col > p:first-child { margin: 0 0 6px; font-weight: 700; color: var(--ocean); font-size: .9em;
+                                   text-transform: uppercase; letter-spacing: .04em; }
+.compare > .col.base { border-top: 4px solid #8a6a32; }
+.compare > .col.pkg  { border-top: 4px solid var(--lagoon); }
+.compare pre { font-size: .8em; }
+.compare img { max-width: 100%; height: auto; }
+@media (max-width: 760px) { .compare { grid-template-columns: 1fr; } }
+
+/* ---- cheatsheet ------------------------------------------------------------------ */
+.cheat table { width: 100%; }
+.cheat td:first-child { white-space: nowrap; font-family: "JetBrains Mono", monospace; font-size: .85em; }
+.cheat td code { white-space: nowrap; }
+.keypoints { background: var(--sand); border-left: 4px solid #b08a4a; border-radius: 6px; padding: 8px 16px; margin: .8em 0 1.2em; }
+.keypoints ul { margin-bottom: 4px; }
+@media print { .rc-watermark, .rc-footer { display: none; } .cheat h2 { break-before: auto; } }
+
+.rc-login-by { display: none; }   /* hide the author line on the login screen */

@@ -7,13 +7,6 @@
 # Fill in every "..." and run the script from top to bottom (Ctrl + Shift + Enter).
 # Write down the numbers asked in the quiz as you go.
 
-# ---- 0. Packages / functions --------------------------------------------------
-# Function from Session 7: % of points of a given category
-pct_cover <- function(categories, code = "HC") {
-  categories <- categories[!is.na(categories)]
-  sum(categories == code) / length(categories) * 100
-}
-
 # ---- 1. Import and inspect ----------------------------------------------------
 raw <- read.csv("...")
 str(raw)
@@ -28,8 +21,9 @@ raw$mpa <- ...                  # trimws()
 raw$mpa <- ...                  # tools::toTitleCase(tolower(...))
 table(raw$mpa)                  # must show exactly 3 MPAs
 
-# 2b. Zone: "No-take" or "Fishing"
-raw$zone <- ifelse(tolower(raw$zone) == "no-take", "No-take", "Fishing")
+# 2b. Zone: "No-take" or "Fishing" (change values by condition, Session 4)
+raw$zone[tolower(raw$zone) == "no-take"] <- "No-take"
+raw$zone[tolower(raw$zone) == "fishing"] <- ...
 table(raw$zone)
 
 # 2c. Benthic codes: trim spaces, upper case, empty text -> NA
@@ -49,8 +43,11 @@ nrow(pts)                       # Q5
 write.csv(pts, "outputs/coral_points_clean.csv", row.names = FALSE)
 
 # ---- 3. Database: one row per transect ----------------------------------------
-db <- aggregate(category ~ mpa + zone + transect, data = pts, FUN = pct_cover)
-names(db)[names(db) == "category"] <- "hc_cover"
+# TRUE/FALSE column: is the point hard coral? The mean of TRUE/FALSE = proportion
+pts$is_hc <- pts$category == "HC"
+db <- aggregate(is_hc ~ mpa + zone + transect, data = pts, FUN = mean)
+db$hc_cover <- ...              # proportion x 100 = percentage
+db$is_hc <- NULL                # remove the helper column
 nrow(db)                        # Q6
 db
 write.csv(db, "outputs/coral_transects_db.csv", row.names = FALSE)

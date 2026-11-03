@@ -232,7 +232,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine Ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -259,24 +259,30 @@ $(document).ready(function () {
       <a href="03-data-frames.html">3 · Data frames</a>
     </li>
     <li>
-      <a href="04-cleaning.html">4 · Cleaning data</a>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
     </li>
     <li>
-      <a href="05-statistics.html">5 · Statistics</a>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
     </li>
     <li>
-      <a href="06-graphics.html">6 · Base R graphs</a>
+      <a href="06-statistics.html">6 · Statistics</a>
     </li>
     <li>
-      <a href="07-functions.html">7 · Functions &amp; loops</a>
+      <a href="07-graphics.html">7 · Base R graphs</a>
     </li>
     <li>
-      <a href="08-tidyverse.html">8 · dplyr &amp; ggplot2</a>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
     </li>
     <li>
-      <a href="09-final-project.html">9 · Final project</a>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="cheatsheet.html">Cheatsheet</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -290,10 +296,10 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore"><span class="en">R for absolute
-beginners</span><span class="fr">R pour grands débutants</span></h1>
+<h1 class="title toc-ignore"><span class="en">R for
+beginners</span><span class="fr">R pour débutants</span></h1>
 <h3 class="subtitle"><span class="en">Marine ecology edition</span><span
-class="fr">Édition écologie marine</span></h3>
+class="fr">Édition écolodie marine</span></h3>
 
 </div>
 
@@ -320,7 +326,9 @@ every session explains the reasoning, shows the code <em>and</em> its
 result, and ends with an <strong>application exercise</strong> followed
 by a <strong>quiz</strong> where you enter the numbers you obtained.</p>
 <p>You only need a computer (Windows, macOS or Linux) and about
-<strong>26 hours</strong> in total, spread over 10 sessions.</p>
+<strong>31 hours</strong> in total, spread over 11 sessions. A
+<strong>cheatsheet</strong> (menu bar) summarises every function of the
+course.</p>
 </div>
 <div class="fr">
 <p>Ce cours vous emmène de <strong>zéro</strong> (R n’est même pas
@@ -331,8 +339,9 @@ raisonnement, montre le code <em>et</em> son résultat, et se termine par
 un <strong>travail d’application</strong> suivi d’un
 <strong>quiz</strong> où vous saisissez les valeurs obtenues.</p>
 <p>Il vous faut seulement un ordinateur (Windows, macOS ou Linux) et
-environ <strong>26 heures</strong> au total, réparties en 10
-séances.</p>
+environ <strong>31 heures</strong> au total, réparties en 11 séances. Un
+<strong>aide-mémoire</strong> (barre de menu) résume toutes les
+fonctions du cours.</p>
 </div>
 </div>
 <div id="how-to-use-this-coursecomment-utiliser-ce-cours"
@@ -350,11 +359,12 @@ for long blocks.</li>
 done”</strong>. Your progress is saved automatically: next time you log
 in, you go back exactly where you stopped.</li>
 <li>Do the <strong>application work</strong> in your own script, then
-enter your results in the <strong>quiz</strong>. You can retry as many
-times as you want; your best score is kept. Aim for at least 70 % before
-moving on.</li>
-<li>The <strong>solution</strong> of each exercise unlocks after your
-first quiz attempt. Look at it only after a real try.</li>
+enter your results in the <strong>quiz</strong>. <strong>Each quiz can
+be submitted only once</strong>: check your answers in your script
+before submitting. Your score is final and recorded.</li>
+<li>The <strong>solution</strong> of each exercise unlocks once you have
+submitted the quiz. Study it, especially for the questions you got
+wrong.</li>
 </ol>
 </div>
 <div class="fr">
@@ -369,12 +379,12 @@ section comme terminée »</strong>. Votre progression est enregistrée
 automatiquement : à la prochaine connexion, vous revenez exactement là
 où vous vous êtes arrêté.</li>
 <li>Faites le <strong>travail d’application</strong> dans votre propre
-script, puis saisissez vos résultats dans le <strong>quiz</strong>. Vous
-pouvez recommencer autant de fois que vous voulez ; votre meilleur score
-est conservé. Visez au moins 70 % avant de passer à la suite.</li>
-<li>La <strong>solution</strong> de chaque exercice se débloque après
-votre première tentative au quiz. Ne la consultez qu’après un vrai
-essai.</li>
+script, puis saisissez vos résultats dans le <strong>quiz</strong>.
+<strong>Chaque quiz ne peut être validé qu’une seule fois</strong> :
+vérifiez vos réponses dans votre script avant de valider. Votre score
+est définitif et enregistré.</li>
+<li>La <strong>solution</strong> de chaque exercice se débloque une fois
+le quiz validé. Étudiez-la, surtout pour les questions manquées.</li>
 </ol>
 </div>
 </div>
@@ -385,12 +395,12 @@ class="section level2 no-track">
 schedule</span><span class="fr">Programme et calendrier
 conseillé</span></h2>
 <div class="en">
-<p>Suggested pace: <strong>2 sessions per week → 5 weeks</strong>.
+<p>Suggested pace: <strong>2 sessions per week → 6 weeks</strong>.
 Durations include reading, typing the examples and the application
 work.</p>
 </div>
 <div class="fr">
-<p>Rythme conseillé : <strong>2 séances par semaine → 5
+<p>Rythme conseillé : <strong>2 séances par semaine → 6
 semaines</strong>. Les durées incluent la lecture, la saisie des
 exemples et le travail d’application.</p>
 </div>
@@ -406,42 +416,49 @@ functions, scripts, help</span><span class="fr">R comme calculatrice,
 objets, fonctions, scripts, aide</span>
 </div>
 <div class="session-card">
-<b>2 · 2.5 h</b><br><span class="en">Vectors, data types, indexing,
-missing values, factors</span><span class="fr">Vecteurs, types de
-données, indexation, valeurs manquantes, facteurs</span>
+<b>2 · 3 h</b><br><span class="en">Vectors, data types, seq / rep /
+sample, indexing, missing values</span><span class="fr">Vecteurs, types
+de données, seq / rep / sample, indexation, valeurs manquantes</span>
 </div>
 <div class="session-card">
-<b>3 · 2.5 h</b><br><span class="en">Data frames, importing a CSV file,
+<b>3 · 2 h</b><br><span class="en">Data frames, importing a CSV file,
 exploring data</span><span class="fr">Data frames, importer un fichier
 CSV, explorer les données</span>
 </div>
 <div class="session-card">
-<b>4 · 3 h</b><br><span class="en">Filtering rows, selecting columns,
-cleaning field data</span><span class="fr">Filtrer des lignes,
-sélectionner des colonnes, nettoyer des données de terrain</span>
+<b>4 · 3.5 h</b><br><span class="en">[row, column], $ vs [ ], changing
+values, adding and removing columns, sapply / apply</span><span
+class="fr">[ligne, colonne], $ ou [ ], modifier des valeurs, ajouter et
+supprimer des colonnes, sapply / apply</span>
 </div>
 <div class="session-card">
-<b>5 · 2.5 h</b><br><span class="en">Mean, SD, SE; statistics per site
+<b>5 · 3 h</b><br><span class="en">Conditions, subset() in depth,
+sorting, cleaning field data</span><span class="fr">Conditions, subset()
+en détail, tri, nettoyage des données de terrain</span>
+</div>
+<div class="session-card">
+<b>6 · 2.5 h</b><br><span class="en">Mean, SD, SE; statistics per site
 and per MPA status</span><span class="fr">Moyenne, écart-type, erreur
 standard ; statistiques par site et statut d’AMP</span>
 </div>
 <div class="session-card">
-<b>6 · 3 h</b><br><span class="en">Histograms, boxplots, barplots with
+<b>7 · 3 h</b><br><span class="en">Histograms, boxplots, barplots with
 error bars, saving figures</span><span class="fr">Histogrammes,
 boxplots, barplots avec barres d’erreur, enregistrer les figures</span>
 </div>
 <div class="session-card">
-<b>7 · 2.5 h</b><br><span class="en">if / ifelse, for loops, writing
-functions (PIT coral cover)</span><span class="fr">if / ifelse, boucles
-for, écrire des fonctions (couverture corallienne PIT)</span>
+<b>8 · 3.5 h</b><br><span class="en">What packages are; dplyr and
+ggplot2 next to their base R equivalents</span><span class="fr">Ce que
+sont les packages ; dplyr et ggplot2 à côté de leurs équivalents en R de
+base</span>
 </div>
 <div class="session-card">
-<b>8 · 3 h</b><br><span class="en">Packages; first steps with dplyr and
-ggplot2</span><span class="fr">Packages ; premiers pas avec dplyr et
-ggplot2</span>
+<b>9 · 3 h</b><br><span class="en">Practice session: 6 exercises, one
+quiz each</span><span class="fr">Séance d’exercices : 6 exercices, un
+quiz chacun</span>
 </div>
 <div class="session-card">
-<b>9 · 4 h</b><br><span class="en">Final project: raw coral data →
+<b>10 · 4 h</b><br><span class="en">Final project: raw coral data →
 database → mean ± SD per MPA → graph</span><span class="fr">Projet final
 : données brutes → base de données → moyenne ± ET par AMP →
 graphique</span>
@@ -463,7 +480,7 @@ ne décrivent aucun récif ni herbier réel. Vous les téléchargerez lors de
 la séance 0.</p>
 </div>
 <p><a class="btn-dl" href="data/r_course_data.zip" download>⇩
-r_course_data.zip (4 CSV)</a></p>
+r_course_data.zip (5 CSV)</a></p>
 </div>
 
 

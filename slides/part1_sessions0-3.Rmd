@@ -1,0 +1,356 @@
+---
+title: "R pour grands débutants"
+subtitle: "Partie 1 · Séances 0 à 3 — Installer R, objets, vecteurs, data frames"
+author: "Aroo Falinirina"
+output:
+  html_document:
+    theme: null              # no Bootstrap: the look comes from slides.css
+    highlight: tango
+    mathjax: null            # no internet needed
+    self_contained: true     # ONE file with everything inside (works offline)
+    css: slides.css
+    includes:
+      in_header: slides-engine.html   # turns each "## Title" into a slide
+---
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+
+```{r, include=FALSE}
+knitr::opts_knit$set(root.dir = normalizePath(".."))   # run code from the project root
+```
+
+```{r, include=FALSE}
+source("slides/_setup.R")
+```
+
+## Programme de la formation
+
+| Partie | Séances | Durée |
+|---|---|---|
+| **1** | 0 Installation · 1 Premiers pas · 2 Vecteurs · 3 Data frames | ~1 h |
+| **2** | 4 Dans un data frame · 5 Filtrer et nettoyer · 6 Statistiques | ~1 h |
+| **3** | 7 Graphiques · 8 Packages, dplyr, ggplot2 · 9 Exercices · 10 Projet final | ~1 h |
+
+<div class="box tip">
+Le cours en ligne (avec quiz) reprend tout en détail : ces diapositives en sont la version présentée.
+</div>
+
+<div class="notes">
+Partie 1 : ~10 min installation, 15 min premiers pas, 20 min vecteurs, 15 min data frames.
+</div>
+
+## Pourquoi R ?
+
+- **Gratuit** et libre, sur Windows, macOS, Linux
+- **Reproductible** : tout est écrit dans un script, relançable en un clic
+- **Complet** : nettoyage, statistiques, graphiques, cartes, rapports
+- Plus de 20 000 **packages** (écologie, pêche, enquêtes socio-économiques…)
+- Une très grande communauté : la plupart des problèmes ont déjà une réponse en ligne
+
+<div class="box eco">
+Dans ce cours, tous les exemples portent sur des données (simulées) d'**herbiers**, de **récifs coralliens** et de **poissons récifaux**.
+</div>
+
+## Séance 0 — Installer R, Rtools et RStudio {.segue}
+
+## Trois logiciels, trois rôles
+
+`r fig_svg("software-roles")`
+
+## Le rôle de chacun
+
+- **R** = le **moteur** : le langage et le programme qui fait tous les calculs
+- **RStudio** = le **tableau de bord** : on y écrit les scripts, on voit données, graphiques, fichiers, aide. Il ne calcule rien lui-même
+- **Rtools** = la **boîte à outils** (Windows seulement) : compile certains packages depuis leur code source
+
+<div class="box warn">
+Ordre d'installation : **R → Rtools → RStudio**. Ensuite, on ouvre toujours **RStudio**, jamais R directement.
+</div>
+
+## Installation pas à pas
+
+1. **R** : <https://cran.r-project.org> → *Download R for Windows / macOS* → dernière version
+2. **Rtools** (Windows) : <https://cran.r-project.org/bin/windows/Rtools/> → version correspondant à R (R 4.5.x → Rtools45)
+3. **RStudio Desktop** : <https://posit.co/download/rstudio-desktop/>
+
+Vérifier dans la console :
+
+```{r, eval=FALSE}
+R.version.string        # version de R utilisée
+Sys.which("make")       # Windows : un chemin = Rtools trouvé
+```
+
+## Les quatre panneaux de RStudio
+
+`r fig_svg("rstudio-panes")`
+
+## Deux réglages et un projet
+
+*Tools → Global Options → General*
+
+- décocher **Restore .RData into workspace at startup**
+- **Save workspace on exit : Never** → les résultats viennent toujours du script
+
+*File → New Project → New Directory* : `R_course_reef`
+
+```
+R_course_reef/
+├── R_course_reef.Rproj   <- double-cliquer pour ouvrir
+├── data/                 <- les 5 fichiers CSV du cours
+├── scripts/              <- un script par séance
+└── outputs/              <- figures et tableaux produits
+```
+
+## Séance 1 — Premiers pas {.segue}
+
+## Script ou console ?
+
+- **Script** (panneau 1) : on **écrit** et on **enregistre** → c'est le cahier de labo
+- **Console** (panneau 2) : R **exécute** → rien n'est gardé
+
+| Raccourci | Action |
+|---|---|
+| Ctrl + Entrée | exécuter la ligne / la sélection |
+| Ctrl + Maj + Entrée | exécuter tout le script |
+| Ctrl + Maj + N | nouveau script |
+| Ctrl + Maj + R | insérer une section |
+| Alt + − | insérer `<-` |
+
+## R comme calculatrice
+
+```{r}
+12 + 30
+87 / 0.25          # 87 pousses dans un quadrat de 0,25 m² -> pousses/m²
+2^3                # puissance
+10 + 5 * 2         # priorités habituelles
+(10 + 5) * 2
+7.4 / 20 * 100     # 7,4 m de corail dur sur 20 m de transect -> %
+```
+
+<div class="box warn">Séparateur décimal : le **point** (`7.4`), jamais la virgule.</div>
+
+## Les objets : `<-`
+
+```{r}
+quadrat_area <- 0.5 * 0.5     # m²
+shoots       <- 87
+density      <- shoots / quadrat_area
+density
+```
+
+- `x <- 5` se lit « x **reçoit** 5 » ; l'objet apparaît dans *Environment*
+- Une nouvelle affectation **remplace** l'ancienne valeur
+- Les objets ne se mettent **pas** à jour tout seuls
+
+## Bien nommer ses objets
+
+- commencer par une **lettre** : `site1` ✔ `1site` ✘
+- pas d'espace : `coral_cover` ✔ `coral cover` ✘
+- R distingue **majuscules et minuscules** : `Cover` ≠ `cover`
+- noms explicites : `mean_cover_inside` plutôt que `m1`
+
+```{r}
+ls()               # objets en mémoire
+rm(density)        # supprimer un objet
+```
+
+## Fonctions et arguments
+
+```{r}
+sqrt(144)
+round(348.6667, digits = 1)   # argument nommé
+round(348.6667, 1)            # argument par position
+log(100, base = 10)
+round(sqrt(2), 3)             # imbrication : de l'intérieur vers l'extérieur
+```
+
+<div class="box tip">Aide : `?round` → sections *Usage*, *Arguments*, *Examples*.</div>
+
+## Lire les messages d'erreur
+
+```{r, error=TRUE}
+Shoots / quadrat_area      # S majuscule : objet inexistant
+```
+
+```{r, error=TRUE}
+round(3.456, digit = 1)    # faute dans le nom de l'argument
+```
+
+- Invite **`+`** dans la console = commande inachevée (`)` ou `"` manquant) → **Échap**
+
+## Séance 2 — Vecteurs et types de données {.segue}
+
+## Un vecteur = une série de valeurs du même type
+
+`r fig_svg("vector-index")`
+
+## `seq()` : suites régulières
+
+```{r}
+1:10
+seq(0, 25, by = 5)                 # pas de 5
+seq(0.5, 25, by = 0.5)[1:8]        # points PIT tous les 0,5 m (8 premiers)
+seq(0, 100, length.out = 5)        # 5 valeurs régulières
+```
+
+- `by` = le **pas** · `length.out` = le **nombre** de valeurs
+
+## `rep()` : répéter
+
+```{r}
+rep("Inside", times = 3)
+rep(c("Inside", "Outside"), times = 2)     # I O I O
+rep(c("Inside", "Outside"), each = 2)      # I I O O
+site    <- rep(c("Ambalaboy", "Fasimena"), each = 3)
+quadrat <- rep(1:3, times = 2)
+paste(site, quadrat, sep = "_")
+```
+
+## `sample()` et `set.seed()` : tirages aléatoires
+
+```{r}
+set.seed(123)
+sample(1:50, size = 5)                     # 5 positions au hasard sur 50
+sample(c("HC", "SD", "MA"), 6, replace = TRUE)
+set.seed(123)
+sample(1:50, size = 5)                     # même graine -> même tirage
+```
+
+<div class="box eco">Choisir des quadrats ou des sites **au hasard**, de façon **reproductible**.</div>
+
+## Les types de données
+
+| Type | Exemple | Usage |
+|---|---|---|
+| `numeric` | `45.5`, `0` | mesures, comptages |
+| `character` | `"Ambalaboy"`, `"HC"` | noms, codes (guillemets) |
+| `logical` | `TRUE`, `FALSE` | réponses oui/non |
+| `factor` | `Inside`, `Outside` | catégories (niveaux) |
+
+```{r}
+mixed <- c(45, 60, "-", 12)    # un seul type par vecteur !
+class(mixed)
+as.numeric(mixed)              # "-" devient NA
+```
+
+## Facteurs et effectifs
+
+```{r}
+status <- factor(c("Outside", "Inside", "Inside", "Outside", "Inside"))
+levels(status)
+table(status)
+factor(status, levels = c("Outside", "Inside"))   # choisir l'ordre
+```
+
+## Calculer sur tout le vecteur
+
+```{r}
+shoots <- c(87, 132, 45, 160)
+shoots / 0.25                 # densité de chaque quadrat
+sum(shoots); mean(shoots); sd(shoots)
+depth <- c(2.4, 0.8, 1.9, 3.1, 0.8)
+sort(depth); rev(depth); unique(depth)
+which.max(depth)              # position du maximum
+```
+
+## Extraire avec `[ ]`
+
+```{r}
+cover <- c(45, 60, 12, NA, 80, 33, 0, 55)
+cover[3]
+cover[c(1, 5)]
+cover[-1]                     # tout sauf le 1er
+cover > 50                    # vecteur logique
+cover[cover > 50]
+sum(cover > 50, na.rm = TRUE) # TRUE compte 1
+```
+
+## Les valeurs manquantes `NA`
+
+```{r}
+mean(cover)
+mean(cover, na.rm = TRUE)
+sum(is.na(cover))
+cover[!is.na(cover)]
+```
+
+<div class="box warn">`0` ≠ `NA` : 0 % = mesuré, pas d'herbier ; NA = non mesuré.</div>
+
+## Séance 3 — Data frames et importation {.segue}
+
+## Le suivi des herbiers
+
+`r fig_svg("quadrat-sampling")`
+
+## Un data frame = un tableau
+
+`r fig_svg("dataframe-anatomy")`
+
+## Données bien rangées (« tidy »)
+
+- **une ligne = une observation** (un quadrat, un transect, un ménage…)
+- **une colonne = une variable**
+- **une cellule = une valeur**
+
+<div class="box warn">
+À éviter dans Excel : cellules fusionnées, couleurs porteuses d'information, plusieurs valeurs dans une cellule (« 45% Thalassia »).
+</div>
+
+## Importer un fichier CSV
+
+```{r, eval=FALSE}
+sg <- read.csv("data/seagrass_quadrats.csv")
+```
+
+- CSV « à la française » (séparateur `;`) → `read.csv2()`
+- *cannot open file* → mauvais chemin, ou projet non ouvert
+
+```{r}
+dim(sg)
+names(sg)
+```
+
+## Toujours explorer après l'import
+
+```{r}
+str(sg, vec.len = 2)    # vec.len: fewer example values per line
+```
+
+## `summary()`
+
+```{r}
+summary(sg[, c("depth_m", "seagrass_cover", "canopy_height_cm", "shoot_density")])
+```
+
+## Accéder aux colonnes et aux cellules
+
+```{r}
+mean(sg$seagrass_cover)
+table(sg$species)
+sg[1:3, c("site", "seagrass_cover")]
+sg[which.max(sg$seagrass_cover), c("site", "quadrat", "seagrass_cover")]
+```
+
+## Ajouter une colonne, enregistrer
+
+```{r}
+sg$cover_prop <- sg$seagrass_cover / 100
+head(sg[, c("site", "seagrass_cover", "cover_prop")], 3)
+```
+
+```{r, eval=FALSE}
+write.csv(sg, "outputs/seagrass_s03.csv", row.names = FALSE)
+```
+
+## À retenir — Partie 1
+
+- Tout s'écrit dans un **script**, dans un **projet** RStudio
+- `<-` crée des objets ; les fonctions prennent des **arguments**
+- Vecteurs : `c()`, `seq()`, `rep()`, `sample()` ; indexation `[ ]` ; `NA` et `na.rm = TRUE`
+- Data frame : `read.csv()`, `str()`, `summary()`, `$`, `[ligne, colonne]`
+
+<div class="box tip">
+**À faire** : séances 0 à 3 en ligne, avec leurs travaux d'application et leurs quiz (une seule tentative par quiz).
+</div>

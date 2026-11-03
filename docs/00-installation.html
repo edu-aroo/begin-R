@@ -333,7 +333,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine Ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -360,24 +360,30 @@ $(document).ready(function () {
       <a href="03-data-frames.html">3 · Data frames</a>
     </li>
     <li>
-      <a href="04-cleaning.html">4 · Cleaning data</a>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
     </li>
     <li>
-      <a href="05-statistics.html">5 · Statistics</a>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
     </li>
     <li>
-      <a href="06-graphics.html">6 · Base R graphs</a>
+      <a href="06-statistics.html">6 · Statistics</a>
     </li>
     <li>
-      <a href="07-functions.html">7 · Functions &amp; loops</a>
+      <a href="07-graphics.html">7 · Base R graphs</a>
     </li>
     <li>
-      <a href="08-tidyverse.html">8 · dplyr &amp; ggplot2</a>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
     </li>
     <li>
-      <a href="09-final-project.html">9 · Final project</a>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="cheatsheet.html">Cheatsheet</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -845,7 +851,7 @@ with short paths like <code>"data/seagrass_quadrats.csv"</code>.</p>
 <li>In the <strong>Files</strong> pane, click <strong>New
 Folder</strong> three times to create: <code>data</code>,
 <code>scripts</code>, <code>outputs</code>.</li>
-<li>Download the course data below, unzip it, and put the 4 CSV files in
+<li>Download the course data below, unzip it, and put the 5 CSV files in
 the <code>data</code> folder.</li>
 </ol>
 </div>
@@ -864,7 +870,7 @@ Project</strong>.</li>
 <strong>New Folder</strong> pour créer : <code>data</code>,
 <code>scripts</code>, <code>outputs</code>.</li>
 <li>Téléchargez les données du cours ci-dessous, décompressez-les et
-placez les 4 fichiers CSV dans le dossier <code>data</code>.</li>
+placez les 5 fichiers CSV dans le dossier <code>data</code>.</li>
 </ol>
 </div>
 <p><a class="btn-dl" href="data/r_course_data.zip" download>⇩
@@ -875,7 +881,8 @@ r_course_data.zip</a></p>
 │   ├── seagrass_quadrats.csv
 │   ├── seagrass_messy.csv
 │   ├── coral_pit_example.csv
-│   └── coral_cover_raw.csv
+│   ├── coral_cover_raw.csv
+│   └── fish_uvc.csv
 ├── scripts/                 &lt;- your .R scripts (one per session)
 └── outputs/                 &lt;- figures and tables you will produce</code></pre>
 <div class="en">
@@ -885,7 +892,8 @@ r_course_data.zip</a></p>
 <p>Vérifiez dans la console que R « voit » les fichiers :</p>
 </div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">&quot;data&quot;</span>)      <span class="co"># lists the files in the data folder of the project</span></span></code></pre></div>
-<pre><code>#&gt; [1] &quot;coral_cover_raw.csv&quot;   &quot;coral_pit_example.csv&quot; &quot;seagrass_messy.csv&quot;    &quot;seagrass_quadrats.csv&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;coral_cover_raw.csv&quot;   &quot;coral_pit_example.csv&quot; &quot;fish_uvc.csv&quot;          &quot;seagrass_messy.csv&quot;   
+#&gt; [5] &quot;seagrass_quadrats.csv&quot;</code></pre>
 <div class="callout warning">
 <div class="en">
 <p>If you get <code>character(0)</code>, R does not find the folder:
@@ -936,7 +944,7 @@ que vous avez lu dans cette séance.</li>
 </div>
 </div>
 <div id="quiz-s00" class="quiz" data-quiz-id="s00"
-data-q="W3sidHlwZSI6Im1jcSIsImVuIjoiV2hpY2ggcHJvZ3JhbSBhY3R1YWxseSBwZXJmb3JtcyB0aGUgY2FsY3VsYXRpb25zPyIsImZyIjoiUXVlbCBsb2dpY2llbCBlZmZlY3R1ZSByw6llbGxlbWVudCBsZXMgY2FsY3VscyA/Iiwib3B0aW9uc19lbiI6WyJSU3R1ZGlvIiwiUiIsIlJ0b29scyIsIkV4Y2VsIl0sIm9wdGlvbnNfZnIiOlsiUlN0dWRpbyIsIlIiLCJSdG9vbHMiLCJFeGNlbCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiV2hhdCBpcyBSdG9vbHMgdXNlZCBmb3I/IiwiZnIiOiLDgCBxdW9pIHNlcnQgUnRvb2xzID8iLCJvcHRpb25zX2VuIjpbIkRyYXdpbmcgbmljZXIgZ3JhcGhzIiwiQ29tcGlsaW5nIHBhY2thZ2VzIGZyb20gc291cmNlIGNvZGUgb24gV2luZG93cyIsIk9wZW5pbmcgRXhjZWwgZmlsZXMiLCJUcmFuc2xhdGluZyBSIGludG8gRnJlbmNoIl0sIm9wdGlvbnNfZnIiOlsiRmFpcmUgZGUgcGx1cyBiZWF1eCBncmFwaGlxdWVzIiwiQ29tcGlsZXIgZGVzIHBhY2thZ2VzIGRlcHVpcyBsZSBjb2RlIHNvdXJjZSBzb3VzIFdpbmRvd3MiLCJPdXZyaXIgZGVzIGZpY2hpZXJzIEV4Y2VsIiwiVHJhZHVpcmUgUiBlbiBmcmFuw6dhaXMiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IkluIHdoaWNoIHBhbmUgc2hvdWxkIHlvdSB3cml0ZSB0aGUgY29kZSB5b3Ugd2FudCB0byBrZWVwPyIsImZyIjoiRGFucyBxdWVsIHBhbm5lYXUgZmF1dC1pbCDDqWNyaXJlIGxlIGNvZGUgcXVlIGwnb24gdmV1dCBnYXJkZXIgPyIsIm9wdGlvbnNfZW4iOlsiQ29uc29sZSIsIkVudmlyb25tZW50IiwiU291cmNlIC8gU2NyaXB0IiwiSGVscCJdLCJvcHRpb25zX2ZyIjpbIkNvbnNvbGUiLCJFbnZpcm9ubWVudCIsIlNvdXJjZSAvIFNjcmlwdCIsIkhlbHAiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IldoaWNoIGtleWJvYXJkIHNob3J0Y3V0IHJ1bnMgdGhlIGN1cnJlbnQgbGluZSBvZiBhIHNjcmlwdCAoV2luZG93cyk/IiwiZnIiOiJRdWVsIHJhY2NvdXJjaSBleMOpY3V0ZSBsYSBsaWduZSBjb3VyYW50ZSBkJ3VuIHNjcmlwdCAoV2luZG93cykgPyIsIm9wdGlvbnNfZW4iOlsiQ3RybCArIFMiLCJDdHJsICsgRW50ZXIiLCJBbHQgKyBGNCIsIkN0cmwgKyBaIl0sIm9wdGlvbnNfZnIiOlsiQ3RybCArIFMiLCJDdHJsICsgRW50csOpZSIsIkFsdCArIEY0IiwiQ3RybCArIFoiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJudW0iLCJlbiI6IkhvdyBtYW55IENTViBmaWxlcyBkb2VzIGxpc3QuZmlsZXMoXCJkYXRhXCIpIHNob3cgaW4geW91ciBwcm9qZWN0PyIsImZyIjoiQ29tYmllbiBkZSBmaWNoaWVycyBDU1YgbGlzdC5maWxlcyhcImRhdGFcIikgYWZmaWNoZS10LWlsIGRhbnMgdm90cmUgcHJvamV0ID8iLCJhbnN3ZXIiOjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiJXaGF0IGlzIHRoZSBleGFjdCBmaWxlIG5hbWUgb2YgdGhlIHJhdyBjb3JhbCBkYXRhc2V0ICh3aXRoIGl0cyBleHRlbnNpb24pPyIsImZyIjoiUXVlbCBlc3QgbGUgbm9tIGV4YWN0IGR1IGZpY2hpZXIgZGUgZG9ubsOpZXMgYnJ1dGVzIHN1ciBsZXMgY29yYXV4IChhdmVjIHNvbiBleHRlbnNpb24pID8iLCJhbnN3ZXIiOlsiY29yYWxfY292ZXJfcmF3LmNzdiJdfV0=">
+data-q="W3sidHlwZSI6Im1jcSIsImVuIjoiV2hpY2ggcHJvZ3JhbSBhY3R1YWxseSBwZXJmb3JtcyB0aGUgY2FsY3VsYXRpb25zPyIsImZyIjoiUXVlbCBsb2dpY2llbCBlZmZlY3R1ZSByw6llbGxlbWVudCBsZXMgY2FsY3VscyA/Iiwib3B0aW9uc19lbiI6WyJSU3R1ZGlvIiwiUiIsIlJ0b29scyIsIkV4Y2VsIl0sIm9wdGlvbnNfZnIiOlsiUlN0dWRpbyIsIlIiLCJSdG9vbHMiLCJFeGNlbCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiV2hhdCBpcyBSdG9vbHMgdXNlZCBmb3I/IiwiZnIiOiLDgCBxdW9pIHNlcnQgUnRvb2xzID8iLCJvcHRpb25zX2VuIjpbIkRyYXdpbmcgbmljZXIgZ3JhcGhzIiwiQ29tcGlsaW5nIHBhY2thZ2VzIGZyb20gc291cmNlIGNvZGUgb24gV2luZG93cyIsIk9wZW5pbmcgRXhjZWwgZmlsZXMiLCJUcmFuc2xhdGluZyBSIGludG8gRnJlbmNoIl0sIm9wdGlvbnNfZnIiOlsiRmFpcmUgZGUgcGx1cyBiZWF1eCBncmFwaGlxdWVzIiwiQ29tcGlsZXIgZGVzIHBhY2thZ2VzIGRlcHVpcyBsZSBjb2RlIHNvdXJjZSBzb3VzIFdpbmRvd3MiLCJPdXZyaXIgZGVzIGZpY2hpZXJzIEV4Y2VsIiwiVHJhZHVpcmUgUiBlbiBmcmFuw6dhaXMiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IkluIHdoaWNoIHBhbmUgc2hvdWxkIHlvdSB3cml0ZSB0aGUgY29kZSB5b3Ugd2FudCB0byBrZWVwPyIsImZyIjoiRGFucyBxdWVsIHBhbm5lYXUgZmF1dC1pbCDDqWNyaXJlIGxlIGNvZGUgcXVlIGwnb24gdmV1dCBnYXJkZXIgPyIsIm9wdGlvbnNfZW4iOlsiQ29uc29sZSIsIkVudmlyb25tZW50IiwiU291cmNlIC8gU2NyaXB0IiwiSGVscCJdLCJvcHRpb25zX2ZyIjpbIkNvbnNvbGUiLCJFbnZpcm9ubWVudCIsIlNvdXJjZSAvIFNjcmlwdCIsIkhlbHAiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IldoaWNoIGtleWJvYXJkIHNob3J0Y3V0IHJ1bnMgdGhlIGN1cnJlbnQgbGluZSBvZiBhIHNjcmlwdCAoV2luZG93cyk/IiwiZnIiOiJRdWVsIHJhY2NvdXJjaSBleMOpY3V0ZSBsYSBsaWduZSBjb3VyYW50ZSBkJ3VuIHNjcmlwdCAoV2luZG93cykgPyIsIm9wdGlvbnNfZW4iOlsiQ3RybCArIFMiLCJDdHJsICsgRW50ZXIiLCJBbHQgKyBGNCIsIkN0cmwgKyBaIl0sIm9wdGlvbnNfZnIiOlsiQ3RybCArIFMiLCJDdHJsICsgRW50csOpZSIsIkFsdCArIEY0IiwiQ3RybCArIFoiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJudW0iLCJlbiI6IkhvdyBtYW55IENTViBmaWxlcyBkb2VzIGxpc3QuZmlsZXMoXCJkYXRhXCIpIHNob3cgaW4geW91ciBwcm9qZWN0PyIsImZyIjoiQ29tYmllbiBkZSBmaWNoaWVycyBDU1YgbGlzdC5maWxlcyhcImRhdGFcIikgYWZmaWNoZS10LWlsIGRhbnMgdm90cmUgcHJvamV0ID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiJXaGF0IGlzIHRoZSBleGFjdCBmaWxlIG5hbWUgb2YgdGhlIHJhdyBjb3JhbCBkYXRhc2V0ICh3aXRoIGl0cyBleHRlbnNpb24pPyIsImZyIjoiUXVlbCBlc3QgbGUgbm9tIGV4YWN0IGR1IGZpY2hpZXIgZGUgZG9ubsOpZXMgYnJ1dGVzIHN1ciBsZXMgY29yYXV4IChhdmVjIHNvbiBleHRlbnNpb24pID8iLCJhbnN3ZXIiOlsiY29yYWxfY292ZXJfcmF3LmNzdiJdfV0=">
 
 </div>
 </div>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" role="img" aria-label="Selecting rows, columns and blocks with [row, column]" font-family="Source Sans 3, Arial, sans-serif">
+<defs>
+<g id="grid"><g fill="#f7f9fa" stroke="#c9d3d8"><rect x="0" y="0" width="50" height="26"/><rect x="50" y="0" width="50" height="26"/><rect x="100" y="0" width="50" height="26"/><rect x="150" y="0" width="50" height="26"/><rect x="0" y="26" width="50" height="26"/><rect x="50" y="26" width="50" height="26"/><rect x="100" y="26" width="50" height="26"/><rect x="150" y="26" width="50" height="26"/><rect x="0" y="52" width="50" height="26"/><rect x="50" y="52" width="50" height="26"/><rect x="100" y="52" width="50" height="26"/><rect x="150" y="52" width="50" height="26"/><rect x="0" y="78" width="50" height="26"/><rect x="50" y="78" width="50" height="26"/><rect x="100" y="78" width="50" height="26"/><rect x="150" y="78" width="50" height="26"/><rect x="0" y="104" width="50" height="26"/><rect x="50" y="104" width="50" height="26"/><rect x="100" y="104" width="50" height="26"/><rect x="150" y="104" width="50" height="26"/></g>
+<g font-size="11" fill="#5d6b75" text-anchor="middle"><text x="25" y="-6">1</text><text x="75" y="-6">2</text><text x="125" y="-6">3</text><text x="175" y="-6">4</text><text x="-10" y="17">1</text><text x="-10" y="43">2</text><text x="-10" y="69">3</text><text x="-10" y="95">4</text><text x="-10" y="121">5</text></g></g>
+</defs>
+<g transform="translate(40,60)"><use href="#grid"/><rect x="0" y="26" width="200" height="26" fill="#d9694a" opacity=".55"/></g>
+<g transform="translate(330,60)"><use href="#grid"/><rect x="100" y="0" width="50" height="130" fill="#1b7f8c" opacity=".55"/></g>
+<g transform="translate(620,60)"><use href="#grid"/><rect x="0" y="26" width="50" height="52" fill="#4a7d3a" opacity=".6"/><rect x="100" y="26" width="50" height="52" fill="#4a7d3a" opacity=".6"/></g>
+<g font-family="JetBrains Mono, monospace" font-size="17" font-weight="600" fill="#0b3d5c" text-anchor="middle"><text x="140" y="30">df[2, ]</text><text x="430" y="30">df[, 3]</text><text x="720" y="30">df[2:3, c(1, 3)]</text></g>
+<g font-size="15" fill="#3c4a52" text-anchor="middle">
+<text class="en" x="140" y="222">row 2, all columns</text><text class="fr" x="140" y="222">ligne 2, toutes les colonnes</text>
+<text class="en" x="430" y="222">all rows, column 3</text><text class="fr" x="430" y="222">toutes les lignes, colonne 3</text>
+<text class="en" x="720" y="222">rows 2 to 3, columns 1 and 3</text><text class="fr" x="720" y="222">lignes 2 à 3, colonnes 1 et 3</text>
+<text class="en" x="430" y="246" fill="#5d6b75">Rule: [ ROWS , COLUMNS ] — empty means "all"</text><text class="fr" x="430" y="246" fill="#5d6b75">Règle : [ LIGNES , COLONNES ] — vide signifie « tout »</text>
+</g>
+</svg>

@@ -1,0 +1,379 @@
+---
+title: "[9 · Practice session]{.en}[9 · Séance d'exercices]{.fr}"
+pagetitle: "R course · Session 9"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+::: objectives
+::: en
+#### What this session is for
+No new concepts here: six independent exercises to **practise** what you learned in Sessions 2 to 8, before the final project. Each exercise has its own quiz (**one attempt each**) and its own solution, unlocked after you submit.
+
+- Do them in order or in any order; each starts by importing its data.
+- Write everything in one script `scripts/s09_practice.R`, with one section per exercise (**Ctrl + Shift + R**).
+- If you get less than 70 % on an exercise, re-read the session indicated before moving on.
+:::
+::: fr
+#### À quoi sert cette séance
+Pas de nouvelle notion ici : six exercices indépendants pour **pratiquer** ce que vous avez appris dans les séances 2 à 8, avant le projet final. Chaque exercice a son propre quiz (**une seule tentative chacun**) et sa propre solution, débloquée après validation.
+
+- Faites-les dans l'ordre ou non ; chacun commence par importer ses données.
+- Écrivez tout dans un seul script `scripts/s09_practice.R`, avec une section par exercice (**Ctrl + Maj + R**).
+- Si vous obtenez moins de 70 % à un exercice, relisez la séance indiquée avant de continuer.
+:::
+:::
+
+```{r answers, include=FALSE}
+sg   <- read.csv("data/seagrass_quadrats.csv")
+fish <- read.csv("data/fish_uvc.csv")
+
+# P1
+p1a <- length(seq(1, 10, by = 0.75))
+lab <- paste0("Q", rep(1:5, times = 3), "_", rep(c("A", "B", "C"), each = 5))
+p1b <- lab[7]
+set.seed(7); s7 <- sample(seq(0.5, 25, by = 0.5), 6)
+p1c <- max(s7)
+x <- c(12, 45, 7, 88, 23, 56)
+p1d <- sort(x)[2]
+p1e <- sum(rev(x)[1:2])
+
+# P2
+p2a <- sg[17, "species"]
+p2b <- sum(sg[1:5, "seagrass_cover"])
+p2c <- round(mean(sg[46:60, "shoot_density"]), 2)
+sg2 <- sg; sg2$depth_m[sg2$depth_m < 0.6] <- 0.6
+p2d <- round(mean(sg2$depth_m), 2)
+p2e <- sum(is.na(sg$canopy_height_cm))
+
+# P3
+f3 <- fish
+f3$biomass_kg <- f3$count * f3$a * f3$length_cm^f3$b / 1000
+f3$n_per_ha <- f3$count / 250 * 10000
+p3a <- sum(f3$count)
+p3b <- round(max(f3$biomass_kg), 3)
+p3c <- f3$n_per_ha[10]
+f3 <- subset(f3, select = -c(family, a, b))
+p3d <- ncol(f3)
+p3e <- round(sapply(f3[, c("length_cm", "count", "biomass_kg")], mean)[["count"]], 2)
+
+# P4
+p4a <- nrow(subset(fish, mpa_status == "Outside" & species %in% c("Lutjanus kasmira", "Epinephelus merra")))
+p4b <- ncol(subset(fish, length_cm > 25, select = site:species))
+p4c <- round(mean(subset(fish, family == "Scaridae" & mpa_status == "Inside")$length_cm), 2)
+xx <- c(" Ifaty", "ifaty", "IFATY ", "Mangily", "mangily ")
+p4d <- length(unique(tools::toTitleCase(tolower(trimws(xx)))))
+yy <- c("12", "15%", "-", "40", "8%")
+yy <- gsub("%", "", yy); yy[yy == "-"] <- NA
+p4e <- mean(as.numeric(yy), na.rm = TRUE)
+
+# P5
+f5 <- fish
+f5$biomass_g <- f5$count * f5$a * f5$length_cm^f5$b
+p5a <- tapply(f5$count, f5$site, sum)[["Ambola"]]
+p5b <- round(aggregate(length_cm ~ mpa_status, data = f5, FUN = mean)$length_cm[1], 2)
+p5c <- round(sd(f5$length_cm[f5$species == "Scarus ghobban"]), 2)
+tr5 <- aggregate(biomass_g ~ mpa_status + site + transect, data = f5, FUN = sum)
+tr5$kg_ha <- tr5$biomass_g / 1000 / 250 * 10000
+p5d <- round(tapply(tr5$kg_ha, tr5$mpa_status, mean)[["Inside"]], 2)
+out <- tr5$kg_ha[tr5$mpa_status == "Outside"]
+p5e <- round(sd(out) / sqrt(length(out)), 2)
+
+# P6
+med6 <- tapply(fish$length_cm, fish$family, median)
+p6a <- names(which.max(med6))
+h6 <- hist(fish$length_cm, breaks = seq(0, 40, by = 5), plot = FALSE)
+p6b <- max(h6$counts)
+```
+
+## [Exercise 1 — Building vectors]{.en}[Exercice 1 — Créer des vecteurs]{.fr} {#ex1}
+
+::: en
+*Revise: Session 2.*
+
+1. How many values does `seq(1, 10, by = 0.75)` contain?
+2. Build `labels <- paste0("Q", rep(1:5, times = 3), "_", rep(c("A", "B", "C"), each = 5))`. What is `labels[7]`?
+3. Run `set.seed(7)`, then draw 6 PIT positions with `sample(seq(0.5, 25, by = 0.5), 6)`. What is the largest position drawn?
+4. With `x <- c(12, 45, 7, 88, 23, 56)`: what is the **second smallest** value (use `sort()`)?
+5. What is the sum of the first two values of `rev(x)`?
+:::
+::: fr
+*Révision : séance 2.*
+
+1. Combien de valeurs contient `seq(1, 10, by = 0.75)` ?
+2. Créez `labels <- paste0("Q", rep(1:5, times = 3), "_", rep(c("A", "B", "C"), each = 5))`. Que vaut `labels[7]` ?
+3. Lancez `set.seed(7)`, puis tirez 6 positions PIT avec `sample(seq(0.5, 25, by = 0.5), 6)`. Quelle est la plus grande position tirée ?
+4. Avec `x <- c(12, 45, 7, 88, 23, 56)` : quelle est la **deuxième plus petite** valeur (utilisez `sort()`) ?
+5. Quelle est la somme des deux premières valeurs de `rev(x)` ?
+:::
+
+```{r quizp1, echo=FALSE}
+quiz("p1", list(
+  q_num("1. Number of values?", "1. Nombre de valeurs ?", p1a, tol = 0),
+  q_text("2. labels[7]?", "2. labels[7] ?", p1b),
+  q_num("3. Largest position drawn?", "3. Plus grande position tirée ?", p1c, tol = 0),
+  q_num("4. Second smallest value?", "4. Deuxième plus petite valeur ?", p1d, tol = 0),
+  q_num("5. Sum of the first two values of rev(x)?", "5. Somme des deux premières valeurs de rev(x) ?", p1e, tol = 0),
+  q_mcq("6. What does seq(0, 1, length.out = 5) return?", "6. Que renvoie seq(0, 1, length.out = 5) ?",
+        c("0 1 2 3 4", "0 0.2 0.4 0.6 0.8", "0 0.25 0.5 0.75 1", "1 2 3 4 5"), correct = 3)
+), title_en = "Quiz — Exercise 1", title_fr = "Quiz — Exercice 1")
+```
+
+::: {.solution data-quiz="p1"}
+```{r, eval=FALSE}
+length(seq(1, 10, by = 0.75))            # 1
+labels <- paste0("Q", rep(1:5, times = 3), "_", rep(c("A", "B", "C"), each = 5))
+labels[7]                                 # 2. "Q2_B": 7th number is 2, 7th letter is B
+set.seed(7)
+s <- sample(seq(0.5, 25, by = 0.5), 6)
+max(s)                                    # 3
+x <- c(12, 45, 7, 88, 23, 56)
+sort(x)[2]                                # 4
+sum(rev(x)[1:2])                          # 5. rev(x) starts with 56, 23
+```
+:::
+
+## [Exercise 2 — Addresses in a data frame]{.en}[Exercice 2 — Adresses dans un data frame]{.fr} {#ex2}
+
+::: en
+*Revise: Sessions 3 and 4.* Data: `sg <- read.csv("data/seagrass_quadrats.csv")`.
+
+1. Which species is in row 17?
+2. Sum of `seagrass_cover` in rows 1 to 5 (one line with `[row, column]`).
+3. Rows 46 to 60 are the Belitsaky quadrats. Mean `shoot_density` of these rows (2 decimals).
+4. The depth gauge cannot read below 0.6 m. On a copy `sg2`, replace every depth below 0.6 by 0.6. Mean depth afterwards (2 decimals)?
+5. How many values of `canopy_height_cm` are missing?
+:::
+::: fr
+*Révision : séances 3 et 4.* Données : `sg <- read.csv("data/seagrass_quadrats.csv")`.
+
+1. Quelle espèce se trouve à la ligne 17 ?
+2. Somme de `seagrass_cover` sur les lignes 1 à 5 (une seule ligne avec `[ligne, colonne]`).
+3. Les lignes 46 à 60 sont les quadrats de Belitsaky. Moyenne de `shoot_density` sur ces lignes (2 décimales).
+4. La sonde ne lit pas en dessous de 0,6 m. Sur une copie `sg2`, remplacez toute profondeur inférieure à 0,6 par 0,6. Profondeur moyenne ensuite (2 décimales) ?
+5. Combien de valeurs de `canopy_height_cm` sont manquantes ?
+:::
+
+```{r quizp2, echo=FALSE}
+quiz("p2", list(
+  q_text("1. Species in row 17?", "1. Espèce de la ligne 17 ?", p2a),
+  q_num("2. Sum of cover in rows 1 to 5?", "2. Somme du recouvrement lignes 1 à 5 ?", p2b, tol = 0),
+  q_num("3. Mean shoot density, rows 46 to 60 (2 decimals)?", "3. Densité moyenne, lignes 46 à 60 (2 décimales) ?", p2c, tol = 0.006),
+  q_num("4. Mean depth after the correction (2 decimals)?", "4. Profondeur moyenne après correction (2 décimales) ?", p2d, tol = 0.006),
+  q_num("5. Number of missing canopy heights?", "5. Nombre de hauteurs de canopée manquantes ?", p2e, tol = 0),
+  q_mcq("6. What does sg[3, ] return?", "6. Que renvoie sg[3, ] ?",
+        c("Column 3", "Row 3, all columns", "The value in row 3, column 3", "The first 3 rows"),
+        c("La colonne 3", "La ligne 3, toutes les colonnes", "La valeur ligne 3, colonne 3", "Les 3 premières lignes"), correct = 2)
+), title_en = "Quiz — Exercise 2", title_fr = "Quiz — Exercice 2")
+```
+
+::: {.solution data-quiz="p2"}
+```{r, eval=FALSE}
+sg <- read.csv("data/seagrass_quadrats.csv")
+sg[17, "species"]                                   # 1
+sum(sg[1:5, "seagrass_cover"])                      # 2
+round(mean(sg[46:60, "shoot_density"]), 2)          # 3
+sg2 <- sg
+sg2$depth_m[sg2$depth_m < 0.6] <- 0.6               # 4. condition inside [ ]
+round(mean(sg2$depth_m), 2)
+sum(is.na(sg$canopy_height_cm))                     # 5
+```
+:::
+
+## [Exercise 3 — Columns from calculations]{.en}[Exercice 3 — Colonnes calculées]{.fr} {#ex3}
+
+::: en
+*Revise: Session 4.* Data: `fish <- read.csv("data/fish_uvc.csv")`. Transect area = 250 m².
+
+1. Total number of fish observed (sum of `count`).
+2. Add `biomass_kg` = count × a × length_cm^b / 1000. What is the largest value of `biomass_kg` (3 decimals)?
+3. Add `n_per_ha` = count / 250 × 10000 (fish per hectare). Value in row 10?
+4. Remove the columns `family`, `a` and `b` in one line with `subset(..., select = -c(...))`. How many columns are left?
+5. With `sapply()` on `length_cm`, `count` and `biomass_kg`, compute the mean of each column. Mean of `count` (2 decimals)?
+:::
+::: fr
+*Révision : séance 4.* Données : `fish <- read.csv("data/fish_uvc.csv")`. Surface d'un transect = 250 m².
+
+1. Nombre total de poissons observés (somme de `count`).
+2. Ajoutez `biomass_kg` = count × a × length_cm^b / 1000. Quelle est la plus grande valeur de `biomass_kg` (3 décimales) ?
+3. Ajoutez `n_per_ha` = count / 250 × 10000 (poissons par hectare). Valeur à la ligne 10 ?
+4. Supprimez les colonnes `family`, `a` et `b` en une ligne avec `subset(..., select = -c(...))`. Combien de colonnes reste-t-il ?
+5. Avec `sapply()` sur `length_cm`, `count` et `biomass_kg`, calculez la moyenne de chaque colonne. Moyenne de `count` (2 décimales) ?
+:::
+
+```{r quizp3, echo=FALSE}
+quiz("p3", list(
+  q_num("1. Total number of fish?", "1. Nombre total de poissons ?", p3a, tol = 0),
+  q_num("2. Largest biomass_kg (3 decimals)?", "2. Plus grande biomass_kg (3 décimales) ?", p3b, tol = 0.0006),
+  q_num("3. n_per_ha in row 10?", "3. n_per_ha à la ligne 10 ?", p3c, tol = 0.01),
+  q_num("4. Number of columns left?", "4. Nombre de colonnes restantes ?", p3d, tol = 0),
+  q_num("5. Mean of count (2 decimals)?", "5. Moyenne de count (2 décimales) ?", p3e, tol = 0.006),
+  q_mcq("6. Which line adds a column to fish?", "6. Quelle ligne ajoute une colonne à fish ?",
+        c("fish[\"new\"] == 1", "fish$new <- 1", "new(fish) <- 1", "fish <- fish + new"), correct = 2)
+), title_en = "Quiz — Exercise 3", title_fr = "Quiz — Exercice 3")
+```
+
+::: {.solution data-quiz="p3"}
+```{r, eval=FALSE}
+fish <- read.csv("data/fish_uvc.csv")
+sum(fish$count)                                                  # 1
+fish$biomass_kg <- fish$count * fish$a * fish$length_cm^fish$b / 1000
+round(max(fish$biomass_kg), 3)                                   # 2
+fish$n_per_ha <- fish$count / 250 * 10000
+fish[10, "n_per_ha"]                                             # 3
+fish <- subset(fish, select = -c(family, a, b))
+ncol(fish)                                                       # 4
+sapply(fish[, c("length_cm", "count", "biomass_kg")], mean)      # 5
+```
+:::
+
+## [Exercise 4 — `subset()` and cleaning]{.en}[Exercice 4 — `subset()` et nettoyage]{.fr} {#ex4}
+
+::: en
+*Revise: Session 5.* Data: re-import `fish <- read.csv("data/fish_uvc.csv")` (Exercise 3 removed some columns).
+
+1. How many rows are snappers or groupers (`Lutjanus kasmira` or `Epinephelus merra`, use `%in%`) **outside** the MPA?
+2. How many columns does `subset(fish, length_cm > 25, select = site:species)` keep?
+3. Mean length of parrotfish (`family == "Scaridae"`) **inside** the MPA (2 decimals).
+4. Clean `x <- c(" Ifaty", "ifaty", "IFATY ", "Mangily", "mangily ")` with `trimws()`, `tolower()` and `tools::toTitleCase()`. How many different values remain?
+5. Clean `y <- c("12", "15%", "-", "40", "8%")`: remove `%`, turn `"-"` into `NA`, convert to numbers. Mean of `y` without NA?
+:::
+::: fr
+*Révision : séance 5.* Données : réimportez `fish <- read.csv("data/fish_uvc.csv")` (l'exercice 3 a supprimé des colonnes).
+
+1. Combien de lignes sont des vivaneaux ou des mérous (`Lutjanus kasmira` ou `Epinephelus merra`, utilisez `%in%`) **hors** AMP ?
+2. Combien de colonnes garde `subset(fish, length_cm > 25, select = site:species)` ?
+3. Taille moyenne des poissons-perroquets (`family == "Scaridae"`) **dans** l'AMP (2 décimales).
+4. Nettoyez `x <- c(" Ifaty", "ifaty", "IFATY ", "Mangily", "mangily ")` avec `trimws()`, `tolower()` et `tools::toTitleCase()`. Combien de valeurs différentes reste-t-il ?
+5. Nettoyez `y <- c("12", "15%", "-", "40", "8%")` : retirez `%`, transformez `"-"` en `NA`, convertissez en nombres. Moyenne de `y` sans NA ?
+:::
+
+```{r quizp4, echo=FALSE}
+quiz("p4", list(
+  q_num("1. Snapper or grouper rows outside the MPA?", "1. Lignes de vivaneaux ou mérous hors AMP ?", p4a, tol = 0),
+  q_num("2. Number of columns kept?", "2. Nombre de colonnes gardées ?", p4b, tol = 0),
+  q_num("3. Mean length of Scaridae inside (2 decimals)?", "3. Taille moyenne des Scaridae dans l'AMP (2 décimales) ?", p4c, tol = 0.006),
+  q_num("4. Different values after cleaning?", "4. Valeurs différentes après nettoyage ?", p4d, tol = 0),
+  q_num("5. Mean of y?", "5. Moyenne de y ?", p4e, tol = 0.006),
+  q_mcq("6. Inside subset(), how do you write the column cover?", "6. Dans subset(), comment écrit-on la colonne cover ?",
+        c("df$cover", "cover", "\"df$cover\"", "[cover]"), correct = 2)
+), title_en = "Quiz — Exercise 4", title_fr = "Quiz — Exercice 4")
+```
+
+::: {.solution data-quiz="p4"}
+```{r, eval=FALSE}
+fish <- read.csv("data/fish_uvc.csv")
+nrow(subset(fish, mpa_status == "Outside" &
+                  species %in% c("Lutjanus kasmira", "Epinephelus merra")))     # 1
+ncol(subset(fish, length_cm > 25, select = site:species))                     # 2
+round(mean(subset(fish, family == "Scaridae" & mpa_status == "Inside")$length_cm), 2)  # 3
+x <- c(" Ifaty", "ifaty", "IFATY ", "Mangily", "mangily ")
+length(unique(tools::toTitleCase(tolower(trimws(x)))))                       # 4
+y <- c("12", "15%", "-", "40", "8%")
+y <- gsub("%", "", y)
+y[y == "-"] <- NA
+mean(as.numeric(y), na.rm = TRUE)                                            # 5
+```
+:::
+
+## [Exercise 5 — Statistics per group]{.en}[Exercice 5 — Statistiques par groupe]{.fr} {#ex5}
+
+::: en
+*Revise: Session 6.* Data: `fish`, with a column `biomass_g` = count × a × length_cm^b.
+
+1. Total number of fish counted at Ambola (`tapply()` with `sum`).
+2. Mean `length_cm` inside the MPA with `aggregate(length_cm ~ mpa_status, ...)` (2 decimals).
+3. SD of `length_cm` for *Scarus ghobban* (2 decimals).
+4. **Two steps.** (a) Total biomass **per transect**: `aggregate(biomass_g ~ mpa_status + site + transect, data = fish, FUN = sum)`. (b) Convert to kg/ha (÷ 1000, ÷ 250, × 10000). (c) Mean kg/ha of the **Inside** transects (2 decimals)?
+5. SE of the kg/ha of the **Outside** transects (2 decimals)?
+:::
+::: fr
+*Révision : séance 6.* Données : `fish`, avec une colonne `biomass_g` = count × a × length_cm^b.
+
+1. Nombre total de poissons comptés à Ambola (`tapply()` avec `sum`).
+2. Moyenne de `length_cm` dans l'AMP avec `aggregate(length_cm ~ mpa_status, ...)` (2 décimales).
+3. ET de `length_cm` pour *Scarus ghobban* (2 décimales).
+4. **Deux étapes.** (a) Biomasse totale **par transect** : `aggregate(biomass_g ~ mpa_status + site + transect, data = fish, FUN = sum)`. (b) Convertir en kg/ha (÷ 1000, ÷ 250, × 10000). (c) Moyenne des kg/ha des transects **Inside** (2 décimales) ?
+5. ES des kg/ha des transects **Outside** (2 décimales) ?
+:::
+
+```{r quizp5, echo=FALSE}
+quiz("p5", list(
+  q_num("1. Total fish counted at Ambola?", "1. Total de poissons comptés à Ambola ?", p5a, tol = 0),
+  q_num("2. Mean length inside the MPA (2 decimals)?", "2. Taille moyenne dans l'AMP (2 décimales) ?", p5b, tol = 0.006),
+  q_num("3. SD of length of Scarus ghobban (2 decimals)?", "3. ET de la taille de Scarus ghobban (2 décimales) ?", p5c, tol = 0.006),
+  q_num("4. Mean kg/ha of the Inside transects (2 decimals)?", "4. Moyenne des kg/ha des transects Inside (2 décimales) ?", p5d, tol = 0.006),
+  q_num("5. SE of kg/ha of the Outside transects (2 decimals)?", "5. ES des kg/ha des transects Outside (2 décimales) ?", p5e, tol = 0.006),
+  q_mcq("6. Why compute biomass per transect before averaging?", "6. Pourquoi calculer la biomasse par transect avant de faire la moyenne ?",
+        c("Because R cannot sum rows", "Because the transect is the sampling unit (replicate)",
+          "To get more decimals", "It makes no difference"),
+        c("Parce que R ne sait pas additionner des lignes", "Parce que le transect est l'unité d'échantillonnage (réplicat)",
+          "Pour avoir plus de décimales", "Cela ne change rien"), correct = 2)
+), title_en = "Quiz — Exercise 5", title_fr = "Quiz — Exercice 5")
+```
+
+::: {.solution data-quiz="p5"}
+```{r, eval=FALSE}
+fish <- read.csv("data/fish_uvc.csv")
+fish$biomass_g <- fish$count * fish$a * fish$length_cm^fish$b
+tapply(fish$count, fish$site, sum)                                  # 1
+aggregate(length_cm ~ mpa_status, data = fish, FUN = mean)          # 2
+round(sd(fish$length_cm[fish$species == "Scarus ghobban"]), 2)      # 3
+tr <- aggregate(biomass_g ~ mpa_status + site + transect, data = fish, FUN = sum)
+tr$kg_ha <- tr$biomass_g / 1000 / 250 * 10000
+round(tapply(tr$kg_ha, tr$mpa_status, mean), 2)                     # 4
+out <- tr$kg_ha[tr$mpa_status == "Outside"]
+round(sd(out) / sqrt(length(out)), 2)                               # 5. n = 6 transects
+```
+:::
+
+## [Exercise 6 — Graphs and equivalences]{.en}[Exercice 6 — Graphiques et équivalences]{.fr} {#ex6}
+
+::: en
+*Revise: Sessions 7 and 8.* Data: re-import `fish <- read.csv("data/fish_uvc.csv")` (Exercise 3 removed some columns).
+
+1. Draw `boxplot(length_cm ~ family, data = fish, las = 2)`. Which family has the **highest median** length?
+2. Draw `h <- hist(fish$length_cm, breaks = seq(0, 40, by = 5))`. How many fish groups are in the most frequent size class (`h$counts`)?
+3. Make the same boxplot with ggplot2.
+4. Answer the questions on equivalences between base R and the tidyverse.
+:::
+::: fr
+*Révision : séances 7 et 8.* Données : réimportez `fish <- read.csv("data/fish_uvc.csv")` (l'exercice 3 a supprimé des colonnes).
+
+1. Tracez `boxplot(length_cm ~ family, data = fish, las = 2)`. Quelle famille a la **médiane** de taille **la plus élevée** ?
+2. Tracez `h <- hist(fish$length_cm, breaks = seq(0, 40, by = 5))`. Combien de groupes de poissons se trouvent dans la classe de taille la plus fréquente (`h$counts`) ?
+3. Faites le même boxplot avec ggplot2.
+4. Répondez aux questions sur les équivalences entre R de base et le tidyverse.
+:::
+
+```{r quizp6, echo=FALSE}
+quiz("p6", list(
+  q_text("1. Family with the highest median length?", "1. Famille à la médiane de taille la plus élevée ?", p6a),
+  q_num("2. Number of groups in the most frequent class?", "2. Nombre de groupes dans la classe la plus fréquente ?", p6b, tol = 0),
+  q_mcq("3. ggplot2 equivalent of par(mfrow = c(2, 2)) with one plot per site?", "3. Équivalent ggplot2 de par(mfrow = c(2, 2)) avec un graphique par site ?",
+        c("facet_wrap(~ site)", "geom_col()", "theme_bw()", "labs(site)"), correct = 1),
+  q_mcq("4. dplyr equivalent of tapply(fish$length_cm, fish$site, mean)?", "4. Équivalent dplyr de tapply(fish$length_cm, fish$site, mean) ?",
+        c("fish |> filter(site) |> mean(length_cm)", "fish |> group_by(site) |> summarise(m = mean(length_cm))",
+          "fish |> select(site, length_cm)", "fish |> mutate(m = mean(site))"), correct = 2),
+  q_mcq("5. Base R equivalent of arrange(fish, desc(count))?", "5. Équivalent en R de base de arrange(fish, desc(count)) ?",
+        c("sort(fish)", "fish[order(fish$count, decreasing = TRUE), ]", "fish[fish$count, ]", "rev(fish$count)"), correct = 2),
+  q_mcq("6. Base R equivalent of ggsave()?", "6. Équivalent en R de base de ggsave() ?",
+        c("write.csv()", "save()", "png() ... dev.off()", "print()"), correct = 3)
+), title_en = "Quiz — Exercise 6", title_fr = "Quiz — Exercice 6")
+```
+
+::: {.solution data-quiz="p6"}
+```{r, eval=FALSE}
+fish <- read.csv("data/fish_uvc.csv")
+boxplot(length_cm ~ family, data = fish, las = 2, xlab = "")
+tapply(fish$length_cm, fish$family, median)          # 1: check the highest
+h <- hist(fish$length_cm, breaks = seq(0, 40, by = 5))
+h$counts; max(h$counts)                               # 2
+library(ggplot2)                                      # 3
+ggplot(fish, aes(family, length_cm)) + geom_boxplot() +
+  theme_classic() + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+:::

@@ -60,16 +60,20 @@ q_text <- function(en, fr, answers) {
 
 # ---- The quiz block -----------------------------------------------------------
 # id      : unique quiz id, e.g. "s01" (used to save the score)
+# title_en/title_fr : optional title shown above the questions
 # qs      : list of questions built with q_num/q_mcq/q_text
 # The questions are converted to JSON and then base64-encoded. Base64 is NOT
 # encryption: it only stops students from reading the answers at a glance in
 # the page source.
-quiz <- function(id, qs) {
+quiz <- function(id, qs, title_en = NULL, title_fr = NULL) {
   json <- jsonlite::toJSON(qs, auto_unbox = TRUE, digits = NA)
   b64  <- jsonlite::base64_enc(charToRaw(enc2utf8(as.character(json))))
   b64  <- gsub("\n", "", b64)
+  # optional title, e.g. for the exercises of the practice session
+  ttl  <- if (is.null(title_en)) "" else
+    sprintf(' data-title-en="%s" data-title-fr="%s"', title_en, title_fr)
   knitr::asis_output(sprintf(
-    '<div class="quiz" id="quiz-%s" data-quiz-id="%s" data-q="%s"></div>', id, id, b64))
+    '<div class="quiz" id="quiz-%s" data-quiz-id="%s"%s data-q="%s"></div>', id, id, ttl, b64))
 }
 
 # ---- Download button for a data file -----------------------------------------

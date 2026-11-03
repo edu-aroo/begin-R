@@ -73,16 +73,24 @@
     return Promise.resolve({ ok: true });
   }
 
+  // Keep a copy of the state for the next page opened in this tab
+  function cacheState() {
+    if (STATE) try { sessionStorage.setItem("rc_state_cache", JSON.stringify(STATE)); } catch (e) {}
+  }
+  window.addEventListener("pagehide", cacheState);
+
   // Save the state, at most once every 2 seconds ("debounce")
   let saveTimer = null;
   function saveSoon() {
     dirty = true;
+    cacheState();
     clearTimeout(saveTimer);
     saveTimer = setTimeout(saveNow, 2000);
   }
   function saveNow() {
     if (!AUTH || !dirty) return;
     dirty = false;
+    cacheState();
     setSaveStatus("saving");
     api("save", { user: AUTH.user, pass: AUTH.pass, state: STATE })
       .then(r => setSaveStatus(r.ok ? "saved" : "error"))
@@ -309,12 +317,24 @@
   function norm(s) { return String(s).trim().toLowerCase().replace(/\s+/g, " "); }
   function toNumber(s) { return parseFloat(String(s).replace(",", ".").replace(/[^0-9.\-eE]/g, "")); }
 
+  // Number of attempts allowed per quiz (config.js: maxAttempts, default 1)
+  const MAX_ATTEMPTS = CFG.maxAttempts || 1;
+
   function buildQuizzes() {
     document.querySelectorAll(".quiz").forEach(el => {
       const id = el.dataset.quizId;
       const qs = decode(el.dataset.q);
-      let html = `<h3 class="rc-quiz-title">${t("Quiz — enter the results of your application work",
-                                                 "Quiz — saisissez les résultats de votre travail d'application")}</h3><ol class="rc-q-list">`;
+      // optional custom title (practice exercises), otherwise the default one
+      const title = el.dataset.titleEn
+        ? t(el.dataset.titleEn, el.dataset.titleFr)
+        : t("Quiz — enter the results of your application work",
+            "Quiz — saisissez les résultats de votre travail d'application");
+      let html = `<h3 class="rc-quiz-title">${title}</h3>
+        <p class="rc-quiz-rule">${MAX_ATTEMPTS === 1
+          ? t("<b>One attempt only.</b> Check every answer in your script before submitting: your score is final.",
+              "<b>Une seule tentative.</b> Vérifiez chaque réponse dans votre script avant de valider : votre score est définitif.")
+          : t(`You have ${MAX_ATTEMPTS} attempts.`, `Vous avez ${MAX_ATTEMPTS} tentatives.`)}</p>
+        <ol class="rc-q-list">`;
       qs.forEach((q, i) => {
         html += `<li class="rc-q" data-i="${i}"><div class="rc-q-text">${t(q.en, q.fr)}</div>`;
         if (q.type === "mcq") {
@@ -329,17 +349,50 @@
         }
         html += `<div class="rc-feedback"></div></li>`;
       });
-      html += `</ol><button class="rc-submit">${t("Submit my answers", "Valider mes réponses")}</button>
-               <div class="rc-score"></div>`;
+      html += `</ol><div class="rc-actions"><button class="rc-submit">${t("Submit my answers", "Valider mes réponses")}</button>
+               <button class="rc-cancel" hidden>${t("Go back", "Revenir")}</button></div>
+               <p class="rc-warn"></p><div class="rc-score"></div>`;
       el.innerHTML = html;
 
-      // Re-fill the last answers if the student already did this quiz
+      // Already done: show the saved answers, the feedback and lock the quiz
       const prev = STATE.quizzes[id];
-      if (prev && prev.answers) fill(el, qs, prev.answers);
-      if (prev) showScore(el, prev);
+      if (prev) {
+        if (prev.answers) fill(el, qs, prev.answers);
+        showFeedback(el, qs, prev.answers || []);
+        showScore(el, prev);
+        if ((prev.attempts || 1) >= MAX_ATTEMPTS) lockQuiz(el);
+      }
 
-      el.querySelector(".rc-submit").addEventListener("click", () => grade(el, id, qs));
+      // Two-step submit: 1st click asks for confirmation, 2nd click grades
+      const btn = el.querySelector(".rc-submit"), cancel = el.querySelector(".rc-cancel");
+      const warn = el.querySelector(".rc-warn");
+      let armed = false;
+      btn.addEventListener("click", () => {
+        if (!armed) {
+          const ans = readAnswers(el, qs);
+          const empty = ans.filter(a => a === null || String(a).trim() === "").length;
+          warn.innerHTML = (empty ? t(`${empty} question(s) not answered. `, `${empty} question(s) sans réponse. `) : "")
+            + t("Are you sure? You cannot change your answers afterwards.",
+                "Êtes-vous sûr(e) ? Vous ne pourrez plus modifier vos réponses.");
+          btn.innerHTML = t("Yes, submit definitively", "Oui, valider définitivement");
+          btn.classList.add("rc-armed"); cancel.hidden = false; armed = true;
+          return;
+        }
+        armed = false; cancel.hidden = true; warn.innerHTML = "";
+        grade(el, id, qs);
+      });
+      cancel.addEventListener("click", () => {
+        armed = false; cancel.hidden = true; warn.innerHTML = "";
+        btn.classList.remove("rc-armed");
+        btn.innerHTML = t("Submit my answers", "Valider mes réponses");
+      });
     });
+  }
+
+  function lockQuiz(el) {
+    el.classList.add("rc-locked");
+    el.querySelectorAll("input").forEach(i => i.disabled = true);
+    el.querySelector(".rc-actions").hidden = true;
   }
 
   function readAnswers(el, qs) {
@@ -361,14 +414,15 @@
     });
   }
   function isCorrect(q, a) {
-    if (a === null || a === "") return false;
+    if (a === null || a === undefined || a === "") return false;
     if (q.type === "mcq") return a === q.answer;
     if (q.type === "num") { const x = toNumber(a); return !isNaN(x) && Math.abs(x - q.answer) <= q.tol + 1e-9; }
     return q.answer.map(norm).indexOf(norm(a)) !== -1;
   }
 
-  function grade(el, id, qs) {
-    const ans = readAnswers(el, qs);
+  // Colours each question green / red. The correct value is not shown:
+  // the unlocked solution below the quiz explains how to obtain it.
+  function showFeedback(el, qs, ans) {
     let score = 0;
     qs.forEach((q, i) => {
       const ok = isCorrect(q, ans[i]);
@@ -376,17 +430,26 @@
       const li = el.querySelector(`.rc-q[data-i="${i}"]`);
       li.classList.remove("ok", "ko"); li.classList.add(ok ? "ok" : "ko");
       li.querySelector(".rc-feedback").innerHTML = ok ? t("Correct", "Correct")
-        : t("Not quite — go back to your script and check this step.",
-            "Pas tout à fait — retournez à votre script et vérifiez cette étape.");
+        : t("Incorrect — compare your script with the solution below.",
+            "Incorrect — comparez votre script avec la solution ci-dessous.");
     });
+    return score;
+  }
+
+  function grade(el, id, qs) {
+    const ans = readAnswers(el, qs);
+    const score = showFeedback(el, qs, ans);
     const prev = STATE.quizzes[id] || { best: 0, attempts: 0 };
     const rec = { score: score, max: qs.length, best: Math.max(prev.best || 0, score),
                   attempts: (prev.attempts || 0) + 1, date: new Date().toISOString(), answers: ans };
+    if (!prev.attempts) rec.first = score;           // the official (first) score
+    else rec.first = prev.first;
     STATE.quizzes[id] = rec;
     showScore(el, rec);
+    if (rec.attempts >= MAX_ATTEMPTS) lockQuiz(el);
     unlockSolutions();
     dirty = true; saveNow();
-    // also log every attempt in the "scores" tab of the Google Sheet
+    // also record the attempt in the "scores" tab of the Google Sheet
     if (!DEMO) api("score", { user: AUTH.user, pass: AUTH.pass, quiz: id, page: PAGE_ID,
                               score: score, max: qs.length, answers: ans }).catch(() => {});
   }
@@ -394,13 +457,12 @@
     const pct = Math.round(100 * rec.score / rec.max);
     el.querySelector(".rc-score").innerHTML = `
       <div class="rc-score-ring" style="--p:${pct}"><span>${rec.score}/${rec.max}</span></div>
-      <div>${t("Last score", "Dernier score")}: <b>${rec.score}/${rec.max}</b> (${pct} %) ·
-           ${t("Best", "Meilleur")}: <b>${rec.best}/${rec.max}</b> ·
-           ${t("Attempts", "Tentatives")}: ${rec.attempts}<br>
-           <small>${pct >= 70 ? t("Well done! You can move on to the next session.",
-                                  "Bravo ! Vous pouvez passer à la séance suivante.")
-                               : t("Aim for at least 70 %. Correct your script and try again.",
-                                   "Visez au moins 70 %. Corrigez votre script et réessayez.")}</small></div>`;
+      <div>${t("Your score", "Votre score")}: <b>${rec.score}/${rec.max}</b> (${pct} %)
+           ${MAX_ATTEMPTS > 1 ? `· ${t("Attempts", "Tentatives")}: ${rec.attempts}/${MAX_ATTEMPTS}` : ""}<br>
+           <small>${pct >= 70 ? t("Well done! Read the solution to check the details, then move on.",
+                                  "Bravo ! Lisez la solution pour vérifier les détails, puis continuez.")
+                               : t("Study the solution carefully and re-do the exercise in your script before moving on.",
+                                   "Étudiez attentivement la solution et refaites l'exercice dans votre script avant de continuer.")}</small></div>`;
   }
 
   /* --------------------------------------------------------------------------
@@ -449,11 +511,18 @@
     CFG.pages.forEach(p => {
       const ps = STATE.pages[p.id];
       const pct = ps && ps.total ? Math.round(100 * ps.done.length / ps.total) : 0;
-      const q = STATE.quizzes[p.quiz];
-      if (q) { sumScore += q.best; sumMax += q.max; }
+      // a page can have one quiz ("quiz") or several ("quizzes", e.g. the practice session)
+      const ids = p.quizzes || (p.quiz ? [p.quiz] : []);
+      let ps_ = 0, pm_ = 0, done_ = 0;
+      ids.forEach(qid => {
+        const q = STATE.quizzes[qid];
+        if (q) { const sc = (q.first !== undefined ? q.first : q.score); ps_ += sc; pm_ += q.max; done_++; }
+      });
+      sumScore += ps_; sumMax += pm_;
+      const cell = !done_ ? "—" : `<b>${ps_}/${pm_}</b>` + (ids.length > 1 ? ` <small>(${done_}/${ids.length} quiz)</small>` : "");
       rows += `<tr><td><a href="${p.id}.html">${t(p.en, p.fr)}</a></td><td>${p.hours} h</td>
         <td><div class="rc-mini"><div style="width:${pct}%"></div></div> ${pct} %</td>
-        <td>${q ? `<b>${q.best}/${q.max}</b>` : "—"}</td></tr>`;
+        <td>${cell}</td></tr>`;
     });
     const cont = STATE.lastPage && STATE.lastPage !== "index"
       ? `<a class="rc-continue" href="${STATE.lastPage}.html${STATE.lastSection ? "#" + STATE.lastSection : ""}">
@@ -462,7 +531,7 @@
     box.innerHTML = `<p class="rc-hello">${t("Hello", "Bonjour")} <b>${AUTH.name}</b> ·
         ${t("Total quiz score", "Score total aux quiz")}: <b>${sumScore}/${sumMax || "—"}</b></p>${cont}
       <table class="rc-dash"><thead><tr><th>${t("Session", "Séance")}</th><th>${t("Time", "Durée")}</th>
-      <th>${t("Progress", "Progression")}</th><th>${t("Best quiz score", "Meilleur score")}</th></tr></thead>
+      <th>${t("Progress", "Progression")}</th><th>${t("Quiz score", "Score quiz")}</th></tr></thead>
       <tbody>${rows}</tbody></table>`;
   }
 
@@ -496,8 +565,5 @@
     try { STATE = Object.assign(emptyState(), JSON.parse(sessionStorage.getItem("rc_state_cache"))); }
     catch (e) { STATE = emptyState(); }
     start(false);
-    // keep the cache up to date when leaving the page (used by the next page)
-    window.addEventListener("pagehide", () =>
-      sessionStorage.setItem("rc_state_cache", JSON.stringify(STATE)));
   });
 })();

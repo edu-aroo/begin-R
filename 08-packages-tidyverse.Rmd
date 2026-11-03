@@ -1,0 +1,676 @@
+---
+title: "[8 · Packages, dplyr & ggplot2]{.en}[8 · Packages, dplyr et ggplot2]{.fr}"
+pagetitle: "R course · Session 8"
+subtitle: "~3.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+sg <- read.csv("data/seagrass_quadrats.csv")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- explain what a **package** is, where it comes from, and the difference between *installing* and *loading* it;
+- chain operations with the **pipe** `|>`;
+- use the main **dplyr** verbs and write the **base R equivalent** of each of them;
+- build a **ggplot2** figure layer by layer and write the **base R graphics equivalent**;
+- choose between base R and the tidyverse with good reasons.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- expliquer ce qu'est un **package**, d'où il vient, et la différence entre l'*installer* et le *charger* ;
+- enchaîner des opérations avec le **pipe** `|>` ;
+- utiliser les principaux verbes de **dplyr** et écrire l'**équivalent en R de base** de chacun ;
+- construire une figure **ggplot2** couche par couche et écrire l'**équivalent en graphiques de base** ;
+- choisir entre R de base et le tidyverse pour de bonnes raisons.
+:::
+:::
+
+## [What is a package?]{.en}[Qu'est-ce qu'un package ?]{.fr} {#what-package}
+
+::: en
+Everything you have used so far — `mean()`, `subset()`, `tapply()`, `barplot()` — comes with R itself ("**base R**"). A **package** is an **extension**: a bundle of extra functions (and often data and documentation) written by researchers and developers, that you add to R when you need it. Packages are why R is so widely used in ecology: there is a package for diversity indices (`vegan`), for maps (`sf`), for mixed models (`lme4`), and so on.
+
+Packages are published on **CRAN** (*Comprehensive R Archive Network*), the same website you downloaded R from. CRAN holds well over 20 000 packages, each checked automatically before it is accepted. Other packages live on GitHub or Bioconductor, but for this course CRAN is all you need.
+:::
+::: fr
+Tout ce que vous avez utilisé jusqu'ici — `mean()`, `subset()`, `tapply()`, `barplot()` — est fourni avec R lui-même (« **R de base** »). Un **package** est une **extension** : un ensemble de fonctions supplémentaires (souvent avec des données et de la documentation) écrites par des chercheurs et des développeurs, que l'on ajoute à R quand on en a besoin. Les packages expliquent pourquoi R est si utilisé en écologie : il existe un package pour les indices de diversité (`vegan`), pour les cartes (`sf`), pour les modèles mixtes (`lme4`), etc.
+
+Les packages sont publiés sur le **CRAN** (*Comprehensive R Archive Network*), le site d'où vous avez téléchargé R. Le CRAN compte bien plus de 20 000 packages, chacun vérifié automatiquement avant d'être accepté. D'autres packages se trouvent sur GitHub ou Bioconductor, mais pour ce cours le CRAN suffit.
+:::
+
+`r fig_svg("packages")`
+
+::: en
+**The library analogy.** CRAN is a bookshop. `install.packages()` **buys** a book and puts it on the shelf of your computer — you do it **once** (and again only to update it). `library()` **takes the book off the shelf and opens it on your desk** — you do it **every time** you start R, at the top of each script that uses the package.
+:::
+::: fr
+**L'analogie de la bibliothèque.** Le CRAN est une librairie. `install.packages()` **achète** un livre et le range sur l'étagère de votre ordinateur — on le fait **une fois** (et à nouveau seulement pour le mettre à jour). `library()` **sort le livre de l'étagère et l'ouvre sur votre bureau** — on le fait **à chaque fois** qu'on démarre R, en haut de chaque script qui utilise le package.
+:::
+
+```{r, eval=FALSE}
+install.packages(c("dplyr", "ggplot2"))   # ONCE, in the console (needs internet)
+```
+
+```{r, message=FALSE}
+library(dplyr)        # at the top of EVERY script that uses it
+library(ggplot2)
+```
+
+### [Base R is also made of packages]{.en}[R de base est aussi fait de packages]{.fr}
+
+::: en
+R itself is a set of packages installed and loaded automatically: **base** (`c()`, `mean()`, `subset()`), **stats** (`sd()`, `median()`, `aggregate()`), **graphics** (`plot()`, `barplot()`), **utils** (`read.csv()`, `head()`)… Some are installed but not loaded, like **tools**: that is why in Session 5 you wrote `tools::toTitleCase()`. The `::` means "use this function from this package without loading the whole package".
+:::
+::: fr
+R lui-même est un ensemble de packages installés et chargés automatiquement : **base** (`c()`, `mean()`, `subset()`), **stats** (`sd()`, `median()`, `aggregate()`), **graphics** (`plot()`, `barplot()`), **utils** (`read.csv()`, `head()`)… Certains sont installés mais pas chargés, comme **tools** : c'est pourquoi en séance 5 vous avez écrit `tools::toTitleCase()`. Le `::` signifie « utiliser cette fonction de ce package sans charger tout le package ».
+:::
+
+```{r, eval=FALSE}
+dplyr::filter(sg, seagrass_cover > 80)   # works even without library(dplyr)
+```
+
+### [The tidyverse family]{.en}[La famille tidyverse]{.fr}
+
+::: en
+**dplyr** (data manipulation) and **ggplot2** (graphics) belong to the **tidyverse**, a family of packages designed to work together with the same philosophy: one function = one verb, data frame in → data frame out. Other members you will meet later: **tidyr** (reshaping tables), **readr** (fast import), **stringr** (text), **lubridate** (dates). `install.packages("tidyverse")` installs the whole family at once (large download); here we install only the two we need.
+:::
+::: fr
+**dplyr** (manipulation de données) et **ggplot2** (graphiques) appartiennent au **tidyverse**, une famille de packages conçus pour fonctionner ensemble selon la même philosophie : une fonction = un verbe, un data frame en entrée → un data frame en sortie. D'autres membres que vous rencontrerez plus tard : **tidyr** (restructurer des tableaux), **readr** (import rapide), **stringr** (texte), **lubridate** (dates). `install.packages("tidyverse")` installe toute la famille d'un coup (gros téléchargement) ; ici nous n'installons que les deux nécessaires.
+:::
+
+### [Messages, conflicts, updates, citation]{.en}[Messages, conflits, mises à jour, citation]{.fr}
+
+::: en
+- When you load dplyr, R says that some objects are **masked**, e.g. `filter` from **stats**. Two packages have a function with the same name; the last loaded wins. This is normal. To be explicit, write `dplyr::filter()` or `stats::filter()`.
+- `there is no package called 'dplyr'` → it is not installed yet. On Windows, if an installation fails with a compilation message, check **Rtools** (Session 0).
+- Update your packages from time to time: `update.packages()` or the **Update** button in the *Packages* pane.
+- Packages are scientific work: **cite them** in your reports and theses. `citation("dplyr")` gives the reference.
+:::
+::: fr
+- Au chargement de dplyr, R indique que certains objets sont **masqués** (*masked*), ex. `filter` de **stats**. Deux packages ont une fonction du même nom ; le dernier chargé l'emporte. C'est normal. Pour être explicite, écrivez `dplyr::filter()` ou `stats::filter()`.
+- `there is no package called 'dplyr'` → il n'est pas encore installé. Sous Windows, si une installation échoue avec un message de compilation, vérifiez **Rtools** (séance 0).
+- Mettez vos packages à jour de temps en temps : `update.packages()` ou le bouton **Update** du panneau *Packages*.
+- Les packages sont un travail scientifique : **citez-les** dans vos rapports et mémoires. `citation("dplyr")` donne la référence.
+:::
+
+## [The pipe `|>`]{.en}[Le pipe `|>`]{.fr} {#pipe}
+
+::: en
+The pipe sends the result on its left into the **first argument** of the function on its right. Read it as **"then"**. RStudio shortcut: **Ctrl + Shift + M** (to get `|>` rather than `%>%`, tick *Tools → Global Options → Code → Use native pipe operator*). You will also see `%>%` in older code: for our use it does the same thing.
+:::
+::: fr
+Le pipe envoie le résultat de gauche dans le **premier argument** de la fonction de droite. Lisez-le **« puis »**. Raccourci RStudio : **Ctrl + Maj + M** (pour obtenir `|>` plutôt que `%>%`, cochez *Tools → Global Options → Code → Use native pipe operator*). Vous verrez aussi `%>%` dans du code plus ancien : pour notre usage, il fait la même chose.
+:::
+
+```{r}
+round(mean(sg$seagrass_cover), 1)            # nested: read from the inside out
+sg$seagrass_cover |> mean() |> round(1)      # piped: read from left to right
+```
+
+::: en
+The pipe is not specific to dplyr: it works with base R functions too, as above.
+:::
+::: fr
+Le pipe n'est pas propre à dplyr : il fonctionne aussi avec les fonctions de base, comme ci-dessus.
+:::
+
+## [dplyr verbs and their base R equivalents]{.en}[Verbes dplyr et équivalents en R de base]{.fr} {#dplyr}
+
+::: en
+Each dplyr verb takes a data frame as **first argument** and returns a data frame. Inside the verbs you write column names **without** `sg$`. For each verb, the left box shows how you already do it in base R (Sessions 3–6), the right box the dplyr way. **Both give the same result.**
+:::
+::: fr
+Chaque verbe dplyr prend un data frame comme **premier argument** et renvoie un data frame. Dans les verbes, on écrit les noms de colonnes **sans** `sg$`. Pour chaque verbe, le cadre de gauche montre comment vous le faites déjà en R de base (séances 3–6), celui de droite la façon dplyr. **Les deux donnent le même résultat.**
+:::
+
+### [`filter()` — keep rows]{.en}[`filter()` — garder des lignes]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r}
+sg[sg$mpa_status == "Inside" &
+   sg$seagrass_cover > 70, 1:4]
+# or
+subset(sg, mpa_status == "Inside" &
+           seagrass_cover > 70)[, 1:4]
+```
+:::
+::: {.col .pkg}
+dplyr
+
+```{r}
+sg |>
+  filter(mpa_status == "Inside",
+         seagrass_cover > 70) |>
+  select(1:4)
+# in filter(), a comma means AND
+```
+:::
+::::
+
+### [`select()` — keep, drop or reorder columns]{.en}[`select()` — garder, retirer ou réordonner des colonnes]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r}
+head(sg[, c("site", "quadrat",
+            "seagrass_cover")], 3)
+names(sg[, -c(4, 5)])  # drop
+```
+:::
+::: {.col .pkg}
+dplyr
+
+```{r}
+sg |> select(site, quadrat,
+             seagrass_cover) |> head(3)
+names(select(sg, -date, -depth_m))
+```
+:::
+::::
+
+### [`mutate()` — add or change columns]{.en}[`mutate()` — ajouter ou modifier des colonnes]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r}
+sg2 <- sg
+sg2$cover_prop <- sg2$seagrass_cover / 100
+sg2$canopy_index <- sg2$cover_prop *
+                    sg2$canopy_height_cm
+head(sg2[, c("cover_prop",
+             "canopy_index")], 3)
+```
+:::
+::: {.col .pkg}
+dplyr
+
+```{r}
+sg2 <- sg |>
+  mutate(cover_prop = seagrass_cover / 100,
+         canopy_index = cover_prop *
+                        canopy_height_cm)
+sg2 |> select(cover_prop,
+              canopy_index) |> head(3)
+```
+:::
+::::
+
+::: en
+Note: inside one `mutate()` you can use a column created just before (`cover_prop`).
+:::
+::: fr
+Remarque : dans un même `mutate()`, on peut utiliser une colonne créée juste avant (`cover_prop`).
+:::
+
+### [`arrange()` — sort rows]{.en}[`arrange()` — trier les lignes]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r}
+o <- order(sg$seagrass_cover,
+           decreasing = TRUE)
+head(sg[o, c("site", "seagrass_cover")], 3)
+```
+:::
+::: {.col .pkg}
+dplyr
+
+```{r}
+sg |> arrange(desc(seagrass_cover)) |>
+  select(site, seagrass_cover) |>
+  head(3)
+```
+:::
+::::
+
+### [`rename()` — rename columns]{.en}[`rename()` — renommer des colonnes]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r}
+sg2 <- sg
+names(sg2)[names(sg2) == "seagrass_cover"] <-
+  "cover_pct"
+names(sg2)[7]
+```
+:::
+::: {.col .pkg}
+dplyr
+
+```{r}
+sg2 <- sg |>
+  rename(cover_pct = seagrass_cover)
+# new name = old name
+names(sg2)[7]
+```
+:::
+::::
+
+### [`group_by()` + `summarise()` — statistics per group]{.en}[`group_by()` + `summarise()` — statistiques par groupe]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r}
+n <- tapply(sg$seagrass_cover, sg$site, length)
+m <- tapply(sg$seagrass_cover, sg$site, mean)
+s <- tapply(sg$seagrass_cover, sg$site, sd)
+data.frame(site = names(m), n = as.vector(n),
+           mean = as.vector(m), sd = as.vector(s))
+```
+:::
+::: {.col .pkg}
+dplyr
+
+```{r}
+sg |>
+  group_by(site) |>
+  summarise(n    = n(),
+            mean = mean(seagrass_cover),
+            sd   = sd(seagrass_cover))
+```
+:::
+::::
+
+::: en
+`n()` counts the rows of each group. Add `.groups = "drop"` in `summarise()` when you group by two variables, to remove the grouping afterwards.
+:::
+::: fr
+`n()` compte les lignes de chaque groupe. Ajoutez `.groups = "drop"` dans `summarise()` quand vous groupez par deux variables, pour retirer le groupement ensuite.
+:::
+
+### [`count()` — number of rows per category]{.en}[`count()` — nombre de lignes par catégorie]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r}
+table(sg$species)
+```
+:::
+::: {.col .pkg}
+dplyr
+
+```{r}
+count(sg, species)
+```
+:::
+::::
+
+### [A whole analysis, both ways]{.en}[Une analyse complète, des deux façons]{.fr}
+
+::: en
+Mean canopy height of the *Thalassia hemprichii* quadrats shallower than 2 m, per MPA status:
+:::
+::: fr
+Hauteur de canopée moyenne des quadrats à *Thalassia hemprichii* de moins de 2 m, par statut d'AMP :
+:::
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r}
+th <- subset(sg, species == "Thalassia hemprichii" &
+                 depth_m < 2)
+tapply(th$canopy_height_cm, th$mpa_status,
+       mean, na.rm = TRUE)
+```
+:::
+::: {.col .pkg}
+dplyr
+
+```{r}
+sg |>
+  filter(species == "Thalassia hemprichii",
+         depth_m < 2) |>
+  group_by(mpa_status) |>
+  summarise(h = mean(canopy_height_cm,
+                     na.rm = TRUE))
+```
+:::
+::::
+
+::: {.callout .tip}
+::: en
+**Which one should I use?** Both are correct and widely used. dplyr reads like a sentence and shines when you chain many steps; base R needs no installation and is what you will meet inside older scripts and many packages. Being able to **read both** is the goal of this session.
+:::
+::: fr
+**Lequel utiliser ?** Les deux sont corrects et très utilisés. dplyr se lit comme une phrase et brille quand on enchaîne beaucoup d'étapes ; R de base ne nécessite aucune installation et se retrouve dans les anciens scripts et dans de nombreux packages. Savoir **lire les deux** est l'objectif de cette séance.
+:::
+:::
+
+## [ggplot2 and its base R equivalents]{.en}[ggplot2 et ses équivalents en R de base]{.fr} {#ggplot}
+
+::: en
+A ggplot is built by **adding layers** with `+`:
+
+1. `ggplot(data, aes(x = ..., y = ..., colour = ...))` — the data and the **aesthetics** (which column goes on which visual property);
+2. one or more **geoms**: `geom_point()`, `geom_boxplot()`, `geom_histogram()`, `geom_col()`, `geom_errorbar()`…;
+3. optional: `labs()` (titles), `theme_*()` (overall look), `scale_*()` (colours, axes), `facet_wrap()` (one panel per group).
+
+In base R you draw a plot and then **add** to it with `points()`, `arrows()`, `legend()`… (Session 7). The logic is the same; the syntax differs.
+:::
+::: fr
+Un ggplot se construit en **ajoutant des couches** avec `+` :
+
+1. `ggplot(données, aes(x = ..., y = ..., colour = ...))` — les données et l'**esthétique** (quelle colonne va sur quelle propriété visuelle) ;
+2. une ou plusieurs **géométries** : `geom_point()`, `geom_boxplot()`, `geom_histogram()`, `geom_col()`, `geom_errorbar()`… ;
+3. en option : `labs()` (titres), `theme_*()` (aspect général), `scale_*()` (couleurs, axes), `facet_wrap()` (un panneau par groupe).
+
+En R de base, on trace un graphique puis on y **ajoute** des éléments avec `points()`, `arrows()`, `legend()`… (séance 7). La logique est la même ; la syntaxe diffère.
+:::
+
+### [Scatter plot]{.en}[Nuage de points]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r, fig.width=5, fig.height=4, out.width="100%"}
+cols <- c(Inside = "#1b7f8c", Outside = "#d9694a")
+plot(sg$seagrass_cover, sg$canopy_height_cm,
+     pch = 19, col = cols[sg$mpa_status],
+     xlab = "Seagrass cover (%)",
+     ylab = "Canopy height (cm)")
+legend("topleft", names(cols), col = cols,
+       pch = 19, bty = "n")
+```
+:::
+::: {.col .pkg}
+ggplot2
+
+```{r, fig.width=5, fig.height=4, out.width="100%"}
+ggplot(sg, aes(seagrass_cover,
+               canopy_height_cm,
+               colour = mpa_status)) +
+  geom_point(size = 2, na.rm = TRUE) +
+  scale_colour_manual(values = c(
+    Inside = "#1b7f8c", Outside = "#d9694a")) +
+  labs(x = "Seagrass cover (%)",
+       y = "Canopy height (cm)") +
+  theme_classic()
+```
+:::
+::::
+
+::: en
+In ggplot2 the legend is created **automatically** from `colour = mpa_status`; in base R you build it yourself with `legend()`.
+:::
+::: fr
+Dans ggplot2 la légende est créée **automatiquement** à partir de `colour = mpa_status` ; en R de base on la construit soi-même avec `legend()`.
+:::
+
+### [Histogram]{.en}[Histogramme]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r, fig.width=5, fig.height=3.6, out.width="100%"}
+hist(sg$seagrass_cover,
+     breaks = seq(0, 100, 10),
+     col = "#4a7d3a", border = "white",
+     main = "", xlab = "Seagrass cover (%)")
+```
+:::
+::: {.col .pkg}
+ggplot2
+
+```{r, fig.width=5, fig.height=3.6, out.width="100%"}
+ggplot(sg, aes(seagrass_cover)) +
+  geom_histogram(binwidth = 10, boundary = 0,
+                 fill = "#4a7d3a",
+                 colour = "white") +
+  labs(x = "Seagrass cover (%)") +
+  theme_classic()
+```
+:::
+::::
+
+### [Boxplot]{.en}[Boxplot]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r, fig.width=5, fig.height=3.8, out.width="100%"}
+boxplot(seagrass_cover ~ site, data = sg,
+        col = "#a8d5da", xlab = "",
+        ylab = "Seagrass cover (%)")
+```
+:::
+::: {.col .pkg}
+ggplot2
+
+```{r, fig.width=5, fig.height=3.8, out.width="100%"}
+ggplot(sg, aes(site, seagrass_cover)) +
+  geom_boxplot(fill = "#a8d5da") +
+  labs(x = NULL, y = "Seagrass cover (%)") +
+  theme_classic()
+```
+:::
+::::
+
+### [Means ± SD]{.en}[Moyennes ± ET]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r, fig.width=5, fig.height=3.8, out.width="100%"}
+m <- tapply(sg$seagrass_cover, sg$site, mean)
+s <- tapply(sg$seagrass_cover, sg$site, sd)
+bp <- barplot(m, ylim = c(0, 80),
+              col = "#1b7f8c", las = 1,
+              ylab = "Cover (%) ± SD")
+arrows(bp, m - s, bp, m + s, angle = 90,
+       code = 3, length = 0.06)
+```
+:::
+::: {.col .pkg}
+ggplot2
+
+```{r, fig.width=5, fig.height=3.8, out.width="100%"}
+summ <- sg |> group_by(site) |>
+  summarise(m = mean(seagrass_cover),
+            s = sd(seagrass_cover))
+ggplot(summ, aes(site, m)) +
+  geom_col(fill = "#1b7f8c") +
+  geom_errorbar(aes(ymin = m - s,
+                    ymax = m + s),
+                width = 0.15) +
+  labs(x = NULL, y = "Cover (%) ± SD") +
+  theme_classic()
+```
+:::
+::::
+
+### [One panel per group]{.en}[Un panneau par groupe]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r, fig.width=5, fig.height=4.4, out.width="100%"}
+par(mfrow = c(2, 2), mar = c(4, 4, 2, 1))
+by_site <- split(sg$seagrass_cover, sg$site)
+hist(by_site$Ambalaboy, main = "Ambalaboy", xlab = "")
+hist(by_site$Belitsaky, main = "Belitsaky", xlab = "")
+hist(by_site$Fasimena, main = "Fasimena", xlab = "")
+hist(by_site$Tsiandamba, main = "Tsiandamba", xlab = "")
+par(mfrow = c(1, 1))
+```
+:::
+::: {.col .pkg}
+ggplot2
+
+```{r, fig.width=5, fig.height=4.4, out.width="100%"}
+ggplot(sg, aes(seagrass_cover)) +
+  geom_histogram(binwidth = 10,
+                 boundary = 0) +
+  facet_wrap(~ site) +
+  labs(x = "Seagrass cover (%)") +
+  theme_bw()
+```
+:::
+::::
+
+::: en
+`split(x, group)` cuts a vector into one piece per group (a list). With many groups, `facet_wrap()` saves a lot of typing.
+:::
+::: fr
+`split(x, groupe)` découpe un vecteur en un morceau par groupe (une liste). Avec beaucoup de groupes, `facet_wrap()` évite beaucoup de saisie.
+:::
+
+### [Saving a figure]{.en}[Enregistrer une figure]{.fr}
+
+:::: compare
+::: {.col .base}
+R base
+
+```{r, eval=FALSE}
+png("outputs/fig.png", width = 16,
+    height = 11, units = "cm", res = 300)
+boxplot(seagrass_cover ~ site, data = sg)
+dev.off()
+```
+:::
+::: {.col .pkg}
+ggplot2
+
+```{r, eval=FALSE}
+p <- ggplot(sg, aes(site, seagrass_cover)) +
+  geom_boxplot()
+ggsave("outputs/fig.png", p, width = 16,
+       height = 11, units = "cm", dpi = 300)
+```
+:::
+::::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers08, include=FALSE}
+f <- read.csv("data/fish_uvc.csv")
+a1 <- nrow(filter(f, family == "Scaridae", length_cm >= 20))
+f <- mutate(f, biomass_g = count * a * length_cm^b)
+a2 <- (f |> arrange(desc(biomass_g)))$species[1]
+tot <- f |> group_by(site) |> summarise(kg = sum(biomass_g) / 1000)
+a3 <- tot$site[which.max(tot$kg)]
+a3b <- round(max(tot$kg), 2)
+tr <- f |> group_by(site, transect) |>
+  summarise(kg_ha = sum(biomass_g) / 1000 / 250 * 10000, .groups = "drop")
+st <- tr |> group_by(site) |> summarise(m = mean(kg_ha), s = sd(kg_ha))
+a4 <- round(st$m[st$site == "Andavaka"], 2)
+a5 <- round(st$s[st$site == "Tsifota"], 2)
+a6 <- count(f, family)$n[count(f, family)$family == "Scaridae"]
+```
+
+::: application
+::: en
+### Application work 8 — fish biomass with dplyr and ggplot2
+
+New script `scripts/s08_tidyverse.R`, starting with `library(dplyr)`, `library(ggplot2)` and `fish <- read.csv("data/fish_uvc.csv")`. Use **dplyr** for questions 1–6, then write the **base R equivalent** of at least two of them to check that you get the same numbers.
+
+1. `filter()`: how many rows are parrotfish (`family == "Scaridae"`) of **20 cm or more**?
+2. `mutate()` a column `biomass_g = count * a * length_cm^b`, then `arrange(desc(biomass_g))`: which species is in the first row?
+3. `group_by(site)` + `summarise()` the total biomass in kg (`sum(biomass_g) / 1000`). Which site has the highest total, and what is it (2 decimals)?
+4. Biomass density is computed **per transect first**: `group_by(site, transect)` + `summarise(kg_ha = sum(biomass_g) / 1000 / 250 * 10000)`. Then `group_by(site)` + `summarise()` the mean and SD of `kg_ha`. Mean for **Andavaka** (2 decimals)?
+5. SD of `kg_ha` for **Tsifota** (2 decimals)?
+6. `count(family)`: how many rows are Scaridae?
+7. Make the barplot of mean `kg_ha` ± SD per site with ggplot2 **and** with base R, and save both.
+:::
+::: fr
+### Travail d'application 8 — biomasse de poissons avec dplyr et ggplot2
+
+Nouveau script `scripts/s08_tidyverse.R`, commençant par `library(dplyr)`, `library(ggplot2)` et `fish <- read.csv("data/fish_uvc.csv")`. Utilisez **dplyr** pour les questions 1 à 6, puis écrivez l'**équivalent en R de base** d'au moins deux d'entre elles pour vérifier que vous obtenez les mêmes chiffres.
+
+1. `filter()` : combien de lignes sont des poissons-perroquets (`family == "Scaridae"`) de **20 cm ou plus** ?
+2. `mutate()` une colonne `biomass_g = count * a * length_cm^b`, puis `arrange(desc(biomass_g))` : quelle espèce est en première ligne ?
+3. `group_by(site)` + `summarise()` la biomasse totale en kg (`sum(biomass_g) / 1000`). Quel site a le total le plus élevé, et combien (2 décimales) ?
+4. La densité de biomasse se calcule **d'abord par transect** : `group_by(site, transect)` + `summarise(kg_ha = sum(biomass_g) / 1000 / 250 * 10000)`. Puis `group_by(site)` + `summarise()` la moyenne et l'ET de `kg_ha`. Moyenne pour **Andavaka** (2 décimales) ?
+5. ET de `kg_ha` pour **Tsifota** (2 décimales) ?
+6. `count(family)` : combien de lignes sont des Scaridae ?
+7. Faites le barplot des moyennes de `kg_ha` ± ET par site avec ggplot2 **et** avec R de base, et enregistrez les deux.
+:::
+:::
+
+```{r quiz08, echo=FALSE}
+quiz("s08", list(
+  q_num("1. Scaridae rows of 20 cm or more?", "1. Lignes de Scaridae de 20 cm ou plus ?", a1, tol = 0),
+  q_text("2. Species in the first row after arrange(desc(biomass_g))?", "2. Espèce en première ligne après arrange(desc(biomass_g)) ?", a2),
+  q_text("3a. Site with the highest total biomass?", "3a. Site à la biomasse totale la plus élevée ?", a3),
+  q_num("3b. Its total biomass in kg (2 decimals)?", "3b. Sa biomasse totale en kg (2 décimales) ?", a3b, tol = 0.006),
+  q_num("4. Mean kg_ha at Andavaka (2 decimals)?", "4. Moyenne de kg_ha à Andavaka (2 décimales) ?", a4, tol = 0.006),
+  q_num("5. SD of kg_ha at Tsifota (2 decimals)?", "5. ET de kg_ha à Tsifota (2 décimales) ?", a5, tol = 0.006),
+  q_num("6. Number of Scaridae rows?", "6. Nombre de lignes de Scaridae ?", a6, tol = 0),
+  q_mcq("7. Base R equivalent of select(fish, site, count)?", "7. Équivalent en R de base de select(fish, site, count) ?",
+        c("fish[c(\"site\", \"count\"), ]", "fish[, c(\"site\", \"count\")]", "fish$site$count", "subset(fish, site & count)"), correct = 2),
+  q_mcq("8. Base R equivalent of geom_errorbar()?", "8. Équivalent en R de base de geom_errorbar() ?",
+        c("lines()", "arrows()", "legend()", "abline()"), correct = 2),
+  q_mcq("9. How often must you run install.packages(\"dplyr\") and library(dplyr)?",
+        "9. À quelle fréquence faut-il lancer install.packages(\"dplyr\") et library(dplyr) ?",
+        c("Both in every script", "install once per computer; library in every script",
+          "library once; install in every script", "Never: dplyr is part of base R"),
+        c("Les deux dans chaque script", "install une fois par ordinateur ; library dans chaque script",
+          "library une fois ; install dans chaque script", "Jamais : dplyr fait partie de R de base"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="s08"}
+```{r, eval=FALSE}
+library(dplyr)
+library(ggplot2)
+fish <- read.csv("data/fish_uvc.csv")
+
+fish |> filter(family == "Scaridae", length_cm >= 20) |> nrow()     # 1
+nrow(subset(fish, family == "Scaridae" & length_cm >= 20))         # 1, base R
+
+fish <- fish |> mutate(biomass_g = count * a * length_cm^b)        # 2
+fish |> arrange(desc(biomass_g)) |> select(species, biomass_g) |> head(1)
+
+fish |> group_by(site) |> summarise(kg = sum(biomass_g) / 1000)    # 3
+tapply(fish$biomass_g, fish$site, sum) / 1000                      # 3, base R
+
+per_tr <- fish |>                                                  # 4-5
+  group_by(site, transect) |>
+  summarise(kg_ha = sum(biomass_g) / 1000 / 250 * 10000, .groups = "drop")
+per_site <- per_tr |> group_by(site) |>
+  summarise(m = mean(kg_ha), s = sd(kg_ha))
+per_site
+
+count(fish, family)                                                # 6
+
+# 7. ggplot2
+p <- ggplot(per_site, aes(site, m)) +
+  geom_col(fill = "#1b7f8c") +
+  geom_errorbar(aes(ymin = m - s, ymax = m + s), width = 0.15) +
+  labs(x = NULL, y = "Fish biomass (kg/ha) ± SD") + theme_classic()
+ggsave("outputs/s08_biomass_ggplot.png", p, width = 16, height = 11, units = "cm", dpi = 300)
+
+# 7. base R
+png("outputs/s08_biomass_base.png", width = 16, height = 11, units = "cm", res = 300)
+bp <- barplot(per_site$m, names.arg = per_site$site, col = "#1b7f8c", las = 1,
+              ylim = c(0, max(per_site$m + per_site$s) * 1.1),
+              ylab = "Fish biomass (kg/ha) ± SD")
+arrows(bp, per_site$m - per_site$s, bp, per_site$m + per_site$s,
+       angle = 90, code = 3, length = 0.06)
+dev.off()
+```
+:::

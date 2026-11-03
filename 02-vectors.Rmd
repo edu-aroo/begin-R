@@ -53,15 +53,86 @@ cover
 length(cover)                               # number of values
 ```
 
-### [Shortcuts to build vectors]{.en}[Raccourcis pour créer des vecteurs]{.fr}
+## [Building vectors: `seq()`, `rep()`, `sample()`]{.en}[Créer des vecteurs : `seq()`, `rep()`, `sample()`]{.fr} {#build}
+
+::: en
+Typing every value with `c()` is fine for 5 values, not for 500. Three functions build regular or random vectors for you.
+:::
+::: fr
+Taper chaque valeur avec `c()` convient pour 5 valeurs, pas pour 500. Trois fonctions créent pour vous des vecteurs réguliers ou aléatoires.
+:::
+
+### [`seq()` — regular sequences]{.en}[`seq()` — suites régulières]{.fr}
 
 ```{r}
-1:10                                 # integers from 1 to 10
-seq(0, 25, by = 5)                   # from 0 to 25, step 5 (e.g. positions along a transect)
-seq(0.5, 25, by = 0.5)[1:6]          # PIT points every 0.5 m (first 6 shown)
-rep("Inside", times = 3)             # repeat a value
-rep(c("Inside", "Outside"), each = 2)
+1:10                                # shortcut: integers from 1 to 10
+seq(from = 0, to = 25, by = 5)      # from 0 to 25, step 5 (e.g. positions along a transect)
+seq(0, 25, by = 5)                  # same thing: arguments given by position
+seq(0.5, 25, by = 0.5)              # PIT points every 0.5 m on a 25 m tape -> 50 points
+seq(0, 100, length.out = 5)         # 5 equally spaced values between 0 and 100
 ```
+
+::: en
+`by` gives the **step**; `length.out` gives the **number of values** and lets R compute the step.
+:::
+::: fr
+`by` donne le **pas** ; `length.out` donne le **nombre de valeurs** et laisse R calculer le pas.
+:::
+
+### [`rep()` — repeating values]{.en}[`rep()` — répéter des valeurs]{.fr}
+
+```{r}
+rep("Inside", times = 3)                       # repeat a value 3 times
+rep(c("Inside", "Outside"), times = 2)         # repeat the whole vector: I O I O
+rep(c("Inside", "Outside"), each = 2)          # repeat each element:     I I O O
+rep(c("T1", "T2", "T3"), each = 2, times = 2)  # combine both
+```
+
+::: {.callout .ecology}
+::: en
+**Building a field sheet.** 3 sites × 4 quadrats: `rep()` gives the site column, and `rep()` again gives the quadrat numbers.
+:::
+::: fr
+**Préparer une fiche de terrain.** 3 sites × 4 quadrats : `rep()` donne la colonne des sites, et `rep()` encore les numéros de quadrats.
+:::
+:::
+
+```{r}
+site    <- rep(c("Ambalaboy", "Fasimena", "Tsiandamba"), each = 4)
+quadrat <- rep(1:4, times = 3)
+site
+quadrat
+```
+
+### [`sample()` — random draws]{.en}[`sample()` — tirages aléatoires]{.fr}
+
+::: en
+`sample(x, size)` draws `size` values at random from `x`. Ecologists use it to choose **random sampling positions** (random quadrats along a transect, random sites in a list). Without `replace = TRUE`, each value can be drawn only once.
+
+Random draws change every time you run them. **`set.seed(number)`** fixes the starting point of the random generator, so the "random" result is the same every time — and the same for everyone who uses the same seed. This is essential for reproducible science (and for this course's quizzes!).
+:::
+::: fr
+`sample(x, size)` tire au hasard `size` valeurs dans `x`. Les écologues l'utilisent pour choisir des **positions d'échantillonnage aléatoires** (quadrats au hasard le long d'un transect, sites au hasard dans une liste). Sans `replace = TRUE`, chaque valeur ne peut être tirée qu'une fois.
+
+Les tirages changent à chaque exécution. **`set.seed(nombre)`** fixe le point de départ du générateur aléatoire : le résultat « aléatoire » est alors toujours le même — et le même pour tous ceux qui utilisent la même graine. C'est essentiel pour une science reproductible (et pour les quiz de ce cours !).
+:::
+
+```{r}
+set.seed(123)
+sample(1:50, size = 5)              # 5 random positions among 50 PIT points
+sample(c("HC", "SD", "MA"), size = 8, replace = TRUE)   # with replacement
+set.seed(123)
+sample(1:50, size = 5)              # same seed -> exactly the same draw as above
+```
+
+::: {.callout .warning}
+::: en
+`set.seed()` must be run **just before** `sample()`, every time. If you run `sample()` twice after one `set.seed()`, the second result is different (but still reproducible).
+:::
+::: fr
+`set.seed()` doit être exécuté **juste avant** `sample()`, à chaque fois. Si vous lancez `sample()` deux fois après un seul `set.seed()`, le second résultat est différent (mais reste reproductible).
+:::
+:::
 
 ## [Data types]{.en}[Types de données]{.fr} {#types}
 
@@ -95,10 +166,10 @@ class(site); class(depth); class(sampled)
 
 ::: {.callout .warning}
 ::: en
-**A vector holds only one type.** If you mix numbers and text, R silently converts everything to text. This is a very common source of problems when a field sheet contains `"-"` or `"45%"` in a numeric column (we will fix that in Session 4).
+**A vector holds only one type.** If you mix numbers and text, R silently converts everything to text. This is a very common source of problems when a field sheet contains `"-"` or `"45%"` in a numeric column (we will fix that in Session 5).
 :::
 ::: fr
-**Un vecteur ne contient qu'un seul type.** Si vous mélangez nombres et texte, R convertit tout en texte sans prévenir. C'est une source de problèmes très fréquente quand une fiche de terrain contient `"-"` ou `"45%"` dans une colonne numérique (on corrigera cela en séance 4).
+**Un vecteur ne contient qu'un seul type.** Si vous mélangez nombres et texte, R convertit tout en texte sans prévenir. C'est une source de problèmes très fréquente quand une fiche de terrain contient `"-"` ou `"45%"` dans une colonne numérique (on corrigera cela en séance 5).
 :::
 :::
 
@@ -153,7 +224,49 @@ De nombreuses fonctions **résument** un vecteur en une seule valeur :
 ```{r}
 sum(shoots); mean(shoots); median(shoots)
 min(shoots); max(shoots); range(shoots)
-sd(shoots)                        # standard deviation (Session 5)
+sd(shoots)                        # standard deviation (Session 6)
+```
+
+## [Useful functions on vectors]{.en}[Fonctions utiles sur les vecteurs]{.fr} {#useful}
+
+::: en
+| Function | What it returns |
+|---|---|
+| `length(x)` | number of values |
+| `sort(x)` / `sort(x, decreasing = TRUE)` | the values sorted |
+| `rev(x)` | the values in reverse order |
+| `unique(x)` | each different value once |
+| `head(x, n)` / `tail(x, n)` | the first / last n values |
+| `which.max(x)` / `which.min(x)` | the **position** of the max / min |
+| `round(x, digits)` | rounded values |
+| `paste(a, b, sep = "_")` / `paste0(a, b)` | texts glued together |
+| `cumsum(x)` | cumulative sum |
+:::
+::: fr
+| Fonction | Ce qu'elle renvoie |
+|---|---|
+| `length(x)` | nombre de valeurs |
+| `sort(x)` / `sort(x, decreasing = TRUE)` | les valeurs triées |
+| `rev(x)` | les valeurs dans l'ordre inverse |
+| `unique(x)` | chaque valeur différente une seule fois |
+| `head(x, n)` / `tail(x, n)` | les n premières / dernières valeurs |
+| `which.max(x)` / `which.min(x)` | la **position** du max / min |
+| `round(x, digits)` | valeurs arrondies |
+| `paste(a, b, sep = "_")` / `paste0(a, b)` | textes collés ensemble |
+| `cumsum(x)` | somme cumulée |
+:::
+
+```{r}
+depth <- c(2.4, 0.8, 1.9, 3.1, 0.8, 1.2)
+sort(depth)
+sort(depth, decreasing = TRUE)
+rev(depth)
+unique(depth)                       # 0.8 appears only once
+head(depth, 3)
+which.max(depth)                    # the deepest quadrat is the 4th
+paste("Q", 1:4, sep = "")           # quadrat labels: "Q1" "Q2" "Q3" "Q4"
+paste0("T", 1:3, "_", "Fasimena")   # paste0() = paste() without separator
+cumsum(c(2, 5, 3))                  # running total: 2, 2+5, 2+5+3
 ```
 
 ## [Extracting values with `[ ]`]{.en}[Extraire des valeurs avec `[ ]`]{.fr} {#indexing}
@@ -242,67 +355,98 @@ cover[!is.na(cover)]       # ! means NOT: keep the non-missing values
 ::: en
 ### Application work 2
 
-Copy these two vectors into your script. They describe 10 seagrass quadrats.
+**Part A — building vectors.** In your script `scripts/s02_vectors.R`:
+
+1. Create the PIT positions `positions <- seq(0.5, 25, by = 0.5)`. What is the **37th** value?
+2. Run `set.seed(2026)` then draw 4 random positions with `sample(1:50, 4)`. What is the **sum** of the 4 numbers drawn?
+3. Create `transect <- rep(c("T1", "T2", "T3"), each = 4, times = 2)`. What is its length?
+
+**Part B — 10 seagrass quadrats.** Create these two vectors (note how `rep()` saves typing):
 :::
 ::: fr
 ### Travail d'application 2
 
-Copiez ces deux vecteurs dans votre script. Ils décrivent 10 quadrats d'herbier.
+**Partie A — créer des vecteurs.** Dans votre script `scripts/s02_vectors.R` :
+
+1. Créez les positions PIT `positions <- seq(0.5, 25, by = 0.5)`. Quelle est la **37e** valeur ?
+2. Lancez `set.seed(2026)` puis tirez 4 positions au hasard avec `sample(1:50, 4)`. Quelle est la **somme** des 4 nombres tirés ?
+3. Créez `transect <- rep(c("T1", "T2", "T3"), each = 4, times = 2)`. Quelle est sa longueur ?
+
+**Partie B — 10 quadrats d'herbier.** Créez ces deux vecteurs (remarquez comme `rep()` évite de tout taper) :
 :::
 
 ```{r}
 cover <- c(62, 48, 75, NA, 30, 55, 90, 15, 40, 68)
-zone  <- c("Inside", "Inside", "Inside", "Inside", "Inside",
-           "Outside", "Outside", "Outside", "Outside", "Outside")
+zone  <- rep(c("Inside", "Outside"), each = 5)
 ```
 
 ::: en
-1. What is the mean cover of all quadrats (ignore the missing value)? Round to 1 decimal.
-2. How many quadrats have a cover **strictly greater** than 50 %?
-3. What is the maximum cover?
-4. What is the mean cover of the **Inside** quadrats (ignore NA)? Round to 1 decimal.
-5. What is the mean cover of the **Outside** quadrats? Round to 1 decimal.
-6. Convert `zone` into a factor and use `table()`: how many Outside quadrats are there?
-7. What is the 7th value of `cover`?
+4. Mean cover of all quadrats (ignore the missing value), rounded to 1 decimal.
+5. How many quadrats have a cover **strictly greater** than 50 %?
+6. Mean cover of the **Inside** quadrats (ignore NA), rounded to 1 decimal.
+7. Mean cover of the **Outside** quadrats, rounded to 1 decimal.
+8. Use `sort(cover, decreasing = TRUE)`: what is the **third highest** cover?
+9. Use `which.min()`: at which **position** is the lowest cover?
+10. Convert `zone` into a factor and use `table()`: how many Outside quadrats are there?
 :::
 ::: fr
-1. Quelle est la moyenne du recouvrement de tous les quadrats (ignorez la valeur manquante) ? Arrondissez à 1 décimale.
-2. Combien de quadrats ont un recouvrement **strictement supérieur** à 50 % ?
-3. Quel est le recouvrement maximal ?
-4. Quelle est la moyenne des quadrats **Inside** (ignorez NA) ? Arrondissez à 1 décimale.
-5. Quelle est la moyenne des quadrats **Outside** ? Arrondissez à 1 décimale.
-6. Transformez `zone` en facteur et utilisez `table()` : combien y a-t-il de quadrats Outside ?
-7. Quelle est la 7e valeur de `cover` ?
+4. Recouvrement moyen de tous les quadrats (sans la valeur manquante), arrondi à 1 décimale.
+5. Combien de quadrats ont un recouvrement **strictement supérieur** à 50 % ?
+6. Moyenne des quadrats **Inside** (sans NA), arrondie à 1 décimale.
+7. Moyenne des quadrats **Outside**, arrondie à 1 décimale.
+8. Avec `sort(cover, decreasing = TRUE)` : quel est le **troisième plus fort** recouvrement ?
+9. Avec `which.min()` : à quelle **position** se trouve le recouvrement le plus faible ?
+10. Transformez `zone` en facteur et utilisez `table()` : combien y a-t-il de quadrats Outside ?
 :::
 :::
 
+```{r answers02, include=FALSE}
+positions <- seq(0.5, 25, by = 0.5)
+set.seed(2026); drawn <- sample(1:50, 4)
+transect <- rep(c("T1", "T2", "T3"), each = 4, times = 2)
+```
+
 ```{r quiz02, echo=FALSE}
 quiz("s02", list(
-  q_num("1. Mean cover of all quadrats (1 decimal)?", "1. Recouvrement moyen de tous les quadrats (1 décimale) ?",
+  q_num("1. 37th value of positions?", "1. 37e valeur de positions ?", positions[37], tol = 0),
+  q_num("2. Sum of the 4 positions drawn after set.seed(2026)?", "2. Somme des 4 positions tirées après set.seed(2026) ?", sum(drawn), tol = 0),
+  q_num("3. Length of transect?", "3. Longueur de transect ?", length(transect), tol = 0),
+  q_num("4. Mean cover of all quadrats (1 decimal)?", "4. Recouvrement moyen de tous les quadrats (1 décimale) ?",
         round(mean(cover, na.rm = TRUE), 1), tol = 0.05),
-  q_num("2. Number of quadrats with cover > 50?", "2. Nombre de quadrats avec recouvrement > 50 ?",
+  q_num("5. Number of quadrats with cover > 50?", "5. Nombre de quadrats avec recouvrement > 50 ?",
         sum(cover > 50, na.rm = TRUE), tol = 0),
-  q_num("3. Maximum cover?", "3. Recouvrement maximal ?", max(cover, na.rm = TRUE), tol = 0),
-  q_num("4. Mean cover Inside (1 decimal)?", "4. Moyenne Inside (1 décimale) ?",
+  q_num("6. Mean cover Inside (1 decimal)?", "6. Moyenne Inside (1 décimale) ?",
         round(mean(cover[zone == "Inside"], na.rm = TRUE), 1), tol = 0.05),
-  q_num("5. Mean cover Outside (1 decimal)?", "5. Moyenne Outside (1 décimale) ?",
+  q_num("7. Mean cover Outside (1 decimal)?", "7. Moyenne Outside (1 décimale) ?",
         round(mean(cover[zone == "Outside"]), 1), tol = 0.05),
-  q_num("6. Number of Outside quadrats?", "6. Nombre de quadrats Outside ?", sum(zone == "Outside"), tol = 0),
-  q_num("7. 7th value of cover?", "7. 7e valeur de cover ?", cover[7], tol = 0),
-  q_mcq("8. What does mean(c(10, NA, 20)) return?", "8. Que renvoie mean(c(10, NA, 20)) ?",
-        c("15", "10", "NA", "An error"), c("15", "10", "NA", "Une erreur"), correct = 3)
+  q_num("8. Third highest cover?", "8. Troisième plus fort recouvrement ?", sort(cover, decreasing = TRUE)[3], tol = 0),
+  q_num("9. Position of the lowest cover?", "9. Position du recouvrement le plus faible ?", which.min(cover), tol = 0),
+  q_num("10. Number of Outside quadrats?", "10. Nombre de quadrats Outside ?", sum(zone == "Outside"), tol = 0),
+  q_mcq("11. What does mean(c(10, NA, 20)) return?", "11. Que renvoie mean(c(10, NA, 20)) ?",
+        c("15", "10", "NA", "An error"), c("15", "10", "NA", "Une erreur"), correct = 3),
+  q_mcq("12. What does rep(c(\"A\", \"B\"), each = 2) return?", "12. Que renvoie rep(c(\"A\", \"B\"), each = 2) ?",
+        c("A B A B", "A A B B", "A B", "AA BB"), correct = 2)
 ))
 ```
 
 ::: {.solution data-quiz="s02"}
 ```{r, eval=FALSE}
-mean(cover, na.rm = TRUE)                       # 1. 53.7
-sum(cover > 50, na.rm = TRUE)                   # 2. 5
-max(cover, na.rm = TRUE)                        # 3. 90
-mean(cover[zone == "Inside"], na.rm = TRUE)     # 4. 53.75 -> 53.8
-mean(cover[zone == "Outside"])                  # 5. 53.6
-zone_f <- factor(zone)
-table(zone_f)                                   # 6. Outside = 5
-cover[7]                                        # 7. 90
+# Part A
+positions <- seq(0.5, 25, by = 0.5)
+positions[37]                                   # 1
+set.seed(2026)
+drawn <- sample(1:50, 4)
+drawn; sum(drawn)                               # 2
+transect <- rep(c("T1", "T2", "T3"), each = 4, times = 2)
+length(transect)                                # 3. 3 x 4 x 2 = 24
+
+# Part B
+mean(cover, na.rm = TRUE)                       # 4. 53.7
+sum(cover > 50, na.rm = TRUE)                   # 5. 5
+mean(cover[zone == "Inside"], na.rm = TRUE)     # 6. 53.75 -> 53.8
+mean(cover[zone == "Outside"])                  # 7. 53.6
+sort(cover, decreasing = TRUE)[3]               # 8. 3rd value of the sorted vector
+which.min(cover)                                # 9
+table(factor(zone))                             # 10. Outside = 5
 ```
 :::

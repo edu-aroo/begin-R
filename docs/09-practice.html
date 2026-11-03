@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R course · Session 9</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sessions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="cheatsheet.html">Cheatsheet</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">9 · Practice
+session</span><span class="fr">9 · Séance d’exercices</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="what-this-session-is-for" class="section level4 en">
+<h4>What this session is for</h4>
+<p>No new concepts here: six independent exercises to
+<strong>practise</strong> what you learned in Sessions 2 to 8, before
+the final project. Each exercise has its own quiz (<strong>one attempt
+each</strong>) and its own solution, unlocked after you submit.</p>
+<ul>
+<li>Do them in order or in any order; each starts by importing its
+data.</li>
+<li>Write everything in one script <code>scripts/s09_practice.R</code>,
+with one section per exercise (<strong>Ctrl + Shift + R</strong>).</li>
+<li>If you get less than 70 % on an exercise, re-read the session
+indicated before moving on.</li>
+</ul>
+</div>
+<div id="à-quoi-sert-cette-séance" class="section level4 fr">
+<h4>À quoi sert cette séance</h4>
+<p>Pas de nouvelle notion ici : six exercices indépendants pour
+<strong>pratiquer</strong> ce que vous avez appris dans les séances 2 à
+8, avant le projet final. Chaque exercice a son propre quiz (<strong>une
+seule tentative chacun</strong>) et sa propre solution, débloquée après
+validation.</p>
+<ul>
+<li>Faites-les dans l’ordre ou non ; chacun commence par importer ses
+données.</li>
+<li>Écrivez tout dans un seul script
+<code>scripts/s09_practice.R</code>, avec une section par exercice
+(<strong>Ctrl + Maj + R</strong>).</li>
+<li>Si vous obtenez moins de 70 % à un exercice, relisez la séance
+indiquée avant de continuer.</li>
+</ul>
+</div>
+</div>
+<div id="ex1" class="section level2">
+<h2><span class="en">Exercise 1 — Building vectors</span><span
+class="fr">Exercice 1 — Créer des vecteurs</span></h2>
+<div class="en">
+<p><em>Revise: Session 2.</em></p>
+<ol style="list-style-type: decimal">
+<li>How many values does <code>seq(1, 10, by = 0.75)</code>
+contain?</li>
+<li>Build
+<code>labels &lt;- paste0("Q", rep(1:5, times = 3), "_", rep(c("A", "B", "C"), each = 5))</code>.
+What is <code>labels[7]</code>?</li>
+<li>Run <code>set.seed(7)</code>, then draw 6 PIT positions with
+<code>sample(seq(0.5, 25, by = 0.5), 6)</code>. What is the largest
+position drawn?</li>
+<li>With <code>x &lt;- c(12, 45, 7, 88, 23, 56)</code>: what is the
+<strong>second smallest</strong> value (use <code>sort()</code>)?</li>
+<li>What is the sum of the first two values of <code>rev(x)</code>?</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Révision : séance 2.</em></p>
+<ol style="list-style-type: decimal">
+<li>Combien de valeurs contient <code>seq(1, 10, by = 0.75)</code>
+?</li>
+<li>Créez
+<code>labels &lt;- paste0("Q", rep(1:5, times = 3), "_", rep(c("A", "B", "C"), each = 5))</code>.
+Que vaut <code>labels[7]</code> ?</li>
+<li>Lancez <code>set.seed(7)</code>, puis tirez 6 positions PIT avec
+<code>sample(seq(0.5, 25, by = 0.5), 6)</code>. Quelle est la plus
+grande position tirée ?</li>
+<li>Avec <code>x &lt;- c(12, 45, 7, 88, 23, 56)</code> : quelle est la
+<strong>deuxième plus petite</strong> valeur (utilisez
+<code>sort()</code>) ?</li>
+<li>Quelle est la somme des deux premières valeurs de
+<code>rev(x)</code> ?</li>
+</ol>
+</div>
+<div id="quiz-p1" class="quiz" data-quiz-id="p1"
+data-title-en="Quiz — Exercise 1" data-title-fr="Quiz — Exercice 1"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHZhbHVlcz8iLCJmciI6IjEuIE5vbWJyZSBkZSB2YWxldXJzID8iLCJhbnN3ZXIiOjEzLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMi4gbGFiZWxzWzddPyIsImZyIjoiMi4gbGFiZWxzWzddID8iLCJhbnN3ZXIiOlsiUTJfQiJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIExhcmdlc3QgcG9zaXRpb24gZHJhd24/IiwiZnIiOiIzLiBQbHVzIGdyYW5kZSBwb3NpdGlvbiB0aXLDqWUgPyIsImFuc3dlciI6MjEsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIFNlY29uZCBzbWFsbGVzdCB2YWx1ZT8iLCJmciI6IjQuIERldXhpw6htZSBwbHVzIHBldGl0ZSB2YWxldXIgPyIsImFuc3dlciI6MTIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIFN1bSBvZiB0aGUgZmlyc3QgdHdvIHZhbHVlcyBvZiByZXYoeCk/IiwiZnIiOiI1LiBTb21tZSBkZXMgZGV1eCBwcmVtacOocmVzIHZhbGV1cnMgZGUgcmV2KHgpID8iLCJhbnN3ZXIiOjc5LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBXaGF0IGRvZXMgc2VxKDAsIDEsIGxlbmd0aC5vdXQgPSA1KSByZXR1cm4/IiwiZnIiOiI2LiBRdWUgcmVudm9pZSBzZXEoMCwgMSwgbGVuZ3RoLm91dCA9IDUpID8iLCJvcHRpb25zX2VuIjpbIjAgMSAyIDMgNCIsIjAgMC4yIDAuNCAwLjYgMC44IiwiMCAwLjI1IDAuNSAwLjc1IDEiLCIxIDIgMyA0IDUiXSwib3B0aW9uc19mciI6WyIwIDEgMiAzIDQiLCIwIDAuMiAwLjQgMC42IDAuOCIsIjAgMC4yNSAwLjUgMC43NSAxIiwiMSAyIDMgNCA1Il0sImFuc3dlciI6Mn1d">
+
+</div>
+<div class="solution" data-quiz="p1">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="at">by =</span> <span class="fl">0.75</span>))            <span class="co"># 1</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;Q&quot;</span>, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">times =</span> <span class="dv">3</span>), <span class="st">&quot;_&quot;</span>, <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>), <span class="at">each =</span> <span class="dv">5</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>labels[<span class="dv">7</span>]                                 <span class="co"># 2. &quot;Q2_B&quot;: 7th number is 2, 7th letter is B</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="fl">0.5</span>), <span class="dv">6</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">max</span>(s)                                    <span class="co"># 3</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">45</span>, <span class="dv">7</span>, <span class="dv">88</span>, <span class="dv">23</span>, <span class="dv">56</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">sort</span>(x)[<span class="dv">2</span>]                                <span class="co"># 4</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">rev</span>(x)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])                          <span class="co"># 5. rev(x) starts with 56, 23</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex2" class="section level2">
+<h2><span class="en">Exercise 2 — Addresses in a data frame</span><span
+class="fr">Exercice 2 — Adresses dans un data frame</span></h2>
+<div class="en">
+<p><em>Revise: Sessions 3 and 4.</em> Data:
+<code>sg &lt;- read.csv("data/seagrass_quadrats.csv")</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Which species is in row 17?</li>
+<li>Sum of <code>seagrass_cover</code> in rows 1 to 5 (one line with
+<code>[row, column]</code>).</li>
+<li>Rows 46 to 60 are the Belitsaky quadrats. Mean
+<code>shoot_density</code> of these rows (2 decimals).</li>
+<li>The depth gauge cannot read below 0.6 m. On a copy <code>sg2</code>,
+replace every depth below 0.6 by 0.6. Mean depth afterwards (2
+decimals)?</li>
+<li>How many values of <code>canopy_height_cm</code> are missing?</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Révision : séances 3 et 4.</em> Données :
+<code>sg &lt;- read.csv("data/seagrass_quadrats.csv")</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Quelle espèce se trouve à la ligne 17 ?</li>
+<li>Somme de <code>seagrass_cover</code> sur les lignes 1 à 5 (une seule
+ligne avec <code>[ligne, colonne]</code>).</li>
+<li>Les lignes 46 à 60 sont les quadrats de Belitsaky. Moyenne de
+<code>shoot_density</code> sur ces lignes (2 décimales).</li>
+<li>La sonde ne lit pas en dessous de 0,6 m. Sur une copie
+<code>sg2</code>, remplacez toute profondeur inférieure à 0,6 par 0,6.
+Profondeur moyenne ensuite (2 décimales) ?</li>
+<li>Combien de valeurs de <code>canopy_height_cm</code> sont manquantes
+?</li>
+</ol>
+</div>
+<div id="quiz-p2" class="quiz" data-quiz-id="p2"
+data-title-en="Quiz — Exercise 2" data-title-fr="Quiz — Exercice 2"
+data-q="W3sidHlwZSI6InRleHQiLCJlbiI6IjEuIFNwZWNpZXMgaW4gcm93IDE3PyIsImZyIjoiMS4gRXNww6hjZSBkZSBsYSBsaWduZSAxNyA/IiwiYW5zd2VyIjpbIlRoYWxhc3NpYSBoZW1wcmljaGlpIl19LHsidHlwZSI6Im51bSIsImVuIjoiMi4gU3VtIG9mIGNvdmVyIGluIHJvd3MgMSB0byA1PyIsImZyIjoiMi4gU29tbWUgZHUgcmVjb3V2cmVtZW50IGxpZ25lcyAxIMOgIDUgPyIsImFuc3dlciI6Mjk0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBNZWFuIHNob290IGRlbnNpdHksIHJvd3MgNDYgdG8gNjAgKDIgZGVjaW1hbHMpPyIsImZyIjoiMy4gRGVuc2l0w6kgbW95ZW5uZSwgbGlnbmVzIDQ2IMOgIDYwICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjQzMiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE1lYW4gZGVwdGggYWZ0ZXIgdGhlIGNvcnJlY3Rpb24gKDIgZGVjaW1hbHMpPyIsImZyIjoiNC4gUHJvZm9uZGV1ciBtb3llbm5lIGFwcsOocyBjb3JyZWN0aW9uICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjEuNjQsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI1LiBOdW1iZXIgb2YgbWlzc2luZyBjYW5vcHkgaGVpZ2h0cz8iLCJmciI6IjUuIE5vbWJyZSBkZSBoYXV0ZXVycyBkZSBjYW5vcMOpZSBtYW5xdWFudGVzID8iLCJhbnN3ZXIiOjIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIFdoYXQgZG9lcyBzZ1szLCBdIHJldHVybj8iLCJmciI6IjYuIFF1ZSByZW52b2llIHNnWzMsIF0gPyIsIm9wdGlvbnNfZW4iOlsiQ29sdW1uIDMiLCJSb3cgMywgYWxsIGNvbHVtbnMiLCJUaGUgdmFsdWUgaW4gcm93IDMsIGNvbHVtbiAzIiwiVGhlIGZpcnN0IDMgcm93cyJdLCJvcHRpb25zX2ZyIjpbIkxhIGNvbG9ubmUgMyIsIkxhIGxpZ25lIDMsIHRvdXRlcyBsZXMgY29sb25uZXMiLCJMYSB2YWxldXIgbGlnbmUgMywgY29sb25uZSAzIiwiTGVzIDMgcHJlbWnDqHJlcyBsaWduZXMiXSwiYW5zd2VyIjoxfV0=">
+
+</div>
+<div class="solution" data-quiz="p2">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>sg <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/seagrass_quadrats.csv&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>sg[<span class="dv">17</span>, <span class="st">&quot;species&quot;</span>]                                   <span class="co"># 1</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">sum</span>(sg[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;seagrass_cover&quot;</span>])                      <span class="co"># 2</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(sg[<span class="dv">46</span><span class="sc">:</span><span class="dv">60</span>, <span class="st">&quot;shoot_density&quot;</span>]), <span class="dv">2</span>)          <span class="co"># 3</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>sg2 <span class="ot">&lt;-</span> sg</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>sg2<span class="sc">$</span>depth_m[sg2<span class="sc">$</span>depth_m <span class="sc">&lt;</span> <span class="fl">0.6</span>] <span class="ot">&lt;-</span> <span class="fl">0.6</span>               <span class="co"># 4. condition inside [ ]</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(sg2<span class="sc">$</span>depth_m), <span class="dv">2</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(sg<span class="sc">$</span>canopy_height_cm))                     <span class="co"># 5</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex3" class="section level2">
+<h2><span class="en">Exercise 3 — Columns from calculations</span><span
+class="fr">Exercice 3 — Colonnes calculées</span></h2>
+<div class="en">
+<p><em>Revise: Session 4.</em> Data:
+<code>fish &lt;- read.csv("data/fish_uvc.csv")</code>. Transect area =
+250 m².</p>
+<ol style="list-style-type: decimal">
+<li>Total number of fish observed (sum of <code>count</code>).</li>
+<li>Add <code>biomass_kg</code> = count × a × length_cm^b / 1000. What
+is the largest value of <code>biomass_kg</code> (3 decimals)?</li>
+<li>Add <code>n_per_ha</code> = count / 250 × 10000 (fish per hectare).
+Value in row 10?</li>
+<li>Remove the columns <code>family</code>, <code>a</code> and
+<code>b</code> in one line with
+<code>subset(..., select = -c(...))</code>. How many columns are
+left?</li>
+<li>With <code>sapply()</code> on <code>length_cm</code>,
+<code>count</code> and <code>biomass_kg</code>, compute the mean of each
+column. Mean of <code>count</code> (2 decimals)?</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Révision : séance 4.</em> Données :
+<code>fish &lt;- read.csv("data/fish_uvc.csv")</code>. Surface d’un
+transect = 250 m².</p>
+<ol style="list-style-type: decimal">
+<li>Nombre total de poissons observés (somme de
+<code>count</code>).</li>
+<li>Ajoutez <code>biomass_kg</code> = count × a × length_cm^b / 1000.
+Quelle est la plus grande valeur de <code>biomass_kg</code> (3
+décimales) ?</li>
+<li>Ajoutez <code>n_per_ha</code> = count / 250 × 10000 (poissons par
+hectare). Valeur à la ligne 10 ?</li>
+<li>Supprimez les colonnes <code>family</code>, <code>a</code> et
+<code>b</code> en une ligne avec
+<code>subset(..., select = -c(...))</code>. Combien de colonnes
+reste-t-il ?</li>
+<li>Avec <code>sapply()</code> sur <code>length_cm</code>,
+<code>count</code> et <code>biomass_kg</code>, calculez la moyenne de
+chaque colonne. Moyenne de <code>count</code> (2 décimales) ?</li>
+</ol>
+</div>
+<div id="quiz-p3" class="quiz" data-quiz-id="p3"
+data-title-en="Quiz — Exercise 3" data-title-fr="Quiz — Exercice 3"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gVG90YWwgbnVtYmVyIG9mIGZpc2g/IiwiZnIiOiIxLiBOb21icmUgdG90YWwgZGUgcG9pc3NvbnMgPyIsImFuc3dlciI6MTE1OSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gTGFyZ2VzdCBiaW9tYXNzX2tnICgzIGRlY2ltYWxzKT8iLCJmciI6IjIuIFBsdXMgZ3JhbmRlIGJpb21hc3Nfa2cgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6NS4zNCwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBuX3Blcl9oYSBpbiByb3cgMTA/IiwiZnIiOiIzLiBuX3Blcl9oYSDDoCBsYSBsaWduZSAxMCA/IiwiYW5zd2VyIjoyNDAsInRvbCI6MC4wMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE51bWJlciBvZiBjb2x1bW5zIGxlZnQ/IiwiZnIiOiI0LiBOb21icmUgZGUgY29sb25uZXMgcmVzdGFudGVzID8iLCJhbnN3ZXIiOjgsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIE1lYW4gb2YgY291bnQgKDIgZGVjaW1hbHMpPyIsImZyIjoiNS4gTW95ZW5uZSBkZSBjb3VudCAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjo4LjIyLCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gV2hpY2ggbGluZSBhZGRzIGEgY29sdW1uIHRvIGZpc2g/IiwiZnIiOiI2LiBRdWVsbGUgbGlnbmUgYWpvdXRlIHVuZSBjb2xvbm5lIMOgIGZpc2ggPyIsIm9wdGlvbnNfZW4iOlsiZmlzaFtcIm5ld1wiXSA9PSAxIiwiZmlzaCRuZXcgPC0gMSIsIm5ldyhmaXNoKSA8LSAxIiwiZmlzaCA8LSBmaXNoICsgbmV3Il0sIm9wdGlvbnNfZnIiOlsiZmlzaFtcIm5ld1wiXSA9PSAxIiwiZmlzaCRuZXcgPC0gMSIsIm5ldyhmaXNoKSA8LSAxIiwiZmlzaCA8LSBmaXNoICsgbmV3Il0sImFuc3dlciI6MX1d">
+
+</div>
+<div class="solution" data-quiz="p3">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>fish <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/fish_uvc.csv&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">sum</span>(fish<span class="sc">$</span>count)                                                  <span class="co"># 1</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>fish<span class="sc">$</span>biomass_kg <span class="ot">&lt;-</span> fish<span class="sc">$</span>count <span class="sc">*</span> fish<span class="sc">$</span>a <span class="sc">*</span> fish<span class="sc">$</span>length_cm<span class="sc">^</span>fish<span class="sc">$</span>b <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">max</span>(fish<span class="sc">$</span>biomass_kg), <span class="dv">3</span>)                                   <span class="co"># 2</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>fish<span class="sc">$</span>n_per_ha <span class="ot">&lt;-</span> fish<span class="sc">$</span>count <span class="sc">/</span> <span class="dv">250</span> <span class="sc">*</span> <span class="dv">10000</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>fish[<span class="dv">10</span>, <span class="st">&quot;n_per_ha&quot;</span>]                                             <span class="co"># 3</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>fish <span class="ot">&lt;-</span> <span class="fu">subset</span>(fish, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(family, a, b))</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">ncol</span>(fish)                                                       <span class="co"># 4</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">sapply</span>(fish[, <span class="fu">c</span>(<span class="st">&quot;length_cm&quot;</span>, <span class="st">&quot;count&quot;</span>, <span class="st">&quot;biomass_kg&quot;</span>)], mean)      <span class="co"># 5</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex4" class="section level2">
+<h2><span class="en">Exercise 4 — <code>subset()</code> and
+cleaning</span><span class="fr">Exercice 4 — <code>subset()</code> et
+nettoyage</span></h2>
+<div class="en">
+<p><em>Revise: Session 5.</em> Data: re-import
+<code>fish &lt;- read.csv("data/fish_uvc.csv")</code> (Exercise 3
+removed some columns).</p>
+<ol style="list-style-type: decimal">
+<li>How many rows are snappers or groupers
+(<code>Lutjanus kasmira</code> or <code>Epinephelus merra</code>, use
+<code>%in%</code>) <strong>outside</strong> the MPA?</li>
+<li>How many columns does
+<code>subset(fish, length_cm &gt; 25, select = site:species)</code>
+keep?</li>
+<li>Mean length of parrotfish (<code>family == "Scaridae"</code>)
+<strong>inside</strong> the MPA (2 decimals).</li>
+<li>Clean
+<code>x &lt;- c(" Ifaty", "ifaty", "IFATY ", "Mangily", "mangily ")</code>
+with <code>trimws()</code>, <code>tolower()</code> and
+<code>tools::toTitleCase()</code>. How many different values
+remain?</li>
+<li>Clean <code>y &lt;- c("12", "15%", "-", "40", "8%")</code>: remove
+<code>%</code>, turn <code>"-"</code> into <code>NA</code>, convert to
+numbers. Mean of <code>y</code> without NA?</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Révision : séance 5.</em> Données : réimportez
+<code>fish &lt;- read.csv("data/fish_uvc.csv")</code> (l’exercice 3 a
+supprimé des colonnes).</p>
+<ol style="list-style-type: decimal">
+<li>Combien de lignes sont des vivaneaux ou des mérous
+(<code>Lutjanus kasmira</code> ou <code>Epinephelus merra</code>,
+utilisez <code>%in%</code>) <strong>hors</strong> AMP ?</li>
+<li>Combien de colonnes garde
+<code>subset(fish, length_cm &gt; 25, select = site:species)</code>
+?</li>
+<li>Taille moyenne des poissons-perroquets
+(<code>family == "Scaridae"</code>) <strong>dans</strong> l’AMP (2
+décimales).</li>
+<li>Nettoyez
+<code>x &lt;- c(" Ifaty", "ifaty", "IFATY ", "Mangily", "mangily ")</code>
+avec <code>trimws()</code>, <code>tolower()</code> et
+<code>tools::toTitleCase()</code>. Combien de valeurs différentes
+reste-t-il ?</li>
+<li>Nettoyez <code>y &lt;- c("12", "15%", "-", "40", "8%")</code> :
+retirez <code>%</code>, transformez <code>"-"</code> en <code>NA</code>,
+convertissez en nombres. Moyenne de <code>y</code> sans NA ?</li>
+</ol>
+</div>
+<div id="quiz-p4" class="quiz" data-quiz-id="p4"
+data-title-en="Quiz — Exercise 4" data-title-fr="Quiz — Exercice 4"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gU25hcHBlciBvciBncm91cGVyIHJvd3Mgb3V0c2lkZSB0aGUgTVBBPyIsImZyIjoiMS4gTGlnbmVzIGRlIHZpdmFuZWF1eCBvdSBtw6lyb3VzIGhvcnMgQU1QID8iLCJhbnN3ZXIiOjIzLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBOdW1iZXIgb2YgY29sdW1ucyBrZXB0PyIsImZyIjoiMi4gTm9tYnJlIGRlIGNvbG9ubmVzIGdhcmTDqWVzID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE1lYW4gbGVuZ3RoIG9mIFNjYXJpZGFlIGluc2lkZSAoMiBkZWNpbWFscyk/IiwiZnIiOiIzLiBUYWlsbGUgbW95ZW5uZSBkZXMgU2NhcmlkYWUgZGFucyBsJ0FNUCAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoxOS43NSwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIERpZmZlcmVudCB2YWx1ZXMgYWZ0ZXIgY2xlYW5pbmc/IiwiZnIiOiI0LiBWYWxldXJzIGRpZmbDqXJlbnRlcyBhcHLDqHMgbmV0dG95YWdlID8iLCJhbnN3ZXIiOjIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIE1lYW4gb2YgeT8iLCJmciI6IjUuIE1veWVubmUgZGUgeSA/IiwiYW5zd2VyIjoxOC43NSwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIEluc2lkZSBzdWJzZXQoKSwgaG93IGRvIHlvdSB3cml0ZSB0aGUgY29sdW1uIGNvdmVyPyIsImZyIjoiNi4gRGFucyBzdWJzZXQoKSwgY29tbWVudCDDqWNyaXQtb24gbGEgY29sb25uZSBjb3ZlciA/Iiwib3B0aW9uc19lbiI6WyJkZiRjb3ZlciIsImNvdmVyIiwiXCJkZiRjb3ZlclwiIiwiW2NvdmVyXSJdLCJvcHRpb25zX2ZyIjpbImRmJGNvdmVyIiwiY292ZXIiLCJcImRmJGNvdmVyXCIiLCJbY292ZXJdIl0sImFuc3dlciI6MX1d">
+
+</div>
+<div class="solution" data-quiz="p4">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>fish <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/fish_uvc.csv&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">subset</span>(fish, mpa_status <span class="sc">==</span> <span class="st">&quot;Outside&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>                  species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Lutjanus kasmira&quot;</span>, <span class="st">&quot;Epinephelus merra&quot;</span>)))     <span class="co"># 1</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">ncol</span>(<span class="fu">subset</span>(fish, length_cm <span class="sc">&gt;</span> <span class="dv">25</span>, <span class="at">select =</span> site<span class="sc">:</span>species))                     <span class="co"># 2</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">subset</span>(fish, family <span class="sc">==</span> <span class="st">&quot;Scaridae&quot;</span> <span class="sc">&amp;</span> mpa_status <span class="sc">==</span> <span class="st">&quot;Inside&quot;</span>)<span class="sc">$</span>length_cm), <span class="dv">2</span>)  <span class="co"># 3</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot; Ifaty&quot;</span>, <span class="st">&quot;ifaty&quot;</span>, <span class="st">&quot;IFATY &quot;</span>, <span class="st">&quot;Mangily&quot;</span>, <span class="st">&quot;mangily &quot;</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(tools<span class="sc">::</span><span class="fu">toTitleCase</span>(<span class="fu">tolower</span>(<span class="fu">trimws</span>(x)))))                       <span class="co"># 4</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;12&quot;</span>, <span class="st">&quot;15%&quot;</span>, <span class="st">&quot;-&quot;</span>, <span class="st">&quot;40&quot;</span>, <span class="st">&quot;8%&quot;</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;%&quot;</span>, <span class="st">&quot;&quot;</span>, y)</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>y[y <span class="sc">==</span> <span class="st">&quot;-&quot;</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">as.numeric</span>(y), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                                            <span class="co"># 5</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex5" class="section level2">
+<h2><span class="en">Exercise 5 — Statistics per group</span><span
+class="fr">Exercice 5 — Statistiques par groupe</span></h2>
+<div class="en">
+<p><em>Revise: Session 6.</em> Data: <code>fish</code>, with a column
+<code>biomass_g</code> = count × a × length_cm^b.</p>
+<ol style="list-style-type: decimal">
+<li>Total number of fish counted at Ambola (<code>tapply()</code> with
+<code>sum</code>).</li>
+<li>Mean <code>length_cm</code> inside the MPA with
+<code>aggregate(length_cm ~ mpa_status, ...)</code> (2 decimals).</li>
+<li>SD of <code>length_cm</code> for <em>Scarus ghobban</em> (2
+decimals).</li>
+<li><strong>Two steps.</strong> (a) Total biomass <strong>per
+transect</strong>:
+<code>aggregate(biomass_g ~ mpa_status + site + transect, data = fish, FUN = sum)</code>.
+(b) Convert to kg/ha (÷ 1000, ÷ 250, × 10000). (c) Mean kg/ha of the
+<strong>Inside</strong> transects (2 decimals)?</li>
+<li>SE of the kg/ha of the <strong>Outside</strong> transects (2
+decimals)?</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Révision : séance 6.</em> Données : <code>fish</code>, avec une
+colonne <code>biomass_g</code> = count × a × length_cm^b.</p>
+<ol style="list-style-type: decimal">
+<li>Nombre total de poissons comptés à Ambola (<code>tapply()</code>
+avec <code>sum</code>).</li>
+<li>Moyenne de <code>length_cm</code> dans l’AMP avec
+<code>aggregate(length_cm ~ mpa_status, ...)</code> (2 décimales).</li>
+<li>ET de <code>length_cm</code> pour <em>Scarus ghobban</em> (2
+décimales).</li>
+<li><strong>Deux étapes.</strong> (a) Biomasse totale <strong>par
+transect</strong> :
+<code>aggregate(biomass_g ~ mpa_status + site + transect, data = fish, FUN = sum)</code>.
+(b) Convertir en kg/ha (÷ 1000, ÷ 250, × 10000). (c) Moyenne des kg/ha
+des transects <strong>Inside</strong> (2 décimales) ?</li>
+<li>ES des kg/ha des transects <strong>Outside</strong> (2 décimales)
+?</li>
+</ol>
+</div>
+<div id="quiz-p5" class="quiz" data-quiz-id="p5"
+data-title-en="Quiz — Exercise 5" data-title-fr="Quiz — Exercice 5"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gVG90YWwgZmlzaCBjb3VudGVkIGF0IEFtYm9sYT8iLCJmciI6IjEuIFRvdGFsIGRlIHBvaXNzb25zIGNvbXB0w6lzIMOgIEFtYm9sYSA/IiwiYW5zd2VyIjoyOTYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIE1lYW4gbGVuZ3RoIGluc2lkZSB0aGUgTVBBICgyIGRlY2ltYWxzKT8iLCJmciI6IjIuIFRhaWxsZSBtb3llbm5lIGRhbnMgbCdBTVAgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MTcuMzIsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBTRCBvZiBsZW5ndGggb2YgU2NhcnVzIGdob2JiYW4gKDIgZGVjaW1hbHMpPyIsImZyIjoiMy4gRVQgZGUgbGEgdGFpbGxlIGRlIFNjYXJ1cyBnaG9iYmFuICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjcuMzEsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZWFuIGtnL2hhIG9mIHRoZSBJbnNpZGUgdHJhbnNlY3RzICgyIGRlY2ltYWxzKT8iLCJmciI6IjQuIE1veWVubmUgZGVzIGtnL2hhIGRlcyB0cmFuc2VjdHMgSW5zaWRlICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjQ0Ni4wOSwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIFNFIG9mIGtnL2hhIG9mIHRoZSBPdXRzaWRlIHRyYW5zZWN0cyAoMiBkZWNpbWFscyk/IiwiZnIiOiI1LiBFUyBkZXMga2cvaGEgZGVzIHRyYW5zZWN0cyBPdXRzaWRlICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjQxLjA1LCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gV2h5IGNvbXB1dGUgYmlvbWFzcyBwZXIgdHJhbnNlY3QgYmVmb3JlIGF2ZXJhZ2luZz8iLCJmciI6IjYuIFBvdXJxdW9pIGNhbGN1bGVyIGxhIGJpb21hc3NlIHBhciB0cmFuc2VjdCBhdmFudCBkZSBmYWlyZSBsYSBtb3llbm5lID8iLCJvcHRpb25zX2VuIjpbIkJlY2F1c2UgUiBjYW5ub3Qgc3VtIHJvd3MiLCJCZWNhdXNlIHRoZSB0cmFuc2VjdCBpcyB0aGUgc2FtcGxpbmcgdW5pdCAocmVwbGljYXRlKSIsIlRvIGdldCBtb3JlIGRlY2ltYWxzIiwiSXQgbWFrZXMgbm8gZGlmZmVyZW5jZSJdLCJvcHRpb25zX2ZyIjpbIlBhcmNlIHF1ZSBSIG5lIHNhaXQgcGFzIGFkZGl0aW9ubmVyIGRlcyBsaWduZXMiLCJQYXJjZSBxdWUgbGUgdHJhbnNlY3QgZXN0IGwndW5pdMOpIGQnw6ljaGFudGlsbG9ubmFnZSAocsOpcGxpY2F0KSIsIlBvdXIgYXZvaXIgcGx1cyBkZSBkw6ljaW1hbGVzIiwiQ2VsYSBuZSBjaGFuZ2UgcmllbiJdLCJhbnN3ZXIiOjF9XQ==">
+
+</div>
+<div class="solution" data-quiz="p5">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>fish <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/fish_uvc.csv&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>fish<span class="sc">$</span>biomass_g <span class="ot">&lt;-</span> fish<span class="sc">$</span>count <span class="sc">*</span> fish<span class="sc">$</span>a <span class="sc">*</span> fish<span class="sc">$</span>length_cm<span class="sc">^</span>fish<span class="sc">$</span>b</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">tapply</span>(fish<span class="sc">$</span>count, fish<span class="sc">$</span>site, sum)                                  <span class="co"># 1</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">aggregate</span>(length_cm <span class="sc">~</span> mpa_status, <span class="at">data =</span> fish, <span class="at">FUN =</span> mean)          <span class="co"># 2</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sd</span>(fish<span class="sc">$</span>length_cm[fish<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Scarus ghobban&quot;</span>]), <span class="dv">2</span>)      <span class="co"># 3</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(biomass_g <span class="sc">~</span> mpa_status <span class="sc">+</span> site <span class="sc">+</span> transect, <span class="at">data =</span> fish, <span class="at">FUN =</span> sum)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>tr<span class="sc">$</span>kg_ha <span class="ot">&lt;-</span> tr<span class="sc">$</span>biomass_g <span class="sc">/</span> <span class="dv">1000</span> <span class="sc">/</span> <span class="dv">250</span> <span class="sc">*</span> <span class="dv">10000</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(tr<span class="sc">$</span>kg_ha, tr<span class="sc">$</span>mpa_status, mean), <span class="dv">2</span>)                     <span class="co"># 4</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>out <span class="ot">&lt;-</span> tr<span class="sc">$</span>kg_ha[tr<span class="sc">$</span>mpa_status <span class="sc">==</span> <span class="st">&quot;Outside&quot;</span>]</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sd</span>(out) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(out)), <span class="dv">2</span>)                               <span class="co"># 5. n = 6 transects</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex6" class="section level2">
+<h2><span class="en">Exercise 6 — Graphs and equivalences</span><span
+class="fr">Exercice 6 — Graphiques et équivalences</span></h2>
+<div class="en">
+<p><em>Revise: Sessions 7 and 8.</em> Data: re-import
+<code>fish &lt;- read.csv("data/fish_uvc.csv")</code> (Exercise 3
+removed some columns).</p>
+<ol style="list-style-type: decimal">
+<li>Draw <code>boxplot(length_cm ~ family, data = fish, las = 2)</code>.
+Which family has the <strong>highest median</strong> length?</li>
+<li>Draw
+<code>h &lt;- hist(fish$length_cm, breaks = seq(0, 40, by = 5))</code>.
+How many fish groups are in the most frequent size class
+(<code>h$counts</code>)?</li>
+<li>Make the same boxplot with ggplot2.</li>
+<li>Answer the questions on equivalences between base R and the
+tidyverse.</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Révision : séances 7 et 8.</em> Données : réimportez
+<code>fish &lt;- read.csv("data/fish_uvc.csv")</code> (l’exercice 3 a
+supprimé des colonnes).</p>
+<ol style="list-style-type: decimal">
+<li>Tracez
+<code>boxplot(length_cm ~ family, data = fish, las = 2)</code>. Quelle
+famille a la <strong>médiane</strong> de taille <strong>la plus
+élevée</strong> ?</li>
+<li>Tracez
+<code>h &lt;- hist(fish$length_cm, breaks = seq(0, 40, by = 5))</code>.
+Combien de groupes de poissons se trouvent dans la classe de taille la
+plus fréquente (<code>h$counts</code>) ?</li>
+<li>Faites le même boxplot avec ggplot2.</li>
+<li>Répondez aux questions sur les équivalences entre R de base et le
+tidyverse.</li>
+</ol>
+</div>
+<div id="quiz-p6" class="quiz" data-quiz-id="p6"
+data-title-en="Quiz — Exercise 6" data-title-fr="Quiz — Exercice 6"
+data-q="W3sidHlwZSI6InRleHQiLCJlbiI6IjEuIEZhbWlseSB3aXRoIHRoZSBoaWdoZXN0IG1lZGlhbiBsZW5ndGg/IiwiZnIiOiIxLiBGYW1pbGxlIMOgIGxhIG3DqWRpYW5lIGRlIHRhaWxsZSBsYSBwbHVzIMOpbGV2w6llID8iLCJhbnN3ZXIiOlsiU2lnYW5pZGFlIl19LHsidHlwZSI6Im51bSIsImVuIjoiMi4gTnVtYmVyIG9mIGdyb3VwcyBpbiB0aGUgbW9zdCBmcmVxdWVudCBjbGFzcz8iLCJmciI6IjIuIE5vbWJyZSBkZSBncm91cGVzIGRhbnMgbGEgY2xhc3NlIGxhIHBsdXMgZnLDqXF1ZW50ZSA/IiwiYW5zd2VyIjo1MSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiMy4gZ2dwbG90MiBlcXVpdmFsZW50IG9mIHBhcihtZnJvdyA9IGMoMiwgMikpIHdpdGggb25lIHBsb3QgcGVyIHNpdGU/IiwiZnIiOiIzLiDDiXF1aXZhbGVudCBnZ3Bsb3QyIGRlIHBhcihtZnJvdyA9IGMoMiwgMikpIGF2ZWMgdW4gZ3JhcGhpcXVlIHBhciBzaXRlID8iLCJvcHRpb25zX2VuIjpbImZhY2V0X3dyYXAofiBzaXRlKSIsImdlb21fY29sKCkiLCJ0aGVtZV9idygpIiwibGFicyhzaXRlKSJdLCJvcHRpb25zX2ZyIjpbImZhY2V0X3dyYXAofiBzaXRlKSIsImdlb21fY29sKCkiLCJ0aGVtZV9idygpIiwibGFicyhzaXRlKSJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiNC4gZHBseXIgZXF1aXZhbGVudCBvZiB0YXBwbHkoZmlzaCRsZW5ndGhfY20sIGZpc2gkc2l0ZSwgbWVhbik/IiwiZnIiOiI0LiDDiXF1aXZhbGVudCBkcGx5ciBkZSB0YXBwbHkoZmlzaCRsZW5ndGhfY20sIGZpc2gkc2l0ZSwgbWVhbikgPyIsIm9wdGlvbnNfZW4iOlsiZmlzaCB8PiBmaWx0ZXIoc2l0ZSkgfD4gbWVhbihsZW5ndGhfY20pIiwiZmlzaCB8PiBncm91cF9ieShzaXRlKSB8PiBzdW1tYXJpc2UobSA9IG1lYW4obGVuZ3RoX2NtKSkiLCJmaXNoIHw+IHNlbGVjdChzaXRlLCBsZW5ndGhfY20pIiwiZmlzaCB8PiBtdXRhdGUobSA9IG1lYW4oc2l0ZSkpIl0sIm9wdGlvbnNfZnIiOlsiZmlzaCB8PiBmaWx0ZXIoc2l0ZSkgfD4gbWVhbihsZW5ndGhfY20pIiwiZmlzaCB8PiBncm91cF9ieShzaXRlKSB8PiBzdW1tYXJpc2UobSA9IG1lYW4obGVuZ3RoX2NtKSkiLCJmaXNoIHw+IHNlbGVjdChzaXRlLCBsZW5ndGhfY20pIiwiZmlzaCB8PiBtdXRhdGUobSA9IG1lYW4oc2l0ZSkpIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI1LiBCYXNlIFIgZXF1aXZhbGVudCBvZiBhcnJhbmdlKGZpc2gsIGRlc2MoY291bnQpKT8iLCJmciI6IjUuIMOJcXVpdmFsZW50IGVuIFIgZGUgYmFzZSBkZSBhcnJhbmdlKGZpc2gsIGRlc2MoY291bnQpKSA/Iiwib3B0aW9uc19lbiI6WyJzb3J0KGZpc2gpIiwiZmlzaFtvcmRlcihmaXNoJGNvdW50LCBkZWNyZWFzaW5nID0gVFJVRSksIF0iLCJmaXNoW2Zpc2gkY291bnQsIF0iLCJyZXYoZmlzaCRjb3VudCkiXSwib3B0aW9uc19mciI6WyJzb3J0KGZpc2gpIiwiZmlzaFtvcmRlcihmaXNoJGNvdW50LCBkZWNyZWFzaW5nID0gVFJVRSksIF0iLCJmaXNoW2Zpc2gkY291bnQsIF0iLCJyZXYoZmlzaCRjb3VudCkiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIEJhc2UgUiBlcXVpdmFsZW50IG9mIGdnc2F2ZSgpPyIsImZyIjoiNi4gw4lxdWl2YWxlbnQgZW4gUiBkZSBiYXNlIGRlIGdnc2F2ZSgpID8iLCJvcHRpb25zX2VuIjpbIndyaXRlLmNzdigpIiwic2F2ZSgpIiwicG5nKCkgLi4uIGRldi5vZmYoKSIsInByaW50KCkiXSwib3B0aW9uc19mciI6WyJ3cml0ZS5jc3YoKSIsInNhdmUoKSIsInBuZygpIC4uLiBkZXYub2ZmKCkiLCJwcmludCgpIl0sImFuc3dlciI6Mn1d">
+
+</div>
+<div class="solution" data-quiz="p6">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>fish <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/fish_uvc.csv&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">boxplot</span>(length_cm <span class="sc">~</span> family, <span class="at">data =</span> fish, <span class="at">las =</span> <span class="dv">2</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">tapply</span>(fish<span class="sc">$</span>length_cm, fish<span class="sc">$</span>family, median)          <span class="co"># 1: check the highest</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">hist</span>(fish<span class="sc">$</span>length_cm, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="at">by =</span> <span class="dv">5</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>h<span class="sc">$</span>counts; <span class="fu">max</span>(h<span class="sc">$</span>counts)                               <span class="co"># 2</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">library</span>(ggplot2)                                      <span class="co"># 3</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">ggplot</span>(fish, <span class="fu">aes</span>(family, length_cm)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

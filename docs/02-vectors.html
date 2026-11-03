@@ -333,7 +333,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine Ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -360,24 +360,30 @@ $(document).ready(function () {
       <a href="03-data-frames.html">3 · Data frames</a>
     </li>
     <li>
-      <a href="04-cleaning.html">4 · Cleaning data</a>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
     </li>
     <li>
-      <a href="05-statistics.html">5 · Statistics</a>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
     </li>
     <li>
-      <a href="06-graphics.html">6 · Base R graphs</a>
+      <a href="06-statistics.html">6 · Statistics</a>
     </li>
     <li>
-      <a href="07-functions.html">7 · Functions &amp; loops</a>
+      <a href="07-graphics.html">7 · Base R graphs</a>
     </li>
     <li>
-      <a href="08-tidyverse.html">8 · dplyr &amp; ggplot2</a>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
     </li>
     <li>
-      <a href="09-final-project.html">9 · Final project</a>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="cheatsheet.html">Cheatsheet</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -480,20 +486,132 @@ renvoie 12 — les positions commencent à 1 dans R. NA = valeur manquante
 <pre><code>#&gt; [1] 45 60 12 NA 80 33  0 55</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">length</span>(cover)                               <span class="co"># number of values</span></span></code></pre></div>
 <pre><code>#&gt; [1] 8</code></pre>
-<div id="shortcuts-to-build-vectorsraccourcis-pour-créer-des-vecteurs"
+</div>
+<div id="build" class="section level2">
+<h2><span class="en">Building vectors: <code>seq()</code>,
+<code>rep()</code>, <code>sample()</code></span><span class="fr">Créer
+des vecteurs : <code>seq()</code>, <code>rep()</code>,
+<code>sample()</code></span></h2>
+<div class="en">
+<p>Typing every value with <code>c()</code> is fine for 5 values, not
+for 500. Three functions build regular or random vectors for you.</p>
+</div>
+<div class="fr">
+<p>Taper chaque valeur avec <code>c()</code> convient pour 5 valeurs,
+pas pour 500. Trois fonctions créent pour vous des vecteurs réguliers ou
+aléatoires.</p>
+</div>
+<div id="seq-regular-sequencesseq-suites-régulières"
 class="section level3">
-<h3><span class="en">Shortcuts to build vectors</span><span
-class="fr">Raccourcis pour créer des vecteurs</span></h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>                                 <span class="co"># integers from 1 to 10</span></span></code></pre></div>
+<h3><span class="en"><code>seq()</code> — regular sequences</span><span
+class="fr"><code>seq()</code> — suites régulières</span></h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>                                <span class="co"># shortcut: integers from 1 to 10</span></span></code></pre></div>
 <pre><code>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="dv">5</span>)                   <span class="co"># from 0 to 25, step 5 (e.g. positions along a transect)</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">25</span>, <span class="at">by =</span> <span class="dv">5</span>)      <span class="co"># from 0 to 25, step 5 (e.g. positions along a transect)</span></span></code></pre></div>
 <pre><code>#&gt; [1]  0  5 10 15 20 25</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="fl">0.5</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]          <span class="co"># PIT points every 0.5 m (first 6 shown)</span></span></code></pre></div>
-<pre><code>#&gt; [1] 0.5 1.0 1.5 2.0 2.5 3.0</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">rep</span>(<span class="st">&quot;Inside&quot;</span>, <span class="at">times =</span> <span class="dv">3</span>)             <span class="co"># repeat a value</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="dv">5</span>)                  <span class="co"># same thing: arguments given by position</span></span></code></pre></div>
+<pre><code>#&gt; [1]  0  5 10 15 20 25</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="fl">0.5</span>)              <span class="co"># PIT points every 0.5 m on a 25 m tape -&gt; 50 points</span></span></code></pre></div>
+<pre><code>#&gt;  [1]  0.5  1.0  1.5  2.0  2.5  3.0  3.5  4.0  4.5  5.0  5.5  6.0  6.5  7.0  7.5  8.0  8.5  9.0  9.5 10.0 10.5
+#&gt; [22] 11.0 11.5 12.0 12.5 13.0 13.5 14.0 14.5 15.0 15.5 16.0 16.5 17.0 17.5 18.0 18.5 19.0 19.5 20.0 20.5 21.0
+#&gt; [43] 21.5 22.0 22.5 23.0 23.5 24.0 24.5 25.0</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">length.out =</span> <span class="dv">5</span>)         <span class="co"># 5 equally spaced values between 0 and 100</span></span></code></pre></div>
+<pre><code>#&gt; [1]   0  25  50  75 100</code></pre>
+<div class="en">
+<p><code>by</code> gives the <strong>step</strong>;
+<code>length.out</code> gives the <strong>number of values</strong> and
+lets R compute the step.</p>
+</div>
+<div class="fr">
+<p><code>by</code> donne le <strong>pas</strong> ;
+<code>length.out</code> donne le <strong>nombre de valeurs</strong> et
+laisse R calculer le pas.</p>
+</div>
+</div>
+<div id="rep-repeating-valuesrep-répéter-des-valeurs"
+class="section level3">
+<h3><span class="en"><code>rep()</code> — repeating values</span><span
+class="fr"><code>rep()</code> — répéter des valeurs</span></h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">rep</span>(<span class="st">&quot;Inside&quot;</span>, <span class="at">times =</span> <span class="dv">3</span>)                       <span class="co"># repeat a value 3 times</span></span></code></pre></div>
 <pre><code>#&gt; [1] &quot;Inside&quot; &quot;Inside&quot; &quot;Inside&quot;</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>), <span class="at">each =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>), <span class="at">times =</span> <span class="dv">2</span>)         <span class="co"># repeat the whole vector: I O I O</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Inside&quot;  &quot;Outside&quot; &quot;Inside&quot;  &quot;Outside&quot;</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>), <span class="at">each =</span> <span class="dv">2</span>)          <span class="co"># repeat each element:     I I O O</span></span></code></pre></div>
 <pre><code>#&gt; [1] &quot;Inside&quot;  &quot;Inside&quot;  &quot;Outside&quot; &quot;Outside&quot;</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;T1&quot;</span>, <span class="st">&quot;T2&quot;</span>, <span class="st">&quot;T3&quot;</span>), <span class="at">each =</span> <span class="dv">2</span>, <span class="at">times =</span> <span class="dv">2</span>)  <span class="co"># combine both</span></span></code></pre></div>
+<pre><code>#&gt;  [1] &quot;T1&quot; &quot;T1&quot; &quot;T2&quot; &quot;T2&quot; &quot;T3&quot; &quot;T3&quot; &quot;T1&quot; &quot;T1&quot; &quot;T2&quot; &quot;T2&quot; &quot;T3&quot; &quot;T3&quot;</code></pre>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Building a field sheet.</strong> 3 sites × 4 quadrats:
+<code>rep()</code> gives the site column, and <code>rep()</code> again
+gives the quadrat numbers.</p>
+</div>
+<div class="fr">
+<p><strong>Préparer une fiche de terrain.</strong> 3 sites × 4 quadrats
+: <code>rep()</code> donne la colonne des sites, et <code>rep()</code>
+encore les numéros de quadrats.</p>
+</div>
+</div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>site    <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Fasimena&quot;</span>, <span class="st">&quot;Tsiandamba&quot;</span>), <span class="at">each =</span> <span class="dv">4</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>quadrat <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">times =</span> <span class="dv">3</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>site</span></code></pre></div>
+<pre><code>#&gt;  [1] &quot;Ambalaboy&quot;  &quot;Ambalaboy&quot;  &quot;Ambalaboy&quot;  &quot;Ambalaboy&quot;  &quot;Fasimena&quot;   &quot;Fasimena&quot;   &quot;Fasimena&quot;   &quot;Fasimena&quot;  
+#&gt;  [9] &quot;Tsiandamba&quot; &quot;Tsiandamba&quot; &quot;Tsiandamba&quot; &quot;Tsiandamba&quot;</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>quadrat</span></code></pre></div>
+<pre><code>#&gt;  [1] 1 2 3 4 1 2 3 4 1 2 3 4</code></pre>
+</div>
+<div id="sample-random-drawssample-tirages-aléatoires"
+class="section level3">
+<h3><span class="en"><code>sample()</code> — random draws</span><span
+class="fr"><code>sample()</code> — tirages aléatoires</span></h3>
+<div class="en">
+<p><code>sample(x, size)</code> draws <code>size</code> values at random
+from <code>x</code>. Ecologists use it to choose <strong>random sampling
+positions</strong> (random quadrats along a transect, random sites in a
+list). Without <code>replace = TRUE</code>, each value can be drawn only
+once.</p>
+<p>Random draws change every time you run them.
+<strong><code>set.seed(number)</code></strong> fixes the starting point
+of the random generator, so the “random” result is the same every time —
+and the same for everyone who uses the same seed. This is essential for
+reproducible science (and for this course’s quizzes!).</p>
+</div>
+<div class="fr">
+<p><code>sample(x, size)</code> tire au hasard <code>size</code> valeurs
+dans <code>x</code>. Les écologues l’utilisent pour choisir des
+<strong>positions d’échantillonnage aléatoires</strong> (quadrats au
+hasard le long d’un transect, sites au hasard dans une liste). Sans
+<code>replace = TRUE</code>, chaque valeur ne peut être tirée qu’une
+fois.</p>
+<p>Les tirages changent à chaque exécution.
+<strong><code>set.seed(nombre)</code></strong> fixe le point de départ
+du générateur aléatoire : le résultat « aléatoire » est alors toujours
+le même — et le même pour tous ceux qui utilisent la même graine. C’est
+essentiel pour une science reproductible (et pour les quiz de ce cours
+!).</p>
+</div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">size =</span> <span class="dv">5</span>)              <span class="co"># 5 random positions among 50 PIT points</span></span></code></pre></div>
+<pre><code>#&gt; [1] 31 15 14  3 42</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;HC&quot;</span>, <span class="st">&quot;SD&quot;</span>, <span class="st">&quot;MA&quot;</span>), <span class="at">size =</span> <span class="dv">8</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)   <span class="co"># with replacement</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;SD&quot; &quot;SD&quot; &quot;MA&quot; &quot;HC&quot; &quot;SD&quot; &quot;SD&quot; &quot;HC&quot; &quot;SD&quot;</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">size =</span> <span class="dv">5</span>)              <span class="co"># same seed -&gt; exactly the same draw as above</span></span></code></pre></div>
+<pre><code>#&gt; [1] 31 15 14  3 42</code></pre>
+<div class="callout warning">
+<div class="en">
+<p><code>set.seed()</code> must be run <strong>just before</strong>
+<code>sample()</code>, every time. If you run <code>sample()</code>
+twice after one <code>set.seed()</code>, the second result is different
+(but still reproducible).</p>
+</div>
+<div class="fr">
+<p><code>set.seed()</code> doit être exécuté <strong>juste
+avant</strong> <code>sample()</code>, à chaque fois. Si vous lancez
+<code>sample()</code> deux fois après un seul <code>set.seed()</code>,
+le second résultat est différent (mais reste reproductible).</p>
+</div>
+</div>
 </div>
 </div>
 <div id="types" class="section level2">
@@ -579,10 +697,10 @@ Les quatre que vous rencontrerez sans cesse :</p>
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>site   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Tsiandamba&quot;</span>, <span class="st">&quot;Tsiandamba&quot;</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>depth  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">2.5</span>, <span class="fl">0.8</span>, <span class="fl">1.9</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>sampled <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="fu">class</span>(site); <span class="fu">class</span>(depth); <span class="fu">class</span>(sampled)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>site   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Tsiandamba&quot;</span>, <span class="st">&quot;Tsiandamba&quot;</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>depth  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">2.5</span>, <span class="fl">0.8</span>, <span class="fl">1.9</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>sampled <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="fu">class</span>(site); <span class="fu">class</span>(depth); <span class="fu">class</span>(sampled)</span></code></pre></div>
 <pre><code>#&gt; [1] &quot;character&quot;</code></pre>
 <pre><code>#&gt; [1] &quot;numeric&quot;</code></pre>
 <pre><code>#&gt; [1] &quot;logical&quot;</code></pre>
@@ -592,22 +710,22 @@ Les quatre que vous rencontrerez sans cesse :</p>
 text, R silently converts everything to text. This is a very common
 source of problems when a field sheet contains <code>"-"</code> or
 <code>"45%"</code> in a numeric column (we will fix that in Session
-4).</p>
+5).</p>
 </div>
 <div class="fr">
 <p><strong>Un vecteur ne contient qu’un seul type.</strong> Si vous
 mélangez nombres et texte, R convertit tout en texte sans prévenir.
 C’est une source de problèmes très fréquente quand une fiche de terrain
 contient <code>"-"</code> ou <code>"45%"</code> dans une colonne
-numérique (on corrigera cela en séance 4).</p>
+numérique (on corrigera cela en séance 5).</p>
 </div>
 </div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>mixed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="st">&quot;-&quot;</span>, <span class="dv">12</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>mixed               <span class="co"># note the quotes: these are now texts</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a>mixed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="st">&quot;-&quot;</span>, <span class="dv">12</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>mixed               <span class="co"># note the quotes: these are now texts</span></span></code></pre></div>
 <pre><code>#&gt; [1] &quot;45&quot; &quot;60&quot; &quot;-&quot;  &quot;12&quot;</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">class</span>(mixed)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">class</span>(mixed)</span></code></pre></div>
 <pre><code>#&gt; [1] &quot;character&quot;</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">as.numeric</span>(mixed)   <span class="co"># convert back to numbers: &quot;-&quot; becomes NA (with a warning)</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="fu">as.numeric</span>(mixed)   <span class="co"># convert back to numbers: &quot;-&quot; becomes NA (with a warning)</span></span></code></pre></div>
 <pre><code>#&gt; Warning: NAs introduced by coercion</code></pre>
 <pre><code>#&gt; [1] 45 60 NA 12</code></pre>
 <div id="factorsles-facteurs" class="section level3">
@@ -625,18 +743,18 @@ ressemble à du texte, mais R connaît la liste des catégories possibles
 (<strong>niveaux</strong>, <em>levels</em>). Les facteurs contrôlent
 l’ordre des groupes dans les tableaux et les graphiques.</p>
 </div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>status <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>))</span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>status</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>status <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>))</span>
+<span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a>status</span></code></pre></div>
 <pre><code>#&gt; [1] Outside Inside  Inside  Outside Inside 
 #&gt; Levels: Inside Outside</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">levels</span>(status)                     <span class="co"># alphabetical order by default</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">levels</span>(status)                     <span class="co"># alphabetical order by default</span></span></code></pre></div>
 <pre><code>#&gt; [1] &quot;Inside&quot;  &quot;Outside&quot;</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">table</span>(status)                      <span class="co"># counts per level</span></span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="fu">table</span>(status)                      <span class="co"># counts per level</span></span></code></pre></div>
 <pre><code>#&gt; status
 #&gt;  Inside Outside 
 #&gt;       3       2</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>status2 <span class="ot">&lt;-</span> <span class="fu">factor</span>(status, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>))   <span class="co"># choose the order</span></span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a><span class="fu">table</span>(status2)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>status2 <span class="ot">&lt;-</span> <span class="fu">factor</span>(status, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>))   <span class="co"># choose the order</span></span>
+<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a><span class="fu">table</span>(status2)</span></code></pre></div>
 <pre><code>#&gt; status2
 #&gt; Outside  Inside 
 #&gt;       2       3</code></pre>
@@ -653,11 +771,11 @@ loop needed: this is one of R’s strengths.</p>
 <p>Les opérations s’appliquent à <strong>chaque élément</strong> d’un
 coup. Pas besoin de boucle : c’est l’une des forces de R.</p>
 </div>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>shoots <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">87</span>, <span class="dv">132</span>, <span class="dv">45</span>, <span class="dv">160</span>)     <span class="co"># shoots counted in 4 quadrats of 0.25 m2</span></span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>shoots <span class="sc">/</span> <span class="fl">0.25</span>                     <span class="co"># density per m2 for each quadrat</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a>shoots <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">87</span>, <span class="dv">132</span>, <span class="dv">45</span>, <span class="dv">160</span>)     <span class="co"># shoots counted in 4 quadrats of 0.25 m2</span></span>
+<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a>shoots <span class="sc">/</span> <span class="fl">0.25</span>                     <span class="co"># density per m2 for each quadrat</span></span></code></pre></div>
 <pre><code>#&gt; [1] 348 528 180 640</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>cover_pct <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="dv">12</span>, <span class="dv">80</span>)</span>
-<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>cover_pct <span class="sc">/</span> <span class="dv">100</span>                   <span class="co"># proportions</span></span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a>cover_pct <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="dv">12</span>, <span class="dv">80</span>)</span>
+<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a>cover_pct <span class="sc">/</span> <span class="dv">100</span>                   <span class="co"># proportions</span></span></code></pre></div>
 <pre><code>#&gt; [1] 0.45 0.60 0.12 0.80</code></pre>
 <div class="en">
 <p>Many functions <strong>summarise</strong> a vector into one
@@ -667,16 +785,135 @@ value:</p>
 <p>De nombreuses fonctions <strong>résument</strong> un vecteur en une
 seule valeur :</p>
 </div>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="fu">sum</span>(shoots); <span class="fu">mean</span>(shoots); <span class="fu">median</span>(shoots)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="fu">sum</span>(shoots); <span class="fu">mean</span>(shoots); <span class="fu">median</span>(shoots)</span></code></pre></div>
 <pre><code>#&gt; [1] 424</code></pre>
 <pre><code>#&gt; [1] 106</code></pre>
 <pre><code>#&gt; [1] 109.5</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">min</span>(shoots); <span class="fu">max</span>(shoots); <span class="fu">range</span>(shoots)</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="fu">min</span>(shoots); <span class="fu">max</span>(shoots); <span class="fu">range</span>(shoots)</span></code></pre></div>
 <pre><code>#&gt; [1] 45</code></pre>
 <pre><code>#&gt; [1] 160</code></pre>
 <pre><code>#&gt; [1]  45 160</code></pre>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">sd</span>(shoots)                        <span class="co"># standard deviation (Session 5)</span></span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a><span class="fu">sd</span>(shoots)                        <span class="co"># standard deviation (Session 6)</span></span></code></pre></div>
 <pre><code>#&gt; [1] 50.57667</code></pre>
+</div>
+<div id="useful" class="section level2">
+<h2><span class="en">Useful functions on vectors</span><span
+class="fr">Fonctions utiles sur les vecteurs</span></h2>
+<div class="en">
+<table>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>What it returns</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>length(x)</code></td>
+<td>number of values</td>
+</tr>
+<tr class="even">
+<td><code>sort(x)</code> / <code>sort(x, decreasing = TRUE)</code></td>
+<td>the values sorted</td>
+</tr>
+<tr class="odd">
+<td><code>rev(x)</code></td>
+<td>the values in reverse order</td>
+</tr>
+<tr class="even">
+<td><code>unique(x)</code></td>
+<td>each different value once</td>
+</tr>
+<tr class="odd">
+<td><code>head(x, n)</code> / <code>tail(x, n)</code></td>
+<td>the first / last n values</td>
+</tr>
+<tr class="even">
+<td><code>which.max(x)</code> / <code>which.min(x)</code></td>
+<td>the <strong>position</strong> of the max / min</td>
+</tr>
+<tr class="odd">
+<td><code>round(x, digits)</code></td>
+<td>rounded values</td>
+</tr>
+<tr class="even">
+<td><code>paste(a, b, sep = "_")</code> / <code>paste0(a, b)</code></td>
+<td>texts glued together</td>
+</tr>
+<tr class="odd">
+<td><code>cumsum(x)</code></td>
+<td>cumulative sum</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<thead>
+<tr class="header">
+<th>Fonction</th>
+<th>Ce qu’elle renvoie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>length(x)</code></td>
+<td>nombre de valeurs</td>
+</tr>
+<tr class="even">
+<td><code>sort(x)</code> / <code>sort(x, decreasing = TRUE)</code></td>
+<td>les valeurs triées</td>
+</tr>
+<tr class="odd">
+<td><code>rev(x)</code></td>
+<td>les valeurs dans l’ordre inverse</td>
+</tr>
+<tr class="even">
+<td><code>unique(x)</code></td>
+<td>chaque valeur différente une seule fois</td>
+</tr>
+<tr class="odd">
+<td><code>head(x, n)</code> / <code>tail(x, n)</code></td>
+<td>les n premières / dernières valeurs</td>
+</tr>
+<tr class="even">
+<td><code>which.max(x)</code> / <code>which.min(x)</code></td>
+<td>la <strong>position</strong> du max / min</td>
+</tr>
+<tr class="odd">
+<td><code>round(x, digits)</code></td>
+<td>valeurs arrondies</td>
+</tr>
+<tr class="even">
+<td><code>paste(a, b, sep = "_")</code> / <code>paste0(a, b)</code></td>
+<td>textes collés ensemble</td>
+</tr>
+<tr class="odd">
+<td><code>cumsum(x)</code></td>
+<td>somme cumulée</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a>depth <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.4</span>, <span class="fl">0.8</span>, <span class="fl">1.9</span>, <span class="fl">3.1</span>, <span class="fl">0.8</span>, <span class="fl">1.2</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a><span class="fu">sort</span>(depth)</span></code></pre></div>
+<pre><code>#&gt; [1] 0.8 0.8 1.2 1.9 2.4 3.1</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" tabindex="-1"></a><span class="fu">sort</span>(depth, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] 3.1 2.4 1.9 1.2 0.8 0.8</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a><span class="fu">rev</span>(depth)</span></code></pre></div>
+<pre><code>#&gt; [1] 1.2 0.8 3.1 1.9 0.8 2.4</code></pre>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a><span class="fu">unique</span>(depth)                       <span class="co"># 0.8 appears only once</span></span></code></pre></div>
+<pre><code>#&gt; [1] 2.4 0.8 1.9 3.1 1.2</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a><span class="fu">head</span>(depth, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] 2.4 0.8 1.9</code></pre>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a><span class="fu">which.max</span>(depth)                    <span class="co"># the deepest quadrat is the 4th</span></span></code></pre></div>
+<pre><code>#&gt; [1] 4</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;Q&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)           <span class="co"># quadrat labels: &quot;Q1&quot; &quot;Q2&quot; &quot;Q3&quot; &quot;Q4&quot;</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Q1&quot; &quot;Q2&quot; &quot;Q3&quot; &quot;Q4&quot;</code></pre>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;T&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="st">&quot;_&quot;</span>, <span class="st">&quot;Fasimena&quot;</span>)   <span class="co"># paste0() = paste() without separator</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;T1_Fasimena&quot; &quot;T2_Fasimena&quot; &quot;T3_Fasimena&quot;</code></pre>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" tabindex="-1"></a><span class="fu">cumsum</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">3</span>))                  <span class="co"># running total: 2, 2+5, 2+5+3</span></span></code></pre></div>
+<pre><code>#&gt; [1]  2  7 10</code></pre>
 </div>
 <div id="indexing" class="section level2">
 <h2><span class="en">Extracting values with <code>[ ]</code></span><span
@@ -690,14 +927,14 @@ class="fr">Extraire des valeurs avec <code>[ ]</code></span></h2>
 <strong>positions</strong> ou une <strong>condition
 logique</strong>.</p>
 </div>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="dv">12</span>, <span class="cn">NA</span>, <span class="dv">80</span>, <span class="dv">33</span>, <span class="dv">0</span>, <span class="dv">55</span>)</span>
-<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>cover[<span class="dv">3</span>]            <span class="co"># the 3rd value</span></span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="dv">12</span>, <span class="cn">NA</span>, <span class="dv">80</span>, <span class="dv">33</span>, <span class="dv">0</span>, <span class="dv">55</span>)</span>
+<span id="cb84-2"><a href="#cb84-2" tabindex="-1"></a>cover[<span class="dv">3</span>]            <span class="co"># the 3rd value</span></span></code></pre></div>
 <pre><code>#&gt; [1] 12</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>cover[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>)]      <span class="co"># the 1st and 5th values</span></span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" tabindex="-1"></a>cover[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>)]      <span class="co"># the 1st and 5th values</span></span></code></pre></div>
 <pre><code>#&gt; [1] 45 80</code></pre>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a>cover[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]          <span class="co"># from 2nd to 4th</span></span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" tabindex="-1"></a>cover[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]          <span class="co"># from 2nd to 4th</span></span></code></pre></div>
 <pre><code>#&gt; [1] 60 12 NA</code></pre>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a>cover[<span class="sc">-</span><span class="dv">1</span>]           <span class="co"># everything EXCEPT the 1st</span></span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" tabindex="-1"></a>cover[<span class="sc">-</span><span class="dv">1</span>]           <span class="co"># everything EXCEPT the 1st</span></span></code></pre></div>
 <pre><code>#&gt; [1] 60 12 NA 80 33  0 55</code></pre>
 <div id="conditionsconditions" class="section level3">
 <h3><span class="en">Conditions</span><span
@@ -716,13 +953,13 @@ de comparaison : <code>==</code> (égal — deux signes !), <code>!=</code>
 (différent), <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>,
 <code>&lt;=</code>.</p>
 </div>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a>cover <span class="sc">&gt;</span> <span class="dv">50</span>                 <span class="co"># which quadrats have more than 50 % cover?</span></span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" tabindex="-1"></a>cover <span class="sc">&gt;</span> <span class="dv">50</span>                 <span class="co"># which quadrats have more than 50 % cover?</span></span></code></pre></div>
 <pre><code>#&gt; [1] FALSE  TRUE FALSE    NA  TRUE FALSE FALSE  TRUE</code></pre>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a>cover[cover <span class="sc">&gt;</span> <span class="dv">50</span>]          <span class="co"># keep only those values (NA stays: unknown!)</span></span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" tabindex="-1"></a>cover[cover <span class="sc">&gt;</span> <span class="dv">50</span>]          <span class="co"># keep only those values (NA stays: unknown!)</span></span></code></pre></div>
 <pre><code>#&gt; [1] 60 NA 80 55</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="fu">which</span>(cover <span class="sc">&gt;</span> <span class="dv">50</span>)          <span class="co"># their positions</span></span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" tabindex="-1"></a><span class="fu">which</span>(cover <span class="sc">&gt;</span> <span class="dv">50</span>)          <span class="co"># their positions</span></span></code></pre></div>
 <pre><code>#&gt; [1] 2 5 8</code></pre>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="fu">sum</span>(cover <span class="sc">&gt;</span> <span class="dv">50</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># how many? (TRUE counts as 1, FALSE as 0)</span></span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" tabindex="-1"></a><span class="fu">sum</span>(cover <span class="sc">&gt;</span> <span class="dv">50</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># how many? (TRUE counts as 1, FALSE as 0)</span></span></code></pre></div>
 <pre><code>#&gt; [1] 3</code></pre>
 <div class="callout tip">
 <div class="en">
@@ -750,8 +987,9 @@ cover of quadrats located inside the MPA:</p>
 sur <strong>un autre vecteur de même longueur</strong> — par exemple, le
 recouvrement des quadrats situés dans l’AMP :</p>
 </div>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a>zone <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>)</span>
-<span id="cb64-2"><a href="#cb64-2" tabindex="-1"></a>cover[zone <span class="sc">==</span> <span class="st">&quot;Inside&quot;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" tabindex="-1"></a>zone <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>)</span>
+<span id="cb100-2"><a href="#cb100-2" tabindex="-1"></a>cover[zone <span class="sc">==</span> <span class="st">&quot;Inside&quot;</span>]</span></code></pre></div>
 <pre><code>#&gt; [1] 45 60 80 55</code></pre>
 </div>
 </div>
@@ -772,15 +1010,20 @@ renvoie donc <code>NA</code>. Ajoutez l’argument
 <strong><code>na.rm = TRUE</code></strong> (<em>NA remove</em>) pour
 ignorer les valeurs manquantes.</p>
 </div>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="fu">mean</span>(cover)</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" tabindex="-1"></a><span class="fu">mean</span>(cover)</span></code></pre></div>
 <pre><code>#&gt; [1] NA</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" tabindex="-1"></a><span class="fu">mean</span>(cover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" tabindex="-1"></a><span class="fu">mean</span>(cover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] 40.71429</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a><span class="fu">is.na</span>(cover)               <span class="co"># which values are missing?</span></span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" tabindex="-1"></a><span class="fu">is.na</span>(cover)               <span class="co"># which values are missing?</span></span></code></pre></div>
 <pre><code>#&gt; [1] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE</code></pre>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(cover))          <span class="co"># how many?</span></span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(cover))          <span class="co"># how many?</span></span></code></pre></div>
 <pre><code>#&gt; [1] 1</code></pre>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a>cover[<span class="sc">!</span><span class="fu">is.na</span>(cover)]       <span class="co"># ! means NOT: keep the non-missing values</span></span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" tabindex="-1"></a>cover[<span class="sc">!</span><span class="fu">is.na</span>(cover)]       <span class="co"># ! means NOT: keep the non-missing values</span></span></code></pre></div>
 <pre><code>#&gt; [1] 45 60 12 80 33  0 55</code></pre>
 <div class="callout warning">
 <div class="en">
@@ -803,63 +1046,103 @@ class="fr">Travail d’application et quiz</span></h2>
 <div class="application">
 <div id="application-work-2" class="section level3 en">
 <h3>Application work 2</h3>
-<p>Copy these two vectors into your script. They describe 10 seagrass
-quadrats.</p>
+<p><strong>Part A — building vectors.</strong> In your script
+<code>scripts/s02_vectors.R</code>:</p>
+<ol style="list-style-type: decimal">
+<li>Create the PIT positions
+<code>positions &lt;- seq(0.5, 25, by = 0.5)</code>. What is the
+<strong>37th</strong> value?</li>
+<li>Run <code>set.seed(2026)</code> then draw 4 random positions with
+<code>sample(1:50, 4)</code>. What is the <strong>sum</strong> of the 4
+numbers drawn?</li>
+<li>Create
+<code>transect &lt;- rep(c("T1", "T2", "T3"), each = 4, times = 2)</code>.
+What is its length?</li>
+</ol>
+<p><strong>Part B — 10 seagrass quadrats.</strong> Create these two
+vectors (note how <code>rep()</code> saves typing):</p>
 </div>
 <div id="travail-dapplication-2" class="section level3 fr">
 <h3>Travail d’application 2</h3>
-<p>Copiez ces deux vecteurs dans votre script. Ils décrivent 10 quadrats
-d’herbier.</p>
-</div>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">62</span>, <span class="dv">48</span>, <span class="dv">75</span>, <span class="cn">NA</span>, <span class="dv">30</span>, <span class="dv">55</span>, <span class="dv">90</span>, <span class="dv">15</span>, <span class="dv">40</span>, <span class="dv">68</span>)</span>
-<span id="cb76-2"><a href="#cb76-2" tabindex="-1"></a>zone  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>,</span>
-<span id="cb76-3"><a href="#cb76-3" tabindex="-1"></a>           <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>)</span></code></pre></div>
-<div class="en">
+<p><strong>Partie A — créer des vecteurs.</strong> Dans votre script
+<code>scripts/s02_vectors.R</code> :</p>
 <ol style="list-style-type: decimal">
-<li>What is the mean cover of all quadrats (ignore the missing value)?
-Round to 1 decimal.</li>
+<li>Créez les positions PIT
+<code>positions &lt;- seq(0.5, 25, by = 0.5)</code>. Quelle est la
+<strong>37e</strong> valeur ?</li>
+<li>Lancez <code>set.seed(2026)</code> puis tirez 4 positions au hasard
+avec <code>sample(1:50, 4)</code>. Quelle est la <strong>somme</strong>
+des 4 nombres tirés ?</li>
+<li>Créez
+<code>transect &lt;- rep(c("T1", "T2", "T3"), each = 4, times = 2)</code>.
+Quelle est sa longueur ?</li>
+</ol>
+<p><strong>Partie B — 10 quadrats d’herbier.</strong> Créez ces deux
+vecteurs (remarquez comme <code>rep()</code> évite de tout taper) :</p>
+</div>
+<div class="sourceCode" id="cb112"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">62</span>, <span class="dv">48</span>, <span class="dv">75</span>, <span class="cn">NA</span>, <span class="dv">30</span>, <span class="dv">55</span>, <span class="dv">90</span>, <span class="dv">15</span>, <span class="dv">40</span>, <span class="dv">68</span>)</span>
+<span id="cb112-2"><a href="#cb112-2" tabindex="-1"></a>zone  <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>), <span class="at">each =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="en">
+<ol start="4" style="list-style-type: decimal">
+<li>Mean cover of all quadrats (ignore the missing value), rounded to 1
+decimal.</li>
 <li>How many quadrats have a cover <strong>strictly greater</strong>
 than 50 %?</li>
-<li>What is the maximum cover?</li>
-<li>What is the mean cover of the <strong>Inside</strong> quadrats
-(ignore NA)? Round to 1 decimal.</li>
-<li>What is the mean cover of the <strong>Outside</strong> quadrats?
-Round to 1 decimal.</li>
+<li>Mean cover of the <strong>Inside</strong> quadrats (ignore NA),
+rounded to 1 decimal.</li>
+<li>Mean cover of the <strong>Outside</strong> quadrats, rounded to 1
+decimal.</li>
+<li>Use <code>sort(cover, decreasing = TRUE)</code>: what is the
+<strong>third highest</strong> cover?</li>
+<li>Use <code>which.min()</code>: at which <strong>position</strong> is
+the lowest cover?</li>
 <li>Convert <code>zone</code> into a factor and use
 <code>table()</code>: how many Outside quadrats are there?</li>
-<li>What is the 7th value of <code>cover</code>?</li>
 </ol>
 </div>
 <div class="fr">
-<ol style="list-style-type: decimal">
-<li>Quelle est la moyenne du recouvrement de tous les quadrats (ignorez
-la valeur manquante) ? Arrondissez à 1 décimale.</li>
+<ol start="4" style="list-style-type: decimal">
+<li>Recouvrement moyen de tous les quadrats (sans la valeur manquante),
+arrondi à 1 décimale.</li>
 <li>Combien de quadrats ont un recouvrement <strong>strictement
 supérieur</strong> à 50 % ?</li>
-<li>Quel est le recouvrement maximal ?</li>
-<li>Quelle est la moyenne des quadrats <strong>Inside</strong> (ignorez
-NA) ? Arrondissez à 1 décimale.</li>
-<li>Quelle est la moyenne des quadrats <strong>Outside</strong> ?
-Arrondissez à 1 décimale.</li>
+<li>Moyenne des quadrats <strong>Inside</strong> (sans NA), arrondie à 1
+décimale.</li>
+<li>Moyenne des quadrats <strong>Outside</strong>, arrondie à 1
+décimale.</li>
+<li>Avec <code>sort(cover, decreasing = TRUE)</code> : quel est le
+<strong>troisième plus fort</strong> recouvrement ?</li>
+<li>Avec <code>which.min()</code> : à quelle <strong>position</strong>
+se trouve le recouvrement le plus faible ?</li>
 <li>Transformez <code>zone</code> en facteur et utilisez
 <code>table()</code> : combien y a-t-il de quadrats Outside ?</li>
-<li>Quelle est la 7e valeur de <code>cover</code> ?</li>
 </ol>
 </div>
 </div>
 <div id="quiz-s02" class="quiz" data-quiz-id="s02"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTWVhbiBjb3ZlciBvZiBhbGwgcXVhZHJhdHMgKDEgZGVjaW1hbCk/IiwiZnIiOiIxLiBSZWNvdXZyZW1lbnQgbW95ZW4gZGUgdG91cyBsZXMgcXVhZHJhdHMgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo1My43LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBOdW1iZXIgb2YgcXVhZHJhdHMgd2l0aCBjb3ZlciA+IDUwPyIsImZyIjoiMi4gTm9tYnJlIGRlIHF1YWRyYXRzIGF2ZWMgcmVjb3V2cmVtZW50ID4gNTAgPyIsImFuc3dlciI6NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTWF4aW11bSBjb3Zlcj8iLCJmciI6IjMuIFJlY291dnJlbWVudCBtYXhpbWFsID8iLCJhbnN3ZXIiOjkwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZWFuIGNvdmVyIEluc2lkZSAoMSBkZWNpbWFsKT8iLCJmciI6IjQuIE1veWVubmUgSW5zaWRlICgxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6NTMuOCwidG9sIjowLjA1LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gTWVhbiBjb3ZlciBPdXRzaWRlICgxIGRlY2ltYWwpPyIsImZyIjoiNS4gTW95ZW5uZSBPdXRzaWRlICgxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6NTMuNiwidG9sIjowLjA1LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNi4gTnVtYmVyIG9mIE91dHNpZGUgcXVhZHJhdHM/IiwiZnIiOiI2LiBOb21icmUgZGUgcXVhZHJhdHMgT3V0c2lkZSA/IiwiYW5zd2VyIjo1LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI3LiA3dGggdmFsdWUgb2YgY292ZXI/IiwiZnIiOiI3LiA3ZSB2YWxldXIgZGUgY292ZXIgPyIsImFuc3dlciI6OTAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFdoYXQgZG9lcyBtZWFuKGMoMTAsIE5BLCAyMCkpIHJldHVybj8iLCJmciI6IjguIFF1ZSByZW52b2llIG1lYW4oYygxMCwgTkEsIDIwKSkgPyIsIm9wdGlvbnNfZW4iOlsiMTUiLCIxMCIsIk5BIiwiQW4gZXJyb3IiXSwib3B0aW9uc19mciI6WyIxNSIsIjEwIiwiTkEiLCJVbmUgZXJyZXVyIl0sImFuc3dlciI6Mn1d">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gMzd0aCB2YWx1ZSBvZiBwb3NpdGlvbnM/IiwiZnIiOiIxLiAzN2UgdmFsZXVyIGRlIHBvc2l0aW9ucyA/IiwiYW5zd2VyIjoxOC41LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBTdW0gb2YgdGhlIDQgcG9zaXRpb25zIGRyYXduIGFmdGVyIHNldC5zZWVkKDIwMjYpPyIsImZyIjoiMi4gU29tbWUgZGVzIDQgcG9zaXRpb25zIHRpcsOpZXMgYXByw6hzIHNldC5zZWVkKDIwMjYpID8iLCJhbnN3ZXIiOjE0NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTGVuZ3RoIG9mIHRyYW5zZWN0PyIsImZyIjoiMy4gTG9uZ3VldXIgZGUgdHJhbnNlY3QgPyIsImFuc3dlciI6MjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE1lYW4gY292ZXIgb2YgYWxsIHF1YWRyYXRzICgxIGRlY2ltYWwpPyIsImZyIjoiNC4gUmVjb3V2cmVtZW50IG1veWVuIGRlIHRvdXMgbGVzIHF1YWRyYXRzICgxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6NTMuNywidG9sIjowLjA1LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gTnVtYmVyIG9mIHF1YWRyYXRzIHdpdGggY292ZXIgPiA1MD8iLCJmciI6IjUuIE5vbWJyZSBkZSBxdWFkcmF0cyBhdmVjIHJlY291dnJlbWVudCA+IDUwID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIE1lYW4gY292ZXIgSW5zaWRlICgxIGRlY2ltYWwpPyIsImZyIjoiNi4gTW95ZW5uZSBJbnNpZGUgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo1My44LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI3LiBNZWFuIGNvdmVyIE91dHNpZGUgKDEgZGVjaW1hbCk/IiwiZnIiOiI3LiBNb3llbm5lIE91dHNpZGUgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo1My42LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI4LiBUaGlyZCBoaWdoZXN0IGNvdmVyPyIsImZyIjoiOC4gVHJvaXNpw6htZSBwbHVzIGZvcnQgcmVjb3V2cmVtZW50ID8iLCJhbnN3ZXIiOjY4LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI5LiBQb3NpdGlvbiBvZiB0aGUgbG93ZXN0IGNvdmVyPyIsImZyIjoiOS4gUG9zaXRpb24gZHUgcmVjb3V2cmVtZW50IGxlIHBsdXMgZmFpYmxlID8iLCJhbnN3ZXIiOjgsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjEwLiBOdW1iZXIgb2YgT3V0c2lkZSBxdWFkcmF0cz8iLCJmciI6IjEwLiBOb21icmUgZGUgcXVhZHJhdHMgT3V0c2lkZSA/IiwiYW5zd2VyIjo1LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMS4gV2hhdCBkb2VzIG1lYW4oYygxMCwgTkEsIDIwKSkgcmV0dXJuPyIsImZyIjoiMTEuIFF1ZSByZW52b2llIG1lYW4oYygxMCwgTkEsIDIwKSkgPyIsIm9wdGlvbnNfZW4iOlsiMTUiLCIxMCIsIk5BIiwiQW4gZXJyb3IiXSwib3B0aW9uc19mciI6WyIxNSIsIjEwIiwiTkEiLCJVbmUgZXJyZXVyIl0sImFuc3dlciI6Mn0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMi4gV2hhdCBkb2VzIHJlcChjKFwiQVwiLCBcIkJcIiksIGVhY2ggPSAyKSByZXR1cm4/IiwiZnIiOiIxMi4gUXVlIHJlbnZvaWUgcmVwKGMoXCJBXCIsIFwiQlwiKSwgZWFjaCA9IDIpID8iLCJvcHRpb25zX2VuIjpbIkEgQiBBIEIiLCJBIEEgQiBCIiwiQSBCIiwiQUEgQkIiXSwib3B0aW9uc19mciI6WyJBIEIgQSBCIiwiQSBBIEIgQiIsIkEgQiIsIkFBIEJCIl0sImFuc3dlciI6MX1d">
 
 </div>
 <div class="solution" data-quiz="s02">
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a><span class="fu">mean</span>(cover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                       <span class="co"># 1. 53.7</span></span>
-<span id="cb77-2"><a href="#cb77-2" tabindex="-1"></a><span class="fu">sum</span>(cover <span class="sc">&gt;</span> <span class="dv">50</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                   <span class="co"># 2. 5</span></span>
-<span id="cb77-3"><a href="#cb77-3" tabindex="-1"></a><span class="fu">max</span>(cover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                        <span class="co"># 3. 90</span></span>
-<span id="cb77-4"><a href="#cb77-4" tabindex="-1"></a><span class="fu">mean</span>(cover[zone <span class="sc">==</span> <span class="st">&quot;Inside&quot;</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)     <span class="co"># 4. 53.75 -&gt; 53.8</span></span>
-<span id="cb77-5"><a href="#cb77-5" tabindex="-1"></a><span class="fu">mean</span>(cover[zone <span class="sc">==</span> <span class="st">&quot;Outside&quot;</span>])                  <span class="co"># 5. 53.6</span></span>
-<span id="cb77-6"><a href="#cb77-6" tabindex="-1"></a>zone_f <span class="ot">&lt;-</span> <span class="fu">factor</span>(zone)</span>
-<span id="cb77-7"><a href="#cb77-7" tabindex="-1"></a><span class="fu">table</span>(zone_f)                                   <span class="co"># 6. Outside = 5</span></span>
-<span id="cb77-8"><a href="#cb77-8" tabindex="-1"></a>cover[<span class="dv">7</span>]                                        <span class="co"># 7. 90</span></span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" tabindex="-1"></a><span class="co"># Part A</span></span>
+<span id="cb113-2"><a href="#cb113-2" tabindex="-1"></a>positions <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="fl">0.5</span>)</span>
+<span id="cb113-3"><a href="#cb113-3" tabindex="-1"></a>positions[<span class="dv">37</span>]                                   <span class="co"># 1</span></span>
+<span id="cb113-4"><a href="#cb113-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb113-5"><a href="#cb113-5" tabindex="-1"></a>drawn <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="dv">4</span>)</span>
+<span id="cb113-6"><a href="#cb113-6" tabindex="-1"></a>drawn; <span class="fu">sum</span>(drawn)                               <span class="co"># 2</span></span>
+<span id="cb113-7"><a href="#cb113-7" tabindex="-1"></a>transect <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;T1&quot;</span>, <span class="st">&quot;T2&quot;</span>, <span class="st">&quot;T3&quot;</span>), <span class="at">each =</span> <span class="dv">4</span>, <span class="at">times =</span> <span class="dv">2</span>)</span>
+<span id="cb113-8"><a href="#cb113-8" tabindex="-1"></a><span class="fu">length</span>(transect)                                <span class="co"># 3. 3 x 4 x 2 = 24</span></span>
+<span id="cb113-9"><a href="#cb113-9" tabindex="-1"></a></span>
+<span id="cb113-10"><a href="#cb113-10" tabindex="-1"></a><span class="co"># Part B</span></span>
+<span id="cb113-11"><a href="#cb113-11" tabindex="-1"></a><span class="fu">mean</span>(cover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                       <span class="co"># 4. 53.7</span></span>
+<span id="cb113-12"><a href="#cb113-12" tabindex="-1"></a><span class="fu">sum</span>(cover <span class="sc">&gt;</span> <span class="dv">50</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                   <span class="co"># 5. 5</span></span>
+<span id="cb113-13"><a href="#cb113-13" tabindex="-1"></a><span class="fu">mean</span>(cover[zone <span class="sc">==</span> <span class="st">&quot;Inside&quot;</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)     <span class="co"># 6. 53.75 -&gt; 53.8</span></span>
+<span id="cb113-14"><a href="#cb113-14" tabindex="-1"></a><span class="fu">mean</span>(cover[zone <span class="sc">==</span> <span class="st">&quot;Outside&quot;</span>])                  <span class="co"># 7. 53.6</span></span>
+<span id="cb113-15"><a href="#cb113-15" tabindex="-1"></a><span class="fu">sort</span>(cover, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">3</span>]               <span class="co"># 8. 3rd value of the sorted vector</span></span>
+<span id="cb113-16"><a href="#cb113-16" tabindex="-1"></a><span class="fu">which.min</span>(cover)                                <span class="co"># 9</span></span>
+<span id="cb113-17"><a href="#cb113-17" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">factor</span>(zone))                             <span class="co"># 10. Outside = 5</span></span></code></pre></div>
 </div>
 </div>
 

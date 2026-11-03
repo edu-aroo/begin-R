@@ -6,10 +6,10 @@ name: "r-course-beginner"
 output_dir: "docs"          # GitHub Pages will publish this folder
 
 # files/folders NOT copied into docs/ (they are for you, not for students)
-exclude: ["R", "apps-script", "README.md", "*.Rproj", "docs", "accounts_to_paste.csv"]
+exclude: ["R", "apps-script", "_intermediate", "slides", "README.md", "*.Rproj", "docs", "accounts_to_paste.csv"]
 
 navbar:
-  title: "R · Marine Ecology"
+  title: "R · Marine ecology"
   left:
     - text: "Home"
       href: index.html
@@ -19,12 +19,15 @@ navbar:
         - { text: "1 · First steps",             href: 01-first-steps.html }
         - { text: "2 · Vectors",                 href: 02-vectors.html }
         - { text: "3 · Data frames",             href: 03-data-frames.html }
-        - { text: "4 · Cleaning data",           href: 04-cleaning.html }
-        - { text: "5 · Statistics",              href: 05-statistics.html }
-        - { text: "6 · Base R graphs",           href: 06-graphics.html }
-        - { text: "7 · Functions & loops",       href: 07-functions.html }
-        - { text: "8 · dplyr & ggplot2",         href: 08-tidyverse.html }
-        - { text: "9 · Final project",           href: 09-final-project.html }
+        - { text: "4 · Inside a data frame",     href: 04-inside-data-frames.html }
+        - { text: "5 · Filtering & cleaning",    href: 05-cleaning.html }
+        - { text: "6 · Statistics",              href: 06-statistics.html }
+        - { text: "7 · Base R graphs",           href: 07-graphics.html }
+        - { text: "8 · Packages, dplyr, ggplot2", href: 08-packages-tidyverse.html }
+        - { text: "9 · Practice",                href: 09-practice.html }
+        - { text: "10 · Final project",          href: 10-final-project.html }
+    - text: "Cheatsheet"
+      href: cheatsheet.html
 
 output:
   html_document:

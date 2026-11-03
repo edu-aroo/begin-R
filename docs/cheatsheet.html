@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R course · Cheatsheet</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sessions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="cheatsheet.html">Cheatsheet</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">Cheatsheet — every
+function of the course</span><span class="fr">Aide-mémoire — toutes les
+fonctions du cours</span></h1>
+<h3 class="subtitle"><span class="en">Print it (Ctrl + P) and keep it
+next to your keyboard</span><span class="fr">Imprimez-le (Ctrl + P) et
+gardez-le près du clavier</span></h3>
+
+</div>
+
+
+<!-- Each table cell holds both languages: [English]{.en}[Français]{.fr}.
+     {.no-track} keeps these sections out of the progress bar. -->
+<div class="cheat">
+<div id="rstudio-essentialslessentiel-de-rstudio"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">RStudio essentials</span><span
+class="fr">L’essentiel de RStudio</span></h2>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Shortcut / action</span><span class="fr">Raccourci
+/ action</span></th>
+<th><span class="en">What it does</span><span class="fr">Ce que ça
+fait</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ctrl + Enter</td>
+<td><span class="en">Run the current line or selection</span><span
+class="fr">Exécuter la ligne courante ou la sélection</span></td>
+</tr>
+<tr class="even">
+<td>Ctrl + Shift + Enter</td>
+<td><span class="en">Run the whole script</span><span
+class="fr">Exécuter tout le script</span></td>
+</tr>
+<tr class="odd">
+<td>Ctrl + Shift + N</td>
+<td><span class="en">New script</span><span class="fr">Nouveau
+script</span></td>
+</tr>
+<tr class="even">
+<td>Ctrl + S</td>
+<td><span class="en">Save</span><span class="fr">Enregistrer</span></td>
+</tr>
+<tr class="odd">
+<td>Ctrl + Shift + R</td>
+<td><span class="en">Insert a script section</span><span
+class="fr">Insérer une section de script</span></td>
+</tr>
+<tr class="even">
+<td>Ctrl + Shift + M</td>
+<td><span class="en">Insert the pipe <code>|&gt;</code></span><span
+class="fr">Insérer le pipe <code>|&gt;</code></span></td>
+</tr>
+<tr class="odd">
+<td>Alt + −</td>
+<td><span class="en">Insert <code>&lt;-</code></span><span
+class="fr">Insérer <code>&lt;-</code></span></td>
+</tr>
+<tr class="even">
+<td>Esc</td>
+<td><span class="en">Cancel an unfinished command (<code>+</code>
+prompt)</span><span class="fr">Annuler une commande inachevée (invite
+<code>+</code>)</span></td>
+</tr>
+<tr class="odd">
+<td>Tab</td>
+<td><span class="en">Autocomplete names</span><span class="fr">Compléter
+automatiquement les noms</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="session-1-first-stepsséance-1-premiers-pas"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Session 1 — First
+steps</span><span class="fr">Séance 1 — Premiers pas</span></h2>
+<div class="keypoints">
+<ul>
+<li><span class="en">Write code in a <strong>script</strong>, not in the
+console. <code>#</code> starts a comment.</span><span class="fr">Écrivez
+le code dans un <strong>script</strong>, pas dans la console.
+<code>#</code> commence un commentaire.</span></li>
+<li><span class="en"><code>x &lt;- 5</code> stores a value; R is
+case-sensitive; the decimal separator is the dot.</span><span
+class="fr"><code>x &lt;- 5</code> stocke une valeur ; R distingue
+majuscules et minuscules ; le séparateur décimal est le
+point.</span></li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>+ - * / ^</code></td>
+<td><span class="en">Arithmetic, power</span><span
+class="fr">Arithmétique, puissance</span></td>
+<td><code>2^3</code></td>
+</tr>
+<tr class="even">
+<td><code>&lt;-</code></td>
+<td><span class="en">Assign a value to an object</span><span
+class="fr">Affecter une valeur à un objet</span></td>
+<td><code>area &lt;- 0.25</code></td>
+</tr>
+<tr class="odd">
+<td><code>sqrt()</code>, <code>log()</code>, <code>exp()</code>,
+<code>abs()</code></td>
+<td><span class="en">Square root, logarithm, exponential, absolute
+value</span><span class="fr">Racine carrée, logarithme, exponentielle,
+valeur absolue</span></td>
+<td><code>log(100, base = 10)</code></td>
+</tr>
+<tr class="even">
+<td><code>round(x, digits)</code></td>
+<td><span class="en">Round</span><span class="fr">Arrondir</span></td>
+<td><code>round(3.456, 1)</code></td>
+</tr>
+<tr class="odd">
+<td><code>ls()</code>, <code>rm()</code></td>
+<td><span class="en">List / remove objects</span><span class="fr">Lister
+/ supprimer des objets</span></td>
+<td><code>rm(area)</code></td>
+</tr>
+<tr class="even">
+<td><code>?name</code>, <code>help()</code></td>
+<td><span class="en">Open a help page</span><span class="fr">Ouvrir une
+page d’aide</span></td>
+<td><code>?round</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="session-2-vectorsséance-2-vecteurs"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Session 2 — Vectors</span><span
+class="fr">Séance 2 — Vecteurs</span></h2>
+<div class="keypoints">
+<ul>
+<li><span class="en">A vector holds values of <strong>one type</strong>.
+Positions start at 1.</span><span class="fr">Un vecteur contient des
+valeurs d’<strong>un seul type</strong>. Les positions commencent à
+1.</span></li>
+<li><span class="en"><code>NA</code> = missing value; add
+<code>na.rm = TRUE</code> to ignore it. <code>0</code> and
+<code>NA</code> are different.</span><span class="fr"><code>NA</code> =
+valeur manquante ; ajoutez <code>na.rm = TRUE</code> pour l’ignorer.
+<code>0</code> et <code>NA</code> sont différents.</span></li>
+<li><span class="en"><code>sum()</code> of TRUE/FALSE counts the TRUE;
+<code>mean()</code> gives their proportion.</span><span
+class="fr"><code>sum()</code> de TRUE/FALSE compte les TRUE ;
+<code>mean()</code> donne leur proportion.</span></li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>c()</code></td>
+<td><span class="en">Combine values into a vector</span><span
+class="fr">Combiner des valeurs en vecteur</span></td>
+<td><code>c(45, 60, 12)</code></td>
+</tr>
+<tr class="even">
+<td><code>a:b</code></td>
+<td><span class="en">Integers from a to b</span><span class="fr">Entiers
+de a à b</span></td>
+<td><code>1:10</code></td>
+</tr>
+<tr class="odd">
+<td><code>seq()</code></td>
+<td><span class="en">Regular sequence (<code>by</code> = step,
+<code>length.out</code> = number)</span><span class="fr">Suite régulière
+(<code>by</code> = pas, <code>length.out</code> = nombre)</span></td>
+<td><code>seq(0.5, 25, by = 0.5)</code></td>
+</tr>
+<tr class="even">
+<td><code>rep()</code></td>
+<td><span class="en">Repeat (<code>times</code>,
+<code>each</code>)</span><span class="fr">Répéter (<code>times</code>,
+<code>each</code>)</span></td>
+<td><code>rep(c("In", "Out"), each = 2)</code></td>
+</tr>
+<tr class="odd">
+<td><code>sample()</code></td>
+<td><span class="en">Random draw (<code>replace = TRUE</code> to allow
+repeats)</span><span class="fr">Tirage aléatoire
+(<code>replace = TRUE</code> pour autoriser les répétitions)</span></td>
+<td><code>sample(1:50, 5)</code></td>
+</tr>
+<tr class="even">
+<td><code>set.seed()</code></td>
+<td><span class="en">Make random draws reproducible</span><span
+class="fr">Rendre les tirages reproductibles</span></td>
+<td><code>set.seed(123)</code></td>
+</tr>
+<tr class="odd">
+<td><code>length()</code></td>
+<td><span class="en">Number of values</span><span class="fr">Nombre de
+valeurs</span></td>
+<td><code>length(x)</code></td>
+</tr>
+<tr class="even">
+<td><code>class()</code></td>
+<td><span class="en">Type of an object</span><span class="fr">Type d’un
+objet</span></td>
+<td><code>class(x)</code></td>
+</tr>
+<tr class="odd">
+<td><code>as.numeric()</code>, <code>as.character()</code></td>
+<td><span class="en">Convert type</span><span class="fr">Convertir le
+type</span></td>
+<td><code>as.numeric("12")</code></td>
+</tr>
+<tr class="even">
+<td><code>factor()</code>, <code>levels()</code>,
+<code>table()</code></td>
+<td><span class="en">Categories, their levels, counts per
+level</span><span class="fr">Catégories, leurs niveaux, effectifs par
+niveau</span></td>
+<td><code>table(zone)</code></td>
+</tr>
+<tr class="odd">
+<td><code>sum()</code>, <code>mean()</code>, <code>median()</code>,
+<code>min()</code>, <code>max()</code>, <code>range()</code></td>
+<td><span class="en">Summaries</span><span
+class="fr">Résumés</span></td>
+<td><code>mean(x, na.rm = TRUE)</code></td>
+</tr>
+<tr class="even">
+<td><code>sort()</code>, <code>rev()</code>, <code>unique()</code></td>
+<td><span class="en">Sort, reverse, distinct values</span><span
+class="fr">Trier, inverser, valeurs distinctes</span></td>
+<td><code>sort(x, decreasing = TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td><code>head()</code>, <code>tail()</code></td>
+<td><span class="en">First / last values</span><span
+class="fr">Premières / dernières valeurs</span></td>
+<td><code>head(x, 3)</code></td>
+</tr>
+<tr class="even">
+<td><code>which()</code>, <code>which.max()</code>,
+<code>which.min()</code></td>
+<td><span class="en">Positions where TRUE / of max / of min</span><span
+class="fr">Positions des TRUE / du max / du min</span></td>
+<td><code>which(x &gt; 50)</code></td>
+</tr>
+<tr class="odd">
+<td><code>paste()</code>, <code>paste0()</code></td>
+<td><span class="en">Glue texts</span><span class="fr">Coller des
+textes</span></td>
+<td><code>paste0("Q", 1:3)</code></td>
+</tr>
+<tr class="even">
+<td><code>cumsum()</code></td>
+<td><span class="en">Cumulative sum</span><span class="fr">Somme
+cumulée</span></td>
+<td><code>cumsum(x)</code></td>
+</tr>
+<tr class="odd">
+<td><code>x[i]</code>, <code>x[-i]</code>,
+<code>x[x &gt; 50]</code></td>
+<td><span class="en">Select by position, exclude, by
+condition</span><span class="fr">Sélection par position, exclusion, par
+condition</span></td>
+<td><code>cover[2:4]</code></td>
+</tr>
+<tr class="even">
+<td><code>is.na()</code>, <code>!</code></td>
+<td><span class="en">Which values are missing; NOT</span><span
+class="fr">Valeurs manquantes ; NON</span></td>
+<td><code>x[!is.na(x)]</code></td>
+</tr>
+<tr class="odd">
+<td><code>== != &gt; &gt;= &lt; &lt;=</code></td>
+<td><span class="en">Comparisons</span><span
+class="fr">Comparaisons</span></td>
+<td><code>zone == "Inside"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div
+id="session-3-data-frames-importséance-3-data-frames-et-importation"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Session 3 — Data frames &amp;
+import</span><span class="fr">Séance 3 — Data frames et
+importation</span></h2>
+<div class="keypoints">
+<ul>
+<li><span class="en">One row = one observation, one column = one
+variable. Always inspect data right after import.</span><span
+class="fr">Une ligne = une observation, une colonne = une variable.
+Inspectez toujours les données juste après l’import.</span></li>
+<li><span class="en">Use an RStudio project so that paths are short:
+<code>"data/file.csv"</code>.</span><span class="fr">Utilisez un projet
+RStudio pour des chemins courts :
+<code>"data/fichier.csv"</code>.</span></li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>data.frame()</code></td>
+<td><span class="en">Build a table by hand</span><span class="fr">Créer
+un tableau à la main</span></td>
+<td><code>data.frame(a = 1:2, b = c("x", "y"))</code></td>
+</tr>
+<tr class="even">
+<td><code>read.csv()</code>, <code>read.csv2()</code></td>
+<td><span class="en">Import CSV (<code>,</code> / <code>;</code>
+separator)</span><span class="fr">Importer un CSV (séparateur
+<code>,</code> / <code>;</code>)</span></td>
+<td><code>read.csv("data/seagrass_quadrats.csv")</code></td>
+</tr>
+<tr class="odd">
+<td><code>write.csv()</code></td>
+<td><span class="en">Save a table</span><span class="fr">Enregistrer un
+tableau</span></td>
+<td><code>write.csv(df, "outputs/x.csv", row.names = FALSE)</code></td>
+</tr>
+<tr class="even">
+<td><code>head()</code>, <code>tail()</code>, <code>View()</code></td>
+<td><span class="en">Look at the data</span><span class="fr">Regarder
+les données</span></td>
+<td><code>View(sg)</code></td>
+</tr>
+<tr class="odd">
+<td><code>str()</code>, <code>summary()</code></td>
+<td><span class="en">Structure; distribution and NA of each
+column</span><span class="fr">Structure ; distribution et NA de chaque
+colonne</span></td>
+<td><code>str(sg)</code></td>
+</tr>
+<tr class="even">
+<td><code>dim()</code>, <code>nrow()</code>, <code>ncol()</code>,
+<code>names()</code></td>
+<td><span class="en">Size and column names</span><span class="fr">Taille
+et noms de colonnes</span></td>
+<td><code>nrow(sg)</code></td>
+</tr>
+<tr class="odd">
+<td><code>list.files()</code></td>
+<td><span class="en">Files in a folder</span><span class="fr">Fichiers
+d’un dossier</span></td>
+<td><code>list.files("data")</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="session-4-inside-a-data-frameséance-4-dans-un-data-frame"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Session 4 — Inside a data
+frame</span><span class="fr">Séance 4 — Dans un data frame</span></h2>
+<div class="keypoints">
+<ul>
+<li><span class="en"><code>df[rows, columns]</code> — rows first; empty
+= all; minus = exclude. Names are safer than numbers.</span><span
+class="fr"><code>df[lignes, colonnes]</code> — lignes d’abord ; vide =
+tout ; moins = exclure. Les noms sont plus sûrs que les
+numéros.</span></li>
+<li><span class="en"><code>$</code> one column by name ·
+<code>[ , ]</code> rows and/or several columns · <code>[[ ]]</code>
+column name stored in an object.</span><span class="fr"><code>$</code>
+une colonne par nom · <code>[ , ]</code> lignes et/ou plusieurs colonnes
+· <code>[[ ]]</code> nom de colonne stocké dans un objet.</span></li>
+<li><span class="en">Any address you can read, you can write: put it
+left of <code>&lt;-</code>.</span><span class="fr">Toute adresse lisible
+est modifiable : placez-la à gauche de <code>&lt;-</code>.</span></li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Code</span><span class="fr">Code</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df[i, j]</code></td>
+<td><span class="en">Read by row and column</span><span class="fr">Lire
+par ligne et colonne</span></td>
+<td><code>sg[2, "seagrass_cover"]</code></td>
+</tr>
+<tr class="even">
+<td><code>df[cond, ]</code></td>
+<td><span class="en">Rows meeting a condition</span><span
+class="fr">Lignes remplissant une condition</span></td>
+<td><code>sg[sg$depth_m &gt; 2, ]</code></td>
+</tr>
+<tr class="odd">
+<td><code>df[, j, drop = FALSE]</code>, <code>df["col"]</code></td>
+<td><span class="en">Keep a one-column data frame</span><span
+class="fr">Garder un data frame d’une colonne</span></td>
+<td><code>sg["site"]</code></td>
+</tr>
+<tr class="even">
+<td><code>df$col</code>, <code>df[["col"]]</code></td>
+<td><span class="en">One column as a vector</span><span class="fr">Une
+colonne sous forme de vecteur</span></td>
+<td><code>sg[[var]]</code></td>
+</tr>
+<tr class="odd">
+<td><code>df[i, j] &lt;- value</code></td>
+<td><span class="en">Change one cell</span><span class="fr">Modifier une
+cellule</span></td>
+<td><code>sg[3, "depth_m"] &lt;- 2.5</code></td>
+</tr>
+<tr class="even">
+<td><code>df$col[cond] &lt;- value</code></td>
+<td><span class="en">Change values by condition</span><span
+class="fr">Modifier des valeurs par condition</span></td>
+<td><code>x$h[which(x$h &gt; 30)] &lt;- NA</code></td>
+</tr>
+<tr class="odd">
+<td><code>df$new &lt;- calc</code></td>
+<td><span class="en">Add a column (constant or calculation)</span><span
+class="fr">Ajouter une colonne (constante ou calcul)</span></td>
+<td><code>f$w &lt;- f$a * f$length_cm^f$b</code></td>
+</tr>
+<tr class="even">
+<td><code>df$col &lt;- NULL</code></td>
+<td><span class="en">Remove a column</span><span class="fr">Supprimer
+une colonne</span></td>
+<td><code>fish$a &lt;- NULL</code></td>
+</tr>
+<tr class="odd">
+<td><code>df[, -c(...)]</code>,
+<code>subset(df, select = -c(...))</code></td>
+<td><span class="en">Remove several columns</span><span
+class="fr">Supprimer plusieurs colonnes</span></td>
+<td><code>subset(f, select = -c(a, b))</code></td>
+</tr>
+<tr class="even">
+<td><code>names(df)[...] &lt;- "new"</code></td>
+<td><span class="en">Rename a column</span><span class="fr">Renommer une
+colonne</span></td>
+<td><code>names(sg)[7] &lt;- "cover"</code></td>
+</tr>
+<tr class="odd">
+<td><code>rbind()</code>, <code>df[-i, ]</code></td>
+<td><span class="en">Add rows / remove rows</span><span
+class="fr">Ajouter / supprimer des lignes</span></td>
+<td><code>rbind(sg, new_row)</code></td>
+</tr>
+<tr class="even">
+<td><code>sapply()</code>, <code>lapply()</code></td>
+<td><span class="en">Apply a function to each column (vector / list
+result)</span><span class="fr">Appliquer une fonction à chaque colonne
+(résultat vecteur / liste)</span></td>
+<td><code>sapply(sg, class)</code></td>
+</tr>
+<tr class="odd">
+<td><code>apply(df, 1 or 2, FUN)</code></td>
+<td><span class="en">Apply by row (1) or column (2), numeric
+data</span><span class="fr">Appliquer par ligne (1) ou colonne (2),
+données numériques</span></td>
+<td><code>apply(m, 2, max)</code></td>
+</tr>
+<tr class="even">
+<td><code>colMeans()</code>, <code>colSums()</code>,
+<code>rowSums()</code></td>
+<td><span class="en">Fast column/row means and sums</span><span
+class="fr">Moyennes et sommes rapides par colonne/ligne</span></td>
+<td><code>colMeans(m)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="session-5-filtering-cleaningséance-5-filtrer-et-nettoyer"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Session 5 — Filtering &amp;
+cleaning</span><span class="fr">Séance 5 — Filtrer et
+nettoyer</span></h2>
+<div class="keypoints">
+<ul>
+<li><span class="en">Never edit the raw file: every correction is a line
+in the script.</span><span class="fr">Ne modifiez jamais le fichier brut
+: chaque correction est une ligne du script.</span></li>
+<li><span class="en">Fix spelling <strong>before</strong> looking for
+duplicates. Look at suspicious rows before deciding.</span><span
+class="fr">Corrigez l’orthographe <strong>avant</strong> de chercher les
+doublons. Regardez les lignes suspectes avant de décider.</span></li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&amp;</code>, <code>|</code>, <code>!</code>,
+<code>%in%</code></td>
+<td><span class="en">AND, OR, NOT, “is in the list”</span><span
+class="fr">ET, OU, NON, « est dans la liste »</span></td>
+<td><code>site %in% c("A", "B")</code></td>
+</tr>
+<tr class="even">
+<td><code>subset(df, cond, select)</code></td>
+<td><span class="en">Filter rows and choose columns (<code>a:d</code>,
+<code>-c()</code>)</span><span class="fr">Filtrer des lignes et choisir
+des colonnes (<code>a:d</code>, <code>-c()</code>)</span></td>
+<td><code>subset(sg, depth_m &lt; 1, select = site:species)</code></td>
+</tr>
+<tr class="odd">
+<td><code>order()</code></td>
+<td><span class="en">Positions that sort; use in rows</span><span
+class="fr">Positions qui trient ; à utiliser en lignes</span></td>
+<td><code>sg[order(-sg$seagrass_cover), ]</code></td>
+</tr>
+<tr class="even">
+<td><code>trimws()</code></td>
+<td><span class="en">Remove start/end spaces</span><span
+class="fr">Retirer les espaces de début/fin</span></td>
+<td><code>trimws(" Ifaty")</code></td>
+</tr>
+<tr class="odd">
+<td><code>tolower()</code>, <code>toupper()</code>,
+<code>tools::toTitleCase()</code></td>
+<td><span class="en">Change case</span><span class="fr">Changer la
+casse</span></td>
+<td><code>tools::toTitleCase("nosy fasika")</code></td>
+</tr>
+<tr class="even">
+<td><code>gsub(old, new, x)</code></td>
+<td><span class="en">Replace a pattern (<code>"\\s+"</code> =
+spaces)</span><span class="fr">Remplacer un motif (<code>"\\s+"</code> =
+espaces)</span></td>
+<td><code>gsub("%", "", x)</code></td>
+</tr>
+<tr class="odd">
+<td><code>duplicated()</code></td>
+<td><span class="en">TRUE for repeated rows</span><span class="fr">TRUE
+pour les lignes répétées</span></td>
+<td><code>df[!duplicated(df), ]</code></td>
+</tr>
+<tr class="even">
+<td><code>complete.cases()</code>, <code>colSums(is.na())</code></td>
+<td><span class="en">Rows without NA; NA per column</span><span
+class="fr">Lignes sans NA ; NA par colonne</span></td>
+<td><code>colSums(is.na(df))</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div
+id="session-6-descriptive-statisticsséance-6-statistiques-descriptives"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Session 6 — Descriptive
+statistics</span><span class="fr">Séance 6 — Statistiques
+descriptives</span></h2>
+<div class="keypoints">
+<ul>
+<li><span class="en">SD = variability between observations; SE = SD / √n
+= precision of the mean.</span><span class="fr">ET = variabilité entre
+observations ; ES = ET / √n = précision de la moyenne.</span></li>
+<li><span class="en">Compute one value per <strong>sampling
+unit</strong> (quadrat, transect) before averaging per site.</span><span
+class="fr">Calculez une valeur par <strong>unité
+d’échantillonnage</strong> (quadrat, transect) avant de moyenner par
+site.</span></li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sd()</code>, <code>var()</code></td>
+<td><span class="en">Standard deviation, variance</span><span
+class="fr">Écart-type, variance</span></td>
+<td><code>sd(x, na.rm = TRUE)</code></td>
+</tr>
+<tr class="even">
+<td><code>sd(x) / sqrt(n)</code></td>
+<td><span class="en">Standard error</span><span class="fr">Erreur
+standard</span></td>
+<td><code>sd(x) / sqrt(length(x))</code></td>
+</tr>
+<tr class="odd">
+<td><code>quantile()</code>, <code>IQR()</code></td>
+<td><span class="en">Quantiles, interquartile range</span><span
+class="fr">Quantiles, écart interquartile</span></td>
+<td><code>quantile(x, c(0.1, 0.9))</code></td>
+</tr>
+<tr class="even">
+<td><code>tapply(x, group, FUN)</code></td>
+<td><span class="en">A statistic per group (vector/matrix)</span><span
+class="fr">Une statistique par groupe (vecteur/matrice)</span></td>
+<td><code>tapply(sg$seagrass_cover, sg$site, mean)</code></td>
+</tr>
+<tr class="odd">
+<td><code>aggregate(y ~ g, data, FUN)</code></td>
+<td><span class="en">A statistic per group (data frame)</span><span
+class="fr">Une statistique par groupe (data frame)</span></td>
+<td><code>aggregate(seagrass_cover ~ site, sg, mean)</code></td>
+</tr>
+<tr class="even">
+<td><code>as.vector()</code>, <code>names()</code></td>
+<td><span class="en">Turn a tapply result into table columns</span><span
+class="fr">Transformer un résultat de tapply en colonnes</span></td>
+<td><code>names(m)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="session-7-base-r-graphsséance-7-graphiques-r-de-base"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Session 7 — Base R
+graphs</span><span class="fr">Séance 7 — Graphiques R de
+base</span></h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>hist()</code></td>
+<td><span class="en">Histogram</span><span
+class="fr">Histogramme</span></td>
+<td><code>hist(x, breaks = seq(0, 100, 10))</code></td>
+</tr>
+<tr class="even">
+<td><code>plot(x, y)</code></td>
+<td><span class="en">Scatter plot</span><span class="fr">Nuage de
+points</span></td>
+<td><code>plot(x, y, pch = 19)</code></td>
+</tr>
+<tr class="odd">
+<td><code>boxplot(y ~ g)</code></td>
+<td><span class="en">Boxplot per group</span><span class="fr">Boxplot
+par groupe</span></td>
+<td><code>boxplot(seagrass_cover ~ site, sg)</code></td>
+</tr>
+<tr class="even">
+<td><code>barplot()</code></td>
+<td><span class="en">Bars (<code>beside = TRUE</code> for
+groups)</span><span class="fr">Barres (<code>beside = TRUE</code> pour
+des groupes)</span></td>
+<td><code>bp &lt;- barplot(m)</code></td>
+</tr>
+<tr class="odd">
+<td><code>arrows()</code></td>
+<td><span class="en">Error bars
+(<code>angle = 90, code = 3</code>)</span><span class="fr">Barres
+d’erreur (<code>angle = 90, code = 3</code>)</span></td>
+<td><code>arrows(bp, m - s, bp, m + s, angle = 90, code = 3)</code></td>
+</tr>
+<tr class="even">
+<td><code>legend()</code>, <code>abline()</code>, <code>points()</code>,
+<code>text()</code></td>
+<td><span class="en">Add to the current plot</span><span
+class="fr">Ajouter au graphique courant</span></td>
+<td><code>legend("topright", ...)</code></td>
+</tr>
+<tr class="odd">
+<td><code>main, xlab, ylab, xlim, ylim, col, las, pch</code></td>
+<td><span class="en">Common arguments</span><span class="fr">Arguments
+courants</span></td>
+<td><code>las = 1</code></td>
+</tr>
+<tr class="even">
+<td><code>par(mfrow = c(r, c))</code>, <code>par(mar = ...)</code></td>
+<td><span class="en">Several plots; margins</span><span
+class="fr">Plusieurs graphiques ; marges</span></td>
+<td><code>par(mfrow = c(1, 2))</code></td>
+</tr>
+<tr class="odd">
+<td><code>png()</code> / <code>pdf()</code> …
+<code>dev.off()</code></td>
+<td><span class="en">Save a figure</span><span class="fr">Enregistrer
+une figure</span></td>
+<td><code>png("f.png", res = 300, ...)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div
+id="session-8-packages-dplyr-ggplot2séance-8-packages-dplyr-ggplot2"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Session 8 — Packages, dplyr,
+ggplot2</span><span class="fr">Séance 8 — Packages, dplyr,
+ggplot2</span></h2>
+<div class="keypoints">
+<ul>
+<li><span class="en"><code>install.packages()</code>
+<strong>once</strong> per computer; <code>library()</code> in
+<strong>every</strong> script. <code>pkg::fun()</code> uses one function
+without loading.</span><span class="fr"><code>install.packages()</code>
+<strong>une fois</strong> par ordinateur ; <code>library()</code> dans
+<strong>chaque</strong> script. <code>pkg::fun()</code> utilise une
+fonction sans charger.</span></li>
+<li><span class="en"><code>|&gt;</code> = “then”: passes the result as
+first argument of the next function.</span><span
+class="fr"><code>|&gt;</code> = « puis » : passe le résultat comme
+premier argument de la fonction suivante.</span></li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>dplyr</th>
+<th><span class="en">Base R equivalent</span><span class="fr">Équivalent
+R de base</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>filter(df, a &gt; 1, b == "x")</code></td>
+<td><code>subset(df, a &gt; 1 &amp; b == "x")</code> /
+<code>df[df$a &gt; 1 &amp; df$b == "x", ]</code></td>
+</tr>
+<tr class="even">
+<td><code>select(df, a, b)</code>, <code>select(df, -c)</code></td>
+<td><code>df[, c("a", "b")]</code>,
+<code>subset(df, select = -c)</code></td>
+</tr>
+<tr class="odd">
+<td><code>mutate(df, z = x * y)</code></td>
+<td><code>df$z &lt;- df$x * df$y</code></td>
+</tr>
+<tr class="even">
+<td><code>arrange(df, desc(x))</code></td>
+<td><code>df[order(df$x, decreasing = TRUE), ]</code></td>
+</tr>
+<tr class="odd">
+<td><code>rename(df, new = old)</code></td>
+<td><code>names(df)[names(df) == "old"] &lt;- "new"</code></td>
+</tr>
+<tr class="even">
+<td><code>group_by(g) |&gt; summarise(m = mean(x))</code></td>
+<td><code>tapply(df$x, df$g, mean)</code> /
+<code>aggregate(x ~ g, df, mean)</code></td>
+</tr>
+<tr class="odd">
+<td><code>count(df, g)</code></td>
+<td><code>table(df$g)</code></td>
+</tr>
+<tr class="even">
+<td><code>n()</code></td>
+<td><code>length()</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ggplot2</th>
+<th><span class="en">Base R equivalent</span><span class="fr">Équivalent
+R de base</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggplot(df, aes(x, y)) + geom_point()</code></td>
+<td><code>plot(df$x, df$y)</code></td>
+</tr>
+<tr class="even">
+<td><code>geom_histogram()</code></td>
+<td><code>hist()</code></td>
+</tr>
+<tr class="odd">
+<td><code>geom_boxplot()</code></td>
+<td><code>boxplot(y ~ g)</code></td>
+</tr>
+<tr class="even">
+<td><code>geom_col()</code></td>
+<td><code>barplot()</code></td>
+</tr>
+<tr class="odd">
+<td><code>geom_errorbar(aes(ymin, ymax))</code></td>
+<td><code>arrows(..., angle = 90, code = 3)</code></td>
+</tr>
+<tr class="even">
+<td><code>labs(x = , y = )</code></td>
+<td><code>xlab = , ylab =</code></td>
+</tr>
+<tr class="odd">
+<td><code>facet_wrap(~ g)</code></td>
+<td><code>par(mfrow = c(r, c))</code></td>
+</tr>
+<tr class="even">
+<td><code>scale_colour_manual()</code></td>
+<td><code>col =</code> + <code>legend()</code></td>
+</tr>
+<tr class="odd">
+<td><code>ggsave()</code></td>
+<td><code>png()</code> … <code>dev.off()</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div
+id="session-9-10-workflow-of-an-analysisséances-9-et-10-déroulé-dune-analyse"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Session 9 &amp; 10 — Workflow of
+an analysis</span><span class="fr">Séances 9 et 10 — Déroulé d’une
+analyse</span></h2>
+<div class="keypoints">
+<ol style="list-style-type: decimal">
+<li><span class="en"><strong>Import</strong> and inspect
+(<code>read.csv</code>, <code>str</code>, <code>unique</code>,
+<code>table(..., useNA = "always")</code>).</span><span
+class="fr"><strong>Importer</strong> et inspecter
+(<code>read.csv</code>, <code>str</code>, <code>unique</code>,
+<code>table(..., useNA = "always")</code>).</span></li>
+<li><span class="en"><strong>Clean</strong> text, numbers, impossible
+values, duplicates, missing values — in the script.</span><span
+class="fr"><strong>Nettoyer</strong> textes, nombres, valeurs
+impossibles, doublons, valeurs manquantes — dans le script.</span></li>
+<li><span class="en"><strong>Build the database</strong>: one row per
+sampling unit (<code>aggregate</code>), save it.</span><span
+class="fr"><strong>Construire la base</strong> : une ligne par unité
+d’échantillonnage (<code>aggregate</code>), l’enregistrer.</span></li>
+<li><span class="en"><strong>Summarise</strong>: n, mean, SD, SE per
+group (<code>tapply</code>).</span><span
+class="fr"><strong>Résumer</strong> : n, moyenne, ET, ES par groupe
+(<code>tapply</code>).</span></li>
+<li><span class="en"><strong>Plot</strong> and save the figure; write a
+caption saying what the error bars are and n.</span><span
+class="fr"><strong>Représenter</strong> et enregistrer la figure ;
+légende indiquant ce que sont les barres d’erreur et n.</span></li>
+<li><span class="en"><strong>Interpret</strong> with care: sample size,
+variability, limits.</span><span class="fr"><strong>Interpréter</strong>
+avec prudence : effectif, variabilité, limites.</span></li>
+</ol>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -188,7 +188,7 @@ An **RStudio project** is a folder that contains everything for one analysis: da
 1. *File → New Project → New Directory → New Project*.
 2. Directory name: `R_course_reef`; choose where to put it (e.g. *Documents*); click **Create Project**.
 3. In the **Files** pane, click **New Folder** three times to create: `data`, `scripts`, `outputs`.
-4. Download the course data below, unzip it, and put the 4 CSV files in the `data` folder.
+4. Download the course data below, unzip it, and put the 5 CSV files in the `data` folder.
 :::
 ::: fr
 Un **projet RStudio** est un dossier qui contient tout ce qui concerne une analyse : données, scripts, figures. Lorsque le projet est ouvert, R « travaille » automatiquement dans ce dossier ; on peut donc lire des fichiers avec des chemins courts comme `"data/seagrass_quadrats.csv"`.
@@ -196,7 +196,7 @@ Un **projet RStudio** est un dossier qui contient tout ce qui concerne une analy
 1. *File → New Project → New Directory → New Project*.
 2. Nom du dossier : `R_course_reef` ; choisissez son emplacement (ex. *Documents*) ; cliquez sur **Create Project**.
 3. Dans le panneau **Files**, cliquez trois fois sur **New Folder** pour créer : `data`, `scripts`, `outputs`.
-4. Téléchargez les données du cours ci-dessous, décompressez-les et placez les 4 fichiers CSV dans le dossier `data`.
+4. Téléchargez les données du cours ci-dessous, décompressez-les et placez les 5 fichiers CSV dans le dossier `data`.
 :::
 
 `r dl("r_course_data.zip", "r_course_data.zip")`
@@ -208,7 +208,8 @@ R_course_reef/
 │   ├── seagrass_quadrats.csv
 │   ├── seagrass_messy.csv
 │   ├── coral_pit_example.csv
-│   └── coral_cover_raw.csv
+│   ├── coral_cover_raw.csv
+│   └── fish_uvc.csv
 ├── scripts/                 <- your .R scripts (one per session)
 └── outputs/                 <- figures and tables you will produce
 ```
@@ -282,7 +283,7 @@ quiz("s00", list(
         c("Ctrl + S", "Ctrl + Entrée", "Alt + F4", "Ctrl + Z"), correct = 2),
   q_num("How many CSV files does list.files(\"data\") show in your project?",
         "Combien de fichiers CSV list.files(\"data\") affiche-t-il dans votre projet ?",
-        answer = 4, tol = 0),
+        answer = 5, tol = 0),
   q_text("What is the exact file name of the raw coral dataset (with its extension)?",
          "Quel est le nom exact du fichier de données brutes sur les coraux (avec son extension) ?",
          c("coral_cover_raw.csv"))

@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R course · Session 8</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sessions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="cheatsheet.html">Cheatsheet</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">8 · Packages, dplyr &amp;
+ggplot2</span><span class="fr">8 · Packages, dplyr et
+ggplot2</span></h1>
+<h3 class="subtitle">~3.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>explain what a <strong>package</strong> is, where it comes from, and
+the difference between <em>installing</em> and <em>loading</em> it;</li>
+<li>chain operations with the <strong>pipe</strong>
+<code>|&gt;</code>;</li>
+<li>use the main <strong>dplyr</strong> verbs and write the <strong>base
+R equivalent</strong> of each of them;</li>
+<li>build a <strong>ggplot2</strong> figure layer by layer and write the
+<strong>base R graphics equivalent</strong>;</li>
+<li>choose between base R and the tidyverse with good reasons.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>expliquer ce qu’est un <strong>package</strong>, d’où il vient, et
+la différence entre l’<em>installer</em> et le <em>charger</em> ;</li>
+<li>enchaîner des opérations avec le <strong>pipe</strong>
+<code>|&gt;</code> ;</li>
+<li>utiliser les principaux verbes de <strong>dplyr</strong> et écrire
+l’<strong>équivalent en R de base</strong> de chacun ;</li>
+<li>construire une figure <strong>ggplot2</strong> couche par couche et
+écrire l’<strong>équivalent en graphiques de base</strong> ;</li>
+<li>choisir entre R de base et le tidyverse pour de bonnes raisons.</li>
+</ul>
+</div>
+</div>
+<div id="what-package" class="section level2">
+<h2><span class="en">What is a package?</span><span class="fr">Qu’est-ce
+qu’un package ?</span></h2>
+<div class="en">
+<p>Everything you have used so far — <code>mean()</code>,
+<code>subset()</code>, <code>tapply()</code>, <code>barplot()</code> —
+comes with R itself (“<strong>base R</strong>”). A
+<strong>package</strong> is an <strong>extension</strong>: a bundle of
+extra functions (and often data and documentation) written by
+researchers and developers, that you add to R when you need it. Packages
+are why R is so widely used in ecology: there is a package for diversity
+indices (<code>vegan</code>), for maps (<code>sf</code>), for mixed
+models (<code>lme4</code>), and so on.</p>
+<p>Packages are published on <strong>CRAN</strong> (<em>Comprehensive R
+Archive Network</em>), the same website you downloaded R from. CRAN
+holds well over 20 000 packages, each checked automatically before it is
+accepted. Other packages live on GitHub or Bioconductor, but for this
+course CRAN is all you need.</p>
+</div>
+<div class="fr">
+<p>Tout ce que vous avez utilisé jusqu’ici — <code>mean()</code>,
+<code>subset()</code>, <code>tapply()</code>, <code>barplot()</code> —
+est fourni avec R lui-même (« <strong>R de base</strong> »). Un
+<strong>package</strong> est une <strong>extension</strong> : un
+ensemble de fonctions supplémentaires (souvent avec des données et de la
+documentation) écrites par des chercheurs et des développeurs, que l’on
+ajoute à R quand on en a besoin. Les packages expliquent pourquoi R est
+si utilisé en écologie : il existe un package pour les indices de
+diversité (<code>vegan</code>), pour les cartes (<code>sf</code>), pour
+les modèles mixtes (<code>lme4</code>), etc.</p>
+<p>Les packages sont publiés sur le <strong>CRAN</strong>
+(<em>Comprehensive R Archive Network</em>), le site d’où vous avez
+téléchargé R. Le CRAN compte bien plus de 20 000 packages, chacun
+vérifié automatiquement avant d’être accepté. D’autres packages se
+trouvent sur GitHub ou Bioconductor, mais pour ce cours le CRAN
+suffit.</p>
+</div>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="From CRAN to your R session: install.packages then library" font-family="Source Sans 3, Arial, sans-serif">
+<defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0b3d5c"/></marker></defs>
+<!-- CRAN: shop with shelves -->
+<rect x="20" y="40" width="220" height="190" rx="12" fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"/>
+<text x="130" y="70" text-anchor="middle" font-size="20" font-weight="700" fill="#0b3d5c">CRAN</text>
+<g fill="#1b7f8c"><rect x="45" y="88" width="16" height="34" rx="2"/><rect x="65" y="94" width="14" height="28" rx="2" opacity=".7"/><rect x="83" y="86" width="18" height="36" rx="2" opacity=".85"/><rect x="105" y="92" width="14" height="30" rx="2" opacity=".6"/><rect x="123" y="88" width="16" height="34" rx="2"/><rect x="143" y="96" width="14" height="26" rx="2" opacity=".7"/><rect x="161" y="86" width="18" height="36" rx="2" opacity=".85"/><rect x="183" y="92" width="16" height="30" rx="2" opacity=".6"/></g>
+<line x1="40" y1="124" x2="220" y2="124" stroke="#0b3d5c" stroke-width="3"/>
+<g fill="#1b7f8c"><rect x="45" y="134" width="14" height="30" rx="2" opacity=".6"/><rect x="63" y="130" width="18" height="34" rx="2"/><rect x="85" y="138" width="14" height="26" rx="2" opacity=".75"/><rect x="103" y="132" width="16" height="32" rx="2" opacity=".9"/><rect x="123" y="136" width="14" height="28" rx="2" opacity=".6"/><rect x="141" y="130" width="18" height="34" rx="2"/><rect x="163" y="134" width="16" height="30" rx="2" opacity=".75"/><rect x="183" y="138" width="14" height="26" rx="2" opacity=".6"/></g>
+<line x1="40" y1="166" x2="220" y2="166" stroke="#0b3d5c" stroke-width="3"/>
+<text class="en" x="130" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="130">online
+“library” of R packages,</tspan><tspan x="130" dy="17">checked by
+volunteers</tspan></text>
+<text class="fr" x="130" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="130">«
+bibliothèque » en ligne de</tspan><tspan x="130" dy="17">packages R,
+vérifiés par des bénévoles</tspan></text> <!-- your computer library -->
+<rect x="320" y="40" width="220" height="190" rx="12" fill="#f6f1e7" stroke="#b08a4a" stroke-width="2"/>
+<text class="en" x="430" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Your
+computer</text>
+<text class="fr" x="430" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Votre
+ordinateur</text>
+<g transform="translate(375,88)"><path d="M0 8 h40 l8 8 h62 v62 h-110 z" fill="#e3c98f" stroke="#b08a4a" stroke-width="2"/><rect x="18" y="30" width="16" height="30" rx="2" fill="#1b7f8c"/><rect x="38" y="34" width="14" height="26" rx="2" fill="#1b7f8c" opacity=".7"/><rect x="56" y="30" width="16" height="30" rx="2" fill="#4a7d3a"/></g>
+<text class="en" x="430" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="430">packages
+stored in your</tspan><tspan x="430" dy="17">R “library”
+folder</tspan></text>
+<text class="fr" x="430" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="430">packages
+rangés dans votre</tspan><tspan x="430" dy="17">dossier « library » de
+R</tspan></text> <!-- R session -->
+<rect x="620" y="40" width="220" height="190" rx="12" fill="#eef5ea" stroke="#4a7d3a" stroke-width="2"/>
+<text class="en" x="730" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Your
+R session</text>
+<text class="fr" x="730" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Votre
+session R</text>
+<g font-family="JetBrains Mono, monospace" font-size="13" fill="#3c4a52"><text x="645" y="104">filter()</text><text x="645" y="124">mutate()</text><text x="645" y="144">ggplot()</text><text x="740" y="104">mean()</text><text x="740" y="124">subset()</text><text x="740" y="144">plot()</text></g>
+<line x1="730" y1="90" x2="730" y2="152" stroke="#c9d3d8"/>
+<text class="en" x="730" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="730">package
+functions now usable</tspan><tspan x="730" dy="17">next to base R
+functions</tspan></text>
+<text class="fr" x="730" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="730">fonctions
+du package utilisables</tspan><tspan x="730" dy="17">à côté des
+fonctions de base</tspan></text> <!-- arrows -->
+<path d="M242 135 H316" stroke="#0b3d5c" stroke-width="2.5" marker-end="url(#ar3)"/>
+<path d="M542 135 H616" stroke="#0b3d5c" stroke-width="2.5" marker-end="url(#ar3)"/>
+<g font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#d9694a" text-anchor="middle"><text x="280" y="255">install.packages()</text><text x="580" y="255">library()</text></g>
+<text class="en" x="280" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">ONCE
+per computer (internet)</text>
+<text class="fr" x="280" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">UNE
+FOIS par ordinateur (internet)</text>
+<text class="en" x="580" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">EVERY
+time you open R / in each script</text>
+<text class="fr" x="580" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">À
+CHAQUE ouverture de R / dans chaque script</text>
+</svg>
+</figure>
+<div class="en">
+<p><strong>The library analogy.</strong> CRAN is a bookshop.
+<code>install.packages()</code> <strong>buys</strong> a book and puts it
+on the shelf of your computer — you do it <strong>once</strong> (and
+again only to update it). <code>library()</code> <strong>takes the book
+off the shelf and opens it on your desk</strong> — you do it
+<strong>every time</strong> you start R, at the top of each script that
+uses the package.</p>
+</div>
+<div class="fr">
+<p><strong>L’analogie de la bibliothèque.</strong> Le CRAN est une
+librairie. <code>install.packages()</code> <strong>achète</strong> un
+livre et le range sur l’étagère de votre ordinateur — on le fait
+<strong>une fois</strong> (et à nouveau seulement pour le mettre à
+jour). <code>library()</code> <strong>sort le livre de l’étagère et
+l’ouvre sur votre bureau</strong> — on le fait <strong>à chaque
+fois</strong> qu’on démarre R, en haut de chaque script qui utilise le
+package.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>))   <span class="co"># ONCE, in the console (needs internet)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)        <span class="co"># at the top of EVERY script that uses it</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<div
+id="base-r-is-also-made-of-packagesr-de-base-est-aussi-fait-de-packages"
+class="section level3">
+<h3><span class="en">Base R is also made of packages</span><span
+class="fr">R de base est aussi fait de packages</span></h3>
+<div class="en">
+<p>R itself is a set of packages installed and loaded automatically:
+<strong>base</strong> (<code>c()</code>, <code>mean()</code>,
+<code>subset()</code>), <strong>stats</strong> (<code>sd()</code>,
+<code>median()</code>, <code>aggregate()</code>),
+<strong>graphics</strong> (<code>plot()</code>, <code>barplot()</code>),
+<strong>utils</strong> (<code>read.csv()</code>, <code>head()</code>)…
+Some are installed but not loaded, like <strong>tools</strong>: that is
+why in Session 5 you wrote <code>tools::toTitleCase()</code>. The
+<code>::</code> means “use this function from this package without
+loading the whole package”.</p>
+</div>
+<div class="fr">
+<p>R lui-même est un ensemble de packages installés et chargés
+automatiquement : <strong>base</strong> (<code>c()</code>,
+<code>mean()</code>, <code>subset()</code>), <strong>stats</strong>
+(<code>sd()</code>, <code>median()</code>, <code>aggregate()</code>),
+<strong>graphics</strong> (<code>plot()</code>, <code>barplot()</code>),
+<strong>utils</strong> (<code>read.csv()</code>, <code>head()</code>)…
+Certains sont installés mais pas chargés, comme <strong>tools</strong> :
+c’est pourquoi en séance 5 vous avez écrit
+<code>tools::toTitleCase()</code>. Le <code>::</code> signifie «
+utiliser cette fonction de ce package sans charger tout le package
+».</p>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">filter</span>(sg, seagrass_cover <span class="sc">&gt;</span> <span class="dv">80</span>)   <span class="co"># works even without library(dplyr)</span></span></code></pre></div>
+</div>
+<div id="the-tidyverse-familyla-famille-tidyverse"
+class="section level3">
+<h3><span class="en">The tidyverse family</span><span class="fr">La
+famille tidyverse</span></h3>
+<div class="en">
+<p><strong>dplyr</strong> (data manipulation) and
+<strong>ggplot2</strong> (graphics) belong to the
+<strong>tidyverse</strong>, a family of packages designed to work
+together with the same philosophy: one function = one verb, data frame
+in → data frame out. Other members you will meet later:
+<strong>tidyr</strong> (reshaping tables), <strong>readr</strong> (fast
+import), <strong>stringr</strong> (text), <strong>lubridate</strong>
+(dates). <code>install.packages("tidyverse")</code> installs the whole
+family at once (large download); here we install only the two we
+need.</p>
+</div>
+<div class="fr">
+<p><strong>dplyr</strong> (manipulation de données) et
+<strong>ggplot2</strong> (graphiques) appartiennent au
+<strong>tidyverse</strong>, une famille de packages conçus pour
+fonctionner ensemble selon la même philosophie : une fonction = un
+verbe, un data frame en entrée → un data frame en sortie. D’autres
+membres que vous rencontrerez plus tard : <strong>tidyr</strong>
+(restructurer des tableaux), <strong>readr</strong> (import rapide),
+<strong>stringr</strong> (texte), <strong>lubridate</strong> (dates).
+<code>install.packages("tidyverse")</code> installe toute la famille
+d’un coup (gros téléchargement) ; ici nous n’installons que les deux
+nécessaires.</p>
+</div>
+</div>
+<div
+id="messages-conflicts-updates-citationmessages-conflits-mises-à-jour-citation"
+class="section level3">
+<h3><span class="en">Messages, conflicts, updates, citation</span><span
+class="fr">Messages, conflits, mises à jour, citation</span></h3>
+<div class="en">
+<ul>
+<li>When you load dplyr, R says that some objects are
+<strong>masked</strong>, e.g. <code>filter</code> from
+<strong>stats</strong>. Two packages have a function with the same name;
+the last loaded wins. This is normal. To be explicit, write
+<code>dplyr::filter()</code> or <code>stats::filter()</code>.</li>
+<li><code>there is no package called 'dplyr'</code> → it is not
+installed yet. On Windows, if an installation fails with a compilation
+message, check <strong>Rtools</strong> (Session 0).</li>
+<li>Update your packages from time to time:
+<code>update.packages()</code> or the <strong>Update</strong> button in
+the <em>Packages</em> pane.</li>
+<li>Packages are scientific work: <strong>cite them</strong> in your
+reports and theses. <code>citation("dplyr")</code> gives the
+reference.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>Au chargement de dplyr, R indique que certains objets sont
+<strong>masqués</strong> (<em>masked</em>), ex. <code>filter</code> de
+<strong>stats</strong>. Deux packages ont une fonction du même nom ; le
+dernier chargé l’emporte. C’est normal. Pour être explicite, écrivez
+<code>dplyr::filter()</code> ou <code>stats::filter()</code>.</li>
+<li><code>there is no package called 'dplyr'</code> → il n’est pas
+encore installé. Sous Windows, si une installation échoue avec un
+message de compilation, vérifiez <strong>Rtools</strong> (séance
+0).</li>
+<li>Mettez vos packages à jour de temps en temps :
+<code>update.packages()</code> ou le bouton <strong>Update</strong> du
+panneau <em>Packages</em>.</li>
+<li>Les packages sont un travail scientifique :
+<strong>citez-les</strong> dans vos rapports et mémoires.
+<code>citation("dplyr")</code> donne la référence.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="pipe" class="section level2">
+<h2><span class="en">The pipe <code>|&gt;</code></span><span
+class="fr">Le pipe <code>|&gt;</code></span></h2>
+<div class="en">
+<p>The pipe sends the result on its left into the <strong>first
+argument</strong> of the function on its right. Read it as
+<strong>“then”</strong>. RStudio shortcut: <strong>Ctrl + Shift +
+M</strong> (to get <code>|&gt;</code> rather than <code>%&gt;%</code>,
+tick <em>Tools → Global Options → Code → Use native pipe operator</em>).
+You will also see <code>%&gt;%</code> in older code: for our use it does
+the same thing.</p>
+</div>
+<div class="fr">
+<p>Le pipe envoie le résultat de gauche dans le <strong>premier
+argument</strong> de la fonction de droite. Lisez-le <strong>« puis
+»</strong>. Raccourci RStudio : <strong>Ctrl + Maj + M</strong> (pour
+obtenir <code>|&gt;</code> plutôt que <code>%&gt;%</code>, cochez
+<em>Tools → Global Options → Code → Use native pipe operator</em>). Vous
+verrez aussi <code>%&gt;%</code> dans du code plus ancien : pour notre
+usage, il fait la même chose.</p>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(sg<span class="sc">$</span>seagrass_cover), <span class="dv">1</span>)            <span class="co"># nested: read from the inside out</span></span></code></pre></div>
+<pre><code>#&gt; [1] 48.5</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>sg<span class="sc">$</span>seagrass_cover <span class="sc">|&gt;</span> <span class="fu">mean</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">1</span>)      <span class="co"># piped: read from left to right</span></span></code></pre></div>
+<pre><code>#&gt; [1] 48.5</code></pre>
+<div class="en">
+<p>The pipe is not specific to dplyr: it works with base R functions
+too, as above.</p>
+</div>
+<div class="fr">
+<p>Le pipe n’est pas propre à dplyr : il fonctionne aussi avec les
+fonctions de base, comme ci-dessus.</p>
+</div>
+</div>
+<div id="dplyr" class="section level2">
+<h2><span class="en">dplyr verbs and their base R
+equivalents</span><span class="fr">Verbes dplyr et équivalents en R de
+base</span></h2>
+<div class="en">
+<p>Each dplyr verb takes a data frame as <strong>first argument</strong>
+and returns a data frame. Inside the verbs you write column names
+<strong>without</strong> <code>sg$</code>. For each verb, the left box
+shows how you already do it in base R (Sessions 3–6), the right box the
+dplyr way. <strong>Both give the same result.</strong></p>
+</div>
+<div class="fr">
+<p>Chaque verbe dplyr prend un data frame comme <strong>premier
+argument</strong> et renvoie un data frame. Dans les verbes, on écrit
+les noms de colonnes <strong>sans</strong> <code>sg$</code>. Pour chaque
+verbe, le cadre de gauche montre comment vous le faites déjà en R de
+base (séances 3–6), celui de droite la façon dplyr. <strong>Les deux
+donnent le même résultat.</strong></p>
+</div>
+<div id="filter-keep-rowsfilter-garder-des-lignes"
+class="section level3">
+<h3><span class="en"><code>filter()</code> — keep rows</span><span
+class="fr"><code>filter()</code> — garder des lignes</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>sg[sg<span class="sc">$</span>mpa_status <span class="sc">==</span> <span class="st">&quot;Inside&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>   sg<span class="sc">$</span>seagrass_cover <span class="sc">&gt;</span> <span class="dv">70</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code></pre></div>
+<pre><code>#&gt;        site mpa_status quadrat       date
+#&gt; 23 Fasimena     Inside       8 2026-03-11
+#&gt; 28 Fasimena     Inside      13 2026-03-11</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># or</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">subset</span>(sg, mpa_status <span class="sc">==</span> <span class="st">&quot;Inside&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>           seagrass_cover <span class="sc">&gt;</span> <span class="dv">70</span>)[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code></pre></div>
+<pre><code>#&gt;        site mpa_status quadrat       date
+#&gt; 23 Fasimena     Inside       8 2026-03-11
+#&gt; 28 Fasimena     Inside      13 2026-03-11</code></pre>
+</div>
+<div class="col pkg">
+<p>dplyr</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>sg <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">filter</span>(mpa_status <span class="sc">==</span> <span class="st">&quot;Inside&quot;</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>         seagrass_cover <span class="sc">&gt;</span> <span class="dv">70</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;       site mpa_status quadrat       date
+#&gt; 1 Fasimena     Inside       8 2026-03-11
+#&gt; 2 Fasimena     Inside      13 2026-03-11</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># in filter(), a comma means AND</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div
+id="select-keep-drop-or-reorder-columnsselect-garder-retirer-ou-réordonner-des-colonnes"
+class="section level3">
+<h3><span class="en"><code>select()</code> — keep, drop or reorder
+columns</span><span class="fr"><code>select()</code> — garder, retirer
+ou réordonner des colonnes</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">head</span>(sg[, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;quadrat&quot;</span>,</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>            <span class="st">&quot;seagrass_cover&quot;</span>)], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;        site quadrat seagrass_cover
+#&gt; 1 Ambalaboy       1             69
+#&gt; 2 Ambalaboy       2             47
+#&gt; 3 Ambalaboy       3             64</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">names</span>(sg[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>)])  <span class="co"># drop</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;  
+#&gt; [6] &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
+</div>
+<div class="col pkg">
+<p>dplyr</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>sg <span class="sc">|&gt;</span> <span class="fu">select</span>(site, quadrat,</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>             seagrass_cover) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;        site quadrat seagrass_cover
+#&gt; 1 Ambalaboy       1             69
+#&gt; 2 Ambalaboy       2             47
+#&gt; 3 Ambalaboy       3             64</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">select</span>(sg, <span class="sc">-</span>date, <span class="sc">-</span>depth_m))</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;  
+#&gt; [6] &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
+</div>
+</div>
+</div>
+<div
+id="mutate-add-or-change-columnsmutate-ajouter-ou-modifier-des-colonnes"
+class="section level3">
+<h3><span class="en"><code>mutate()</code> — add or change
+columns</span><span class="fr"><code>mutate()</code> — ajouter ou
+modifier des colonnes</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>sg2 <span class="ot">&lt;-</span> sg</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>sg2<span class="sc">$</span>cover_prop <span class="ot">&lt;-</span> sg2<span class="sc">$</span>seagrass_cover <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>sg2<span class="sc">$</span>canopy_index <span class="ot">&lt;-</span> sg2<span class="sc">$</span>cover_prop <span class="sc">*</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>                    sg2<span class="sc">$</span>canopy_height_cm</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="fu">head</span>(sg2[, <span class="fu">c</span>(<span class="st">&quot;cover_prop&quot;</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>             <span class="st">&quot;canopy_index&quot;</span>)], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;   cover_prop canopy_index
+#&gt; 1       0.69       12.972
+#&gt; 2       0.47        7.990
+#&gt; 3       0.64       12.032</code></pre>
+</div>
+<div class="col pkg">
+<p>dplyr</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>sg2 <span class="ot">&lt;-</span> sg <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cover_prop =</span> seagrass_cover <span class="sc">/</span> <span class="dv">100</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>         <span class="at">canopy_index =</span> cover_prop <span class="sc">*</span></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>                        canopy_height_cm)</span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>sg2 <span class="sc">|&gt;</span> <span class="fu">select</span>(cover_prop,</span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>              canopy_index) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;   cover_prop canopy_index
+#&gt; 1       0.69       12.972
+#&gt; 2       0.47        7.990
+#&gt; 3       0.64       12.032</code></pre>
+</div>
+</div>
+<div class="en">
+<p>Note: inside one <code>mutate()</code> you can use a column created
+just before (<code>cover_prop</code>).</p>
+</div>
+<div class="fr">
+<p>Remarque : dans un même <code>mutate()</code>, on peut utiliser une
+colonne créée juste avant (<code>cover_prop</code>).</p>
+</div>
+</div>
+<div id="arrange-sort-rowsarrange-trier-les-lignes"
+class="section level3">
+<h3><span class="en"><code>arrange()</code> — sort rows</span><span
+class="fr"><code>arrange()</code> — trier les lignes</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>o <span class="ot">&lt;-</span> <span class="fu">order</span>(sg<span class="sc">$</span>seagrass_cover,</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>           <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="fu">head</span>(sg[o, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;         site seagrass_cover
+#&gt; 28  Fasimena             74
+#&gt; 58 Belitsaky             72
+#&gt; 23  Fasimena             71</code></pre>
+</div>
+<div class="col pkg">
+<p>dplyr</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>sg <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(seagrass_cover)) <span class="sc">|&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  <span class="fu">select</span>(site, seagrass_cover) <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;        site seagrass_cover
+#&gt; 1  Fasimena             74
+#&gt; 2 Belitsaky             72
+#&gt; 3  Fasimena             71</code></pre>
+</div>
+</div>
+</div>
+<div id="rename-rename-columnsrename-renommer-des-colonnes"
+class="section level3">
+<h3><span class="en"><code>rename()</code> — rename columns</span><span
+class="fr"><code>rename()</code> — renommer des colonnes</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>sg2 <span class="ot">&lt;-</span> sg</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="fu">names</span>(sg2)[<span class="fu">names</span>(sg2) <span class="sc">==</span> <span class="st">&quot;seagrass_cover&quot;</span>] <span class="ot">&lt;-</span></span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>  <span class="st">&quot;cover_pct&quot;</span></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="fu">names</span>(sg2)[<span class="dv">7</span>]</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;cover_pct&quot;</code></pre>
+</div>
+<div class="col pkg">
+<p>dplyr</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>sg2 <span class="ot">&lt;-</span> sg <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">cover_pct =</span> seagrass_cover)</span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="co"># new name = old name</span></span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="fu">names</span>(sg2)[<span class="dv">7</span>]</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;cover_pct&quot;</code></pre>
+</div>
+</div>
+</div>
+<div
+id="group_by-summarise-statistics-per-groupgroup_by-summarise-statistiques-par-groupe"
+class="section level3">
+<h3><span class="en"><code>group_by()</code> + <code>summarise()</code>
+— statistics per group</span><span class="fr"><code>group_by()</code> +
+<code>summarise()</code> — statistiques par groupe</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, sg<span class="sc">$</span>site, length)</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, sg<span class="sc">$</span>site, mean)</span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, sg<span class="sc">$</span>site, sd)</span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">site =</span> <span class="fu">names</span>(m), <span class="at">n =</span> <span class="fu">as.vector</span>(n),</span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a>           <span class="at">mean =</span> <span class="fu">as.vector</span>(m), <span class="at">sd =</span> <span class="fu">as.vector</span>(s))</span></code></pre></div>
+<pre><code>#&gt;         site  n     mean       sd
+#&gt; 1  Ambalaboy 15 52.80000 12.28937
+#&gt; 2  Belitsaky 15 46.93333 11.99087
+#&gt; 3   Fasimena 15 52.60000 12.56298
+#&gt; 4 Tsiandamba 15 41.66667 15.48578</code></pre>
+</div>
+<div class="col pkg">
+<p>dplyr</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a>sg <span class="sc">|&gt;</span></span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>  <span class="fu">group_by</span>(site) <span class="sc">|&gt;</span></span>
+<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n    =</span> <span class="fu">n</span>(),</span>
+<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a>            <span class="at">mean =</span> <span class="fu">mean</span>(seagrass_cover),</span>
+<span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a>            <span class="at">sd   =</span> <span class="fu">sd</span>(seagrass_cover))</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 4 × 4
+#&gt;   site           n  mean    sd
+#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 Ambalaboy     15  52.8  12.3
+#&gt; 2 Belitsaky     15  46.9  12.0
+#&gt; 3 Fasimena      15  52.6  12.6
+#&gt; 4 Tsiandamba    15  41.7  15.5</code></pre>
+</div>
+</div>
+<div class="en">
+<p><code>n()</code> counts the rows of each group. Add
+<code>.groups = "drop"</code> in <code>summarise()</code> when you group
+by two variables, to remove the grouping afterwards.</p>
+</div>
+<div class="fr">
+<p><code>n()</code> compte les lignes de chaque groupe. Ajoutez
+<code>.groups = "drop"</code> dans <code>summarise()</code> quand vous
+groupez par deux variables, pour retirer le groupement ensuite.</p>
+</div>
+</div>
+<div
+id="count-number-of-rows-per-categorycount-nombre-de-lignes-par-catégorie"
+class="section level3">
+<h3><span class="en"><code>count()</code> — number of rows per
+category</span><span class="fr"><code>count()</code> — nombre de lignes
+par catégorie</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">table</span>(sg<span class="sc">$</span>species)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;      Cymodocea serrulata Syringodium isoetifolium     Thalassia hemprichii Thalassodendron ciliatum 
+#&gt;                       17                       13                       21                        9</code></pre>
+</div>
+<div class="col pkg">
+<p>dplyr</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="fu">count</span>(sg, species)</span></code></pre></div>
+<pre><code>#&gt;                    species  n
+#&gt; 1      Cymodocea serrulata 17
+#&gt; 2 Syringodium isoetifolium 13
+#&gt; 3     Thalassia hemprichii 21
+#&gt; 4 Thalassodendron ciliatum  9</code></pre>
+</div>
+</div>
+</div>
+<div id="a-whole-analysis-both-waysune-analyse-complète-des-deux-façons"
+class="section level3">
+<h3><span class="en">A whole analysis, both ways</span><span
+class="fr">Une analyse complète, des deux façons</span></h3>
+<div class="en">
+<p>Mean canopy height of the <em>Thalassia hemprichii</em> quadrats
+shallower than 2 m, per MPA status:</p>
+</div>
+<div class="fr">
+<p>Hauteur de canopée moyenne des quadrats à <em>Thalassia
+hemprichii</em> de moins de 2 m, par statut d’AMP :</p>
+</div>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a>th <span class="ot">&lt;-</span> <span class="fu">subset</span>(sg, species <span class="sc">==</span> <span class="st">&quot;Thalassia hemprichii&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a>                 depth_m <span class="sc">&lt;</span> <span class="dv">2</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" tabindex="-1"></a><span class="fu">tapply</span>(th<span class="sc">$</span>canopy_height_cm, th<span class="sc">$</span>mpa_status,</span>
+<span id="cb43-4"><a href="#cb43-4" tabindex="-1"></a>       mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>#&gt;   Inside  Outside 
+#&gt; 16.18333 17.64286</code></pre>
+</div>
+<div class="col pkg">
+<p>dplyr</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a>sg <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">&quot;Thalassia hemprichii&quot;</span>,</span>
+<span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a>         depth_m <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb45-4"><a href="#cb45-4" tabindex="-1"></a>  <span class="fu">group_by</span>(mpa_status) <span class="sc">|&gt;</span></span>
+<span id="cb45-5"><a href="#cb45-5" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">h =</span> <span class="fu">mean</span>(canopy_height_cm,</span>
+<span id="cb45-6"><a href="#cb45-6" tabindex="-1"></a>                     <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 2 × 2
+#&gt;   mpa_status     h
+#&gt;   &lt;chr&gt;      &lt;dbl&gt;
+#&gt; 1 Inside      16.2
+#&gt; 2 Outside     17.6</code></pre>
+</div>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Which one should I use?</strong> Both are correct and widely
+used. dplyr reads like a sentence and shines when you chain many steps;
+base R needs no installation and is what you will meet inside older
+scripts and many packages. Being able to <strong>read both</strong> is
+the goal of this session.</p>
+</div>
+<div class="fr">
+<p><strong>Lequel utiliser ?</strong> Les deux sont corrects et très
+utilisés. dplyr se lit comme une phrase et brille quand on enchaîne
+beaucoup d’étapes ; R de base ne nécessite aucune installation et se
+retrouve dans les anciens scripts et dans de nombreux packages. Savoir
+<strong>lire les deux</strong> est l’objectif de cette séance.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="ggplot" class="section level2">
+<h2><span class="en">ggplot2 and its base R equivalents</span><span
+class="fr">ggplot2 et ses équivalents en R de base</span></h2>
+<div class="en">
+<p>A ggplot is built by <strong>adding layers</strong> with
+<code>+</code>:</p>
+<ol style="list-style-type: decimal">
+<li><code>ggplot(data, aes(x = ..., y = ..., colour = ...))</code> — the
+data and the <strong>aesthetics</strong> (which column goes on which
+visual property);</li>
+<li>one or more <strong>geoms</strong>: <code>geom_point()</code>,
+<code>geom_boxplot()</code>, <code>geom_histogram()</code>,
+<code>geom_col()</code>, <code>geom_errorbar()</code>…;</li>
+<li>optional: <code>labs()</code> (titles), <code>theme_*()</code>
+(overall look), <code>scale_*()</code> (colours, axes),
+<code>facet_wrap()</code> (one panel per group).</li>
+</ol>
+<p>In base R you draw a plot and then <strong>add</strong> to it with
+<code>points()</code>, <code>arrows()</code>, <code>legend()</code>…
+(Session 7). The logic is the same; the syntax differs.</p>
+</div>
+<div class="fr">
+<p>Un ggplot se construit en <strong>ajoutant des couches</strong> avec
+<code>+</code> :</p>
+<ol style="list-style-type: decimal">
+<li><code>ggplot(données, aes(x = ..., y = ..., colour = ...))</code> —
+les données et l’<strong>esthétique</strong> (quelle colonne va sur
+quelle propriété visuelle) ;</li>
+<li>une ou plusieurs <strong>géométries</strong> :
+<code>geom_point()</code>, <code>geom_boxplot()</code>,
+<code>geom_histogram()</code>, <code>geom_col()</code>,
+<code>geom_errorbar()</code>… ;</li>
+<li>en option : <code>labs()</code> (titres), <code>theme_*()</code>
+(aspect général), <code>scale_*()</code> (couleurs, axes),
+<code>facet_wrap()</code> (un panneau par groupe).</li>
+</ol>
+<p>En R de base, on trace un graphique puis on y <strong>ajoute</strong>
+des éléments avec <code>points()</code>, <code>arrows()</code>,
+<code>legend()</code>… (séance 7). La logique est la même ; la syntaxe
+diffère.</p>
+</div>
+<div id="scatter-plotnuage-de-points" class="section level3">
+<h3><span class="en">Scatter plot</span><span class="fr">Nuage de
+points</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Inside =</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="at">Outside =</span> <span class="st">&quot;#d9694a&quot;</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a><span class="fu">plot</span>(sg<span class="sc">$</span>seagrass_cover, sg<span class="sc">$</span>canopy_height_cm,</span>
+<span id="cb47-3"><a href="#cb47-3" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> cols[sg<span class="sc">$</span>mpa_status],</span>
+<span id="cb47-4"><a href="#cb47-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>,</span>
+<span id="cb47-5"><a href="#cb47-5" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Canopy height (cm)&quot;</span>)</span>
+<span id="cb47-6"><a href="#cb47-6" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="fu">names</span>(cols), <span class="at">col =</span> cols,</span>
+<span id="cb47-7"><a href="#cb47-7" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-21-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div class="col pkg">
+<p>ggplot2</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="fu">ggplot</span>(sg, <span class="fu">aes</span>(seagrass_cover,</span>
+<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>               canopy_height_cm,</span>
+<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a>               <span class="at">colour =</span> mpa_status)) <span class="sc">+</span></span>
+<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb48-5"><a href="#cb48-5" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(</span>
+<span id="cb48-6"><a href="#cb48-6" tabindex="-1"></a>    <span class="at">Inside =</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="at">Outside =</span> <span class="st">&quot;#d9694a&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb48-7"><a href="#cb48-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>,</span>
+<span id="cb48-8"><a href="#cb48-8" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Canopy height (cm)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb48-9"><a href="#cb48-9" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-22-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div class="en">
+<p>In ggplot2 the legend is created <strong>automatically</strong> from
+<code>colour = mpa_status</code>; in base R you build it yourself with
+<code>legend()</code>.</p>
+</div>
+<div class="fr">
+<p>Dans ggplot2 la légende est créée <strong>automatiquement</strong> à
+partir de <code>colour = mpa_status</code> ; en R de base on la
+construit soi-même avec <code>legend()</code>.</p>
+</div>
+</div>
+<div id="histogramhistogramme" class="section level3">
+<h3><span class="en">Histogram</span><span
+class="fr">Histogramme</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="fu">hist</span>(sg<span class="sc">$</span>seagrass_cover,</span>
+<span id="cb49-2"><a href="#cb49-2" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>),</span>
+<span id="cb49-3"><a href="#cb49-3" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;#4a7d3a&quot;</span>, <span class="at">border =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb49-4"><a href="#cb49-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>)</span></code></pre></div>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-23-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div class="col pkg">
+<p>ggplot2</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="fu">ggplot</span>(sg, <span class="fu">aes</span>(seagrass_cover)) <span class="sc">+</span></span>
+<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10</span>, <span class="at">boundary =</span> <span class="dv">0</span>,</span>
+<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">&quot;#4a7d3a&quot;</span>,</span>
+<span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a>                 <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb50-5"><a href="#cb50-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb50-6"><a href="#cb50-6" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-24-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="boxplotboxplot" class="section level3">
+<h3><span class="en">Boxplot</span><span class="fr">Boxplot</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a><span class="fu">boxplot</span>(seagrass_cover <span class="sc">~</span> site, <span class="at">data =</span> sg,</span>
+<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">&quot;#a8d5da&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb51-3"><a href="#cb51-3" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>)</span></code></pre></div>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-25-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div class="col pkg">
+<p>ggplot2</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="fu">ggplot</span>(sg, <span class="fu">aes</span>(site, seagrass_cover)) <span class="sc">+</span></span>
+<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">&quot;#a8d5da&quot;</span>) <span class="sc">+</span></span>
+<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-26-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="means-sdmoyennes-et" class="section level3">
+<h3><span class="en">Means ± SD</span><span class="fr">Moyennes ±
+ET</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, sg<span class="sc">$</span>site, mean)</span>
+<span id="cb53-2"><a href="#cb53-2" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, sg<span class="sc">$</span>site, sd)</span>
+<span id="cb53-3"><a href="#cb53-3" tabindex="-1"></a>bp <span class="ot">&lt;-</span> <span class="fu">barplot</span>(m, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">80</span>),</span>
+<span id="cb53-4"><a href="#cb53-4" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="at">las =</span> <span class="dv">1</span>,</span>
+<span id="cb53-5"><a href="#cb53-5" tabindex="-1"></a>              <span class="at">ylab =</span> <span class="st">&quot;Cover (%) ± SD&quot;</span>)</span>
+<span id="cb53-6"><a href="#cb53-6" tabindex="-1"></a><span class="fu">arrows</span>(bp, m <span class="sc">-</span> s, bp, m <span class="sc">+</span> s, <span class="at">angle =</span> <span class="dv">90</span>,</span>
+<span id="cb53-7"><a href="#cb53-7" tabindex="-1"></a>       <span class="at">code =</span> <span class="dv">3</span>, <span class="at">length =</span> <span class="fl">0.06</span>)</span></code></pre></div>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-27-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div class="col pkg">
+<p>ggplot2</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a>summ <span class="ot">&lt;-</span> sg <span class="sc">|&gt;</span> <span class="fu">group_by</span>(site) <span class="sc">|&gt;</span></span>
+<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(seagrass_cover),</span>
+<span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a>            <span class="at">s =</span> <span class="fu">sd</span>(seagrass_cover))</span>
+<span id="cb54-4"><a href="#cb54-4" tabindex="-1"></a><span class="fu">ggplot</span>(summ, <span class="fu">aes</span>(site, m)) <span class="sc">+</span></span>
+<span id="cb54-5"><a href="#cb54-5" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">&quot;#1b7f8c&quot;</span>) <span class="sc">+</span></span>
+<span id="cb54-6"><a href="#cb54-6" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> m <span class="sc">-</span> s,</span>
+<span id="cb54-7"><a href="#cb54-7" tabindex="-1"></a>                    <span class="at">ymax =</span> m <span class="sc">+</span> s),</span>
+<span id="cb54-8"><a href="#cb54-8" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb54-9"><a href="#cb54-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Cover (%) ± SD&quot;</span>) <span class="sc">+</span></span>
+<span id="cb54-10"><a href="#cb54-10" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-28-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="one-panel-per-groupun-panneau-par-groupe"
+class="section level3">
+<h3><span class="en">One panel per group</span><span class="fr">Un
+panneau par groupe</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb55-2"><a href="#cb55-2" tabindex="-1"></a>by_site <span class="ot">&lt;-</span> <span class="fu">split</span>(sg<span class="sc">$</span>seagrass_cover, sg<span class="sc">$</span>site)</span>
+<span id="cb55-3"><a href="#cb55-3" tabindex="-1"></a><span class="fu">hist</span>(by_site<span class="sc">$</span>Ambalaboy, <span class="at">main =</span> <span class="st">&quot;Ambalaboy&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb55-4"><a href="#cb55-4" tabindex="-1"></a><span class="fu">hist</span>(by_site<span class="sc">$</span>Belitsaky, <span class="at">main =</span> <span class="st">&quot;Belitsaky&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb55-5"><a href="#cb55-5" tabindex="-1"></a><span class="fu">hist</span>(by_site<span class="sc">$</span>Fasimena, <span class="at">main =</span> <span class="st">&quot;Fasimena&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb55-6"><a href="#cb55-6" tabindex="-1"></a><span class="fu">hist</span>(by_site<span class="sc">$</span>Tsiandamba, <span class="at">main =</span> <span class="st">&quot;Tsiandamba&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-29-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div>
+</div>
+<div class="col pkg">
+<p>ggplot2</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a><span class="fu">ggplot</span>(sg, <span class="fu">aes</span>(seagrass_cover)) <span class="sc">+</span></span>
+<span id="cb57-2"><a href="#cb57-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10</span>,</span>
+<span id="cb57-3"><a href="#cb57-3" tabindex="-1"></a>                 <span class="at">boundary =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb57-4"><a href="#cb57-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> site) <span class="sc">+</span></span>
+<span id="cb57-5"><a href="#cb57-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb57-6"><a href="#cb57-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-30-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div class="en">
+<p><code>split(x, group)</code> cuts a vector into one piece per group
+(a list). With many groups, <code>facet_wrap()</code> saves a lot of
+typing.</p>
+</div>
+<div class="fr">
+<p><code>split(x, groupe)</code> découpe un vecteur en un morceau par
+groupe (une liste). Avec beaucoup de groupes, <code>facet_wrap()</code>
+évite beaucoup de saisie.</p>
+</div>
+</div>
+<div id="saving-a-figureenregistrer-une-figure" class="section level3">
+<h3><span class="en">Saving a figure</span><span class="fr">Enregistrer
+une figure</span></h3>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="fu">png</span>(<span class="st">&quot;outputs/fig.png&quot;</span>, <span class="at">width =</span> <span class="dv">16</span>,</span>
+<span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a>    <span class="at">height =</span> <span class="dv">11</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>)</span>
+<span id="cb58-3"><a href="#cb58-3" tabindex="-1"></a><span class="fu">boxplot</span>(seagrass_cover <span class="sc">~</span> site, <span class="at">data =</span> sg)</span>
+<span id="cb58-4"><a href="#cb58-4" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+</div>
+<div class="col pkg">
+<p>ggplot2</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sg, <span class="fu">aes</span>(site, seagrass_cover)) <span class="sc">+</span></span>
+<span id="cb59-2"><a href="#cb59-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span>
+<span id="cb59-3"><a href="#cb59-3" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;outputs/fig.png&quot;</span>, p, <span class="at">width =</span> <span class="dv">16</span>,</span>
+<span id="cb59-4"><a href="#cb59-4" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">11</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-8-fish-biomass-with-dplyr-and-ggplot2"
+class="section level3 en">
+<h3>Application work 8 — fish biomass with dplyr and ggplot2</h3>
+<p>New script <code>scripts/s08_tidyverse.R</code>, starting with
+<code>library(dplyr)</code>, <code>library(ggplot2)</code> and
+<code>fish &lt;- read.csv("data/fish_uvc.csv")</code>. Use
+<strong>dplyr</strong> for questions 1–6, then write the <strong>base R
+equivalent</strong> of at least two of them to check that you get the
+same numbers.</p>
+<ol style="list-style-type: decimal">
+<li><code>filter()</code>: how many rows are parrotfish
+(<code>family == "Scaridae"</code>) of <strong>20 cm or
+more</strong>?</li>
+<li><code>mutate()</code> a column
+<code>biomass_g = count * a * length_cm^b</code>, then
+<code>arrange(desc(biomass_g))</code>: which species is in the first
+row?</li>
+<li><code>group_by(site)</code> + <code>summarise()</code> the total
+biomass in kg (<code>sum(biomass_g) / 1000</code>). Which site has the
+highest total, and what is it (2 decimals)?</li>
+<li>Biomass density is computed <strong>per transect first</strong>:
+<code>group_by(site, transect)</code> +
+<code>summarise(kg_ha = sum(biomass_g) / 1000 / 250 * 10000)</code>.
+Then <code>group_by(site)</code> + <code>summarise()</code> the mean and
+SD of <code>kg_ha</code>. Mean for <strong>Andavaka</strong> (2
+decimals)?</li>
+<li>SD of <code>kg_ha</code> for <strong>Tsifota</strong> (2
+decimals)?</li>
+<li><code>count(family)</code>: how many rows are Scaridae?</li>
+<li>Make the barplot of mean <code>kg_ha</code> ± SD per site with
+ggplot2 <strong>and</strong> with base R, and save both.</li>
+</ol>
+</div>
+<div
+id="travail-dapplication-8-biomasse-de-poissons-avec-dplyr-et-ggplot2"
+class="section level3 fr">
+<h3>Travail d’application 8 — biomasse de poissons avec dplyr et
+ggplot2</h3>
+<p>Nouveau script <code>scripts/s08_tidyverse.R</code>, commençant par
+<code>library(dplyr)</code>, <code>library(ggplot2)</code> et
+<code>fish &lt;- read.csv("data/fish_uvc.csv")</code>. Utilisez
+<strong>dplyr</strong> pour les questions 1 à 6, puis écrivez
+l’<strong>équivalent en R de base</strong> d’au moins deux d’entre elles
+pour vérifier que vous obtenez les mêmes chiffres.</p>
+<ol style="list-style-type: decimal">
+<li><code>filter()</code> : combien de lignes sont des
+poissons-perroquets (<code>family == "Scaridae"</code>) de <strong>20 cm
+ou plus</strong> ?</li>
+<li><code>mutate()</code> une colonne
+<code>biomass_g = count * a * length_cm^b</code>, puis
+<code>arrange(desc(biomass_g))</code> : quelle espèce est en première
+ligne ?</li>
+<li><code>group_by(site)</code> + <code>summarise()</code> la biomasse
+totale en kg (<code>sum(biomass_g) / 1000</code>). Quel site a le total
+le plus élevé, et combien (2 décimales) ?</li>
+<li>La densité de biomasse se calcule <strong>d’abord par
+transect</strong> : <code>group_by(site, transect)</code> +
+<code>summarise(kg_ha = sum(biomass_g) / 1000 / 250 * 10000)</code>.
+Puis <code>group_by(site)</code> + <code>summarise()</code> la moyenne
+et l’ET de <code>kg_ha</code>. Moyenne pour <strong>Andavaka</strong> (2
+décimales) ?</li>
+<li>ET de <code>kg_ha</code> pour <strong>Tsifota</strong> (2 décimales)
+?</li>
+<li><code>count(family)</code> : combien de lignes sont des Scaridae
+?</li>
+<li>Faites le barplot des moyennes de <code>kg_ha</code> ± ET par site
+avec ggplot2 <strong>et</strong> avec R de base, et enregistrez les
+deux.</li>
+</ol>
+</div>
+</div>
+<div id="quiz-s08" class="quiz" data-quiz-id="s08"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gU2NhcmlkYWUgcm93cyBvZiAyMCBjbSBvciBtb3JlPyIsImZyIjoiMS4gTGlnbmVzIGRlIFNjYXJpZGFlIGRlIDIwIGNtIG91IHBsdXMgPyIsImFuc3dlciI6MTIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyLiBTcGVjaWVzIGluIHRoZSBmaXJzdCByb3cgYWZ0ZXIgYXJyYW5nZShkZXNjKGJpb21hc3NfZykpPyIsImZyIjoiMi4gRXNww6hjZSBlbiBwcmVtacOocmUgbGlnbmUgYXByw6hzIGFycmFuZ2UoZGVzYyhiaW9tYXNzX2cpKSA/IiwiYW5zd2VyIjpbIlNjYXJ1cyBnaG9iYmFuIl19LHsidHlwZSI6InRleHQiLCJlbiI6IjNhLiBTaXRlIHdpdGggdGhlIGhpZ2hlc3QgdG90YWwgYmlvbWFzcz8iLCJmciI6IjNhLiBTaXRlIMOgIGxhIGJpb21hc3NlIHRvdGFsZSBsYSBwbHVzIMOpbGV2w6llID8iLCJhbnN3ZXIiOlsiQmVsYXZlbm9rZSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjNiLiBJdHMgdG90YWwgYmlvbWFzcyBpbiBrZyAoMiBkZWNpbWFscyk/IiwiZnIiOiIzYi4gU2EgYmlvbWFzc2UgdG90YWxlIGVuIGtnICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjM1LjIsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZWFuIGtnX2hhIGF0IEFuZGF2YWthICgyIGRlY2ltYWxzKT8iLCJmciI6IjQuIE1veWVubmUgZGUga2dfaGEgw6AgQW5kYXZha2EgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6NDIyLjg1LCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gU0Qgb2Yga2dfaGEgYXQgVHNpZm90YSAoMiBkZWNpbWFscyk/IiwiZnIiOiI1LiBFVCBkZSBrZ19oYSDDoCBUc2lmb3RhICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjEyMC42NCwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIE51bWJlciBvZiBTY2FyaWRhZSByb3dzPyIsImZyIjoiNi4gTm9tYnJlIGRlIGxpZ25lcyBkZSBTY2FyaWRhZSA/IiwiYW5zd2VyIjozMywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNy4gQmFzZSBSIGVxdWl2YWxlbnQgb2Ygc2VsZWN0KGZpc2gsIHNpdGUsIGNvdW50KT8iLCJmciI6IjcuIMOJcXVpdmFsZW50IGVuIFIgZGUgYmFzZSBkZSBzZWxlY3QoZmlzaCwgc2l0ZSwgY291bnQpID8iLCJvcHRpb25zX2VuIjpbImZpc2hbYyhcInNpdGVcIiwgXCJjb3VudFwiKSwgXSIsImZpc2hbLCBjKFwic2l0ZVwiLCBcImNvdW50XCIpXSIsImZpc2gkc2l0ZSRjb3VudCIsInN1YnNldChmaXNoLCBzaXRlICYgY291bnQpIl0sIm9wdGlvbnNfZnIiOlsiZmlzaFtjKFwic2l0ZVwiLCBcImNvdW50XCIpLCBdIiwiZmlzaFssIGMoXCJzaXRlXCIsIFwiY291bnRcIildIiwiZmlzaCRzaXRlJGNvdW50Iiwic3Vic2V0KGZpc2gsIHNpdGUgJiBjb3VudCkiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIEJhc2UgUiBlcXVpdmFsZW50IG9mIGdlb21fZXJyb3JiYXIoKT8iLCJmciI6IjguIMOJcXVpdmFsZW50IGVuIFIgZGUgYmFzZSBkZSBnZW9tX2Vycm9yYmFyKCkgPyIsIm9wdGlvbnNfZW4iOlsibGluZXMoKSIsImFycm93cygpIiwibGVnZW5kKCkiLCJhYmxpbmUoKSJdLCJvcHRpb25zX2ZyIjpbImxpbmVzKCkiLCJhcnJvd3MoKSIsImxlZ2VuZCgpIiwiYWJsaW5lKCkiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIEhvdyBvZnRlbiBtdXN0IHlvdSBydW4gaW5zdGFsbC5wYWNrYWdlcyhcImRwbHlyXCIpIGFuZCBsaWJyYXJ5KGRwbHlyKT8iLCJmciI6IjkuIMOAIHF1ZWxsZSBmcsOpcXVlbmNlIGZhdXQtaWwgbGFuY2VyIGluc3RhbGwucGFja2FnZXMoXCJkcGx5clwiKSBldCBsaWJyYXJ5KGRwbHlyKSA/Iiwib3B0aW9uc19lbiI6WyJCb3RoIGluIGV2ZXJ5IHNjcmlwdCIsImluc3RhbGwgb25jZSBwZXIgY29tcHV0ZXI7IGxpYnJhcnkgaW4gZXZlcnkgc2NyaXB0IiwibGlicmFyeSBvbmNlOyBpbnN0YWxsIGluIGV2ZXJ5IHNjcmlwdCIsIk5ldmVyOiBkcGx5ciBpcyBwYXJ0IG9mIGJhc2UgUiJdLCJvcHRpb25zX2ZyIjpbIkxlcyBkZXV4IGRhbnMgY2hhcXVlIHNjcmlwdCIsImluc3RhbGwgdW5lIGZvaXMgcGFyIG9yZGluYXRldXIgOyBsaWJyYXJ5IGRhbnMgY2hhcXVlIHNjcmlwdCIsImxpYnJhcnkgdW5lIGZvaXMgOyBpbnN0YWxsIGRhbnMgY2hhcXVlIHNjcmlwdCIsIkphbWFpcyA6IGRwbHlyIGZhaXQgcGFydGllIGRlIFIgZGUgYmFzZSJdLCJhbnN3ZXIiOjF9XQ==">
+
+</div>
+<div class="solution" data-quiz="s08">
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a>fish <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/fish_uvc.csv&quot;</span>)</span>
+<span id="cb60-4"><a href="#cb60-4" tabindex="-1"></a></span>
+<span id="cb60-5"><a href="#cb60-5" tabindex="-1"></a>fish <span class="sc">|&gt;</span> <span class="fu">filter</span>(family <span class="sc">==</span> <span class="st">&quot;Scaridae&quot;</span>, length_cm <span class="sc">&gt;=</span> <span class="dv">20</span>) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()     <span class="co"># 1</span></span>
+<span id="cb60-6"><a href="#cb60-6" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">subset</span>(fish, family <span class="sc">==</span> <span class="st">&quot;Scaridae&quot;</span> <span class="sc">&amp;</span> length_cm <span class="sc">&gt;=</span> <span class="dv">20</span>))         <span class="co"># 1, base R</span></span>
+<span id="cb60-7"><a href="#cb60-7" tabindex="-1"></a></span>
+<span id="cb60-8"><a href="#cb60-8" tabindex="-1"></a>fish <span class="ot">&lt;-</span> fish <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">biomass_g =</span> count <span class="sc">*</span> a <span class="sc">*</span> length_cm<span class="sc">^</span>b)        <span class="co"># 2</span></span>
+<span id="cb60-9"><a href="#cb60-9" tabindex="-1"></a>fish <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(biomass_g)) <span class="sc">|&gt;</span> <span class="fu">select</span>(species, biomass_g) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">1</span>)</span>
+<span id="cb60-10"><a href="#cb60-10" tabindex="-1"></a></span>
+<span id="cb60-11"><a href="#cb60-11" tabindex="-1"></a>fish <span class="sc">|&gt;</span> <span class="fu">group_by</span>(site) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">kg =</span> <span class="fu">sum</span>(biomass_g) <span class="sc">/</span> <span class="dv">1000</span>)    <span class="co"># 3</span></span>
+<span id="cb60-12"><a href="#cb60-12" tabindex="-1"></a><span class="fu">tapply</span>(fish<span class="sc">$</span>biomass_g, fish<span class="sc">$</span>site, sum) <span class="sc">/</span> <span class="dv">1000</span>                      <span class="co"># 3, base R</span></span>
+<span id="cb60-13"><a href="#cb60-13" tabindex="-1"></a></span>
+<span id="cb60-14"><a href="#cb60-14" tabindex="-1"></a>per_tr <span class="ot">&lt;-</span> fish <span class="sc">|&gt;</span>                                                  <span class="co"># 4-5</span></span>
+<span id="cb60-15"><a href="#cb60-15" tabindex="-1"></a>  <span class="fu">group_by</span>(site, transect) <span class="sc">|&gt;</span></span>
+<span id="cb60-16"><a href="#cb60-16" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">kg_ha =</span> <span class="fu">sum</span>(biomass_g) <span class="sc">/</span> <span class="dv">1000</span> <span class="sc">/</span> <span class="dv">250</span> <span class="sc">*</span> <span class="dv">10000</span>, <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb60-17"><a href="#cb60-17" tabindex="-1"></a>per_site <span class="ot">&lt;-</span> per_tr <span class="sc">|&gt;</span> <span class="fu">group_by</span>(site) <span class="sc">|&gt;</span></span>
+<span id="cb60-18"><a href="#cb60-18" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(kg_ha), <span class="at">s =</span> <span class="fu">sd</span>(kg_ha))</span>
+<span id="cb60-19"><a href="#cb60-19" tabindex="-1"></a>per_site</span>
+<span id="cb60-20"><a href="#cb60-20" tabindex="-1"></a></span>
+<span id="cb60-21"><a href="#cb60-21" tabindex="-1"></a><span class="fu">count</span>(fish, family)                                                <span class="co"># 6</span></span>
+<span id="cb60-22"><a href="#cb60-22" tabindex="-1"></a></span>
+<span id="cb60-23"><a href="#cb60-23" tabindex="-1"></a><span class="co"># 7. ggplot2</span></span>
+<span id="cb60-24"><a href="#cb60-24" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(per_site, <span class="fu">aes</span>(site, m)) <span class="sc">+</span></span>
+<span id="cb60-25"><a href="#cb60-25" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">&quot;#1b7f8c&quot;</span>) <span class="sc">+</span></span>
+<span id="cb60-26"><a href="#cb60-26" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> m <span class="sc">-</span> s, <span class="at">ymax =</span> m <span class="sc">+</span> s), <span class="at">width =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb60-27"><a href="#cb60-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Fish biomass (kg/ha) ± SD&quot;</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>()</span>
+<span id="cb60-28"><a href="#cb60-28" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;outputs/s08_biomass_ggplot.png&quot;</span>, p, <span class="at">width =</span> <span class="dv">16</span>, <span class="at">height =</span> <span class="dv">11</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
+<span id="cb60-29"><a href="#cb60-29" tabindex="-1"></a></span>
+<span id="cb60-30"><a href="#cb60-30" tabindex="-1"></a><span class="co"># 7. base R</span></span>
+<span id="cb60-31"><a href="#cb60-31" tabindex="-1"></a><span class="fu">png</span>(<span class="st">&quot;outputs/s08_biomass_base.png&quot;</span>, <span class="at">width =</span> <span class="dv">16</span>, <span class="at">height =</span> <span class="dv">11</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>)</span>
+<span id="cb60-32"><a href="#cb60-32" tabindex="-1"></a>bp <span class="ot">&lt;-</span> <span class="fu">barplot</span>(per_site<span class="sc">$</span>m, <span class="at">names.arg =</span> per_site<span class="sc">$</span>site, <span class="at">col =</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="at">las =</span> <span class="dv">1</span>,</span>
+<span id="cb60-33"><a href="#cb60-33" tabindex="-1"></a>              <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(per_site<span class="sc">$</span>m <span class="sc">+</span> per_site<span class="sc">$</span>s) <span class="sc">*</span> <span class="fl">1.1</span>),</span>
+<span id="cb60-34"><a href="#cb60-34" tabindex="-1"></a>              <span class="at">ylab =</span> <span class="st">&quot;Fish biomass (kg/ha) ± SD&quot;</span>)</span>
+<span id="cb60-35"><a href="#cb60-35" tabindex="-1"></a><span class="fu">arrows</span>(bp, per_site<span class="sc">$</span>m <span class="sc">-</span> per_site<span class="sc">$</span>s, bp, per_site<span class="sc">$</span>m <span class="sc">+</span> per_site<span class="sc">$</span>s,</span>
+<span id="cb60-36"><a href="#cb60-36" tabindex="-1"></a>       <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">code =</span> <span class="dv">3</span>, <span class="at">length =</span> <span class="fl">0.06</span>)</span>
+<span id="cb60-37"><a href="#cb60-37" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
