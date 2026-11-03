@@ -181,3 +181,6 @@ table { font-size: .95em; }
 
 @media (max-width: 600px) { body { font-size: 16px; } .callout { padding-left: 44px; } .callout::before { left: 12px; } }
 @media print { .rc-side, .rc-done-btn, .navbar, .rc-copy { display: none !important; } body { padding-top: 0; } }
+
+.rc-login-by { display: none; }   /* hide the author line on the login screen */
+
