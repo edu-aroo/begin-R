@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R course · Session 0</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Reef & Seagrass</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sessions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-cleaning.html">4 · Cleaning data</a>
+    </li>
+    <li>
+      <a href="05-statistics.html">5 · Statistics</a>
+    </li>
+    <li>
+      <a href="06-graphics.html">6 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="07-functions.html">7 · Functions &amp; loops</a>
+    </li>
+    <li>
+      <a href="08-tidyverse.html">8 · dplyr &amp; ggplot2</a>
+    </li>
+    <li>
+      <a href="09-final-project.html">9 · Final project</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">0 · Install R, Rtools
+&amp; RStudio</span><span class="fr">0 · Installer R, Rtools et
+RStudio</span></h1>
+<h3 class="subtitle">~1.5 h</h3>
+
+</div>
+
+
+<!-- A div with class "objectives": the blue banner at the top of each session -->
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will" class="section level4 en">
+<h4>By the end of this session you will</h4>
+<ul>
+<li>know what <strong>R</strong>, <strong>Rtools</strong> and
+<strong>RStudio</strong> are, and why you need each one;</li>
+<li>have the three installed and working on your computer;</li>
+<li>recognise the four panes of RStudio;</li>
+<li>have created an <strong>RStudio project</strong> for the whole
+course, with the course data inside.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>ce que sont <strong>R</strong>, <strong>Rtools</strong> et
+<strong>RStudio</strong>, et pourquoi chacun est nécessaire ;</li>
+<li>les avoir installés et vérifiés sur votre ordinateur ;</li>
+<li>reconnaître les quatre panneaux de RStudio ;</li>
+<li>créer un <strong>projet RStudio</strong> pour tout le cours,
+contenant les données du cours.</li>
+</ul>
+</div>
+</div>
+<div id="roles" class="section level2">
+<h2><span class="en">Three programs, three roles</span><span
+class="fr">Trois logiciels, trois rôles</span></h2>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" role="img" aria-label="R, Rtools and RStudio roles" font-family="Source Sans 3, Arial, sans-serif">
+<defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5d6b75"/></marker></defs>
+<rect x="10" y="40" width="250" height="230" rx="14" fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"/>
+<rect x="305" y="40" width="250" height="230" rx="14" fill="#f6f1e7" stroke="#b08a4a" stroke-width="2"/>
+<rect x="600" y="40" width="250" height="230" rx="14" fill="#eef5ea" stroke="#4a7d3a" stroke-width="2"/>
+<circle cx="40" cy="40" r="20" fill="#1b7f8c"/><text x="40" y="47" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">1</text>
+<circle cx="335" cy="40" r="20" fill="#b08a4a"/><text x="335" y="47" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">2</text>
+<circle cx="630" cy="40" r="20" fill="#4a7d3a"/><text x="630" y="47" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">3</text>
+<text x="135" y="85" text-anchor="middle" font-size="30" font-weight="700" fill="#0b3d5c">R</text>
+<text x="430" y="85" text-anchor="middle" font-size="30" font-weight="700" fill="#0b3d5c">Rtools</text>
+<text x="725" y="85" text-anchor="middle" font-size="30" font-weight="700" fill="#0b3d5c">RStudio</text>
+<!-- engine -->
+<g transform="translate(95,100)" fill="none" stroke="#1b7f8c" stroke-width="3"><rect x="10" y="10" width="60" height="40" rx="5"/><path d="M0 22h10M70 22h10M25 10v-8h30v8M40 50v10"/><circle cx="40" cy="30" r="9"/></g>
+<!-- toolbox -->
+<g transform="translate(390,100)" fill="none" stroke="#b08a4a" stroke-width="3"><rect x="0" y="18" width="80" height="44" rx="5"/><path d="M28 18v-10h24v10M0 36h80"/><rect x="34" y="31" width="12" height="10" fill="#b08a4a"/></g>
+<!-- dashboard -->
+<g transform="translate(680,100)" fill="none" stroke="#4a7d3a" stroke-width="3"><rect x="0" y="4" width="90" height="56" rx="5"/><path d="M45 4v56M0 32h45"/><path d="M52 50l10-12 8 6 12-18" stroke-width="2.5"/></g>
+<text class="en" x="135" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="135">The
+language and the</tspan><tspan x="135" dy="21">“engine” that does
+every</tspan><tspan x="135" dy="21">calculation</tspan></text>
+<text class="fr" x="135" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="135">Le
+langage et le « moteur »</tspan><tspan x="135" dy="21">qui fait
+tous</tspan><tspan x="135" dy="21">les calculs</tspan></text>
+<text class="en" x="430" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="430">Windows
+only: tools to</tspan><tspan x="430" dy="21">build packages
+from</tspan><tspan x="430" dy="21">source code</tspan></text>
+<text class="fr" x="430" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="430">Windows
+seulement : outils</tspan><tspan x="430" dy="21">pour compiler des
+packages</tspan><tspan x="430" dy="21">depuis le code
+source</tspan></text>
+<text class="en" x="725" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="725">The
+“dashboard” where you</tspan><tspan x="725" dy="21">write scripts, see
+results,</tspan><tspan x="725" dy="21">plots and files</tspan></text>
+<text class="fr" x="725" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="725">Le
+« tableau de bord » où l’on</tspan><tspan x="725" dy="21">écrit les
+scripts, voit résultats,</tspan><tspan x="725" dy="21">graphiques et
+fichiers</tspan></text>
+<path d="M262 155 H300" stroke="#5d6b75" stroke-width="2" marker-end="url(#ar1)"/>
+<path d="M557 155 H595" stroke="#5d6b75" stroke-width="2" marker-end="url(#ar1)"/>
+<text class="en" x="430" y="310" text-anchor="middle" font-size="16" fill="#5d6b75">Install
+in this order: 1 → 2 → 3. RStudio needs R; R does not need
+RStudio.</text>
+<text class="fr" x="430" y="310" text-anchor="middle" font-size="16" fill="#5d6b75">Installer
+dans cet ordre : 1 → 2 → 3. RStudio a besoin de R ; R n’a pas besoin de
+RStudio.</text>
+</svg>
+</figure>
+<div class="en">
+<p>Think of a car:</p>
+<ul>
+<li><strong>R</strong> is the <strong>engine</strong>. It is a
+programming language <em>and</em> the program that understands it and
+does the calculations: statistics, graphs, data handling. Everything you
+do in this course is done by R.</li>
+<li><strong>RStudio</strong> is the <strong>dashboard and the steering
+wheel</strong>. It is an <em>IDE</em> (Integrated Development
+Environment): a comfortable window where you write your scripts, see
+your data, your plots, your files and the help pages. RStudio does not
+calculate anything by itself: it sends your code to R and shows you what
+R answers.</li>
+<li><strong>Rtools</strong> is the <strong>mechanic’s toolbox</strong>
+(Windows only). Some R packages (extensions) must be <em>compiled</em>
+(translated from C/C++/Fortran into machine code) when they are
+installed. Windows does not have these compilers by default, so Rtools
+provides them. Most of the time you will not notice it, but without it
+some installations fail with an error such as <em>“Rtools is required to
+build R packages”</em>.</li>
+</ul>
+</div>
+<div class="fr">
+<p>Pensez à une voiture :</p>
+<ul>
+<li><strong>R</strong> est le <strong>moteur</strong>. C’est un langage
+de programmation <em>et</em> le programme qui le comprend et fait les
+calculs : statistiques, graphiques, gestion des données. Tout ce que
+vous ferez dans ce cours est fait par R.</li>
+<li><strong>RStudio</strong> est le <strong>tableau de bord et le
+volant</strong>. C’est un <em>IDE</em> (environnement de développement
+intégré) : une fenêtre confortable où l’on écrit ses scripts et où l’on
+voit ses données, graphiques, fichiers et pages d’aide. RStudio ne
+calcule rien lui-même : il envoie votre code à R et vous montre la
+réponse de R.</li>
+<li><strong>Rtools</strong> est la <strong>boîte à outils du
+mécanicien</strong> (Windows seulement). Certains packages R
+(extensions) doivent être <em>compilés</em> (traduits du C/C++/Fortran
+en code machine) lors de leur installation. Windows ne dispose pas de
+ces compilateurs par défaut ; Rtools les fournit. La plupart du temps
+vous ne le remarquerez pas, mais sans lui certaines installations
+échouent avec une erreur du type <em>« Rtools is required to build R
+packages »</em>.</li>
+</ul>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Mac and Linux users:</strong> you do not need Rtools. On
+macOS, the equivalent is the <em>Xcode Command Line Tools</em>; install
+them only if a package installation asks for them (in the Terminal:
+<code>xcode-select --install</code>).</p>
+</div>
+<div class="fr">
+<p><strong>Utilisateurs Mac et Linux :</strong> Rtools n’est pas
+nécessaire. Sur macOS, l’équivalent est <em>Xcode Command Line
+Tools</em> ; installez-les seulement si l’installation d’un package les
+demande (dans le Terminal : <code>xcode-select --install</code>).</p>
+</div>
+</div>
+</div>
+<div id="install-r" class="section level2">
+<h2><span class="en">Step 1 — Install R</span><span class="fr">Étape 1 —
+Installer R</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>Go to the official website of R, <strong>CRAN</strong>: <a
+href="https://cran.r-project.org"
+class="uri">https://cran.r-project.org</a></li>
+<li>Click <strong>Download R for Windows</strong> (or macOS /
+Linux).</li>
+<li>Windows: click <strong>base</strong>, then <strong>Download R-4.x.x
+for Windows</strong>. macOS: choose the <code>.pkg</code> that matches
+your processor (<em>arm64</em> for Apple M1/M2/M3/M4 chips,
+<em>x86_64</em> for older Intel Macs).</li>
+<li>Run the downloaded file and accept all the default options
+(<em>Next, Next, …, Finish</em>).</li>
+</ol>
+<p><strong>Always install the latest version</strong> of R. Note the
+version number (e.g. 4.5.1): you will need it for Rtools.</p>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Allez sur le site officiel de R, le <strong>CRAN</strong> : <a
+href="https://cran.r-project.org"
+class="uri">https://cran.r-project.org</a></li>
+<li>Cliquez sur <strong>Download R for Windows</strong> (ou macOS /
+Linux).</li>
+<li>Windows : cliquez sur <strong>base</strong>, puis <strong>Download
+R-4.x.x for Windows</strong>. macOS : choisissez le fichier
+<code>.pkg</code> correspondant à votre processeur (<em>arm64</em> pour
+les puces Apple M1/M2/M3/M4, <em>x86_64</em> pour les anciens Mac
+Intel).</li>
+<li>Lancez le fichier téléchargé et acceptez toutes les options par
+défaut (<em>Suivant, Suivant, …, Terminer</em>).</li>
+</ol>
+<p><strong>Installez toujours la dernière version</strong> de R. Notez
+le numéro de version (ex. 4.5.1) : il servira pour Rtools.</p>
+</div>
+</div>
+<div id="install-rtools" class="section level2">
+<h2><span class="en">Step 2 — Install Rtools (Windows)</span><span
+class="fr">Étape 2 — Installer Rtools (Windows)</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>Go to <a href="https://cran.r-project.org/bin/windows/Rtools/"
+class="uri">https://cran.r-project.org/bin/windows/Rtools/</a></li>
+<li>Choose the Rtools version that <strong>matches the first two digits
+of your R version</strong>: R 4.4.x → <em>Rtools44</em>, R 4.5.x →
+<em>Rtools45</em>, and so on.</li>
+<li>Download the installer (the large file, about 300–500 MB) and run it
+with the default options.</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Allez sur <a href="https://cran.r-project.org/bin/windows/Rtools/"
+class="uri">https://cran.r-project.org/bin/windows/Rtools/</a></li>
+<li>Choisissez la version de Rtools qui <strong>correspond aux deux
+premiers chiffres de votre version de R</strong> : R 4.4.x →
+<em>Rtools44</em>, R 4.5.x → <em>Rtools45</em>, etc.</li>
+<li>Téléchargez l’installateur (fichier volumineux, environ 300 à 500
+Mo) et lancez-le avec les options par défaut.</li>
+</ol>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Slow internet?</strong> Rtools is large. If your connection
+is limited, you can skip it for now: nothing in sessions 0–7 needs it.
+Come back to it before Session 8.</p>
+</div>
+<div class="fr">
+<p><strong>Connexion lente ?</strong> Rtools est volumineux. Si votre
+connexion est limitée, vous pouvez le reporter : rien dans les séances 0
+à 7 n’en a besoin. Installez-le avant la séance 8.</p>
+</div>
+</div>
+</div>
+<div id="install-rstudio" class="section level2">
+<h2><span class="en">Step 3 — Install RStudio</span><span
+class="fr">Étape 3 — Installer RStudio</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>Go to <a href="https://posit.co/download/rstudio-desktop/"
+class="uri">https://posit.co/download/rstudio-desktop/</a> (Posit is the
+company that makes RStudio; RStudio Desktop is free).</li>
+<li>R is already installed (step 1), so download <strong>RStudio
+Desktop</strong> for your system and install it with the default
+options.</li>
+<li>From now on, <strong>always open RStudio, not R</strong>. RStudio
+starts R for you in the background.</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Allez sur <a href="https://posit.co/download/rstudio-desktop/"
+class="uri">https://posit.co/download/rstudio-desktop/</a> (Posit est
+l’entreprise qui développe RStudio ; RStudio Desktop est gratuit).</li>
+<li>R est déjà installé (étape 1) : téléchargez <strong>RStudio
+Desktop</strong> pour votre système et installez-le avec les options par
+défaut.</li>
+<li>Désormais, <strong>ouvrez toujours RStudio, pas R</strong>. RStudio
+démarre R pour vous en arrière-plan.</li>
+</ol>
+</div>
+<div id="check-that-everything-worksvérifier-que-tout-fonctionne"
+class="section level3">
+<h3><span class="en">Check that everything works</span><span
+class="fr">Vérifier que tout fonctionne</span></h3>
+<div class="en">
+<p>Open RStudio. In the <strong>Console</strong> pane (bottom-left),
+click after the <code>&gt;</code> sign, type the line below and press
+<strong>Enter</strong>:</p>
+</div>
+<div class="fr">
+<p>Ouvrez RStudio. Dans le panneau <strong>Console</strong> (en bas à
+gauche), cliquez après le signe <code>&gt;</code>, tapez la ligne
+ci-dessous et appuyez sur <strong>Entrée</strong> :</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>R.version.string        <span class="co"># which version of R is RStudio using?</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;R version 4.5.1 (2025-06-13 ucrt)&quot;   # (your version may differ)</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">Sys.which</span>(<span class="st">&quot;make&quot;</span>)       <span class="co"># Windows only: is Rtools found?</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># a path such as &quot;C:\\rtools45\\usr\\bin\\make.exe&quot; means YES</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># &quot;&quot;  (empty) means Rtools is not installed or not found</span></span></code></pre></div>
+</div>
+</div>
+<div id="tour" class="section level2">
+<h2><span class="en">A tour of RStudio</span><span class="fr">Visite de
+RStudio</span></h2>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="The four panes of RStudio" font-family="Source Sans 3, Arial, sans-serif">
+<rect x="10" y="10" width="840" height="450" rx="12" fill="#f2f4f5" stroke="#9aa7ae" stroke-width="2"/>
+<rect x="10" y="10" width="840" height="30" rx="12" fill="#d7dde0"/><circle cx="32" cy="25" r="6" fill="#d9694a"/><circle cx="52" cy="25" r="6" fill="#e3b04b"/><circle cx="72" cy="25" r="6" fill="#4a7d3a"/>
+<text x="430" y="31" text-anchor="middle" font-size="15" fill="#3c4a52">RStudio</text>
+<rect x="22" y="50" width="490" height="210" rx="8" fill="#fff" stroke="#1b7f8c" stroke-width="2.5"/>
+<rect x="22" y="270" width="490" height="180" rx="8" fill="#fff" stroke="#0b3d5c" stroke-width="2.5"/>
+<rect x="522" y="50" width="316" height="170" rx="8" fill="#fff" stroke="#b08a4a" stroke-width="2.5"/>
+<rect x="522" y="230" width="316" height="220" rx="8" fill="#fff" stroke="#4a7d3a" stroke-width="2.5"/>
+<text x="40" y="80" font-size="20" font-weight="700" fill="#1b7f8c">1 ·
+Source / Script</text>
+<text x="40" y="300" font-size="20" font-weight="700" fill="#0b3d5c">2 ·
+Console</text>
+<text x="540" y="80" font-size="20" font-weight="700" fill="#b08a4a">3 ·
+Environment</text>
+<text x="540" y="260" font-size="20" font-weight="700" fill="#4a7d3a">4
+· Files / Plots / Help</text>
+<g font-family="JetBrains Mono, monospace" font-size="14" fill="#3c4a52"><text x="40" y="112">#
+my_script.R</text><text x="40" y="134">cover &lt;- c(45, 60,
+12)</text><text x="40" y="156">mean(cover)</text><text x="40" y="332">&gt;
+mean(cover)</text><text x="40" y="354">[1]
+39</text><text x="40" y="376">&gt; |</text><text x="540" y="112">cover
+num [1:3] 45 60 12</text></g> <g font-size="15" fill="#5d6b75">
+<text class="en" x="40" y="200"><tspan x="40">Where you WRITE and SAVE
+your code (.R file).</tspan><tspan x="40" dy="20">Run a line with Ctrl +
+Enter (Cmd + Enter on Mac).</tspan></text>
+<text class="fr" x="40" y="200"><tspan x="40">Où l’on ÉCRIT et
+ENREGISTRE son code (fichier .R).</tspan><tspan x="40" dy="20">Exécuter
+une ligne : Ctrl + Entrée (Cmd + Entrée sur Mac).</tspan></text>
+<text class="en" x="40" y="410"><tspan x="40">Where R RUNS the code and
+prints results.</tspan><tspan x="40" dy="20">Nothing typed here is
+saved.</tspan></text> <text class="fr" x="40" y="410"><tspan x="40">Où R
+EXÉCUTE le code et affiche les
+résultats.</tspan><tspan x="40" dy="20">Rien de ce qui est tapé ici
+n’est enregistré.</tspan></text>
+<text class="en" x="540" y="150"><tspan x="540">The objects currently in
+memory</tspan><tspan x="540" dy="20">(data, vectors,
+results).</tspan></text>
+<text class="fr" x="540" y="150"><tspan x="540">Les objets actuellement
+en mémoire</tspan><tspan x="540" dy="20">(données, vecteurs,
+résultats).</tspan></text>
+<text class="en" x="540" y="300"><tspan x="540">Files of your project,
+your graphs,</tspan><tspan x="540" dy="20">installed packages and the
+help pages.</tspan></text>
+<text class="fr" x="540" y="300"><tspan x="540">Fichiers du projet,
+graphiques,</tspan><tspan x="540" dy="20">packages installés et pages
+d’aide.</tspan></text> </g>
+<g transform="translate(600,350)"><rect x="0" y="0" width="22" height="60" fill="#4a7d3a" opacity=".8"/><rect x="34" y="20" width="22" height="40" fill="#4a7d3a" opacity=".6"/><rect x="68" y="35" width="22" height="25" fill="#4a7d3a" opacity=".45"/><path d="M-6 62h110" stroke="#5d6b75"/></g>
+</svg>
+</figure>
+<div class="en">
+<p>RStudio has four panes. The <strong>Script</strong> pane only appears
+when you open a script: <em>File → New File → R Script</em> (shortcut
+<strong>Ctrl + Shift + N</strong>).</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pane</th>
+<th>What it is for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 · Source / Script</td>
+<td>Write your code and <strong>save</strong> it in a <code>.R</code>
+file. This is your lab notebook.</td>
+</tr>
+<tr class="even">
+<td>2 · Console</td>
+<td>R itself. Code runs here; results are printed here. Not saved.</td>
+</tr>
+<tr class="odd">
+<td>3 · Environment</td>
+<td>Lists the objects R holds in memory (your data, results).</td>
+</tr>
+<tr class="even">
+<td>4 · Files / Plots / Packages / Help</td>
+<td>Your project’s files, your graphs, installed packages, help
+pages.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Golden rule:</strong> write everything in a
+<strong>script</strong> (pane 1) and run it from there with <strong>Ctrl
++ Enter</strong> (Mac: <strong>Cmd + Enter</strong>). The console is for
+quick tests only.</p>
+</div>
+<div class="fr">
+<p>RStudio possède quatre panneaux. Le panneau <strong>Script</strong>
+n’apparaît que lorsqu’un script est ouvert : <em>File → New File → R
+Script</em> (raccourci <strong>Ctrl + Maj + N</strong>).</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Panneau</th>
+<th>À quoi il sert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 · Source / Script</td>
+<td>Écrire son code et l’<strong>enregistrer</strong> dans un fichier
+<code>.R</code>. C’est votre cahier de laboratoire.</td>
+</tr>
+<tr class="even">
+<td>2 · Console</td>
+<td>R lui-même. Le code s’exécute ici ; les résultats s’affichent ici.
+Rien n’est enregistré.</td>
+</tr>
+<tr class="odd">
+<td>3 · Environment</td>
+<td>Liste les objets que R garde en mémoire (données, résultats).</td>
+</tr>
+<tr class="even">
+<td>4 · Files / Plots / Packages / Help</td>
+<td>Fichiers du projet, graphiques, packages installés, pages
+d’aide.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Règle d’or :</strong> écrivez tout dans un
+<strong>script</strong> (panneau 1) et exécutez-le depuis là avec
+<strong>Ctrl + Entrée</strong> (Mac : <strong>Cmd + Entrée</strong>). La
+console sert seulement aux tests rapides.</p>
+</div>
+<div id="two-settings-to-change-nowdeux-réglages-à-changer-maintenant"
+class="section level3">
+<h3><span class="en">Two settings to change now</span><span
+class="fr">Deux réglages à changer maintenant</span></h3>
+<div class="en">
+<p><em>Tools → Global Options → General</em>:</p>
+<ul>
+<li><strong>untick</strong> “Restore .RData into workspace at
+startup”;</li>
+<li>set “Save workspace to .RData on exit” to
+<strong>Never</strong>.</li>
+</ul>
+<p>Why? Your results must always come from your <strong>script</strong>,
+never from objects left over from yesterday. This is what makes an
+analysis <em>reproducible</em>: anyone (including you in six months) can
+re-run the script and get the same numbers.</p>
+</div>
+<div class="fr">
+<p><em>Tools → Global Options → General</em> :</p>
+<ul>
+<li><strong>décochez</strong> « Restore .RData into workspace at startup
+» ;</li>
+<li>réglez « Save workspace to .RData on exit » sur
+<strong>Never</strong>.</li>
+</ul>
+<p>Pourquoi ? Vos résultats doivent toujours venir de votre
+<strong>script</strong>, jamais d’objets restés en mémoire depuis la
+veille. C’est ce qui rend une analyse <em>reproductible</em> : n’importe
+qui (y compris vous dans six mois) peut relancer le script et obtenir
+les mêmes chiffres.</p>
+</div>
+</div>
+</div>
+<div id="project" class="section level2">
+<h2><span class="en">Create the course project</span><span
+class="fr">Créer le projet du cours</span></h2>
+<div class="en">
+<p>An <strong>RStudio project</strong> is a folder that contains
+everything for one analysis: data, scripts, figures. When you open the
+project, R automatically “works” in that folder, so you can read files
+with short paths like <code>"data/seagrass_quadrats.csv"</code>.</p>
+<ol style="list-style-type: decimal">
+<li><em>File → New Project → New Directory → New Project</em>.</li>
+<li>Directory name: <code>R_course_reef</code>; choose where to put it
+(e.g. <em>Documents</em>); click <strong>Create Project</strong>.</li>
+<li>In the <strong>Files</strong> pane, click <strong>New
+Folder</strong> three times to create: <code>data</code>,
+<code>scripts</code>, <code>outputs</code>.</li>
+<li>Download the course data below, unzip it, and put the 4 CSV files in
+the <code>data</code> folder.</li>
+</ol>
+</div>
+<div class="fr">
+<p>Un <strong>projet RStudio</strong> est un dossier qui contient tout
+ce qui concerne une analyse : données, scripts, figures. Lorsque le
+projet est ouvert, R « travaille » automatiquement dans ce dossier ; on
+peut donc lire des fichiers avec des chemins courts comme
+<code>"data/seagrass_quadrats.csv"</code>.</p>
+<ol style="list-style-type: decimal">
+<li><em>File → New Project → New Directory → New Project</em>.</li>
+<li>Nom du dossier : <code>R_course_reef</code> ; choisissez son
+emplacement (ex. <em>Documents</em>) ; cliquez sur <strong>Create
+Project</strong>.</li>
+<li>Dans le panneau <strong>Files</strong>, cliquez trois fois sur
+<strong>New Folder</strong> pour créer : <code>data</code>,
+<code>scripts</code>, <code>outputs</code>.</li>
+<li>Téléchargez les données du cours ci-dessous, décompressez-les et
+placez les 4 fichiers CSV dans le dossier <code>data</code>.</li>
+</ol>
+</div>
+<p><a class="btn-dl" href="data/r_course_data.zip" download>⇩
+r_course_data.zip</a></p>
+<pre><code>R_course_reef/
+├── R_course_reef.Rproj      &lt;- double-click this file to open the project
+├── data/
+│   ├── seagrass_quadrats.csv
+│   ├── seagrass_messy.csv
+│   ├── coral_pit_example.csv
+│   └── coral_cover_raw.csv
+├── scripts/                 &lt;- your .R scripts (one per session)
+└── outputs/                 &lt;- figures and tables you will produce</code></pre>
+<div class="en">
+<p>Check in the console that R “sees” the files:</p>
+</div>
+<div class="fr">
+<p>Vérifiez dans la console que R « voit » les fichiers :</p>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">&quot;data&quot;</span>)      <span class="co"># lists the files in the data folder of the project</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;coral_cover_raw.csv&quot;   &quot;coral_pit_example.csv&quot; &quot;seagrass_messy.csv&quot;   
+#&gt; [4] &quot;seagrass_quadrats.csv&quot;</code></pre>
+<div class="callout warning">
+<div class="en">
+<p>If you get <code>character(0)</code>, R does not find the folder:
+either the project is not open (look at the top-right corner of RStudio:
+it should say <code>R_course_reef</code>), or the CSV files are inside a
+sub-folder (e.g. <code>data/r_course_data/</code>). Move them directly
+into <code>data</code>.</p>
+</div>
+<div class="fr">
+<p>Si vous obtenez <code>character(0)</code>, R ne trouve pas le dossier
+: soit le projet n’est pas ouvert (regardez en haut à droite de RStudio
+: il doit afficher <code>R_course_reef</code>), soit les fichiers CSV
+sont dans un sous-dossier (ex. <code>data/r_course_data/</code>).
+Déplacez-les directement dans <code>data</code>.</p>
+</div>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-0" class="section level3 en">
+<h3>Application work 0</h3>
+<ol style="list-style-type: decimal">
+<li>Make sure R, RStudio (and Rtools on Windows) are installed.</li>
+<li>Open your project <code>R_course_reef</code>. Create a new script
+and save it as <code>scripts/s00_setup.R</code>.</li>
+<li>In the script, write the two lines below, then run them one by one
+with <strong>Ctrl + Enter</strong>: <code>R.version.string</code> and
+<code>list.files("data")</code>.</li>
+<li>Answer the quiz using what you see on your screen and what you read
+in this session.</li>
+</ol>
+</div>
+<div id="travail-dapplication-0" class="section level3 fr">
+<h3>Travail d’application 0</h3>
+<ol style="list-style-type: decimal">
+<li>Vérifiez que R, RStudio (et Rtools sous Windows) sont
+installés.</li>
+<li>Ouvrez votre projet <code>R_course_reef</code>. Créez un nouveau
+script et enregistrez-le sous <code>scripts/s00_setup.R</code>.</li>
+<li>Dans le script, écrivez les deux lignes ci-dessous, puis
+exécutez-les une par une avec <strong>Ctrl + Entrée</strong> :
+<code>R.version.string</code> et <code>list.files("data")</code>.</li>
+<li>Répondez au quiz à partir de ce que vous voyez à l’écran et de ce
+que vous avez lu dans cette séance.</li>
+</ol>
+</div>
+</div>
+<div id="quiz-s00" class="quiz" data-quiz-id="s00"
+data-q="W3sidHlwZSI6Im1jcSIsImVuIjoiV2hpY2ggcHJvZ3JhbSBhY3R1YWxseSBwZXJmb3JtcyB0aGUgY2FsY3VsYXRpb25zPyIsImZyIjoiUXVlbCBsb2dpY2llbCBlZmZlY3R1ZSByw6llbGxlbWVudCBsZXMgY2FsY3VscyA/Iiwib3B0aW9uc19lbiI6WyJSU3R1ZGlvIiwiUiIsIlJ0b29scyIsIkV4Y2VsIl0sIm9wdGlvbnNfZnIiOlsiUlN0dWRpbyIsIlIiLCJSdG9vbHMiLCJFeGNlbCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiV2hhdCBpcyBSdG9vbHMgdXNlZCBmb3I/IiwiZnIiOiLDgCBxdW9pIHNlcnQgUnRvb2xzID8iLCJvcHRpb25zX2VuIjpbIkRyYXdpbmcgbmljZXIgZ3JhcGhzIiwiQ29tcGlsaW5nIHBhY2thZ2VzIGZyb20gc291cmNlIGNvZGUgb24gV2luZG93cyIsIk9wZW5pbmcgRXhjZWwgZmlsZXMiLCJUcmFuc2xhdGluZyBSIGludG8gRnJlbmNoIl0sIm9wdGlvbnNfZnIiOlsiRmFpcmUgZGUgcGx1cyBiZWF1eCBncmFwaGlxdWVzIiwiQ29tcGlsZXIgZGVzIHBhY2thZ2VzIGRlcHVpcyBsZSBjb2RlIHNvdXJjZSBzb3VzIFdpbmRvd3MiLCJPdXZyaXIgZGVzIGZpY2hpZXJzIEV4Y2VsIiwiVHJhZHVpcmUgUiBlbiBmcmFuw6dhaXMiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IkluIHdoaWNoIHBhbmUgc2hvdWxkIHlvdSB3cml0ZSB0aGUgY29kZSB5b3Ugd2FudCB0byBrZWVwPyIsImZyIjoiRGFucyBxdWVsIHBhbm5lYXUgZmF1dC1pbCDDqWNyaXJlIGxlIGNvZGUgcXVlIGwnb24gdmV1dCBnYXJkZXIgPyIsIm9wdGlvbnNfZW4iOlsiQ29uc29sZSIsIkVudmlyb25tZW50IiwiU291cmNlIC8gU2NyaXB0IiwiSGVscCJdLCJvcHRpb25zX2ZyIjpbIkNvbnNvbGUiLCJFbnZpcm9ubWVudCIsIlNvdXJjZSAvIFNjcmlwdCIsIkhlbHAiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IldoaWNoIGtleWJvYXJkIHNob3J0Y3V0IHJ1bnMgdGhlIGN1cnJlbnQgbGluZSBvZiBhIHNjcmlwdCAoV2luZG93cyk/IiwiZnIiOiJRdWVsIHJhY2NvdXJjaSBleMOpY3V0ZSBsYSBsaWduZSBjb3VyYW50ZSBkJ3VuIHNjcmlwdCAoV2luZG93cykgPyIsIm9wdGlvbnNfZW4iOlsiQ3RybCArIFMiLCJDdHJsICsgRW50ZXIiLCJBbHQgKyBGNCIsIkN0cmwgKyBaIl0sIm9wdGlvbnNfZnIiOlsiQ3RybCArIFMiLCJDdHJsICsgRW50csOpZSIsIkFsdCArIEY0IiwiQ3RybCArIFoiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJudW0iLCJlbiI6IkhvdyBtYW55IENTViBmaWxlcyBkb2VzIGxpc3QuZmlsZXMoXCJkYXRhXCIpIHNob3cgaW4geW91ciBwcm9qZWN0PyIsImZyIjoiQ29tYmllbiBkZSBmaWNoaWVycyBDU1YgbGlzdC5maWxlcyhcImRhdGFcIikgYWZmaWNoZS10LWlsIGRhbnMgdm90cmUgcHJvamV0ID8iLCJhbnN3ZXIiOjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiJXaGF0IGlzIHRoZSBleGFjdCBmaWxlIG5hbWUgb2YgdGhlIHJhdyBjb3JhbCBkYXRhc2V0ICh3aXRoIGl0cyBleHRlbnNpb24pPyIsImZyIjoiUXVlbCBlc3QgbGUgbm9tIGV4YWN0IGR1IGZpY2hpZXIgZGUgZG9ubsOpZXMgYnJ1dGVzIHN1ciBsZXMgY29yYXV4IChhdmVjIHNvbiBleHRlbnNpb24pID8iLCJhbnN3ZXIiOlsiY29yYWxfY292ZXJfcmF3LmNzdiJdfV0=">
+
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

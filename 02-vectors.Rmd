@@ -1,0 +1,308 @@
+---
+title: "[2 · Vectors & data types]{.en}[2 · Vecteurs et types de données]{.fr}"
+pagetitle: "R course · Session 2"
+subtitle: "~2.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- create **vectors** with `c()`, `seq()` and `rep()`;
+- recognise the main data types: **numeric**, **character**, **logical**, **factor**;
+- do calculations on whole vectors at once;
+- extract values with `[ ]` by position or by condition;
+- handle **missing values** (`NA`).
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- créer des **vecteurs** avec `c()`, `seq()` et `rep()` ;
+- reconnaître les principaux types de données : **numeric**, **character**, **logical**, **factor** ;
+- faire des calculs sur des vecteurs entiers d'un coup ;
+- extraire des valeurs avec `[ ]` par position ou par condition ;
+- gérer les **valeurs manquantes** (`NA`).
+:::
+:::
+
+::: {.callout .tip}
+::: en
+New script for this session: `scripts/s02_vectors.R`.
+:::
+::: fr
+Nouveau script pour cette séance : `scripts/s02_vectors.R`.
+:::
+:::
+
+## [What is a vector?]{.en}[Qu'est-ce qu'un vecteur ?]{.fr} {#vectors}
+
+::: en
+In Session 1 each object contained **one** value. In the field, you rarely measure one quadrat: you measure many. A **vector** is a series of values **of the same type**, stored in one object. You create it with the function `c()` (for *combine*).
+:::
+::: fr
+Dans la séance 1, chaque objet contenait **une seule** valeur. Sur le terrain, on mesure rarement un seul quadrat : on en mesure beaucoup. Un **vecteur** est une série de valeurs **du même type**, stockée dans un seul objet. On le crée avec la fonction `c()` (pour *combine*, combiner).
+:::
+
+`r fig_svg("vector-index")`
+
+```{r}
+cover <- c(45, 60, 12, NA, 80, 33, 0, 55)   # % seagrass cover in 8 quadrats
+cover
+length(cover)                               # number of values
+```
+
+### [Shortcuts to build vectors]{.en}[Raccourcis pour créer des vecteurs]{.fr}
+
+```{r}
+1:10                                 # integers from 1 to 10
+seq(0, 25, by = 5)                   # from 0 to 25, step 5 (e.g. positions along a transect)
+seq(0.5, 25, by = 0.5)[1:6]          # PIT points every 0.5 m (first 6 shown)
+rep("Inside", times = 3)             # repeat a value
+rep(c("Inside", "Outside"), each = 2)
+```
+
+## [Data types]{.en}[Types de données]{.fr} {#types}
+
+::: en
+Every vector has one **type** (its *class*). The four you will meet constantly:
+
+| Type | Example | Used for |
+|---|---|---|
+| `numeric` | `45.5`, `0`, `-3` | measurements, counts |
+| `character` | `"Ambalaboy"`, `"HC"` | text: names, codes (always in quotes) |
+| `logical` | `TRUE`, `FALSE` | answers to yes/no questions |
+| `factor` | `Inside`, `Outside` | categories with a fixed set of levels |
+:::
+::: fr
+Chaque vecteur a un seul **type** (sa *classe*). Les quatre que vous rencontrerez sans cesse :
+
+| Type | Exemple | Sert pour |
+|---|---|---|
+| `numeric` | `45.5`, `0`, `-3` | mesures, comptages |
+| `character` | `"Ambalaboy"`, `"HC"` | texte : noms, codes (toujours entre guillemets) |
+| `logical` | `TRUE`, `FALSE` | réponses à des questions oui/non |
+| `factor` | `Inside`, `Outside` | catégories avec un ensemble fixe de niveaux |
+:::
+
+```{r}
+site   <- c("Ambalaboy", "Ambalaboy", "Tsiandamba", "Tsiandamba")
+depth  <- c(1.2, 2.5, 0.8, 1.9)
+sampled <- c(TRUE, TRUE, FALSE, TRUE)
+class(site); class(depth); class(sampled)
+```
+
+::: {.callout .warning}
+::: en
+**A vector holds only one type.** If you mix numbers and text, R silently converts everything to text. This is a very common source of problems when a field sheet contains `"-"` or `"45%"` in a numeric column (we will fix that in Session 4).
+:::
+::: fr
+**Un vecteur ne contient qu'un seul type.** Si vous mélangez nombres et texte, R convertit tout en texte sans prévenir. C'est une source de problèmes très fréquente quand une fiche de terrain contient `"-"` ou `"45%"` dans une colonne numérique (on corrigera cela en séance 4).
+:::
+:::
+
+```{r}
+mixed <- c(45, 60, "-", 12)
+mixed               # note the quotes: these are now texts
+class(mixed)
+as.numeric(mixed)   # convert back to numbers: "-" becomes NA (with a warning)
+```
+
+### [Factors]{.en}[Les facteurs]{.fr}
+
+::: en
+A **factor** is a categorical variable. It looks like text, but R knows the list of possible categories (**levels**). Factors control the order of groups in tables and graphs.
+:::
+::: fr
+Un **facteur** est une variable catégorielle. Il ressemble à du texte, mais R connaît la liste des catégories possibles (**niveaux**, *levels*). Les facteurs contrôlent l'ordre des groupes dans les tableaux et les graphiques.
+:::
+
+```{r}
+status <- factor(c("Outside", "Inside", "Inside", "Outside", "Inside"))
+status
+levels(status)                     # alphabetical order by default
+table(status)                      # counts per level
+status2 <- factor(status, levels = c("Outside", "Inside"))   # choose the order
+table(status2)
+```
+
+## [Calculating with vectors]{.en}[Calculer avec des vecteurs]{.fr} {#vector-maths}
+
+::: en
+Operations are applied to **every element** at once. No loop needed: this is one of R's strengths.
+:::
+::: fr
+Les opérations s'appliquent à **chaque élément** d'un coup. Pas besoin de boucle : c'est l'une des forces de R.
+:::
+
+```{r}
+shoots <- c(87, 132, 45, 160)     # shoots counted in 4 quadrats of 0.25 m2
+shoots / 0.25                     # density per m2 for each quadrat
+cover_pct <- c(45, 60, 12, 80)
+cover_pct / 100                   # proportions
+```
+
+::: en
+Many functions **summarise** a vector into one value:
+:::
+::: fr
+De nombreuses fonctions **résument** un vecteur en une seule valeur :
+:::
+
+```{r}
+sum(shoots); mean(shoots); median(shoots)
+min(shoots); max(shoots); range(shoots)
+sd(shoots)                        # standard deviation (Session 5)
+```
+
+## [Extracting values with `[ ]`]{.en}[Extraire des valeurs avec `[ ]`]{.fr} {#indexing}
+
+::: en
+Square brackets select elements. You can give **positions** or a **logical condition**.
+:::
+::: fr
+Les crochets sélectionnent des éléments. On peut donner des **positions** ou une **condition logique**.
+:::
+
+```{r}
+cover <- c(45, 60, 12, NA, 80, 33, 0, 55)
+cover[3]            # the 3rd value
+cover[c(1, 5)]      # the 1st and 5th values
+cover[2:4]          # from 2nd to 4th
+cover[-1]           # everything EXCEPT the 1st
+```
+
+### [Conditions]{.en}[Conditions]{.fr}
+
+::: en
+A comparison returns a **logical vector** (`TRUE`/`FALSE` for each element). Comparison operators: `==` (equal — two signs!), `!=` (different), `>`, `>=`, `<`, `<=`.
+:::
+::: fr
+Une comparaison renvoie un **vecteur logique** (`TRUE`/`FALSE` pour chaque élément). Opérateurs de comparaison : `==` (égal — deux signes !), `!=` (différent), `>`, `>=`, `<`, `<=`.
+:::
+
+```{r}
+cover > 50                 # which quadrats have more than 50 % cover?
+cover[cover > 50]          # keep only those values (NA stays: unknown!)
+which(cover > 50)          # their positions
+sum(cover > 50, na.rm = TRUE)   # how many? (TRUE counts as 1, FALSE as 0)
+```
+
+::: {.callout .tip}
+::: en
+`sum()` of a logical vector **counts** the `TRUE`s; `mean()` of a logical vector gives the **proportion** of `TRUE`s. Very handy: `mean(cover > 50, na.rm = TRUE)` = proportion of quadrats above 50 %.
+:::
+::: fr
+`sum()` d'un vecteur logique **compte** les `TRUE` ; `mean()` d'un vecteur logique donne la **proportion** de `TRUE`. Très pratique : `mean(cover > 50, na.rm = TRUE)` = proportion de quadrats au-dessus de 50 %.
+:::
+:::
+
+::: en
+You can select values of one vector using a condition on **another vector of the same length** — for example, the cover of quadrats located inside the MPA:
+:::
+::: fr
+On peut sélectionner les valeurs d'un vecteur grâce à une condition sur **un autre vecteur de même longueur** — par exemple, le recouvrement des quadrats situés dans l'AMP :
+:::
+
+```{r}
+zone <- c("Inside", "Inside", "Outside", "Outside", "Inside", "Outside", "Outside", "Inside")
+cover[zone == "Inside"]
+```
+
+## [Missing values: `NA`]{.en}[Valeurs manquantes : `NA`]{.fr} {#na}
+
+::: en
+`NA` (*Not Available*) means "unknown". Any calculation involving an unknown value is unknown, so `mean()` returns `NA`. Add the argument **`na.rm = TRUE`** (*NA remove*) to ignore missing values.
+:::
+::: fr
+`NA` (*Not Available*) signifie « inconnu ». Tout calcul impliquant une valeur inconnue est inconnu : `mean()` renvoie donc `NA`. Ajoutez l'argument **`na.rm = TRUE`** (*NA remove*) pour ignorer les valeurs manquantes.
+:::
+
+```{r}
+mean(cover)
+mean(cover, na.rm = TRUE)
+is.na(cover)               # which values are missing?
+sum(is.na(cover))          # how many?
+cover[!is.na(cover)]       # ! means NOT: keep the non-missing values
+```
+
+::: {.callout .warning}
+::: en
+`0` and `NA` are **not** the same. A quadrat with 0 % cover was measured and has no seagrass; a quadrat with `NA` was not measured. Never replace NA by 0 without a good ecological reason.
+:::
+::: fr
+`0` et `NA` ne sont **pas** la même chose. Un quadrat à 0 % a été mesuré et ne contient pas d'herbier ; un quadrat à `NA` n'a pas été mesuré. Ne remplacez jamais NA par 0 sans une bonne raison écologique.
+:::
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+::: application
+::: en
+### Application work 2
+
+Copy these two vectors into your script. They describe 10 seagrass quadrats.
+:::
+::: fr
+### Travail d'application 2
+
+Copiez ces deux vecteurs dans votre script. Ils décrivent 10 quadrats d'herbier.
+:::
+
+```{r}
+cover <- c(62, 48, 75, NA, 30, 55, 90, 15, 40, 68)
+zone  <- c("Inside", "Inside", "Inside", "Inside", "Inside",
+           "Outside", "Outside", "Outside", "Outside", "Outside")
+```
+
+::: en
+1. What is the mean cover of all quadrats (ignore the missing value)? Round to 1 decimal.
+2. How many quadrats have a cover **strictly greater** than 50 %?
+3. What is the maximum cover?
+4. What is the mean cover of the **Inside** quadrats (ignore NA)? Round to 1 decimal.
+5. What is the mean cover of the **Outside** quadrats? Round to 1 decimal.
+6. Convert `zone` into a factor and use `table()`: how many Outside quadrats are there?
+7. What is the 7th value of `cover`?
+:::
+::: fr
+1. Quelle est la moyenne du recouvrement de tous les quadrats (ignorez la valeur manquante) ? Arrondissez à 1 décimale.
+2. Combien de quadrats ont un recouvrement **strictement supérieur** à 50 % ?
+3. Quel est le recouvrement maximal ?
+4. Quelle est la moyenne des quadrats **Inside** (ignorez NA) ? Arrondissez à 1 décimale.
+5. Quelle est la moyenne des quadrats **Outside** ? Arrondissez à 1 décimale.
+6. Transformez `zone` en facteur et utilisez `table()` : combien y a-t-il de quadrats Outside ?
+7. Quelle est la 7e valeur de `cover` ?
+:::
+:::
+
+```{r quiz02, echo=FALSE}
+quiz("s02", list(
+  q_num("1. Mean cover of all quadrats (1 decimal)?", "1. Recouvrement moyen de tous les quadrats (1 décimale) ?",
+        round(mean(cover, na.rm = TRUE), 1), tol = 0.05),
+  q_num("2. Number of quadrats with cover > 50?", "2. Nombre de quadrats avec recouvrement > 50 ?",
+        sum(cover > 50, na.rm = TRUE), tol = 0),
+  q_num("3. Maximum cover?", "3. Recouvrement maximal ?", max(cover, na.rm = TRUE), tol = 0),
+  q_num("4. Mean cover Inside (1 decimal)?", "4. Moyenne Inside (1 décimale) ?",
+        round(mean(cover[zone == "Inside"], na.rm = TRUE), 1), tol = 0.05),
+  q_num("5. Mean cover Outside (1 decimal)?", "5. Moyenne Outside (1 décimale) ?",
+        round(mean(cover[zone == "Outside"]), 1), tol = 0.05),
+  q_num("6. Number of Outside quadrats?", "6. Nombre de quadrats Outside ?", sum(zone == "Outside"), tol = 0),
+  q_num("7. 7th value of cover?", "7. 7e valeur de cover ?", cover[7], tol = 0),
+  q_mcq("8. What does mean(c(10, NA, 20)) return?", "8. Que renvoie mean(c(10, NA, 20)) ?",
+        c("15", "10", "NA", "An error"), c("15", "10", "NA", "Une erreur"), correct = 3)
+))
+```
+
+::: {.solution data-quiz="s02"}
+```{r, eval=FALSE}
+mean(cover, na.rm = TRUE)                       # 1. 53.7
+sum(cover > 50, na.rm = TRUE)                   # 2. 5
+max(cover, na.rm = TRUE)                        # 3. 90
+mean(cover[zone == "Inside"], na.rm = TRUE)     # 4. 53.75 -> 53.8
+mean(cover[zone == "Outside"])                  # 5. 53.6
+zone_f <- factor(zone)
+table(zone_f)                                   # 6. Outside = 5
+cover[7]                                        # 7. 90
+```
+:::

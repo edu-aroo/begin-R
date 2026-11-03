@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R course · Home</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Reef & Seagrass</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sessions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-cleaning.html">4 · Cleaning data</a>
+    </li>
+    <li>
+      <a href="05-statistics.html">5 · Statistics</a>
+    </li>
+    <li>
+      <a href="06-graphics.html">6 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="07-functions.html">7 · Functions &amp; loops</a>
+    </li>
+    <li>
+      <a href="08-tidyverse.html">8 · dplyr &amp; ggplot2</a>
+    </li>
+    <li>
+      <a href="09-final-project.html">9 · Final project</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">R for absolute
+beginners</span><span class="fr">R pour grands débutants</span></h1>
+<h3 class="subtitle"><span class="en">Coral reef &amp; seagrass
+edition</span><span class="fr">Édition récifs coralliens &amp;
+herbiers</span></h3>
+
+</div>
+
+
+<!--
+  index.Rmd = the HOME page (becomes index.html).
+  ::: en  ...  :::   -> a block shown only in English (class "en")
+  ::: fr  ...  :::   -> a block shown only in French  (class "fr")
+  [text]{.en}        -> the same thing for a few words inside a sentence
+  The language button in the navbar (course.js, PART 3) switches between them.
+-->
+<!-- course.js fills this empty box with the student's progress table -->
+<div id="dashboard">
+
+</div>
+<div id="welcomebienvenue" class="section level2 no-track">
+<h2 class="no-track"><span class="en">Welcome</span><span
+class="fr">Bienvenue</span></h2>
+<div class="en">
+<p>This course takes you from <strong>zero</strong> (R is not even
+installed) to a complete, reproducible analysis of coral reef and
+seagrass survey data. It is designed for <strong>self-study</strong>:
+every session explains the reasoning, shows the code <em>and</em> its
+result, and ends with an <strong>application exercise</strong> followed
+by a <strong>quiz</strong> where you enter the numbers you obtained.</p>
+<p>You only need a computer (Windows, macOS or Linux) and about
+<strong>26 hours</strong> in total, spread over 10 sessions.</p>
+</div>
+<div class="fr">
+<p>Ce cours vous emmène de <strong>zéro</strong> (R n’est même pas
+installé) jusqu’à une analyse complète et reproductible de données de
+suivi des récifs coralliens et des herbiers marins. Il est conçu pour
+l’<strong>auto-formation</strong> : chaque séance explique le
+raisonnement, montre le code <em>et</em> son résultat, et se termine par
+un <strong>travail d’application</strong> suivi d’un
+<strong>quiz</strong> où vous saisissez les valeurs obtenues.</p>
+<p>Il vous faut seulement un ordinateur (Windows, macOS ou Linux) et
+environ <strong>26 heures</strong> au total, réparties en 10
+séances.</p>
+</div>
+</div>
+<div id="how-to-use-this-coursecomment-utiliser-ce-cours"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">How to use this course</span><span
+class="fr">Comment utiliser ce cours</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li><strong>Follow the sessions in order.</strong> Each one builds on
+the previous one.</li>
+<li><strong>Type the code yourself</strong> in RStudio rather than only
+copying it: your fingers learn too. The <em>Copy</em> button is there
+for long blocks.</li>
+<li>At the end of each section, click <strong>“Mark this section as
+done”</strong>. Your progress is saved automatically: next time you log
+in, you go back exactly where you stopped.</li>
+<li>Do the <strong>application work</strong> in your own script, then
+enter your results in the <strong>quiz</strong>. You can retry as many
+times as you want; your best score is kept. Aim for at least 70 % before
+moving on.</li>
+<li>The <strong>solution</strong> of each exercise unlocks after your
+first quiz attempt. Look at it only after a real try.</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li><strong>Suivez les séances dans l’ordre.</strong> Chacune s’appuie
+sur la précédente.</li>
+<li><strong>Tapez le code vous-même</strong> dans RStudio au lieu de
+seulement le copier : vos doigts apprennent aussi. Le bouton
+<em>Copier</em> sert pour les longs blocs.</li>
+<li>À la fin de chaque section, cliquez sur <strong>« Marquer cette
+section comme terminée »</strong>. Votre progression est enregistrée
+automatiquement : à la prochaine connexion, vous revenez exactement là
+où vous vous êtes arrêté.</li>
+<li>Faites le <strong>travail d’application</strong> dans votre propre
+script, puis saisissez vos résultats dans le <strong>quiz</strong>. Vous
+pouvez recommencer autant de fois que vous voulez ; votre meilleur score
+est conservé. Visez au moins 70 % avant de passer à la suite.</li>
+<li>La <strong>solution</strong> de chaque exercice se débloque après
+votre première tentative au quiz. Ne la consultez qu’après un vrai
+essai.</li>
+</ol>
+</div>
+</div>
+<div
+id="programme-and-suggested-scheduleprogramme-et-calendrier-conseillé"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Programme and suggested
+schedule</span><span class="fr">Programme et calendrier
+conseillé</span></h2>
+<div class="en">
+<p>Suggested pace: <strong>2 sessions per week → 5 weeks</strong>.
+Durations include reading, typing the examples and the application
+work.</p>
+</div>
+<div class="fr">
+<p>Rythme conseillé : <strong>2 séances par semaine → 5
+semaines</strong>. Les durées incluent la lecture, la saisie des
+exemples et le travail d’application.</p>
+</div>
+<div class="session-grid">
+<div class="session-card">
+<b>0 · 1.5 h</b><br><span class="en">Install R, Rtools, RStudio; tour of
+RStudio; create a project</span><span class="fr">Installer R, Rtools,
+RStudio ; visite de RStudio ; créer un projet</span>
+</div>
+<div class="session-card">
+<b>1 · 2 h</b><br><span class="en">R as a calculator, objects,
+functions, scripts, help</span><span class="fr">R comme calculatrice,
+objets, fonctions, scripts, aide</span>
+</div>
+<div class="session-card">
+<b>2 · 2.5 h</b><br><span class="en">Vectors, data types, indexing,
+missing values, factors</span><span class="fr">Vecteurs, types de
+données, indexation, valeurs manquantes, facteurs</span>
+</div>
+<div class="session-card">
+<b>3 · 2.5 h</b><br><span class="en">Data frames, importing a CSV file,
+exploring data</span><span class="fr">Data frames, importer un fichier
+CSV, explorer les données</span>
+</div>
+<div class="session-card">
+<b>4 · 3 h</b><br><span class="en">Filtering rows, selecting columns,
+cleaning field data</span><span class="fr">Filtrer des lignes,
+sélectionner des colonnes, nettoyer des données de terrain</span>
+</div>
+<div class="session-card">
+<b>5 · 2.5 h</b><br><span class="en">Mean, SD, SE; statistics per site
+and per MPA status</span><span class="fr">Moyenne, écart-type, erreur
+standard ; statistiques par site et statut d’AMP</span>
+</div>
+<div class="session-card">
+<b>6 · 3 h</b><br><span class="en">Histograms, boxplots, barplots with
+error bars, saving figures</span><span class="fr">Histogrammes,
+boxplots, barplots avec barres d’erreur, enregistrer les figures</span>
+</div>
+<div class="session-card">
+<b>7 · 2.5 h</b><br><span class="en">if / ifelse, for loops, writing
+functions (PIT coral cover)</span><span class="fr">if / ifelse, boucles
+for, écrire des fonctions (couverture corallienne PIT)</span>
+</div>
+<div class="session-card">
+<b>8 · 3 h</b><br><span class="en">Packages; first steps with dplyr and
+ggplot2</span><span class="fr">Packages ; premiers pas avec dplyr et
+ggplot2</span>
+</div>
+<div class="session-card">
+<b>9 · 4 h</b><br><span class="en">Final project: raw coral data →
+database → mean ± SD per MPA → graph</span><span class="fr">Projet final
+: données brutes → base de données → moyenne ± ET par AMP →
+graphique</span>
+</div>
+</div>
+</div>
+<div id="course-datadonnées-du-cours" class="section level2 no-track">
+<h2 class="no-track"><span class="en">Course data</span><span
+class="fr">Données du cours</span></h2>
+<div class="en">
+<p>All datasets are <strong>simulated</strong> for teaching. Site and
+MPA names are invented and the values do not describe any real reef or
+seagrass bed. You will download them in Session 0.</p>
+</div>
+<div class="fr">
+<p>Tous les jeux de données sont <strong>simulés</strong> pour
+l’enseignement. Les noms de sites et d’AMP sont inventés et les valeurs
+ne décrivent aucun récif ni herbier réel. Vous les téléchargerez lors de
+la séance 0.</p>
+</div>
+<p><a class="btn-dl" href="data/r_course_data.zip" download>⇩
+r_course_data.zip (4 CSV)</a></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

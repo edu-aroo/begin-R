@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" role="img" aria-label="A vector and its positions" font-family="Source Sans 3, Arial, sans-serif">
+<text x="20" y="40" font-family="JetBrains Mono, monospace" font-size="18" fill="#0b3d5c">cover &lt;- c(45, 60, 12, NA, 80, 33, 0, 55)</text>
+<g font-family="JetBrains Mono, monospace" font-size="22" text-anchor="middle">
+<g fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"><rect x="20" y="70" width="90" height="56" rx="6"/><rect x="120" y="70" width="90" height="56" rx="6"/><rect x="220" y="70" width="90" height="56" rx="6" fill="#fde3d9" stroke="#d9694a"/><rect x="320" y="70" width="90" height="56" rx="6" fill="#eee"/><rect x="420" y="70" width="90" height="56" rx="6"/><rect x="520" y="70" width="90" height="56" rx="6"/><rect x="620" y="70" width="90" height="56" rx="6"/><rect x="720" y="70" width="90" height="56" rx="6"/></g>
+<g fill="#1f2a33"><text x="65" y="106">45</text><text x="165" y="106">60</text><text x="265" y="106">12</text><text x="365" y="106" fill="#888">NA</text><text x="465" y="106">80</text><text x="565" y="106">33</text><text x="665" y="106">0</text><text x="765" y="106">55</text></g>
+<g fill="#5d6b75" font-size="16"><text x="65" y="150">[1]</text><text x="165" y="150">[2]</text><text x="265" y="150" fill="#d9694a" font-weight="700">[3]</text><text x="365" y="150">[4]</text><text x="465" y="150">[5]</text><text x="565" y="150">[6]</text><text x="665" y="150">[7]</text><text x="765" y="150">[8]</text></g>
+</g>
+<text class="en" x="20" y="190" font-size="16" fill="#5d6b75">cover[3] returns 12 — positions start at 1 in R. NA = a missing value (quadrat not measured).</text>
+<text class="fr" x="20" y="190" font-size="16" fill="#5d6b75">cover[3] renvoie 12 — les positions commencent à 1 dans R. NA = valeur manquante (quadrat non mesuré).</text>
+</svg>

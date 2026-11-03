@@ -1,0 +1,356 @@
+---
+title: "[4 · Selecting, filtering & cleaning data]{.en}[4 · Sélectionner, filtrer et nettoyer]{.fr}"
+pagetitle: "R course · Session 4"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+sg <- read.csv("data/seagrass_quadrats.csv")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- combine conditions with `&`, `|`, `!` and `%in%`;
+- keep the rows and columns you need with `[ , ]` and `subset()`;
+- sort a table with `order()`;
+- detect and fix the classic problems of field data: inconsistent spelling, extra spaces, text in numeric columns, impossible values, duplicated rows, awkward column names.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- combiner des conditions avec `&`, `|`, `!` et `%in%` ;
+- garder les lignes et colonnes utiles avec `[ , ]` et `subset()` ;
+- trier un tableau avec `order()` ;
+- détecter et corriger les problèmes classiques des données de terrain : orthographe incohérente, espaces en trop, texte dans des colonnes numériques, valeurs impossibles, lignes en double, noms de colonnes peu pratiques.
+:::
+:::
+
+::: {.callout .tip}
+::: en
+New script `scripts/s04_cleaning.R`. Start it by importing the clean dataset: `sg <- read.csv("data/seagrass_quadrats.csv")`.
+:::
+::: fr
+Nouveau script `scripts/s04_cleaning.R`. Commencez par importer le jeu de données propre : `sg <- read.csv("data/seagrass_quadrats.csv")`.
+:::
+:::
+
+## [Combining conditions]{.en}[Combiner des conditions]{.fr} {#logic}
+
+::: en
+| Operator | Meaning | Example |
+|---|---|---|
+| `&` | AND: both must be TRUE | `cover > 50 & depth < 1` |
+| <code>&#124;</code> | OR: at least one TRUE | <code>site == &quot;Ambalaboy&quot; &#124; site == &quot;Fasimena&quot;</code> |
+| `!` | NOT | `!is.na(cover)` |
+| `%in%` | is the value in this list? | `site %in% c("Ambalaboy", "Fasimena")` |
+:::
+::: fr
+| Opérateur | Signification | Exemple |
+|---|---|---|
+| `&` | ET : les deux doivent être TRUE | `cover > 50 & depth < 1` |
+| <code>&#124;</code> | OU : au moins un TRUE | <code>site == &quot;Ambalaboy&quot; &#124; site == &quot;Fasimena&quot;</code> |
+| `!` | NON | `!is.na(cover)` |
+| `%in%` | la valeur est-elle dans cette liste ? | `site %in% c("Ambalaboy", "Fasimena")` |
+:::
+
+```{r}
+x <- c(20, 55, 70, 90)
+x > 50 & x < 80
+x < 30 | x > 80
+c("HC", "SD", "MA") %in% c("HC", "SC")
+```
+
+## [Filtering rows]{.en}[Filtrer des lignes]{.fr} {#filter}
+
+::: en
+Put a condition in the **row** position of `[ , ]`. Do not forget the comma: `sg[condition, ]` means "these rows, all columns".
+:::
+::: fr
+Placez une condition à la position des **lignes** de `[ , ]`. N'oubliez pas la virgule : `sg[condition, ]` signifie « ces lignes, toutes les colonnes ».
+:::
+
+```{r}
+inside <- sg[sg$mpa_status == "Inside", ]        # quadrats inside the MPA
+nrow(inside)
+
+dense_shallow <- sg[sg$seagrass_cover > 60 & sg$depth_m < 1.5, ]
+dense_shallow[, c("site", "quadrat", "depth_m", "seagrass_cover")]
+```
+
+::: en
+`subset()` does the same with a lighter syntax: no `sg$`, no comma. The argument `select` chooses the columns.
+:::
+::: fr
+`subset()` fait la même chose avec une syntaxe plus légère : pas de `sg$`, pas de virgule. L'argument `select` choisit les colonnes.
+:::
+
+```{r}
+thal <- subset(sg, species == "Thalassia hemprichii" & mpa_status == "Outside",
+               select = c(site, quadrat, seagrass_cover))
+head(thal)
+nrow(thal)
+```
+
+::: {.callout .warning}
+::: en
+**`[ ]` and NA.** With `sg[condition, ]`, rows where the condition is `NA` come back as rows full of `NA`. `subset()` simply drops them. When a column contains NA, prefer `subset()` or wrap the condition in `which()`: `sg[which(sg$canopy_height_cm > 20), ]`.
+:::
+::: fr
+**`[ ]` et NA.** Avec `sg[condition, ]`, les lignes où la condition vaut `NA` reviennent sous forme de lignes remplies de `NA`. `subset()` les retire simplement. Quand une colonne contient des NA, préférez `subset()` ou entourez la condition de `which()` : `sg[which(sg$canopy_height_cm > 20), ]`.
+:::
+:::
+
+## [Selecting columns and sorting]{.en}[Sélectionner des colonnes et trier]{.fr} {#select-sort}
+
+```{r}
+small <- sg[, c("site", "quadrat", "seagrass_cover")]   # keep 3 columns
+small2 <- sg[, -c(4, 5)]                                # drop columns 4 and 5
+names(small2)
+```
+
+::: en
+`order()` returns the positions that would sort a vector; use it in the row position. Add `decreasing = TRUE` (or a minus sign for numbers) to sort from largest to smallest.
+:::
+::: fr
+`order()` renvoie les positions qui trieraient un vecteur ; on l'utilise à la position des lignes. Ajoutez `decreasing = TRUE` (ou un signe moins pour les nombres) pour trier du plus grand au plus petit.
+:::
+
+```{r}
+top <- sg[order(sg$seagrass_cover, decreasing = TRUE), c("site", "quadrat", "seagrass_cover")]
+head(top, 5)                                   # the 5 densest quadrats
+sg_sorted <- sg[order(sg$site, -sg$seagrass_cover), ]   # by site, then by cover (decreasing)
+```
+
+## [Real field data are messy]{.en}[Les vraies données de terrain sont sales]{.fr} {#messy}
+
+::: en
+The file `seagrass_messy.csv` is the **same survey** as typed by tired people at the end of a field day. Let us find the problems before calculating anything.
+:::
+::: fr
+Le fichier `seagrass_messy.csv` est le **même suivi** tel que saisi par des personnes fatiguées en fin de journée de terrain. Cherchons les problèmes avant de calculer quoi que ce soit.
+:::
+
+```{r}
+raw <- read.csv("data/seagrass_messy.csv")
+str(raw)
+```
+
+::: en
+Three warning signs already: the cover column has a strange name (`Seagrass.cover....`), it is of type **chr** (text) although it should be numeric, and there are 62 rows instead of 60.
+:::
+::: fr
+Déjà trois signaux d'alerte : la colonne de recouvrement a un nom étrange (`Seagrass.cover....`), elle est de type **chr** (texte) alors qu'elle devrait être numérique, et il y a 62 lignes au lieu de 60.
+:::
+
+```{r}
+unique(raw$site)          # 12 spellings for 4 sites!
+table(raw$site)
+```
+
+## [Fixing text: spaces and case]{.en}[Corriger le texte : espaces et casse]{.fr} {#fix-text}
+
+::: en
+| Function | What it does | Example |
+|---|---|---|
+| `trimws(x)` | removes spaces at the start and end | `" Tsiandamba"` → `"Tsiandamba"` |
+| `tolower(x)` / `toupper(x)` | all lower / upper case | `"FASIMENA"` → `"fasimena"` |
+| `tools::toTitleCase(x)` | capital first letter of each word | `"nosy fasika"` → `"Nosy Fasika"` |
+| `gsub(old, new, x)` | replaces every occurrence of a pattern | `gsub("%", "", "45%")` → `"45"` |
+
+`tools::toTitleCase` means "the function `toTitleCase` from the package `tools`" (installed with R). The `::` lets you use a function without loading the whole package.
+:::
+::: fr
+| Fonction | Ce qu'elle fait | Exemple |
+|---|---|---|
+| `trimws(x)` | retire les espaces au début et à la fin | `" Tsiandamba"` → `"Tsiandamba"` |
+| `tolower(x)` / `toupper(x)` | tout en minuscules / majuscules | `"FASIMENA"` → `"fasimena"` |
+| `tools::toTitleCase(x)` | majuscule au début de chaque mot | `"nosy fasika"` → `"Nosy Fasika"` |
+| `gsub(ancien, nouveau, x)` | remplace toutes les occurrences d'un motif | `gsub("%", "", "45%")` → `"45"` |
+
+`tools::toTitleCase` signifie « la fonction `toTitleCase` du package `tools` » (installé avec R). Le `::` permet d'utiliser une fonction sans charger tout le package.
+:::
+
+```{r}
+raw$site <- trimws(raw$site)                       # 1. remove extra spaces
+raw$site <- tools::toTitleCase(tolower(raw$site))  # 2. same case everywhere
+table(raw$site)                                    # 4 sites again
+```
+
+::: {.callout .tip}
+::: en
+**Work on a copy, never on the original file.** The CSV in `data/` stays untouched; all corrections are written in the script. Anyone can see — and check — every change you made.
+:::
+::: fr
+**Travaillez sur une copie, jamais sur le fichier original.** Le CSV dans `data/` reste intact ; toutes les corrections sont écrites dans le script. N'importe qui peut voir — et vérifier — chaque modification effectuée.
+:::
+:::
+
+## [Fixing numbers stored as text]{.en}[Corriger des nombres stockés en texte]{.fr} {#fix-numbers}
+
+::: en
+First give the column a clean name, then look at the values that are not pure numbers.
+:::
+::: fr
+Donnons d'abord un nom propre à la colonne, puis regardons les valeurs qui ne sont pas de simples nombres.
+:::
+
+```{r}
+names(raw)[names(raw) == "Seagrass.cover...."] <- "seagrass_cover"   # rename one column
+unique(raw$seagrass_cover)       # look for "%" and "-"
+```
+
+```{r}
+raw$seagrass_cover <- gsub("%", "", raw$seagrass_cover)    # remove the % sign
+raw$seagrass_cover[raw$seagrass_cover == "-"] <- NA        # "-" means not measured
+raw$seagrass_cover <- as.numeric(raw$seagrass_cover)       # text -> number
+summary(raw$seagrass_cover)
+```
+
+## [Impossible values and duplicates]{.en}[Valeurs impossibles et doublons]{.fr} {#impossible-duplicates}
+
+::: en
+A percentage cover cannot exceed 100. Look at the suspicious row before deciding: here it is clearly a typing error, and we cannot know the true value, so we replace it by `NA` (we keep the rest of the quadrat information).
+:::
+::: fr
+Un pourcentage de recouvrement ne peut pas dépasser 100. Regardez la ligne suspecte avant de décider : ici c'est clairement une erreur de saisie, et on ne peut pas connaître la vraie valeur ; on la remplace donc par `NA` (on garde les autres informations du quadrat).
+:::
+
+```{r}
+raw[which(raw$seagrass_cover > 100), ]                     # inspect
+raw$seagrass_cover[which(raw$seagrass_cover > 100)] <- NA  # correct
+```
+
+::: en
+`duplicated()` returns `TRUE` for each row that is an exact copy of a previous row.
+:::
+::: fr
+`duplicated()` renvoie `TRUE` pour chaque ligne qui est la copie exacte d'une ligne précédente.
+:::
+
+```{r}
+sum(duplicated(raw))          # how many duplicated rows?
+raw[duplicated(raw), 1:4]     # which ones?
+clean <- raw[!duplicated(raw), ]    # keep only the first occurrence
+nrow(clean)
+```
+
+::: {.callout .warning}
+::: en
+**Order matters.** Fix the spelling *before* looking for duplicates: `"Ambalaboy"` and `"Ambalaboy "` (with a space) are not identical for R, so a duplicate could be missed.
+:::
+::: fr
+**L'ordre compte.** Corrigez l'orthographe *avant* de chercher les doublons : `"Ambalaboy"` et `"Ambalaboy "` (avec un espace) ne sont pas identiques pour R ; un doublon pourrait être manqué.
+:::
+:::
+
+::: en
+A final check, then save the clean version. This clean file is your **database**.
+:::
+::: fr
+Une dernière vérification, puis on enregistre la version propre. Ce fichier propre est votre **base de données**.
+:::
+
+```{r}
+str(clean)
+colSums(is.na(clean))        # number of NA per column
+```
+
+```{r, eval=FALSE}
+write.csv(clean, "outputs/seagrass_clean.csv", row.names = FALSE)
+```
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers04, include=FALSE}
+r0 <- read.csv("data/seagrass_messy.csv")
+a_rows_raw  <- nrow(r0)
+a_spellings <- length(unique(r0$site))
+c0 <- r0
+c0$site <- tools::toTitleCase(tolower(trimws(c0$site)))
+names(c0)[7] <- "seagrass_cover"
+a_dups <- sum(duplicated(c0))
+c0$seagrass_cover <- as.numeric(ifelse(c0$seagrass_cover == "-", NA, gsub("%", "", c0$seagrass_cover)))
+c0$seagrass_cover[which(c0$seagrass_cover > 100)] <- NA
+c0 <- c0[!duplicated(c0), ]
+a_na    <- sum(is.na(c0$seagrass_cover))
+a_mean  <- round(mean(c0$seagrass_cover, na.rm = TRUE), 2)
+a_bel   <- round(mean(c0$seagrass_cover[c0$site == "Belitsaky"], na.rm = TRUE), 2)
+a_in50  <- nrow(subset(c0, mpa_status == "Inside" & seagrass_cover > 50))
+a_cymo  <- nrow(subset(sg, species == "Cymodocea serrulata" & depth_m < 1.5))
+```
+
+::: application
+::: en
+### Application work 4
+
+**Part A — filtering** (with the clean file `seagrass_quadrats.csv`)
+
+1. How many quadrats are dominated by *Cymodocea serrulata* **and** are shallower than 1.5 m (`depth_m < 1.5`)?
+
+**Part B — cleaning** (with `seagrass_messy.csv`, in this order)
+
+2. Import the file. How many rows does it have?
+3. How many different spellings of site names are there before cleaning?
+4. Clean the site names (`trimws`, `tolower`, `tools::toTitleCase`) and rename the cover column `seagrass_cover`. How many rows are exact duplicates?
+5. Convert the cover to numbers (remove `%`, `"-"` → `NA`), set values > 100 to `NA`, and remove the duplicates. How many `NA` are there now in `seagrass_cover`?
+6. Mean seagrass cover of the clean data (ignore NA), rounded to 2 decimals.
+7. Mean cover at Belitsaky (ignore NA), rounded to 2 decimals.
+8. How many quadrats are **Inside** the MPA with a cover > 50 %? (use `subset()`)
+:::
+::: fr
+### Travail d'application 4
+
+**Partie A — filtrer** (avec le fichier propre `seagrass_quadrats.csv`)
+
+1. Combien de quadrats sont dominés par *Cymodocea serrulata* **et** sont à moins de 1,5 m (`depth_m < 1.5`) ?
+
+**Partie B — nettoyer** (avec `seagrass_messy.csv`, dans cet ordre)
+
+2. Importez le fichier. Combien de lignes contient-il ?
+3. Combien d'orthographes différentes de noms de sites y a-t-il avant nettoyage ?
+4. Nettoyez les noms de sites (`trimws`, `tolower`, `tools::toTitleCase`) et renommez la colonne de recouvrement `seagrass_cover`. Combien de lignes sont des doublons exacts ?
+5. Convertissez le recouvrement en nombres (retirez `%`, `"-"` → `NA`), mettez les valeurs > 100 à `NA`, et retirez les doublons. Combien de `NA` y a-t-il maintenant dans `seagrass_cover` ?
+6. Recouvrement moyen des données propres (sans NA), arrondi à 2 décimales.
+7. Recouvrement moyen à Belitsaky (sans NA), arrondi à 2 décimales.
+8. Combien de quadrats sont **Inside** l'AMP avec un recouvrement > 50 % ? (utilisez `subset()`)
+:::
+:::
+
+```{r quiz04, echo=FALSE}
+quiz("s04", list(
+  q_num("1. Cymodocea serrulata quadrats shallower than 1.5 m?", "1. Quadrats à Cymodocea serrulata à moins de 1,5 m ?", a_cymo, tol = 0),
+  q_num("2. Rows in the messy file?", "2. Lignes du fichier sale ?", a_rows_raw, tol = 0),
+  q_num("3. Different site spellings before cleaning?", "3. Orthographes de sites différentes avant nettoyage ?", a_spellings, tol = 0),
+  q_num("4. Duplicated rows?", "4. Lignes en double ?", a_dups, tol = 0),
+  q_num("5. Number of NA in seagrass_cover after cleaning?", "5. Nombre de NA dans seagrass_cover après nettoyage ?", a_na, tol = 0),
+  q_num("6. Mean cover of the clean data (2 decimals)?", "6. Recouvrement moyen des données propres (2 décimales) ?", a_mean, tol = 0.006),
+  q_num("7. Mean cover at Belitsaky (2 decimals)?", "7. Recouvrement moyen à Belitsaky (2 décimales) ?", a_bel, tol = 0.006),
+  q_num("8. Inside quadrats with cover > 50 %?", "8. Quadrats Inside avec recouvrement > 50 % ?", a_in50, tol = 0)
+))
+```
+
+::: {.solution data-quiz="s04"}
+```{r, eval=FALSE}
+# Part A
+sg <- read.csv("data/seagrass_quadrats.csv")
+nrow(subset(sg, species == "Cymodocea serrulata" & depth_m < 1.5))   # 1
+
+# Part B
+raw <- read.csv("data/seagrass_messy.csv")
+nrow(raw)                                            # 2
+length(unique(raw$site))                             # 3
+raw$site <- tools::toTitleCase(tolower(trimws(raw$site)))
+names(raw)[names(raw) == "Seagrass.cover...."] <- "seagrass_cover"
+sum(duplicated(raw))                                 # 4
+raw$seagrass_cover <- gsub("%", "", raw$seagrass_cover)
+raw$seagrass_cover[raw$seagrass_cover == "-"] <- NA
+raw$seagrass_cover <- as.numeric(raw$seagrass_cover)
+raw$seagrass_cover[which(raw$seagrass_cover > 100)] <- NA
+clean <- raw[!duplicated(raw), ]
+sum(is.na(clean$seagrass_cover))                     # 5
+round(mean(clean$seagrass_cover, na.rm = TRUE), 2)   # 6
+round(mean(clean$seagrass_cover[clean$site == "Belitsaky"], na.rm = TRUE), 2)  # 7
+nrow(subset(clean, mpa_status == "Inside" & seagrass_cover > 50))             # 8
+```
+:::

@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R course · Session 3</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Reef & Seagrass</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sessions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-cleaning.html">4 · Cleaning data</a>
+    </li>
+    <li>
+      <a href="05-statistics.html">5 · Statistics</a>
+    </li>
+    <li>
+      <a href="06-graphics.html">6 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="07-functions.html">7 · Functions &amp; loops</a>
+    </li>
+    <li>
+      <a href="08-tidyverse.html">8 · dplyr &amp; ggplot2</a>
+    </li>
+    <li>
+      <a href="09-final-project.html">9 · Final project</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">3 · Data frames &amp;
+importing data</span><span class="fr">3 · Data frames et
+importation</span></h1>
+<h3 class="subtitle">~2.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>explain what a <strong>data frame</strong> is and how it relates to
+a field data sheet;</li>
+<li>import a <strong>CSV</strong> file with
+<code>read.csv()</code>;</li>
+<li>explore a dataset with <code>str()</code>, <code>head()</code>,
+<code>summary()</code>, <code>nrow()</code>, <code>names()</code>;</li>
+<li>access columns with <code>$</code>, rows and cells with
+<code>[row, column]</code>;</li>
+<li>add a new column and save a table with
+<code>write.csv()</code>.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>expliquer ce qu’est un <strong>data frame</strong> et son lien avec
+une fiche de terrain ;</li>
+<li>importer un fichier <strong>CSV</strong> avec
+<code>read.csv()</code> ;</li>
+<li>explorer un jeu de données avec <code>str()</code>,
+<code>head()</code>, <code>summary()</code>, <code>nrow()</code>,
+<code>names()</code> ;</li>
+<li>accéder aux colonnes avec <code>$</code>, aux lignes et cellules
+avec <code>[ligne, colonne]</code> ;</li>
+<li>ajouter une colonne et enregistrer un tableau avec
+<code>write.csv()</code>.</li>
+</ul>
+</div>
+</div>
+<div id="survey" class="section level2">
+<h2><span class="en">The seagrass survey</span><span class="fr">Le suivi
+des herbiers</span></h2>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="Quadrat sampling inside and outside an MPA" font-family="Source Sans 3, Arial, sans-serif">
+<defs><pattern id="sg" width="14" height="22" patternUnits="userSpaceOnUse"><path d="M3 22 Q5 10 2 0 M9 22 Q11 12 13 2" stroke="#4a7d3a" stroke-width="1.6" fill="none"/></pattern></defs>
+<rect x="0" y="0" width="860" height="300" fill="#e9f4f6"/>
+<rect x="0" y="230" width="860" height="70" fill="#f1e6cc"/>
+<rect x="30" y="70" width="380" height="170" fill="url(#sg)" opacity=".95"/>
+<rect x="450" y="120" width="380" height="120" fill="url(#sg)" opacity=".55"/>
+<rect x="20" y="40" width="400" height="215" fill="none" stroke="#0b3d5c" stroke-width="3" stroke-dasharray="10 6" rx="8"/>
+<g fill="none" stroke="#d9694a" stroke-width="3"><rect x="70" y="170" width="44" height="44"/><rect x="170" y="150" width="44" height="44"/><rect x="270" y="175" width="44" height="44"/><rect x="345" y="140" width="44" height="44"/><rect x="490" y="175" width="44" height="44"/><rect x="590" y="160" width="44" height="44"/><rect x="690" y="180" width="44" height="44"/><rect x="770" y="150" width="44" height="44"/></g>
+<text class="en" x="35" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Inside
+the MPA</text>
+<text class="fr" x="35" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Dans
+l’AMP</text>
+<text class="en" x="460" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Outside
+the MPA</text>
+<text class="fr" x="460" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Hors
+AMP</text>
+<g transform="translate(470,50)"><rect width="28" height="28" fill="none" stroke="#d9694a" stroke-width="3"/>
+<text class="en" x="38" y="20" font-size="15" fill="#1f2a33">quadrat 50
+× 50 cm = 0.25 m² → one row of data</text>
+<text class="fr" x="38" y="20" font-size="15" fill="#1f2a33">quadrat 50
+× 50 cm = 0,25 m² → une ligne de données</text></g>
+<text class="en" x="30" y="280" font-size="15" fill="#5d6b75">In each
+quadrat we record: % seagrass cover, dominant species, canopy height,
+number of shoots, depth.</text>
+<text class="fr" x="30" y="280" font-size="15" fill="#5d6b75">Dans
+chaque quadrat : % de recouvrement, espèce dominante, hauteur de
+canopée, nombre de pousses, profondeur.</text>
+</svg>
+</figure>
+<div class="en">
+<p>From now on we work with a (simulated) seagrass survey: <strong>4
+sites</strong>, two inside a Marine Protected Area (MPA) and two
+outside, with <strong>15 quadrats</strong> of 50 × 50 cm per site. For
+each quadrat the team recorded the date, depth, dominant species, %
+seagrass cover, canopy height (cm) and shoot density (shoots per
+m²).</p>
+</div>
+<div class="fr">
+<p>Désormais, nous travaillons sur un suivi (simulé) d’herbiers :
+<strong>4 sites</strong>, deux à l’intérieur d’une Aire Marine Protégée
+(AMP) et deux à l’extérieur, avec <strong>15 quadrats</strong> de 50 ×
+50 cm par site. Pour chaque quadrat l’équipe a noté la date, la
+profondeur, l’espèce dominante, le % de recouvrement, la hauteur de
+canopée (cm) et la densité de pousses (pousses par m²).</p>
+</div>
+</div>
+<div id="data-frame" class="section level2">
+<h2><span class="en">What is a data frame?</span><span
+class="fr">Qu’est-ce qu’un data frame ?</span></h2>
+<div class="en">
+<p>A <strong>data frame</strong> is a table: a set of vectors of the
+<strong>same length</strong>, placed side by side. Each
+<strong>column</strong> is a variable (and has one type); each
+<strong>row</strong> is an observation (here, one quadrat). It is
+exactly the structure of a well-organised field sheet or Excel
+table.</p>
+</div>
+<div class="fr">
+<p>Un <strong>data frame</strong> est un tableau : un ensemble de
+vecteurs de <strong>même longueur</strong>, placés côte à côte. Chaque
+<strong>colonne</strong> est une variable (et a un seul type) ; chaque
+<strong>ligne</strong> est une observation (ici, un quadrat). C’est
+exactement la structure d’une fiche de terrain ou d’un tableau Excel
+bien organisé.</p>
+</div>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="Anatomy of a data frame" font-family="Source Sans 3, Arial, sans-serif">
+<g font-family="JetBrains Mono, monospace" font-size="15">
+<rect x="150" y="40" width="560" height="36" fill="#0b3d5c"/>
+<g fill="#fff"><text x="160" y="64">site</text><text x="300" y="64">mpa_status</text><text x="430" y="64">quadrat</text><text x="540" y="64">seagrass_cover</text></g>
+<g fill="#f7f9fa" stroke="#dde3e6"><rect x="150" y="76" width="560" height="34"/><rect x="150" y="110" width="560" height="34"/><rect x="150" y="144" width="560" height="34"/><rect x="150" y="178" width="560" height="34"/></g>
+<rect x="150" y="110" width="560" height="34" fill="#fde3d9" stroke="#d9694a" stroke-width="2"/>
+<rect x="530" y="40" width="180" height="172" fill="none" stroke="#4a7d3a" stroke-width="3" rx="4"/>
+<g fill="#1f2a33"><text x="160" y="99">Ambalaboy</text><text x="300" y="99">Inside</text><text x="460" y="99">1</text><text x="600" y="99">69</text><text x="160" y="133">Ambalaboy</text><text x="300" y="133">Inside</text><text x="460" y="133">2</text><text x="600" y="133">47</text><text x="160" y="167">Ambalaboy</text><text x="300" y="167">Inside</text><text x="460" y="167">3</text><text x="600" y="167">64</text><text x="160" y="201">…</text><text x="300" y="201">…</text><text x="460" y="201">…</text><text x="600" y="201">…</text></g>
+<g fill="#5d6b75" font-size="13"><text x="120" y="99" text-anchor="end">1</text><text x="120" y="133" text-anchor="end">2</text><text x="120" y="167" text-anchor="end">3</text></g>
+</g> <g font-size="16">
+<text class="en" x="20" y="133" fill="#d9694a" font-weight="700"><tspan x="20">a
+ROW =</tspan><tspan x="20" dy="19">one quadrat</tspan></text>
+<text class="fr" x="20" y="133" fill="#d9694a" font-weight="700"><tspan x="20">une
+LIGNE =</tspan><tspan x="20" dy="19">un quadrat</tspan></text>
+<text class="en" x="725" y="110" fill="#4a7d3a" font-weight="700"><tspan x="725">a
+COLUMN =</tspan><tspan x="725" dy="19">one variable</tspan></text>
+<text class="fr" x="725" y="110" fill="#4a7d3a" font-weight="700"><tspan x="725">une
+COLONNE =</tspan><tspan x="725" dy="19">une variable</tspan></text>
+<text x="150" y="250" font-family="JetBrains Mono, monospace" font-size="15" fill="#0b3d5c">df[2,
+] df$seagrass_cover df[2, “seagrass_cover”] → 47</text>
+<text class="en" x="150" y="280" fill="#5d6b75">row 2, all columns · one
+whole column · one single cell</text>
+<text class="fr" x="150" y="280" fill="#5d6b75">ligne 2, toutes colonnes
+· une colonne entière · une seule cellule</text> </g>
+</svg>
+</figure>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># a small data frame typed by hand</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>mini <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">site    =</span> <span class="fu">c</span>(<span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Tsiandamba&quot;</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="at">quadrat =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="at">cover   =</span> <span class="fu">c</span>(<span class="dv">69</span>, <span class="dv">47</span>, <span class="dv">30</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>mini</span></code></pre></div>
+<pre><code>#&gt;         site quadrat cover
+#&gt; 1  Ambalaboy       1    69
+#&gt; 2  Ambalaboy       2    47
+#&gt; 3 Tsiandamba       1    30</code></pre>
+<div class="callout tip">
+<div class="en">
+<p><strong>Tidy data rule:</strong> one row = one observation, one
+column = one variable, one cell = one value. Avoid merged cells, colours
+used as information, or several values in one cell (e.g. “45%
+Thalassia”). Data organised this way can be read by R directly.</p>
+</div>
+<div class="fr">
+<p><strong>Règle des données « tidy » (bien rangées) :</strong> une
+ligne = une observation, une colonne = une variable, une cellule = une
+valeur. Évitez les cellules fusionnées, les couleurs utilisées comme
+information, ou plusieurs valeurs dans une cellule (ex. « 45% Thalassia
+»). Des données organisées ainsi se lisent directement dans R.</p>
+</div>
+</div>
+</div>
+<div id="import" class="section level2">
+<h2><span class="en">Importing a CSV file</span><span
+class="fr">Importer un fichier CSV</span></h2>
+<div class="en">
+<p>A <strong>CSV</strong> (<em>comma-separated values</em>) file is a
+plain text table: one line per row, values separated by commas. Any
+spreadsheet can save in CSV (<em>File → Save as → CSV</em>). Because
+your RStudio project is open, the path is simply relative to the project
+folder.</p>
+</div>
+<div class="fr">
+<p>Un fichier <strong>CSV</strong> (<em>comma-separated values</em>) est
+un tableau en texte brut : une ligne par rangée, valeurs séparées par
+des virgules. Tout tableur peut enregistrer en CSV (<em>Fichier →
+Enregistrer sous → CSV</em>). Comme votre projet RStudio est ouvert, le
+chemin est simplement relatif au dossier du projet.</p>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>sg <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/seagrass_quadrats.csv&quot;</span>)   <span class="co"># sg = seagrass</span></span></code></pre></div>
+<div class="callout warning">
+<div class="en">
+<p><strong>French-style CSV.</strong> If your Excel uses a comma as
+decimal separator, it saves CSV files with <strong>semicolons</strong>
+(<code>;</code>). Read them with <code>read.csv2()</code> instead (or
+<code>read.csv(file, sep = ";", dec = ",")</code>). If all your data end
+up in one single column, this is the reason.</p>
+<p><strong>“cannot open file … No such file or directory”</strong> means
+the path is wrong: check the spelling, the extension, and that the
+project is open.</p>
+</div>
+<div class="fr">
+<p><strong>CSV « à la française ».</strong> Si votre Excel utilise la
+virgule comme séparateur décimal, il enregistre les CSV avec des
+<strong>points-virgules</strong> (<code>;</code>). Lisez-les alors avec
+<code>read.csv2()</code> (ou
+<code>read.csv(fichier, sep = ";", dec = ",")</code>). Si toutes vos
+données se retrouvent dans une seule colonne, c’est la raison.</p>
+<p><strong>« cannot open file … No such file or directory »</strong>
+signifie que le chemin est faux : vérifiez l’orthographe, l’extension,
+et que le projet est ouvert.</p>
+</div>
+</div>
+</div>
+<div id="explore" class="section level2">
+<h2><span class="en">Exploring the data</span><span class="fr">Explorer
+les données</span></h2>
+<div class="en">
+<p><strong>Always</strong> look at your data right after importing it.
+These functions answer: how big is it, what are the columns, what type
+is each column, do the values look sensible?</p>
+</div>
+<div class="fr">
+<p>Regardez <strong>toujours</strong> vos données juste après
+l’importation. Ces fonctions répondent à : quelle taille, quelles
+colonnes, quel type pour chaque colonne, les valeurs semblent-elles
+plausibles ?</p>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">head</span>(sg)          <span class="co"># first 6 rows (tail() for the last ones)</span></span></code></pre></div>
+<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species
+#&gt; 1 Ambalaboy     Inside       1 2026-03-10     2.8     Thalassia hemprichii
+#&gt; 2 Ambalaboy     Inside       2 2026-03-10     0.9 Syringodium isoetifolium
+#&gt; 3 Ambalaboy     Inside       3 2026-03-10     2.3     Thalassia hemprichii
+#&gt; 4 Ambalaboy     Inside       4 2026-03-10     0.4      Cymodocea serrulata
+#&gt; 5 Ambalaboy     Inside       5 2026-03-10     1.9     Thalassia hemprichii
+#&gt; 6 Ambalaboy     Inside       6 2026-03-10     1.5 Syringodium isoetifolium
+#&gt;   seagrass_cover canopy_height_cm shoot_density
+#&gt; 1             69             18.8           648
+#&gt; 2             47             17.0           464
+#&gt; 3             64             18.8           504
+#&gt; 4             61             20.0           560
+#&gt; 5             53             18.1           484
+#&gt; 6             27             16.4           224</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">dim</span>(sg)           <span class="co"># number of rows and columns</span></span></code></pre></div>
+<pre><code>#&gt; [1] 60  9</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">nrow</span>(sg); <span class="fu">ncol</span>(sg)</span></code></pre></div>
+<pre><code>#&gt; [1] 60</code></pre>
+<pre><code>#&gt; [1] 9</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">names</span>(sg)         <span class="co"># column names</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;            
+#&gt; [5] &quot;depth_m&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot;
+#&gt; [9] &quot;shoot_density&quot;</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">str</span>(sg)           <span class="co"># STRucture: type and first values of each column</span></span></code></pre></div>
+<pre><code>#&gt; &#39;data.frame&#39;:    60 obs. of  9 variables:
+#&gt;  $ site            : chr  &quot;Ambalaboy&quot; &quot;Ambalaboy&quot; &quot;Ambalaboy&quot; &quot;Ambalaboy&quot; ...
+#&gt;  $ mpa_status      : chr  &quot;Inside&quot; &quot;Inside&quot; &quot;Inside&quot; &quot;Inside&quot; ...
+#&gt;  $ quadrat         : int  1 2 3 4 5 6 7 8 9 10 ...
+#&gt;  $ date            : chr  &quot;2026-03-10&quot; &quot;2026-03-10&quot; &quot;2026-03-10&quot; &quot;2026-03-10&quot; ...
+#&gt;  $ depth_m         : num  2.8 0.9 2.3 0.4 1.9 1.5 0.9 1.6 2.4 1.6 ...
+#&gt;  $ species         : chr  &quot;Thalassia hemprichii&quot; &quot;Syringodium isoetifolium&quot; &quot;Thalassia hemprichii&quot; &quot;Cymodocea serrulata&quot; ...
+#&gt;  $ seagrass_cover  : int  69 47 64 61 53 27 52 48 64 55 ...
+#&gt;  $ canopy_height_cm: num  18.8 17 18.8 20 18.1 16.4 NA 14 21.3 15.4 ...
+#&gt;  $ shoot_density   : int  648 464 504 560 484 224 440 372 556 432 ...</code></pre>
+<div class="en">
+<p><code>str()</code> tells you: 60 observations (rows) of 9 variables;
+<code>chr</code> = character, <code>num</code> = numeric with decimals,
+<code>int</code> = integer. Then <code>summary()</code> gives the
+distribution of every numeric column, including the number of
+<code>NA</code>s:</p>
+</div>
+<div class="fr">
+<p><code>str()</code> indique : 60 observations (lignes) de 9 variables
+; <code>chr</code> = texte, <code>num</code> = numérique avec décimales,
+<code>int</code> = entier. Ensuite <code>summary()</code> donne la
+distribution de chaque colonne numérique, y compris le nombre de
+<code>NA</code> :</p>
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">summary</span>(sg)</span></code></pre></div>
+<pre><code>#&gt;      site            mpa_status           quadrat       date          
+#&gt;  Length:60          Length:60          Min.   : 1   Length:60         
+#&gt;  Class :character   Class :character   1st Qu.: 4   Class :character  
+#&gt;  Mode  :character   Mode  :character   Median : 8   Mode  :character  
+#&gt;                                        Mean   : 8                     
+#&gt;                                        3rd Qu.:12                     
+#&gt;                                        Max.   :15                     
+#&gt;                                                                       
+#&gt;     depth_m        species          seagrass_cover  canopy_height_cm
+#&gt;  Min.   :0.400   Length:60          Min.   :10.00   Min.   : 6.70   
+#&gt;  1st Qu.:0.875   Class :character   1st Qu.:40.75   1st Qu.:14.07   
+#&gt;  Median :1.600   Mode  :character   Median :50.00   Median :17.30   
+#&gt;  Mean   :1.630                      Mean   :48.50   Mean   :16.64   
+#&gt;  3rd Qu.:2.225                      3rd Qu.:59.00   3rd Qu.:19.48   
+#&gt;  Max.   :3.000                      Max.   :74.00   Max.   :22.80   
+#&gt;                                                     NA&#39;s   :2       
+#&gt;  shoot_density  
+#&gt;  Min.   :168.0  
+#&gt;  1st Qu.:375.0  
+#&gt;  Median :438.0  
+#&gt;  Mean   :425.7  
+#&gt;  3rd Qu.:493.0  
+#&gt;  Max.   :664.0  
+#&gt; </code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">View</span>(sg)          <span class="co"># opens the table in a spreadsheet-like tab (capital V!)</span></span></code></pre></div>
+</div>
+<div id="access" class="section level2">
+<h2><span class="en">Accessing columns, rows and cells</span><span
+class="fr">Accéder aux colonnes, lignes et cellules</span></h2>
+<div class="en">
+<p>The <strong><code>$</code></strong> sign extracts one column as a
+vector. RStudio proposes the column names after you type
+<code>sg$</code> (press <strong>Tab</strong>).</p>
+</div>
+<div class="fr">
+<p>Le signe <strong><code>$</code></strong> extrait une colonne sous
+forme de vecteur. RStudio propose les noms de colonnes après avoir tapé
+<code>sg$</code> (appuyez sur <strong>Tab</strong>).</p>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>sg<span class="sc">$</span>seagrass_cover[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]           <span class="co"># first 10 values of the cover column</span></span></code></pre></div>
+<pre><code>#&gt;  [1] 69 47 64 61 53 27 52 48 64 55</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">mean</span>(sg<span class="sc">$</span>seagrass_cover)</span></code></pre></div>
+<pre><code>#&gt; [1] 48.5</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">mean</span>(sg<span class="sc">$</span>canopy_height_cm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># this column contains NA</span></span></code></pre></div>
+<pre><code>#&gt; [1] 16.63966</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">unique</span>(sg<span class="sc">$</span>site)                   <span class="co"># the different sites</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Ambalaboy&quot;  &quot;Fasimena&quot;   &quot;Tsiandamba&quot; &quot;Belitsaky&quot;</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">table</span>(sg<span class="sc">$</span>species)                 <span class="co"># number of quadrats per dominant species</span></span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;      Cymodocea serrulata Syringodium isoetifolium     Thalassia hemprichii 
+#&gt;                       17                       13                       21 
+#&gt; Thalassodendron ciliatum 
+#&gt;                        9</code></pre>
+<div class="en">
+<p>Square brackets on a data frame take <strong>two</strong> positions:
+<code>[rows, columns]</code>. Leave one empty to mean “all”.</p>
+</div>
+<div class="fr">
+<p>Les crochets sur un data frame prennent <strong>deux</strong>
+positions : <code>[lignes, colonnes]</code>. Laisser vide signifie «
+tout ».</p>
+</div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>sg[<span class="dv">1</span>, ]                                   <span class="co"># row 1, all columns</span></span></code></pre></div>
+<pre><code>#&gt;        site mpa_status quadrat       date depth_m              species
+#&gt; 1 Ambalaboy     Inside       1 2026-03-10     2.8 Thalassia hemprichii
+#&gt;   seagrass_cover canopy_height_cm shoot_density
+#&gt; 1             69             18.8           648</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>sg[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]      <span class="co"># rows 1-3, two columns</span></span></code></pre></div>
+<pre><code>#&gt;        site seagrass_cover
+#&gt; 1 Ambalaboy             69
+#&gt; 2 Ambalaboy             47
+#&gt; 3 Ambalaboy             64</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>sg[<span class="dv">5</span>, <span class="st">&quot;species&quot;</span>]                          <span class="co"># one cell</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Thalassia hemprichii&quot;</code></pre>
+<div class="en">
+<p>To find the row with the highest (or lowest) value, use
+<code>which.max()</code> (or <code>which.min()</code>), which return a
+<strong>position</strong>:</p>
+</div>
+<div class="fr">
+<p>Pour trouver la ligne ayant la valeur la plus haute (ou la plus
+basse), utilisez <code>which.max()</code> (ou <code>which.min()</code>),
+qui renvoient une <strong>position</strong> :</p>
+</div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fu">which.max</span>(sg<span class="sc">$</span>seagrass_cover)   <span class="co"># position of the maximum</span></span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>i</span></code></pre></div>
+<pre><code>#&gt; [1] 28</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>sg[i, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;quadrat&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]</span></code></pre></div>
+<pre><code>#&gt;        site quadrat seagrass_cover
+#&gt; 28 Fasimena      13             74</code></pre>
+</div>
+<div id="new-column" class="section level2">
+<h2><span class="en">Adding a column and saving</span><span
+class="fr">Ajouter une colonne et enregistrer</span></h2>
+<div class="en">
+<p>Assigning to a column name that does not exist yet
+<strong>creates</strong> it. Here we add the cover as a proportion and
+the number of shoots actually counted in the 0.25 m² quadrat.</p>
+</div>
+<div class="fr">
+<p>Affecter une valeur à un nom de colonne qui n’existe pas encore la
+<strong>crée</strong>. Ici nous ajoutons le recouvrement en proportion
+et le nombre de pousses réellement comptées dans le quadrat de 0,25
+m².</p>
+</div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>sg<span class="sc">$</span>cover_prop    <span class="ot">&lt;-</span> sg<span class="sc">$</span>seagrass_cover <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a>sg<span class="sc">$</span>shoots_counted <span class="ot">&lt;-</span> sg<span class="sc">$</span>shoot_density <span class="sc">*</span> <span class="fl">0.25</span></span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a><span class="fu">head</span>(sg[, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>, <span class="st">&quot;cover_prop&quot;</span>, <span class="st">&quot;shoot_density&quot;</span>, <span class="st">&quot;shoots_counted&quot;</span>)], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;        site seagrass_cover cover_prop shoot_density shoots_counted
+#&gt; 1 Ambalaboy             69       0.69           648            162
+#&gt; 2 Ambalaboy             47       0.47           464            116
+#&gt; 3 Ambalaboy             64       0.64           504            126</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">write.csv</span>(sg, <span class="st">&quot;outputs/seagrass_with_new_columns.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a><span class="co"># row.names = FALSE avoids an extra unnamed column of row numbers</span></span></code></pre></div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-3" class="section level3 en">
+<h3>Application work 3</h3>
+<p>New script <code>scripts/s03_data_frames.R</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Import <code>data/seagrass_quadrats.csv</code> into an object called
+<code>sg</code>.</li>
+<li>How many rows and columns does it have?</li>
+<li>What is the class of the column <code>site</code>? (use
+<code>class()</code> or <code>str()</code>)</li>
+<li>Mean canopy height (<code>canopy_height_cm</code>), ignoring NA,
+rounded to 2 decimals.</li>
+<li>Maximum shoot density, and the <strong>site</strong> where it was
+recorded (<code>which.max()</code>).</li>
+<li>Site and quadrat number of the quadrat with the
+<strong>lowest</strong> seagrass cover.</li>
+<li>Number of quadrats dominated by <em>Thalassia hemprichii</em>
+(<code>table()</code>).</li>
+<li>Mean depth, rounded to 2 decimals.</li>
+<li>The seagrass cover in row 20.</li>
+<li>Add a column <code>cover_prop</code> and save the table in
+<code>outputs/</code> with <code>write.csv()</code>.</li>
+</ol>
+</div>
+<div id="travail-dapplication-3" class="section level3 fr">
+<h3>Travail d’application 3</h3>
+<p>Nouveau script <code>scripts/s03_data_frames.R</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Importez <code>data/seagrass_quadrats.csv</code> dans un objet
+appelé <code>sg</code>.</li>
+<li>Combien de lignes et de colonnes contient-il ?</li>
+<li>Quelle est la classe de la colonne <code>site</code> ? (utilisez
+<code>class()</code> ou <code>str()</code>)</li>
+<li>Hauteur de canopée moyenne (<code>canopy_height_cm</code>), sans les
+NA, arrondie à 2 décimales.</li>
+<li>Densité de pousses maximale, et le <strong>site</strong> où elle a
+été relevée (<code>which.max()</code>).</li>
+<li>Site et numéro du quadrat ayant le recouvrement <strong>le plus
+faible</strong>.</li>
+<li>Nombre de quadrats dominés par <em>Thalassia hemprichii</em>
+(<code>table()</code>).</li>
+<li>Profondeur moyenne, arrondie à 2 décimales.</li>
+<li>Le recouvrement de la ligne 20.</li>
+<li>Ajoutez une colonne <code>cover_prop</code> et enregistrez le
+tableau dans <code>outputs/</code> avec <code>write.csv()</code>.</li>
+</ol>
+</div>
+</div>
+<div id="quiz-s03" class="quiz" data-quiz-id="s03"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMmEuIE51bWJlciBvZiByb3dzPyIsImZyIjoiMmEuIE5vbWJyZSBkZSBsaWduZXMgPyIsImFuc3dlciI6NjAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjJiLiBOdW1iZXIgb2YgY29sdW1ucz8iLCJmciI6IjJiLiBOb21icmUgZGUgY29sb25uZXMgPyIsImFuc3dlciI6OSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiMy4gQ2xhc3Mgb2YgdGhlIGNvbHVtbiBzaXRlPyIsImZyIjoiMy4gQ2xhc3NlIGRlIGxhIGNvbG9ubmUgc2l0ZSA/Iiwib3B0aW9uc19lbiI6WyJudW1lcmljIiwiY2hhcmFjdGVyIiwibG9naWNhbCIsImRhdGEuZnJhbWUiXSwib3B0aW9uc19mciI6WyJudW1lcmljIiwiY2hhcmFjdGVyIiwibG9naWNhbCIsImRhdGEuZnJhbWUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE1lYW4gY2Fub3B5IGhlaWdodCAoY20sIDIgZGVjaW1hbHMpPyIsImZyIjoiNC4gSGF1dGV1ciBkZSBjYW5vcMOpZSBtb3llbm5lIChjbSwgMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoxNi42NCwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjVhLiBNYXhpbXVtIHNob290IGRlbnNpdHkgKHNob290cy9twrIpPyIsImZyIjoiNWEuIERlbnNpdMOpIGRlIHBvdXNzZXMgbWF4aW1hbGUgKHBvdXNzZXMvbcKyKSA/IiwiYW5zd2VyIjo2NjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI1Yi4gU2l0ZSBvZiB0aGUgbWF4aW11bSBzaG9vdCBkZW5zaXR5PyIsImZyIjoiNWIuIFNpdGUgZGUgbGEgZGVuc2l0w6kgbWF4aW1hbGUgPyIsImFuc3dlciI6WyJGYXNpbWVuYSJdfSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI2YS4gU2l0ZSBvZiB0aGUgcXVhZHJhdCB3aXRoIHRoZSBsb3dlc3QgY292ZXI/IiwiZnIiOiI2YS4gU2l0ZSBkdSBxdWFkcmF0IGF1IHJlY291dnJlbWVudCBsZSBwbHVzIGZhaWJsZSA/IiwiYW5zd2VyIjpbIlRzaWFuZGFtYmEiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI2Yi4gUXVhZHJhdCBudW1iZXIgb2YgdGhlIGxvd2VzdCBjb3Zlcj8iLCJmciI6IjZiLiBOdW3DqXJvIGR1IHF1YWRyYXQgYXUgcmVjb3V2cmVtZW50IGxlIHBsdXMgZmFpYmxlID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjcuIE51bWJlciBvZiBxdWFkcmF0cyBkb21pbmF0ZWQgYnkgVGhhbGFzc2lhIGhlbXByaWNoaWk/IiwiZnIiOiI3LiBOb21icmUgZGUgcXVhZHJhdHMgZG9taW7DqXMgcGFyIFRoYWxhc3NpYSBoZW1wcmljaGlpID8iLCJhbnN3ZXIiOjIxLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI4LiBNZWFuIGRlcHRoIChtLCAyIGRlY2ltYWxzKT8iLCJmciI6IjguIFByb2ZvbmRldXIgbW95ZW5uZSAobSwgMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoxLjYzLCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiOS4gU2VhZ3Jhc3MgY292ZXIgaW4gcm93IDIwPyIsImZyIjoiOS4gUmVjb3V2cmVtZW50IGRlIGxhIGxpZ25lIDIwID8iLCJhbnN3ZXIiOjMxLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn1d">
+
+</div>
+<div class="solution" data-quiz="s03">
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a>sg <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/seagrass_quadrats.csv&quot;</span>)              <span class="co"># 1</span></span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a><span class="fu">dim</span>(sg)                                                    <span class="co"># 2. 60 rows, 9 columns</span></span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a><span class="fu">class</span>(sg<span class="sc">$</span>site)                                             <span class="co"># 3. &quot;character&quot;</span></span>
+<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(sg<span class="sc">$</span>canopy_height_cm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>)          <span class="co"># 4</span></span>
+<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a><span class="fu">max</span>(sg<span class="sc">$</span>shoot_density)                                      <span class="co"># 5a</span></span>
+<span id="cb41-6"><a href="#cb41-6" tabindex="-1"></a>sg<span class="sc">$</span>site[<span class="fu">which.max</span>(sg<span class="sc">$</span>shoot_density)]                       <span class="co"># 5b</span></span>
+<span id="cb41-7"><a href="#cb41-7" tabindex="-1"></a>sg[<span class="fu">which.min</span>(sg<span class="sc">$</span>seagrass_cover), <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;quadrat&quot;</span>)]     <span class="co"># 6</span></span>
+<span id="cb41-8"><a href="#cb41-8" tabindex="-1"></a><span class="fu">table</span>(sg<span class="sc">$</span>species)                                          <span class="co"># 7</span></span>
+<span id="cb41-9"><a href="#cb41-9" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(sg<span class="sc">$</span>depth_m), <span class="dv">2</span>)                                 <span class="co"># 8</span></span>
+<span id="cb41-10"><a href="#cb41-10" tabindex="-1"></a>sg[<span class="dv">20</span>, <span class="st">&quot;seagrass_cover&quot;</span>]                                   <span class="co"># 9</span></span>
+<span id="cb41-11"><a href="#cb41-11" tabindex="-1"></a>sg<span class="sc">$</span>cover_prop <span class="ot">&lt;-</span> sg<span class="sc">$</span>seagrass_cover <span class="sc">/</span> <span class="dv">100</span>                   <span class="co"># 10</span></span>
+<span id="cb41-12"><a href="#cb41-12" tabindex="-1"></a><span class="fu">write.csv</span>(sg, <span class="st">&quot;outputs/seagrass_s03.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

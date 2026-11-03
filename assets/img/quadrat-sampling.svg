@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="Quadrat sampling inside and outside an MPA" font-family="Source Sans 3, Arial, sans-serif">
+<defs><pattern id="sg" width="14" height="22" patternUnits="userSpaceOnUse"><path d="M3 22 Q5 10 2 0 M9 22 Q11 12 13 2" stroke="#4a7d3a" stroke-width="1.6" fill="none"/></pattern></defs>
+<rect x="0" y="0" width="860" height="300" fill="#e9f4f6"/>
+<rect x="0" y="230" width="860" height="70" fill="#f1e6cc"/>
+<rect x="30" y="70" width="380" height="170" fill="url(#sg)" opacity=".95"/>
+<rect x="450" y="120" width="380" height="120" fill="url(#sg)" opacity=".55"/>
+<rect x="20" y="40" width="400" height="215" fill="none" stroke="#0b3d5c" stroke-width="3" stroke-dasharray="10 6" rx="8"/>
+<g fill="none" stroke="#d9694a" stroke-width="3"><rect x="70" y="170" width="44" height="44"/><rect x="170" y="150" width="44" height="44"/><rect x="270" y="175" width="44" height="44"/><rect x="345" y="140" width="44" height="44"/><rect x="490" y="175" width="44" height="44"/><rect x="590" y="160" width="44" height="44"/><rect x="690" y="180" width="44" height="44"/><rect x="770" y="150" width="44" height="44"/></g>
+<text class="en" x="35" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Inside the MPA</text>
+<text class="fr" x="35" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Dans l'AMP</text>
+<text class="en" x="460" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Outside the MPA</text>
+<text class="fr" x="460" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Hors AMP</text>
+<g transform="translate(470,50)"><rect width="28" height="28" fill="none" stroke="#d9694a" stroke-width="3"/>
+<text class="en" x="38" y="20" font-size="15" fill="#1f2a33">quadrat 50 × 50 cm = 0.25 m² → one row of data</text>
+<text class="fr" x="38" y="20" font-size="15" fill="#1f2a33">quadrat 50 × 50 cm = 0,25 m² → une ligne de données</text></g>
+<text class="en" x="30" y="280" font-size="15" fill="#5d6b75">In each quadrat we record: % seagrass cover, dominant species, canopy height, number of shoots, depth.</text>
+<text class="fr" x="30" y="280" font-size="15" fill="#5d6b75">Dans chaque quadrat : % de recouvrement, espèce dominante, hauteur de canopée, nombre de pousses, profondeur.</text>
+</svg>

@@ -1,0 +1,37 @@
+# =============================================================================
+# _site.yml — settings shared by ALL pages of the R Markdown website
+# Build the whole site with:  rmarkdown::render_site()   (or Build > Build Website)
+# =============================================================================
+name: "r-course-beginner"
+output_dir: "docs"          # GitHub Pages will publish this folder
+
+# files/folders NOT copied into docs/ (they are for you, not for students)
+exclude: ["R", "apps-script", "README.md", "*.Rproj", "docs", "accounts_to_paste.csv"]
+
+navbar:
+  title: "R · Reef & Seagrass"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Sessions"
+      menu:
+        - { text: "0 · Installation",            href: 00-installation.html }
+        - { text: "1 · First steps",             href: 01-first-steps.html }
+        - { text: "2 · Vectors",                 href: 02-vectors.html }
+        - { text: "3 · Data frames",             href: 03-data-frames.html }
+        - { text: "4 · Cleaning data",           href: 04-cleaning.html }
+        - { text: "5 · Statistics",              href: 05-statistics.html }
+        - { text: "6 · Base R graphs",           href: 06-graphics.html }
+        - { text: "7 · Functions & loops",       href: 07-functions.html }
+        - { text: "8 · dplyr & ggplot2",         href: 08-tidyverse.html }
+        - { text: "9 · Final project",           href: 09-final-project.html }
+
+output:
+  html_document:
+    theme: flatly            # Bootstrap theme (colours overridden in course.css)
+    highlight: tango         # colours of the R code
+    css: assets/course.css
+    toc: false               # the table of contents is built by course.js
+    self_contained: false    # keep JS/CSS as separate files (required for a site)
+    includes:
+      in_header: assets/header.html   # loads config.js + course.js on every page

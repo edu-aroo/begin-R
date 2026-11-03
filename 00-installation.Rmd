@@ -1,0 +1,290 @@
+---
+title: "[0 · Install R, Rtools & RStudio]{.en}[0 · Installer R, Rtools et RStudio]{.fr}"
+pagetitle: "R course · Session 0"
+subtitle: "~1.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+<!-- A div with class "objectives": the blue banner at the top of each session -->
+::: objectives
+::: en
+#### By the end of this session you will
+- know what **R**, **Rtools** and **RStudio** are, and why you need each one;
+- have the three installed and working on your computer;
+- recognise the four panes of RStudio;
+- have created an **RStudio project** for the whole course, with the course data inside.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- ce que sont **R**, **Rtools** et **RStudio**, et pourquoi chacun est nécessaire ;
+- les avoir installés et vérifiés sur votre ordinateur ;
+- reconnaître les quatre panneaux de RStudio ;
+- créer un **projet RStudio** pour tout le cours, contenant les données du cours.
+:::
+:::
+
+## [Three programs, three roles]{.en}[Trois logiciels, trois rôles]{.fr} {#roles}
+
+`r fig_svg("software-roles")`
+
+::: en
+Think of a car:
+
+- **R** is the **engine**. It is a programming language *and* the program that understands it and does the calculations: statistics, graphs, data handling. Everything you do in this course is done by R.
+- **RStudio** is the **dashboard and the steering wheel**. It is an *IDE* (Integrated Development Environment): a comfortable window where you write your scripts, see your data, your plots, your files and the help pages. RStudio does not calculate anything by itself: it sends your code to R and shows you what R answers.
+- **Rtools** is the **mechanic's toolbox** (Windows only). Some R packages (extensions) must be *compiled* (translated from C/C++/Fortran into machine code) when they are installed. Windows does not have these compilers by default, so Rtools provides them. Most of the time you will not notice it, but without it some installations fail with an error such as *"Rtools is required to build R packages"*.
+:::
+
+::: fr
+Pensez à une voiture :
+
+- **R** est le **moteur**. C'est un langage de programmation *et* le programme qui le comprend et fait les calculs : statistiques, graphiques, gestion des données. Tout ce que vous ferez dans ce cours est fait par R.
+- **RStudio** est le **tableau de bord et le volant**. C'est un *IDE* (environnement de développement intégré) : une fenêtre confortable où l'on écrit ses scripts et où l'on voit ses données, graphiques, fichiers et pages d'aide. RStudio ne calcule rien lui-même : il envoie votre code à R et vous montre la réponse de R.
+- **Rtools** est la **boîte à outils du mécanicien** (Windows seulement). Certains packages R (extensions) doivent être *compilés* (traduits du C/C++/Fortran en code machine) lors de leur installation. Windows ne dispose pas de ces compilateurs par défaut ; Rtools les fournit. La plupart du temps vous ne le remarquerez pas, mais sans lui certaines installations échouent avec une erreur du type *« Rtools is required to build R packages »*.
+:::
+
+::: {.callout .tip}
+::: en
+**Mac and Linux users:** you do not need Rtools. On macOS, the equivalent is the *Xcode Command Line Tools*; install them only if a package installation asks for them (in the Terminal: `xcode-select --install`).
+:::
+::: fr
+**Utilisateurs Mac et Linux :** Rtools n'est pas nécessaire. Sur macOS, l'équivalent est *Xcode Command Line Tools* ; installez-les seulement si l'installation d'un package les demande (dans le Terminal : `xcode-select --install`).
+:::
+:::
+
+## [Step 1 — Install R]{.en}[Étape 1 — Installer R]{.fr} {#install-r}
+
+::: en
+1. Go to the official website of R, **CRAN**: <https://cran.r-project.org>
+2. Click **Download R for Windows** (or macOS / Linux).
+3. Windows: click **base**, then **Download R-4.x.x for Windows**. macOS: choose the `.pkg` that matches your processor (*arm64* for Apple M1/M2/M3/M4 chips, *x86_64* for older Intel Macs).
+4. Run the downloaded file and accept all the default options (*Next, Next, …, Finish*).
+
+**Always install the latest version** of R. Note the version number (e.g. 4.5.1): you will need it for Rtools.
+:::
+::: fr
+1. Allez sur le site officiel de R, le **CRAN** : <https://cran.r-project.org>
+2. Cliquez sur **Download R for Windows** (ou macOS / Linux).
+3. Windows : cliquez sur **base**, puis **Download R-4.x.x for Windows**. macOS : choisissez le fichier `.pkg` correspondant à votre processeur (*arm64* pour les puces Apple M1/M2/M3/M4, *x86_64* pour les anciens Mac Intel).
+4. Lancez le fichier téléchargé et acceptez toutes les options par défaut (*Suivant, Suivant, …, Terminer*).
+
+**Installez toujours la dernière version** de R. Notez le numéro de version (ex. 4.5.1) : il servira pour Rtools.
+:::
+
+## [Step 2 — Install Rtools (Windows)]{.en}[Étape 2 — Installer Rtools (Windows)]{.fr} {#install-rtools}
+
+::: en
+1. Go to <https://cran.r-project.org/bin/windows/Rtools/>
+2. Choose the Rtools version that **matches the first two digits of your R version**: R 4.4.x → *Rtools44*, R 4.5.x → *Rtools45*, and so on.
+3. Download the installer (the large file, about 300–500 MB) and run it with the default options.
+:::
+::: fr
+1. Allez sur <https://cran.r-project.org/bin/windows/Rtools/>
+2. Choisissez la version de Rtools qui **correspond aux deux premiers chiffres de votre version de R** : R 4.4.x → *Rtools44*, R 4.5.x → *Rtools45*, etc.
+3. Téléchargez l'installateur (fichier volumineux, environ 300 à 500 Mo) et lancez-le avec les options par défaut.
+:::
+
+::: {.callout .warning}
+::: en
+**Slow internet?** Rtools is large. If your connection is limited, you can skip it for now: nothing in sessions 0–7 needs it. Come back to it before Session 8.
+:::
+::: fr
+**Connexion lente ?** Rtools est volumineux. Si votre connexion est limitée, vous pouvez le reporter : rien dans les séances 0 à 7 n'en a besoin. Installez-le avant la séance 8.
+:::
+:::
+
+## [Step 3 — Install RStudio]{.en}[Étape 3 — Installer RStudio]{.fr} {#install-rstudio}
+
+::: en
+1. Go to <https://posit.co/download/rstudio-desktop/> (Posit is the company that makes RStudio; RStudio Desktop is free).
+2. R is already installed (step 1), so download **RStudio Desktop** for your system and install it with the default options.
+3. From now on, **always open RStudio, not R**. RStudio starts R for you in the background.
+:::
+::: fr
+1. Allez sur <https://posit.co/download/rstudio-desktop/> (Posit est l'entreprise qui développe RStudio ; RStudio Desktop est gratuit).
+2. R est déjà installé (étape 1) : téléchargez **RStudio Desktop** pour votre système et installez-le avec les options par défaut.
+3. Désormais, **ouvrez toujours RStudio, pas R**. RStudio démarre R pour vous en arrière-plan.
+:::
+
+### [Check that everything works]{.en}[Vérifier que tout fonctionne]{.fr}
+
+::: en
+Open RStudio. In the **Console** pane (bottom-left), click after the `>` sign, type the line below and press **Enter**:
+:::
+::: fr
+Ouvrez RStudio. Dans le panneau **Console** (en bas à gauche), cliquez après le signe `>`, tapez la ligne ci-dessous et appuyez sur **Entrée** :
+:::
+
+```{r, eval=FALSE}
+R.version.string        # which version of R is RStudio using?
+```
+
+```{r, echo=FALSE}
+cat('[1] "R version 4.5.1 (2025-06-13 ucrt)"   # (your version may differ)')
+```
+
+```{r, eval=FALSE}
+Sys.which("make")       # Windows only: is Rtools found?
+# a path such as "C:\\rtools45\\usr\\bin\\make.exe" means YES
+# ""  (empty) means Rtools is not installed or not found
+```
+
+## [A tour of RStudio]{.en}[Visite de RStudio]{.fr} {#tour}
+
+`r fig_svg("rstudio-panes")`
+
+::: en
+RStudio has four panes. The **Script** pane only appears when you open a script: *File → New File → R Script* (shortcut **Ctrl + Shift + N**).
+
+| Pane | What it is for |
+|---|---|
+| 1 · Source / Script | Write your code and **save** it in a `.R` file. This is your lab notebook. |
+| 2 · Console | R itself. Code runs here; results are printed here. Not saved. |
+| 3 · Environment | Lists the objects R holds in memory (your data, results). |
+| 4 · Files / Plots / Packages / Help | Your project's files, your graphs, installed packages, help pages. |
+
+**Golden rule:** write everything in a **script** (pane 1) and run it from there with **Ctrl + Enter** (Mac: **Cmd + Enter**). The console is for quick tests only.
+:::
+::: fr
+RStudio possède quatre panneaux. Le panneau **Script** n'apparaît que lorsqu'un script est ouvert : *File → New File → R Script* (raccourci **Ctrl + Maj + N**).
+
+| Panneau | À quoi il sert |
+|---|---|
+| 1 · Source / Script | Écrire son code et l'**enregistrer** dans un fichier `.R`. C'est votre cahier de laboratoire. |
+| 2 · Console | R lui-même. Le code s'exécute ici ; les résultats s'affichent ici. Rien n'est enregistré. |
+| 3 · Environment | Liste les objets que R garde en mémoire (données, résultats). |
+| 4 · Files / Plots / Packages / Help | Fichiers du projet, graphiques, packages installés, pages d'aide. |
+
+**Règle d'or :** écrivez tout dans un **script** (panneau 1) et exécutez-le depuis là avec **Ctrl + Entrée** (Mac : **Cmd + Entrée**). La console sert seulement aux tests rapides.
+:::
+
+### [Two settings to change now]{.en}[Deux réglages à changer maintenant]{.fr}
+
+::: en
+*Tools → Global Options → General*:
+
+- **untick** "Restore .RData into workspace at startup";
+- set "Save workspace to .RData on exit" to **Never**.
+
+Why? Your results must always come from your **script**, never from objects left over from yesterday. This is what makes an analysis *reproducible*: anyone (including you in six months) can re-run the script and get the same numbers.
+:::
+::: fr
+*Tools → Global Options → General* :
+
+- **décochez** « Restore .RData into workspace at startup » ;
+- réglez « Save workspace to .RData on exit » sur **Never**.
+
+Pourquoi ? Vos résultats doivent toujours venir de votre **script**, jamais d'objets restés en mémoire depuis la veille. C'est ce qui rend une analyse *reproductible* : n'importe qui (y compris vous dans six mois) peut relancer le script et obtenir les mêmes chiffres.
+:::
+
+## [Create the course project]{.en}[Créer le projet du cours]{.fr} {#project}
+
+::: en
+An **RStudio project** is a folder that contains everything for one analysis: data, scripts, figures. When you open the project, R automatically "works" in that folder, so you can read files with short paths like `"data/seagrass_quadrats.csv"`.
+
+1. *File → New Project → New Directory → New Project*.
+2. Directory name: `R_course_reef`; choose where to put it (e.g. *Documents*); click **Create Project**.
+3. In the **Files** pane, click **New Folder** three times to create: `data`, `scripts`, `outputs`.
+4. Download the course data below, unzip it, and put the 4 CSV files in the `data` folder.
+:::
+::: fr
+Un **projet RStudio** est un dossier qui contient tout ce qui concerne une analyse : données, scripts, figures. Lorsque le projet est ouvert, R « travaille » automatiquement dans ce dossier ; on peut donc lire des fichiers avec des chemins courts comme `"data/seagrass_quadrats.csv"`.
+
+1. *File → New Project → New Directory → New Project*.
+2. Nom du dossier : `R_course_reef` ; choisissez son emplacement (ex. *Documents*) ; cliquez sur **Create Project**.
+3. Dans le panneau **Files**, cliquez trois fois sur **New Folder** pour créer : `data`, `scripts`, `outputs`.
+4. Téléchargez les données du cours ci-dessous, décompressez-les et placez les 4 fichiers CSV dans le dossier `data`.
+:::
+
+`r dl("r_course_data.zip", "r_course_data.zip")`
+
+```
+R_course_reef/
+├── R_course_reef.Rproj      <- double-click this file to open the project
+├── data/
+│   ├── seagrass_quadrats.csv
+│   ├── seagrass_messy.csv
+│   ├── coral_pit_example.csv
+│   └── coral_cover_raw.csv
+├── scripts/                 <- your .R scripts (one per session)
+└── outputs/                 <- figures and tables you will produce
+```
+
+::: en
+Check in the console that R "sees" the files:
+:::
+::: fr
+Vérifiez dans la console que R « voit » les fichiers :
+:::
+
+```{r, eval=FALSE}
+list.files("data")      # lists the files in the data folder of the project
+```
+
+```{r, echo=FALSE}
+print(list.files("data", pattern = "\\.csv$"))
+```
+
+::: {.callout .warning}
+::: en
+If you get `character(0)`, R does not find the folder: either the project is not open (look at the top-right corner of RStudio: it should say `R_course_reef`), or the CSV files are inside a sub-folder (e.g. `data/r_course_data/`). Move them directly into `data`.
+:::
+::: fr
+Si vous obtenez `character(0)`, R ne trouve pas le dossier : soit le projet n'est pas ouvert (regardez en haut à droite de RStudio : il doit afficher `R_course_reef`), soit les fichiers CSV sont dans un sous-dossier (ex. `data/r_course_data/`). Déplacez-les directement dans `data`.
+:::
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+::: application
+::: en
+### Application work 0
+
+1. Make sure R, RStudio (and Rtools on Windows) are installed.
+2. Open your project `R_course_reef`. Create a new script and save it as `scripts/s00_setup.R`.
+3. In the script, write the two lines below, then run them one by one with **Ctrl + Enter**:
+   `R.version.string` and `list.files("data")`.
+4. Answer the quiz using what you see on your screen and what you read in this session.
+:::
+::: fr
+### Travail d'application 0
+
+1. Vérifiez que R, RStudio (et Rtools sous Windows) sont installés.
+2. Ouvrez votre projet `R_course_reef`. Créez un nouveau script et enregistrez-le sous `scripts/s00_setup.R`.
+3. Dans le script, écrivez les deux lignes ci-dessous, puis exécutez-les une par une avec **Ctrl + Entrée** :
+   `R.version.string` et `list.files("data")`.
+4. Répondez au quiz à partir de ce que vous voyez à l'écran et de ce que vous avez lu dans cette séance.
+:::
+:::
+
+```{r quiz00, echo=FALSE}
+quiz("s00", list(
+  q_mcq("Which program actually performs the calculations?",
+        "Quel logiciel effectue réellement les calculs ?",
+        c("RStudio", "R", "Rtools", "Excel"),
+        c("RStudio", "R", "Rtools", "Excel"), correct = 2),
+  q_mcq("What is Rtools used for?",
+        "À quoi sert Rtools ?",
+        c("Drawing nicer graphs", "Compiling packages from source code on Windows",
+          "Opening Excel files", "Translating R into French"),
+        c("Faire de plus beaux graphiques", "Compiler des packages depuis le code source sous Windows",
+          "Ouvrir des fichiers Excel", "Traduire R en français"), correct = 2),
+  q_mcq("In which pane should you write the code you want to keep?",
+        "Dans quel panneau faut-il écrire le code que l'on veut garder ?",
+        c("Console", "Environment", "Source / Script", "Help"),
+        c("Console", "Environment", "Source / Script", "Help"), correct = 3),
+  q_mcq("Which keyboard shortcut runs the current line of a script (Windows)?",
+        "Quel raccourci exécute la ligne courante d'un script (Windows) ?",
+        c("Ctrl + S", "Ctrl + Enter", "Alt + F4", "Ctrl + Z"),
+        c("Ctrl + S", "Ctrl + Entrée", "Alt + F4", "Ctrl + Z"), correct = 2),
+  q_num("How many CSV files does list.files(\"data\") show in your project?",
+        "Combien de fichiers CSV list.files(\"data\") affiche-t-il dans votre projet ?",
+        answer = 4, tol = 0),
+  q_text("What is the exact file name of the raw coral dataset (with its extension)?",
+         "Quel est le nom exact du fichier de données brutes sur les coraux (avec son extension) ?",
+         c("coral_cover_raw.csv"))
+))
+```

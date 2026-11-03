@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" role="img" aria-label="R, Rtools and RStudio roles" font-family="Source Sans 3, Arial, sans-serif">
+<defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5d6b75"/></marker></defs>
+<rect x="10" y="40" width="250" height="230" rx="14" fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"/>
+<rect x="305" y="40" width="250" height="230" rx="14" fill="#f6f1e7" stroke="#b08a4a" stroke-width="2"/>
+<rect x="600" y="40" width="250" height="230" rx="14" fill="#eef5ea" stroke="#4a7d3a" stroke-width="2"/>
+<circle cx="40" cy="40" r="20" fill="#1b7f8c"/><text x="40" y="47" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">1</text>
+<circle cx="335" cy="40" r="20" fill="#b08a4a"/><text x="335" y="47" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">2</text>
+<circle cx="630" cy="40" r="20" fill="#4a7d3a"/><text x="630" y="47" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">3</text>
+<text x="135" y="85" text-anchor="middle" font-size="30" font-weight="700" fill="#0b3d5c">R</text>
+<text x="430" y="85" text-anchor="middle" font-size="30" font-weight="700" fill="#0b3d5c">Rtools</text>
+<text x="725" y="85" text-anchor="middle" font-size="30" font-weight="700" fill="#0b3d5c">RStudio</text>
+<!-- engine -->
+<g transform="translate(95,100)" fill="none" stroke="#1b7f8c" stroke-width="3"><rect x="10" y="10" width="60" height="40" rx="5"/><path d="M0 22h10M70 22h10M25 10v-8h30v8M40 50v10"/><circle cx="40" cy="30" r="9"/></g>
+<!-- toolbox -->
+<g transform="translate(390,100)" fill="none" stroke="#b08a4a" stroke-width="3"><rect x="0" y="18" width="80" height="44" rx="5"/><path d="M28 18v-10h24v10M0 36h80"/><rect x="34" y="31" width="12" height="10" fill="#b08a4a"/></g>
+<!-- dashboard -->
+<g transform="translate(680,100)" fill="none" stroke="#4a7d3a" stroke-width="3"><rect x="0" y="4" width="90" height="56" rx="5"/><path d="M45 4v56M0 32h45"/><path d="M52 50l10-12 8 6 12-18" stroke-width="2.5"/></g>
+<text class="en" x="135" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="135">The language and the</tspan><tspan x="135" dy="21">"engine" that does every</tspan><tspan x="135" dy="21">calculation</tspan></text>
+<text class="fr" x="135" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="135">Le langage et le « moteur »</tspan><tspan x="135" dy="21">qui fait tous</tspan><tspan x="135" dy="21">les calculs</tspan></text>
+<text class="en" x="430" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="430">Windows only: tools to</tspan><tspan x="430" dy="21">build packages from</tspan><tspan x="430" dy="21">source code</tspan></text>
+<text class="fr" x="430" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="430">Windows seulement : outils</tspan><tspan x="430" dy="21">pour compiler des packages</tspan><tspan x="430" dy="21">depuis le code source</tspan></text>
+<text class="en" x="725" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="725">The "dashboard" where you</tspan><tspan x="725" dy="21">write scripts, see results,</tspan><tspan x="725" dy="21">plots and files</tspan></text>
+<text class="fr" x="725" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="725">Le « tableau de bord » où l'on</tspan><tspan x="725" dy="21">écrit les scripts, voit résultats,</tspan><tspan x="725" dy="21">graphiques et fichiers</tspan></text>
+<path d="M262 155 H300" stroke="#5d6b75" stroke-width="2" marker-end="url(#ar1)"/>
+<path d="M557 155 H595" stroke="#5d6b75" stroke-width="2" marker-end="url(#ar1)"/>
+<text class="en" x="430" y="310" text-anchor="middle" font-size="16" fill="#5d6b75">Install in this order: 1 → 2 → 3. RStudio needs R; R does not need RStudio.</text>
+<text class="fr" x="430" y="310" text-anchor="middle" font-size="16" fill="#5d6b75">Installer dans cet ordre : 1 → 2 → 3. RStudio a besoin de R ; R n'a pas besoin de RStudio.</text>
+</svg>

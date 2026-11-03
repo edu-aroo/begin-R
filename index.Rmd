@@ -1,0 +1,85 @@
+---
+title: "[R for absolute beginners]{.en}[R pour grands débutants]{.fr}"
+pagetitle: "R course · Home"
+subtitle: "[Coral reef & seagrass edition]{.en}[Édition récifs coralliens & herbiers]{.fr}"
+---
+
+<!--
+  index.Rmd = the HOME page (becomes index.html).
+  ::: en  ...  :::   -> a block shown only in English (class "en")
+  ::: fr  ...  :::   -> a block shown only in French  (class "fr")
+  [text]{.en}        -> the same thing for a few words inside a sentence
+  The language button in the navbar (course.js, PART 3) switches between them.
+-->
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")   # helper functions: quiz(), fig_svg(), dl()
+```
+
+<!-- course.js fills this empty box with the student's progress table -->
+<div id="dashboard"></div>
+
+## [Welcome]{.en}[Bienvenue]{.fr} {.no-track}
+
+::: en
+This course takes you from **zero** (R is not even installed) to a complete, reproducible analysis of coral reef and seagrass survey data. It is designed for **self-study**: every session explains the reasoning, shows the code *and* its result, and ends with an **application exercise** followed by a **quiz** where you enter the numbers you obtained.
+
+You only need a computer (Windows, macOS or Linux) and about **26 hours** in total, spread over 10 sessions.
+:::
+
+::: fr
+Ce cours vous emmène de **zéro** (R n'est même pas installé) jusqu'à une analyse complète et reproductible de données de suivi des récifs coralliens et des herbiers marins. Il est conçu pour l'**auto-formation** : chaque séance explique le raisonnement, montre le code *et* son résultat, et se termine par un **travail d'application** suivi d'un **quiz** où vous saisissez les valeurs obtenues.
+
+Il vous faut seulement un ordinateur (Windows, macOS ou Linux) et environ **26 heures** au total, réparties en 10 séances.
+:::
+
+## [How to use this course]{.en}[Comment utiliser ce cours]{.fr} {.no-track}
+
+::: en
+1. **Follow the sessions in order.** Each one builds on the previous one.
+2. **Type the code yourself** in RStudio rather than only copying it: your fingers learn too. The *Copy* button is there for long blocks.
+3. At the end of each section, click **"Mark this section as done"**. Your progress is saved automatically: next time you log in, you go back exactly where you stopped.
+4. Do the **application work** in your own script, then enter your results in the **quiz**. You can retry as many times as you want; your best score is kept. Aim for at least 70 % before moving on.
+5. The **solution** of each exercise unlocks after your first quiz attempt. Look at it only after a real try.
+:::
+
+::: fr
+1. **Suivez les séances dans l'ordre.** Chacune s'appuie sur la précédente.
+2. **Tapez le code vous-même** dans RStudio au lieu de seulement le copier : vos doigts apprennent aussi. Le bouton *Copier* sert pour les longs blocs.
+3. À la fin de chaque section, cliquez sur **« Marquer cette section comme terminée »**. Votre progression est enregistrée automatiquement : à la prochaine connexion, vous revenez exactement là où vous vous êtes arrêté.
+4. Faites le **travail d'application** dans votre propre script, puis saisissez vos résultats dans le **quiz**. Vous pouvez recommencer autant de fois que vous voulez ; votre meilleur score est conservé. Visez au moins 70 % avant de passer à la suite.
+5. La **solution** de chaque exercice se débloque après votre première tentative au quiz. Ne la consultez qu'après un vrai essai.
+:::
+
+## [Programme and suggested schedule]{.en}[Programme et calendrier conseillé]{.fr} {.no-track}
+
+::: en
+Suggested pace: **2 sessions per week → 5 weeks**. Durations include reading, typing the examples and the application work.
+:::
+::: fr
+Rythme conseillé : **2 séances par semaine → 5 semaines**. Les durées incluent la lecture, la saisie des exemples et le travail d'application.
+:::
+
+<div class="session-grid">
+<div class="session-card"><b>0 · 1.5 h</b><br><span class="en">Install R, Rtools, RStudio; tour of RStudio; create a project</span><span class="fr">Installer R, Rtools, RStudio ; visite de RStudio ; créer un projet</span></div>
+<div class="session-card"><b>1 · 2 h</b><br><span class="en">R as a calculator, objects, functions, scripts, help</span><span class="fr">R comme calculatrice, objets, fonctions, scripts, aide</span></div>
+<div class="session-card"><b>2 · 2.5 h</b><br><span class="en">Vectors, data types, indexing, missing values, factors</span><span class="fr">Vecteurs, types de données, indexation, valeurs manquantes, facteurs</span></div>
+<div class="session-card"><b>3 · 2.5 h</b><br><span class="en">Data frames, importing a CSV file, exploring data</span><span class="fr">Data frames, importer un fichier CSV, explorer les données</span></div>
+<div class="session-card"><b>4 · 3 h</b><br><span class="en">Filtering rows, selecting columns, cleaning field data</span><span class="fr">Filtrer des lignes, sélectionner des colonnes, nettoyer des données de terrain</span></div>
+<div class="session-card"><b>5 · 2.5 h</b><br><span class="en">Mean, SD, SE; statistics per site and per MPA status</span><span class="fr">Moyenne, écart-type, erreur standard ; statistiques par site et statut d'AMP</span></div>
+<div class="session-card"><b>6 · 3 h</b><br><span class="en">Histograms, boxplots, barplots with error bars, saving figures</span><span class="fr">Histogrammes, boxplots, barplots avec barres d'erreur, enregistrer les figures</span></div>
+<div class="session-card"><b>7 · 2.5 h</b><br><span class="en">if / ifelse, for loops, writing functions (PIT coral cover)</span><span class="fr">if / ifelse, boucles for, écrire des fonctions (couverture corallienne PIT)</span></div>
+<div class="session-card"><b>8 · 3 h</b><br><span class="en">Packages; first steps with dplyr and ggplot2</span><span class="fr">Packages ; premiers pas avec dplyr et ggplot2</span></div>
+<div class="session-card"><b>9 · 4 h</b><br><span class="en">Final project: raw coral data → database → mean ± SD per MPA → graph</span><span class="fr">Projet final : données brutes → base de données → moyenne ± ET par AMP → graphique</span></div>
+</div>
+
+## [Course data]{.en}[Données du cours]{.fr} {.no-track}
+
+::: en
+All datasets are **simulated** for teaching. Site and MPA names are invented and the values do not describe any real reef or seagrass bed. You will download them in Session 0.
+:::
+::: fr
+Tous les jeux de données sont **simulés** pour l'enseignement. Les noms de sites et d'AMP sont inventés et les valeurs ne décrivent aucun récif ni herbier réel. Vous les téléchargerez lors de la séance 0.
+:::
+
+`r dl("r_course_data.zip", "r_course_data.zip (4 CSV)")`

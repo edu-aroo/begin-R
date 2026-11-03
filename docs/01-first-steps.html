@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R course · Session 1</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Reef & Seagrass</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sessions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-cleaning.html">4 · Cleaning data</a>
+    </li>
+    <li>
+      <a href="05-statistics.html">5 · Statistics</a>
+    </li>
+    <li>
+      <a href="06-graphics.html">6 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="07-functions.html">7 · Functions &amp; loops</a>
+    </li>
+    <li>
+      <a href="08-tidyverse.html">8 · dplyr &amp; ggplot2</a>
+    </li>
+    <li>
+      <a href="09-final-project.html">9 · Final project</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">1 · First steps: objects
+&amp; functions</span><span class="fr">1 · Premiers pas : objets et
+fonctions</span></h1>
+<h3 class="subtitle">~2 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>use R as a calculator and understand the order of operations;</li>
+<li>store values in <strong>objects</strong> with <code>&lt;-</code> and
+re-use them;</li>
+<li>call <strong>functions</strong> with <strong>arguments</strong>, and
+read a help page;</li>
+<li>write, comment, save and re-run a <strong>script</strong>.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>utiliser R comme une calculatrice et comprendre l’ordre des
+opérations ;</li>
+<li>stocker des valeurs dans des <strong>objets</strong> avec
+<code>&lt;-</code> et les réutiliser ;</li>
+<li>appeler des <strong>fonctions</strong> avec des
+<strong>arguments</strong>, et lire une page d’aide ;</li>
+<li>écrire, commenter, enregistrer et relancer un
+<strong>script</strong>.</li>
+</ul>
+</div>
+</div>
+<div class="callout tip">
+<div class="en">
+<p>Open your project <code>R_course_reef</code>, create a new script
+(<strong>Ctrl + Shift + N</strong>) and save it as
+<code>scripts/s01_first_steps.R</code>. Type every example of this page
+in it and run each line with <strong>Ctrl + Enter</strong>.</p>
+</div>
+<div class="fr">
+<p>Ouvrez votre projet <code>R_course_reef</code>, créez un nouveau
+script (<strong>Ctrl + Maj + N</strong>) et enregistrez-le sous
+<code>scripts/s01_first_steps.R</code>. Tapez chaque exemple de cette
+page dedans et exécutez chaque ligne avec <strong>Ctrl +
+Entrée</strong>.</p>
+</div>
+</div>
+<div id="calculator" class="section level2">
+<h2><span class="en">R as a calculator</span><span class="fr">R comme
+calculatrice</span></h2>
+<div class="en">
+<p>In the boxes below, the grey box with a coloured left border is the
+<strong>code</strong> you type; the box underneath, starting with
+<code>#&gt;</code>, is what R <strong>answers</strong>. The
+<code>[1]</code> means “first value of the result”.</p>
+</div>
+<div class="fr">
+<p>Dans les cadres ci-dessous, le cadre gris avec une bordure colorée à
+gauche est le <strong>code</strong> que vous tapez ; le cadre en
+dessous, commençant par <code>#&gt;</code>, est la
+<strong>réponse</strong> de R. Le <code>[1]</code> signifie « première
+valeur du résultat ».</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="dv">12</span> <span class="sc">+</span> <span class="dv">30</span>        <span class="co"># addition</span></span></code></pre></div>
+<pre><code>#&gt; [1] 42</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="dv">100</span> <span class="sc">-</span> <span class="dv">37</span>       <span class="co"># subtraction</span></span></code></pre></div>
+<pre><code>#&gt; [1] 63</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="dv">4</span> <span class="sc">*</span> <span class="dv">25</span>         <span class="co"># multiplication</span></span></code></pre></div>
+<pre><code>#&gt; [1] 100</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="dv">87</span> <span class="sc">/</span> <span class="fl">0.25</span>      <span class="co"># division: 87 shoots counted in a 0.25 m2 quadrat -&gt; shoots per m2</span></span></code></pre></div>
+<pre><code>#&gt; [1] 348</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">3</span>            <span class="co"># power: 2 x 2 x 2</span></span></code></pre></div>
+<pre><code>#&gt; [1] 8</code></pre>
+<div class="en">
+<p>R follows the usual <strong>order of operations</strong>: powers,
+then multiplication/division, then addition/subtraction. Use
+<strong>parentheses</strong> to be explicit.</p>
+</div>
+<div class="fr">
+<p>R respecte l’<strong>ordre habituel des opérations</strong> :
+puissances, puis multiplication/division, puis addition/soustraction.
+Utilisez des <strong>parenthèses</strong> pour être explicite.</p>
+</div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="dv">10</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> <span class="dv">2</span>      <span class="co"># = 10 + 10</span></span></code></pre></div>
+<pre><code>#&gt; [1] 20</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>(<span class="dv">10</span> <span class="sc">+</span> <span class="dv">5</span>) <span class="sc">*</span> <span class="dv">2</span>    <span class="co"># = 15 * 2</span></span></code></pre></div>
+<pre><code>#&gt; [1] 30</code></pre>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Field example.</strong> On a 20 m transect, the tape crosses
+live hard coral over a total of 7.4 m. The percentage of hard coral
+cover is <code>7.4 / 20 * 100</code>.</p>
+</div>
+<div class="fr">
+<p><strong>Exemple de terrain.</strong> Sur un transect de 20 m, le
+ruban passe au-dessus de corail dur vivant sur 7,4 m au total. Le
+pourcentage de couverture en corail dur est
+<code>7.4 / 20 * 100</code>.</p>
+</div>
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fl">7.4</span> <span class="sc">/</span> <span class="dv">20</span> <span class="sc">*</span> <span class="dv">100</span></span></code></pre></div>
+<pre><code>#&gt; [1] 37</code></pre>
+<div class="callout warning">
+<div class="en">
+<p>R uses the <strong>dot</strong> as decimal separator: write
+<code>7.4</code>, never <code>7,4</code>. A comma separates the
+arguments of a function (see below).</p>
+</div>
+<div class="fr">
+<p>R utilise le <strong>point</strong> comme séparateur décimal :
+écrivez <code>7.4</code>, jamais <code>7,4</code>. La virgule sépare les
+arguments d’une fonction (voir plus bas).</p>
+</div>
+</div>
+</div>
+<div id="objects" class="section level2">
+<h2><span class="en">Objects: giving a name to a value</span><span
+class="fr">Objets : donner un nom à une valeur</span></h2>
+<div class="en">
+<p>Typing the same number again and again is error-prone. Instead, store
+it in an <strong>object</strong> with the <strong>assignment
+arrow</strong> <code>&lt;-</code> (type <code>&lt;</code> then
+<code>-</code>, or use the shortcut <strong>Alt + −</strong>). Read
+<code>x &lt;- 5</code> as “x <strong>gets</strong> 5”.</p>
+</div>
+<div class="fr">
+<p>Taper le même nombre encore et encore est source d’erreurs. Il vaut
+mieux le stocker dans un <strong>objet</strong> avec la <strong>flèche
+d’affectation</strong> <code>&lt;-</code> (tapez <code>&lt;</code> puis
+<code>-</code>, ou utilisez le raccourci <strong>Alt + −</strong>).
+Lisez <code>x &lt;- 5</code> comme « x <strong>reçoit</strong> 5 ».</p>
+</div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>quadrat_area <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fl">0.5</span>      <span class="co"># a 50 x 50 cm quadrat, in m2</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>shoots       <span class="ot">&lt;-</span> <span class="dv">87</span>             <span class="co"># number of seagrass shoots counted</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>density      <span class="ot">&lt;-</span> shoots <span class="sc">/</span> quadrat_area</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>density                        <span class="co"># typing the name prints the value</span></span></code></pre></div>
+<pre><code>#&gt; [1] 348</code></pre>
+<div class="en">
+<p>Nothing is printed when you create an object: R stores it silently,
+and the object appears in the <strong>Environment</strong> pane. If you
+assign a new value to the same name, the old one is
+<strong>replaced</strong> without warning.</p>
+</div>
+<div class="fr">
+<p>Rien ne s’affiche lors de la création d’un objet : R le stocke en
+silence, et l’objet apparaît dans le panneau
+<strong>Environment</strong>. Si vous affectez une nouvelle valeur au
+même nom, l’ancienne est <strong>remplacée</strong> sans
+avertissement.</p>
+</div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>shoots <span class="ot">&lt;-</span> <span class="dv">112</span>                  <span class="co"># a new count replaces the old one</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>shoots <span class="sc">/</span> quadrat_area          <span class="co"># density must be recalculated!</span></span></code></pre></div>
+<pre><code>#&gt; [1] 448</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>density                        <span class="co"># still the OLD value: objects do not update by themselves</span></span></code></pre></div>
+<pre><code>#&gt; [1] 348</code></pre>
+<div id="naming-rulesrègles-de-nommage" class="section level3">
+<h3><span class="en">Naming rules</span><span class="fr">Règles de
+nommage</span></h3>
+<div class="en">
+<ul>
+<li>Names may contain letters, numbers, <code>_</code> and
+<code>.</code>, but <strong>must start with a letter</strong>:
+<code>site1</code> ✔, <code>1site</code> ✘.</li>
+<li>No spaces: <code>coral cover</code> ✘ → use <code>coral_cover</code>
+✔ (this “snake_case” style is recommended).</li>
+<li>R is <strong>case-sensitive</strong>: <code>Cover</code>,
+<code>cover</code> and <code>COVER</code> are three different
+objects.</li>
+<li>Choose explicit names: <code>mean_cover_inside</code> is better than
+<code>m1</code>.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>Les noms peuvent contenir des lettres, des chiffres, <code>_</code>
+et <code>.</code>, mais <strong>doivent commencer par une
+lettre</strong> : <code>site1</code> ✔, <code>1site</code> ✘.</li>
+<li>Pas d’espace : <code>coral cover</code> ✘ → utilisez
+<code>coral_cover</code> ✔ (ce style « snake_case » est
+recommandé).</li>
+<li>R est <strong>sensible à la casse</strong> : <code>Cover</code>,
+<code>cover</code> et <code>COVER</code> sont trois objets
+différents.</li>
+<li>Choisissez des noms explicites : <code>mean_cover_inside</code> vaut
+mieux que <code>m1</code>.</li>
+</ul>
+</div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">ls</span>()                 <span class="co"># lists the objects in memory (same as the Environment pane)</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;density&quot;      &quot;dl&quot;           &quot;fig_svg&quot;      &quot;q_mcq&quot;        &quot;q_num&quot;       
+#&gt; [6] &quot;q_text&quot;       &quot;quadrat_area&quot; &quot;quiz&quot;         &quot;shoots&quot;</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">rm</span>(density)          <span class="co"># removes an object</span></span></code></pre></div>
+</div>
+</div>
+<div id="functions" class="section level2">
+<h2><span class="en">Functions and arguments</span><span
+class="fr">Fonctions et arguments</span></h2>
+<div class="en">
+<p>A <strong>function</strong> is a ready-made tool: you give it inputs
+(<strong>arguments</strong>) inside parentheses, it returns a result.
+Arguments are separated by <strong>commas</strong> and can be named.</p>
+</div>
+<div class="fr">
+<p>Une <strong>fonction</strong> est un outil prêt à l’emploi : on lui
+donne des entrées (<strong>arguments</strong>) entre parenthèses, elle
+renvoie un résultat. Les arguments sont séparés par des
+<strong>virgules</strong> et peuvent être nommés.</p>
+</div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">144</span>)                   <span class="co"># square root</span></span></code></pre></div>
+<pre><code>#&gt; [1] 12</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">348.6667</span>)             <span class="co"># rounds to the nearest whole number</span></span></code></pre></div>
+<pre><code>#&gt; [1] 349</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">348.6667</span>, <span class="at">digits =</span> <span class="dv">1</span>) <span class="co"># the argument &quot;digits&quot; sets the number of decimals</span></span></code></pre></div>
+<pre><code>#&gt; [1] 348.7</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">348.6667</span>, <span class="dv">1</span>)          <span class="co"># same: arguments can be given by position</span></span></code></pre></div>
+<pre><code>#&gt; [1] 348.7</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">100</span>, <span class="at">base =</span> <span class="dv">10</span>)         <span class="co"># logarithm in base 10</span></span></code></pre></div>
+<pre><code>#&gt; [1] 2</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">exp</span>(<span class="dv">1</span>)                      <span class="co"># the number e</span></span></code></pre></div>
+<pre><code>#&gt; [1] 2.718282</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="fu">abs</span>(<span class="sc">-</span><span class="fl">3.2</span>)                   <span class="co"># absolute value</span></span></code></pre></div>
+<pre><code>#&gt; [1] 3.2</code></pre>
+<div class="en">
+<p>Functions can be <strong>nested</strong>: R evaluates from the inside
+out.</p>
+</div>
+<div class="fr">
+<p>Les fonctions peuvent être <strong>imbriquées</strong> : R évalue de
+l’intérieur vers l’extérieur.</p>
+</div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sqrt</span>(<span class="dv">2</span>), <span class="dv">3</span>)           <span class="co"># first sqrt(2) = 1.41421..., then round(..., 3)</span></span></code></pre></div>
+<pre><code>#&gt; [1] 1.414</code></pre>
+<div id="getting-helpobtenir-de-laide" class="section level3">
+<h3><span class="en">Getting help</span><span class="fr">Obtenir de
+l’aide</span></h3>
+<div class="en">
+<p>Every function has a help page. Type <code>?</code> followed by the
+name; the page opens in the <strong>Help</strong> pane. The most useful
+parts are <strong>Usage</strong> (the arguments and their default
+values), <strong>Arguments</strong> and, at the bottom,
+<strong>Examples</strong>.</p>
+</div>
+<div class="fr">
+<p>Chaque fonction possède une page d’aide. Tapez <code>?</code> suivi
+du nom ; la page s’ouvre dans le panneau <strong>Help</strong>. Les
+parties les plus utiles sont <strong>Usage</strong> (les arguments et
+leurs valeurs par défaut), <strong>Arguments</strong> et, tout en bas,
+<strong>Examples</strong>.</p>
+</div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a>?round                 <span class="co"># help page of round()</span></span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a><span class="fu">help</span>(<span class="st">&quot;log&quot;</span>)            <span class="co"># same thing</span></span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a>??<span class="st">&quot;standard deviation&quot;</span> <span class="co"># search all help pages for a topic</span></span></code></pre></div>
+</div>
+</div>
+<div id="scripts" class="section level2">
+<h2><span class="en">Scripts and comments</span><span class="fr">Scripts
+et commentaires</span></h2>
+<div class="en">
+<p>Everything after a <code>#</code> is a <strong>comment</strong>: R
+ignores it. Comments explain <em>why</em> you do something. A good
+script starts with a header and is organised in sections. In RStudio,
+<strong>Ctrl + Shift + R</strong> inserts a section heading, which you
+can then find in the outline (icon at the top-right of the script
+pane).</p>
+</div>
+<div class="fr">
+<p>Tout ce qui suit un <code>#</code> est un
+<strong>commentaire</strong> : R l’ignore. Les commentaires expliquent
+<em>pourquoi</em> on fait quelque chose. Un bon script commence par un
+en-tête et est organisé en sections. Dans RStudio, <strong>Ctrl + Maj +
+R</strong> insère un titre de section, que l’on retrouve ensuite dans le
+sommaire (icône en haut à droite du panneau script).</p>
+</div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="co"># ==============================================================</span></span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a><span class="co"># Session 1 - First steps in R</span></span>
+<span id="cb43-3"><a href="#cb43-3" tabindex="-1"></a><span class="co"># Author : &lt;your name&gt;</span></span>
+<span id="cb43-4"><a href="#cb43-4" tabindex="-1"></a><span class="co"># Date   : 2026-11-03</span></span>
+<span id="cb43-5"><a href="#cb43-5" tabindex="-1"></a><span class="co"># ==============================================================</span></span>
+<span id="cb43-6"><a href="#cb43-6" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" tabindex="-1"></a><span class="co"># ---- 1. Seagrass density -------------------------------------</span></span>
+<span id="cb43-8"><a href="#cb43-8" tabindex="-1"></a>quadrat_area <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fl">0.5</span>    <span class="co"># m2</span></span>
+<span id="cb43-9"><a href="#cb43-9" tabindex="-1"></a>shoots <span class="ot">&lt;-</span> <span class="dv">87</span></span>
+<span id="cb43-10"><a href="#cb43-10" tabindex="-1"></a>shoots <span class="sc">/</span> quadrat_area        <span class="co"># shoots per m2</span></span></code></pre></div>
+<div class="en">
+<p>Useful keys: <strong>Ctrl + Enter</strong> runs the current line (or
+the selected lines); <strong>Ctrl + Shift + Enter</strong> runs the
+whole script; <strong>Ctrl + S</strong> saves; <strong>↑</strong> in the
+console recalls the previous command.</p>
+</div>
+<div class="fr">
+<p>Touches utiles : <strong>Ctrl + Entrée</strong> exécute la ligne
+courante (ou les lignes sélectionnées) ; <strong>Ctrl + Maj +
+Entrée</strong> exécute tout le script ; <strong>Ctrl + S</strong>
+enregistre ; <strong>↑</strong> dans la console rappelle la commande
+précédente.</p>
+</div>
+</div>
+<div id="errors" class="section level2">
+<h2><span class="en">Reading error messages</span><span class="fr">Lire
+les messages d’erreur</span></h2>
+<div class="en">
+<p>Errors are normal, even for experts. Read the message: it usually
+tells you what is wrong.</p>
+</div>
+<div class="fr">
+<p>Les erreurs sont normales, même pour les experts. Lisez le message :
+il dit généralement ce qui ne va pas.</p>
+</div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>Shoots <span class="sc">/</span> quadrat_area     <span class="co"># capital S: this object does not exist</span></span></code></pre></div>
+<pre><code>#&gt; Error in eval(expr, envir, enclos): object &#39;Shoots&#39; not found</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">3.456</span>, <span class="at">digit =</span> <span class="dv">1</span>)    <span class="co"># typo in the argument name (&quot;digits&quot;)</span></span></code></pre></div>
+<pre><code>#&gt; [1] 3.5</code></pre>
+<div class="callout warning">
+<div class="en">
+<p><strong>The <code>+</code> prompt.</strong> If the console shows
+<code>+</code> instead of <code>&gt;</code>, R is waiting for the end of
+an unfinished command (a missing <code>)</code> or <code>"</code>).
+Press <strong>Esc</strong> to cancel and correct your line.</p>
+</div>
+<div class="fr">
+<p><strong>L’invite <code>+</code>.</strong> Si la console affiche
+<code>+</code> au lieu de <code>&gt;</code>, R attend la fin d’une
+commande inachevée (une <code>)</code> ou un <code>"</code> manquant).
+Appuyez sur <strong>Échap</strong> pour annuler et corrigez votre
+ligne.</p>
+</div>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-1" class="section level3 en">
+<h3>Application work 1</h3>
+<p>In your script <code>scripts/s01_first_steps.R</code>, using
+<strong>objects</strong> (no number typed twice):</p>
+<ol style="list-style-type: decimal">
+<li>A seagrass quadrat of <strong>50 × 50 cm</strong> contains
+<strong>132 shoots</strong>. Compute the shoot density <strong>per
+m²</strong>.</li>
+<li>On a <strong>20 m</strong> transect, live hard coral was recorded
+over <strong>7.4 m</strong>. Compute the <strong>percentage</strong> of
+hard coral cover.</li>
+<li>The no-take zone of an MPA is a rectangle of <strong>1.8 km × 0.75
+km</strong>. Compute its area in <strong>km²</strong>, then in
+<strong>hectares</strong> (1 km² = 100 ha).</li>
+<li>Round the result of <code>sqrt(1000)</code> to <strong>2
+decimals</strong>.</li>
+<li>Answer the quiz with your results.</li>
+</ol>
+</div>
+<div id="travail-dapplication-1" class="section level3 fr">
+<h3>Travail d’application 1</h3>
+<p>Dans votre script <code>scripts/s01_first_steps.R</code>, en
+utilisant des <strong>objets</strong> (aucun nombre tapé deux fois)
+:</p>
+<ol style="list-style-type: decimal">
+<li>Un quadrat d’herbier de <strong>50 × 50 cm</strong> contient
+<strong>132 pousses</strong>. Calculez la densité de pousses <strong>par
+m²</strong>.</li>
+<li>Sur un transect de <strong>20 m</strong>, du corail dur vivant a été
+noté sur <strong>7,4 m</strong>. Calculez le
+<strong>pourcentage</strong> de couverture en corail dur.</li>
+<li>La zone de non-prélèvement d’une AMP est un rectangle de <strong>1,8
+km × 0,75 km</strong>. Calculez sa surface en <strong>km²</strong>, puis
+en <strong>hectares</strong> (1 km² = 100 ha).</li>
+<li>Arrondissez le résultat de <code>sqrt(1000)</code> à <strong>2
+décimales</strong>.</li>
+<li>Répondez au quiz avec vos résultats.</li>
+</ol>
+</div>
+</div>
+<div id="quiz-s01" class="quiz" data-quiz-id="s01"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gU2hvb3QgZGVuc2l0eSAoc2hvb3RzIHBlciBtwrIpPyIsImZyIjoiMS4gRGVuc2l0w6kgZGUgcG91c3NlcyAocG91c3NlcyBwYXIgbcKyKSA/IiwiYW5zd2VyIjo1MjgsInRvbCI6MC41LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gSGFyZCBjb3JhbCBjb3ZlciAoJSk/IiwiZnIiOiIyLiBDb3V2ZXJ0dXJlIGVuIGNvcmFpbCBkdXIgKCUpID8iLCJhbnN3ZXIiOjM3LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzYS4gQXJlYSBvZiB0aGUgbm8tdGFrZSB6b25lIChrbcKyKT8iLCJmciI6IjNhLiBTdXJmYWNlIGRlIGxhIHpvbmUgZGUgbm9uLXByw6lsw6h2ZW1lbnQgKGttwrIpID8iLCJhbnN3ZXIiOjEuMzUsInRvbCI6MC4wMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzYi4gQXJlYSBvZiB0aGUgbm8tdGFrZSB6b25lIChoYSk/IiwiZnIiOiIzYi4gU3VyZmFjZSBkZSBsYSB6b25lIGRlIG5vbi1wcsOpbMOodmVtZW50IChoYSkgPyIsImFuc3dlciI6MTM1LCJ0b2wiOjAuNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIHJvdW5kKHNxcnQoMTAwMCksIDIpID0gPyIsImZyIjoiNC4gcm91bmQoc3FydCgxMDAwKSwgMikgPSA/IiwiYW5zd2VyIjozMS42MiwidG9sIjowLjAwMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFdoaWNoIG9iamVjdCBuYW1lIGlzIHZhbGlkIGluIFI/IiwiZnIiOiI1LiBRdWVsIG5vbSBkJ29iamV0IGVzdCB2YWxpZGUgZGFucyBSID8iLCJvcHRpb25zX2VuIjpbIjJuZF9zaXRlIiwiY29yYWwgY292ZXIiLCJjb3JhbF9jb3Zlcl8yIiwiY29yYWwtY292ZXIiXSwib3B0aW9uc19mciI6WyIybmRfc2l0ZSIsImNvcmFsIGNvdmVyIiwiY29yYWxfY292ZXJfMiIsImNvcmFsLWNvdmVyIl0sImFuc3dlciI6Mn0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBBZnRlciAgYSA8LSAxMCAgdGhlbiAgYSA8LSBhICsgNSAsIHdoYXQgZG9lcyBhIGNvbnRhaW4/IiwiZnIiOiI2LiBBcHLDqHMgIGEgPC0gMTAgIHB1aXMgIGEgPC0gYSArIDUgLCBxdWUgY29udGllbnQgYSA/Iiwib3B0aW9uc19lbiI6WyIxMCIsIjE1IiwiNSIsIkFuIGVycm9yIl0sIm9wdGlvbnNfZnIiOlsiMTAiLCIxNSIsIjUiLCJVbmUgZXJyZXVyIl0sImFuc3dlciI6MX1d">
+
+</div>
+<div class="solution" data-quiz="s01">
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="co"># 1. Seagrass shoot density</span></span>
+<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>side_m       <span class="ot">&lt;-</span> <span class="fl">0.5</span>                     <span class="co"># 50 cm = 0.5 m</span></span>
+<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a>quadrat_area <span class="ot">&lt;-</span> side_m <span class="sc">*</span> side_m         <span class="co"># 0.25 m2</span></span>
+<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a>shoots       <span class="ot">&lt;-</span> <span class="dv">132</span></span>
+<span id="cb48-5"><a href="#cb48-5" tabindex="-1"></a>shoots <span class="sc">/</span> quadrat_area                   <span class="co"># 528 shoots per m2</span></span>
+<span id="cb48-6"><a href="#cb48-6" tabindex="-1"></a></span>
+<span id="cb48-7"><a href="#cb48-7" tabindex="-1"></a><span class="co"># 2. Hard coral cover along the transect</span></span>
+<span id="cb48-8"><a href="#cb48-8" tabindex="-1"></a>transect_length <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb48-9"><a href="#cb48-9" tabindex="-1"></a>coral_length    <span class="ot">&lt;-</span> <span class="fl">7.4</span></span>
+<span id="cb48-10"><a href="#cb48-10" tabindex="-1"></a>coral_length <span class="sc">/</span> transect_length <span class="sc">*</span> <span class="dv">100</span>    <span class="co"># 37 %</span></span>
+<span id="cb48-11"><a href="#cb48-11" tabindex="-1"></a></span>
+<span id="cb48-12"><a href="#cb48-12" tabindex="-1"></a><span class="co"># 3. Area of the no-take zone</span></span>
+<span id="cb48-13"><a href="#cb48-13" tabindex="-1"></a>area_km2 <span class="ot">&lt;-</span> <span class="fl">1.8</span> <span class="sc">*</span> <span class="fl">0.75</span>                  <span class="co"># 1.35 km2</span></span>
+<span id="cb48-14"><a href="#cb48-14" tabindex="-1"></a>area_km2 <span class="sc">*</span> <span class="dv">100</span>                          <span class="co"># 135 ha</span></span>
+<span id="cb48-15"><a href="#cb48-15" tabindex="-1"></a></span>
+<span id="cb48-16"><a href="#cb48-16" tabindex="-1"></a><span class="co"># 4. Rounding</span></span>
+<span id="cb48-17"><a href="#cb48-17" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sqrt</span>(<span class="dv">1000</span>), <span class="dv">2</span>)                    <span class="co"># 31.62</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

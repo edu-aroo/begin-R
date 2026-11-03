@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R course · Session 2</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Reef & Seagrass</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sessions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-cleaning.html">4 · Cleaning data</a>
+    </li>
+    <li>
+      <a href="05-statistics.html">5 · Statistics</a>
+    </li>
+    <li>
+      <a href="06-graphics.html">6 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="07-functions.html">7 · Functions &amp; loops</a>
+    </li>
+    <li>
+      <a href="08-tidyverse.html">8 · dplyr &amp; ggplot2</a>
+    </li>
+    <li>
+      <a href="09-final-project.html">9 · Final project</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">2 · Vectors &amp; data
+types</span><span class="fr">2 · Vecteurs et types de
+données</span></h1>
+<h3 class="subtitle">~2.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>create <strong>vectors</strong> with <code>c()</code>,
+<code>seq()</code> and <code>rep()</code>;</li>
+<li>recognise the main data types: <strong>numeric</strong>,
+<strong>character</strong>, <strong>logical</strong>,
+<strong>factor</strong>;</li>
+<li>do calculations on whole vectors at once;</li>
+<li>extract values with <code>[ ]</code> by position or by
+condition;</li>
+<li>handle <strong>missing values</strong> (<code>NA</code>).</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>créer des <strong>vecteurs</strong> avec <code>c()</code>,
+<code>seq()</code> et <code>rep()</code> ;</li>
+<li>reconnaître les principaux types de données :
+<strong>numeric</strong>, <strong>character</strong>,
+<strong>logical</strong>, <strong>factor</strong> ;</li>
+<li>faire des calculs sur des vecteurs entiers d’un coup ;</li>
+<li>extraire des valeurs avec <code>[ ]</code> par position ou par
+condition ;</li>
+<li>gérer les <strong>valeurs manquantes</strong>
+(<code>NA</code>).</li>
+</ul>
+</div>
+</div>
+<div class="callout tip">
+<div class="en">
+<p>New script for this session: <code>scripts/s02_vectors.R</code>.</p>
+</div>
+<div class="fr">
+<p>Nouveau script pour cette séance :
+<code>scripts/s02_vectors.R</code>.</p>
+</div>
+</div>
+<div id="vectors" class="section level2">
+<h2><span class="en">What is a vector?</span><span class="fr">Qu’est-ce
+qu’un vecteur ?</span></h2>
+<div class="en">
+<p>In Session 1 each object contained <strong>one</strong> value. In the
+field, you rarely measure one quadrat: you measure many. A
+<strong>vector</strong> is a series of values <strong>of the same
+type</strong>, stored in one object. You create it with the function
+<code>c()</code> (for <em>combine</em>).</p>
+</div>
+<div class="fr">
+<p>Dans la séance 1, chaque objet contenait <strong>une seule</strong>
+valeur. Sur le terrain, on mesure rarement un seul quadrat : on en
+mesure beaucoup. Un <strong>vecteur</strong> est une série de valeurs
+<strong>du même type</strong>, stockée dans un seul objet. On le crée
+avec la fonction <code>c()</code> (pour <em>combine</em>, combiner).</p>
+</div>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" role="img" aria-label="A vector and its positions" font-family="Source Sans 3, Arial, sans-serif">
+<text x="20" y="40" font-family="JetBrains Mono, monospace" font-size="18" fill="#0b3d5c">cover
+&lt;- c(45, 60, 12, NA, 80, 33, 0, 55)</text>
+<g font-family="JetBrains Mono, monospace" font-size="22" text-anchor="middle">
+<g fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"><rect x="20" y="70" width="90" height="56" rx="6"/><rect x="120" y="70" width="90" height="56" rx="6"/><rect x="220" y="70" width="90" height="56" rx="6" fill="#fde3d9" stroke="#d9694a"/><rect x="320" y="70" width="90" height="56" rx="6" fill="#eee"/><rect x="420" y="70" width="90" height="56" rx="6"/><rect x="520" y="70" width="90" height="56" rx="6"/><rect x="620" y="70" width="90" height="56" rx="6"/><rect x="720" y="70" width="90" height="56" rx="6"/></g>
+<g fill="#1f2a33"><text x="65" y="106">45</text><text x="165" y="106">60</text><text x="265" y="106">12</text><text x="365" y="106" fill="#888">NA</text><text x="465" y="106">80</text><text x="565" y="106">33</text><text x="665" y="106">0</text><text x="765" y="106">55</text></g>
+<g fill="#5d6b75" font-size="16"><text x="65" y="150">[1]</text><text x="165" y="150">[2]</text><text x="265" y="150" fill="#d9694a" font-weight="700">[3]</text><text x="365" y="150">[4]</text><text x="465" y="150">[5]</text><text x="565" y="150">[6]</text><text x="665" y="150">[7]</text><text x="765" y="150">[8]</text></g>
+</g>
+<text class="en" x="20" y="190" font-size="16" fill="#5d6b75">cover[3]
+returns 12 — positions start at 1 in R. NA = a missing value (quadrat
+not measured).</text>
+<text class="fr" x="20" y="190" font-size="16" fill="#5d6b75">cover[3]
+renvoie 12 — les positions commencent à 1 dans R. NA = valeur manquante
+(quadrat non mesuré).</text>
+</svg>
+</figure>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="dv">12</span>, <span class="cn">NA</span>, <span class="dv">80</span>, <span class="dv">33</span>, <span class="dv">0</span>, <span class="dv">55</span>)   <span class="co"># % seagrass cover in 8 quadrats</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>cover</span></code></pre></div>
+<pre><code>#&gt; [1] 45 60 12 NA 80 33  0 55</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">length</span>(cover)                               <span class="co"># number of values</span></span></code></pre></div>
+<pre><code>#&gt; [1] 8</code></pre>
+<div id="shortcuts-to-build-vectorsraccourcis-pour-créer-des-vecteurs"
+class="section level3">
+<h3><span class="en">Shortcuts to build vectors</span><span
+class="fr">Raccourcis pour créer des vecteurs</span></h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>                                 <span class="co"># integers from 1 to 10</span></span></code></pre></div>
+<pre><code>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="dv">5</span>)                   <span class="co"># from 0 to 25, step 5 (e.g. positions along a transect)</span></span></code></pre></div>
+<pre><code>#&gt; [1]  0  5 10 15 20 25</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="fl">0.5</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]          <span class="co"># PIT points every 0.5 m (first 6 shown)</span></span></code></pre></div>
+<pre><code>#&gt; [1] 0.5 1.0 1.5 2.0 2.5 3.0</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">rep</span>(<span class="st">&quot;Inside&quot;</span>, <span class="at">times =</span> <span class="dv">3</span>)             <span class="co"># repeat a value</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Inside&quot; &quot;Inside&quot; &quot;Inside&quot;</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>), <span class="at">each =</span> <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Inside&quot;  &quot;Inside&quot;  &quot;Outside&quot; &quot;Outside&quot;</code></pre>
+</div>
+</div>
+<div id="types" class="section level2">
+<h2><span class="en">Data types</span><span class="fr">Types de
+données</span></h2>
+<div class="en">
+<p>Every vector has one <strong>type</strong> (its <em>class</em>). The
+four you will meet constantly:</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Example</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>numeric</code></td>
+<td><code>45.5</code>, <code>0</code>, <code>-3</code></td>
+<td>measurements, counts</td>
+</tr>
+<tr class="even">
+<td><code>character</code></td>
+<td><code>"Ambalaboy"</code>, <code>"HC"</code></td>
+<td>text: names, codes (always in quotes)</td>
+</tr>
+<tr class="odd">
+<td><code>logical</code></td>
+<td><code>TRUE</code>, <code>FALSE</code></td>
+<td>answers to yes/no questions</td>
+</tr>
+<tr class="even">
+<td><code>factor</code></td>
+<td><code>Inside</code>, <code>Outside</code></td>
+<td>categories with a fixed set of levels</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p>Chaque vecteur a un seul <strong>type</strong> (sa <em>classe</em>).
+Les quatre que vous rencontrerez sans cesse :</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Exemple</th>
+<th>Sert pour</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>numeric</code></td>
+<td><code>45.5</code>, <code>0</code>, <code>-3</code></td>
+<td>mesures, comptages</td>
+</tr>
+<tr class="even">
+<td><code>character</code></td>
+<td><code>"Ambalaboy"</code>, <code>"HC"</code></td>
+<td>texte : noms, codes (toujours entre guillemets)</td>
+</tr>
+<tr class="odd">
+<td><code>logical</code></td>
+<td><code>TRUE</code>, <code>FALSE</code></td>
+<td>réponses à des questions oui/non</td>
+</tr>
+<tr class="even">
+<td><code>factor</code></td>
+<td><code>Inside</code>, <code>Outside</code></td>
+<td>catégories avec un ensemble fixe de niveaux</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>site   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Tsiandamba&quot;</span>, <span class="st">&quot;Tsiandamba&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>depth  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">2.5</span>, <span class="fl">0.8</span>, <span class="fl">1.9</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>sampled <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="fu">class</span>(site); <span class="fu">class</span>(depth); <span class="fu">class</span>(sampled)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;character&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;numeric&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;logical&quot;</code></pre>
+<div class="callout warning">
+<div class="en">
+<p><strong>A vector holds only one type.</strong> If you mix numbers and
+text, R silently converts everything to text. This is a very common
+source of problems when a field sheet contains <code>"-"</code> or
+<code>"45%"</code> in a numeric column (we will fix that in Session
+4).</p>
+</div>
+<div class="fr">
+<p><strong>Un vecteur ne contient qu’un seul type.</strong> Si vous
+mélangez nombres et texte, R convertit tout en texte sans prévenir.
+C’est une source de problèmes très fréquente quand une fiche de terrain
+contient <code>"-"</code> ou <code>"45%"</code> dans une colonne
+numérique (on corrigera cela en séance 4).</p>
+</div>
+</div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>mixed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="st">&quot;-&quot;</span>, <span class="dv">12</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>mixed               <span class="co"># note the quotes: these are now texts</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;45&quot; &quot;60&quot; &quot;-&quot;  &quot;12&quot;</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">class</span>(mixed)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;character&quot;</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">as.numeric</span>(mixed)   <span class="co"># convert back to numbers: &quot;-&quot; becomes NA (with a warning)</span></span></code></pre></div>
+<pre><code>#&gt; Warning: NAs introduced by coercion</code></pre>
+<pre><code>#&gt; [1] 45 60 NA 12</code></pre>
+<div id="factorsles-facteurs" class="section level3">
+<h3><span class="en">Factors</span><span class="fr">Les
+facteurs</span></h3>
+<div class="en">
+<p>A <strong>factor</strong> is a categorical variable. It looks like
+text, but R knows the list of possible categories
+(<strong>levels</strong>). Factors control the order of groups in tables
+and graphs.</p>
+</div>
+<div class="fr">
+<p>Un <strong>facteur</strong> est une variable catégorielle. Il
+ressemble à du texte, mais R connaît la liste des catégories possibles
+(<strong>niveaux</strong>, <em>levels</em>). Les facteurs contrôlent
+l’ordre des groupes dans les tableaux et les graphiques.</p>
+</div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>status <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>))</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>status</span></code></pre></div>
+<pre><code>#&gt; [1] Outside Inside  Inside  Outside Inside 
+#&gt; Levels: Inside Outside</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">levels</span>(status)                     <span class="co"># alphabetical order by default</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Inside&quot;  &quot;Outside&quot;</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">table</span>(status)                      <span class="co"># counts per level</span></span></code></pre></div>
+<pre><code>#&gt; status
+#&gt;  Inside Outside 
+#&gt;       3       2</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>status2 <span class="ot">&lt;-</span> <span class="fu">factor</span>(status, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>))   <span class="co"># choose the order</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a><span class="fu">table</span>(status2)</span></code></pre></div>
+<pre><code>#&gt; status2
+#&gt; Outside  Inside 
+#&gt;       2       3</code></pre>
+</div>
+</div>
+<div id="vector-maths" class="section level2">
+<h2><span class="en">Calculating with vectors</span><span
+class="fr">Calculer avec des vecteurs</span></h2>
+<div class="en">
+<p>Operations are applied to <strong>every element</strong> at once. No
+loop needed: this is one of R’s strengths.</p>
+</div>
+<div class="fr">
+<p>Les opérations s’appliquent à <strong>chaque élément</strong> d’un
+coup. Pas besoin de boucle : c’est l’une des forces de R.</p>
+</div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>shoots <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">87</span>, <span class="dv">132</span>, <span class="dv">45</span>, <span class="dv">160</span>)     <span class="co"># shoots counted in 4 quadrats of 0.25 m2</span></span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>shoots <span class="sc">/</span> <span class="fl">0.25</span>                     <span class="co"># density per m2 for each quadrat</span></span></code></pre></div>
+<pre><code>#&gt; [1] 348 528 180 640</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>cover_pct <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="dv">12</span>, <span class="dv">80</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>cover_pct <span class="sc">/</span> <span class="dv">100</span>                   <span class="co"># proportions</span></span></code></pre></div>
+<pre><code>#&gt; [1] 0.45 0.60 0.12 0.80</code></pre>
+<div class="en">
+<p>Many functions <strong>summarise</strong> a vector into one
+value:</p>
+</div>
+<div class="fr">
+<p>De nombreuses fonctions <strong>résument</strong> un vecteur en une
+seule valeur :</p>
+</div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="fu">sum</span>(shoots); <span class="fu">mean</span>(shoots); <span class="fu">median</span>(shoots)</span></code></pre></div>
+<pre><code>#&gt; [1] 424</code></pre>
+<pre><code>#&gt; [1] 106</code></pre>
+<pre><code>#&gt; [1] 109.5</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">min</span>(shoots); <span class="fu">max</span>(shoots); <span class="fu">range</span>(shoots)</span></code></pre></div>
+<pre><code>#&gt; [1] 45</code></pre>
+<pre><code>#&gt; [1] 160</code></pre>
+<pre><code>#&gt; [1]  45 160</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">sd</span>(shoots)                        <span class="co"># standard deviation (Session 5)</span></span></code></pre></div>
+<pre><code>#&gt; [1] 50.57667</code></pre>
+</div>
+<div id="indexing" class="section level2">
+<h2><span class="en">Extracting values with <code>[ ]</code></span><span
+class="fr">Extraire des valeurs avec <code>[ ]</code></span></h2>
+<div class="en">
+<p>Square brackets select elements. You can give
+<strong>positions</strong> or a <strong>logical condition</strong>.</p>
+</div>
+<div class="fr">
+<p>Les crochets sélectionnent des éléments. On peut donner des
+<strong>positions</strong> ou une <strong>condition
+logique</strong>.</p>
+</div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="dv">12</span>, <span class="cn">NA</span>, <span class="dv">80</span>, <span class="dv">33</span>, <span class="dv">0</span>, <span class="dv">55</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>cover[<span class="dv">3</span>]            <span class="co"># the 3rd value</span></span></code></pre></div>
+<pre><code>#&gt; [1] 12</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>cover[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>)]      <span class="co"># the 1st and 5th values</span></span></code></pre></div>
+<pre><code>#&gt; [1] 45 80</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a>cover[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]          <span class="co"># from 2nd to 4th</span></span></code></pre></div>
+<pre><code>#&gt; [1] 60 12 NA</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a>cover[<span class="sc">-</span><span class="dv">1</span>]           <span class="co"># everything EXCEPT the 1st</span></span></code></pre></div>
+<pre><code>#&gt; [1] 60 12 NA 80 33  0 55</code></pre>
+<div id="conditionsconditions" class="section level3">
+<h3><span class="en">Conditions</span><span
+class="fr">Conditions</span></h3>
+<div class="en">
+<p>A comparison returns a <strong>logical vector</strong>
+(<code>TRUE</code>/<code>FALSE</code> for each element). Comparison
+operators: <code>==</code> (equal — two signs!), <code>!=</code>
+(different), <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>,
+<code>&lt;=</code>.</p>
+</div>
+<div class="fr">
+<p>Une comparaison renvoie un <strong>vecteur logique</strong>
+(<code>TRUE</code>/<code>FALSE</code> pour chaque élément). Opérateurs
+de comparaison : <code>==</code> (égal — deux signes !), <code>!=</code>
+(différent), <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>,
+<code>&lt;=</code>.</p>
+</div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a>cover <span class="sc">&gt;</span> <span class="dv">50</span>                 <span class="co"># which quadrats have more than 50 % cover?</span></span></code></pre></div>
+<pre><code>#&gt; [1] FALSE  TRUE FALSE    NA  TRUE FALSE FALSE  TRUE</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a>cover[cover <span class="sc">&gt;</span> <span class="dv">50</span>]          <span class="co"># keep only those values (NA stays: unknown!)</span></span></code></pre></div>
+<pre><code>#&gt; [1] 60 NA 80 55</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="fu">which</span>(cover <span class="sc">&gt;</span> <span class="dv">50</span>)          <span class="co"># their positions</span></span></code></pre></div>
+<pre><code>#&gt; [1] 2 5 8</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="fu">sum</span>(cover <span class="sc">&gt;</span> <span class="dv">50</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># how many? (TRUE counts as 1, FALSE as 0)</span></span></code></pre></div>
+<pre><code>#&gt; [1] 3</code></pre>
+<div class="callout tip">
+<div class="en">
+<p><code>sum()</code> of a logical vector <strong>counts</strong> the
+<code>TRUE</code>s; <code>mean()</code> of a logical vector gives the
+<strong>proportion</strong> of <code>TRUE</code>s. Very handy:
+<code>mean(cover &gt; 50, na.rm = TRUE)</code> = proportion of quadrats
+above 50 %.</p>
+</div>
+<div class="fr">
+<p><code>sum()</code> d’un vecteur logique <strong>compte</strong> les
+<code>TRUE</code> ; <code>mean()</code> d’un vecteur logique donne la
+<strong>proportion</strong> de <code>TRUE</code>. Très pratique :
+<code>mean(cover &gt; 50, na.rm = TRUE)</code> = proportion de quadrats
+au-dessus de 50 %.</p>
+</div>
+</div>
+<div class="en">
+<p>You can select values of one vector using a condition on
+<strong>another vector of the same length</strong> — for example, the
+cover of quadrats located inside the MPA:</p>
+</div>
+<div class="fr">
+<p>On peut sélectionner les valeurs d’un vecteur grâce à une condition
+sur <strong>un autre vecteur de même longueur</strong> — par exemple, le
+recouvrement des quadrats situés dans l’AMP :</p>
+</div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a>zone <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>)</span>
+<span id="cb64-2"><a href="#cb64-2" tabindex="-1"></a>cover[zone <span class="sc">==</span> <span class="st">&quot;Inside&quot;</span>]</span></code></pre></div>
+<pre><code>#&gt; [1] 45 60 80 55</code></pre>
+</div>
+</div>
+<div id="na" class="section level2">
+<h2><span class="en">Missing values: <code>NA</code></span><span
+class="fr">Valeurs manquantes : <code>NA</code></span></h2>
+<div class="en">
+<p><code>NA</code> (<em>Not Available</em>) means “unknown”. Any
+calculation involving an unknown value is unknown, so
+<code>mean()</code> returns <code>NA</code>. Add the argument
+<strong><code>na.rm = TRUE</code></strong> (<em>NA remove</em>) to
+ignore missing values.</p>
+</div>
+<div class="fr">
+<p><code>NA</code> (<em>Not Available</em>) signifie « inconnu ». Tout
+calcul impliquant une valeur inconnue est inconnu : <code>mean()</code>
+renvoie donc <code>NA</code>. Ajoutez l’argument
+<strong><code>na.rm = TRUE</code></strong> (<em>NA remove</em>) pour
+ignorer les valeurs manquantes.</p>
+</div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="fu">mean</span>(cover)</span></code></pre></div>
+<pre><code>#&gt; [1] NA</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" tabindex="-1"></a><span class="fu">mean</span>(cover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] 40.71429</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a><span class="fu">is.na</span>(cover)               <span class="co"># which values are missing?</span></span></code></pre></div>
+<pre><code>#&gt; [1] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(cover))          <span class="co"># how many?</span></span></code></pre></div>
+<pre><code>#&gt; [1] 1</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a>cover[<span class="sc">!</span><span class="fu">is.na</span>(cover)]       <span class="co"># ! means NOT: keep the non-missing values</span></span></code></pre></div>
+<pre><code>#&gt; [1] 45 60 12 80 33  0 55</code></pre>
+<div class="callout warning">
+<div class="en">
+<p><code>0</code> and <code>NA</code> are <strong>not</strong> the same.
+A quadrat with 0 % cover was measured and has no seagrass; a quadrat
+with <code>NA</code> was not measured. Never replace NA by 0 without a
+good ecological reason.</p>
+</div>
+<div class="fr">
+<p><code>0</code> et <code>NA</code> ne sont <strong>pas</strong> la
+même chose. Un quadrat à 0 % a été mesuré et ne contient pas d’herbier ;
+un quadrat à <code>NA</code> n’a pas été mesuré. Ne remplacez jamais NA
+par 0 sans une bonne raison écologique.</p>
+</div>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-2" class="section level3 en">
+<h3>Application work 2</h3>
+<p>Copy these two vectors into your script. They describe 10 seagrass
+quadrats.</p>
+</div>
+<div id="travail-dapplication-2" class="section level3 fr">
+<h3>Travail d’application 2</h3>
+<p>Copiez ces deux vecteurs dans votre script. Ils décrivent 10 quadrats
+d’herbier.</p>
+</div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">62</span>, <span class="dv">48</span>, <span class="dv">75</span>, <span class="cn">NA</span>, <span class="dv">30</span>, <span class="dv">55</span>, <span class="dv">90</span>, <span class="dv">15</span>, <span class="dv">40</span>, <span class="dv">68</span>)</span>
+<span id="cb76-2"><a href="#cb76-2" tabindex="-1"></a>zone  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>,</span>
+<span id="cb76-3"><a href="#cb76-3" tabindex="-1"></a>           <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>)</span></code></pre></div>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>What is the mean cover of all quadrats (ignore the missing value)?
+Round to 1 decimal.</li>
+<li>How many quadrats have a cover <strong>strictly greater</strong>
+than 50 %?</li>
+<li>What is the maximum cover?</li>
+<li>What is the mean cover of the <strong>Inside</strong> quadrats
+(ignore NA)? Round to 1 decimal.</li>
+<li>What is the mean cover of the <strong>Outside</strong> quadrats?
+Round to 1 decimal.</li>
+<li>Convert <code>zone</code> into a factor and use
+<code>table()</code>: how many Outside quadrats are there?</li>
+<li>What is the 7th value of <code>cover</code>?</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Quelle est la moyenne du recouvrement de tous les quadrats (ignorez
+la valeur manquante) ? Arrondissez à 1 décimale.</li>
+<li>Combien de quadrats ont un recouvrement <strong>strictement
+supérieur</strong> à 50 % ?</li>
+<li>Quel est le recouvrement maximal ?</li>
+<li>Quelle est la moyenne des quadrats <strong>Inside</strong> (ignorez
+NA) ? Arrondissez à 1 décimale.</li>
+<li>Quelle est la moyenne des quadrats <strong>Outside</strong> ?
+Arrondissez à 1 décimale.</li>
+<li>Transformez <code>zone</code> en facteur et utilisez
+<code>table()</code> : combien y a-t-il de quadrats Outside ?</li>
+<li>Quelle est la 7e valeur de <code>cover</code> ?</li>
+</ol>
+</div>
+</div>
+<div id="quiz-s02" class="quiz" data-quiz-id="s02"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTWVhbiBjb3ZlciBvZiBhbGwgcXVhZHJhdHMgKDEgZGVjaW1hbCk/IiwiZnIiOiIxLiBSZWNvdXZyZW1lbnQgbW95ZW4gZGUgdG91cyBsZXMgcXVhZHJhdHMgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo1My43LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBOdW1iZXIgb2YgcXVhZHJhdHMgd2l0aCBjb3ZlciA+IDUwPyIsImZyIjoiMi4gTm9tYnJlIGRlIHF1YWRyYXRzIGF2ZWMgcmVjb3V2cmVtZW50ID4gNTAgPyIsImFuc3dlciI6NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTWF4aW11bSBjb3Zlcj8iLCJmciI6IjMuIFJlY291dnJlbWVudCBtYXhpbWFsID8iLCJhbnN3ZXIiOjkwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZWFuIGNvdmVyIEluc2lkZSAoMSBkZWNpbWFsKT8iLCJmciI6IjQuIE1veWVubmUgSW5zaWRlICgxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6NTMuOCwidG9sIjowLjA1LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gTWVhbiBjb3ZlciBPdXRzaWRlICgxIGRlY2ltYWwpPyIsImZyIjoiNS4gTW95ZW5uZSBPdXRzaWRlICgxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6NTMuNiwidG9sIjowLjA1LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNi4gTnVtYmVyIG9mIE91dHNpZGUgcXVhZHJhdHM/IiwiZnIiOiI2LiBOb21icmUgZGUgcXVhZHJhdHMgT3V0c2lkZSA/IiwiYW5zd2VyIjo1LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI3LiA3dGggdmFsdWUgb2YgY292ZXI/IiwiZnIiOiI3LiA3ZSB2YWxldXIgZGUgY292ZXIgPyIsImFuc3dlciI6OTAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFdoYXQgZG9lcyBtZWFuKGMoMTAsIE5BLCAyMCkpIHJldHVybj8iLCJmciI6IjguIFF1ZSByZW52b2llIG1lYW4oYygxMCwgTkEsIDIwKSkgPyIsIm9wdGlvbnNfZW4iOlsiMTUiLCIxMCIsIk5BIiwiQW4gZXJyb3IiXSwib3B0aW9uc19mciI6WyIxNSIsIjEwIiwiTkEiLCJVbmUgZXJyZXVyIl0sImFuc3dlciI6Mn1d">
+
+</div>
+<div class="solution" data-quiz="s02">
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a><span class="fu">mean</span>(cover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                       <span class="co"># 1. 53.7</span></span>
+<span id="cb77-2"><a href="#cb77-2" tabindex="-1"></a><span class="fu">sum</span>(cover <span class="sc">&gt;</span> <span class="dv">50</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                   <span class="co"># 2. 5</span></span>
+<span id="cb77-3"><a href="#cb77-3" tabindex="-1"></a><span class="fu">max</span>(cover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                        <span class="co"># 3. 90</span></span>
+<span id="cb77-4"><a href="#cb77-4" tabindex="-1"></a><span class="fu">mean</span>(cover[zone <span class="sc">==</span> <span class="st">&quot;Inside&quot;</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)     <span class="co"># 4. 53.75 -&gt; 53.8</span></span>
+<span id="cb77-5"><a href="#cb77-5" tabindex="-1"></a><span class="fu">mean</span>(cover[zone <span class="sc">==</span> <span class="st">&quot;Outside&quot;</span>])                  <span class="co"># 5. 53.6</span></span>
+<span id="cb77-6"><a href="#cb77-6" tabindex="-1"></a>zone_f <span class="ot">&lt;-</span> <span class="fu">factor</span>(zone)</span>
+<span id="cb77-7"><a href="#cb77-7" tabindex="-1"></a><span class="fu">table</span>(zone_f)                                   <span class="co"># 6. Outside = 5</span></span>
+<span id="cb77-8"><a href="#cb77-8" tabindex="-1"></a>cover[<span class="dv">7</span>]                                        <span class="co"># 7. 90</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

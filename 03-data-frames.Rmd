@@ -1,0 +1,277 @@
+---
+title: "[3 · Data frames & importing data]{.en}[3 · Data frames et importation]{.fr}"
+pagetitle: "R course · Session 3"
+subtitle: "~2.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- explain what a **data frame** is and how it relates to a field data sheet;
+- import a **CSV** file with `read.csv()`;
+- explore a dataset with `str()`, `head()`, `summary()`, `nrow()`, `names()`;
+- access columns with `$`, rows and cells with `[row, column]`;
+- add a new column and save a table with `write.csv()`.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- expliquer ce qu'est un **data frame** et son lien avec une fiche de terrain ;
+- importer un fichier **CSV** avec `read.csv()` ;
+- explorer un jeu de données avec `str()`, `head()`, `summary()`, `nrow()`, `names()` ;
+- accéder aux colonnes avec `$`, aux lignes et cellules avec `[ligne, colonne]` ;
+- ajouter une colonne et enregistrer un tableau avec `write.csv()`.
+:::
+:::
+
+## [The seagrass survey]{.en}[Le suivi des herbiers]{.fr} {#survey}
+
+`r fig_svg("quadrat-sampling")`
+
+::: en
+From now on we work with a (simulated) seagrass survey: **4 sites**, two inside a Marine Protected Area (MPA) and two outside, with **15 quadrats** of 50 × 50 cm per site. For each quadrat the team recorded the date, depth, dominant species, % seagrass cover, canopy height (cm) and shoot density (shoots per m²).
+:::
+::: fr
+Désormais, nous travaillons sur un suivi (simulé) d'herbiers : **4 sites**, deux à l'intérieur d'une Aire Marine Protégée (AMP) et deux à l'extérieur, avec **15 quadrats** de 50 × 50 cm par site. Pour chaque quadrat l'équipe a noté la date, la profondeur, l'espèce dominante, le % de recouvrement, la hauteur de canopée (cm) et la densité de pousses (pousses par m²).
+:::
+
+## [What is a data frame?]{.en}[Qu'est-ce qu'un data frame ?]{.fr} {#data-frame}
+
+::: en
+A **data frame** is a table: a set of vectors of the **same length**, placed side by side. Each **column** is a variable (and has one type); each **row** is an observation (here, one quadrat). It is exactly the structure of a well-organised field sheet or Excel table.
+:::
+::: fr
+Un **data frame** est un tableau : un ensemble de vecteurs de **même longueur**, placés côte à côte. Chaque **colonne** est une variable (et a un seul type) ; chaque **ligne** est une observation (ici, un quadrat). C'est exactement la structure d'une fiche de terrain ou d'un tableau Excel bien organisé.
+:::
+
+`r fig_svg("dataframe-anatomy")`
+
+```{r}
+# a small data frame typed by hand
+mini <- data.frame(
+  site    = c("Ambalaboy", "Ambalaboy", "Tsiandamba"),
+  quadrat = c(1, 2, 1),
+  cover   = c(69, 47, 30)
+)
+mini
+```
+
+::: {.callout .tip}
+::: en
+**Tidy data rule:** one row = one observation, one column = one variable, one cell = one value. Avoid merged cells, colours used as information, or several values in one cell (e.g. "45% Thalassia"). Data organised this way can be read by R directly.
+:::
+::: fr
+**Règle des données « tidy » (bien rangées) :** une ligne = une observation, une colonne = une variable, une cellule = une valeur. Évitez les cellules fusionnées, les couleurs utilisées comme information, ou plusieurs valeurs dans une cellule (ex. « 45% Thalassia »). Des données organisées ainsi se lisent directement dans R.
+:::
+:::
+
+## [Importing a CSV file]{.en}[Importer un fichier CSV]{.fr} {#import}
+
+::: en
+A **CSV** (*comma-separated values*) file is a plain text table: one line per row, values separated by commas. Any spreadsheet can save in CSV (*File → Save as → CSV*). Because your RStudio project is open, the path is simply relative to the project folder.
+:::
+::: fr
+Un fichier **CSV** (*comma-separated values*) est un tableau en texte brut : une ligne par rangée, valeurs séparées par des virgules. Tout tableur peut enregistrer en CSV (*Fichier → Enregistrer sous → CSV*). Comme votre projet RStudio est ouvert, le chemin est simplement relatif au dossier du projet.
+:::
+
+```{r}
+sg <- read.csv("data/seagrass_quadrats.csv")   # sg = seagrass
+```
+
+::: {.callout .warning}
+::: en
+**French-style CSV.** If your Excel uses a comma as decimal separator, it saves CSV files with **semicolons** (`;`). Read them with `read.csv2()` instead (or `read.csv(file, sep = ";", dec = ",")`). If all your data end up in one single column, this is the reason.
+
+**"cannot open file … No such file or directory"** means the path is wrong: check the spelling, the extension, and that the project is open.
+:::
+::: fr
+**CSV « à la française ».** Si votre Excel utilise la virgule comme séparateur décimal, il enregistre les CSV avec des **points-virgules** (`;`). Lisez-les alors avec `read.csv2()` (ou `read.csv(fichier, sep = ";", dec = ",")`). Si toutes vos données se retrouvent dans une seule colonne, c'est la raison.
+
+**« cannot open file … No such file or directory »** signifie que le chemin est faux : vérifiez l'orthographe, l'extension, et que le projet est ouvert.
+:::
+:::
+
+## [Exploring the data]{.en}[Explorer les données]{.fr} {#explore}
+
+::: en
+**Always** look at your data right after importing it. These functions answer: how big is it, what are the columns, what type is each column, do the values look sensible?
+:::
+::: fr
+Regardez **toujours** vos données juste après l'importation. Ces fonctions répondent à : quelle taille, quelles colonnes, quel type pour chaque colonne, les valeurs semblent-elles plausibles ?
+:::
+
+```{r}
+head(sg)          # first 6 rows (tail() for the last ones)
+dim(sg)           # number of rows and columns
+nrow(sg); ncol(sg)
+names(sg)         # column names
+```
+
+```{r}
+str(sg)           # STRucture: type and first values of each column
+```
+
+::: en
+`str()` tells you: 60 observations (rows) of 9 variables; `chr` = character, `num` = numeric with decimals, `int` = integer. Then `summary()` gives the distribution of every numeric column, including the number of `NA`s:
+:::
+::: fr
+`str()` indique : 60 observations (lignes) de 9 variables ; `chr` = texte, `num` = numérique avec décimales, `int` = entier. Ensuite `summary()` donne la distribution de chaque colonne numérique, y compris le nombre de `NA` :
+:::
+
+```{r}
+summary(sg)
+```
+
+```{r, eval=FALSE}
+View(sg)          # opens the table in a spreadsheet-like tab (capital V!)
+```
+
+## [Accessing columns, rows and cells]{.en}[Accéder aux colonnes, lignes et cellules]{.fr} {#access}
+
+::: en
+The **`$`** sign extracts one column as a vector. RStudio proposes the column names after you type `sg$` (press **Tab**).
+:::
+::: fr
+Le signe **`$`** extrait une colonne sous forme de vecteur. RStudio propose les noms de colonnes après avoir tapé `sg$` (appuyez sur **Tab**).
+:::
+
+```{r}
+sg$seagrass_cover[1:10]           # first 10 values of the cover column
+mean(sg$seagrass_cover)
+mean(sg$canopy_height_cm, na.rm = TRUE)   # this column contains NA
+unique(sg$site)                   # the different sites
+table(sg$species)                 # number of quadrats per dominant species
+```
+
+::: en
+Square brackets on a data frame take **two** positions: `[rows, columns]`. Leave one empty to mean "all".
+:::
+::: fr
+Les crochets sur un data frame prennent **deux** positions : `[lignes, colonnes]`. Laisser vide signifie « tout ».
+:::
+
+```{r}
+sg[1, ]                                   # row 1, all columns
+sg[1:3, c("site", "seagrass_cover")]      # rows 1-3, two columns
+sg[5, "species"]                          # one cell
+```
+
+::: en
+To find the row with the highest (or lowest) value, use `which.max()` (or `which.min()`), which return a **position**:
+:::
+::: fr
+Pour trouver la ligne ayant la valeur la plus haute (ou la plus basse), utilisez `which.max()` (ou `which.min()`), qui renvoient une **position** :
+:::
+
+```{r}
+i <- which.max(sg$seagrass_cover)   # position of the maximum
+i
+sg[i, c("site", "quadrat", "seagrass_cover")]
+```
+
+## [Adding a column and saving]{.en}[Ajouter une colonne et enregistrer]{.fr} {#new-column}
+
+::: en
+Assigning to a column name that does not exist yet **creates** it. Here we add the cover as a proportion and the number of shoots actually counted in the 0.25 m² quadrat.
+:::
+::: fr
+Affecter une valeur à un nom de colonne qui n'existe pas encore la **crée**. Ici nous ajoutons le recouvrement en proportion et le nombre de pousses réellement comptées dans le quadrat de 0,25 m².
+:::
+
+```{r}
+sg$cover_prop    <- sg$seagrass_cover / 100
+sg$shoots_counted <- sg$shoot_density * 0.25
+head(sg[, c("site", "seagrass_cover", "cover_prop", "shoot_density", "shoots_counted")], 3)
+```
+
+```{r, eval=FALSE}
+write.csv(sg, "outputs/seagrass_with_new_columns.csv", row.names = FALSE)
+# row.names = FALSE avoids an extra unnamed column of row numbers
+```
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers03, include=FALSE}
+# Answers are computed here from the real file, so they are always right
+sg   <- read.csv("data/seagrass_quadrats.csv")
+a_canopy <- round(mean(sg$canopy_height_cm, na.rm = TRUE), 2)
+a_maxden <- max(sg$shoot_density)
+a_sitemax <- sg$site[which.max(sg$shoot_density)]
+a_minquad <- sg$quadrat[which.min(sg$seagrass_cover)]
+a_minsite <- sg$site[which.min(sg$seagrass_cover)]
+a_thal    <- sum(sg$species == "Thalassia hemprichii")
+a_depth   <- round(mean(sg$depth_m), 2)
+a_row20   <- sg[20, "seagrass_cover"]
+```
+
+::: application
+::: en
+### Application work 3
+
+New script `scripts/s03_data_frames.R`.
+
+1. Import `data/seagrass_quadrats.csv` into an object called `sg`.
+2. How many rows and columns does it have?
+3. What is the class of the column `site`? (use `class()` or `str()`)
+4. Mean canopy height (`canopy_height_cm`), ignoring NA, rounded to 2 decimals.
+5. Maximum shoot density, and the **site** where it was recorded (`which.max()`).
+6. Site and quadrat number of the quadrat with the **lowest** seagrass cover.
+7. Number of quadrats dominated by *Thalassia hemprichii* (`table()`).
+8. Mean depth, rounded to 2 decimals.
+9. The seagrass cover in row 20.
+10. Add a column `cover_prop` and save the table in `outputs/` with `write.csv()`.
+:::
+::: fr
+### Travail d'application 3
+
+Nouveau script `scripts/s03_data_frames.R`.
+
+1. Importez `data/seagrass_quadrats.csv` dans un objet appelé `sg`.
+2. Combien de lignes et de colonnes contient-il ?
+3. Quelle est la classe de la colonne `site` ? (utilisez `class()` ou `str()`)
+4. Hauteur de canopée moyenne (`canopy_height_cm`), sans les NA, arrondie à 2 décimales.
+5. Densité de pousses maximale, et le **site** où elle a été relevée (`which.max()`).
+6. Site et numéro du quadrat ayant le recouvrement **le plus faible**.
+7. Nombre de quadrats dominés par *Thalassia hemprichii* (`table()`).
+8. Profondeur moyenne, arrondie à 2 décimales.
+9. Le recouvrement de la ligne 20.
+10. Ajoutez une colonne `cover_prop` et enregistrez le tableau dans `outputs/` avec `write.csv()`.
+:::
+:::
+
+```{r quiz03, echo=FALSE}
+quiz("s03", list(
+  q_num("2a. Number of rows?", "2a. Nombre de lignes ?", nrow(sg), tol = 0),
+  q_num("2b. Number of columns?", "2b. Nombre de colonnes ?", ncol(sg), tol = 0),
+  q_mcq("3. Class of the column site?", "3. Classe de la colonne site ?",
+        c("numeric", "character", "logical", "data.frame"), correct = 2),
+  q_num("4. Mean canopy height (cm, 2 decimals)?", "4. Hauteur de canopée moyenne (cm, 2 décimales) ?", a_canopy, tol = 0.006),
+  q_num("5a. Maximum shoot density (shoots/m²)?", "5a. Densité de pousses maximale (pousses/m²) ?", a_maxden, tol = 0),
+  q_text("5b. Site of the maximum shoot density?", "5b. Site de la densité maximale ?", a_sitemax),
+  q_text("6a. Site of the quadrat with the lowest cover?", "6a. Site du quadrat au recouvrement le plus faible ?", a_minsite),
+  q_num("6b. Quadrat number of the lowest cover?", "6b. Numéro du quadrat au recouvrement le plus faible ?", a_minquad, tol = 0),
+  q_num("7. Number of quadrats dominated by Thalassia hemprichii?", "7. Nombre de quadrats dominés par Thalassia hemprichii ?", a_thal, tol = 0),
+  q_num("8. Mean depth (m, 2 decimals)?", "8. Profondeur moyenne (m, 2 décimales) ?", a_depth, tol = 0.006),
+  q_num("9. Seagrass cover in row 20?", "9. Recouvrement de la ligne 20 ?", a_row20, tol = 0)
+))
+```
+
+::: {.solution data-quiz="s03"}
+```{r, eval=FALSE}
+sg <- read.csv("data/seagrass_quadrats.csv")              # 1
+dim(sg)                                                    # 2. 60 rows, 9 columns
+class(sg$site)                                             # 3. "character"
+round(mean(sg$canopy_height_cm, na.rm = TRUE), 2)          # 4
+max(sg$shoot_density)                                      # 5a
+sg$site[which.max(sg$shoot_density)]                       # 5b
+sg[which.min(sg$seagrass_cover), c("site", "quadrat")]     # 6
+table(sg$species)                                          # 7
+round(mean(sg$depth_m), 2)                                 # 8
+sg[20, "seagrass_cover"]                                   # 9
+sg$cover_prop <- sg$seagrass_cover / 100                   # 10
+write.csv(sg, "outputs/seagrass_s03.csv", row.names = FALSE)
+```
+:::

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R course · Session 7</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Reef & Seagrass</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sessions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-cleaning.html">4 · Cleaning data</a>
+    </li>
+    <li>
+      <a href="05-statistics.html">5 · Statistics</a>
+    </li>
+    <li>
+      <a href="06-graphics.html">6 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="07-functions.html">7 · Functions &amp; loops</a>
+    </li>
+    <li>
+      <a href="08-tidyverse.html">8 · dplyr &amp; ggplot2</a>
+    </li>
+    <li>
+      <a href="09-final-project.html">9 · Final project</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">7 · Conditions, loops
+&amp; your own functions</span><span class="fr">7 · Conditions, boucles
+et fonctions</span></h1>
+<h3 class="subtitle">~2.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>classify values with <code>if / else</code> and the vectorised
+<code>ifelse()</code>;</li>
+<li>repeat an operation with a <code>for</code> loop;</li>
+<li>write your <strong>own functions</strong> to avoid copying
+code;</li>
+<li>compute <strong>percentage cover</strong> from Point Intercept
+Transect (PIT) data, transect by transect.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>classer des valeurs avec <code>if / else</code> et la version
+vectorisée <code>ifelse()</code> ;</li>
+<li>répéter une opération avec une boucle <code>for</code> ;</li>
+<li>écrire vos <strong>propres fonctions</strong> pour éviter de copier
+du code ;</li>
+<li>calculer un <strong>pourcentage de couverture</strong> à partir de
+données de transects à points (PIT), transect par transect.</li>
+</ul>
+</div>
+</div>
+<div id="pit" class="section level2">
+<h2><span class="en">The PIT method</span><span class="fr">La méthode
+PIT</span></h2>
+<figure class="svg-fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" role="img" aria-label="Point intercept transect" font-family="Source Sans 3, Arial, sans-serif">
+<rect width="860" height="260" fill="#e9f4f6"/>
+<path d="M0 170 Q60 140 120 165 T240 160 T360 170 T480 150 T600 168 T720 158 T860 165 V260 H0z" fill="#f1e6cc"/>
+<g><ellipse cx="90" cy="150" rx="45" ry="28" fill="#e48b6c"/><ellipse cx="300" cy="148" rx="55" ry="30" fill="#d9694a"/><path d="M430 160 q10 -40 20 0 q10 -45 20 0" fill="#a3b84a"/><ellipse cx="610" cy="152" rx="40" ry="24" fill="#e48b6c"/><g fill="#c8b9a2"><circle cx="190" cy="165" r="9"/><circle cx="205" cy="162" r="7"/><circle cx="520" cy="163" r="8"/><circle cx="740" cy="160" r="9"/><circle cx="755" cy="164" r="6"/></g></g>
+<line x1="30" y1="120" x2="830" y2="120" stroke="#e3b04b" stroke-width="5"/>
+<g stroke="#0b3d5c" stroke-width="2"><line x1="90" y1="112" x2="90" y2="140"/><line x1="200" y1="112" x2="200" y2="155"/><line x1="300" y1="112" x2="300" y2="128"/><line x1="450" y1="112" x2="450" y2="140"/><line x1="610" y1="112" x2="610" y2="138"/><line x1="745" y1="112" x2="745" y2="150"/></g>
+<g font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" text-anchor="middle"><text x="90" y="100" fill="#d9694a">HC</text><text x="200" y="100" fill="#8a7a62">RB</text><text x="300" y="100" fill="#d9694a">HC</text><text x="450" y="100" fill="#4a7d3a">MA</text><text x="610" y="100" fill="#d9694a">HC</text><text x="745" y="100" fill="#8a7a62">RB</text></g>
+<text class="en" x="30" y="40" font-size="17" font-weight="700" fill="#0b3d5c">Point
+Intercept Transect (PIT): a 25 m tape, one point every 0.5 m = 50
+points</text>
+<text class="fr" x="30" y="40" font-size="17" font-weight="700" fill="#0b3d5c">Transect
+à points (PIT) : ruban de 25 m, un point tous les 0,5 m = 50
+points</text>
+<text class="en" x="30" y="215" font-size="16" fill="#1f2a33">% hard
+coral cover = (number of HC points / total points) × 100 — e.g. 3 / 6 ×
+100 = 50 %</text>
+<text class="fr" x="30" y="215" font-size="16" fill="#1f2a33">%
+couverture de corail dur = (nombre de points HC / total des points) ×
+100 — ex. 3 / 6 × 100 = 50 %</text>
+<text class="en" x="30" y="242" font-size="14" fill="#5d6b75">HC hard
+coral · SC soft coral · MA macroalgae · TA turf algae · RB rubble · SD
+sand</text>
+<text class="fr" x="30" y="242" font-size="14" fill="#5d6b75">HC corail
+dur · SC corail mou · MA macroalgues · TA algues gazonnantes · RB débris
+· SD sable</text>
+</svg>
+</figure>
+<div class="en">
+<p>In coral reef monitoring, the <strong>Point Intercept
+Transect</strong> records the benthic category found directly under the
+tape at regular intervals. Each row of the data is <strong>one
+point</strong>. The cover of a category on a transect is simply the
+percentage of points in that category.</p>
+</div>
+<div class="fr">
+<p>En suivi des récifs coralliens, le <strong>transect à points
+(PIT)</strong> note la catégorie benthique située juste sous le ruban à
+intervalles réguliers. Chaque ligne de données est <strong>un
+point</strong>. La couverture d’une catégorie sur un transect est
+simplement le pourcentage de points dans cette catégorie.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>pit <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/coral_pit_example.csv&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">head</span>(pit)</span></code></pre></div>
+<pre><code>#&gt;     reef transect point distance_m category
+#&gt; 1 Reef_A        1     1        0.5       RB
+#&gt; 2 Reef_A        1     2        1.0       TA
+#&gt; 3 Reef_A        1     3        1.5       TA
+#&gt; 4 Reef_A        1     4        2.0       TA
+#&gt; 5 Reef_A        1     5        2.5       SD
+#&gt; 6 Reef_A        1     6        3.0       SD</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">table</span>(pit<span class="sc">$</span>reef, pit<span class="sc">$</span>transect)      <span class="co"># 50 points per transect</span></span></code></pre></div>
+<pre><code>#&gt;         
+#&gt;           1  2  3
+#&gt;   Reef_A 50 50 50
+#&gt;   Reef_B 50 50 50</code></pre>
+</div>
+<div id="if-else" class="section level2">
+<h2><span class="en"><code>if</code> and <code>else</code></span><span
+class="fr"><code>if</code> et <code>else</code></span></h2>
+<div class="en">
+<p><code>if (condition) { ... } else { ... }</code> runs one block or
+the other depending on <strong>one</strong> TRUE/FALSE value.</p>
+</div>
+<div class="fr">
+<p><code>if (condition) { ... } else { ... }</code> exécute un bloc ou
+l’autre selon <strong>une seule</strong> valeur TRUE/FALSE.</p>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>hc_cover <span class="ot">&lt;-</span> <span class="dv">34</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="cf">if</span> (hc_cover <span class="sc">&gt;=</span> <span class="dv">50</span>) {</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;High coral cover&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (hc_cover <span class="sc">&gt;=</span> <span class="dv">25</span>) {</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;Moderate coral cover&quot;</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;Low coral cover&quot;</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Moderate coral cover&quot;</code></pre>
+<div class="en">
+<p><code>if</code> only works with a single value. To classify <strong>a
+whole vector</strong>, use
+<code>ifelse(condition, value_if_TRUE, value_if_FALSE)</code>, which can
+be nested:</p>
+</div>
+<div class="fr">
+<p><code>if</code> ne fonctionne qu’avec une seule valeur. Pour classer
+<strong>un vecteur entier</strong>, utilisez
+<code>ifelse(condition, valeur_si_TRUE, valeur_si_FALSE)</code>, que
+l’on peut imbriquer :</p>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>covers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">34</span>, <span class="dv">58</span>, <span class="dv">25</span>, <span class="dv">71</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">ifelse</span>(covers <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">&quot;High&quot;</span>, <span class="fu">ifelse</span>(covers <span class="sc">&gt;=</span> <span class="dv">25</span>, <span class="st">&quot;Moderate&quot;</span>, <span class="st">&quot;Low&quot;</span>))</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Low&quot;      &quot;Moderate&quot; &quot;High&quot;     &quot;Moderate&quot; &quot;High&quot;</code></pre>
+<div class="en">
+<p><code>cut()</code> does the same for many classes at once:</p>
+</div>
+<div class="fr">
+<p><code>cut()</code> fait la même chose pour plusieurs classes d’un
+coup :</p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">cut</span>(covers, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">100</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span>, <span class="st">&quot;Moderate&quot;</span>, <span class="st">&quot;High&quot;</span>), <span class="at">right =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] Low      Moderate High     Moderate High    
+#&gt; Levels: Low Moderate High</code></pre>
+</div>
+<div id="for" class="section level2">
+<h2><span class="en"><code>for</code> loops</span><span
+class="fr">Boucles <code>for</code></span></h2>
+<div class="en">
+<p>A <code>for</code> loop repeats a block of code once <strong>for each
+value</strong> of a vector. Read <code>for (r in reefs)</code> as “for
+each reef r in the list of reefs, do …”.</p>
+</div>
+<div class="fr">
+<p>Une boucle <code>for</code> répète un bloc de code une fois
+<strong>pour chaque valeur</strong> d’un vecteur. Lisez
+<code>for (r in reefs)</code> comme « pour chaque récif r de la liste
+des récifs, faire … ».</p>
+</div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>reefs <span class="ot">&lt;-</span> <span class="fu">unique</span>(pit<span class="sc">$</span>reef)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="cf">for</span> (r <span class="cf">in</span> reefs) {</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  points_r <span class="ot">&lt;-</span> pit<span class="sc">$</span>category[pit<span class="sc">$</span>reef <span class="sc">==</span> r]          <span class="co"># all points of this reef</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  hc <span class="ot">&lt;-</span> <span class="fu">sum</span>(points_r <span class="sc">==</span> <span class="st">&quot;HC&quot;</span>) <span class="sc">/</span> <span class="fu">length</span>(points_r) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">cat</span>(r, <span class="st">&quot;: hard coral =&quot;</span>, <span class="fu">round</span>(hc, <span class="dv">1</span>), <span class="st">&quot;%</span><span class="sc">\n</span><span class="st">&quot;</span>)     <span class="co"># cat() prints; \n = new line</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>#&gt; Reef_A : hard coral = 37.3 %
+#&gt; Reef_B : hard coral = 18 %</code></pre>
+<div class="callout tip">
+<div class="en">
+<p>Loops are easy to understand, but in R you often do not need them:
+<code>tapply()</code> and vectorised functions do the same job in one
+line. Use a loop when each step is complex (e.g. reading several files,
+making one graph per site).</p>
+</div>
+<div class="fr">
+<p>Les boucles sont faciles à comprendre, mais en R on en a souvent pas
+besoin : <code>tapply()</code> et les fonctions vectorisées font le même
+travail en une ligne. Utilisez une boucle quand chaque étape est
+complexe (ex. lire plusieurs fichiers, faire un graphique par site).</p>
+</div>
+</div>
+</div>
+<div id="functions" class="section level2">
+<h2><span class="en">Writing your own functions</span><span
+class="fr">Écrire ses propres fonctions</span></h2>
+<div class="en">
+<p>When you copy-paste the same code three times, write a function. The
+structure is:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>name <span class="ot">&lt;-</span> <span class="cf">function</span>(argument1, <span class="at">argument2 =</span> default) {</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="co"># ... calculations ...</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  result          <span class="co"># the last value is returned</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div class="fr">
+<p>Quand vous copiez-collez le même code trois fois, écrivez une
+fonction. La structure est :</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>nom <span class="ot">&lt;-</span> <span class="cf">function</span>(argument1, <span class="at">argument2 =</span> valeur_par_defaut) {</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="co"># ... calculs ...</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  resultat        <span class="co"># la dernière valeur est renvoyée</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># Standard error, ignoring missing values</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  x <span class="ot">&lt;-</span> x[<span class="sc">!</span><span class="fu">is.na</span>(x)]          <span class="co"># remove NA</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>}</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="fu">se</span>(<span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="dv">12</span>, <span class="cn">NA</span>, <span class="dv">80</span>))</span></code></pre></div>
+<pre><code>#&gt; [1] 14.33745</code></pre>
+<div class="en">
+<p>A function to compute the percentage cover of <strong>any</strong>
+benthic category, with hard coral as the default:</p>
+</div>
+<div class="fr">
+<p>Une fonction qui calcule le pourcentage de couverture de
+<strong>n’importe quelle</strong> catégorie benthique, avec le corail
+dur par défaut :</p>
+</div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>pct_cover <span class="ot">&lt;-</span> <span class="cf">function</span>(categories, <span class="at">code =</span> <span class="st">&quot;HC&quot;</span>) {</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  categories <span class="ot">&lt;-</span> categories[<span class="sc">!</span><span class="fu">is.na</span>(categories)]       <span class="co"># ignore missing points</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">sum</span>(categories <span class="sc">==</span> code) <span class="sc">/</span> <span class="fu">length</span>(categories) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>}</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> pit<span class="sc">$</span>category[pit<span class="sc">$</span>reef <span class="sc">==</span> <span class="st">&quot;Reef_A&quot;</span> <span class="sc">&amp;</span> pit<span class="sc">$</span>transect <span class="sc">==</span> <span class="dv">1</span>]</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="fu">pct_cover</span>(t1)                  <span class="co"># hard coral (default)</span></span></code></pre></div>
+<pre><code>#&gt; [1] 26</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">pct_cover</span>(t1, <span class="at">code =</span> <span class="st">&quot;MA&quot;</span>)     <span class="co"># macroalgae</span></span></code></pre></div>
+<pre><code>#&gt; [1] 16</code></pre>
+</div>
+<div id="per-transect" class="section level2">
+<h2><span class="en">One value per transect</span><span class="fr">Une
+valeur par transect</span></h2>
+<div class="en">
+<p>Our own function works inside <code>tapply()</code> like any built-in
+function. Grouping by a <code>list()</code> of two variables gives one
+cover per reef × transect:</p>
+</div>
+<div class="fr">
+<p>Notre fonction s’utilise dans <code>tapply()</code> comme n’importe
+quelle fonction intégrée. Grouper par une <code>list()</code> de deux
+variables donne une couverture par récif × transect :</p>
+</div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">tapply</span>(pit<span class="sc">$</span>category, <span class="fu">list</span>(pit<span class="sc">$</span>reef, pit<span class="sc">$</span>transect), pct_cover)</span></code></pre></div>
+<pre><code>#&gt;         1  2  3
+#&gt; Reef_A 26 50 36
+#&gt; Reef_B 20 12 22</code></pre>
+<div class="en">
+<p><code>aggregate()</code> gives the same result as a <strong>data
+frame</strong> — one row per transect. This “one row per sampling unit”
+table is the database you will need for statistics and graphs.</p>
+</div>
+<div class="fr">
+<p><code>aggregate()</code> donne le même résultat sous forme de
+<strong>data frame</strong> — une ligne par transect. Ce tableau « une
+ligne par unité d’échantillonnage » est la base de données dont vous
+aurez besoin pour les statistiques et les graphiques.</p>
+</div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>transects <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(category <span class="sc">~</span> reef <span class="sc">+</span> transect, <span class="at">data =</span> pit, <span class="at">FUN =</span> pct_cover)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="fu">names</span>(transects)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;hc_cover&quot;</span>          <span class="co"># rename the result column</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>transects</span></code></pre></div>
+<pre><code>#&gt;     reef transect hc_cover
+#&gt; 1 Reef_A        1       26
+#&gt; 2 Reef_B        1       20
+#&gt; 3 Reef_A        2       50
+#&gt; 4 Reef_B        2       12
+#&gt; 5 Reef_A        3       36
+#&gt; 6 Reef_B        3       22</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">tapply</span>(transects<span class="sc">$</span>hc_cover, transects<span class="sc">$</span>reef, mean)   <span class="co"># mean of the 3 transects per reef</span></span></code></pre></div>
+<pre><code>#&gt;   Reef_A   Reef_B 
+#&gt; 37.33333 18.00000</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">tapply</span>(transects<span class="sc">$</span>hc_cover, transects<span class="sc">$</span>reef, sd)</span></code></pre></div>
+<pre><code>#&gt;    Reef_A    Reef_B 
+#&gt; 12.055428  5.291503</code></pre>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Why not simply count all points of a reef together?</strong>
+The <strong>transect</strong> is the replicate (the sampling unit), not
+the point: points on the same tape are not independent. So we first
+compute one cover per transect, then the mean and SD across transects.
+This is exactly what you will do in the final project.</p>
+</div>
+<div class="fr">
+<p><strong>Pourquoi ne pas simplement compter tous les points d’un récif
+ensemble ?</strong> Le <strong>transect</strong> est le réplicat
+(l’unité d’échantillonnage), pas le point : les points d’un même ruban
+ne sont pas indépendants. On calcule donc d’abord une couverture par
+transect, puis la moyenne et l’ET entre transects. C’est exactement ce
+que vous ferez dans le projet final.</p>
+</div>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-7" class="section level3 en">
+<h3>Application work 7</h3>
+<p>New script <code>scripts/s07_functions.R</code>, with
+<code>pit &lt;- read.csv("data/coral_pit_example.csv")</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Write the function <code>pct_cover()</code> shown above.</li>
+<li>Build the table of hard coral cover <strong>per transect</strong>
+(<code>aggregate()</code>). What is the hard coral cover of
+<strong>Reef_B, transect 2</strong>?</li>
+<li>How many of the 6 transects have a hard coral cover <strong>above 30
+%</strong>?</li>
+<li>Mean hard coral cover of Reef_A (mean of its 3 transects), 2
+decimals.</li>
+<li>SD of hard coral cover of Reef_B, 2 decimals.</li>
+<li>Using the argument <code>code = "MA"</code>, compute the mean
+<strong>macroalgae</strong> cover of Reef_B (2 decimals). <em>Tip: extra
+arguments for the function can be added at the end of
+<code>aggregate()</code>, as with <code>tapply()</code>.</em></li>
+<li>Classify each transect as Low (&lt; 25 %), Moderate (25–50 %) or
+High (≥ 50 %) with <code>ifelse()</code>. How many are Moderate?</li>
+<li>Write a <code>for</code> loop that prints the hard coral cover of
+each reef.</li>
+</ol>
+</div>
+<div id="travail-dapplication-7" class="section level3 fr">
+<h3>Travail d’application 7</h3>
+<p>Nouveau script <code>scripts/s07_functions.R</code>, avec
+<code>pit &lt;- read.csv("data/coral_pit_example.csv")</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Écrivez la fonction <code>pct_cover()</code> présentée plus
+haut.</li>
+<li>Construisez le tableau de couverture en corail dur <strong>par
+transect</strong> (<code>aggregate()</code>). Quelle est la couverture
+en corail dur du <strong>Reef_B, transect 2</strong> ?</li>
+<li>Combien des 6 transects ont une couverture en corail dur
+<strong>supérieure à 30 %</strong> ?</li>
+<li>Couverture moyenne en corail dur de Reef_A (moyenne de ses 3
+transects), 2 décimales.</li>
+<li>ET de la couverture en corail dur de Reef_B, 2 décimales.</li>
+<li>Avec l’argument <code>code = "MA"</code>, calculez la couverture
+moyenne en <strong>macroalgues</strong> de Reef_B (2 décimales).
+<em>Astuce : les arguments supplémentaires pour la fonction s’ajoutent à
+la fin de <code>aggregate()</code>, comme avec
+<code>tapply()</code>.</em></li>
+<li>Classez chaque transect en Low (&lt; 25 %), Moderate (25–50 %) ou
+High (≥ 50 %) avec <code>ifelse()</code>. Combien sont Moderate ?</li>
+<li>Écrivez une boucle <code>for</code> qui affiche la couverture en
+corail dur de chaque récif.</li>
+</ol>
+</div>
+</div>
+<div id="quiz-s07" class="quiz" data-quiz-id="s07"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMi4gSGFyZCBjb3JhbCBjb3ZlciwgUmVlZl9CIHRyYW5zZWN0IDIgKCUpPyIsImZyIjoiMi4gQ29yYWlsIGR1ciwgUmVlZl9CIHRyYW5zZWN0IDIgKCUpID8iLCJhbnN3ZXIiOjEyLCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBUcmFuc2VjdHMgd2l0aCBoYXJkIGNvcmFsID4gMzAgJT8iLCJmciI6IjMuIFRyYW5zZWN0cyBhdmVjIGNvcmFpbCBkdXIgPiAzMCAlID8iLCJhbnN3ZXIiOjIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE1lYW4gaGFyZCBjb3JhbCBjb3ZlciBvZiBSZWVmX0E/IiwiZnIiOiI0LiBDb3V2ZXJ0dXJlIG1veWVubmUgZW4gY29yYWlsIGR1ciBkZSBSZWVmX0EgPyIsImFuc3dlciI6MzcuMzMsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI1LiBTRCBvZiBoYXJkIGNvcmFsIGNvdmVyIG9mIFJlZWZfQj8iLCJmciI6IjUuIEVUIGRlIGxhIGNvdXZlcnR1cmUgZW4gY29yYWlsIGR1ciBkZSBSZWVmX0IgPyIsImFuc3dlciI6NS4yOSwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIE1lYW4gbWFjcm9hbGdhZSBjb3ZlciBvZiBSZWVmX0I/IiwiZnIiOiI2LiBDb3V2ZXJ0dXJlIG1veWVubmUgZW4gbWFjcm9hbGd1ZXMgZGUgUmVlZl9CID8iLCJhbnN3ZXIiOjI4LjY3LCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNy4gTnVtYmVyIG9mIE1vZGVyYXRlIHRyYW5zZWN0cz8iLCJmciI6IjcuIE5vbWJyZSBkZSB0cmFuc2VjdHMgTW9kZXJhdGUgPyIsImFuc3dlciI6MiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gV2hpY2ggb25lIGNsYXNzaWZpZXMgYSB3aG9sZSB2ZWN0b3IgYXQgb25jZT8iLCJmciI6IjguIExlcXVlbCBjbGFzc2UgdW4gdmVjdGV1ciBlbnRpZXIgZCd1biBjb3VwID8iLCJvcHRpb25zX2VuIjpbImlmIC4uLiBlbHNlIiwiaWZlbHNlKCkiLCJmb3IiLCJmdW5jdGlvbigpIl0sIm9wdGlvbnNfZnIiOlsiaWYgLi4uIGVsc2UiLCJpZmVsc2UoKSIsImZvciIsImZ1bmN0aW9uKCkiXSwiYW5zd2VyIjoxfV0=">
+
+</div>
+<div class="solution" data-quiz="s07">
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>pit <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/coral_pit_example.csv&quot;</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>pct_cover <span class="ot">&lt;-</span> <span class="cf">function</span>(categories, <span class="at">code =</span> <span class="st">&quot;HC&quot;</span>) {</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>  categories <span class="ot">&lt;-</span> categories[<span class="sc">!</span><span class="fu">is.na</span>(categories)]</span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>  <span class="fu">sum</span>(categories <span class="sc">==</span> code) <span class="sc">/</span> <span class="fu">length</span>(categories) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>}</span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(category <span class="sc">~</span> reef <span class="sc">+</span> transect, <span class="at">data =</span> pit, <span class="at">FUN =</span> pct_cover)</span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a><span class="fu">names</span>(tr)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;hc_cover&quot;</span></span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>tr                                                   <span class="co"># 2: read Reef_B / 2</span></span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a><span class="fu">sum</span>(tr<span class="sc">$</span>hc_cover <span class="sc">&gt;</span> <span class="dv">30</span>)                                <span class="co"># 3</span></span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(tr<span class="sc">$</span>hc_cover, tr<span class="sc">$</span>reef, mean), <span class="dv">2</span>)         <span class="co"># 4</span></span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(tr<span class="sc">$</span>hc_cover, tr<span class="sc">$</span>reef, sd), <span class="dv">2</span>)           <span class="co"># 5</span></span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a>ma <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(category <span class="sc">~</span> reef <span class="sc">+</span> transect, <span class="at">data =</span> pit, <span class="at">FUN =</span> pct_cover, <span class="at">code =</span> <span class="st">&quot;MA&quot;</span>)</span>
+<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(ma<span class="sc">$</span>category, ma<span class="sc">$</span>reef, mean), <span class="dv">2</span>)         <span class="co"># 6</span></span>
+<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a>tr<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(tr<span class="sc">$</span>hc_cover <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">&quot;High&quot;</span>,</span>
+<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a>                   <span class="fu">ifelse</span>(tr<span class="sc">$</span>hc_cover <span class="sc">&gt;=</span> <span class="dv">25</span>, <span class="st">&quot;Moderate&quot;</span>, <span class="st">&quot;Low&quot;</span>))</span>
+<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a><span class="fu">table</span>(tr<span class="sc">$</span>class)                                      <span class="co"># 7</span></span>
+<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a></span>
+<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a><span class="cf">for</span> (r <span class="cf">in</span> <span class="fu">unique</span>(pit<span class="sc">$</span>reef)) {                        <span class="co"># 8</span></span>
+<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a>  <span class="fu">cat</span>(r, <span class="st">&quot;:&quot;</span>, <span class="fu">round</span>(<span class="fu">pct_cover</span>(pit<span class="sc">$</span>category[pit<span class="sc">$</span>reef <span class="sc">==</span> r]), <span class="dv">1</span>), <span class="st">&quot;%</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb29-24"><a href="#cb29-24" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="Anatomy of a data frame" font-family="Source Sans 3, Arial, sans-serif">
+<g font-family="JetBrains Mono, monospace" font-size="15">
+<rect x="150" y="40" width="560" height="36" fill="#0b3d5c"/>
+<g fill="#fff"><text x="160" y="64">site</text><text x="300" y="64">mpa_status</text><text x="430" y="64">quadrat</text><text x="540" y="64">seagrass_cover</text></g>
+<g fill="#f7f9fa" stroke="#dde3e6"><rect x="150" y="76" width="560" height="34"/><rect x="150" y="110" width="560" height="34"/><rect x="150" y="144" width="560" height="34"/><rect x="150" y="178" width="560" height="34"/></g>
+<rect x="150" y="110" width="560" height="34" fill="#fde3d9" stroke="#d9694a" stroke-width="2"/>
+<rect x="530" y="40" width="180" height="172" fill="none" stroke="#4a7d3a" stroke-width="3" rx="4"/>
+<g fill="#1f2a33"><text x="160" y="99">Ambalaboy</text><text x="300" y="99">Inside</text><text x="460" y="99">1</text><text x="600" y="99">69</text><text x="160" y="133">Ambalaboy</text><text x="300" y="133">Inside</text><text x="460" y="133">2</text><text x="600" y="133">47</text><text x="160" y="167">Ambalaboy</text><text x="300" y="167">Inside</text><text x="460" y="167">3</text><text x="600" y="167">64</text><text x="160" y="201">...</text><text x="300" y="201">...</text><text x="460" y="201">...</text><text x="600" y="201">...</text></g>
+<g fill="#5d6b75" font-size="13"><text x="120" y="99" text-anchor="end">1</text><text x="120" y="133" text-anchor="end">2</text><text x="120" y="167" text-anchor="end">3</text></g>
+</g>
+<g font-size="16">
+<text class="en" x="20" y="133" fill="#d9694a" font-weight="700"><tspan x="20">a ROW =</tspan><tspan x="20" dy="19">one quadrat</tspan></text>
+<text class="fr" x="20" y="133" fill="#d9694a" font-weight="700"><tspan x="20">une LIGNE =</tspan><tspan x="20" dy="19">un quadrat</tspan></text>
+<text class="en" x="725" y="110" fill="#4a7d3a" font-weight="700"><tspan x="725">a COLUMN =</tspan><tspan x="725" dy="19">one variable</tspan></text>
+<text class="fr" x="725" y="110" fill="#4a7d3a" font-weight="700"><tspan x="725">une COLONNE =</tspan><tspan x="725" dy="19">une variable</tspan></text>
+<text x="150" y="250" font-family="JetBrains Mono, monospace" font-size="15" fill="#0b3d5c">df[2, ]        df$seagrass_cover        df[2, "seagrass_cover"]  → 47</text>
+<text class="en" x="150" y="280" fill="#5d6b75">row 2, all columns · one whole column · one single cell</text>
+<text class="fr" x="150" y="280" fill="#5d6b75">ligne 2, toutes colonnes · une colonne entière · une seule cellule</text>
+</g>
+</svg>

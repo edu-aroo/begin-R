@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" role="img" aria-label="Point intercept transect" font-family="Source Sans 3, Arial, sans-serif">
+<rect width="860" height="260" fill="#e9f4f6"/>
+<path d="M0 170 Q60 140 120 165 T240 160 T360 170 T480 150 T600 168 T720 158 T860 165 V260 H0z" fill="#f1e6cc"/>
+<g><ellipse cx="90" cy="150" rx="45" ry="28" fill="#e48b6c"/><ellipse cx="300" cy="148" rx="55" ry="30" fill="#d9694a"/><path d="M430 160 q10 -40 20 0 q10 -45 20 0" fill="#a3b84a"/><ellipse cx="610" cy="152" rx="40" ry="24" fill="#e48b6c"/><g fill="#c8b9a2"><circle cx="190" cy="165" r="9"/><circle cx="205" cy="162" r="7"/><circle cx="520" cy="163" r="8"/><circle cx="740" cy="160" r="9"/><circle cx="755" cy="164" r="6"/></g></g>
+<line x1="30" y1="120" x2="830" y2="120" stroke="#e3b04b" stroke-width="5"/>
+<g stroke="#0b3d5c" stroke-width="2"><line x1="90" y1="112" x2="90" y2="140"/><line x1="200" y1="112" x2="200" y2="155"/><line x1="300" y1="112" x2="300" y2="128"/><line x1="450" y1="112" x2="450" y2="140"/><line x1="610" y1="112" x2="610" y2="138"/><line x1="745" y1="112" x2="745" y2="150"/></g>
+<g font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" text-anchor="middle"><text x="90" y="100" fill="#d9694a">HC</text><text x="200" y="100" fill="#8a7a62">RB</text><text x="300" y="100" fill="#d9694a">HC</text><text x="450" y="100" fill="#4a7d3a">MA</text><text x="610" y="100" fill="#d9694a">HC</text><text x="745" y="100" fill="#8a7a62">RB</text></g>
+<text class="en" x="30" y="40" font-size="17" font-weight="700" fill="#0b3d5c">Point Intercept Transect (PIT): a 25 m tape, one point every 0.5 m = 50 points</text>
+<text class="fr" x="30" y="40" font-size="17" font-weight="700" fill="#0b3d5c">Transect à points (PIT) : ruban de 25 m, un point tous les 0,5 m = 50 points</text>
+<text class="en" x="30" y="215" font-size="16" fill="#1f2a33">% hard coral cover = (number of HC points / total points) × 100  —  e.g. 3 / 6 × 100 = 50 %</text>
+<text class="fr" x="30" y="215" font-size="16" fill="#1f2a33">% couverture de corail dur = (nombre de points HC / total des points) × 100  —  ex. 3 / 6 × 100 = 50 %</text>
+<text class="en" x="30" y="242" font-size="14" fill="#5d6b75">HC hard coral · SC soft coral · MA macroalgae · TA turf algae · RB rubble · SD sand</text>
+<text class="fr" x="30" y="242" font-size="14" fill="#5d6b75">HC corail dur · SC corail mou · MA macroalgues · TA algues gazonnantes · RB débris · SD sable</text>
+</svg>

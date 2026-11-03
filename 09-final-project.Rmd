@@ -1,0 +1,307 @@
+---
+title: "[9 · Final project: hard coral cover in three MPAs]{.en}[9 · Projet final : couverture en corail dur dans trois AMP]{.fr}"
+pagetitle: "R course · Session 9"
+subtitle: "~4 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+::: objectives
+::: en
+#### In this project you will, on your own
+- import a **raw, messy** field dataset (900+ rows);
+- clean it and build a **database** with one row per transect;
+- compute the **mean and standard deviation** of hard coral cover per MPA and zone;
+- produce a **publication-quality figure**;
+- write a short interpretation.
+
+This is your final test: the quiz at the end is your course score.
+:::
+::: fr
+#### Dans ce projet, vous allez, en autonomie
+- importer un jeu de données de terrain **brut et sale** (900+ lignes) ;
+- le nettoyer et construire une **base de données** avec une ligne par transect ;
+- calculer la **moyenne et l'écart-type** de la couverture en corail dur par AMP et par zone ;
+- produire une **figure de qualité publication** ;
+- rédiger une courte interprétation.
+
+C'est votre test final : le quiz à la fin constitue votre note du cours.
+:::
+:::
+
+## [The survey]{.en}[Le suivi]{.fr} {#survey}
+
+::: en
+A monitoring team surveyed **3 MPAs** (*Ankaramena*, *Nosy Fasika*, *Tanjona* — invented names, simulated data). In each MPA they sampled two zones: the **No-take** zone (fishing forbidden) and the **Fishing** zone around it. In each zone they laid **3 transects** of 25 m and recorded the benthic category under the tape every 0.5 m (**50 points** per transect, PIT method, see Session 7).
+
+Three observers entered the data in a shared sheet; the files were then merged. The result is `coral_cover_raw.csv`.
+
+| Column | Content |
+|---|---|
+| `date` | survey date |
+| `mpa` | MPA name |
+| `zone` | No-take or Fishing |
+| `transect` | 1, 2 or 3 |
+| `point` | 1 to 50 along the tape |
+| `depth_m` | transect depth (m) |
+| `category` | HC, SC, MA, TA, RB, SD (see Session 7) |
+| `observer` | initials |
+
+**Question:** *Is hard coral cover higher in no-take zones than in fishing zones, and is this true in all three MPAs?*
+:::
+::: fr
+Une équipe de suivi a échantillonné **3 AMP** (*Ankaramena*, *Nosy Fasika*, *Tanjona* — noms inventés, données simulées). Dans chaque AMP, deux zones : la zone de **non-prélèvement** (*No-take*, pêche interdite) et la zone de **pêche** (*Fishing*) autour. Dans chaque zone, **3 transects** de 25 m, avec la catégorie benthique notée sous le ruban tous les 0,5 m (**50 points** par transect, méthode PIT, voir séance 7).
+
+Trois observateurs ont saisi les données dans une feuille partagée ; les fichiers ont ensuite été fusionnés. Le résultat est `coral_cover_raw.csv`.
+
+| Colonne | Contenu |
+|---|---|
+| `date` | date du relevé |
+| `mpa` | nom de l'AMP |
+| `zone` | No-take ou Fishing |
+| `transect` | 1, 2 ou 3 |
+| `point` | 1 à 50 le long du ruban |
+| `depth_m` | profondeur du transect (m) |
+| `category` | HC, SC, MA, TA, RB, SD (voir séance 7) |
+| `observer` | initiales |
+
+**Question :** *La couverture en corail dur est-elle plus élevée dans les zones de non-prélèvement que dans les zones de pêche, et est-ce vrai dans les trois AMP ?*
+:::
+
+`r fig_svg("workflow")`
+
+`r dl("coral_cover_raw.csv", "coral_cover_raw.csv")` `r dl("final_project_template.R", "final_project_template.R", dir = "templates")`
+
+::: {.callout .tip}
+::: en
+Download the **template script**, save it in your `scripts/` folder and complete it step by step. It contains the structure of the analysis with blanks (`...`) to fill. Everything you need was covered in Sessions 1–7. If you are stuck, go back to the session indicated in each step below.
+:::
+::: fr
+Téléchargez le **script modèle**, enregistrez-le dans votre dossier `scripts/` et complétez-le étape par étape. Il contient la structure de l'analyse avec des trous (`...`) à remplir. Tout ce dont vous avez besoin a été vu dans les séances 1 à 7. Si vous êtes bloqué, revenez à la séance indiquée à chaque étape ci-dessous.
+:::
+:::
+
+## [Step 1 — Import and inspect]{.en}[Étape 1 — Importer et inspecter]{.fr} {#step1}
+
+::: en
+*Sessions 3 and 4.* Import the file into an object `raw`. Look at its structure, its number of rows, the unique values of `mpa`, `zone` and `category` (`unique()`, `table(..., useNA = "always")`). Write down every problem you see **before** fixing anything.
+:::
+::: fr
+*Séances 3 et 4.* Importez le fichier dans un objet `raw`. Regardez sa structure, son nombre de lignes, les valeurs uniques de `mpa`, `zone` et `category` (`unique()`, `table(..., useNA = "always")`). Notez chaque problème observé **avant** de corriger quoi que ce soit.
+:::
+
+## [Step 2 — Clean]{.en}[Étape 2 — Nettoyer]{.fr} {#step2}
+
+::: en
+*Session 4.* In this order:
+
+1. **MPA names**: replace multiple spaces by one (`gsub("\\s+", " ", x)` — `\\s+` means "one or more spaces"), remove leading/trailing spaces, harmonise the case with `tools::toTitleCase(tolower(x))`. You must obtain exactly 3 MPAs.
+2. **Zone**: `ifelse(tolower(zone) == "no-take", "No-take", "Fishing")`.
+3. **Category**: remove spaces, convert to upper case (`toupper()`), replace empty texts `""` by `NA`.
+4. **Duplicates**: count them, then remove them.
+5. **Missing points**: count the points without category (after removing duplicates), then remove them. Cover will be computed on the points that were actually recorded.
+6. Save the clean points table in `outputs/`.
+:::
+::: fr
+*Séance 4.* Dans cet ordre :
+
+1. **Noms d'AMP** : remplacez les espaces multiples par un seul (`gsub("\\s+", " ", x)` — `\\s+` signifie « un ou plusieurs espaces »), retirez les espaces de début/fin, harmonisez la casse avec `tools::toTitleCase(tolower(x))`. Vous devez obtenir exactement 3 AMP.
+2. **Zone** : `ifelse(tolower(zone) == "no-take", "No-take", "Fishing")`.
+3. **Catégorie** : retirez les espaces, passez en majuscules (`toupper()`), remplacez les textes vides `""` par `NA`.
+4. **Doublons** : comptez-les, puis supprimez-les.
+5. **Points manquants** : comptez les points sans catégorie (après suppression des doublons), puis supprimez-les. La couverture sera calculée sur les points réellement relevés.
+6. Enregistrez le tableau des points propre dans `outputs/`.
+:::
+
+## [Step 3 — Build the database]{.en}[Étape 3 — Construire la base de données]{.fr} {#step3}
+
+::: en
+*Session 7.* Using your function `pct_cover()` and `aggregate(category ~ mpa + zone + transect, ...)`, build a table `db` with **one row per transect** and a column `hc_cover` (% hard coral). Check that it has the expected number of rows (3 MPAs × 2 zones × 3 transects). Save it: this is your **database**.
+:::
+::: fr
+*Séance 7.* Avec votre fonction `pct_cover()` et `aggregate(category ~ mpa + zone + transect, ...)`, construisez un tableau `db` avec **une ligne par transect** et une colonne `hc_cover` (% de corail dur). Vérifiez qu'il a le nombre de lignes attendu (3 AMP × 2 zones × 3 transects). Enregistrez-le : c'est votre **base de données**.
+:::
+
+## [Step 4 — Mean and SD]{.en}[Étape 4 — Moyenne et écart-type]{.fr} {#step4}
+
+::: en
+*Session 5.* Compute the mean and SD of `hc_cover` for each MPA × zone combination (`tapply()` with `list(db$zone, db$mpa)`, or `aggregate()`). Each value is based on **n = 3 transects**. Also compute the overall mean of the 9 No-take transects and of the 9 Fishing transects.
+:::
+::: fr
+*Séance 5.* Calculez la moyenne et l'ET de `hc_cover` pour chaque combinaison AMP × zone (`tapply()` avec `list(db$zone, db$mpa)`, ou `aggregate()`). Chaque valeur repose sur **n = 3 transects**. Calculez aussi la moyenne globale des 9 transects No-take et des 9 transects Fishing.
+:::
+
+## [Step 5 — The figure]{.en}[Étape 5 — La figure]{.fr} {#step5}
+
+::: en
+*Session 6.* Draw a **grouped barplot**: MPAs on the x-axis, one bar per zone, mean ± SD. With base R, `tapply()` with two groups returns a **matrix**; `barplot(matrix, beside = TRUE)` draws grouped bars and returns a matrix of bar positions that `arrows()` accepts directly. The template script contains the full code. Save the figure as PNG (300 dpi).
+
+*Optional (Session 8):* make the same figure with ggplot2 using `position = position_dodge(0.8)` in `geom_col()` and `geom_errorbar()`.
+:::
+::: fr
+*Séance 6.* Tracez un **diagramme en barres groupées** : AMP en abscisse, une barre par zone, moyenne ± ET. En R de base, `tapply()` avec deux groupes renvoie une **matrice** ; `barplot(matrice, beside = TRUE)` trace des barres groupées et renvoie une matrice de positions que `arrows()` accepte directement. Le script modèle contient le code complet. Enregistrez la figure en PNG (300 dpi).
+
+*Facultatif (séance 8) :* faites la même figure avec ggplot2 en utilisant `position = position_dodge(0.8)` dans `geom_col()` et `geom_errorbar()`.
+:::
+
+## [Step 6 — Interpret]{.en}[Étape 6 — Interpréter]{.fr} {#step6}
+
+::: en
+At the end of your script, write 3–4 sentences as comments: Where is hard coral cover highest? Is the no-take effect the same in all three MPAs? What limits the conclusions (number of transects, SD, data simulated)? A figure is only useful with a correct caption: write one, stating what the bars and the error bars represent and the value of n.
+:::
+::: fr
+À la fin de votre script, rédigez 3–4 phrases en commentaires : où la couverture en corail dur est-elle la plus élevée ? L'effet de la zone de non-prélèvement est-il le même dans les trois AMP ? Qu'est-ce qui limite les conclusions (nombre de transects, ET, données simulées) ? Une figure n'est utile qu'avec une légende correcte : rédigez-en une, précisant ce que représentent les barres et les barres d'erreur, et la valeur de n.
+:::
+
+## [Final quiz]{.en}[Quiz final]{.fr} {#application}
+
+```{r answers09, include=FALSE}
+# Reference analysis: the "official" answers of the final project
+pct_cover <- function(categories, code = "HC") {
+  categories <- categories[!is.na(categories)]
+  sum(categories == code) / length(categories) * 100
+}
+raw <- read.csv("data/coral_cover_raw.csv")
+a1 <- nrow(raw)
+a2 <- length(unique(raw$mpa))
+raw$mpa  <- tools::toTitleCase(tolower(trimws(gsub("\\s+", " ", raw$mpa))))
+raw$zone <- ifelse(tolower(raw$zone) == "no-take", "No-take", "Fishing")
+raw$category <- toupper(trimws(raw$category))
+raw$category[raw$category == ""] <- NA
+a3  <- sum(duplicated(raw))
+pts <- raw[!duplicated(raw), ]
+a4  <- sum(is.na(pts$category))
+pts <- pts[!is.na(pts$category), ]
+a5  <- nrow(pts)
+db  <- aggregate(category ~ mpa + zone + transect, data = pts, FUN = pct_cover)
+names(db)[4] <- "hc_cover"
+a6  <- nrow(db)
+a7  <- round(db$hc_cover[db$mpa == "Tanjona" & db$zone == "No-take" & db$transect == 1], 2)
+m   <- tapply(db$hc_cover, list(db$zone, db$mpa), mean)
+s   <- tapply(db$hc_cover, list(db$zone, db$mpa), sd)
+a8  <- round(m["No-take", "Ankaramena"], 2)
+a9  <- round(s["No-take", "Ankaramena"], 2)
+a10 <- round(m["Fishing", "Nosy Fasika"], 2)
+a11 <- names(which.max(m["No-take", ]))
+nt  <- tapply(db$hc_cover, db$zone, mean)
+a12 <- round(nt[["No-take"]], 2)
+a13 <- round(nt[["Fishing"]], 2)
+diffs <- m["No-take", ] - m["Fishing", ]
+a14 <- names(which.max(diffs))
+```
+
+::: en
+Enter the results of **your** analysis. Give numbers rounded to **2 decimals** unless they are counts.
+:::
+::: fr
+Saisissez les résultats de **votre** analyse. Donnez les nombres arrondis à **2 décimales** sauf s'il s'agit d'effectifs.
+:::
+
+```{r quiz09, echo=FALSE}
+quiz("s09", list(
+  q_num("1. Number of rows in the raw file?", "1. Nombre de lignes du fichier brut ?", a1, tol = 0),
+  q_num("2. Number of different spellings in the column mpa (raw)?", "2. Nombre d'orthographes différentes dans la colonne mpa (brut) ?", a2, tol = 0),
+  q_num("3. Number of duplicated rows (after cleaning the text columns)?", "3. Nombre de lignes en double (après nettoyage des colonnes texte) ?", a3, tol = 0),
+  q_num("4. Number of points without category, after removing duplicates?", "4. Nombre de points sans catégorie, après suppression des doublons ?", a4, tol = 0),
+  q_num("5. Number of rows of the clean points table?", "5. Nombre de lignes du tableau des points propre ?", a5, tol = 0),
+  q_num("6. Number of rows of the transect database?", "6. Nombre de lignes de la base de données des transects ?", a6, tol = 0),
+  q_num("7. Hard coral cover of Tanjona, No-take, transect 1 (%)?", "7. Couverture en corail dur de Tanjona, No-take, transect 1 (%) ?", a7, tol = 0.006),
+  q_num("8. Mean hard coral cover, Ankaramena No-take?", "8. Couverture moyenne en corail dur, Ankaramena No-take ?", a8, tol = 0.006),
+  q_num("9. SD of hard coral cover, Ankaramena No-take?", "9. ET de la couverture en corail dur, Ankaramena No-take ?", a9, tol = 0.006),
+  q_num("10. Mean hard coral cover, Nosy Fasika Fishing?", "10. Couverture moyenne en corail dur, Nosy Fasika Fishing ?", a10, tol = 0.006),
+  q_text("11. Which MPA has the highest mean cover in its No-take zone?", "11. Quelle AMP a la couverture moyenne la plus élevée dans sa zone No-take ?", a11),
+  q_num("12. Overall mean hard coral cover of the 9 No-take transects?", "12. Couverture moyenne globale des 9 transects No-take ?", a12, tol = 0.006),
+  q_num("13. Overall mean hard coral cover of the 9 Fishing transects?", "13. Couverture moyenne globale des 9 transects Fishing ?", a13, tol = 0.006),
+  q_text("14. In which MPA is the difference (No-take mean − Fishing mean) the largest?", "14. Dans quelle AMP la différence (moyenne No-take − moyenne Fishing) est-elle la plus grande ?", a14),
+  q_mcq("15. In this design, what is the replicate (sampling unit) used to compute the SD?",
+        "15. Dans ce plan d'échantillonnage, quel est le réplicat (unité d'échantillonnage) utilisé pour calculer l'ET ?",
+        c("The point", "The transect", "The MPA", "The observer"),
+        c("Le point", "Le transect", "L'AMP", "L'observateur"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="s09"}
+::: en
+Reference solution (base R). Your code may be different and still correct: what matters is that each step is justified and the numbers match.
+:::
+::: fr
+Solution de référence (R de base). Votre code peut être différent et néanmoins correct : l'essentiel est que chaque étape soit justifiée et que les chiffres correspondent.
+:::
+
+```{r, eval=FALSE}
+pct_cover <- function(categories, code = "HC") {
+  categories <- categories[!is.na(categories)]
+  sum(categories == code) / length(categories) * 100
+}
+
+# 1. Import and inspect
+raw <- read.csv("data/coral_cover_raw.csv")
+nrow(raw)                                   # Q1
+length(unique(raw$mpa))                     # Q2
+
+# 2. Clean
+raw$mpa      <- tools::toTitleCase(tolower(trimws(gsub("\\s+", " ", raw$mpa))))
+raw$zone     <- ifelse(tolower(raw$zone) == "no-take", "No-take", "Fishing")
+raw$category <- toupper(trimws(raw$category))
+raw$category[raw$category == ""] <- NA
+sum(duplicated(raw))                        # Q3
+pts <- raw[!duplicated(raw), ]
+sum(is.na(pts$category))                    # Q4
+pts <- pts[!is.na(pts$category), ]
+nrow(pts)                                   # Q5
+write.csv(pts, "outputs/coral_points_clean.csv", row.names = FALSE)
+
+# 3. Database
+db <- aggregate(category ~ mpa + zone + transect, data = pts, FUN = pct_cover)
+names(db)[names(db) == "category"] <- "hc_cover"
+nrow(db)                                    # Q6
+db[db$mpa == "Tanjona" & db$zone == "No-take" & db$transect == 1, ]   # Q7
+write.csv(db, "outputs/coral_transects_db.csv", row.names = FALSE)
+
+# 4. Mean and SD
+m <- tapply(db$hc_cover, list(db$zone, db$mpa), mean)
+s <- tapply(db$hc_cover, list(db$zone, db$mpa), sd)
+round(m, 2); round(s, 2)                    # Q8, Q9, Q10, Q11
+round(tapply(db$hc_cover, db$zone, mean), 2)   # Q12, Q13
+round(m["No-take", ] - m["Fishing", ], 2)      # Q14
+
+# 5. Figure
+m <- m[c("No-take", "Fishing"), ]; s <- s[c("No-take", "Fishing"), ]
+png("outputs/fig_hard_coral_cover.png", width = 18, height = 12, units = "cm", res = 300)
+bp <- barplot(m, beside = TRUE, ylim = c(0, max(m + s) * 1.15),
+              col = c("#1b7f8c", "#d9694a"), las = 1,
+              ylab = "Hard coral cover (%) - mean ± SD (n = 3 transects)")
+arrows(bp, m - s, bp, m + s, angle = 90, code = 3, length = 0.06)
+legend("topright", fill = c("#1b7f8c", "#d9694a"), legend = rownames(m), bty = "n")
+box(bty = "l")
+dev.off()
+```
+
+::: en
+The expected figure:
+:::
+::: fr
+La figure attendue :
+:::
+
+```{r final-fig, echo=FALSE, fig.height=4.4}
+m2 <- m[c("No-take", "Fishing"), ]; s2 <- s[c("No-take", "Fishing"), ]
+bp <- barplot(m2, beside = TRUE, ylim = c(0, max(m2 + s2) * 1.15),
+              col = c("#1b7f8c", "#d9694a"), las = 1,
+              ylab = "Hard coral cover (%) - mean ± SD (n = 3)")
+arrows(bp, m2 - s2, bp, m2 + s2, angle = 90, code = 3, length = 0.06)
+legend("topright", fill = c("#1b7f8c", "#d9694a"), legend = rownames(m2), bty = "n")
+box(bty = "l")
+```
+:::
+
+## [What next?]{.en}[Et ensuite ?]{.fr} {#next}
+
+::: en
+Congratulations — you can now take raw field data all the way to a summary table and a figure, with a script that anyone can re-run. The intermediate course will cover data reshaping (`tidyr`), joining tables, dates, statistical tests (t-test, ANOVA, non-parametric tests) and linear models, and reporting with R Markdown.
+:::
+::: fr
+Félicitations — vous savez désormais mener des données brutes de terrain jusqu'à un tableau de synthèse et une figure, avec un script que n'importe qui peut relancer. Le cours intermédiaire abordera la restructuration des données (`tidyr`), les jointures de tableaux, les dates, les tests statistiques (test t, ANOVA, tests non paramétriques) et les modèles linéaires, ainsi que la rédaction de rapports avec R Markdown.
+:::

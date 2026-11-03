@@ -1,0 +1,305 @@
+---
+title: "[1 · First steps: objects & functions]{.en}[1 · Premiers pas : objets et fonctions]{.fr}"
+pagetitle: "R course · Session 1"
+subtitle: "~2 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- use R as a calculator and understand the order of operations;
+- store values in **objects** with `<-` and re-use them;
+- call **functions** with **arguments**, and read a help page;
+- write, comment, save and re-run a **script**.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- utiliser R comme une calculatrice et comprendre l'ordre des opérations ;
+- stocker des valeurs dans des **objets** avec `<-` et les réutiliser ;
+- appeler des **fonctions** avec des **arguments**, et lire une page d'aide ;
+- écrire, commenter, enregistrer et relancer un **script**.
+:::
+:::
+
+::: {.callout .tip}
+::: en
+Open your project `R_course_reef`, create a new script (**Ctrl + Shift + N**) and save it as `scripts/s01_first_steps.R`. Type every example of this page in it and run each line with **Ctrl + Enter**.
+:::
+::: fr
+Ouvrez votre projet `R_course_reef`, créez un nouveau script (**Ctrl + Maj + N**) et enregistrez-le sous `scripts/s01_first_steps.R`. Tapez chaque exemple de cette page dedans et exécutez chaque ligne avec **Ctrl + Entrée**.
+:::
+:::
+
+## [R as a calculator]{.en}[R comme calculatrice]{.fr} {#calculator}
+
+::: en
+In the boxes below, the grey box with a coloured left border is the **code** you type; the box underneath, starting with `#>`, is what R **answers**. The `[1]` means "first value of the result".
+:::
+::: fr
+Dans les cadres ci-dessous, le cadre gris avec une bordure colorée à gauche est le **code** que vous tapez ; le cadre en dessous, commençant par `#>`, est la **réponse** de R. Le `[1]` signifie « première valeur du résultat ».
+:::
+
+```{r}
+12 + 30        # addition
+100 - 37       # subtraction
+4 * 25         # multiplication
+87 / 0.25      # division: 87 shoots counted in a 0.25 m2 quadrat -> shoots per m2
+2^3            # power: 2 x 2 x 2
+```
+
+::: en
+R follows the usual **order of operations**: powers, then multiplication/division, then addition/subtraction. Use **parentheses** to be explicit.
+:::
+::: fr
+R respecte l'**ordre habituel des opérations** : puissances, puis multiplication/division, puis addition/soustraction. Utilisez des **parenthèses** pour être explicite.
+:::
+
+```{r}
+10 + 5 * 2      # = 10 + 10
+(10 + 5) * 2    # = 15 * 2
+```
+
+::: {.callout .ecology}
+::: en
+**Field example.** On a 20 m transect, the tape crosses live hard coral over a total of 7.4 m. The percentage of hard coral cover is `7.4 / 20 * 100`.
+:::
+::: fr
+**Exemple de terrain.** Sur un transect de 20 m, le ruban passe au-dessus de corail dur vivant sur 7,4 m au total. Le pourcentage de couverture en corail dur est `7.4 / 20 * 100`.
+:::
+:::
+
+```{r}
+7.4 / 20 * 100
+```
+
+::: {.callout .warning}
+::: en
+R uses the **dot** as decimal separator: write `7.4`, never `7,4`. A comma separates the arguments of a function (see below).
+:::
+::: fr
+R utilise le **point** comme séparateur décimal : écrivez `7.4`, jamais `7,4`. La virgule sépare les arguments d'une fonction (voir plus bas).
+:::
+:::
+
+## [Objects: giving a name to a value]{.en}[Objets : donner un nom à une valeur]{.fr} {#objects}
+
+::: en
+Typing the same number again and again is error-prone. Instead, store it in an **object** with the **assignment arrow** `<-` (type `<` then `-`, or use the shortcut **Alt + −**). Read `x <- 5` as "x **gets** 5".
+:::
+::: fr
+Taper le même nombre encore et encore est source d'erreurs. Il vaut mieux le stocker dans un **objet** avec la **flèche d'affectation** `<-` (tapez `<` puis `-`, ou utilisez le raccourci **Alt + −**). Lisez `x <- 5` comme « x **reçoit** 5 ».
+:::
+
+```{r}
+quadrat_area <- 0.5 * 0.5      # a 50 x 50 cm quadrat, in m2
+shoots       <- 87             # number of seagrass shoots counted
+density      <- shoots / quadrat_area
+density                        # typing the name prints the value
+```
+
+::: en
+Nothing is printed when you create an object: R stores it silently, and the object appears in the **Environment** pane. If you assign a new value to the same name, the old one is **replaced** without warning.
+:::
+::: fr
+Rien ne s'affiche lors de la création d'un objet : R le stocke en silence, et l'objet apparaît dans le panneau **Environment**. Si vous affectez une nouvelle valeur au même nom, l'ancienne est **remplacée** sans avertissement.
+:::
+
+```{r}
+shoots <- 112                  # a new count replaces the old one
+shoots / quadrat_area          # density must be recalculated!
+density                        # still the OLD value: objects do not update by themselves
+```
+
+### [Naming rules]{.en}[Règles de nommage]{.fr}
+
+::: en
+- Names may contain letters, numbers, `_` and `.`, but **must start with a letter**: `site1` ✔, `1site` ✘.
+- No spaces: `coral cover` ✘ → use `coral_cover` ✔ (this "snake_case" style is recommended).
+- R is **case-sensitive**: `Cover`, `cover` and `COVER` are three different objects.
+- Choose explicit names: `mean_cover_inside` is better than `m1`.
+:::
+::: fr
+- Les noms peuvent contenir des lettres, des chiffres, `_` et `.`, mais **doivent commencer par une lettre** : `site1` ✔, `1site` ✘.
+- Pas d'espace : `coral cover` ✘ → utilisez `coral_cover` ✔ (ce style « snake_case » est recommandé).
+- R est **sensible à la casse** : `Cover`, `cover` et `COVER` sont trois objets différents.
+- Choisissez des noms explicites : `mean_cover_inside` vaut mieux que `m1`.
+:::
+
+```{r}
+ls()                 # lists the objects in memory (same as the Environment pane)
+rm(density)          # removes an object
+```
+
+## [Functions and arguments]{.en}[Fonctions et arguments]{.fr} {#functions}
+
+::: en
+A **function** is a ready-made tool: you give it inputs (**arguments**) inside parentheses, it returns a result. Arguments are separated by **commas** and can be named.
+:::
+::: fr
+Une **fonction** est un outil prêt à l'emploi : on lui donne des entrées (**arguments**) entre parenthèses, elle renvoie un résultat. Les arguments sont séparés par des **virgules** et peuvent être nommés.
+:::
+
+```{r}
+sqrt(144)                   # square root
+round(348.6667)             # rounds to the nearest whole number
+round(348.6667, digits = 1) # the argument "digits" sets the number of decimals
+round(348.6667, 1)          # same: arguments can be given by position
+log(100, base = 10)         # logarithm in base 10
+exp(1)                      # the number e
+abs(-3.2)                   # absolute value
+```
+
+::: en
+Functions can be **nested**: R evaluates from the inside out.
+:::
+::: fr
+Les fonctions peuvent être **imbriquées** : R évalue de l'intérieur vers l'extérieur.
+:::
+
+```{r}
+round(sqrt(2), 3)           # first sqrt(2) = 1.41421..., then round(..., 3)
+```
+
+### [Getting help]{.en}[Obtenir de l'aide]{.fr}
+
+::: en
+Every function has a help page. Type `?` followed by the name; the page opens in the **Help** pane. The most useful parts are **Usage** (the arguments and their default values), **Arguments** and, at the bottom, **Examples**.
+:::
+::: fr
+Chaque fonction possède une page d'aide. Tapez `?` suivi du nom ; la page s'ouvre dans le panneau **Help**. Les parties les plus utiles sont **Usage** (les arguments et leurs valeurs par défaut), **Arguments** et, tout en bas, **Examples**.
+:::
+
+```{r, eval=FALSE}
+?round                 # help page of round()
+help("log")            # same thing
+??"standard deviation" # search all help pages for a topic
+```
+
+## [Scripts and comments]{.en}[Scripts et commentaires]{.fr} {#scripts}
+
+::: en
+Everything after a `#` is a **comment**: R ignores it. Comments explain *why* you do something. A good script starts with a header and is organised in sections. In RStudio, **Ctrl + Shift + R** inserts a section heading, which you can then find in the outline (icon at the top-right of the script pane).
+:::
+::: fr
+Tout ce qui suit un `#` est un **commentaire** : R l'ignore. Les commentaires expliquent *pourquoi* on fait quelque chose. Un bon script commence par un en-tête et est organisé en sections. Dans RStudio, **Ctrl + Maj + R** insère un titre de section, que l'on retrouve ensuite dans le sommaire (icône en haut à droite du panneau script).
+:::
+
+```{r, eval=FALSE}
+# ==============================================================
+# Session 1 - First steps in R
+# Author : <your name>
+# Date   : 2026-11-03
+# ==============================================================
+
+# ---- 1. Seagrass density -------------------------------------
+quadrat_area <- 0.5 * 0.5    # m2
+shoots <- 87
+shoots / quadrat_area        # shoots per m2
+```
+
+::: en
+Useful keys: **Ctrl + Enter** runs the current line (or the selected lines); **Ctrl + Shift + Enter** runs the whole script; **Ctrl + S** saves; **↑** in the console recalls the previous command.
+:::
+::: fr
+Touches utiles : **Ctrl + Entrée** exécute la ligne courante (ou les lignes sélectionnées) ; **Ctrl + Maj + Entrée** exécute tout le script ; **Ctrl + S** enregistre ; **↑** dans la console rappelle la commande précédente.
+:::
+
+## [Reading error messages]{.en}[Lire les messages d'erreur]{.fr} {#errors}
+
+::: en
+Errors are normal, even for experts. Read the message: it usually tells you what is wrong.
+:::
+::: fr
+Les erreurs sont normales, même pour les experts. Lisez le message : il dit généralement ce qui ne va pas.
+:::
+
+```{r, error=TRUE}
+Shoots / quadrat_area     # capital S: this object does not exist
+```
+
+```{r, error=TRUE}
+round(3.456, digit = 1)    # typo in the argument name ("digits")
+```
+
+::: {.callout .warning}
+::: en
+**The `+` prompt.** If the console shows `+` instead of `>`, R is waiting for the end of an unfinished command (a missing `)` or `"`). Press **Esc** to cancel and correct your line.
+:::
+::: fr
+**L'invite `+`.** Si la console affiche `+` au lieu de `>`, R attend la fin d'une commande inachevée (une `)` ou un `"` manquant). Appuyez sur **Échap** pour annuler et corrigez votre ligne.
+:::
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+::: application
+::: en
+### Application work 1
+
+In your script `scripts/s01_first_steps.R`, using **objects** (no number typed twice):
+
+1. A seagrass quadrat of **50 × 50 cm** contains **132 shoots**. Compute the shoot density **per m²**.
+2. On a **20 m** transect, live hard coral was recorded over **7.4 m**. Compute the **percentage** of hard coral cover.
+3. The no-take zone of an MPA is a rectangle of **1.8 km × 0.75 km**. Compute its area in **km²**, then in **hectares** (1 km² = 100 ha).
+4. Round the result of `sqrt(1000)` to **2 decimals**.
+5. Answer the quiz with your results.
+:::
+::: fr
+### Travail d'application 1
+
+Dans votre script `scripts/s01_first_steps.R`, en utilisant des **objets** (aucun nombre tapé deux fois) :
+
+1. Un quadrat d'herbier de **50 × 50 cm** contient **132 pousses**. Calculez la densité de pousses **par m²**.
+2. Sur un transect de **20 m**, du corail dur vivant a été noté sur **7,4 m**. Calculez le **pourcentage** de couverture en corail dur.
+3. La zone de non-prélèvement d'une AMP est un rectangle de **1,8 km × 0,75 km**. Calculez sa surface en **km²**, puis en **hectares** (1 km² = 100 ha).
+4. Arrondissez le résultat de `sqrt(1000)` à **2 décimales**.
+5. Répondez au quiz avec vos résultats.
+:::
+:::
+
+```{r quiz01, echo=FALSE}
+quiz("s01", list(
+  q_num("1. Shoot density (shoots per m²)?", "1. Densité de pousses (pousses par m²) ?",
+        answer = 132 / 0.25, tol = 0.5),
+  q_num("2. Hard coral cover (%)?", "2. Couverture en corail dur (%) ?",
+        answer = 7.4 / 20 * 100, tol = 0.05),
+  q_num("3a. Area of the no-take zone (km²)?", "3a. Surface de la zone de non-prélèvement (km²) ?",
+        answer = 1.8 * 0.75, tol = 0.005),
+  q_num("3b. Area of the no-take zone (ha)?", "3b. Surface de la zone de non-prélèvement (ha) ?",
+        answer = 1.8 * 0.75 * 100, tol = 0.5),
+  q_num("4. round(sqrt(1000), 2) = ?", "4. round(sqrt(1000), 2) = ?",
+        answer = round(sqrt(1000), 2), tol = 0.001),
+  q_mcq("5. Which object name is valid in R?", "5. Quel nom d'objet est valide dans R ?",
+        c("2nd_site", "coral cover", "coral_cover_2", "coral-cover"), correct = 3),
+  q_mcq("6. After  a <- 10  then  a <- a + 5 , what does a contain?",
+        "6. Après  a <- 10  puis  a <- a + 5 , que contient a ?",
+        c("10", "15", "5", "An error"),
+        c("10", "15", "5", "Une erreur"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="s01"}
+```{r, eval=FALSE}
+# 1. Seagrass shoot density
+side_m       <- 0.5                     # 50 cm = 0.5 m
+quadrat_area <- side_m * side_m         # 0.25 m2
+shoots       <- 132
+shoots / quadrat_area                   # 528 shoots per m2
+
+# 2. Hard coral cover along the transect
+transect_length <- 20
+coral_length    <- 7.4
+coral_length / transect_length * 100    # 37 %
+
+# 3. Area of the no-take zone
+area_km2 <- 1.8 * 0.75                  # 1.35 km2
+area_km2 * 100                          # 135 ha
+
+# 4. Rounding
+round(sqrt(1000), 2)                    # 31.62
+```
+:::
