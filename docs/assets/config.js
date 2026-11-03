@@ -9,8 +9,8 @@ window.COURSE_CONFIG = {
 
   // Course title shown on the login screen (one per language)
   title: {
-    en: "R for absolute beginners — Coral reef & seagrass edition",
-    fr: "R pour grands débutants — Édition récifs coralliens & herbiers"
+    en: "R for absolute beginners — Marine ecology edition",
+    fr: "R pour grands débutants — Édition Écologie marine"
   },
 
   // Name used for the watermark and the signature at the bottom of each page
