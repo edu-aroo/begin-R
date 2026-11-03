@@ -13,8 +13,8 @@
 
 <title>R course · Session 8</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -68,7 +68,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -333,7 +333,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Reef & Seagrass</a>
+      <a class="navbar-brand" href="index.html">R · Marine Ecology</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -703,14 +703,14 @@ quelle propriété visuelle) ;</li>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Canopy height (cm)&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;MPA status&quot;</span>) <span class="sc">+</span></span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="08-tidyverse_files/figure-html/unnamed-chunk-7-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="08-tidyverse_files/figure-html/unnamed-chunk-7-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">ggplot</span>(sg, <span class="fu">aes</span>(<span class="at">x =</span> site, <span class="at">y =</span> seagrass_cover, <span class="at">fill =</span> mpa_status)) <span class="sc">+</span></span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>       <span class="co"># shows every quadrat</span></span>
 <span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Inside =</span> <span class="st">&quot;#a8d5da&quot;</span>, <span class="at">Outside =</span> <span class="st">&quot;#f3c3b2&quot;</span>)) <span class="sc">+</span></span>
 <span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;MPA status&quot;</span>) <span class="sc">+</span></span>
 <span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="08-tidyverse_files/figure-html/unnamed-chunk-8-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="08-tidyverse_files/figure-html/unnamed-chunk-8-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 <div id="means-sd-the-ggplot-waymoyennes-et-version-ggplot"
 class="section level3">
 <h3><span class="en">Means ± SD, the ggplot way</span><span
@@ -730,7 +730,7 @@ avec dplyr :</p>
 <span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Mean seagrass cover (%) ± SD&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;MPA status&quot;</span>) <span class="sc">+</span></span>
 <span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  <span class="fu">theme_classic</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
 <span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>p</span></code></pre></div>
-<p><img src="08-tidyverse_files/figure-html/unnamed-chunk-9-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="08-tidyverse_files/figure-html/unnamed-chunk-9-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;outputs/fig_cover_ggplot.png&quot;</span>, p, <span class="at">width =</span> <span class="dv">16</span>, <span class="at">height =</span> <span class="dv">11</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
 <div class="en">
 <p><code>facet_wrap()</code> creates one small panel per group — very
@@ -745,7 +745,7 @@ utile avec beaucoup de sites :</p>
 <span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> site) <span class="sc">+</span></span>
 <span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Number of quadrats&quot;</span>) <span class="sc">+</span></span>
 <span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<p><img src="08-tidyverse_files/figure-html/unnamed-chunk-11-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="08-tidyverse_files/figure-html/unnamed-chunk-11-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="application" class="section level2">

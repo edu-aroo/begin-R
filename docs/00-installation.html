@@ -13,8 +13,8 @@
 
 <title>R course · Session 0</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -68,7 +68,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -333,7 +333,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Reef & Seagrass</a>
+      <a class="navbar-brand" href="index.html">R · Marine Ecology</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -885,8 +885,7 @@ r_course_data.zip</a></p>
 <p>Vérifiez dans la console que R « voit » les fichiers :</p>
 </div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">&quot;data&quot;</span>)      <span class="co"># lists the files in the data folder of the project</span></span></code></pre></div>
-<pre><code>#&gt; [1] &quot;coral_cover_raw.csv&quot;   &quot;coral_pit_example.csv&quot; &quot;seagrass_messy.csv&quot;   
-#&gt; [4] &quot;seagrass_quadrats.csv&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;coral_cover_raw.csv&quot;   &quot;coral_pit_example.csv&quot; &quot;seagrass_messy.csv&quot;    &quot;seagrass_quadrats.csv&quot;</code></pre>
 <div class="callout warning">
 <div class="en">
 <p>If you get <code>character(0)</code>, R does not find the folder:

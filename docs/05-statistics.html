@@ -13,8 +13,8 @@
 
 <title>R course · Session 5</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -68,7 +68,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -333,7 +333,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Reef & Seagrass</a>
+      <a class="navbar-brand" href="index.html">R · Marine Ecology</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -575,16 +575,11 @@ two-way table:</p>
 obtient un tableau à double entrée :</p>
 </div>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, <span class="fu">list</span>(sg<span class="sc">$</span>site, sg<span class="sc">$</span>species), mean), <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>#&gt;            Cymodocea serrulata Syringodium isoetifolium Thalassia hemprichii
-#&gt; Ambalaboy                 56.0                     49.0                 54.2
-#&gt; Belitsaky                 47.0                     48.0                 47.1
-#&gt; Fasimena                  59.4                     57.3                 49.5
-#&gt; Tsiandamba                46.5                     38.3                 43.2
-#&gt;            Thalassodendron ciliatum
-#&gt; Ambalaboy                      54.0
-#&gt; Belitsaky                      45.0
-#&gt; Fasimena                       40.7
-#&gt; Tsiandamba                     29.0</code></pre>
+<pre><code>#&gt;            Cymodocea serrulata Syringodium isoetifolium Thalassia hemprichii Thalassodendron ciliatum
+#&gt; Ambalaboy                 56.0                     49.0                 54.2                     54.0
+#&gt; Belitsaky                 47.0                     48.0                 47.1                     45.0
+#&gt; Fasimena                  59.4                     57.3                 49.5                     40.7
+#&gt; Tsiandamba                46.5                     38.3                 43.2                     29.0</code></pre>
 <div class="en">
 <p>The <code>NA</code> cells are combinations that do not exist (no
 quadrat of that species at that site).</p>

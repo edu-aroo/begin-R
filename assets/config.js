@@ -9,8 +9,8 @@ window.COURSE_CONFIG = {
 
   // Course title shown on the login screen (one per language)
   title: {
-    en: "R for absolute beginners — Coral reef & seagrass edition",
-    fr: "R pour grands débutants — Édition récifs coralliens & herbiers"
+    en: "R for  beginners — Marine ecology edition",
+    fr: "R pour débutants — Édition écologie marine"
   },
 
   // Name used for the watermark and the signature at the bottom of each page
@@ -22,7 +22,7 @@ window.COURSE_CONFIG = {
   // URL of your Google Apps Script web app (see README, step "Google Sheet").
   // Leave EMPTY ("") to run in DEMO MODE: logins below, progress saved only in
   // the browser. Paste the URL to save logins, progress and scores in your sheet.
-  scriptUrl: "",
+  scriptUrl: "https://script.google.com/macros/s/AKfycbxZVpdF5tPaDIiNdPVG6rop6iqcqVZKyhtO0AEe4JRgM7sHos1S2aUc_QCUuo6jDuW3/exec",
 
   // Only used in DEMO MODE (scriptUrl empty). Real student accounts live in
   // the Google Sheet, never here (this file is public on GitHub!).

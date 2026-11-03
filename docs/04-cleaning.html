@@ -13,8 +13,8 @@
 
 <title>R course · Session 4</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -68,7 +68,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -333,7 +333,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Reef & Seagrass</a>
+      <a class="navbar-brand" href="index.html">R · Marine Ecology</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -602,8 +602,8 @@ class="fr">Sélectionner des colonnes et trier</span></h2>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>small <span class="ot">&lt;-</span> sg[, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;quadrat&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]   <span class="co"># keep 3 columns</span></span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>small2 <span class="ot">&lt;-</span> sg[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>)]                                <span class="co"># drop columns 4 and 5</span></span>
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">names</span>(small2)</span></code></pre></div>
-<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;         
-#&gt; [5] &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;  
+#&gt; [6] &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
 <div class="en">
 <p><code>order()</code> returns the positions that would sort a vector;
 use it in the row position. Add <code>decreasing = TRUE</code> (or a
@@ -664,15 +664,14 @@ ce soit.</p>
 y a 62 lignes au lieu de 60.</p>
 </div>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">unique</span>(raw<span class="sc">$</span>site)          <span class="co"># 12 spellings for 4 sites!</span></span></code></pre></div>
-<pre><code>#&gt;  [1] &quot;Ambalaboy&quot;   &quot;ambalaboy&quot;   &quot;Ambalaboy &quot;  &quot;Fasimena&quot;    &quot;FASIMENA&quot;   
-#&gt;  [6] &quot;fasimena&quot;    &quot;Tsiandamba&quot;  &quot; Tsiandamba&quot; &quot;Belitsaky&quot;   &quot;belitsaky&quot;  
-#&gt; [11] &quot;Belitsaky &quot;  &quot;BELITSAKY&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;Ambalaboy&quot;   &quot;ambalaboy&quot;   &quot;Ambalaboy &quot;  &quot;Fasimena&quot;    &quot;FASIMENA&quot;    &quot;fasimena&quot;    &quot;Tsiandamba&quot; 
+#&gt;  [8] &quot; Tsiandamba&quot; &quot;Belitsaky&quot;   &quot;belitsaky&quot;   &quot;Belitsaky &quot;  &quot;BELITSAKY&quot;</code></pre>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">table</span>(raw<span class="sc">$</span>site)</span></code></pre></div>
 <pre><code>#&gt; 
-#&gt;  Tsiandamba   ambalaboy   Ambalaboy  Ambalaboy    belitsaky   Belitsaky 
-#&gt;           1           1          14           1           1          13 
-#&gt;   BELITSAKY  Belitsaky     fasimena    Fasimena    FASIMENA  Tsiandamba 
-#&gt;           1           1           1          13           1          14</code></pre>
+#&gt;  Tsiandamba   ambalaboy   Ambalaboy  Ambalaboy    belitsaky   Belitsaky   BELITSAKY  Belitsaky     fasimena 
+#&gt;           1           1          14           1           1          13           1           1           1 
+#&gt;    Fasimena    FASIMENA  Tsiandamba 
+#&gt;          13           1          14</code></pre>
 </div>
 <div id="fix-text" class="section level2">
 <h2><span class="en">Fixing text: spaces and case</span><span
@@ -794,15 +793,14 @@ valeurs qui ne sont pas de simples nombres.</p>
 </div>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">names</span>(raw)[<span class="fu">names</span>(raw) <span class="sc">==</span> <span class="st">&quot;Seagrass.cover....&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;seagrass_cover&quot;</span>   <span class="co"># rename one column</span></span>
 <span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="fu">unique</span>(raw<span class="sc">$</span>seagrass_cover)       <span class="co"># look for &quot;%&quot; and &quot;-&quot;</span></span></code></pre></div>
-<pre><code>#&gt;  [1] &quot;69&quot;  &quot;47&quot;  &quot;64&quot;  &quot;61&quot;  &quot;53%&quot; &quot;27&quot;  &quot;52&quot;  &quot;48&quot;  &quot;55&quot;  &quot;56&quot;  &quot;-&quot;   &quot;59&quot; 
-#&gt; [13] &quot;26&quot;  &quot;53&quot;  &quot;57&quot;  &quot;51&quot;  &quot;31&quot;  &quot;51%&quot; &quot;30&quot;  &quot;71&quot;  &quot;41&quot;  &quot;62&quot;  &quot;74&quot;  &quot;130&quot;
-#&gt; [25] &quot;37&quot;  &quot;10&quot;  &quot;32&quot;  &quot;42&quot;  &quot;48%&quot; &quot;33&quot;  &quot;40&quot;  &quot;45&quot;  &quot;44&quot;  &quot;50&quot;  &quot;46&quot;  &quot;49&quot; 
-#&gt; [37] &quot;35&quot;  &quot;72&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;69&quot;  &quot;47&quot;  &quot;64&quot;  &quot;61&quot;  &quot;53%&quot; &quot;27&quot;  &quot;52&quot;  &quot;48&quot;  &quot;55&quot;  &quot;56&quot;  &quot;-&quot;   &quot;59&quot;  &quot;26&quot;  &quot;53&quot;  &quot;57&quot;  &quot;51&quot;  &quot;31&quot; 
+#&gt; [18] &quot;51%&quot; &quot;30&quot;  &quot;71&quot;  &quot;41&quot;  &quot;62&quot;  &quot;74&quot;  &quot;130&quot; &quot;37&quot;  &quot;10&quot;  &quot;32&quot;  &quot;42&quot;  &quot;48%&quot; &quot;33&quot;  &quot;40&quot;  &quot;45&quot;  &quot;44&quot;  &quot;50&quot; 
+#&gt; [35] &quot;46&quot;  &quot;49&quot;  &quot;35&quot;  &quot;72&quot;</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>raw<span class="sc">$</span>seagrass_cover <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;%&quot;</span>, <span class="st">&quot;&quot;</span>, raw<span class="sc">$</span>seagrass_cover)    <span class="co"># remove the % sign</span></span>
 <span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>raw<span class="sc">$</span>seagrass_cover[raw<span class="sc">$</span>seagrass_cover <span class="sc">==</span> <span class="st">&quot;-&quot;</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>        <span class="co"># &quot;-&quot; means not measured</span></span>
 <span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>raw<span class="sc">$</span>seagrass_cover <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(raw<span class="sc">$</span>seagrass_cover)       <span class="co"># text -&gt; number</span></span>
 <span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="fu">summary</span>(raw<span class="sc">$</span>seagrass_cover)</span></code></pre></div>
-<pre><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+<pre><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 #&gt;   10.00   40.75   50.00   49.73   59.00  130.00       2</code></pre>
 </div>
 <div id="impossible-duplicates" class="section level2">
@@ -822,10 +820,10 @@ donc par <code>NA</code> (on garde les autres informations du
 quadrat).</p>
 </div>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>raw[<span class="fu">which</span>(raw<span class="sc">$</span>seagrass_cover <span class="sc">&gt;</span> <span class="dv">100</span>), ]                     <span class="co"># inspect</span></span></code></pre></div>
-<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species
-#&gt; 29 Fasimena     Inside      14 2026-03-11     0.7 Syringodium isoetifolium
-#&gt;    seagrass_cover canopy_height_cm shoot_density
-#&gt; 29            130             12.4           532</code></pre>
+<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species seagrass_cover canopy_height_cm
+#&gt; 29 Fasimena     Inside      14 2026-03-11     0.7 Syringodium isoetifolium            130             12.4
+#&gt;    shoot_density
+#&gt; 29           532</code></pre>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>raw<span class="sc">$</span>seagrass_cover[<span class="fu">which</span>(raw<span class="sc">$</span>seagrass_cover <span class="sc">&gt;</span> <span class="dv">100</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span>  <span class="co"># correct</span></span></code></pre></div>
 <div class="en">
 <p><code>duplicated()</code> returns <code>TRUE</code> for each row that
@@ -878,12 +876,10 @@ fichier propre est votre <strong>base de données</strong>.</p>
 #&gt;  $ canopy_height_cm: num  18.8 17 18.8 20 18.1 16.4 NA 14 21.3 15.4 ...
 #&gt;  $ shoot_density   : int  648 464 504 560 484 224 440 372 556 432 ...</code></pre>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(clean))        <span class="co"># number of NA per column</span></span></code></pre></div>
-<pre><code>#&gt;             site       mpa_status          quadrat             date 
-#&gt;                0                0                0                0 
-#&gt;          depth_m          species   seagrass_cover canopy_height_cm 
-#&gt;                0                0                3                2 
-#&gt;    shoot_density 
-#&gt;                0</code></pre>
+<pre><code>#&gt;             site       mpa_status          quadrat             date          depth_m          species 
+#&gt;                0                0                0                0                0                0 
+#&gt;   seagrass_cover canopy_height_cm    shoot_density 
+#&gt;                3                2                0</code></pre>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="fu">write.csv</span>(clean, <span class="st">&quot;outputs/seagrass_clean.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 <div id="application" class="section level2">

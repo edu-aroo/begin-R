@@ -13,8 +13,8 @@
 
 <title>R course · Session 6</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -68,7 +68,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -333,7 +333,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Reef & Seagrass</a>
+      <a class="navbar-brand" href="index.html">R · Marine Ecology</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -535,7 +535,7 @@ class="fr">Quel graphique pour quelle question ?</span></h2>
 <h2><span class="en">Histogram</span><span
 class="fr">Histogramme</span></h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">hist</span>(sg<span class="sc">$</span>seagrass_cover)</span></code></pre></div>
-<p><img src="06-graphics_files/figure-html/unnamed-chunk-1-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="06-graphics_files/figure-html/unnamed-chunk-1-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 <div class="en">
 <p>Readable, but the default title and labels are not report-quality.
 Almost every plotting function accepts the same arguments:
@@ -556,7 +556,7 @@ remplissage), <code>border</code>, <code>xlim</code>, <code>ylim</code>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;#4a7d3a&quot;</span>, <span class="at">border =</span> <span class="st">&quot;white&quot;</span>,</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Distribution of seagrass cover (60 quadrats)&quot;</span>,</span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Number of quadrats&quot;</span>)</span></code></pre></div>
-<p><img src="06-graphics_files/figure-html/unnamed-chunk-2-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="06-graphics_files/figure-html/unnamed-chunk-2-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="scatter" class="section level2">
 <h2><span class="en">Scatter plot</span><span class="fr">Nuage de
@@ -566,7 +566,7 @@ points</span></h2>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;#1b7f8c&quot;</span>,</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Canopy height (cm)&quot;</span>,</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Taller canopies where cover is higher&quot;</span>)</span></code></pre></div>
-<p><img src="06-graphics_files/figure-html/unnamed-chunk-3-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="06-graphics_files/figure-html/unnamed-chunk-3-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 <div class="en">
 <p>Colour points by group: create a vector of colours, one per row,
 using the group as an index.</p>
@@ -581,7 +581,7 @@ par ligne, en utilisant le groupe comme index.</p>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">&quot;Shoot density (shoots m&quot;</span><span class="sc">^-</span><span class="dv">2</span><span class="sc">*</span><span class="st">&quot;)&quot;</span>))</span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend =</span> <span class="fu">names</span>(cols), <span class="at">col =</span> cols, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(shoot_density <span class="sc">~</span> seagrass_cover, <span class="at">data =</span> sg), <span class="at">lty =</span> <span class="dv">2</span>)   <span class="co"># add a trend line</span></span></code></pre></div>
-<p><img src="06-graphics_files/figure-html/unnamed-chunk-4-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="06-graphics_files/figure-html/unnamed-chunk-4-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 <div class="callout tip">
 <div class="en">
 <p><code>abline()</code>, <code>points()</code>, <code>lines()</code>,
@@ -618,7 +618,7 @@ la meilleure façon rapide de comparer des groupes.</p>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;#a8d5da&quot;</span>, <span class="st">&quot;#a8d5da&quot;</span>, <span class="st">&quot;#f3c3b2&quot;</span>, <span class="st">&quot;#f3c3b2&quot;</span>),</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>, <span class="at">las =</span> <span class="dv">1</span>)   <span class="co"># las = 1: horizontal axis numbers</span></span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">&quot;#a8d5da&quot;</span>, <span class="st">&quot;#f3c3b2&quot;</span>), <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Inside MPA&quot;</span>, <span class="st">&quot;Outside MPA&quot;</span>), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
-<p><img src="06-graphics_files/figure-html/unnamed-chunk-5-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="06-graphics_files/figure-html/unnamed-chunk-5-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="barplot" class="section level2">
 <h2><span class="en">Barplot of means with error bars</span><span
@@ -651,7 +651,7 @@ d’erreur avec <code>arrows()</code>.</p>
 <span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>       <span class="at">code =</span> <span class="dv">3</span>,       <span class="co"># heads at both ends</span></span>
 <span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>       <span class="at">length =</span> <span class="fl">0.08</span>)  <span class="co"># head width</span></span>
 <span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="fu">box</span>(<span class="at">bty =</span> <span class="st">&quot;l&quot;</span>)         <span class="co"># L-shaped axis line</span></span></code></pre></div>
-<p><img src="06-graphics_files/figure-html/unnamed-chunk-6-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="06-graphics_files/figure-html/unnamed-chunk-6-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 <div class="callout warning">
 <div class="en">
 <p><strong>Always set <code>ylim</code></strong> so that the top error
@@ -673,7 +673,7 @@ class="fr">Effectifs par catégorie</span></h3>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">13</span>, <span class="dv">2</span>, <span class="dv">1</span>))     <span class="co"># enlarge the left margin for long names (bottom, left, top, right)</span></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">barplot</span>(counts, <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">&quot;#4a7d3a&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Number of quadrats&quot;</span>,</span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>        <span class="at">names.arg =</span> <span class="fu">names</span>(counts), <span class="at">cex.names =</span> <span class="fl">0.85</span>, <span class="at">font.axis =</span> <span class="dv">3</span>)   <span class="co"># font 3 = italic</span></span></code></pre></div>
-<p><img src="06-graphics_files/figure-html/unnamed-chunk-7-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="06-graphics_files/figure-html/unnamed-chunk-7-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fl">0.1</span>)   <span class="co"># back to default margins</span></span></code></pre></div>
 </div>
 </div>
@@ -692,7 +692,7 @@ dessin. Réinitialisez-la avec <code>par(mfrow = c(1, 1))</code>.</p>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">hist</span>(sg<span class="sc">$</span>depth_m, <span class="at">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Depth&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Depth (m)&quot;</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">boxplot</span>(shoot_density <span class="sc">~</span> mpa_status, <span class="at">data =</span> sg, <span class="at">main =</span> <span class="st">&quot;Shoot density&quot;</span>,</span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Shoots per m2&quot;</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;#a8d5da&quot;</span>, <span class="st">&quot;#f3c3b2&quot;</span>))</span></code></pre></div>
-<p><img src="06-graphics_files/figure-html/unnamed-chunk-8-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="06-graphics_files/figure-html/unnamed-chunk-8-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div>
 </div>
 <div id="save" class="section level2">

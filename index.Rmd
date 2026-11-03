@@ -1,7 +1,7 @@
 ---
 title: "[R for absolute beginners]{.en}[R pour grands débutants]{.fr}"
 pagetitle: "R course · Home"
-subtitle: "[Coral reef & seagrass edition]{.en}[Édition récifs coralliens & herbiers]{.fr}"
+subtitle: "[Marine ecology edition]{.en}[Édition écologie marine]{.fr}"
 ---
 
 <!--
