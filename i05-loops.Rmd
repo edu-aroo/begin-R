@@ -1,0 +1,338 @@
+---
+title: "[I5 · Conditions and loops]{.en}[I5 · Conditions et boucles]{.fr}"
+pagetitle: "R for marine sciences · I5"
+subtitle: "~2.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/intermediate_pipeline.R")
+seaweed <- cp_seaweed()
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- run code only when a condition is true with `if` / `else if` / `else`;
+- classify a whole column with `ifelse()` and `dplyr::case_when()`;
+- repeat a task with a `for` loop, store the results and avoid common mistakes;
+- know when a loop is **not** needed (vectorised code, `tapply()`, `group_by()`).
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- exécuter du code seulement si une condition est vraie avec `if` / `else if` / `else` ;
+- classer une colonne entière avec `ifelse()` et `dplyr::case_when()` ;
+- répéter une tâche avec une boucle `for`, stocker les résultats et éviter les erreurs courantes ;
+- savoir quand une boucle n'est **pas** nécessaire (code vectorisé, `tapply()`, `group_by()`).
+:::
+:::
+
+::: {.callout .tip}
+::: en
+This session uses the analysis table of Session I3: `seaweed <- read.csv("data/checkpoints/I3_seaweed_analysis.csv")`.
+:::
+::: fr
+Cette séance utilise le tableau d'analyse de la séance I3 : `seaweed <- read.csv("data/checkpoints/I3_seaweed_analysis.csv")`.
+:::
+:::
+
+`r dl("I3_seaweed_analysis.csv", "checkpoint: I3_seaweed_analysis.csv", dir = "data/checkpoints")`
+
+## [Why automate?]{.en}[Pourquoi automatiser ?]{.fr} {#why}
+
+::: en
+The cooperative wants, **for each of the 12 villages**, a short summary and a CSV file to send to the village representative. Copying the same 6 lines of code 12 times is slow and dangerous: one forgotten change and a village gets the wrong numbers. Conditions and loops let you write the logic **once**.
+:::
+::: fr
+La coopérative veut, **pour chacun des 12 villages**, un petit résumé et un fichier CSV à envoyer au représentant du village. Copier les mêmes 6 lignes de code 12 fois est lent et dangereux : un changement oublié et un village reçoit de faux chiffres. Les conditions et les boucles permettent d'écrire la logique **une seule fois**.
+:::
+
+## [if, else if, else]{.en}[if, else if, else]{.fr} {#if}
+
+::: en
+`if (condition) { ... }` runs the block only if the condition is **one** `TRUE`. Add `else if` and `else` for the other cases.
+:::
+::: fr
+`if (condition) { ... }` exécute le bloc seulement si la condition vaut **un seul** `TRUE`. Ajoutez `else if` et `else` pour les autres cas.
+:::
+
+```{r}
+loss_rate <- mean(seaweed$status != "harvested") * 100
+loss_rate
+if (loss_rate > 15) {
+  message("Alert: many lines lost")
+} else if (loss_rate > 5) {
+  message("Losses to watch: ", round(loss_rate, 1), " %")
+} else {
+  message("Losses are low")
+}
+```
+
+::: {.callout .warning}
+::: en
+`if` needs **a single** TRUE/FALSE. `if (seaweed$sgr > 4)` is an error ("the condition has length > 1"), because there are 2 575 values. To classify a whole column, use `ifelse()` or `case_when()` (next section). Also, `if (NA)` is an error: test missing values first with `is.na()`.
+:::
+::: fr
+`if` demande **un seul** TRUE/FALSE. `if (seaweed$sgr > 4)` est une erreur (« the condition has length > 1 »), car il y a 2 575 valeurs. Pour classer une colonne entière, utilisez `ifelse()` ou `case_when()` (section suivante). De plus, `if (NA)` est une erreur : testez d'abord les valeurs manquantes avec `is.na()`.
+:::
+:::
+
+## [Classifying a column: ifelse() and case_when()]{.en}[Classer une colonne : ifelse() et case_when()]{.fr} {#ifelse}
+
+::: en
+`ifelse(test, yes, no)` works on a whole vector. Nested `ifelse()` becomes hard to read beyond 2–3 classes: `case_when()` (dplyr) lists the cases one per line, `condition ~ value`, checked in order; `TRUE ~` catches everything else.
+:::
+::: fr
+`ifelse(test, oui, non)` fonctionne sur un vecteur entier. Les `ifelse()` imbriqués deviennent illisibles au-delà de 2–3 classes : `case_when()` (dplyr) liste les cas un par ligne, `condition ~ valeur`, testés dans l'ordre ; `TRUE ~` attrape tout le reste.
+:::
+
+::: compare
+::: {.col .base}
+ifelse()
+
+```{r}
+seaweed$growth_class <- ifelse(is.na(seaweed$sgr), "lost",
+                        ifelse(seaweed$sgr >= 4, "good",
+                        ifelse(seaweed$sgr >= 3, "medium", "poor")))
+table(seaweed$growth_class)
+```
+:::
+::: {.col .pkg}
+case_when()
+
+```{r, message=FALSE}
+library(dplyr)
+seaweed <- seaweed %>% mutate(growth_class = case_when(
+  is.na(sgr) ~ "lost",
+  sgr >= 4   ~ "good",
+  sgr >= 3   ~ "medium",
+  TRUE       ~ "poor"))
+table(seaweed$growth_class)
+```
+:::
+:::
+
+::: en
+`cut()` is another option for numeric classes with fixed limits (`right = FALSE` puts the limit in the upper class):
+:::
+::: fr
+`cut()` est une autre option pour des classes numériques à limites fixes (`right = FALSE` place la limite dans la classe supérieure) :
+:::
+
+```{r}
+table(cut(seaweed$sgr, breaks = c(0, 3, 4, Inf), labels = c("poor", "medium", "good"), right = FALSE))
+```
+
+## [for loops]{.en}[Boucles for]{.fr} {#for}
+
+::: en
+`for (v in values) { ... }` runs the block once for each value, which is stored in `v`. Three patterns cover most needs.
+:::
+::: fr
+`for (v in valeurs) { ... }` exécute le bloc une fois pour chaque valeur, rangée dans `v`. Trois schémas couvrent la plupart des besoins.
+:::
+
+### [1. Print or save something for each group]{.en}[1. Afficher ou enregistrer quelque chose pour chaque groupe]{.fr}
+
+```{r}
+villages <- sort(unique(seaweed$village))
+for (v in villages[1:3]) {
+  d <- seaweed[seaweed$village == v, ]
+  cat(v, ": ", nrow(d), " lines, mean SGR = ", round(mean(d$sgr, na.rm = TRUE), 2), " %/day\n", sep = "")
+}
+```
+
+```{r, eval=FALSE}
+dir.create("outputs/villages", showWarnings = FALSE)
+for (v in villages) {
+  d <- seaweed[seaweed$village == v, ]
+  write.csv(d, file.path("outputs/villages", paste0("lines_", v, ".csv")), row.names = FALSE)
+}
+```
+
+### [2. Fill a vector of results]{.en}[2. Remplir un vecteur de résultats]{.fr}
+
+::: en
+Create an empty container **before** the loop, with the right length, then fill one element per turn. `seq_along(x)` gives 1, 2, …, length(x) — safer than `1:length(x)` when `x` is empty.
+:::
+::: fr
+Créez un contenant vide **avant** la boucle, de la bonne longueur, puis remplissez un élément par tour. `seq_along(x)` donne 1, 2, …, length(x) — plus sûr que `1:length(x)` quand `x` est vide.
+:::
+
+```{r}
+loss <- numeric(length(villages))          # 12 zeros
+names(loss) <- villages
+for (i in seq_along(villages)) {
+  d <- seaweed[seaweed$village == villages[i], ]
+  loss[i] <- round(100 * mean(d$status != "harvested"), 1)
+}
+loss
+```
+
+### [3. Build a table, one row per turn]{.en}[3. Construire un tableau, une ligne par tour]{.fr}
+
+```{r}
+res <- vector("list", length(villages))     # an empty list
+for (i in seq_along(villages)) {
+  d <- seaweed[seaweed$village == villages[i], ]
+  res[[i]] <- data.frame(village = villages[i], n_lines = nrow(d),
+                         mean_sgr = mean(d$sgr, na.rm = TRUE),
+                         harvest_t = sum(d$final_weight_kg, na.rm = TRUE) / 1000)
+}
+summary_v <- do.call(rbind, res)            # stack the 12 one-row tables
+head(summary_v, 4)
+```
+
+::: {.callout .tip}
+::: en
+**Do you really need a loop?** Many loops can be replaced by vectorised code or grouped summaries, which are shorter and faster:
+:::
+::: fr
+**Avez-vous vraiment besoin d'une boucle ?** Beaucoup de boucles peuvent être remplacées par du code vectorisé ou des résumés par groupe, plus courts et plus rapides :
+:::
+:::
+
+```{r}
+round(100 * tapply(seaweed$status != "harvested", seaweed$village, mean), 1)   # = loss
+```
+
+::: en
+Use a loop when each turn does something that has no vectorised equivalent: **writing files**, drawing **one graph per group**, reading **several files**, running a long step and printing progress.
+:::
+::: fr
+Utilisez une boucle quand chaque tour fait quelque chose sans équivalent vectorisé : **écrire des fichiers**, tracer **un graphique par groupe**, lire **plusieurs fichiers**, lancer une étape longue en affichant la progression.
+:::
+
+### [Reading several files with a loop]{.en}[Lire plusieurs fichiers avec une boucle]{.fr}
+
+```{r, eval=FALSE}
+files <- list.files("outputs/villages", pattern = "\\.csv$", full.names = TRUE)
+all <- vector("list", length(files))
+for (i in seq_along(files)) all[[i]] <- read.csv(files[i])
+all <- do.call(rbind, all)                   # one table again
+```
+
+::: {.callout .try}
+::: en
+**Try it.** Write a loop over the three zones that prints the zone and the number of lines **lost in a storm**.
+:::
+::: fr
+**À vous.** Écrivez une boucle sur les trois zones qui affiche la zone et le nombre de lignes **perdues lors d'une tempête**.
+:::
+:::
+
+::: hint
+::: en
+`for (z in unique(seaweed$zone)) { cat(z, sum(seaweed$zone == z & seaweed$status == "lost - storm"), "\n") }`
+:::
+::: fr
+`for (z in unique(seaweed$zone)) { cat(z, sum(seaweed$zone == z & seaweed$status == "lost - storm"), "\n") }`
+:::
+:::
+
+## [while and break (rarely needed)]{.en}[while et break (rarement utiles)]{.fr} {#while}
+
+::: en
+`while (condition) { ... }` repeats as long as the condition is true — for example until a target is reached. `break` leaves a loop early; `next` skips to the next turn. Always make sure the condition becomes `FALSE`, otherwise the loop never stops (press **Esc** in RStudio).
+:::
+::: fr
+`while (condition) { ... }` répète tant que la condition est vraie — par exemple jusqu'à atteindre un objectif. `break` sort d'une boucle plus tôt ; `next` passe au tour suivant. Assurez-vous que la condition devient `FALSE`, sinon la boucle ne s'arrête jamais (appuyez sur **Échap** dans RStudio).
+:::
+
+```{r}
+# How many days for 10 kg of cuttings to reach 30 kg at 3.5 % per day?
+w <- 10; day <- 0
+while (w < 30) { w <- w * exp(0.035); day <- day + 1 }
+day
+```
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+S <- cp_seaweed()
+gc <- dplyr::case_when(is.na(S$sgr) ~ "lost", S$sgr >= 4 ~ "good", S$sgr >= 3 ~ "medium", TRUE ~ "poor")
+a1 <- sum(gc == "good"); a2 <- sum(gc == "poor")
+vv <- sort(unique(S$village))
+lr <- sapply(vv, function(v) 100 * mean(S$status[S$village == v] != "harvested"))
+a3 <- names(which.max(lr)); a4 <- round(max(lr), 1)
+ht <- sapply(vv, function(v) sum(S$final_weight_kg[S$village == v], na.rm = TRUE) / 1000)
+a5 <- round(ht[["Mahavelo"]], 3)
+a6 <- names(which.max(ht))
+a7 <- sum(S$zone == "South" & S$status == "lost - storm")
+w <- 12; d <- 0; while (w < 50) { w <- w * exp(0.04); d <- d + 1 }; a8 <- d
+yq <- ifelse(S$year == 2024 & S$season == "wet", "2024 wet", "other"); a9 <- sum(yq == "2024 wet")
+```
+
+::: application
+::: en
+### Application work I5
+
+Script `scripts/i05_loops.R`, with the I3 analysis table.
+
+1. Create `growth_class` with `case_when()`: `lost` (no SGR), `good` (≥ 4), `medium` (≥ 3), `poor` (otherwise). How many **good** lines? How many **poor**?
+2. With a `for` loop over the villages, compute the % of lines not harvested (lost). Which village has the highest loss rate, and what is it (1 decimal)?
+3. With a loop, build the summary table (one row per village) including the total harvest in **tonnes**. Total harvest of **Mahavelo** (3 decimals)? Which village harvested the most?
+4. How many lines were lost in a storm in the **South** zone?
+5. With `while`: how many days for 12 kg of cuttings to exceed 50 kg at 4 % per day (`w * exp(0.04)` each day)?
+6. How many lines were planted in the **wet season of 2024**?
+7. Use the loop to write one CSV per village in `outputs/villages/` (not graded, but useful for the practice session).
+:::
+::: fr
+### Travail d'application I5
+
+Script `scripts/i05_loops.R`, avec le tableau d'analyse I3.
+
+1. Créez `growth_class` avec `case_when()` : `lost` (pas de SGR), `good` (≥ 4), `medium` (≥ 3), `poor` (sinon). Combien de lignes **good** ? Combien de **poor** ?
+2. Avec une boucle `for` sur les villages, calculez le % de lignes non récoltées (perdues). Quel village a le taux de perte le plus élevé, et combien (1 décimale) ?
+3. Avec une boucle, construisez le tableau de synthèse (une ligne par village) avec la récolte totale en **tonnes**. Récolte totale de **Mahavelo** (3 décimales) ? Quel village a le plus récolté ?
+4. Combien de lignes ont été perdues lors d'une tempête dans la zone **South** ?
+5. Avec `while` : combien de jours pour que 12 kg de boutures dépassent 50 kg à 4 % par jour (`w * exp(0.04)` chaque jour) ?
+6. Combien de lignes ont été semées pendant la **saison des pluies 2024** ?
+7. Utilisez la boucle pour écrire un CSV par village dans `outputs/villages/` (non noté, mais utile pour la séance d'exercices).
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("i05", list(
+  q_num("1a. Number of good lines?", "1a. Nombre de lignes good ?", a1, tol = 0),
+  q_num("1b. Number of poor lines?", "1b. Nombre de lignes poor ?", a2, tol = 0),
+  q_text("2a. Village with the highest loss rate?", "2a. Village au taux de perte le plus élevé ?", a3),
+  q_num("2b. Its loss rate in % (1 decimal)?", "2b. Son taux de perte en % (1 décimale) ?", a4, tol = 0.05),
+  q_num("3a. Total harvest of Mahavelo in tonnes (3 decimals)?", "3a. Récolte totale de Mahavelo en tonnes (3 décimales) ?", a5, tol = 0.0006),
+  q_text("3b. Village with the largest harvest?", "3b. Village ayant le plus récolté ?", a6),
+  q_num("4. Lines lost in a storm in the South zone?", "4. Lignes perdues lors d'une tempête dans la zone South ?", a7, tol = 0),
+  q_num("5. Days to exceed 50 kg?", "5. Jours pour dépasser 50 kg ?", a8, tol = 0),
+  q_num("6. Lines planted in the 2024 wet season?", "6. Lignes semées pendant la saison des pluies 2024 ?", a9, tol = 0),
+  q_mcq("7. Why does if (seaweed$sgr > 4) fail?", "7. Pourquoi if (seaweed$sgr > 4) échoue-t-il ?",
+        c("sgr is text", "if needs a single TRUE/FALSE, not a vector", "> does not work with decimals", "the braces are missing"),
+        c("sgr est du texte", "if demande un seul TRUE/FALSE, pas un vecteur", "> ne marche pas avec les décimales", "il manque les accolades"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="i05"}
+```{r, eval=FALSE}
+library(dplyr)
+seaweed <- read.csv("data/checkpoints/I3_seaweed_analysis.csv")
+seaweed <- seaweed %>% mutate(growth_class = case_when(
+  is.na(sgr) ~ "lost", sgr >= 4 ~ "good", sgr >= 3 ~ "medium", TRUE ~ "poor"))
+table(seaweed$growth_class)                                       # 1
+
+villages <- sort(unique(seaweed$village))
+res <- vector("list", length(villages))
+for (i in seq_along(villages)) {
+  d <- seaweed[seaweed$village == villages[i], ]
+  res[[i]] <- data.frame(village = villages[i],
+                         loss_pct = 100 * mean(d$status != "harvested"),
+                         harvest_t = sum(d$final_weight_kg, na.rm = TRUE) / 1000)
+}
+summary_v <- do.call(rbind, res)
+summary_v[which.max(summary_v$loss_pct), ]                        # 2
+summary_v[summary_v$village == "Mahavelo", ]                      # 3a
+summary_v[which.max(summary_v$harvest_t), ]                       # 3b
+sum(seaweed$zone == "South" & seaweed$status == "lost - storm")   # 4
+w <- 12; day <- 0
+while (w < 50) { w <- w * exp(0.04); day <- day + 1 }
+day                                                               # 5
+sum(seaweed$year == 2024 & seaweed$season == "wet")               # 6
+```
+:::

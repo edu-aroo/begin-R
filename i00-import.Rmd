@@ -1,0 +1,339 @@
+---
+title: "[I0 · Importing real-world files]{.en}[I0 · Importer des fichiers réels]{.fr}"
+pagetitle: "R for marine sciences · I0"
+subtitle: "~2.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/intermediate_pipeline.R")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- read an **Excel** file with several sheets (`readxl`), skip title rows and choose the sheet;
+- check what R imported: types, dimensions, missing values, strange values;
+- deal with **accents and encodings**, decimal commas and `;` separators;
+- produce a first clean version of the data and save it.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- lire un fichier **Excel** à plusieurs feuilles (`readxl`), sauter des lignes de titre et choisir la feuille ;
+- vérifier ce que R a importé : types, dimensions, valeurs manquantes, valeurs étranges ;
+- gérer les **accents et encodages**, les virgules décimales et les séparateurs `;` ;
+- produire une première version propre des données et l'enregistrer.
+:::
+:::
+
+## [The story of the intermediate level]{.en}[Le fil rouge du niveau intermédiaire]{.fr} {#story}
+
+::: en
+All the sessions of this level follow the same (simulated) organisation: the seaweed farmers' cooperative **Fanantenana**, in 12 villages of a fictional bay. The cooperative asks you to answer questions such as: *Which villages and seasons give the best growth? Is growth linked to sea temperature? Do women and men farmers use the same technique?* Each session gets you one step closer to the answers.
+
+| File | Content | Used in |
+|---|---|---|
+| `seaweed_farming.xlsx` | farmers and farming lines (2 years) | I0, I1, I3, I5–I8, I10, I11 |
+| `water_quality_long.csv`, `water_quality_wide.csv`, `stations.csv` | probe measurements at 10 stations | I2, I3, I7, I8, I10, I11 |
+| `survey_households.csv`, `survey_members.csv`, `survey_assets.csv` | household survey in 6 villages | I3, I4, I9, I10 |
+| `villages.csv`, `coastline.csv` | coordinates for the maps | I3, I11 |
+| `seacucumber_*.csv` | sea cucumber pens (final project) | I13 |
+:::
+::: fr
+Toutes les séances de ce niveau suivent la même organisation (simulée) : la coopérative de producteurs d'algues **Fanantenana**, dans 12 villages d'une baie fictive. La coopérative vous demande de répondre à des questions comme : *Quels villages et quelles saisons donnent la meilleure croissance ? La croissance est-elle liée à la température de l'eau ? Les femmes et les hommes utilisent-ils la même technique ?* Chaque séance vous rapproche des réponses.
+
+| Fichier | Contenu | Utilisé en |
+|---|---|---|
+| `seaweed_farming.xlsx` | producteurs et lignes de culture (2 ans) | I0, I1, I3, I5–I8, I10, I11 |
+| `water_quality_long.csv`, `water_quality_wide.csv`, `stations.csv` | mesures à la sonde sur 10 stations | I2, I3, I7, I8, I10, I11 |
+| `survey_households.csv`, `survey_members.csv`, `survey_assets.csv` | enquête ménages dans 6 villages | I3, I4, I9, I10 |
+| `villages.csv`, `coastline.csv` | coordonnées pour les cartes | I3, I11 |
+| `seacucumber_*.csv` | enclos d'holothuries (projet final) | I13 |
+:::
+
+`r dl("r_course_data_intermediate.zip", "r_course_data_intermediate.zip")` `r dl("check_setup.R", "check_setup.R", dir = "templates")`
+
+::: {.callout .tip}
+::: en
+**Before you start:** create a new RStudio project `R_course_intermediate` with the folders `data/`, `scripts/`, `outputs/`; unzip the data into `data/`; install the packages of this level and run `check_setup.R` with `LEVEL <- "intermediate"`:
+
+```r
+install.packages(c("readxl", "tidyr", "lubridate", "stringr", "patchwork", "dplyr", "ggplot2"))
+```
+:::
+::: fr
+**Avant de commencer :** créez un nouveau projet RStudio `R_course_intermediate` avec les dossiers `data/`, `scripts/`, `outputs/` ; décompressez les données dans `data/` ; installez les packages de ce niveau et lancez `check_setup.R` avec `LEVEL <- "intermediate"` :
+
+```r
+install.packages(c("readxl", "tidyr", "lubridate", "stringr", "patchwork", "dplyr", "ggplot2"))
+```
+:::
+:::
+
+## [How the seaweed data were collected]{.en}[Comment les données d'algues ont été collectées]{.fr} {#context}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** From January 2024 to December 2025, the cooperative technician visited the 96 member farmers. Seaweed (*Kappaphycus alvarezii*) is grown on **lines**: cuttings are tied on a rope fixed above the seabed (*off-bottom*) or floating (*long-line*). On planting day the technician weighs the cuttings of each line with a hanging scale (kg). About 45 days later he weighs the harvest of the same line. Lines lost in storms or eaten by fish have no final weight. He types everything in an Excel workbook: one sheet for the farmers, one for the lines, and a README sheet describing the data.
+
+**Type of data:** a register of repeated production measurements (quantitative: weights, lengths, dates; qualitative: village, sex, technique, status).
+:::
+::: fr
+**Contexte simulé.** De janvier 2024 à décembre 2025, le technicien de la coopérative a suivi les 96 producteurs membres. L'algue (*Kappaphycus alvarezii*) est cultivée sur des **lignes** : les boutures sont attachées sur une corde fixée au-dessus du fond (*off-bottom*) ou flottante (*long-line*). Le jour du semis, le technicien pèse les boutures de chaque ligne avec un peson (kg). Environ 45 jours plus tard, il pèse la récolte de la même ligne. Les lignes perdues lors de tempêtes ou broutées par les poissons n'ont pas de poids final. Il saisit tout dans un classeur Excel : une feuille pour les producteurs, une pour les lignes, et une feuille README qui décrit les données.
+
+**Type de données :** un registre de mesures de production répétées (quantitatives : poids, longueurs, dates ; qualitatives : village, sexe, technique, statut).
+:::
+:::
+
+## [Reading Excel files with readxl]{.en}[Lire des fichiers Excel avec readxl]{.fr} {#readxl}
+
+::: en
+`read.csv()` cannot read `.xlsx` files. The package **readxl** (installed with the tidyverse family, no Excel needed) does it. First list the sheets, then read the one you need.
+:::
+::: fr
+`read.csv()` ne lit pas les fichiers `.xlsx`. Le package **readxl** (de la famille tidyverse, Excel n'est pas nécessaire) le fait. Listez d'abord les feuilles, puis lisez celle dont vous avez besoin.
+:::
+
+```{r, message=FALSE}
+library(readxl)
+excel_sheets("data/seaweed_farming.xlsx")              # names of the sheets
+read_excel("data/seaweed_farming.xlsx", sheet = "README", col_names = FALSE)
+```
+
+```{r}
+farmers <- read_excel("data/seaweed_farming.xlsx", sheet = "farmers")
+farmers
+```
+
+::: en
+The result is a **tibble**: a modern data frame that prints only the first rows and shows the type of each column under its name (`<chr>` text, `<dbl>` number, `<dttm>` date-time). Everything you learned on data frames works on tibbles. To get a classic data frame: `as.data.frame()`.
+:::
+::: fr
+Le résultat est un **tibble** : un data frame moderne qui n'affiche que les premières lignes et indique le type de chaque colonne sous son nom (`<chr>` texte, `<dbl>` nombre, `<dttm>` date-heure). Tout ce que vous savez sur les data frames fonctionne sur les tibbles. Pour obtenir un data frame classique : `as.data.frame()`.
+:::
+
+### [Sheets with title rows]{.en}[Feuilles avec des lignes de titre]{.fr}
+
+::: en
+Open the sheet `lines` in Excel: the technician wrote two title lines above the table, then an empty row. Read naively, R takes the title as column name:
+:::
+::: fr
+Ouvrez la feuille `lines` dans Excel : le technicien a écrit deux lignes de titre au-dessus du tableau, puis une ligne vide. Lue naïvement, R prend le titre comme nom de colonne :
+:::
+
+```{r, message=FALSE}
+bad <- read_excel("data/seaweed_farming.xlsx", sheet = "lines")
+names(bad)[1:3]
+```
+
+::: en
+`skip = 3` ignores the first 3 rows. Other useful arguments: `range = "A4:J200"` (an exact block of cells), `na = c("", "NA", "-")` (values to read as missing), `col_types` (force the types).
+:::
+::: fr
+`skip = 3` ignore les 3 premières lignes. Autres arguments utiles : `range = "A4:J200"` (un bloc exact de cellules), `na = c("", "NA", "-")` (valeurs à lire comme manquantes), `col_types` (imposer les types).
+:::
+
+```{r}
+lines <- read_excel("data/seaweed_farming.xlsx", sheet = "lines", skip = 3)
+dim(lines)
+head(lines, 3)
+```
+
+## [Checking what was imported]{.en}[Vérifier ce qui a été importé]{.fr} {#check}
+
+::: en
+A real file always hides surprises. Make this check routine on **every** import: dimensions, types, missing values, ranges, categories.
+:::
+::: fr
+Un vrai fichier cache toujours des surprises. Faites de cette vérification une routine à **chaque** import : dimensions, types, valeurs manquantes, étendues, catégories.
+:::
+
+```{r}
+str(lines)
+colSums(is.na(lines))            # missing values per column
+summary(lines$final_weight_kg)   # look at the maximum!
+table(lines$status)
+```
+
+::: en
+Three things to note:
+
+1. `planting_date` is a **date-time** (`POSIXct`) because it was a real date in Excel, while `harvest_date` is **text**: it was typed by hand as `dd/mm/yyyy`. We fix both in Session I1.
+2. `final_weight_kg` has 258 `NA` — the lost lines — and a maximum of several thousand: some weights were typed in **grams**.
+3. The village names in `farmers` are not consistent.
+:::
+::: fr
+Trois choses à noter :
+
+1. `planting_date` est une **date-heure** (`POSIXct`) car c'était une vraie date dans Excel, alors que `harvest_date` est du **texte** : elle a été saisie à la main en `jj/mm/aaaa`. Nous corrigerons les deux en séance I1.
+2. `final_weight_kg` a 258 `NA` — les lignes perdues — et un maximum de plusieurs milliers : certains poids ont été saisis en **grammes**.
+3. Les noms de villages dans `farmers` ne sont pas cohérents.
+:::
+
+```{r}
+sort(unique(farmers$village))
+```
+
+```{r}
+farmers$village <- tools::toTitleCase(tolower(trimws(farmers$village)))   # Beginner, Session 5
+length(unique(farmers$village))
+```
+
+::: {.callout .try}
+::: en
+**Try it.** How many lines have a final weight above 200 kg? Which farmer has the most lines? (`table()` then `sort()`).
+:::
+::: fr
+**À vous.** Combien de lignes ont un poids final supérieur à 200 kg ? Quel producteur a le plus de lignes ? (`table()` puis `sort()`).
+:::
+:::
+
+::: hint
+::: en
+`sum(lines$final_weight_kg > 200, na.rm = TRUE)` — and `sort(table(lines$farmer_id), decreasing = TRUE)[1]`.
+:::
+::: fr
+`sum(lines$final_weight_kg > 200, na.rm = TRUE)` — et `sort(table(lines$farmer_id), decreasing = TRUE)[1]`.
+:::
+:::
+
+## [CSV files: separators, decimals, accents]{.en}[Fichiers CSV : séparateurs, décimales, accents]{.fr} {#csv}
+
+::: en
+| Problem | Symptom | Solution |
+|---|---|---|
+| Separator `;` (French Excel) | all data in one column | `read.csv2()` or `sep = ";"` |
+| Decimal comma `12,5` | numbers read as text | `dec = ","` |
+| Accents `é` shown as `Ã©` | wrong encoding | `fileEncoding = "UTF-8"` or `"latin1"` |
+| Missing values written `-`, `.`, `NA`, `999` | numbers read as text, or false values | `na.strings = c("", "-", ".")`, then fix codes like `-999` |
+| Empty rows at the end | rows full of NA | remove with `df[rowSums(!is.na(df)) > 0, ]` |
+:::
+::: fr
+| Problème | Symptôme | Solution |
+|---|---|---|
+| Séparateur `;` (Excel français) | toutes les données dans une colonne | `read.csv2()` ou `sep = ";"` |
+| Virgule décimale `12,5` | nombres lus comme du texte | `dec = ","` |
+| Accents `é` affichés `Ã©` | mauvais encodage | `fileEncoding = "UTF-8"` ou `"latin1"` |
+| Manquants écrits `-`, `.`, `NA`, `999` | nombres lus comme texte, ou fausses valeurs | `na.strings = c("", "-", ".")`, puis corriger les codes comme `-999` |
+| Lignes vides à la fin | lignes pleines de NA | les retirer avec `df[rowSums(!is.na(df)) > 0, ]` |
+:::
+
+```{r}
+wq <- read.csv("data/water_quality_long.csv")
+str(wq)
+range(wq$temp_C, na.rm = TRUE)     # -999 is a probe "error code", not a temperature
+```
+
+::: en
+`readr::read_csv()` (tidyverse) is a faster alternative that returns a tibble and guesses types more carefully. Both are fine: use what you prefer, but **always check** the result.
+:::
+::: fr
+`readr::read_csv()` (tidyverse) est une alternative plus rapide qui renvoie un tibble et devine les types plus prudemment. Les deux conviennent : utilisez ce que vous préférez, mais **vérifiez toujours** le résultat.
+:::
+
+## [Saving a clean copy]{.en}[Enregistrer une copie propre]{.fr} {#save}
+
+::: en
+Never modify the raw file. Save the cleaned version in `outputs/` (or `data/clean/`) with a name that says what it is. The next session starts from the checkpoint file below if you want to be sure to start from correct data.
+:::
+::: fr
+Ne modifiez jamais le fichier brut. Enregistrez la version nettoyée dans `outputs/` (ou `data/clean/`) avec un nom qui dit ce qu'elle contient. La séance suivante peut partir du fichier de contrôle ci-dessous si vous voulez être sûr de partir de données correctes.
+:::
+
+```{r, eval=FALSE}
+lines$planting_date <- as.Date(lines$planting_date)    # date-time -> date
+write.csv(farmers, "outputs/I0_farmers.csv", row.names = FALSE)
+write.csv(lines,   "outputs/I0_lines.csv",   row.names = FALSE)
+```
+
+`r dl("I0_farmers.csv", "checkpoint: I0_farmers.csv", dir = "data/checkpoints")` `r dl("I0_lines.csv", "checkpoint: I0_lines.csv", dir = "data/checkpoints")`
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+f <- cp_farmers(); l <- cp_lines_raw()
+a1 <- length(excel_sheets("data/seaweed_farming.xlsx"))
+a2 <- nrow(l); a3 <- ncol(l)
+a4 <- sum(is.na(l$final_weight_kg))
+a5 <- sum(l$final_weight_kg > 200, na.rm = TRUE)
+a6 <- length(unique(read_excel("data/seaweed_farming.xlsx", sheet = "farmers")$village))
+a7 <- length(unique(f$village))
+a8 <- names(sort(table(f$village), decreasing = TRUE))[1]
+a9 <- sum(f$sex == "F")
+w <- read.csv("data/water_quality_long.csv")
+a10 <- sum(w$temp_C == -999, na.rm = TRUE)
+```
+
+::: application
+::: en
+### Application work I0
+
+New script `scripts/i00_import.R`.
+
+1. How many sheets does `seaweed_farming.xlsx` contain?
+2. Read the sheet `lines` correctly. How many rows and columns?
+3. How many lines have no final weight (`NA`)?
+4. How many final weights are above 200 (typed in grams)?
+5. Read the sheet `farmers`. How many different village spellings before cleaning? And after cleaning?
+6. Which village has the most farmers (after cleaning)?
+7. How many farmers are women (`sex == "F"`)?
+8. Read `water_quality_long.csv`. How many temperatures are coded `-999`?
+:::
+::: fr
+### Travail d'application I0
+
+Nouveau script `scripts/i00_import.R`.
+
+1. Combien de feuilles contient `seaweed_farming.xlsx` ?
+2. Lisez correctement la feuille `lines`. Combien de lignes et de colonnes ?
+3. Combien de lignes n'ont pas de poids final (`NA`) ?
+4. Combien de poids finaux dépassent 200 (saisis en grammes) ?
+5. Lisez la feuille `farmers`. Combien d'orthographes de villages différentes avant nettoyage ? Et après ?
+6. Quel village compte le plus de producteurs (après nettoyage) ?
+7. Combien de producteurs sont des femmes (`sex == "F"`) ?
+8. Lisez `water_quality_long.csv`. Combien de températures sont codées `-999` ?
+:::
+:::
+
+::: hint
+::: en
+For question 2, remember the title rows: `skip = 3`. For 5, count with `length(unique(...))` before and after `tools::toTitleCase(tolower(trimws(...)))`.
+:::
+::: fr
+Pour la question 2, pensez aux lignes de titre : `skip = 3`. Pour la 5, comptez avec `length(unique(...))` avant et après `tools::toTitleCase(tolower(trimws(...)))`.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("i00", list(
+  q_num("1. Number of sheets?", "1. Nombre de feuilles ?", a1, tol = 0),
+  q_num("2a. Number of rows of the sheet lines?", "2a. Nombre de lignes de la feuille lines ?", a2, tol = 0),
+  q_num("2b. Number of columns?", "2b. Nombre de colonnes ?", a3, tol = 0),
+  q_num("3. Lines without final weight?", "3. Lignes sans poids final ?", a4, tol = 0),
+  q_num("4. Final weights above 200?", "4. Poids finaux supérieurs à 200 ?", a5, tol = 0),
+  q_num("5a. Village spellings before cleaning?", "5a. Orthographes de villages avant nettoyage ?", a6, tol = 0),
+  q_num("5b. Villages after cleaning?", "5b. Villages après nettoyage ?", a7, tol = 0),
+  q_text("6. Village with the most farmers?", "6. Village comptant le plus de producteurs ?", a8),
+  q_num("7. Number of women farmers?", "7. Nombre de productrices ?", a9, tol = 0),
+  q_num("8. Temperatures coded -999?", "8. Températures codées -999 ?", a10, tol = 0)
+))
+```
+
+::: {.solution data-quiz="i00"}
+```{r, eval=FALSE}
+library(readxl)
+excel_sheets("data/seaweed_farming.xlsx")                              # 1
+lines <- read_excel("data/seaweed_farming.xlsx", sheet = "lines", skip = 3)
+dim(lines)                                                            # 2
+sum(is.na(lines$final_weight_kg))                                     # 3
+sum(lines$final_weight_kg > 200, na.rm = TRUE)                        # 4
+farmers <- read_excel("data/seaweed_farming.xlsx", sheet = "farmers")
+length(unique(farmers$village))                                       # 5a
+farmers$village <- tools::toTitleCase(tolower(trimws(farmers$village)))
+length(unique(farmers$village))                                       # 5b
+sort(table(farmers$village), decreasing = TRUE)[1]                    # 6
+sum(farmers$sex == "F")                                               # 7
+wq <- read.csv("data/water_quality_long.csv")
+sum(wq$temp_C == -999, na.rm = TRUE)                                  # 8
+```
+:::

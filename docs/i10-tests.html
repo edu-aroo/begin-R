@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · I10</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I10 · Comparing means and
+proportions, correlations: choosing the right test</span><span
+class="fr">I10 · Comparer des moyennes et des proportions, corrélations
+: choisir le bon test</span></h1>
+<h3 class="subtitle">~3.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>choose a test from <strong>the question</strong> and <strong>the
+type of variables</strong>, and justify it;</li>
+<li>explain the difference between <strong>parametric</strong> and
+<strong>non-parametric</strong> tests, and when to prefer each;</li>
+<li>compare <strong>two means</strong> (independent or paired groups)
+with <code>t.test()</code> and <code>wilcox.test()</code>;</li>
+<li>compare <strong>percentages</strong> with <code>chisq.test()</code>,
+<code>prop.test()</code> and <code>fisher.test()</code>;</li>
+<li>measure a <strong>correlation</strong> with Pearson or Spearman, and
+recognise when no correlation coefficient is appropriate;</li>
+<li><strong>report</strong> a result in one clear sentence (effect size
++ test + p-value).</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>choisir un test à partir de <strong>la question</strong> et du
+<strong>type des variables</strong>, et le justifier ;</li>
+<li>expliquer la différence entre tests <strong>paramétriques</strong>
+et <strong>non paramétriques</strong>, et quand préférer chacun ;</li>
+<li>comparer <strong>deux moyennes</strong> (groupes indépendants ou
+appariés) avec <code>t.test()</code> et <code>wilcox.test()</code>
+;</li>
+<li>comparer des <strong>pourcentages</strong> avec
+<code>chisq.test()</code>, <code>prop.test()</code> et
+<code>fisher.test()</code> ;</li>
+<li>mesurer une <strong>corrélation</strong> avec Pearson ou Spearman,
+et reconnaître quand aucun coefficient de corrélation ne convient ;</li>
+<li><strong>rapporter</strong> un résultat en une phrase claire (taille
+d’effet + test + p-value).</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> Four datasets you
+already know, each answering one question of the cooperative or of the
+environment office:</p>
+<ul>
+<li><strong>Seaweed lines</strong>
+(<code>I3_seaweed_analysis.csv</code>, cooperative logbooks, 2024–2025):
+does growth (SGR) differ between the dry and the wet season? Does it
+follow water temperature?</li>
+<li><strong>Household survey</strong>
+(<code>I4_households_clean.csv</code>, 420 face-to-face interviews,
+2025): do households headed by women and men declare different
+incomes?</li>
+<li><strong>Farmers’ register</strong> (<code>I0_farmers.csv</code>, 96
+cooperative members): do women and men use the two farming techniques in
+the same proportions?</li>
+<li><strong>Water quality</strong>
+(<code>I2_water_quality_clean.csv</code>): 10 fixed stations sampled
+monthly with a multiparameter probe, 2023–2025. Was 2025 warmer than
+2024? Is dissolved oxygen related to temperature?</li>
+</ul>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong> Quatre jeux que
+vous connaissez déjà, chacun répondant à une question de la coopérative
+ou du service de l’environnement :</p>
+<ul>
+<li><strong>Lignes d’algues</strong>
+(<code>I3_seaweed_analysis.csv</code>, cahiers de la coopérative,
+2024–2025) : la croissance (SGR) diffère-t-elle entre saison sèche et
+saison des pluies ? Suit-elle la température de l’eau ?</li>
+<li><strong>Enquête ménages</strong>
+(<code>I4_households_clean.csv</code>, 420 entretiens en face à face,
+2025) : les ménages dirigés par des femmes et par des hommes
+déclarent-ils des revenus différents ?</li>
+<li><strong>Registre des cultivateurs</strong>
+(<code>I0_farmers.csv</code>, 96 membres de la coopérative) : femmes et
+hommes utilisent-ils les deux techniques dans les mêmes proportions
+?</li>
+<li><strong>Qualité de l’eau</strong>
+(<code>I2_water_quality_clean.csv</code>) : 10 stations fixes
+échantillonnées chaque mois avec une sonde multiparamètre, 2023–2025.
+2025 a-t-elle été plus chaude que 2024 ? L’oxygène dissous est-il lié à
+la température ?</li>
+</ul>
+</div>
+</div>
+<p><a class="btn-dl" href="data/checkpoints/I3_seaweed_analysis.csv" download>⇩
+I3_seaweed_analysis.csv</a>
+<a class="btn-dl" href="data/checkpoints/I4_households_clean.csv" download>⇩
+I4_households_clean.csv</a>
+<a class="btn-dl" href="data/checkpoints/I0_farmers.csv" download>⇩
+I0_farmers.csv</a>
+<a class="btn-dl" href="data/checkpoints/I2_water_quality_clean.csv" download>⇩
+I2_water_quality_clean.csv</a></p>
+<div id="choose" class="section level2">
+<h2><span class="en">Choosing a test</span><span class="fr">Choisir un
+test</span></h2>
+<div class="en">
+<p>A test is chosen <strong>before</strong> looking at p-values, from
+three questions: <strong>(1)</strong> what is my question (difference of
+means, of proportions, or relationship)? <strong>(2)</strong> what type
+are my variables (numeric or categorical)? <strong>(3)</strong> are the
+observations independent, or are the <strong>same units measured
+twice</strong> (paired)? Then the shape of the data (Session I9) tells
+you whether the parametric version is reasonable.</p>
+</div>
+<div class="fr">
+<p>Un test se choisit <strong>avant</strong> de regarder les p-values, à
+partir de trois questions : <strong>(1)</strong> quelle est ma question
+(différence de moyennes, de proportions, ou relation) ?
+<strong>(2)</strong> de quel type sont mes variables (numériques ou
+catégorielles) ? <strong>(3)</strong> les observations sont-elles
+indépendantes, ou les <strong>mêmes unités sont-elles mesurées deux
+fois</strong> (apparié) ? Ensuite, la forme des données (séance I9)
+indique si la version paramétrique est raisonnable.</p>
+</div>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" role="img" aria-label="Choosing a test" font-family="Source Sans 3, Arial, sans-serif">
+<defs><marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5d6b75"/></marker></defs>
+<g font-size="15">
+<!-- root -->
+<rect x="330" y="10" width="240" height="44" rx="10" fill="#0b3d5c"/>
+<text class="en" x="450" y="38" text-anchor="middle" fill="#fff" font-weight="700">What is your question?</text>
+<text class="fr" x="450" y="38" text-anchor="middle" fill="#fff" font-weight="700">Quelle est votre question ?</text>
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M380 54 L150 96"/><path d="M450 54 L450 96"/><path d="M520 54 L750 96"/></g>
+<!-- three branches -->
+<rect x="40" y="98" width="220" height="56" rx="10" fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"/>
+<text class="en" x="150" y="122" text-anchor="middle" font-weight="700" fill="#0b3d5c">Compare 2 means</text><text class="en" x="150" y="142" text-anchor="middle" fill="#3c4a52">numeric variable, 2 groups</text>
+<text class="fr" x="150" y="122" text-anchor="middle" font-weight="700" fill="#0b3d5c">Comparer 2 moyennes</text><text class="fr" x="150" y="142" text-anchor="middle" fill="#3c4a52">variable numérique, 2 groupes</text>
+<rect x="340" y="98" width="220" height="56" rx="10" fill="#f6f1e7" stroke="#b08a4a" stroke-width="2"/>
+<text class="en" x="450" y="122" text-anchor="middle" font-weight="700" fill="#0b3d5c">Compare proportions</text><text class="en" x="450" y="142" text-anchor="middle" fill="#3c4a52">2 categorical variables</text>
+<text class="fr" x="450" y="122" text-anchor="middle" font-weight="700" fill="#0b3d5c">Comparer des proportions</text><text class="fr" x="450" y="142" text-anchor="middle" fill="#3c4a52">2 variables catégorielles</text>
+<rect x="640" y="98" width="220" height="56" rx="10" fill="#eef5ea" stroke="#4a7d3a" stroke-width="2"/>
+<text class="en" x="750" y="122" text-anchor="middle" font-weight="700" fill="#0b3d5c">Relationship</text><text class="en" x="750" y="142" text-anchor="middle" fill="#3c4a52">2 numeric variables</text>
+<text class="fr" x="750" y="122" text-anchor="middle" font-weight="700" fill="#0b3d5c">Relation</text><text class="fr" x="750" y="142" text-anchor="middle" fill="#3c4a52">2 variables numériques</text>
+<!-- means -->
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M150 154 L150 186"/></g>
+<rect x="40" y="188" width="220" height="44" rx="8" fill="#fff" stroke="#c9d3d8"/>
+<text class="en" x="150" y="215" text-anchor="middle" fill="#3c4a52">Same units measured twice?</text>
+<text class="fr" x="150" y="215" text-anchor="middle" fill="#3c4a52">Mêmes unités mesurées 2 fois ?</text>
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M100 232 L70 262"/><path d="M200 232 L230 262"/></g>
+<text class="en" x="60" y="252" fill="#5d6b75" font-size="13">no</text><text class="fr" x="60" y="252" fill="#5d6b75" font-size="13">non</text>
+<text class="en" x="220" y="252" fill="#5d6b75" font-size="13">yes (paired)</text><text class="fr" x="220" y="252" fill="#5d6b75" font-size="13">oui (apparié)</text>
+<rect x="10" y="264" width="135" height="44" rx="8" fill="#fff" stroke="#c9d3d8"/>
+<text class="en" x="77" y="291" text-anchor="middle" fill="#3c4a52" font-size="14">roughly normal?</text><text class="fr" x="77" y="291" text-anchor="middle" fill="#3c4a52" font-size="14">à peu près normal ?</text>
+<rect x="160" y="264" width="135" height="44" rx="8" fill="#fff" stroke="#c9d3d8"/>
+<text class="en" x="227" y="284" text-anchor="middle" fill="#3c4a52" font-size="14">differences</text><text class="en" x="227" y="300" text-anchor="middle" fill="#3c4a52" font-size="14">roughly normal?</text>
+<text class="fr" x="227" y="284" text-anchor="middle" fill="#3c4a52" font-size="14">différences à peu</text><text class="fr" x="227" y="300" text-anchor="middle" fill="#3c4a52" font-size="14">près normales ?</text>
+<g font-family="JetBrains Mono, monospace" font-size="13">
+<rect x="10" y="330" width="135" height="58" rx="8" fill="#1b7f8c"/><text x="77" y="352" text-anchor="middle" fill="#fff">yes: t.test()</text><text x="77" y="372" text-anchor="middle" fill="#fff" font-size="11">(Welch)</text>
+<rect x="10" y="396" width="135" height="58" rx="8" fill="#d9694a"/><text x="77" y="418" text-anchor="middle" fill="#fff">no: wilcox.test()</text><text x="77" y="438" text-anchor="middle" fill="#fff" font-size="11">or t on log(x)</text>
+<rect x="160" y="330" width="135" height="58" rx="8" fill="#1b7f8c"/><text x="227" y="352" text-anchor="middle" fill="#fff">yes: t.test(</text><text x="227" y="372" text-anchor="middle" fill="#fff">paired = TRUE)</text>
+<rect x="160" y="396" width="135" height="58" rx="8" fill="#d9694a"/><text x="227" y="418" text-anchor="middle" fill="#fff">no: wilcox.test(</text><text x="227" y="438" text-anchor="middle" fill="#fff">paired = TRUE)</text>
+</g>
+<g stroke="#5d6b75" stroke-width="1.5" fill="none" marker-end="url(#ar5)"><path d="M77 308 L77 328"/><path d="M227 308 L227 328"/></g>
+<!-- proportions -->
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M450 154 L450 186"/></g>
+<rect x="340" y="188" width="220" height="62" rx="8" fill="#fff" stroke="#c9d3d8"/>
+<text class="en" x="450" y="212" text-anchor="middle" fill="#3c4a52">All expected counts ≥ 5?</text><text class="en" x="450" y="232" text-anchor="middle" fill="#5d6b75" font-size="13">chisq.test(t)&#36;expected</text>
+<text class="fr" x="450" y="212" text-anchor="middle" fill="#3c4a52">Effectifs attendus tous ≥ 5 ?</text><text class="fr" x="450" y="232" text-anchor="middle" fill="#5d6b75" font-size="13">chisq.test(t)&#36;expected</text>
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M400 250 L390 328"/><path d="M500 250 L510 328"/></g>
+<g font-family="JetBrains Mono, monospace" font-size="13">
+<rect x="320" y="330" width="135" height="58" rx="8" fill="#1b7f8c"/><text x="387" y="352" text-anchor="middle" fill="#fff">yes: chisq.test()</text><text x="387" y="372" text-anchor="middle" fill="#fff" font-size="11">prop.test()</text>
+<rect x="445" y="396" width="135" height="58" rx="8" fill="#d9694a"/><text x="512" y="430" text-anchor="middle" fill="#fff">no: fisher.test()</text>
+</g>
+<!-- correlation -->
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M750 154 L750 186"/></g>
+<rect x="640" y="188" width="220" height="62" rx="8" fill="#fff" stroke="#c9d3d8"/>
+<text class="en" x="750" y="212" text-anchor="middle" fill="#3c4a52">Plot first! Straight line,</text><text class="en" x="750" y="232" text-anchor="middle" fill="#3c4a52">no strong outliers?</text>
+<text class="fr" x="750" y="212" text-anchor="middle" fill="#3c4a52">Tracer d'abord ! Droite,</text><text class="fr" x="750" y="232" text-anchor="middle" fill="#3c4a52">pas de valeurs extrêmes ?</text>
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M700 250 L690 328"/><path d="M800 250 L810 328"/></g>
+<g font-family="JetBrains Mono, monospace" font-size="13">
+<rect x="620" y="330" width="135" height="58" rx="8" fill="#1b7f8c"/><text x="687" y="352" text-anchor="middle" fill="#fff">yes: cor.test()</text><text x="687" y="372" text-anchor="middle" fill="#fff" font-size="11">Pearson</text>
+<rect x="745" y="396" width="150" height="58" rx="8" fill="#d9694a"/><text x="820" y="418" text-anchor="middle" fill="#fff">no: cor.test(</text><text x="820" y="438" text-anchor="middle" fill="#fff" font-size="12">method="spearman")</text>
+</g>
+<text class="en" x="620" y="468" fill="#5d6b75" font-size="12">curved (not monotonic)? no correlation fits: describe it with a plot</text>
+<text class="fr" x="580" y="468" fill="#5d6b75" font-size="12">courbe non monotone ? aucune corrélation ne convient : décrivez-la par un graphique</text>
+</g>
+</svg><figcaption><span class="en">Decision chart for the tests of this session. Blue: parametric test; orange: non-parametric or exact alternative.</span><span class="fr">Schéma de décision pour les tests de cette séance. Bleu : test paramétrique ; orange : alternative non paramétrique ou exacte.</span></figcaption></figure>
+<div id="parametric-or-non-parametricparamétrique-ou-non-paramétrique"
+class="section level3">
+<h3><span class="en">Parametric or non-parametric?</span><span
+class="fr">Paramétrique ou non paramétrique ?</span></h3>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Parametric</th>
+<th>Non-parametric</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Works on</td>
+<td>the values themselves (means, SD)</td>
+<td>the <strong>ranks</strong> of the values (1st, 2nd, 3rd…)</td>
+</tr>
+<tr class="even">
+<td>Assumes</td>
+<td>approximately normal data (or large groups, Session I9)</td>
+<td>only that the distributions have a similar shape</td>
+</tr>
+<tr class="odd">
+<td>Examples</td>
+<td><code>t.test()</code>, Pearson <code>cor.test()</code></td>
+<td><code>wilcox.test()</code>, Spearman
+<code>cor.test(method = "spearman")</code></td>
+</tr>
+<tr class="even">
+<td>Strength</td>
+<td>more <strong>powerful</strong> when the assumptions hold; gives an
+effect size in the units of the data</td>
+<td><strong>robust</strong> to outliers and skewness</td>
+</tr>
+<tr class="odd">
+<td>Weakness</td>
+<td>sensitive to outliers and strong skewness, especially in small
+samples</td>
+<td>slightly less powerful; compares “typical values” rather than
+means</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule of thumb:</strong> roughly normal (or large groups
+without extreme outliers) → parametric. Small groups and clearly skewed,
+or strong outliers → either <strong>transform</strong> (log, Session I9)
+and use the parametric test, or use the non-parametric test. Choose one
+approach and justify it — do not run both and keep the one that
+“works”.</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Paramétrique</th>
+<th>Non paramétrique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Travaille sur</td>
+<td>les valeurs elles-mêmes (moyennes, ET)</td>
+<td>les <strong>rangs</strong> des valeurs (1er, 2e, 3e…)</td>
+</tr>
+<tr class="even">
+<td>Suppose</td>
+<td>des données à peu près normales (ou de grands groupes, séance
+I9)</td>
+<td>seulement que les distributions ont une forme semblable</td>
+</tr>
+<tr class="odd">
+<td>Exemples</td>
+<td><code>t.test()</code>, <code>cor.test()</code> de Pearson</td>
+<td><code>wilcox.test()</code>,
+<code>cor.test(method = "spearman")</code> de Spearman</td>
+</tr>
+<tr class="even">
+<td>Atout</td>
+<td>plus <strong>puissant</strong> quand les hypothèses sont vérifiées ;
+donne un effet dans les unités des données</td>
+<td><strong>robuste</strong> aux valeurs extrêmes et à l’asymétrie</td>
+</tr>
+<tr class="odd">
+<td>Faiblesse</td>
+<td>sensible aux valeurs extrêmes et à une forte asymétrie, surtout avec
+de petits échantillons</td>
+<td>un peu moins puissant ; compare des « valeurs typiques » plutôt que
+des moyennes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Règle pratique :</strong> à peu près normal (ou grands
+groupes sans valeurs extrêmes) → paramétrique. Petits groupes et
+nettement asymétrique, ou fortes valeurs extrêmes → soit
+<strong>transformer</strong> (log, séance I9) et utiliser le test
+paramétrique, soit utiliser le test non paramétrique. Choisissez une
+approche et justifiez-la — ne faites pas les deux pour garder celle qui
+« marche ».</p>
+</div>
+</div>
+</div>
+<div id="ttest" class="section level2">
+<h2><span class="en">Comparing two means: independent groups</span><span
+class="fr">Comparer deux moyennes : groupes indépendants</span></h2>
+<div
+id="seaweed-growth-in-the-dry-and-wet-seasoncroissance-des-algues-en-saison-sèche-et-en-saison-des-pluies"
+class="section level3">
+<h3><span class="en">Seaweed growth in the dry and wet
+season</span><span class="fr">Croissance des algues en saison sèche et
+en saison des pluies</span></h3>
+<div class="en">
+<p>SGR is roughly normal (Session I9) and the groups are large: the
+<strong>t-test</strong> is appropriate. <strong>Always plot
+first.</strong></p>
+</div>
+<div class="fr">
+<p>Le SGR est à peu près normal (séance I9) et les groupes sont grands :
+le <strong>test t</strong> est adapté. <strong>Toujours tracer
+d’abord.</strong></p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">ggplot</span>(seaweed, <span class="fu">aes</span>(season, sgr, <span class="at">fill =</span> season)) <span class="sc">+</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">dry =</span> <span class="st">&quot;#e8c27a&quot;</span>, <span class="at">wet =</span> <span class="st">&quot;#7fb8c4&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;SGR (% per day)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span></code></pre></div>
+<p><img src="i10-tests_files/figure-html/unnamed-chunk-1-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">t.test</span>(sgr <span class="sc">~</span> season, <span class="at">data =</span> seaweed)   <span class="co"># formula: numeric ~ group (2 levels)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>tt</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  sgr by season
+#&gt; t = 9.5646, df = 2267.1, p-value &lt; 2.2e-16
+#&gt; alternative hypothesis: true difference in means between group dry and group wet is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  0.2071039 0.3139304
+#&gt; sample estimates:
+#&gt; mean in group dry mean in group wet 
+#&gt;          3.562905          3.302388</code></pre>
+<div class="en">
+<p>How to read the output:</p>
+<ul>
+<li><code>t = 9.56</code>: the difference of means divided by its
+standard error. Far from 0 → the difference is large compared with
+sampling noise.</li>
+<li><code>df</code>: degrees of freedom. The decimal value shows that R
+used <strong>Welch’s</strong> version (the default), which does not
+assume equal variances in the two groups — keep it.</li>
+<li><code>p-value &lt; 2.2e-16</code>: the smallest number R prints.
+Write “p &lt; 0.001”.</li>
+<li><code>95 percent confidence interval</code>: the difference dry −
+wet is between 0.21 and 0.31 % per day. <strong>This is the effect size
+you should report.</strong></li>
+</ul>
+</div>
+<div class="fr">
+<p>Comment lire la sortie :</p>
+<ul>
+<li><code>t = 9.56</code> : la différence de moyennes divisée par son
+erreur standard. Loin de 0 → la différence est grande par rapport au
+bruit d’échantillonnage.</li>
+<li><code>df</code> : degrés de liberté. La valeur décimale montre que R
+a utilisé la version de <strong>Welch</strong> (par défaut), qui ne
+suppose pas des variances égales dans les deux groupes — gardez-la.</li>
+<li><code>p-value &lt; 2.2e-16</code> : le plus petit nombre que R
+affiche. Écrivez « p &lt; 0,001 ».</li>
+<li><code>95 percent confidence interval</code> : la différence sèche −
+pluies est comprise entre 0,21 et 0,31 % par jour. <strong>C’est la
+taille d’effet à rapporter.</strong></li>
+</ul>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>tt<span class="sc">$</span>estimate                    <span class="co"># the two means</span></span></code></pre></div>
+<pre><code>#&gt; mean in group dry mean in group wet 
+#&gt;          3.562905          3.302388</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">diff</span>(<span class="fu">rev</span>(tt<span class="sc">$</span>estimate))         <span class="co"># dry - wet</span></span></code></pre></div>
+<pre><code>#&gt; mean in group dry 
+#&gt;         0.2605172</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>tt<span class="sc">$</span>conf.int                    <span class="co"># 95 % CI of the difference</span></span></code></pre></div>
+<pre><code>#&gt; [1] 0.2071039 0.3139304
+#&gt; attr(,&quot;conf.level&quot;)
+#&gt; [1] 0.95</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>tt<span class="sc">$</span>p.value</span></code></pre></div>
+<pre><code>#&gt; [1] 2.821748e-21</code></pre>
+<div class="callout tip">
+<div class="en">
+<p><strong>Report it like this.</strong> “Seaweed grew faster in the dry
+season (mean SGR 3.56 vs 3.30 % day⁻¹; difference 0.26, 95 % CI
+0.21–0.31; Welch t-test, t = 9.56, df = 2267, p &lt; 0.001).” The reader
+learns the direction, the size, the precision and the test in one
+sentence.</p>
+</div>
+<div class="fr">
+<p><strong>Rapportez-le ainsi.</strong> « Les algues ont poussé plus
+vite en saison sèche (SGR moyen 3,56 contre 3,30 % j⁻¹ ; différence
+0,26, IC 95 % 0,21–0,31 ; test t de Welch, t = 9,56, ddl = 2267, p &lt;
+0,001). » Le lecteur apprend en une phrase le sens, la taille, la
+précision et le test.</p>
+</div>
+</div>
+</div>
+<div
+id="household-income-of-women--and-men-headed-householdsrevenu-des-ménages-dirigés-par-des-femmes-et-par-des-hommes"
+class="section level3">
+<h3><span class="en">Household income of women- and men-headed
+households</span><span class="fr">Revenu des ménages dirigés par des
+femmes et par des hommes</span></h3>
+<div class="en">
+<p>Income is strongly right-skewed (Session I9). Two valid options,
+<strong>decided before testing</strong>:</p>
+</div>
+<div class="fr">
+<p>Le revenu est fortement asymétrique à droite (séance I9). Deux
+options valides, <strong>décidées avant de tester</strong> :</p>
+</div>
+<div class="compare">
+<div class="col base">
+<p><strong><span class="en">Option A: non-parametric (ranks)</span><span
+class="fr">Option A : non paramétrique (rangs)</span></strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">wilcox.test</span>(monthly_income_mga <span class="sc">~</span> head_sex,</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>            <span class="at">data =</span> hh)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Wilcoxon rank sum test with continuity correction
+#&gt; 
+#&gt; data:  monthly_income_mga by head_sex
+#&gt; W = 20948, p-value = 0.4251
+#&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+</div>
+<div class="col pkg">
+<p><strong><span class="en">Option B: t-test on log(income)</span><span
+class="fr">Option B : test t sur log(revenu)</span></strong></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">t.test</span>(<span class="fu">log</span>(monthly_income_mga) <span class="sc">~</span> head_sex,</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>       <span class="at">data =</span> hh)<span class="sc">$</span>p.value</span></code></pre></div>
+<pre><code>#&gt; [1] 0.6134224</code></pre>
+</div>
+</div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">tapply</span>(hh<span class="sc">$</span>monthly_income_mga, hh<span class="sc">$</span>head_sex, median)</span></code></pre></div>
+<pre><code>#&gt; Female   Male 
+#&gt; 440000 421000</code></pre>
+<div class="en">
+<p><code>wilcox.test()</code> (Wilcoxon rank-sum, also called
+<strong>Mann–Whitney</strong>) ranks all incomes together and checks
+whether one group tends to have higher ranks. Both options agree:
+<strong>no evidence of a difference</strong> (p = 0.43 and 0.61). Option
+B has an advantage: <code>exp()</code> of the difference of log-means is
+a <strong>ratio</strong> of geometric means (“x % higher”), which is
+easy to interpret. Note the message “with continuity correction”: with
+large samples R uses an approximation — it is normal.</p>
+</div>
+<div class="fr">
+<p><code>wilcox.test()</code> (Wilcoxon de la somme des rangs, aussi
+appelé <strong>Mann–Whitney</strong>) classe tous les revenus ensemble
+et vérifie si un groupe a tendance à avoir des rangs plus élevés. Les
+deux options concordent : <strong>pas de preuve d’une
+différence</strong> (p = 0,43 et 0,61). L’option B a un avantage :
+<code>exp()</code> de la différence des moyennes de log est un
+<strong>rapport</strong> de moyennes géométriques (« x % plus élevé »),
+facile à interpréter. Le message « with continuity correction » : avec
+de grands échantillons R utilise une approximation — c’est normal.</p>
+</div>
+</div>
+</div>
+<div id="paired" class="section level2">
+<h2><span class="en">Paired data: the same units measured
+twice</span><span class="fr">Données appariées : les mêmes unités
+mesurées deux fois</span></h2>
+<div class="en">
+<p>Was the water warmer in 2025 than in 2024? The <strong>same 10
+stations</strong> were measured both years: a warm station is warm both
+years. Treating the two years as independent groups would mix the large
+differences <strong>between stations</strong> with the small change
+<strong>between years</strong>. A <strong>paired</strong> test works on
+the 10 differences (2025 − 2024), one per station.</p>
+</div>
+<div class="fr">
+<p>L’eau était-elle plus chaude en 2025 qu’en 2024 ? Les <strong>mêmes
+10 stations</strong> ont été mesurées les deux années : une station
+chaude l’est les deux années. Traiter les deux années comme des groupes
+indépendants mélangerait les grandes différences <strong>entre
+stations</strong> et le petit changement <strong>entre années</strong>.
+Un test <strong>apparié</strong> travaille sur les 10 différences (2025
+− 2024), une par station.</p>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>wq<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(wq<span class="sc">$</span>date, <span class="st">&quot;%Y&quot;</span>))</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>station_year <span class="ot">&lt;-</span> wq <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2024</span>, <span class="dv">2025</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  <span class="fu">group_by</span>(station, year) <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">temp =</span> <span class="fu">mean</span>(temp_C, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> year, <span class="at">values_from =</span> temp, <span class="at">names_prefix =</span> <span class="st">&quot;y&quot;</span>)   <span class="co"># Session I2: one row per station</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>station_year</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 10 × 3
+#&gt;    station y2024 y2025
+#&gt;    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 WQ01     26.3  26.1
+#&gt;  2 WQ02     26.2  26.2
+#&gt;  3 WQ03     26.3  26.1
+#&gt;  4 WQ04     26.0  26.0
+#&gt;  5 WQ05     26.5  26.3
+#&gt;  6 WQ06     26.4  26.0
+#&gt;  7 WQ07     26.1  26.1
+#&gt;  8 WQ08     26.2  26.2
+#&gt;  9 WQ09     26.0  26.0
+#&gt; 10 WQ10     26    26.0</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">t.test</span>(station_year<span class="sc">$</span>y2025, station_year<span class="sc">$</span>y2024, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Paired t-test
+#&gt; 
+#&gt; data:  station_year$y2025 and station_year$y2024
+#&gt; t = -2.7964, df = 9, p-value = 0.02084
+#&gt; alternative hypothesis: true mean difference is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -0.18050330 -0.01906192
+#&gt; sample estimates:
+#&gt; mean difference 
+#&gt;     -0.09978261</code></pre>
+<div class="en">
+<p>The rows must be <strong>in the same order</strong> for both vectors
+(here guaranteed by the wide table: one row = one station). With only 10
+differences, check their shape
+(<code>hist(station_year$y2025 - station_year$y2024)</code>); if in
+doubt, use <code>wilcox.test(..., paired = TRUE)</code>.</p>
+<p><strong>Look at the effect size!</strong> The difference is −0.10 °C
+(95 % CI −0.18 to −0.02): statistically significant (p = 0.02), but a
+tenth of a degree is far smaller than the seasonal variation (several
+°C). <strong>Significant does not mean important.</strong> Whether 0.1
+°C matters is an ecological question, not a statistical one.</p>
+</div>
+<div class="fr">
+<p>Les lignes doivent être <strong>dans le même ordre</strong> pour les
+deux vecteurs (ici garanti par le tableau large : une ligne = une
+station). Avec seulement 10 différences, vérifiez leur forme
+(<code>hist(station_year$y2025 - station_year$y2024)</code>) ; en cas de
+doute, utilisez <code>wilcox.test(..., paired = TRUE)</code>.</p>
+<p><strong>Regardez la taille d’effet !</strong> La différence vaut
+−0,10 °C (IC 95 % −0,18 à −0,02) : statistiquement significative (p =
+0,02), mais un dixième de degré est bien plus petit que la variation
+saisonnière (plusieurs °C). <strong>Significatif ne veut pas dire
+important.</strong> Savoir si 0,1 °C compte est une question écologique,
+pas statistique.</p>
+</div>
+</div>
+<div id="prop" class="section level2">
+<h2><span class="en">Comparing percentages</span><span
+class="fr">Comparer des pourcentages</span></h2>
+<div class="en">
+<p>Do women and men use the two techniques in the same proportions? Both
+variables are <strong>categorical</strong>: we compare
+<strong>counts</strong> in a contingency table, never the percentages
+directly (percentages hide the sample size).</p>
+</div>
+<div class="fr">
+<p>Femmes et hommes utilisent-ils les deux techniques dans les mêmes
+proportions ? Les deux variables sont <strong>catégorielles</strong> :
+on compare des <strong>effectifs</strong> dans un tableau de
+contingence, jamais directement les pourcentages (ils cachent la taille
+de l’échantillon).</p>
+</div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(farmers<span class="sc">$</span>sex, farmers<span class="sc">$</span>technique)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>tab</span></code></pre></div>
+<pre><code>#&gt;    
+#&gt;     long-line off-bottom
+#&gt;   F        29         26
+#&gt;   M        14         27</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(tab, <span class="at">margin =</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)   <span class="co"># % per row: within each sex</span></span></code></pre></div>
+<pre><code>#&gt;    
+#&gt;     long-line off-bottom
+#&gt;   F      52.7       47.3
+#&gt;   M      34.1       65.9</code></pre>
+<div class="en">
+<p>53 % of women use long-lines against 34 % of men. Is a difference of
+19 percentage points convincing with 96 farmers? The <strong>chi-square
+test</strong> compares the observed counts with the counts
+<strong>expected</strong> if technique did not depend on sex. Its
+approximation is reliable only if <strong>all expected counts are ≥
+5</strong> — check it.</p>
+</div>
+<div class="fr">
+<p>53 % des femmes utilisent les cordes flottantes contre 34 % des
+hommes. Une différence de 19 points de pourcentage est-elle convaincante
+avec 96 cultivateurs ? Le <strong>test du khi-deux</strong> compare les
+effectifs observés aux effectifs <strong>attendus</strong> si la
+technique ne dépendait pas du sexe. Son approximation n’est fiable que
+si <strong>tous les effectifs attendus sont ≥ 5</strong> —
+vérifiez-le.</p>
+</div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>chi <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tab)</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>chi<span class="sc">$</span>expected          <span class="co"># all &gt; 5: the chi-square is OK</span></span></code></pre></div>
+<pre><code>#&gt;    
+#&gt;     long-line off-bottom
+#&gt;   F  24.63542   30.36458
+#&gt;   M  18.36458   22.63542</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>chi</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+#&gt; 
+#&gt; data:  tab
+#&gt; X-squared = 2.5712, df = 1, p-value = 0.1088</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">fisher.test</span>(tab)      <span class="co"># exact test: use it when an expected count is &lt; 5</span></span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Fisher&#39;s Exact Test for Count Data
+#&gt; 
+#&gt; data:  tab
+#&gt; p-value = 0.09696
+#&gt; alternative hypothesis: true odds ratio is not equal to 1
+#&gt; 95 percent confidence interval:
+#&gt;  0.8652186 5.4223588
+#&gt; sample estimates:
+#&gt; odds ratio 
+#&gt;   2.133751</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">prop.test</span>(tab)        <span class="co"># same test, presented as two proportions with a CI of the difference</span></span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  2-sample test for equality of proportions with continuity correction
+#&gt; 
+#&gt; data:  tab
+#&gt; X-squared = 2.5712, df = 1, p-value = 0.1088
+#&gt; alternative hypothesis: two.sided
+#&gt; 95 percent confidence interval:
+#&gt;  -0.03163446  0.40325309
+#&gt; sample estimates:
+#&gt;    prop 1    prop 2 
+#&gt; 0.5272727 0.3414634</code></pre>
+<div class="en">
+<p>All three agree (p ≈ 0.10–0.11): <strong>no convincing
+evidence</strong> that technique depends on sex. But look at the
+confidence interval of <code>prop.test()</code>: the difference could be
+anywhere from about −3 to +40 percentage points. With only 96 farmers we
+simply <strong>cannot tell</strong> — this is not proof that women and
+men farm alike. Report: “53 % of women and 34 % of men used long-lines
+(χ² = 2.57, df = 1, p = 0.11; n = 96)”.</p>
+<p>For a 2 × 2 table R applies <strong>Yates’ continuity
+correction</strong> by default (a small conservative adjustment).
+<code>fisher.test()</code> also gives an <strong>odds ratio</strong>, a
+common effect size for 2 × 2 tables.</p>
+</div>
+<div class="fr">
+<p>Les trois concordent (p ≈ 0,10–0,11) : <strong>pas de preuve
+convaincante</strong> que la technique dépende du sexe. Mais regardez
+l’intervalle de confiance de <code>prop.test()</code> : la différence
+pourrait aller d’environ −3 à +40 points de pourcentage. Avec seulement
+96 cultivateurs, nous <strong>ne pouvons simplement pas
+trancher</strong> — ce n’est pas une preuve que femmes et hommes
+cultivent de la même façon. Rapportez : « 53 % des femmes et 34 % des
+hommes utilisaient les cordes flottantes (χ² = 2,57, ddl = 1, p = 0,11 ;
+n = 96) ».</p>
+<p>Pour un tableau 2 × 2, R applique par défaut la <strong>correction de
+continuité de Yates</strong> (un petit ajustement prudent).
+<code>fisher.test()</code> donne aussi un <strong>odds ratio</strong>
+(rapport des cotes), une taille d’effet courante pour les tableaux 2 ×
+2.</p>
+</div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> In the survey, do households headed by women
+do seaweed farming (<code>does_seaweed</code>) as often as those headed
+by men? Build the table, the row percentages, check the expected counts
+and run the test.</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Dans l’enquête, les ménages dirigés par des
+femmes cultivent-ils les algues (<code>does_seaweed</code>) aussi
+souvent que ceux dirigés par des hommes ? Construisez le tableau, les
+pourcentages par ligne, vérifiez les effectifs attendus et faites le
+test.</p>
+</div>
+</div>
+</div>
+<div id="cor" class="section level2">
+<h2><span class="en">Correlation: Pearson or Spearman</span><span
+class="fr">Corrélation : Pearson ou Spearman</span></h2>
+<div class="en">
+<p>A <strong>correlation coefficient</strong> (between −1 and +1)
+measures how two numeric variables vary together: 0 = no association, ±1
+= perfect association. <strong>Pearson’s r</strong> measures a
+<strong>linear</strong> (straight-line) association and uses the values;
+<strong>Spearman’s ρ (rho)</strong> uses the <strong>ranks</strong> and
+measures a <strong>monotonic</strong> association (always increasing or
+always decreasing, not necessarily straight). Spearman is the
+non-parametric choice: robust to outliers and to skewed variables.</p>
+</div>
+<div class="fr">
+<p>Un <strong>coefficient de corrélation</strong> (entre −1 et +1)
+mesure comment deux variables numériques varient ensemble : 0 = pas
+d’association, ±1 = association parfaite. Le <strong>r de
+Pearson</strong> mesure une association <strong>linéaire</strong> (en
+ligne droite) et utilise les valeurs ; le <strong>ρ (rho) de
+Spearman</strong> utilise les <strong>rangs</strong> et mesure une
+association <strong>monotone</strong> (toujours croissante ou toujours
+décroissante, pas forcément droite). Spearman est le choix non
+paramétrique : robuste aux valeurs extrêmes et aux variables
+asymétriques.</p>
+</div>
+<div id="temperature-and-dissolved-oxygentempérature-et-oxygène-dissous"
+class="section level3">
+<h3><span class="en">Temperature and dissolved oxygen</span><span
+class="fr">Température et oxygène dissous</span></h3>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">ggplot</span>(wq, <span class="fu">aes</span>(temp_C, DO_mgL)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">colour =</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Temperature (°C)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Dissolved oxygen (mg/L)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span></code></pre></div>
+<p><img src="i10-tests_files/figure-html/unnamed-chunk-9-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">cor.test</span>(wq<span class="sc">$</span>temp_C, wq<span class="sc">$</span>DO_mgL)          <span class="co"># Pearson by default; NA pairs are dropped</span></span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Pearson&#39;s product-moment correlation
+#&gt; 
+#&gt; data:  wq$temp_C and wq$DO_mgL
+#&gt; t = -17.472, df = 698, p-value &lt; 2.2e-16
+#&gt; alternative hypothesis: true correlation is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -0.6011396 -0.4978562
+#&gt; sample estimates:
+#&gt;        cor 
+#&gt; -0.5516088</code></pre>
+<div class="en">
+<p>The cloud is roughly a straight band without extreme points → Pearson
+is appropriate: r = −0.55 (95 % CI −0.60 to −0.50), p &lt; 0.001. Warmer
+water holds less oxygen: a well-known physical relationship.
+<code>r^2</code> ≈ 0.30: temperature “accounts for” about 30 % of the
+variation of DO.</p>
+</div>
+<div class="fr">
+<p>Le nuage est à peu près une bande droite sans points extrêmes →
+Pearson est adapté : r = −0,55 (IC 95 % −0,60 à −0,50), p &lt; 0,001.
+Une eau plus chaude contient moins d’oxygène : une relation physique
+bien connue. <code>r^2</code> ≈ 0,30 : la température « explique »
+environ 30 % de la variation de l’O₂ dissous.</p>
+</div>
+</div>
+<div
+id="seaweed-growth-and-temperature-when-a-coefficient-misleadscroissance-des-algues-et-température-quand-un-coefficient-trompe"
+class="section level3">
+<h3><span class="en">Seaweed growth and temperature: when a coefficient
+misleads</span><span class="fr">Croissance des algues et température :
+quand un coefficient trompe</span></h3>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="fu">cor</span>(seaweed<span class="sc">$</span>temp_mean, seaweed<span class="sc">$</span>sgr, <span class="at">use =</span> <span class="st">&quot;complete.obs&quot;</span>)                     <span class="co"># Pearson</span></span></code></pre></div>
+<pre><code>#&gt; [1] -0.1865449</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">cor</span>(seaweed<span class="sc">$</span>temp_mean, seaweed<span class="sc">$</span>sgr, <span class="at">use =</span> <span class="st">&quot;complete.obs&quot;</span>, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>) <span class="co"># Spearman</span></span></code></pre></div>
+<pre><code>#&gt; [1] -0.1875033</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="fu">ggplot</span>(seaweed, <span class="fu">aes</span>(temp_mean, sgr)) <span class="sc">+</span></span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.05</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>, <span class="at">colour =</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">colour =</span> <span class="st">&quot;#d9694a&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span>  <span class="co"># flexible trend line</span></span>
+<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Mean monthly water temperature (°C)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;SGR (% per day)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span></code></pre></div>
+<p><img src="i10-tests_files/figure-html/unnamed-chunk-10-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="en">
+<p>Both coefficients are weak (about −0.19), which suggests “temperature
+hardly matters”. The plot says the opposite: growth
+<strong>rises</strong> up to about 25–26 °C and then
+<strong>falls</strong>. The relationship is strong but <strong>not
+monotonic</strong>, so neither Pearson nor Spearman can describe it:
+their value mixes the rising and the falling parts. <strong>Always plot
+before computing a correlation</strong>; for such a curve, describe it
+with the graph (and, at the advanced level, with a model).</p>
+<p>Two more reminders: <strong>correlation is not causation</strong>
+(both variables can depend on a third one, e.g. the season), and with
+thousands of points even a tiny correlation is “significant” — look at
+the coefficient, not only at p.</p>
+</div>
+<div class="fr">
+<p>Les deux coefficients sont faibles (environ −0,19), ce qui suggère «
+la température compte peu ». Le graphique dit le contraire : la
+croissance <strong>augmente</strong> jusqu’à environ 25–26 °C puis
+<strong>diminue</strong>. La relation est forte mais <strong>non
+monotone</strong> : ni Pearson ni Spearman ne peuvent la décrire, leur
+valeur mélange la partie croissante et la partie décroissante.
+<strong>Tracez toujours avant de calculer une corrélation</strong> ;
+pour une telle courbe, décrivez-la avec le graphique (et, au niveau
+avancé, avec un modèle).</p>
+<p>Deux autres rappels : <strong>corrélation n’est pas
+causalité</strong> (les deux variables peuvent dépendre d’une troisième,
+par exemple la saison), et avec des milliers de points même une
+corrélation minuscule est « significative » — regardez le coefficient,
+pas seulement p.</p>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>One question, one test.</strong> Every test has a 5 % chance
+of a false positive when H0 is true. If you run 20 tests “to see”, about
+one will be significant by chance. Decide your questions first, test
+them, and report all of them — including the non-significant ones.</p>
+</div>
+<div class="fr">
+<p><strong>Une question, un test.</strong> Chaque test a 5 % de risque
+de faux positif quand H0 est vraie. Si vous faites 20 tests « pour voir
+», environ un sera significatif par hasard. Décidez d’abord vos
+questions, testez-les, et rapportez-les toutes — y compris les non
+significatives.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-i10" class="section level3 en">
+<h3>Application work I10</h3>
+<p>Script <code>scripts/i10_tests.R</code>. For each question,
+<strong>write first which test you choose and why</strong> (one comment
+line), then plot, then test.</p>
+<ol style="list-style-type: decimal">
+<li>Seaweed SGR, dry vs wet season (Welch t-test). Difference of means
+dry − wet (3 decimals) and lower limit of its 95 % CI (3 decimals).</li>
+<li>Monthly income by <code>head_sex</code>, with the Wilcoxon test:
+p-value (3 decimals)?</li>
+<li>Station mean temperatures, 2025 vs 2024 (paired t-test): p-value (3
+decimals)?</li>
+<li>Table <code>sex × technique</code> of the farmers: smallest
+<strong>expected</strong> count (2 decimals), and p-value of
+<code>chisq.test()</code> (3 decimals).</li>
+<li>Pearson correlation between <code>temp_C</code> and
+<code>DO_mgL</code> (3 decimals).</li>
+<li>Spearman correlation between <code>temp_mean</code> and
+<code>sgr</code> in the seaweed data (3 decimals). Why is it
+misleading?</li>
+<li>Write one reporting sentence for questions 1 and 4.</li>
+</ol>
+</div>
+<div id="travail-dapplication-i10" class="section level3 fr">
+<h3>Travail d’application I10</h3>
+<p>Script <code>scripts/i10_tests.R</code>. Pour chaque question,
+<strong>écrivez d’abord quel test vous choisissez et pourquoi</strong>
+(une ligne de commentaire), puis tracez, puis testez.</p>
+<ol style="list-style-type: decimal">
+<li>SGR des algues, saison sèche vs saison des pluies (test t de Welch).
+Différence des moyennes sèche − pluies (3 décimales) et borne inférieure
+de son IC à 95 % (3 décimales).</li>
+<li>Revenu mensuel selon <code>head_sex</code>, avec le test de Wilcoxon
+: p-value (3 décimales) ?</li>
+<li>Températures moyennes des stations, 2025 vs 2024 (test t apparié) :
+p-value (3 décimales) ?</li>
+<li>Tableau <code>sex × technique</code> des cultivateurs : plus petit
+effectif <strong>attendu</strong> (2 décimales), et p-value de
+<code>chisq.test()</code> (3 décimales).</li>
+<li>Corrélation de Pearson entre <code>temp_C</code> et
+<code>DO_mgL</code> (3 décimales).</li>
+<li>Corrélation de Spearman entre <code>temp_mean</code> et
+<code>sgr</code> dans les données d’algues (3 décimales). Pourquoi
+est-elle trompeuse ?</li>
+<li>Écrivez une phrase de résultat pour les questions 1 et 4.</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 1:
+<code>tt &lt;- t.test(sgr ~ season, data = seaweed)</code>;
+<code>tt$estimate</code> holds the two means (dry first, alphabetical
+order) and <code>tt$conf.int</code> the interval. Question 4:
+<code>chisq.test(tab)$expected</code>, then <code>min()</code>.</p>
+</div>
+<div class="fr">
+<p>Question 1 :
+<code>tt &lt;- t.test(sgr ~ season, data = seaweed)</code> ;
+<code>tt$estimate</code> contient les deux moyennes (dry d’abord, ordre
+alphabétique) et <code>tt$conf.int</code> l’intervalle. Question 4 :
+<code>chisq.test(tab)$expected</code>, puis <code>min()</code>.</p>
+</div>
+</div>
+<div id="quiz-i10" class="quiz" data-quiz-id="i10"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMWEuIE1lYW4gU0dSIGRpZmZlcmVuY2UgZHJ5IOKIkiB3ZXQgKDMgZGVjaW1hbHMpPyIsImZyIjoiMWEuIERpZmbDqXJlbmNlIGRlIFNHUiBtb3llbiBzw6hjaGUg4oiSIHBsdWllcyAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjowLjI2MSwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIxYi4gTG93ZXIgbGltaXQgb2YgaXRzIDk1ICUgQ0kgKDMgZGVjaW1hbHMpPyIsImZyIjoiMWIuIEJvcm5lIGluZsOpcmlldXJlIGRlIHNvbiBJQyDDoCA5NSAlICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjAuMjA3LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIFdpbGNveG9uIHAtdmFsdWUsIGluY29tZSBieSBoZWFkX3NleCAoMyBkZWNpbWFscyk/IiwiZnIiOiIyLiBwLXZhbHVlIGRlIFdpbGNveG9uLCByZXZlbnUgc2Vsb24gaGVhZF9zZXggKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MC40MjUsInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gUGFpcmVkIHQtdGVzdCBwLXZhbHVlLCAyMDI1IHZzIDIwMjQgKDMgZGVjaW1hbHMpPyIsImZyIjoiMy4gcC12YWx1ZSBkdSB0ZXN0IHQgYXBwYXJpw6ksIDIwMjUgdnMgMjAyNCAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjowLjAyMSwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0YS4gU21hbGxlc3QgZXhwZWN0ZWQgY291bnQgaW4gc2V4IMOXIHRlY2huaXF1ZSAoMiBkZWNpbWFscyk/IiwiZnIiOiI0YS4gUGx1cyBwZXRpdCBlZmZlY3RpZiBhdHRlbmR1IGRhbnMgc2V4IMOXIHRlY2huaXF1ZSAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoxOC4zNiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjRiLiBDaGktc3F1YXJlIHAtdmFsdWUgKDMgZGVjaW1hbHMpPyIsImZyIjoiNGIuIHAtdmFsdWUgZHUga2hpLWRldXggKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MC4xMDksInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gUGVhcnNvbiByIGJldHdlZW4gdGVtcF9DIGFuZCBET19tZ0wgKDMgZGVjaW1hbHMpPyIsImZyIjoiNS4gciBkZSBQZWFyc29uIGVudHJlIHRlbXBfQyBldCBET19tZ0wgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6LTAuNTUyLCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIFNwZWFybWFuIHJobyBiZXR3ZWVuIHRlbXBfbWVhbiBhbmQgc2dyICgzIGRlY2ltYWxzKT8iLCJmciI6IjYuIHJobyBkZSBTcGVhcm1hbiBlbnRyZSB0ZW1wX21lYW4gZXQgc2dyICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOi0wLjE4OCwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBXaHkgaXMgdGhlIFNwZWFybWFuIGNvZWZmaWNpZW50IG9mIHF1ZXN0aW9uIDYgbWlzbGVhZGluZz8iLCJmciI6IjcuIFBvdXJxdW9pIGxlIGNvZWZmaWNpZW50IGRlIFNwZWFybWFuIGRlIGxhIHF1ZXN0aW9uIDYgZXN0LWlsIHRyb21wZXVyID8iLCJvcHRpb25zX2VuIjpbIkJlY2F1c2UgU3BlYXJtYW4gb25seSB3b3JrcyB3aXRoIG5vcm1hbCBkYXRhIiwiQmVjYXVzZSB0aGUgcmVsYXRpb25zaGlwIHJpc2VzIHRoZW4gZmFsbHMgKG5vdCBtb25vdG9uaWMpLCBzbyB0aGUgY29lZmZpY2llbnQgYXZlcmFnZXMgdHdvIG9wcG9zaXRlIHRyZW5kcyIsIkJlY2F1c2UgdGhlcmUgYXJlIHRvbyBtYW55IG9ic2VydmF0aW9ucyIsIkl0IGlzIG5vdCBtaXNsZWFkaW5nOiB0ZW1wZXJhdHVyZSBoYXMgYWxtb3N0IG5vIGVmZmVjdCJdLCJvcHRpb25zX2ZyIjpbIlBhcmNlIHF1ZSBTcGVhcm1hbiBuZSBmb25jdGlvbm5lIHF1J2F2ZWMgZGVzIGRvbm7DqWVzIG5vcm1hbGVzIiwiUGFyY2UgcXVlIGxhIHJlbGF0aW9uIG1vbnRlIHB1aXMgZGVzY2VuZCAobm9uIG1vbm90b25lKSA6IGxlIGNvZWZmaWNpZW50IG3DqWxhbmdlIGRldXggdGVuZGFuY2VzIG9wcG9zw6llcyIsIlBhcmNlIHF1J2lsIHkgYSB0cm9wIGQnb2JzZXJ2YXRpb25zIiwiSWwgbidlc3QgcGFzIHRyb21wZXVyIDogbGEgdGVtcMOpcmF0dXJlIG4nYSBwcmVzcXVlIHBhcyBkJ2VmZmV0Il0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBTZWEgY3VjdW1iZXIgd2VpZ2h0cyBvZiB0aGUgU0FNRSAzMCB0YWdnZWQgYW5pbWFscywgbWVhc3VyZWQgaW4gTWFyY2ggYW5kIGluIEp1bmUuIFdoaWNoIHRlc3Q/IiwiZnIiOiI4LiBQb2lkcyBkZXMgTcOKTUVTIDMwIGhvbG90aHVyaWVzIG1hcnF1w6llcywgbWVzdXLDqXMgZW4gbWFycyBldCBlbiBqdWluLiBRdWVsIHRlc3QgPyIsIm9wdGlvbnNfZW4iOlsidC50ZXN0KHdlaWdodCB+IG1vbnRoKSAoaW5kZXBlbmRlbnQgZ3JvdXBzKSIsImNoaXNxLnRlc3QoKSIsInQudGVzdChqdW5lLCBtYXJjaCwgcGFpcmVkID0gVFJVRSkgb3IgaXRzIFdpbGNveG9uIHZlcnNpb24iLCJjb3IudGVzdCgpIl0sIm9wdGlvbnNfZnIiOlsidC50ZXN0KHBvaWRzIH4gbW9pcykgKGdyb3VwZXMgaW5kw6lwZW5kYW50cykiLCJjaGlzcS50ZXN0KCkiLCJ0LnRlc3QoanVpbiwgbWFycywgcGFpcmVkID0gVFJVRSkgb3Ugc2EgdmVyc2lvbiBXaWxjb3hvbiIsImNvci50ZXN0KCkiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIEEgMiDDlyAyIHRhYmxlIGhhcyBhbiBleHBlY3RlZCBjb3VudCBvZiAyLjguIFdoaWNoIHRlc3Q/IiwiZnIiOiI5LiBVbiB0YWJsZWF1IDIgw5cgMiBhIHVuIGVmZmVjdGlmIGF0dGVuZHUgZGUgMiw4LiBRdWVsIHRlc3QgPyIsIm9wdGlvbnNfZW4iOlsiY2hpc3EudGVzdCgpIiwiZmlzaGVyLnRlc3QoKSIsInQudGVzdCgpIiwiTm8gdGVzdCBpcyBwb3NzaWJsZSJdLCJvcHRpb25zX2ZyIjpbImNoaXNxLnRlc3QoKSIsImZpc2hlci50ZXN0KCkiLCJ0LnRlc3QoKSIsIkF1Y3VuIHRlc3Qgbidlc3QgcG9zc2libGUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjEwLiBUaGUgcGFpcmVkIHRlc3Qgb2YgcXVlc3Rpb24gMyBpcyBzaWduaWZpY2FudCBidXQgdGhlIGRpZmZlcmVuY2UgaXMg4oiSMC4xIMKwQy4gV2hhdCBkbyB5b3UgY29uY2x1ZGU/IiwiZnIiOiIxMC4gTGUgdGVzdCBhcHBhcmnDqSBkZSBsYSBxdWVzdGlvbiAzIGVzdCBzaWduaWZpY2F0aWYgbWFpcyBsYSBkaWZmw6lyZW5jZSB2YXV0IOKIkjAsMSDCsEMuIFF1ZSBjb25jbHVlei12b3VzID8iLCJvcHRpb25zX2VuIjpbIlRoZXJlIGlzIGEgc21hbGwgYnV0IGRldGVjdGFibGUgZGlmZmVyZW5jZTsgd2hldGhlciBpdCBtYXR0ZXJzIGVjb2xvZ2ljYWxseSBpcyBhbm90aGVyIHF1ZXN0aW9uIiwiMjAyNSB3YXMgbXVjaCBjb2xkZXI6IGFsZXJ0ISIsIlRoZSB0ZXN0IGlzIHdyb25nIiwicC12YWx1ZXMgYmVsb3cgMC4wNSBhbHdheXMgbWVhbiBhbiBpbXBvcnRhbnQgZWZmZWN0Il0sIm9wdGlvbnNfZnIiOlsiSWwgeSBhIHVuZSBkaWZmw6lyZW5jZSBwZXRpdGUgbWFpcyBkw6l0ZWN0YWJsZSA7IHNhdm9pciBzaSBlbGxlIGNvbXB0ZSDDqWNvbG9naXF1ZW1lbnQgZXN0IHVuZSBhdXRyZSBxdWVzdGlvbiIsIjIwMjUgYSDDqXTDqSBiZWF1Y291cCBwbHVzIGZyb2lkZSA6IGFsZXJ0ZSAhIiwiTGUgdGVzdCBlc3QgZmF1eCIsIlVuZSBwLXZhbHVlIHNvdXMgMCwwNSBzaWduaWZpZSB0b3Vqb3VycyB1biBlZmZldCBpbXBvcnRhbnQiXSwiYW5zd2VyIjowfV0=">
+
+</div>
+<div class="solution" data-quiz="i10">
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(tidyr); <span class="fu">library</span>(ggplot2)</span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a>seaweed <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I3_seaweed_analysis.csv&quot;</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a>hh      <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I4_households_clean.csv&quot;</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" tabindex="-1"></a>farmers <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I0_farmers.csv&quot;</span>)</span>
+<span id="cb42-5"><a href="#cb42-5" tabindex="-1"></a>wq      <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I2_water_quality_clean.csv&quot;</span>); wq<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(wq<span class="sc">$</span>date)</span>
+<span id="cb42-6"><a href="#cb42-6" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" tabindex="-1"></a><span class="co"># 1. numeric ~ 2 independent groups, large and ~normal -&gt; Welch t-test</span></span>
+<span id="cb42-8"><a href="#cb42-8" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">t.test</span>(sgr <span class="sc">~</span> season, <span class="at">data =</span> seaweed)</span>
+<span id="cb42-9"><a href="#cb42-9" tabindex="-1"></a><span class="fu">round</span>(tt<span class="sc">$</span>estimate[<span class="dv">1</span>] <span class="sc">-</span> tt<span class="sc">$</span>estimate[<span class="dv">2</span>], <span class="dv">3</span>); <span class="fu">round</span>(tt<span class="sc">$</span>conf.int, <span class="dv">3</span>)</span>
+<span id="cb42-10"><a href="#cb42-10" tabindex="-1"></a><span class="co"># 2. skewed income -&gt; Wilcoxon rank-sum</span></span>
+<span id="cb42-11"><a href="#cb42-11" tabindex="-1"></a><span class="fu">wilcox.test</span>(monthly_income_mga <span class="sc">~</span> head_sex, <span class="at">data =</span> hh)</span>
+<span id="cb42-12"><a href="#cb42-12" tabindex="-1"></a><span class="co"># 3. same stations measured twice -&gt; paired t-test</span></span>
+<span id="cb42-13"><a href="#cb42-13" tabindex="-1"></a>wq<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(wq<span class="sc">$</span>date, <span class="st">&quot;%Y&quot;</span>))</span>
+<span id="cb42-14"><a href="#cb42-14" tabindex="-1"></a>sy <span class="ot">&lt;-</span> wq <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2024</span><span class="sc">:</span><span class="dv">2025</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(station, year) <span class="sc">%&gt;%</span></span>
+<span id="cb42-15"><a href="#cb42-15" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">t =</span> <span class="fu">mean</span>(temp_C, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb42-16"><a href="#cb42-16" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> year, <span class="at">values_from =</span> t, <span class="at">names_prefix =</span> <span class="st">&quot;y&quot;</span>)</span>
+<span id="cb42-17"><a href="#cb42-17" tabindex="-1"></a><span class="fu">t.test</span>(sy<span class="sc">$</span>y2025, sy<span class="sc">$</span>y2024, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb42-18"><a href="#cb42-18" tabindex="-1"></a><span class="co"># 4. two categorical variables -&gt; chi-square (expected counts &gt;= 5)</span></span>
+<span id="cb42-19"><a href="#cb42-19" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(farmers<span class="sc">$</span>sex, farmers<span class="sc">$</span>technique)</span>
+<span id="cb42-20"><a href="#cb42-20" tabindex="-1"></a><span class="fu">min</span>(<span class="fu">chisq.test</span>(tab)<span class="sc">$</span>expected); <span class="fu">chisq.test</span>(tab)</span>
+<span id="cb42-21"><a href="#cb42-21" tabindex="-1"></a><span class="co"># 5. linear cloud without outliers -&gt; Pearson</span></span>
+<span id="cb42-22"><a href="#cb42-22" tabindex="-1"></a><span class="fu">cor.test</span>(wq<span class="sc">$</span>temp_C, wq<span class="sc">$</span>DO_mgL)</span>
+<span id="cb42-23"><a href="#cb42-23" tabindex="-1"></a><span class="co"># 6. Spearman, but the plot shows a curve (rise then fall): no single coefficient fits</span></span>
+<span id="cb42-24"><a href="#cb42-24" tabindex="-1"></a><span class="fu">cor</span>(seaweed<span class="sc">$</span>temp_mean, seaweed<span class="sc">$</span>sgr, <span class="at">use =</span> <span class="st">&quot;complete.obs&quot;</span>, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span>
+<span id="cb42-25"><a href="#cb42-25" tabindex="-1"></a><span class="co"># 7. &quot;Seaweed grew faster in the dry season (3.56 vs 3.30 % per day; difference 0.26,</span></span>
+<span id="cb42-26"><a href="#cb42-26" tabindex="-1"></a><span class="co">#     95 % CI 0.21-0.31; Welch t-test, p &lt; 0.001).&quot;</span></span>
+<span id="cb42-27"><a href="#cb42-27" tabindex="-1"></a><span class="co">#    &quot;53 % of women and 34 % of men used long-lines (chi-square = 2.57, df = 1, p = 0.11, n = 96):</span></span>
+<span id="cb42-28"><a href="#cb42-28" tabindex="-1"></a><span class="co">#     no convincing evidence of a difference with this sample size.&quot;</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

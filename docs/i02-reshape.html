@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · I2</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I2 · Reshaping
+tables</span><span class="fr">I2 · Restructurer des tableaux</span></h1>
+<h3 class="subtitle">~2.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>recognise <strong>wide</strong> and <strong>long</strong> formats
+and know which one each task needs;</li>
+<li>go from wide to long with <code>pivot_longer()</code> and from long
+to wide with <code>pivot_wider()</code>;</li>
+<li>split and join columns with <code>separate()</code> and
+<code>unite()</code>;</li>
+<li>replace error codes by <code>NA</code> and summarise many parameters
+at once.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>reconnaître les formats <strong>large</strong> et
+<strong>long</strong> et savoir lequel chaque tâche demande ;</li>
+<li>passer du large au long avec <code>pivot_longer()</code> et du long
+au large avec <code>pivot_wider()</code> ;</li>
+<li>séparer et réunir des colonnes avec <code>separate()</code> et
+<code>unite()</code> ;</li>
+<li>remplacer des codes d’erreur par <code>NA</code> et résumer
+plusieurs paramètres d’un coup.</li>
+</ul>
+</div>
+</div>
+<div id="context" class="section level2">
+<h2><span class="en">How the water-quality data were
+collected</span><span class="fr">Comment les données de qualité de l’eau
+ont été collectées</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> To understand differences in
+seaweed growth, the cooperative and a partner NGO measured the water at
+<strong>10 fixed stations</strong> (<code>stations.csv</code>: position,
+zone, depth) <strong>twice a month for 3 years</strong> (2023–2025),
+with a handheld multiparameter probe lowered at mid-depth:
+<strong>temperature</strong> (°C), <strong>salinity</strong> (PSU),
+<strong>pH</strong>, <strong>dissolved oxygen</strong> (mg/L) and
+<strong>turbidity</strong> (NTU). When the temperature sensor failed,
+the probe recorded the error code <code>-999</code>; a faulty pH
+electrode sometimes gave <code>0</code>. Oxygen is missing when the
+sensor was being recalibrated.</p>
+<p>The NGO also sent a summary file prepared in Excel, with <strong>one
+row per station and one column per month</strong> (monthly mean
+temperature).</p>
+<p><strong>Type of data:</strong> environmental time series — repeated
+physico-chemical measurements at fixed sites (quantitative,
+continuous).</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> Pour comprendre les différences de
+croissance des algues, la coopérative et une ONG partenaire ont mesuré
+l’eau à <strong>10 stations fixes</strong> (<code>stations.csv</code> :
+position, zone, profondeur) <strong>deux fois par mois pendant 3
+ans</strong> (2023–2025), avec une sonde multiparamètre descendue à
+mi-profondeur : <strong>température</strong> (°C),
+<strong>salinité</strong> (PSU), <strong>pH</strong>, <strong>oxygène
+dissous</strong> (mg/L) et <strong>turbidité</strong> (NTU). Quand le
+capteur de température tombait en panne, la sonde enregistrait le code
+d’erreur <code>-999</code> ; une électrode de pH défectueuse donnait
+parfois <code>0</code>. L’oxygène manque quand le capteur était en
+recalibrage.</p>
+<p>L’ONG a aussi envoyé un fichier de synthèse préparé dans Excel, avec
+<strong>une ligne par station et une colonne par mois</strong>
+(température moyenne mensuelle).</p>
+<p><strong>Type de données :</strong> séries temporelles
+environnementales — mesures physico-chimiques répétées sur des sites
+fixes (quantitatives, continues).</p>
+</div>
+</div>
+</div>
+<div id="formats" class="section level2">
+<h2><span class="en">Wide or long?</span><span class="fr">Large ou long
+?</span></h2>
+<div class="en">
+<p>The same information can be stored in two ways:</p>
+<ul>
+<li><strong>Wide</strong>: one row per station, one column per month (or
+per parameter). Easy to read by eye, typical of Excel reports.</li>
+<li><strong>Long</strong>: one row per measurement, with a column saying
+<em>what</em> was measured and a column with the <em>value</em>. Needed
+by ggplot2 (colour or facet by parameter), by <code>group_by()</code> +
+<code>summarise()</code>, and by statistical tests.</li>
+</ul>
+<p>Rule of thumb: <strong>store and analyse in long format, present in
+wide format.</strong></p>
+</div>
+<div class="fr">
+<p>La même information peut être rangée de deux façons :</p>
+<ul>
+<li><strong>Large</strong> : une ligne par station, une colonne par mois
+(ou par paramètre). Facile à lire à l’œil, typique des rapports
+Excel.</li>
+<li><strong>Long</strong> : une ligne par mesure, avec une colonne
+indiquant <em>ce qui</em> a été mesuré et une colonne pour la
+<em>valeur</em>. Nécessaire pour ggplot2 (couleur ou panneau par
+paramètre), pour <code>group_by()</code> + <code>summarise()</code>, et
+pour les tests statistiques.</li>
+</ul>
+<p>Règle pratique : <strong>stocker et analyser en format long,
+présenter en format large.</strong></p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(tidyr)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>wide <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/water_quality_wide.csv&quot;</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)   <span class="co"># keep &quot;2023-01&quot; as names</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>wide[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code></pre></div>
+<pre><code>#&gt;   station 2023-01 2023-02 2023-03 2023-04 2023-05
+#&gt; 1    WQ01    28.2    29.0    28.4    27.5    25.3
+#&gt; 2    WQ02    29.0    28.7    28.7    27.5    25.7
+#&gt; 3    WQ03    29.0    28.6    28.1    27.3    25.3</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">dim</span>(wide)</span></code></pre></div>
+<pre><code>#&gt; [1] 10 37</code></pre>
+</div>
+<div id="longer" class="section level2">
+<h2><span class="en">Wide to long: pivot_longer()</span><span
+class="fr">Du large au long : pivot_longer()</span></h2>
+<div class="en">
+<p><code>pivot_longer()</code> takes the columns you list
+(<code>cols</code>), puts their <strong>names</strong> in a new column
+(<code>names_to</code>) and their <strong>values</strong> in another
+(<code>values_to</code>).</p>
+</div>
+<div class="fr">
+<p><code>pivot_longer()</code> prend les colonnes indiquées
+(<code>cols</code>), met leurs <strong>noms</strong> dans une nouvelle
+colonne (<code>names_to</code>) et leurs <strong>valeurs</strong> dans
+une autre (<code>values_to</code>).</p>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>long <span class="ot">&lt;-</span> wide <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>station,            <span class="co"># every column except station</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;month&quot;</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;temp_mean&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">head</span>(long)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 6 × 3
+#&gt;   station month   temp_mean
+#&gt;   &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 WQ01    2023-01      28.2
+#&gt; 2 WQ01    2023-02      29  
+#&gt; 3 WQ01    2023-03      28.4
+#&gt; 4 WQ01    2023-04      27.5
+#&gt; 5 WQ01    2023-05      25.3
+#&gt; 6 WQ01    2023-06      24.6</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">dim</span>(long)                                  <span class="co"># 10 stations x 36 months = 360 rows</span></span></code></pre></div>
+<pre><code>#&gt; [1] 360   3</code></pre>
+</div>
+<div id="separate" class="section level2">
+<h2><span class="en">Splitting a column: separate()</span><span
+class="fr">Séparer une colonne : separate()</span></h2>
+<div class="en">
+<p><code>"2023-01"</code> holds two pieces of information.
+<code>separate()</code> splits it; <code>convert = TRUE</code> turns the
+pieces into numbers. <code>unite()</code> does the opposite.</p>
+</div>
+<div class="fr">
+<p><code>"2023-01"</code> contient deux informations.
+<code>separate()</code> les sépare ; <code>convert = TRUE</code>
+transforme les morceaux en nombres. <code>unite()</code> fait
+l’inverse.</p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>long <span class="ot">&lt;-</span> long <span class="sc">%&gt;%</span> <span class="fu">separate</span>(month, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">head</span>(long, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 3 × 4
+#&gt;   station  year month temp_mean
+#&gt;   &lt;chr&gt;   &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;
+#&gt; 1 WQ01     2023     1      28.2
+#&gt; 2 WQ01     2023     2      29  
+#&gt; 3 WQ01     2023     3      28.4</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>long <span class="sc">%&gt;%</span> <span class="fu">unite</span>(<span class="st">&quot;period&quot;</span>, year, month, <span class="at">sep =</span> <span class="st">&quot;/&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 2 × 3
+#&gt;   station period temp_mean
+#&gt;   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt;
+#&gt; 1 WQ01    2023/1      28.2
+#&gt; 2 WQ01    2023/2      29</code></pre>
+</div>
+<div id="parameters" class="section level2">
+<h2><span class="en">Several parameters: clean, then pivot</span><span
+class="fr">Plusieurs paramètres : nettoyer, puis pivoter</span></h2>
+<div class="en">
+<p>The visit file has one column per parameter. First replace the error
+codes by <code>NA</code>, then pivot the five parameter columns. A
+<strong>range</strong> of columns <code>temp_C:turbidity_NTU</code>
+selects all columns between the two.</p>
+</div>
+<div class="fr">
+<p>Le fichier des visites a une colonne par paramètre. Remplacez d’abord
+les codes d’erreur par <code>NA</code>, puis pivotez les cinq colonnes
+de paramètres. Une <strong>plage</strong> de colonnes
+<code>temp_C:turbidity_NTU</code> sélectionne toutes les colonnes entre
+les deux.</p>
+</div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>wq <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/water_quality_long.csv&quot;</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>wq<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(wq<span class="sc">$</span>date, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>wq<span class="sc">$</span>temp_C[wq<span class="sc">$</span>temp_C <span class="sc">==</span> <span class="sc">-</span><span class="dv">999</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>          <span class="co"># error code of the temperature sensor</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>wq<span class="sc">$</span>pH[wq<span class="sc">$</span>pH <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>                     <span class="co"># faulty pH electrode</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>wq_tidy <span class="ot">&lt;-</span> wq <span class="sc">%&gt;%</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(temp_C<span class="sc">:</span>turbidity_NTU, <span class="at">names_to =</span> <span class="st">&quot;parameter&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="fu">head</span>(wq_tidy)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 6 × 4
+#&gt;   station date       parameter     value
+#&gt;   &lt;chr&gt;   &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt;
+#&gt; 1 WQ01    2023-01-05 temp_C        28.7 
+#&gt; 2 WQ01    2023-01-05 salinity_psu  33.3 
+#&gt; 3 WQ01    2023-01-05 pH             8.17
+#&gt; 4 WQ01    2023-01-05 DO_mgL         7.24
+#&gt; 5 WQ01    2023-01-05 turbidity_NTU  2.8 
+#&gt; 6 WQ02    2023-01-05 temp_C        29</code></pre>
+<div class="en">
+<p>Now one <code>group_by()</code> summarises the five parameters at
+once:</p>
+</div>
+<div class="fr">
+<p>Maintenant un seul <code>group_by()</code> résume les cinq paramètres
+d’un coup :</p>
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>wq_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">group_by</span>(parameter) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(value)), <span class="at">mean =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>            <span class="at">min =</span> <span class="fu">min</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">max =</span> <span class="fu">max</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 5 × 5
+#&gt;   parameter         n  mean   min   max
+#&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 DO_mgL          712  7.18  6.06  8.7 
+#&gt; 2 pH              714  8.15  7.99  8.31
+#&gt; 3 salinity_psu    720 34.4  31.6  36.5 
+#&gt; 4 temp_C          708 26.1  21.8  30   
+#&gt; 5 turbidity_NTU   720  4.39  0.8  33.1</code></pre>
+</div>
+<div id="wider" class="section level2">
+<h2><span class="en">Long to wide: pivot_wider()</span><span
+class="fr">Du long au large : pivot_wider()</span></h2>
+<div class="en">
+<p>For a report table — one row per station, one column per parameter —
+use <code>pivot_wider()</code>: <code>names_from</code> gives the new
+column names, <code>values_from</code> the values.</p>
+</div>
+<div class="fr">
+<p>Pour un tableau de rapport — une ligne par station, une colonne par
+paramètre — utilisez <code>pivot_wider()</code> :
+<code>names_from</code> donne les noms des nouvelles colonnes,
+<code>values_from</code> les valeurs.</p>
+</div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>station_table <span class="ot">&lt;-</span> wq_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">group_by</span>(station, parameter) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">round</span>(<span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> parameter, <span class="at">values_from =</span> mean)</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>station_table</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 10 × 6
+#&gt;    station DO_mgL    pH salinity_psu temp_C turbidity_NTU
+#&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt;         &lt;dbl&gt;
+#&gt;  1 WQ01      7.13  8.15         34.7   26.2          3.22
+#&gt;  2 WQ02      7.12  8.15         34.7   26.2          3.45
+#&gt;  3 WQ03      7.21  8.15         34.6   26.1          3.08
+#&gt;  4 WQ04      7.17  8.16         34.7   26.1          3.48
+#&gt;  5 WQ05      7.19  8.16         34.6   26.3          3.75
+#&gt;  6 WQ06      7.15  8.16         34.7   26.2          3.66
+#&gt;  7 WQ07      7.23  8.15         34.6   26.1          3.45
+#&gt;  8 WQ08      7.16  8.15         34.0   26.2          7.06
+#&gt;  9 WQ09      7.2   8.15         33.9   26.1          6.97
+#&gt; 10 WQ10      7.25  8.15         33.9   26.0          5.78</code></pre>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># the same table with tapply: one parameter at a time</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(wq<span class="sc">$</span>temp_C, wq<span class="sc">$</span>station, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code></pre></div>
+<pre><code>#&gt;  WQ01  WQ02  WQ03  WQ04 
+#&gt; 26.18 26.25 26.13 26.08</code></pre>
+</div>
+<div class="col pkg">
+<p>tidyr + dplyr</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>station_table <span class="sc">%&gt;%</span> <span class="fu">select</span>(station, temp_C) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 4 × 2
+#&gt;   station temp_C
+#&gt;   &lt;chr&gt;    &lt;dbl&gt;
+#&gt; 1 WQ01      26.2
+#&gt; 2 WQ02      26.2
+#&gt; 3 WQ03      26.1
+#&gt; 4 WQ04      26.1</code></pre>
+</div>
+</div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Build a table with one row per
+<strong>year</strong> and one column per parameter (mean values).
+<em>Tip: create <code>year</code> with <code>format(date, "%Y")</code>
+first.</em></p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Construisez un tableau avec une ligne par
+<strong>année</strong> et une colonne par paramètre (valeurs moyennes).
+<em>Astuce : créez d’abord <code>year</code> avec
+<code>format(date, "%Y")</code>.</em></p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/checkpoints/I2_water_quality_clean.csv" download>⇩
+checkpoint: I2_water_quality_clean.csv</a>
+<a class="btn-dl" href="data/checkpoints/I2_water_quality_monthly.csv" download>⇩
+checkpoint: I2_water_quality_monthly.csv</a></p>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-i2" class="section level3 en">
+<h3>Application work I2</h3>
+<p>Script <code>scripts/i02_reshape.R</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Pivot <code>water_quality_wide.csv</code> to long format and
+separate year and month. How many rows?</li>
+<li>Mean temperature of the 10 stations in <strong>July 2024</strong> (2
+decimals)?</li>
+<li>In <code>water_quality_long.csv</code>, convert the date and replace
+the error codes (<code>-999</code>, pH <code>0</code>) by
+<code>NA</code>. How many temperatures are now missing?</li>
+<li>Pivot the five parameters to long format. How many rows?</li>
+<li>Mean dissolved oxygen of all measurements (3 decimals)?</li>
+<li>Build the station table (<code>pivot_wider</code>). Which station
+has the highest mean turbidity? How many columns has the table?</li>
+<li>Mean salinity in <strong>2025</strong> (3 decimals)?</li>
+</ol>
+</div>
+<div id="travail-dapplication-i2" class="section level3 fr">
+<h3>Travail d’application I2</h3>
+<p>Script <code>scripts/i02_reshape.R</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Pivotez <code>water_quality_wide.csv</code> en format long et
+séparez année et mois. Combien de lignes ?</li>
+<li>Température moyenne des 10 stations en <strong>juillet 2024</strong>
+(2 décimales) ?</li>
+<li>Dans <code>water_quality_long.csv</code>, convertissez la date et
+remplacez les codes d’erreur (<code>-999</code>, pH <code>0</code>) par
+<code>NA</code>. Combien de températures manquent maintenant ?</li>
+<li>Pivotez les cinq paramètres en format long. Combien de lignes ?</li>
+<li>Oxygène dissous moyen de toutes les mesures (3 décimales) ?</li>
+<li>Construisez le tableau par station (<code>pivot_wider</code>).
+Quelle station a la turbidité moyenne la plus élevée ? Combien de
+colonnes compte le tableau ?</li>
+<li>Salinité moyenne en <strong>2025</strong> (3 décimales) ?</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 3: the original file already has some missing temperatures?
+Count <code>NA</code> <strong>after</strong> replacing
+<code>-999</code>. Question 6: the station column counts as a
+column.</p>
+</div>
+<div class="fr">
+<p>Question 3 : comptez les <code>NA</code> <strong>après</strong> avoir
+remplacé <code>-999</code>. Question 6 : la colonne station compte comme
+une colonne.</p>
+</div>
+</div>
+<div id="quiz-i02" class="quiz" data-quiz-id="i02"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUm93cyBhZnRlciBwaXZvdF9sb25nZXI/IiwiZnIiOiIxLiBMaWduZXMgYXByw6hzIHBpdm90X2xvbmdlciA/IiwiYW5zd2VyIjozNjAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIE1lYW4gdGVtcGVyYXR1cmUgaW4gSnVseSAyMDI0ICgyIGRlY2ltYWxzKT8iLCJmciI6IjIuIFRlbXDDqXJhdHVyZSBtb3llbm5lIGVuIGp1aWxsZXQgMjAyNCAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoyMy4zNiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE1pc3NpbmcgdGVtcGVyYXR1cmVzIGFmdGVyIGNsZWFuaW5nPyIsImZyIjoiMy4gVGVtcMOpcmF0dXJlcyBtYW5xdWFudGVzIGFwcsOocyBuZXR0b3lhZ2UgPyIsImFuc3dlciI6MTIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIFJvd3Mgb2YgdGhlIGxvbmcgdGFibGUgb2YgcGFyYW1ldGVycz8iLCJmciI6IjQuIExpZ25lcyBkdSB0YWJsZWF1IGxvbmcgZGVzIHBhcmFtw6h0cmVzID8iLCJhbnN3ZXIiOjM2MDAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIE1lYW4gZGlzc29sdmVkIG94eWdlbiAoMyBkZWNpbWFscyk/IiwiZnIiOiI1LiBPeHlnw6huZSBkaXNzb3VzIG1veWVuICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjcuMTc5LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI2YS4gU3RhdGlvbiB3aXRoIHRoZSBoaWdoZXN0IG1lYW4gdHVyYmlkaXR5PyIsImZyIjoiNmEuIFN0YXRpb24gw6AgbGEgdHVyYmlkaXTDqSBtb3llbm5lIGxhIHBsdXMgw6lsZXbDqWUgPyIsImFuc3dlciI6WyJXUTA4Il19LHsidHlwZSI6Im51bSIsImVuIjoiNmIuIE51bWJlciBvZiBjb2x1bW5zIG9mIHRoZSBzdGF0aW9uIHRhYmxlPyIsImZyIjoiNmIuIE5vbWJyZSBkZSBjb2xvbm5lcyBkdSB0YWJsZWF1IHBhciBzdGF0aW9uID8iLCJhbnN3ZXIiOjYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjcuIE1lYW4gc2FsaW5pdHkgaW4gMjAyNSAoMyBkZWNpbWFscyk/IiwiZnIiOiI3LiBTYWxpbml0w6kgbW95ZW5uZSBlbiAyMDI1ICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjM0LjQwNywidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBXaGljaCBmb3JtYXQgZG9lcyBnZ3Bsb3QyIG5lZWQgdG8gZHJhdyBvbmUgcGFuZWwgcGVyIHBhcmFtZXRlcj8iLCJmciI6IjguIFF1ZWwgZm9ybWF0IGZhdXQtaWwgw6AgZ2dwbG90MiBwb3VyIHVuIHBhbm5lYXUgcGFyIHBhcmFtw6h0cmUgPyIsIm9wdGlvbnNfZW4iOlsiV2lkZSIsIkxvbmciLCJFaXRoZXIiLCJOZWl0aGVyIl0sIm9wdGlvbnNfZnIiOlsiTGFyZ2UiLCJMb25nIiwiTGVzIGRldXgiLCJBdWN1biJdLCJhbnN3ZXIiOjF9XQ==">
+
+</div>
+<div class="solution" data-quiz="i02">
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(tidyr)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>wide <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/water_quality_wide.csv&quot;</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>long <span class="ot">&lt;-</span> wide <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="sc">-</span>station, <span class="at">names_to =</span> <span class="st">&quot;month&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;temp_mean&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  <span class="fu">separate</span>(month, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="fu">nrow</span>(long)                                                                  <span class="co"># 1</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(long<span class="sc">$</span>temp_mean[long<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2024</span> <span class="sc">&amp;</span> long<span class="sc">$</span>month <span class="sc">==</span> <span class="dv">7</span>]), <span class="dv">2</span>)         <span class="co"># 2</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>wq <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/water_quality_long.csv&quot;</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>wq<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(wq<span class="sc">$</span>date, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>wq<span class="sc">$</span>temp_C[wq<span class="sc">$</span>temp_C <span class="sc">==</span> <span class="sc">-</span><span class="dv">999</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>wq<span class="sc">$</span>pH[wq<span class="sc">$</span>pH <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(wq<span class="sc">$</span>temp_C))                                                       <span class="co"># 3</span></span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>tidy <span class="ot">&lt;-</span> wq <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(temp_C<span class="sc">:</span>turbidity_NTU, <span class="at">names_to =</span> <span class="st">&quot;parameter&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>)</span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a><span class="fu">nrow</span>(tidy)                                                                  <span class="co"># 4</span></span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(tidy<span class="sc">$</span>value[tidy<span class="sc">$</span>parameter <span class="sc">==</span> <span class="st">&quot;DO_mgL&quot;</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">3</span>)        <span class="co"># 5</span></span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a>st <span class="ot">&lt;-</span> tidy <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(station, parameter) <span class="sc">%&gt;%</span></span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> parameter, <span class="at">values_from =</span> m)</span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a>st<span class="sc">$</span>station[<span class="fu">which.max</span>(st<span class="sc">$</span>turbidity_NTU)]; <span class="fu">ncol</span>(st)                           <span class="co"># 6</span></span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a>tidy <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">format</span>(date, <span class="st">&quot;%Y&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(parameter <span class="sc">==</span> <span class="st">&quot;salinity_psu&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">round</span>(<span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">3</span>))     <span class="co"># 7</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

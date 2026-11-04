@@ -36,6 +36,15 @@ Nouveau script pour cette séance : `scripts/s02_vectors.R`.
 :::
 :::
 
+::: {.callout .ecology}
+::: en
+**Data of this session (simulated).** Small series typed by hand from field sheets: the % cover of a few seagrass quadrats, the status (Inside / Outside the MPA) of each quadrat, and the positions of the points of a **Point Intercept Transect** (PIT: every 0.5 m along a 25 m tape). *Type:* numeric vectors (measurements), character vectors (categories) and missing values (`NA`, quadrat not measured).
+:::
+::: fr
+**Données de cette séance (simulées).** De petites séries tapées à la main depuis des fiches de terrain : le % de recouvrement de quelques quadrats d'herbier, le statut (dans / hors AMP) de chaque quadrat, et les positions des points d'un **Point Intercept Transect** (PIT : tous les 0,5 m le long d'un ruban de 25 m). *Type :* vecteurs numériques (mesures), vecteurs de texte (catégories) et valeurs manquantes (`NA`, quadrat non mesuré).
+:::
+:::
+
 ## [What is a vector?]{.en}[Qu'est-ce qu'un vecteur ?]{.fr} {#vectors}
 
 ::: en
@@ -323,6 +332,15 @@ zone <- c("Inside", "Inside", "Outside", "Outside", "Inside", "Outside", "Outsid
 cover[zone == "Inside"]
 ```
 
+::: {.callout .try}
+::: en
+**Try it.** With `cover <- c(45, 60, 12, NA, 80, 33, 0, 55)`: which positions have a cover of at least 50 % (`which()`)? How many quadrats is that (`sum()` of a condition)? Why does `mean(cover)` return `NA`?
+:::
+::: fr
+**À vous.** Avec `cover <- c(45, 60, 12, NA, 80, 33, 0, 55)` : quelles positions ont un recouvrement d'au moins 50 % (`which()`) ? Combien de quadrats cela fait-il (`sum()` d'une condition) ? Pourquoi `mean(cover)` renvoie-t-il `NA` ?
+:::
+:::
+
 ## [Missing values: `NA`]{.en}[Valeurs manquantes : `NA`]{.fr} {#na}
 
 ::: en
@@ -405,6 +423,15 @@ positions <- seq(0.5, 25, by = 0.5)
 set.seed(2026); drawn <- sample(1:50, 4)
 transect <- rep(c("T1", "T2", "T3"), each = 4, times = 2)
 ```
+
+::: hint
+::: en
+`set.seed(2026)` must be run **just before** `sample()`: if you run `sample()` twice, the second draw is different. For Part B, remember `na.rm = TRUE` and that `cover[zone == "Inside"]` keeps the values of the Inside quadrats.
+:::
+::: fr
+`set.seed(2026)` doit être lancé **juste avant** `sample()` : si vous lancez `sample()` deux fois, le second tirage est différent. Pour la partie B, pensez à `na.rm = TRUE` et au fait que `cover[zone == "Inside"]` garde les valeurs des quadrats Inside.
+:::
+:::
 
 ```{r quiz02, echo=FALSE}
 quiz("s02", list(

@@ -37,6 +37,17 @@ Nouveau script `scripts/s06_graphics.R`. Les graphiques apparaissent dans le pan
 :::
 :::
 
+::: {.callout .ecology}
+::: en
+**Seagrass survey** (`seagrass_quadrats.csv`): in March 2026 a team of two snorkellers sampled **4 sites** (Ambalaboy and Fasimena inside a Marine Protected Area, Belitsaky and Tsiandamba outside), **15 quadrats of 50 × 50 cm** per site, placed every 5 m along a tape. For each quadrat they wrote on an underwater slate the depth (dive computer), the dominant species, the % cover (visual estimate), the canopy height (ruler, cm) and the number of shoots, converted to shoots per m². *Type:* one row = one quadrat; numeric (continuous) and categorical variables.
+:::
+::: fr
+**Suivi des herbiers** (`seagrass_quadrats.csv`) : en mars 2026, une équipe de deux plongeurs en apnée a échantillonné **4 sites** (Ambalaboy et Fasimena dans une Aire Marine Protégée, Belitsaky et Tsiandamba à l'extérieur), **15 quadrats de 50 × 50 cm** par site, posés tous les 5 m le long d'un ruban. Pour chaque quadrat ils ont noté sur une ardoise la profondeur (ordinateur de plongée), l'espèce dominante, le % de recouvrement (estimation visuelle), la hauteur de canopée (règle, cm) et le nombre de pousses, converti en pousses par m². *Type :* une ligne = un quadrat ; variables numériques (continues) et catégorielles.
+:::
+:::
+
+`r dl("seagrass_quadrats.csv", "seagrass_quadrats.csv")` `r dl("B06_seagrass_summary_by_site.csv", "B06_seagrass_summary_by_site.csv", dir = "data/checkpoints")`
+
 ## [Which graph for which question?]{.en}[Quel graphique pour quelle question ?]{.fr} {#which}
 
 ::: en
@@ -178,6 +189,15 @@ barplot(counts, horiz = TRUE, las = 1, col = "#4a7d3a", xlab = "Number of quadra
 par(mar = c(5, 4, 4, 2) + 0.1)   # back to default margins
 ```
 
+::: {.callout .try}
+::: en
+**Try it.** Draw a scatter plot of `shoot_density` against `canopy_height_cm`, with one colour per MPA status, axis titles with units and a legend. Do taller canopies have more shoots?
+:::
+::: fr
+**À vous.** Tracez un nuage de points de `shoot_density` en fonction de `canopy_height_cm`, avec une couleur par statut d'AMP, des titres d'axes avec unités et une légende. Les canopées plus hautes ont-elles plus de pousses ?
+:::
+:::
+
 ## [Several plots in one figure]{.en}[Plusieurs graphiques dans une figure]{.fr} {#mfrow}
 
 ::: en
@@ -258,6 +278,15 @@ Avec `seagrass_quadrats.csv`, produisez et **enregistrez dans `outputs/`** (PNG,
 3. Un diagramme des moyennes ± ET par **statut d'AMP** (Inside / Outside). Quelle est la hauteur du sommet de la barre d'erreur la plus haute (moyenne + ET), arrondie à 1 décimale ?
 4. Un diagramme en barres horizontal du recouvrement moyen par **espèce**. Quelle espèce a le recouvrement moyen le plus élevé ?
 5. Répondez au quiz.
+:::
+:::
+
+::: hint
+::: en
+Question 1: `h <- hist(sg$seagrass_cover, breaks = seq(0, 100, by = 10))` then `max(h$counts)`. Question 3: compute `m <- tapply(..., mean)` and `s <- tapply(..., sd)`, then `max(m + s)`. Question 4: `barplot(sort(m_species), horiz = TRUE, las = 1)`.
+:::
+::: fr
+Question 1 : `h <- hist(sg$seagrass_cover, breaks = seq(0, 100, by = 10))` puis `max(h$counts)`. Question 3 : calculez `m <- tapply(..., mean)` et `s <- tapply(..., sd)`, puis `max(m + s)`. Question 4 : `barplot(sort(m_espece), horiz = TRUE, las = 1)`.
 :::
 :::
 

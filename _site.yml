@@ -2,32 +2,55 @@
 # _site.yml — settings shared by ALL pages of the R Markdown website
 # Build the whole site with:  rmarkdown::render_site()   (or Build > Build Website)
 # =============================================================================
-name: "r-course-beginner"
+name: "r-marine-sciences"
 output_dir: "docs"          # GitHub Pages will publish this folder
 
 # files/folders NOT copied into docs/ (they are for you, not for students)
-exclude: ["R", "apps-script", "_intermediate", "slides", "README.md", "*.Rproj", "docs", "accounts_to_paste.csv"]
+exclude: ["R", "apps-script", "_intermediate", "slides", "pdf_kit", "README.md", "*.Rproj", "docs", "accounts_to_paste.csv"]
 
 navbar:
-  title: "R · Marine ecology"
+  title: "R · Marine Sciences"
   left:
     - text: "Home"
       href: index.html
-    - text: "Sessions"
+    - text: "Beginner"
       menu:
-        - { text: "0 · Installation",            href: 00-installation.html }
-        - { text: "1 · First steps",             href: 01-first-steps.html }
-        - { text: "2 · Vectors",                 href: 02-vectors.html }
-        - { text: "3 · Data frames",             href: 03-data-frames.html }
-        - { text: "4 · Inside a data frame",     href: 04-inside-data-frames.html }
-        - { text: "5 · Filtering & cleaning",    href: 05-cleaning.html }
-        - { text: "6 · Statistics",              href: 06-statistics.html }
-        - { text: "7 · Base R graphs",           href: 07-graphics.html }
+        - { text: "0 · Installation",             href: 00-installation.html }
+        - { text: "1 · First steps",              href: 01-first-steps.html }
+        - { text: "2 · Vectors",                  href: 02-vectors.html }
+        - { text: "3 · Data frames",              href: 03-data-frames.html }
+        - { text: "4 · Inside a data frame",      href: 04-inside-data-frames.html }
+        - { text: "5 · Filtering & cleaning",     href: 05-cleaning.html }
+        - { text: "6 · Statistics",               href: 06-statistics.html }
+        - { text: "7 · Base R graphs",            href: 07-graphics.html }
         - { text: "8 · Packages, dplyr, ggplot2", href: 08-packages-tidyverse.html }
-        - { text: "9 · Practice",                href: 09-practice.html }
-        - { text: "10 · Final project",          href: 10-final-project.html }
-    - text: "Cheatsheet"
-      href: cheatsheet.html
+        - { text: "9 · Practice",                 href: 09-practice.html }
+        - { text: "10 · Final project",           href: 10-final-project.html }
+    - text: "Intermediate"
+      menu:
+        - { text: "I0 · Importing real files",    href: i00-import.html }
+        - { text: "I1 · Dates",                   href: i01-dates.html }
+        - { text: "I2 · Reshaping tables",        href: i02-reshape.html }
+        - { text: "I3 · Joining tables",          href: i03-joins.html }
+        - { text: "I4 · Survey data & text",      href: i04-survey.html }
+        - { text: "I5 · Conditions & loops",      href: i05-loops.html }
+        - { text: "I6 · Functions",               href: i06-functions.html }
+        - { text: "I7 · ggplot2 (1)",             href: i07-ggplot-1.html }
+        - { text: "I8 · ggplot2 (2)",             href: i08-ggplot-2.html }
+        - { text: "I9 · Distributions & p-values", href: i09-distributions.html }
+        - { text: "I10 · Choosing a test",        href: i10-tests.html }
+        - { text: "I11 · Maps",                   href: i11-maps.html }
+        - { text: "I12 · Practice",               href: i12-practice.html }
+        - { text: "I13 · Final project",          href: i13-final-project.html }
+    - text: "Advanced"
+      href: advanced.html
+    - text: "Resources"
+      menu:
+        - { text: "Cheatsheet · Beginner",        href: cheatsheet.html }
+        - { text: "Cheatsheet · Intermediate",    href: cheatsheet-intermediate.html }
+        - { text: "Common errors",                href: common-errors.html }
+        - { text: "Need help?",                   href: help.html }
+        - { text: "What's new",                   href: whats-new.html }
 
 output:
   html_document:

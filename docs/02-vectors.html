@@ -31,8 +31,10 @@
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <!-- header.html: inserted inside <head> of every page (see _site.yml) -->
-<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
 <script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
 <script src="assets/course.js"></script>
 <meta name="author" content="Aroo Falinirina">
 
@@ -333,7 +335,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -342,7 +344,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
+    Beginner
      
     <span class="caret"></span>
   </a>
@@ -382,8 +384,83 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
 <li>
-  <a href="cheatsheet.html">Cheatsheet</a>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -447,6 +524,27 @@ condition ;</li>
 <code>scripts/s02_vectors.R</code>.</p>
 </div>
 </div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> Small series typed
+by hand from field sheets: the % cover of a few seagrass quadrats, the
+status (Inside / Outside the MPA) of each quadrat, and the positions of
+the points of a <strong>Point Intercept Transect</strong> (PIT: every
+0.5 m along a 25 m tape). <em>Type:</em> numeric vectors (measurements),
+character vectors (categories) and missing values (<code>NA</code>,
+quadrat not measured).</p>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong> De petites
+séries tapées à la main depuis des fiches de terrain : le % de
+recouvrement de quelques quadrats d’herbier, le statut (dans / hors AMP)
+de chaque quadrat, et les positions des points d’un <strong>Point
+Intercept Transect</strong> (PIT : tous les 0,5 m le long d’un ruban de
+25 m). <em>Type :</em> vecteurs numériques (mesures), vecteurs de texte
+(catégories) et valeurs manquantes (<code>NA</code>, quadrat non
+mesuré).</p>
+</div>
+</div>
 <div id="vectors" class="section level2">
 <h2><span class="en">What is a vector?</span><span class="fr">Qu’est-ce
 qu’un vecteur ?</span></h2>
@@ -464,23 +562,16 @@ mesure beaucoup. Un <strong>vecteur</strong> est une série de valeurs
 <strong>du même type</strong>, stockée dans un seul objet. On le crée
 avec la fonction <code>c()</code> (pour <em>combine</em>, combiner).</p>
 </div>
-<figure class="svg-fig">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" role="img" aria-label="A vector and its positions" font-family="Source Sans 3, Arial, sans-serif">
-<text x="20" y="40" font-family="JetBrains Mono, monospace" font-size="18" fill="#0b3d5c">cover
-&lt;- c(45, 60, 12, NA, 80, 33, 0, 55)</text>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 210" role="img" aria-label="A vector and its positions" font-family="Source Sans 3, Arial, sans-serif">
+<text x="20" y="40" font-family="JetBrains Mono, monospace" font-size="18" fill="#0b3d5c">cover &lt;- c(45, 60, 12, NA, 80, 33, 0, 55)</text>
 <g font-family="JetBrains Mono, monospace" font-size="22" text-anchor="middle">
 <g fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"><rect x="20" y="70" width="90" height="56" rx="6"/><rect x="120" y="70" width="90" height="56" rx="6"/><rect x="220" y="70" width="90" height="56" rx="6" fill="#fde3d9" stroke="#d9694a"/><rect x="320" y="70" width="90" height="56" rx="6" fill="#eee"/><rect x="420" y="70" width="90" height="56" rx="6"/><rect x="520" y="70" width="90" height="56" rx="6"/><rect x="620" y="70" width="90" height="56" rx="6"/><rect x="720" y="70" width="90" height="56" rx="6"/></g>
 <g fill="#1f2a33"><text x="65" y="106">45</text><text x="165" y="106">60</text><text x="265" y="106">12</text><text x="365" y="106" fill="#888">NA</text><text x="465" y="106">80</text><text x="565" y="106">33</text><text x="665" y="106">0</text><text x="765" y="106">55</text></g>
 <g fill="#5d6b75" font-size="16"><text x="65" y="150">[1]</text><text x="165" y="150">[2]</text><text x="265" y="150" fill="#d9694a" font-weight="700">[3]</text><text x="365" y="150">[4]</text><text x="465" y="150">[5]</text><text x="565" y="150">[6]</text><text x="665" y="150">[7]</text><text x="765" y="150">[8]</text></g>
 </g>
-<text class="en" x="20" y="190" font-size="16" fill="#5d6b75">cover[3]
-returns 12 — positions start at 1 in R. NA = a missing value (quadrat
-not measured).</text>
-<text class="fr" x="20" y="190" font-size="16" fill="#5d6b75">cover[3]
-renvoie 12 — les positions commencent à 1 dans R. NA = valeur manquante
-(quadrat non mesuré).</text>
-</svg>
-</figure>
+<text class="en" x="20" y="190" font-size="16" fill="#5d6b75">cover[3] returns 12 — positions start at 1 in R. NA = a missing value (quadrat not measured).</text>
+<text class="fr" x="20" y="190" font-size="16" fill="#5d6b75">cover[3] renvoie 12 — les positions commencent à 1 dans R. NA = valeur manquante (quadrat non mesuré).</text>
+</svg></figure>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">60</span>, <span class="dv">12</span>, <span class="cn">NA</span>, <span class="dv">80</span>, <span class="dv">33</span>, <span class="dv">0</span>, <span class="dv">55</span>)   <span class="co"># % seagrass cover in 8 quadrats</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>cover</span></code></pre></div>
 <pre><code>#&gt; [1] 45 60 12 NA 80 33  0 55</code></pre>
@@ -991,6 +1082,22 @@ recouvrement des quadrats situés dans l’AMP :</p>
 class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" tabindex="-1"></a>zone <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Outside&quot;</span>, <span class="st">&quot;Inside&quot;</span>)</span>
 <span id="cb100-2"><a href="#cb100-2" tabindex="-1"></a>cover[zone <span class="sc">==</span> <span class="st">&quot;Inside&quot;</span>]</span></code></pre></div>
 <pre><code>#&gt; [1] 45 60 80 55</code></pre>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> With
+<code>cover &lt;- c(45, 60, 12, NA, 80, 33, 0, 55)</code>: which
+positions have a cover of at least 50 % (<code>which()</code>)? How many
+quadrats is that (<code>sum()</code> of a condition)? Why does
+<code>mean(cover)</code> return <code>NA</code>?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Avec
+<code>cover &lt;- c(45, 60, 12, NA, 80, 33, 0, 55)</code> : quelles
+positions ont un recouvrement d’au moins 50 % (<code>which()</code>) ?
+Combien de quadrats cela fait-il (<code>sum()</code> d’une condition) ?
+Pourquoi <code>mean(cover)</code> renvoie-t-il <code>NA</code> ?</p>
+</div>
+</div>
 </div>
 </div>
 <div id="na" class="section level2">
@@ -1118,6 +1225,23 @@ se trouve le recouvrement le plus faible ?</li>
 <li>Transformez <code>zone</code> en facteur et utilisez
 <code>table()</code> : combien y a-t-il de quadrats Outside ?</li>
 </ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p><code>set.seed(2026)</code> must be run <strong>just before</strong>
+<code>sample()</code>: if you run <code>sample()</code> twice, the
+second draw is different. For Part B, remember <code>na.rm = TRUE</code>
+and that <code>cover[zone == "Inside"]</code> keeps the values of the
+Inside quadrats.</p>
+</div>
+<div class="fr">
+<p><code>set.seed(2026)</code> doit être lancé <strong>juste
+avant</strong> <code>sample()</code> : si vous lancez
+<code>sample()</code> deux fois, le second tirage est différent. Pour la
+partie B, pensez à <code>na.rm = TRUE</code> et au fait que
+<code>cover[zone == "Inside"]</code> garde les valeurs des quadrats
+Inside.</p>
 </div>
 </div>
 <div id="quiz-s02" class="quiz" data-quiz-id="s02"

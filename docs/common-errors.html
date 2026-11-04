@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · Common errors</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">Common errors and how to
+fix them</span><span class="fr">Erreurs fréquentes et comment les
+corriger</span></h1>
+<h3 class="subtitle"><span class="en">Read the message: R usually tells
+you what is wrong</span><span class="fr">Lisez le message : R dit
+généralement ce qui ne va pas</span></h3>
+
+</div>
+
+
+<div class="callout tip">
+<div class="en">
+<p><strong>Method.</strong> (1) Read the <strong>first</strong> error
+message (the next ones are often consequences). (2) Look at the line it
+points to and the line just before. (3) Copy the message into a search
+engine: someone has had the same problem. (4) Restart R (<em>Session →
+Restart R</em>) and re-run the script from the top: many errors come
+from objects left in memory.</p>
+</div>
+<div class="fr">
+<p><strong>Méthode.</strong> (1) Lisez le <strong>premier</strong>
+message d’erreur (les suivants en sont souvent la conséquence). (2)
+Regardez la ligne indiquée et celle juste avant. (3) Copiez le message
+dans un moteur de recherche : quelqu’un a eu le même problème. (4)
+Redémarrez R (<em>Session → Restart R</em>) et relancez le script depuis
+le début : beaucoup d’erreurs viennent d’objets restés en mémoire.</p>
+</div>
+</div>
+<div id="objects-and-functionsobjets-et-fonctions"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Objects and functions</span><span
+class="fr">Objets et fonctions</span></h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Message</span><span class="fr">Message</span></th>
+<th><span class="en">What it means</span><span class="fr">Ce que ça veut
+dire</span></th>
+<th><span class="en">How to fix it</span><span class="fr">Comment
+corriger</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>object 'x' not found</code></td>
+<td><span class="en">R does not know this object.</span><span
+class="fr">R ne connaît pas cet objet.</span></td>
+<td><span class="en">Check the spelling and capitals (<code>Cover</code>
+≠ <code>cover</code>); run the line that creates it; inside
+<code>$</code> or <code>[ ]</code>, check the column name with
+<code>names()</code>.</span><span class="fr">Vérifiez l’orthographe et
+les majuscules (<code>Cover</code> ≠ <code>cover</code>) ; exécutez la
+ligne qui le crée ; dans <code>$</code> ou <code>[ ]</code>, vérifiez le
+nom de colonne avec <code>names()</code>.</span></td>
+</tr>
+<tr class="even">
+<td><code>could not find function "xxx"</code></td>
+<td><span class="en">The function does not exist, or its package is not
+loaded.</span><span class="fr">La fonction n’existe pas, ou son package
+n’est pas chargé.</span></td>
+<td><span class="en">Check the spelling; add
+<code>library(package)</code> at the top of the script; or write
+<code>package::xxx()</code>.</span><span class="fr">Vérifiez
+l’orthographe ; ajoutez <code>library(package)</code> en haut du script
+; ou écrivez <code>package::xxx()</code>.</span></td>
+</tr>
+<tr class="odd">
+<td><code>there is no package called 'xxx'</code></td>
+<td><span class="en">The package is not installed.</span><span
+class="fr">Le package n’est pas installé.</span></td>
+<td><span class="en"><code>install.packages("xxx")</code> once, in the
+console.</span><span class="fr"><code>install.packages("xxx")</code> une
+fois, dans la console.</span></td>
+</tr>
+<tr class="even">
+<td><code>unused argument (digit = 1)</code></td>
+<td><span class="en">An argument name is wrong.</span><span
+class="fr">Un nom d’argument est faux.</span></td>
+<td><span class="en">Open the help (<code>?round</code>) and check the
+argument names (<code>digits</code>).</span><span class="fr">Ouvrez
+l’aide (<code>?round</code>) et vérifiez les noms d’arguments
+(<code>digits</code>).</span></td>
+</tr>
+<tr class="odd">
+<td><code>argument "x" is missing, with no default</code></td>
+<td><span class="en">A required argument was not given.</span><span
+class="fr">Un argument obligatoire n’a pas été donné.</span></td>
+<td><span class="en">Look at <em>Usage</em> in the help
+page.</span><span class="fr">Regardez <em>Usage</em> dans la page
+d’aide.</span></td>
+</tr>
+<tr class="even">
+<td><code>non-numeric argument to binary operator</code></td>
+<td><span class="en">You calculate with text
+(e.g. <code>"45" * 2</code>).</span><span class="fr">Vous calculez avec
+du texte (ex. <code>"45" * 2</code>).</span></td>
+<td><span class="en">Check the type with <code>class()</code> or
+<code>str()</code>; convert with <code>as.numeric()</code> after
+cleaning (<code>%</code>, <code>-</code>, commas).</span><span
+class="fr">Vérifiez le type avec <code>class()</code> ou
+<code>str()</code> ; convertissez avec <code>as.numeric()</code> après
+nettoyage (<code>%</code>, <code>-</code>, virgules).</span></td>
+</tr>
+<tr class="odd">
+<td><code>NAs introduced by coercion</code> (warning)</td>
+<td><span class="en">Some values could not become numbers.</span><span
+class="fr">Certaines valeurs n’ont pas pu devenir des
+nombres.</span></td>
+<td><span class="en">Look at them: <code>x[is.na(as.numeric(x))]</code>,
+then clean them.</span><span class="fr">Regardez-les :
+<code>x[is.na(as.numeric(x))]</code>, puis nettoyez-les.</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div
+id="syntax-brackets-quotes-commassyntaxe-parenthèses-guillemets-virgules"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Syntax: brackets, quotes,
+commas</span><span class="fr">Syntaxe : parenthèses, guillemets,
+virgules</span></h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Message</span><span class="fr">Message</span></th>
+<th><span class="en">What it means</span><span class="fr">Ce que ça veut
+dire</span></th>
+<th><span class="en">How to fix it</span><span class="fr">Comment
+corriger</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="en">Console shows <code>+</code> instead of
+<code>&gt;</code></span><span class="fr">La console affiche
+<code>+</code> au lieu de <code>&gt;</code></span></td>
+<td><span class="en">The command is not finished: a <code>)</code>,
+<code>]</code>, <code>}</code> or <code>"</code> is missing.</span><span
+class="fr">La commande n’est pas finie : il manque <code>)</code>,
+<code>]</code>, <code>}</code> ou <code>"</code>.</span></td>
+<td><span class="en">Press <strong>Esc</strong>, then correct the line.
+RStudio highlights matching brackets.</span><span class="fr">Appuyez sur
+<strong>Échap</strong>, puis corrigez la ligne. RStudio surligne les
+parenthèses correspondantes.</span></td>
+</tr>
+<tr class="even">
+<td><code>unexpected symbol</code></td>
+<td><span class="en">Two things side by side without operator or
+comma.</span><span class="fr">Deux éléments côte à côte sans opérateur
+ni virgule.</span></td>
+<td><span class="en">Often a missing comma between arguments, or a space
+in a name (<code>coral cover</code>).</span><span class="fr">Souvent une
+virgule manquante entre arguments, ou un espace dans un nom
+(<code>coral cover</code>).</span></td>
+</tr>
+<tr class="odd">
+<td><code>unexpected ')'</code> / <code>unexpected '}'</code></td>
+<td><span class="en">One closing bracket too many.</span><span
+class="fr">Une parenthèse fermante en trop.</span></td>
+<td><span class="en">Count the brackets; put the cursor on one to see
+its partner.</span><span class="fr">Comptez les parenthèses ; placez le
+curseur sur l’une pour voir sa partenaire.</span></td>
+</tr>
+<tr class="even">
+<td><code>unexpected ','</code></td>
+<td><span class="en">Often a decimal comma:
+<code>7,4</code>.</span><span class="fr">Souvent une virgule décimale :
+<code>7,4</code>.</span></td>
+<td><span class="en">Write <code>7.4</code> (dot).</span><span
+class="fr">Écrivez <code>7.4</code> (point).</span></td>
+</tr>
+<tr class="odd">
+<td><code>unexpected '='</code></td>
+<td><span class="en"><code>=</code> used where <code>==</code> is needed
+(comparison).</span><span class="fr"><code>=</code> utilisé là où il
+faut <code>==</code> (comparaison).</span></td>
+<td><span class="en"><code>sg[sg$site == "Ifaty", ]</code></span><span
+class="fr"><code>sg[sg$site == "Ifaty", ]</code></span></td>
+</tr>
+<tr class="even">
+<td><code>unexpected input</code> /
+<code>unexpected INCOMPLETE_STRING</code></td>
+<td><span class="en">Curly quotes “ ” copied from Word/PDF, or an
+unclosed <code>"</code>.</span><span class="fr">Guillemets
+typographiques “ ” copiés de Word/PDF, ou <code>"</code> non
+fermé.</span></td>
+<td><span class="en">Retype the quotes in RStudio as straight quotes
+<code>"</code>.</span><span class="fr">Retapez les guillemets dans
+RStudio : guillemets droits <code>"</code>.</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="files-and-datafichiers-et-données"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Files and data</span><span
+class="fr">Fichiers et données</span></h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Message</span><span class="fr">Message</span></th>
+<th><span class="en">What it means</span><span class="fr">Ce que ça veut
+dire</span></th>
+<th><span class="en">How to fix it</span><span class="fr">Comment
+corriger</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cannot open file '...': No such file or directory</code></td>
+<td><span class="en">R does not find the file at this path.</span><span
+class="fr">R ne trouve pas le fichier à ce chemin.</span></td>
+<td><span class="en">Open the RStudio project; check
+<code>list.files("data")</code>; check the extension (<code>.csv</code>,
+<code>.xlsx</code>) and capitals.</span><span class="fr">Ouvrez le
+projet RStudio ; vérifiez <code>list.files("data")</code> ; vérifiez
+l’extension (<code>.csv</code>, <code>.xlsx</code>) et les
+majuscules.</span></td>
+</tr>
+<tr class="even">
+<td><span class="en">All the data in <strong>one
+column</strong></span><span class="fr">Toutes les données dans
+<strong>une seule colonne</strong></span></td>
+<td><span class="en">The file uses <code>;</code> as
+separator.</span><span class="fr">Le fichier utilise <code>;</code>
+comme séparateur.</span></td>
+<td><span class="en"><code>read.csv2()</code> or
+<code>read.csv(file, sep = ";", dec = ",")</code>.</span><span
+class="fr"><code>read.csv2()</code> ou
+<code>read.csv(fichier, sep = ";", dec = ",")</code>.</span></td>
+</tr>
+<tr class="odd">
+<td><span class="en">Accents shown as <code>Ã©</code></span><span
+class="fr">Accents affichés <code>Ã©</code></span></td>
+<td><span class="en">Wrong text encoding.</span><span class="fr">Mauvais
+encodage du texte.</span></td>
+<td><span class="en"><code>read.csv(file, fileEncoding = "UTF-8")</code>
+or <code>"latin1"</code>.</span><span
+class="fr"><code>read.csv(fichier, fileEncoding = "UTF-8")</code> ou
+<code>"latin1"</code>.</span></td>
+</tr>
+<tr class="even">
+<td><code>undefined columns selected</code></td>
+<td><span class="en">A column name inside <code>[ , ]</code> does not
+exist.</span><span class="fr">Un nom de colonne dans <code>[ , ]</code>
+n’existe pas.</span></td>
+<td><span class="en">Check <code>names(df)</code>; did you forget the
+comma in <code>df[cond, ]</code>?</span><span class="fr">Vérifiez
+<code>names(df)</code> ; avez-vous oublié la virgule dans
+<code>df[cond, ]</code> ?</span></td>
+</tr>
+<tr class="odd">
+<td><code>replacement has X rows, data has Y</code></td>
+<td><span class="en">The new column does not have the right
+length.</span><span class="fr">La nouvelle colonne n’a pas la bonne
+longueur.</span></td>
+<td><span class="en">A calculation on another table, or a summary (one
+value per group) put in a row-level table.</span><span class="fr">Un
+calcul sur un autre tableau, ou un résumé (une valeur par groupe) placé
+dans un tableau par ligne.</span></td>
+</tr>
+<tr class="even">
+<td><code>arguments imply differing number of rows</code></td>
+<td><span class="en">Vectors of different lengths in
+<code>data.frame()</code>.</span><span class="fr">Vecteurs de longueurs
+différentes dans <code>data.frame()</code>.</span></td>
+<td><span class="en">Check <code>length()</code> of each
+vector.</span><span class="fr">Vérifiez <code>length()</code> de chaque
+vecteur.</span></td>
+</tr>
+<tr class="odd">
+<td><span class="en"><code>mean()</code> gives
+<code>NA</code></span><span class="fr"><code>mean()</code> donne
+<code>NA</code></span></td>
+<td><span class="en">There are missing values.</span><span class="fr">Il
+y a des valeurs manquantes.</span></td>
+<td><span class="en"><code>mean(x, na.rm = TRUE)</code>.</span><span
+class="fr"><code>mean(x, na.rm = TRUE)</code>.</span></td>
+</tr>
+<tr class="even">
+<td><span class="en">A join gives <strong>more</strong> rows than
+expected</span><span class="fr">Une jointure donne <strong>plus</strong>
+de lignes que prévu</span></td>
+<td><span class="en">The key is duplicated in one table.</span><span
+class="fr">La clé est dupliquée dans un des tableaux.</span></td>
+<td><span class="en"><code>sum(duplicated(df$key))</code> in both tables
+before joining.</span><span
+class="fr"><code>sum(duplicated(df$cle))</code> dans les deux tableaux
+avant la jointure.</span></td>
+</tr>
+<tr class="odd">
+<td><code>character string is not in a standard unambiguous format</code></td>
+<td><span class="en"><code>as.Date()</code> does not understand the date
+format.</span><span class="fr"><code>as.Date()</code> ne comprend pas le
+format de la date.</span></td>
+<td><span class="en">Give the format:
+<code>as.Date(x, format = "%d/%m/%Y")</code>.</span><span
+class="fr">Donnez le format :
+<code>as.Date(x, format = "%d/%m/%Y")</code>.</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="graphs-and-packagesgraphiques-et-packages"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Graphs and packages</span><span
+class="fr">Graphiques et packages</span></h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Message</span><span class="fr">Message</span></th>
+<th><span class="en">What it means</span><span class="fr">Ce que ça veut
+dire</span></th>
+<th><span class="en">How to fix it</span><span class="fr">Comment
+corriger</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>figure margins too large</code></td>
+<td><span class="en">The Plots pane is too small.</span><span
+class="fr">Le panneau Plots est trop petit.</span></td>
+<td><span class="en">Enlarge the pane, or use
+<code>par(mar = c(4, 4, 2, 1))</code>.</span><span
+class="fr">Agrandissez le panneau, ou utilisez
+<code>par(mar = c(4, 4, 2, 1))</code>.</span></td>
+</tr>
+<tr class="even">
+<td><code>plot.new has not been called yet</code></td>
+<td><span class="en"><code>legend()</code>, <code>arrows()</code>,
+<code>abline()</code> before a plot.</span><span
+class="fr"><code>legend()</code>, <code>arrows()</code>,
+<code>abline()</code> avant un graphique.</span></td>
+<td><span class="en">Draw the plot first.</span><span class="fr">Tracez
+d’abord le graphique.</span></td>
+</tr>
+<tr class="odd">
+<td><span class="en">PNG file empty or not created</span><span
+class="fr">Fichier PNG vide ou absent</span></td>
+<td><span class="en"><code>dev.off()</code> was not run.</span><span
+class="fr"><code>dev.off()</code> n’a pas été exécuté.</span></td>
+<td><span class="en">Always <code>png()</code> → plot →
+<code>dev.off()</code>.</span><span class="fr">Toujours
+<code>png()</code> → graphique → <code>dev.off()</code>.</span></td>
+</tr>
+<tr class="even">
+<td><code>object 'site' not found</code> <span class="en">in
+ggplot</span><span class="fr">dans ggplot</span></td>
+<td><span class="en">Column not in the data given to
+<code>ggplot()</code>.</span><span class="fr">Colonne absente des
+données données à <code>ggplot()</code>.</span></td>
+<td><span class="en">Check <code>names()</code> of the data frame used
+in <code>ggplot(data, ...)</code>.</span><span class="fr">Vérifiez
+<code>names()</code> du data frame utilisé dans
+<code>ggplot(données, ...)</code>.</span></td>
+</tr>
+<tr class="odd">
+<td><code>Error in +.gg</code> / <span class="en">a layer is
+ignored</span><span class="fr">une couche est ignorée</span></td>
+<td><span class="en">The <code>+</code> is at the start of the line
+instead of the end.</span><span class="fr">Le <code>+</code> est en
+début de ligne au lieu de la fin.</span></td>
+<td><span class="en">Put <code>+</code> at the <strong>end</strong> of
+each line except the last.</span><span class="fr">Mettez le
+<code>+</code> à la <strong>fin</strong> de chaque ligne sauf la
+dernière.</span></td>
+</tr>
+<tr class="even">
+<td><code>Rtools is required to build R packages</code></td>
+<td><span class="en">Windows: a package must be compiled.</span><span
+class="fr">Windows : un package doit être compilé.</span></td>
+<td><span class="en">Install Rtools (Beginner, Session 0), or answer
+<em>No</em> to “install from source”.</span><span class="fr">Installez
+Rtools (Débutant, séance 0), ou répondez <em>No</em> à « install from
+source ».</span></td>
+</tr>
+<tr class="odd">
+<td><code>The following objects are masked from ...</code></td>
+<td><span class="en">Not an error: two packages have a function with the
+same name.</span><span class="fr">Pas une erreur : deux packages ont une
+fonction du même nom.</span></td>
+<td><span class="en">Use <code>dplyr::filter()</code> to be
+explicit.</span><span class="fr">Utilisez <code>dplyr::filter()</code>
+pour être explicite.</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

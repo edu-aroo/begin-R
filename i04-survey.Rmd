@@ -1,0 +1,315 @@
+---
+title: "[I4 · Survey data and text]{.en}[I4 · Données d'enquête et texte]{.fr}"
+pagetitle: "R for marine sciences · I4"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/intermediate_pipeline.R")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- clean text answers with **stringr** (spaces, case, patterns);
+- turn answers into **factors**, including **ordered** Likert scales;
+- split **multiple-choice** answers stored in one cell and count each option;
+- build household variables from the member table (size, number of children);
+- produce cross-tables and percentages ready for a report.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- nettoyer des réponses texte avec **stringr** (espaces, casse, motifs) ;
+- transformer les réponses en **facteurs**, y compris des échelles de Likert **ordonnées** ;
+- séparer des réponses **à choix multiples** stockées dans une cellule et compter chaque option ;
+- construire des variables de ménage à partir du tableau des membres (taille, nombre d'enfants) ;
+- produire des tableaux croisés et des pourcentages prêts pour un rapport.
+:::
+:::
+
+## [How the survey was conducted]{.en}[Comment l'enquête a été menée]{.fr} {#context}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** In July–August 2025, three enumerators (Fara, Tojo, Mamy) interviewed **420 households** in 6 of the cooperative's villages, with a questionnaire on tablets (KoboToolbox-like). Households were chosen at random from the village list. The head of household answered. The export gives three linked tables:
+
+- `survey_households.csv` — one row per household: village, interview date, enumerator, characteristics of the head, main income, **monthly income** (Ariary), distance to the coast, **activities** (multiple choice, stored as `fishing;seaweed`), opinion "*The MPA brings benefits to my household*" on a 5-point **Likert scale**, satisfaction score 1–5.
+- `survey_members.csv` — one row per household member: relation to the head, sex, age, schooling, works in seaweed farming.
+- `survey_assets.csv` — one row per asset owned: pirogue, boat, nets, phone…
+
+Some opinions were typed in lower case or with extra spaces when the tablet keyboard was used instead of the choice list, and 5 households were synchronised twice.
+
+**Type of data:** socio-economic survey — categorical (nominal and ordinal) and quantitative variables, at household and individual levels.
+:::
+::: fr
+**Contexte simulé.** En juillet–août 2025, trois enquêteurs (Fara, Tojo, Mamy) ont interrogé **420 ménages** dans 6 villages de la coopérative, avec un questionnaire sur tablette (type KoboToolbox). Les ménages ont été tirés au sort dans la liste du village. Le chef de ménage répondait. L'export donne trois tableaux liés :
+
+- `survey_households.csv` — une ligne par ménage : village, date d'entretien, enquêteur, caractéristiques du chef, revenu principal, **revenu mensuel** (Ariary), distance à la côte, **activités** (choix multiples, stockées sous la forme `fishing;seaweed`), avis « *L'AMP apporte des bénéfices à mon ménage* » sur une **échelle de Likert** à 5 niveaux, satisfaction de 1 à 5.
+- `survey_members.csv` — une ligne par membre du ménage : lien avec le chef, sexe, âge, scolarisation, travail dans l'algoculture.
+- `survey_assets.csv` — une ligne par bien possédé : pirogue, bateau, filets, téléphone…
+
+Certains avis ont été saisis en minuscules ou avec des espaces en trop quand le clavier de la tablette a remplacé la liste de choix, et 5 ménages ont été synchronisés deux fois.
+
+**Type de données :** enquête socio-économique — variables catégorielles (nominales et ordinales) et quantitatives, aux niveaux ménage et individu.
+:::
+:::
+
+```{r}
+hh <- read.csv("data/survey_households.csv", na.strings = "")
+hh <- hh[!duplicated(hh), ]          # 5 households synchronised twice
+dim(hh)
+```
+
+## [Cleaning text with stringr]{.en}[Nettoyer du texte avec stringr]{.fr} {#stringr}
+
+::: en
+**stringr** gathers text functions with consistent names, all starting with `str_`. Their base R equivalents work too:
+
+| stringr | base R | What it does |
+|---|---|---|
+| `str_squish(x)` | `trimws(gsub("\\s+", " ", x))` | removes extra spaces (start, end, double) |
+| `str_to_lower()` / `str_to_upper()` / `str_to_sentence()` / `str_to_title()` | `tolower()` / `toupper()` | changes case |
+| `str_detect(x, "seaweed")` | `grepl("seaweed", x)` | TRUE if the pattern is present |
+| `str_count(x, ";")` | — | counts a pattern |
+| `str_replace_all(x, "a", "b")` | `gsub("a", "b", x)` | replaces a pattern |
+| `str_split(x, ";")` | `strsplit(x, ";")` | splits into pieces |
+| `str_sub(x, 1, 3)` | `substr(x, 1, 3)` | extracts characters |
+:::
+::: fr
+**stringr** rassemble des fonctions de texte aux noms cohérents, toutes commençant par `str_`. Leurs équivalents en R de base fonctionnent aussi :
+
+| stringr | R de base | Ce qu'elle fait |
+|---|---|---|
+| `str_squish(x)` | `trimws(gsub("\\s+", " ", x))` | retire les espaces en trop (début, fin, doubles) |
+| `str_to_lower()` / `str_to_upper()` / `str_to_sentence()` / `str_to_title()` | `tolower()` / `toupper()` | change la casse |
+| `str_detect(x, "seaweed")` | `grepl("seaweed", x)` | TRUE si le motif est présent |
+| `str_count(x, ";")` | — | compte un motif |
+| `str_replace_all(x, "a", "b")` | `gsub("a", "b", x)` | remplace un motif |
+| `str_split(x, ";")` | `strsplit(x, ";")` | découpe en morceaux |
+| `str_sub(x, 1, 3)` | `substr(x, 1, 3)` | extrait des caractères |
+:::
+
+```{r, message=FALSE}
+library(stringr)
+table(hh$mpa_benefits, useNA = "ifany")
+hh$mpa_benefits <- str_to_sentence(str_squish(hh$mpa_benefits))
+table(hh$mpa_benefits, useNA = "ifany")
+```
+
+## [Ordered factors for Likert scales]{.en}[Facteurs ordonnés pour les échelles de Likert]{.fr} {#likert}
+
+::: en
+A Likert answer is **ordinal**: "Agree" is more than "Neutral". Without levels, R sorts answers alphabetically ("Agree", "Disagree", "Neutral"…), which is meaningless in a table or a graph. Give the levels in the right order, and `ordered = TRUE` to allow comparisons.
+:::
+::: fr
+Une réponse de Likert est **ordinale** : « Agree » est plus que « Neutral ». Sans niveaux, R trie les réponses par ordre alphabétique (« Agree », « Disagree », « Neutral »…), ce qui n'a pas de sens dans un tableau ou un graphique. Donnez les niveaux dans le bon ordre, et `ordered = TRUE` pour permettre les comparaisons.
+:::
+
+```{r}
+lik <- c("Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree")
+hh$mpa_benefits <- factor(hh$mpa_benefits, levels = lik, ordered = TRUE)
+table(hh$mpa_benefits)
+round(100 * prop.table(table(hh$mpa_benefits)), 1)    # percentages (NA excluded)
+sum(hh$mpa_benefits >= "Agree", na.rm = TRUE)          # "agree" or "strongly agree"
+```
+
+::: en
+Collapse categories when a scale is too detailed for the sample size, by renaming levels:
+:::
+::: fr
+Regroupez des catégories quand une échelle est trop détaillée pour la taille de l'échantillon, en renommant les niveaux :
+:::
+
+```{r}
+b3 <- hh$mpa_benefits
+levels(b3) <- c("Disagree", "Disagree", "Neutral", "Agree", "Agree")   # same name = merged
+table(b3)
+```
+
+## [Multiple-choice answers]{.en}[Réponses à choix multiples]{.fr} {#multiple}
+
+::: en
+`activities` stores several answers in one cell: `"fishing;seaweed"`. Three useful operations:
+
+1. **count** the answers per household: `str_count(x, ";") + 1`;
+2. create **one TRUE/FALSE column per option**: `str_detect(x, "seaweed")`;
+3. **split** into one row per answer to count each option (long format, Session I2).
+:::
+::: fr
+`activities` stocke plusieurs réponses dans une cellule : `"fishing;seaweed"`. Trois opérations utiles :
+
+1. **compter** les réponses par ménage : `str_count(x, ";") + 1` ;
+2. créer **une colonne TRUE/FALSE par option** : `str_detect(x, "seaweed")` ;
+3. **découper** en une ligne par réponse pour compter chaque option (format long, séance I2).
+:::
+
+```{r, message=FALSE}
+library(tidyr); library(dplyr)
+hh$n_activities <- str_count(hh$activities, ";") + 1
+hh$does_seaweed <- str_detect(hh$activities, "seaweed")
+table(hh$n_activities)
+acts <- hh %>% select(hh_id, village, activities) %>%
+  separate_rows(activities, sep = ";")            # one row per activity
+head(acts)
+sort(table(acts$activities), decreasing = TRUE)
+```
+
+## [Household variables from the member table]{.en}[Variables de ménage à partir des membres]{.fr} {#members}
+
+::: en
+The member table has one row per person. Counting rows per `hh_id` gives the household size; counting with a condition gives, for example, the number of children at school. Then join to the household table (Session I3).
+:::
+::: fr
+Le tableau des membres a une ligne par personne. Compter les lignes par `hh_id` donne la taille du ménage ; compter avec une condition donne, par exemple, le nombre d'enfants scolarisés. Puis on joint au tableau des ménages (séance I3).
+:::
+
+```{r}
+members <- read.csv("data/survey_members.csv", na.strings = "")
+hh_vars <- members %>%
+  group_by(hh_id) %>%
+  summarise(hh_size = n(),
+            n_children = sum(age < 18),
+            n_seaweed_workers = sum(works_seaweed == "yes"))
+hh <- left_join(hh, hh_vars, by = "hh_id")
+summary(hh$hh_size)
+```
+
+## [Cross-tables and percentages]{.en}[Tableaux croisés et pourcentages]{.fr} {#crosstab}
+
+::: en
+`table()` crosses two variables; `prop.table(t, margin = 1)` gives row percentages (each row sums to 100 %). `addmargins()` adds totals.
+:::
+::: fr
+`table()` croise deux variables ; `prop.table(t, margin = 1)` donne les pourcentages en ligne (chaque ligne fait 100 %). `addmargins()` ajoute les totaux.
+:::
+
+```{r}
+t1 <- table(hh$village, b3)
+addmargins(t1)
+round(100 * prop.table(t1, margin = 1), 1)      # % of each opinion within each village
+```
+
+::: compare
+::: {.col .base}
+R base
+
+```{r}
+round(100 * prop.table(table(hh$main_income)), 1)
+```
+:::
+::: {.col .pkg}
+dplyr
+
+```{r}
+hh %>% count(main_income) %>%
+  mutate(pct = round(100 * n / sum(n), 1))
+```
+:::
+:::
+
+`r dl("I4_households_clean.csv", "checkpoint: I4_households_clean.csv", dir = "data/checkpoints")`
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+H <- cp_households()
+a1 <- nrow(H)
+a2 <- sum(H$mpa_benefits == "Agree", na.rm = TRUE)
+a3 <- round(100 * mean(H$mpa_benefits >= "Agree", na.rm = TRUE), 1)
+a4 <- round(mean(H$n_activities), 3)
+a5 <- sum(H$does_seaweed)
+A <- H %>% select(hh_id, activities) %>% separate_rows(activities, sep = ";")
+a6 <- names(sort(table(A$activities), decreasing = TRUE))[2]
+a7 <- round(mean(H$hh_size), 3)
+M <- read.csv("data/survey_members.csv", na.strings = "")
+a8 <- sum(M$in_school == "yes", na.rm = TRUE)
+tv <- prop.table(table(H$village, H$does_seaweed), 1)
+a9 <- rownames(tv)[which.max(tv[, "TRUE"])]
+a10 <- round(100 * mean(H$head_sex == "Female"), 1)
+```
+
+::: application
+::: en
+### Application work I4
+
+Script `scripts/i04_survey.R`.
+
+1. Remove duplicated households. How many households remain?
+2. Clean `mpa_benefits` (`str_squish`, `str_to_sentence`) and make it an ordered factor. How many households answered exactly **"Agree"**?
+3. Percentage of households that answered "Agree" **or** "Strongly agree", among those who answered (1 decimal)?
+4. Mean number of activities per household (3 decimals)?
+5. How many households practise **seaweed** farming (in `activities`)?
+6. Splitting `activities` into one row per answer: which is the **second** most frequent activity?
+7. Mean household size computed from the member table (3 decimals; join on the cleaned households)?
+8. How many members are at school (`in_school == "yes"`)?
+9. Which village has the highest **proportion** of households doing seaweed farming?
+10. Percentage of households headed by a woman (1 decimal)?
+:::
+::: fr
+### Travail d'application I4
+
+Script `scripts/i04_survey.R`.
+
+1. Retirez les ménages en double. Combien de ménages restent ?
+2. Nettoyez `mpa_benefits` (`str_squish`, `str_to_sentence`) et transformez-le en facteur ordonné. Combien de ménages ont répondu exactement **« Agree »** ?
+3. Pourcentage de ménages ayant répondu « Agree » **ou** « Strongly agree », parmi ceux qui ont répondu (1 décimale) ?
+4. Nombre moyen d'activités par ménage (3 décimales) ?
+5. Combien de ménages pratiquent l'**algoculture** (`seaweed` dans `activities`) ?
+6. En découpant `activities` en une ligne par réponse : quelle est la **deuxième** activité la plus fréquente ?
+7. Taille moyenne des ménages calculée à partir du tableau des membres (3 décimales ; jointure sur les ménages nettoyés) ?
+8. Combien de membres sont scolarisés (`in_school == "yes"`) ?
+9. Quel village a la plus forte **proportion** de ménages pratiquant l'algoculture ?
+10. Pourcentage de ménages dirigés par une femme (1 décimale) ?
+:::
+:::
+
+::: hint
+::: en
+Question 3: `mean(x >= "Agree", na.rm = TRUE)` works only on an **ordered** factor. Question 9: `prop.table(table(village, does_seaweed), margin = 1)` then look at the `TRUE` column.
+:::
+::: fr
+Question 3 : `mean(x >= "Agree", na.rm = TRUE)` ne fonctionne que sur un facteur **ordonné**. Question 9 : `prop.table(table(village, does_seaweed), margin = 1)` puis regardez la colonne `TRUE`.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("i04", list(
+  q_num("1. Households after removing duplicates?", "1. Ménages après suppression des doublons ?", a1, tol = 0),
+  q_num("2. Households answering exactly Agree?", "2. Ménages ayant répondu exactement Agree ?", a2, tol = 0),
+  q_num("3. % Agree or Strongly agree (1 decimal)?", "3. % Agree ou Strongly agree (1 décimale) ?", a3, tol = 0.05),
+  q_num("4. Mean number of activities (3 decimals)?", "4. Nombre moyen d'activités (3 décimales) ?", a4, tol = 0.0006),
+  q_num("5. Households doing seaweed farming?", "5. Ménages pratiquant l'algoculture ?", a5, tol = 0),
+  q_text("6. Second most frequent activity?", "6. Deuxième activité la plus fréquente ?", a6),
+  q_num("7. Mean household size (3 decimals)?", "7. Taille moyenne des ménages (3 décimales) ?", a7, tol = 0.0006),
+  q_num("8. Members at school?", "8. Membres scolarisés ?", a8, tol = 0),
+  q_text("9. Village with the highest proportion of seaweed households?", "9. Village à la plus forte proportion de ménages algoculteurs ?", a9),
+  q_num("10. % of households headed by a woman (1 decimal)?", "10. % de ménages dirigés par une femme (1 décimale) ?", a10, tol = 0.05)
+))
+```
+
+::: {.solution data-quiz="i04"}
+```{r, eval=FALSE}
+library(dplyr); library(tidyr); library(stringr)
+hh <- read.csv("data/survey_households.csv", na.strings = "")
+hh <- hh[!duplicated(hh), ]
+nrow(hh)                                                                # 1
+lik <- c("Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree")
+hh$mpa_benefits <- factor(str_to_sentence(str_squish(hh$mpa_benefits)), levels = lik, ordered = TRUE)
+sum(hh$mpa_benefits == "Agree", na.rm = TRUE)                           # 2
+round(100 * mean(hh$mpa_benefits >= "Agree", na.rm = TRUE), 1)          # 3
+hh$n_activities <- str_count(hh$activities, ";") + 1
+round(mean(hh$n_activities), 3)                                         # 4
+hh$does_seaweed <- str_detect(hh$activities, "seaweed")
+sum(hh$does_seaweed)                                                    # 5
+acts <- hh %>% select(hh_id, activities) %>% separate_rows(activities, sep = ";")
+sort(table(acts$activities), decreasing = TRUE)                         # 6
+members <- read.csv("data/survey_members.csv", na.strings = "")
+size <- members %>% count(hh_id, name = "hh_size")
+hh <- left_join(hh, size, by = "hh_id")
+round(mean(hh$hh_size), 3)                                              # 7
+sum(members$in_school == "yes", na.rm = TRUE)                           # 8
+prop.table(table(hh$village, hh$does_seaweed), margin = 1)              # 9
+round(100 * mean(hh$head_sex == "Female"), 1)                           # 10
+```
+:::

@@ -1,0 +1,52 @@
+---
+title: "[What's new]{.en}[Nouveautés]{.fr}"
+pagetitle: "R for marine sciences · What's new"
+---
+
+<!-- Add a section at the TOP each time you publish a new version, and change
+     "version" and "versionDate" in assets/config.js -->
+
+## v3.1 — 2026-11 {.no-track}
+
+::: en
+- **Sessions open one after the other**: finish the quiz of a session with at least **75 %** of the points to open the next one. A practice session counts as one session (75 % of its six exercises together).
+- The pass mark is now **75 %** for sessions and levels.
+- After two attempts below 75 %, you are taken to a **help page** with the teacher's contacts.
+- Beginner sessions now have, like the Intermediate ones, a description of how the data were collected, **hints**, **try-it** boxes and **checkpoint files**.
+- Sessions you already started stay open.
+:::
+::: fr
+- **Les séances s'ouvrent l'une après l'autre** : terminez le quiz d'une séance avec au moins **75 %** des points pour ouvrir la suivante. Une séance d'exercices compte comme une séance (75 % de ses six exercices réunis).
+- Le seuil de réussite est maintenant de **75 %** pour les séances et les niveaux.
+- Après deux tentatives sous 75 %, vous êtes redirigé vers une **page d'aide** avec les contacts de l'enseignante.
+- Les séances du niveau débutant ont maintenant, comme celles du niveau intermédiaire, une description de la collecte des données, des **indices**, des encadrés **« À vous »** et des **fichiers checkpoint**.
+- Les séances que vous avez déjà commencées restent ouvertes.
+:::
+
+## v3.0 — 2026-11 {.no-track}
+
+::: en
+- The course becomes **R for marine sciences**, with three levels: Beginner, Intermediate (new) and Advanced (coming soon).
+- **2 attempts per quiz**; the best attempt counts. **Hints** (💡) in the exercises.
+- **80 % of the points of a level** (75 % since v3.1) (practice quizzes included) opens the next level and gives a **certificate**.
+- New pages: **Common errors**, **Help**, a cheatsheet for each level, and a setup-check script.
+- **Intermediate level** complete: 14 sessions (I0–I13) on aquaculture, water-quality and household-survey data — real files, dates, reshaping, joins, loops, functions, ggplot2, distributions and tests, first maps — with a practice session, a final project, a cheatsheet and slides.
+- Your beginner progress and scores are kept.
+:::
+::: fr
+- Le cours devient **R pour les sciences marines**, avec trois niveaux : Débutant, Intermédiaire (nouveau) et Avancé (bientôt).
+- **2 tentatives par quiz** ; la meilleure tentative compte. **Indices** (💡) dans les exercices.
+- **80 % des points d'un niveau** (75 % depuis la v3.1) (quiz d'exercices compris) ouvrent le niveau suivant et donnent un **certificat**.
+- Nouvelles pages : **Erreurs fréquentes**, **Aide**, un aide-mémoire par niveau, et un script de vérification de l'installation.
+- **Niveau intermédiaire** complet : 14 séances (I0–I13) sur des données d'aquaculture, de qualité de l'eau et d'enquête ménages — vrais fichiers, dates, restructuration, jointures, boucles, fonctions, ggplot2, distributions et tests, premières cartes — avec une séance d'exercices, un projet final, un aide-mémoire et des diapositives.
+- Votre progression et vos scores du niveau débutant sont conservés.
+:::
+
+## v2.0 — 2026-11 {.no-track}
+
+::: en
+- Beginner level reorganised in 11 sessions, with a practice session, a cheatsheet and slides.
+:::
+::: fr
+- Niveau débutant réorganisé en 11 séances, avec une séance d'exercices, un aide-mémoire et des diapositives.
+:::

@@ -35,6 +35,21 @@ Nouveau script `scripts/s04_cleaning.R`. Commencez par importer le jeu de donné
 :::
 :::
 
+::: {.callout .ecology}
+::: en
+**Seagrass survey** (`seagrass_quadrats.csv`): in March 2026 a team of two snorkellers sampled **4 sites** (Ambalaboy and Fasimena inside a Marine Protected Area, Belitsaky and Tsiandamba outside), **15 quadrats of 50 × 50 cm** per site, placed every 5 m along a tape. For each quadrat they wrote on an underwater slate the depth (dive computer), the dominant species, the % cover (visual estimate), the canopy height (ruler, cm) and the number of shoots, converted to shoots per m². *Type:* one row = one quadrat; numeric (continuous) and categorical variables.
+
+**The same survey, as typed by three people** (`seagrass_messy.csv`): the slates were typed into a shared spreadsheet by three volunteers, then merged. Result: site names written in different ways, the cover typed as text (`45%`, `-` for "not measured"), a few typing errors above 100 % and rows entered twice. *Type:* the same variables as `seagrass_quadrats.csv`, before cleaning.
+:::
+::: fr
+**Suivi des herbiers** (`seagrass_quadrats.csv`) : en mars 2026, une équipe de deux plongeurs en apnée a échantillonné **4 sites** (Ambalaboy et Fasimena dans une Aire Marine Protégée, Belitsaky et Tsiandamba à l'extérieur), **15 quadrats de 50 × 50 cm** par site, posés tous les 5 m le long d'un ruban. Pour chaque quadrat ils ont noté sur une ardoise la profondeur (ordinateur de plongée), l'espèce dominante, le % de recouvrement (estimation visuelle), la hauteur de canopée (règle, cm) et le nombre de pousses, converti en pousses par m². *Type :* une ligne = un quadrat ; variables numériques (continues) et catégorielles.
+
+**Le même suivi, saisi par trois personnes** (`seagrass_messy.csv`) : les ardoises ont été saisies par trois bénévoles dans un tableur partagé, puis fusionnées. Résultat : des noms de sites écrits de plusieurs façons, le recouvrement saisi en texte (`45%`, `-` pour « non mesuré »), quelques erreurs de frappe au-dessus de 100 % et des lignes saisies deux fois. *Type :* les mêmes variables que `seagrass_quadrats.csv`, avant nettoyage.
+:::
+:::
+
+`r dl("seagrass_quadrats.csv", "seagrass_quadrats.csv")` `r dl("seagrass_messy.csv", "seagrass_messy.csv")`
+
 ## [Combining conditions]{.en}[Combiner des conditions]{.fr} {#logic}
 
 ::: en
@@ -320,6 +335,17 @@ colSums(is.na(clean))        # number of NA per column
 write.csv(clean, "outputs/seagrass_clean.csv", row.names = FALSE)
 ```
 
+::: {.callout .tip}
+::: en
+**Checkpoint.** The messy file once cleaned with the code of this session (60 rows):
+:::
+::: fr
+**Checkpoint.** Le fichier sale une fois nettoyé avec le code de cette séance (60 lignes) :
+:::
+:::
+
+`r dl("B05_seagrass_clean.csv", "B05_seagrass_clean.csv", dir = "data/checkpoints")`
+
 ## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
 
 ```{r answers05, include=FALSE}
@@ -389,6 +415,15 @@ a_ncolr <- ncol(subset(sg, select = site:species))
 6. Recouvrement moyen des données propres (sans NA), arrondi à 2 décimales.
 7. Recouvrement moyen à Belitsaky (sans NA), arrondi à 2 décimales.
 8. Combien de quadrats sont **Inside** l'AMP avec un recouvrement > 50 % ? (utilisez `subset()`)
+:::
+:::
+
+::: hint
+::: en
+Part A: inside `subset()` or `[ ]`, `&` means AND, `|` means OR; `site %in% c("Ambalaboy", "Fasimena")` replaces two `|`. Part B: follow the order of the questions — the number of duplicates is only correct **after** cleaning the site names.
+:::
+::: fr
+Partie A : dans `subset()` ou `[ ]`, `&` signifie ET, `|` signifie OU ; `site %in% c("Ambalaboy", "Fasimena")` remplace deux `|`. Partie B : suivez l'ordre des questions — le nombre de doublons n'est juste **qu'après** avoir nettoyé les noms de sites.
 :::
 :::
 

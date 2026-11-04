@@ -1,0 +1,340 @@
+---
+title: "[I7 · Mastering ggplot2 (1): scales, colours, themes, facets]{.en}[I7 · Maîtriser ggplot2 (1) : échelles, couleurs, thèmes, panneaux]{.fr}"
+pagetitle: "R for marine sciences · I7"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/intermediate_pipeline.R")
+library(ggplot2)
+seaweed <- cp_seaweed()
+wq_tidy <- cp_wq_tidy()
+knitr::opts_chunk$set(fig.width = 7.5, fig.height = 4.2, out.width = "90%")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- tell **mapping** (`aes()`, linked to data) from **setting** (a fixed value) of colours, sizes and shapes;
+- control **axes**: limits, breaks, labels, log scales, zooming without losing data;
+- choose **colour palettes** that are clear, printable and readable by colour-blind people;
+- write complete **labels** (title, subtitle, caption, units) and adjust the **theme**;
+- split a graph into **panels** with `facet_wrap()` and `facet_grid()`.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- distinguer **associer** (`aes()`, lié aux données) et **fixer** (une valeur constante) les couleurs, tailles et formes ;
+- contrôler les **axes** : limites, graduations, étiquettes, échelles logarithmiques, zoom sans perdre de données ;
+- choisir des **palettes de couleurs** claires, imprimables et lisibles par les daltoniens ;
+- écrire des **étiquettes** complètes (titre, sous-titre, légende, unités) et ajuster le **thème** ;
+- découper un graphique en **panneaux** avec `facet_wrap()` et `facet_grid()`.
+:::
+:::
+
+`r dl("I3_seaweed_analysis.csv", "checkpoint: I3_seaweed_analysis.csv", dir = "data/checkpoints")` `r dl("I2_water_quality_clean.csv", "checkpoint: I2_water_quality_clean.csv", dir = "data/checkpoints")`
+
+::: {.callout .tip}
+::: en
+Reminder of the grammar (Beginner, Session 8): `ggplot(data, aes(x, y, colour = ...)) + geom_*() + scale_*() + labs() + theme_*() + facet_*()`. This session is about the last four layers: they turn a correct graph into a **clear** graph.
+:::
+::: fr
+Rappel de la grammaire (Débutant, séance 8) : `ggplot(données, aes(x, y, colour = ...)) + geom_*() + scale_*() + labs() + theme_*() + facet_*()`. Cette séance porte sur les quatre dernières couches : elles transforment un graphique correct en graphique **clair**.
+:::
+:::
+
+## [Mapping or setting?]{.en}[Associer ou fixer ?]{.fr} {#mapping}
+
+::: en
+- **Inside `aes()`**: the colour *depends on a column* → a legend is created.
+- **Outside `aes()`**: the colour is *the same for every point* → no legend.
+
+A classic mistake is `aes(colour = "blue")`: ggplot treats "blue" as a category called "blue" and draws it in red with a legend.
+:::
+::: fr
+- **Dans `aes()`** : la couleur *dépend d'une colonne* → une légende est créée.
+- **Hors de `aes()`** : la couleur est *la même pour tous les points* → pas de légende.
+
+Erreur classique : `aes(colour = "blue")` : ggplot traite « blue » comme une catégorie appelée « blue » et la dessine en rouge avec une légende.
+:::
+
+::: compare
+::: {.col .base}
+mapping
+
+```{r, fig.width=5, fig.height=3.6, out.width="100%"}
+ggplot(seaweed, aes(temp_mean, sgr,
+                    colour = technique)) +
+  geom_point(alpha = 0.4, na.rm = TRUE)
+```
+:::
+::: {.col .pkg}
+setting
+
+```{r, fig.width=5, fig.height=3.6, out.width="100%"}
+ggplot(seaweed, aes(temp_mean, sgr)) +
+  geom_point(colour = "#1b7f8c",
+             alpha = 0.4, na.rm = TRUE)
+```
+:::
+:::
+
+::: en
+`alpha` (0 = transparent, 1 = opaque) reveals where points overlap: essential with 2 000+ points.
+:::
+::: fr
+`alpha` (0 = transparent, 1 = opaque) révèle où les points se superposent : indispensable avec plus de 2 000 points.
+:::
+
+## [Axes: limits, breaks, labels]{.en}[Axes : limites, graduations, étiquettes]{.fr} {#axes}
+
+::: en
+Every aesthetic has a **scale**: `scale_x_continuous()`, `scale_y_continuous()`, `scale_x_discrete()`, `scale_x_date()`… Their main arguments: `breaks` (where the ticks are), `labels` (what they say), `limits` (range), `expand` (space around the data).
+:::
+::: fr
+Chaque esthétique a une **échelle** : `scale_x_continuous()`, `scale_y_continuous()`, `scale_x_discrete()`, `scale_x_date()`… Leurs arguments principaux : `breaks` (position des graduations), `labels` (ce qu'elles affichent), `limits` (étendue), `expand` (espace autour des données).
+:::
+
+```{r}
+ggplot(seaweed, aes(temp_mean, sgr)) +
+  geom_point(alpha = 0.3, colour = "#1b7f8c", na.rm = TRUE) +
+  scale_x_continuous(breaks = seq(23, 30, by = 1)) +
+  scale_y_continuous(breaks = seq(1, 6, by = 0.5),
+                     labels = function(v) paste0(v, " %/d"))   # custom labels
+```
+
+::: {.callout .warning}
+::: en
+**Zoom or cut?** `scale_y_continuous(limits = c(2, 5))` **removes** the points outside the range *before* any calculation (a boxplot or a mean would change!). `coord_cartesian(ylim = c(2, 5))` only **zooms**: all data are kept. To zoom, use `coord_cartesian()`.
+:::
+::: fr
+**Zoomer ou couper ?** `scale_y_continuous(limits = c(2, 5))` **supprime** les points hors de l'intervalle *avant* tout calcul (un boxplot ou une moyenne changerait !). `coord_cartesian(ylim = c(2, 5))` ne fait que **zoomer** : toutes les données sont gardées. Pour zoomer, utilisez `coord_cartesian()`.
+:::
+:::
+
+::: en
+**Log scale** for right-skewed variables such as turbidity or income: equal distances represent equal *ratios*.
+:::
+::: fr
+**Échelle logarithmique** pour les variables asymétriques comme la turbidité ou le revenu : des distances égales représentent des *rapports* égaux.
+:::
+
+```{r, fig.height=3.6}
+turb <- subset(wq_tidy, parameter == "turbidity_NTU")
+ggplot(turb, aes(station, value)) +
+  geom_boxplot(fill = "#a8d5da") +
+  scale_y_log10(breaks = c(1, 2, 5, 10, 20)) +
+  labs(x = NULL, y = "Turbidity (NTU, log scale)")
+```
+
+## [Colours that work for everyone]{.en}[Des couleurs qui marchent pour tout le monde]{.fr} {#colours}
+
+::: en
+About 1 man in 12 does not distinguish red from green. Reports are also often printed in grey. Three good choices:
+
+| Data | Palette | Function |
+|---|---|---|
+| categories (sites, techniques) | qualitative, few colours | `scale_colour_brewer(palette = "Dark2")`, `scale_fill_manual(values = c(...))` |
+| a continuous value (temperature, cover) | sequential, colour-blind safe | `scale_colour_viridis_c()`, `scale_fill_viridis_c(option = "mako")` |
+| a value around a centre (anomaly, change) | diverging | `scale_fill_distiller(palette = "RdBu")`, `scale_fill_gradient2()` |
+
+Use `fill` for areas (bars, boxes, polygons) and `colour` for points and lines.
+:::
+::: fr
+Environ 1 homme sur 12 ne distingue pas le rouge du vert. Les rapports sont aussi souvent imprimés en gris. Trois bons choix :
+
+| Données | Palette | Fonction |
+|---|---|---|
+| catégories (sites, techniques) | qualitative, peu de couleurs | `scale_colour_brewer(palette = "Dark2")`, `scale_fill_manual(values = c(...))` |
+| une valeur continue (température, couverture) | séquentielle, adaptée aux daltoniens | `scale_colour_viridis_c()`, `scale_fill_viridis_c(option = "mako")` |
+| une valeur autour d'un centre (anomalie, variation) | divergente | `scale_fill_distiller(palette = "RdBu")`, `scale_fill_gradient2()` |
+
+Utilisez `fill` pour les surfaces (barres, boîtes, polygones) et `colour` pour les points et les lignes.
+:::
+
+```{r}
+ggplot(seaweed, aes(zone, sgr, fill = technique)) +
+  geom_boxplot(na.rm = TRUE) +
+  scale_fill_brewer(palette = "Dark2")
+```
+
+```{r}
+ggplot(seaweed, aes(planting_date, sgr, colour = temp_mean)) +
+  geom_point(alpha = 0.6, size = 1.2, na.rm = TRUE) +
+  scale_colour_viridis_c(option = "plasma", name = "Temp. (°C)")
+```
+
+::: en
+To force the order of categories (e.g. North → South), set factor levels before plotting: `seaweed$zone <- factor(seaweed$zone, levels = c("North", "Centre", "South"))`.
+:::
+::: fr
+Pour imposer l'ordre des catégories (ex. Nord → Sud), fixez les niveaux du facteur avant de tracer : `seaweed$zone <- factor(seaweed$zone, levels = c("North", "Centre", "South"))`.
+:::
+
+## [Labels and themes]{.en}[Étiquettes et thèmes]{.fr} {#themes}
+
+::: en
+A figure must be understandable **alone**: say *what*, *where*, *when* and *in which unit*. `labs()` sets the title, subtitle, caption, axis and legend titles. `theme_*()` changes the overall look; `theme()` adjusts any detail.
+:::
+::: fr
+Une figure doit être compréhensible **seule** : dire *quoi*, *où*, *quand* et *dans quelle unité*. `labs()` fixe le titre, le sous-titre, la source, les titres d'axes et de légende. `theme_*()` change l'aspect général ; `theme()` ajuste n'importe quel détail.
+:::
+
+```{r}
+seaweed$zone <- factor(seaweed$zone, levels = c("North", "Centre", "South"))
+ggplot(seaweed, aes(zone, sgr, fill = technique)) +
+  geom_boxplot(na.rm = TRUE, outlier.alpha = 0.3) +
+  scale_fill_manual(values = c("long-line" = "#1b7f8c", "off-bottom" = "#e3b04b")) +
+  labs(title = "Seaweed growth by zone and farming technique",
+       subtitle = "Fanantenana cooperative, 2024–2025, one point = one farming line",
+       caption = "Simulated data — R for marine sciences",
+       x = NULL, y = "Specific growth rate (% per day)", fill = "Technique") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "top",
+        plot.title = element_text(face = "bold"),
+        panel.grid.major.x = element_blank())
+```
+
+::: en
+| `theme()` element | Controls | Example |
+|---|---|---|
+| `legend.position` | where the legend is | `"top"`, `"none"`, `c(0.9, 0.2)` |
+| `axis.text.x` | text of the x ticks | `element_text(angle = 45, hjust = 1)` |
+| `panel.grid.minor` | minor grid lines | `element_blank()` (remove) |
+| `plot.title` | title | `element_text(size = 16, face = "bold")` |
+| `strip.text` | titles of facets | `element_text(face = "italic")` |
+:::
+::: fr
+| Élément de `theme()` | Contrôle | Exemple |
+|---|---|---|
+| `legend.position` | position de la légende | `"top"`, `"none"`, `c(0.9, 0.2)` |
+| `axis.text.x` | texte des graduations x | `element_text(angle = 45, hjust = 1)` |
+| `panel.grid.minor` | lignes de grille secondaires | `element_blank()` (supprimer) |
+| `plot.title` | titre | `element_text(size = 16, face = "bold")` |
+| `strip.text` | titres des panneaux | `element_text(face = "italic")` |
+:::
+
+## [Panels: facet_wrap() and facet_grid()]{.en}[Panneaux : facet_wrap() et facet_grid()]{.fr} {#facets}
+
+::: en
+`facet_wrap(~ variable)` makes one panel per category. With the **long** water-quality table (Session I2), one line of code draws the five parameters — each with its own y-axis thanks to `scales = "free_y"`.
+:::
+::: fr
+`facet_wrap(~ variable)` fait un panneau par catégorie. Avec le tableau **long** de qualité de l'eau (séance I2), une ligne de code trace les cinq paramètres — chacun avec son propre axe y grâce à `scales = "free_y"`.
+:::
+
+```{r, fig.height=5.2}
+ggplot(wq_tidy, aes(date, value)) +
+  geom_point(size = 0.5, alpha = 0.4, colour = "#0b3d5c", na.rm = TRUE) +
+  facet_wrap(~ parameter, scales = "free_y", ncol = 2) +
+  labs(x = NULL, y = NULL, title = "Water quality at 10 stations, 2023–2025") +
+  theme_bw()
+```
+
+::: en
+`facet_grid(rows ~ cols)` crosses two variables:
+:::
+::: fr
+`facet_grid(lignes ~ colonnes)` croise deux variables :
+:::
+
+```{r, fig.height=4.4}
+ggplot(seaweed, aes(sgr)) +
+  geom_histogram(binwidth = 0.25, fill = "#4a7d3a", colour = "white", na.rm = TRUE) +
+  facet_grid(season ~ technique) +
+  labs(x = "SGR (% per day)", y = "Number of lines")
+```
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+S <- cp_seaweed()
+a1 <- sum(is.na(S$sgr))
+m <- tapply(S$sgr, list(S$zone, S$technique), median, na.rm = TRUE)
+a2 <- round(m["South", "long-line"], 3)
+T <- cp_wq_tidy(); tu <- T[T$parameter == "turbidity_NTU", ]
+mt <- tapply(tu$value, tu$station, median, na.rm = TRUE); a3 <- names(which.max(mt))
+a4 <- length(unique(T$parameter))
+a5 <- sum(S$season == "wet" & S$technique == "off-bottom" & !is.na(S$sgr))
+a6 <- sum(S$sgr > 5, na.rm = TRUE)
+```
+
+::: application
+::: en
+### Application work I7
+
+Script `scripts/i07_ggplot.R`. Save each figure with `ggsave()` in `outputs/` (16 × 10 cm, 300 dpi).
+
+1. Scatter plot of `sgr` against `temp_mean`, coloured by `technique` (Dark2 palette), with `alpha = 0.4`, complete labels and `theme_minimal()`. ggplot warns that some rows were removed: how many lines have no SGR?
+2. Boxplot of `sgr` by zone (North → Centre → South) and technique. What is the **median** SGR of long-line lines in the South zone (3 decimals, use `tapply(..., median, na.rm = TRUE)` to check)?
+3. Boxplot of turbidity by station on a log scale. Which station has the highest median turbidity?
+4. Faceted plot of all water-quality parameters with free y-axes. How many panels?
+5. Histograms of SGR with `facet_grid(season ~ technique)`. How many lines with an SGR are in the panel *wet × off-bottom*?
+6. How many lines have an SGR above 5 % per day?
+:::
+::: fr
+### Travail d'application I7
+
+Script `scripts/i07_ggplot.R`. Enregistrez chaque figure avec `ggsave()` dans `outputs/` (16 × 10 cm, 300 dpi).
+
+1. Nuage de points de `sgr` en fonction de `temp_mean`, coloré par `technique` (palette Dark2), avec `alpha = 0.4`, des étiquettes complètes et `theme_minimal()`. ggplot avertit que des lignes ont été retirées : combien de lignes n'ont pas de SGR ?
+2. Boxplot de `sgr` par zone (North → Centre → South) et technique. Quelle est la **médiane** du SGR des lignes long-line en zone South (3 décimales, vérifiez avec `tapply(..., median, na.rm = TRUE)`) ?
+3. Boxplot de la turbidité par station en échelle logarithmique. Quelle station a la turbidité médiane la plus élevée ?
+4. Graphique en panneaux de tous les paramètres de qualité de l'eau avec des axes y libres. Combien de panneaux ?
+5. Histogrammes du SGR avec `facet_grid(season ~ technique)`. Combien de lignes avec un SGR sont dans le panneau *wet × off-bottom* ?
+6. Combien de lignes ont un SGR supérieur à 5 % par jour ?
+:::
+:::
+
+::: hint
+::: en
+Question 2: `tapply(seaweed$sgr, list(seaweed$zone, seaweed$technique), median, na.rm = TRUE)` gives a zone × technique table.
+:::
+::: fr
+Question 2 : `tapply(seaweed$sgr, list(seaweed$zone, seaweed$technique), median, na.rm = TRUE)` donne un tableau zone × technique.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("i07", list(
+  q_num("1. Lines without SGR?", "1. Lignes sans SGR ?", a1, tol = 0),
+  q_num("2. Median SGR, long-line, South (3 decimals)?", "2. Médiane du SGR, long-line, South (3 décimales) ?", a2, tol = 0.0006),
+  q_text("3. Station with the highest median turbidity?", "3. Station à la turbidité médiane la plus élevée ?", a3),
+  q_num("4. Number of panels?", "4. Nombre de panneaux ?", a4, tol = 0),
+  q_num("5. Lines with SGR in the wet × off-bottom panel?", "5. Lignes avec SGR dans le panneau wet × off-bottom ?", a5, tol = 0),
+  q_num("6. Lines with SGR above 5?", "6. Lignes avec un SGR supérieur à 5 ?", a6, tol = 0),
+  q_mcq("7. Which code zooms on y between 2 and 5 WITHOUT removing data?", "7. Quel code zoome sur y entre 2 et 5 SANS retirer de données ?",
+        c("scale_y_continuous(limits = c(2, 5))", "ylim(2, 5)", "coord_cartesian(ylim = c(2, 5))", "filter(sgr > 2, sgr < 5)"), correct = 3),
+  q_mcq("8. ggplot(d, aes(x, y, colour = \"blue\")) + geom_point() gives:", "8. ggplot(d, aes(x, y, colour = \"blue\")) + geom_point() donne :",
+        c("blue points", "red points with a legend \"blue\"", "an error", "black points"),
+        c("des points bleus", "des points rouges avec une légende « blue »", "une erreur", "des points noirs"), correct = 2),
+  q_mcq("9. Which palette suits a continuous variable and colour-blind readers?", "9. Quelle palette convient à une variable continue et aux daltoniens ?",
+        c("scale_colour_viridis_c()", "scale_colour_brewer(palette = \"Set1\")", "red to green gradient", "rainbow()"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="i07"}
+```{r, eval=FALSE}
+library(ggplot2)
+seaweed <- read.csv("data/checkpoints/I3_seaweed_analysis.csv")
+seaweed$planting_date <- as.Date(seaweed$planting_date)
+seaweed$zone <- factor(seaweed$zone, levels = c("North", "Centre", "South"))
+p1 <- ggplot(seaweed, aes(temp_mean, sgr, colour = technique)) +
+  geom_point(alpha = 0.4) + scale_colour_brewer(palette = "Dark2") +
+  labs(x = "Mean sea temperature of the month (°C)", y = "SGR (% per day)", colour = "Technique") +
+  theme_minimal()
+ggsave("outputs/i07_sgr_temp.png", p1, width = 16, height = 10, units = "cm", dpi = 300)
+sum(is.na(seaweed$sgr))                                                         # 1
+tapply(seaweed$sgr, list(seaweed$zone, seaweed$technique), median, na.rm = TRUE) # 2
+wq <- read.csv("data/checkpoints/I2_water_quality_clean.csv")
+wq$date <- as.Date(wq$date)
+tidy <- tidyr::pivot_longer(wq, temp_C:turbidity_NTU, names_to = "parameter", values_to = "value")
+turb <- subset(tidy, parameter == "turbidity_NTU")
+ggplot(turb, aes(station, value)) + geom_boxplot() + scale_y_log10()
+sort(tapply(turb$value, turb$station, median, na.rm = TRUE))                    # 3
+ggplot(tidy, aes(date, value)) + geom_point(size = 0.5) + facet_wrap(~ parameter, scales = "free_y")
+length(unique(tidy$parameter))                                                  # 4
+sum(seaweed$season == "wet" & seaweed$technique == "off-bottom" & !is.na(seaweed$sgr))  # 5
+sum(seaweed$sgr > 5, na.rm = TRUE)                                              # 6
+```
+:::

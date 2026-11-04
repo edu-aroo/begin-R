@@ -28,6 +28,21 @@ sg <- read.csv("data/seagrass_quadrats.csv")
 :::
 :::
 
+::: {.callout .ecology}
+::: en
+**Seagrass survey** (`seagrass_quadrats.csv`): in March 2026 a team of two snorkellers sampled **4 sites** (Ambalaboy and Fasimena inside a Marine Protected Area, Belitsaky and Tsiandamba outside), **15 quadrats of 50 × 50 cm** per site, placed every 5 m along a tape. For each quadrat they wrote on an underwater slate the depth (dive computer), the dominant species, the % cover (visual estimate), the canopy height (ruler, cm) and the number of shoots, converted to shoots per m². *Type:* one row = one quadrat; numeric (continuous) and categorical variables.
+
+**Reef fish census** (`fish_uvc.csv`): underwater visual census on **4 reefs** (Andavaka and Belavenoke inside the MPA, Ambola and Tsifota outside), **3 belt transects of 50 × 5 m** (250 m²) per reef. A diver swam each transect and recorded every group of fish: species, family, estimated total length (cm) and number of individuals. The length–weight parameters `a` and `b` were added afterwards from FishBase. *Type:* one row = one group of fish of the same species and size; counts (integers), lengths (continuous), categories.
+:::
+::: fr
+**Suivi des herbiers** (`seagrass_quadrats.csv`) : en mars 2026, une équipe de deux plongeurs en apnée a échantillonné **4 sites** (Ambalaboy et Fasimena dans une Aire Marine Protégée, Belitsaky et Tsiandamba à l'extérieur), **15 quadrats de 50 × 50 cm** par site, posés tous les 5 m le long d'un ruban. Pour chaque quadrat ils ont noté sur une ardoise la profondeur (ordinateur de plongée), l'espèce dominante, le % de recouvrement (estimation visuelle), la hauteur de canopée (règle, cm) et le nombre de pousses, converti en pousses par m². *Type :* une ligne = un quadrat ; variables numériques (continues) et catégorielles.
+
+**Comptage des poissons récifaux** (`fish_uvc.csv`) : comptage visuel sous-marin sur **4 récifs** (Andavaka et Belavenoke dans l'AMP, Ambola et Tsifota à l'extérieur), **3 transects-bandes de 50 × 5 m** (250 m²) par récif. Un plongeur a parcouru chaque transect en notant chaque groupe de poissons : espèce, famille, longueur totale estimée (cm) et nombre d'individus. Les paramètres taille–poids `a` et `b` ont été ajoutés ensuite depuis FishBase. *Type :* une ligne = un groupe de poissons de même espèce et de même taille ; effectifs (entiers), longueurs (continues), catégories.
+:::
+:::
+
+`r dl("seagrass_quadrats.csv", "seagrass_quadrats.csv")` `r dl("fish_uvc.csv", "fish_uvc.csv")` `r dl("B04_fish_biomass.csv", "B04_fish_biomass.csv", dir = "data/checkpoints")`
+
 ## [What is a package?]{.en}[Qu'est-ce qu'un package ?]{.fr} {#what-package}
 
 ::: en
@@ -356,6 +371,15 @@ sg |>
 :::
 :::
 
+::: {.callout .try}
+::: en
+**Try it.** With dplyr, keep the quadrats of the **Inside** sites deeper than 1 m, keep only `site`, `depth_m` and `seagrass_cover`, and sort them by decreasing cover. Then write the same in base R with `subset()` and `order()`: do you get the same rows?
+:::
+::: fr
+**À vous.** Avec dplyr, gardez les quadrats des sites **Inside** à plus de 1 m de profondeur, ne gardez que `site`, `depth_m` et `seagrass_cover`, et triez-les par recouvrement décroissant. Écrivez ensuite la même chose en R de base avec `subset()` et `order()` : obtenez-vous les mêmes lignes ?
+:::
+:::
+
 ## [ggplot2 and its base R equivalents]{.en}[ggplot2 et ses équivalents en R de base]{.fr} {#ggplot}
 
 ::: en
@@ -608,6 +632,15 @@ Nouveau script `scripts/s08_tidyverse.R`, commençant par `library(dplyr)`, `lib
 5. ET de `kg_ha` pour **Tsifota** (2 décimales) ?
 6. `count(family)` : combien de lignes sont des Scaridae ?
 7. Faites le barplot des moyennes de `kg_ha` ± ET par site avec ggplot2 **et** avec R de base, et enregistrez les deux.
+:::
+:::
+
+::: hint
+::: en
+Question 4: biomass density must be computed **per transect first** (one value per transect), then averaged per site: two `group_by()` + `summarise()` in a row. Do not forget `library(dplyr)` and `library(ggplot2)` at the top of the script.
+:::
+::: fr
+Question 4 : la densité de biomasse se calcule **d'abord par transect** (une valeur par transect), puis on fait la moyenne par site : deux `group_by()` + `summarise()` à la suite. N'oubliez pas `library(dplyr)` et `library(ggplot2)` en haut du script.
 :::
 :::
 

@@ -31,8 +31,10 @@
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <!-- header.html: inserted inside <head> of every page (see _site.yml) -->
-<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
 <script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
 <script src="assets/course.js"></script>
 <meta name="author" content="Aroo Falinirina">
 
@@ -333,7 +335,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -342,7 +344,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
+    Beginner
      
     <span class="caret"></span>
   </a>
@@ -382,8 +384,83 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
 <li>
-  <a href="cheatsheet.html">Cheatsheet</a>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -459,6 +536,56 @@ faites-les avant de continuer. Ils ne sont pas notés ; le quiz noté est
 à la fin.</p>
 </div>
 </div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Seagrass survey</strong>
+(<code>seagrass_quadrats.csv</code>): in March 2026 a team of two
+snorkellers sampled <strong>4 sites</strong> (Ambalaboy and Fasimena
+inside a Marine Protected Area, Belitsaky and Tsiandamba outside),
+<strong>15 quadrats of 50 × 50 cm</strong> per site, placed every 5 m
+along a tape. For each quadrat they wrote on an underwater slate the
+depth (dive computer), the dominant species, the % cover (visual
+estimate), the canopy height (ruler, cm) and the number of shoots,
+converted to shoots per m². <em>Type:</em> one row = one quadrat;
+numeric (continuous) and categorical variables.</p>
+<p><strong>Reef fish census</strong> (<code>fish_uvc.csv</code>):
+underwater visual census on <strong>4 reefs</strong> (Andavaka and
+Belavenoke inside the MPA, Ambola and Tsifota outside), <strong>3 belt
+transects of 50 × 5 m</strong> (250 m²) per reef. A diver swam each
+transect and recorded every group of fish: species, family, estimated
+total length (cm) and number of individuals. The length–weight
+parameters <code>a</code> and <code>b</code> were added afterwards from
+FishBase. <em>Type:</em> one row = one group of fish of the same species
+and size; counts (integers), lengths (continuous), categories.</p>
+</div>
+<div class="fr">
+<p><strong>Suivi des herbiers</strong>
+(<code>seagrass_quadrats.csv</code>) : en mars 2026, une équipe de deux
+plongeurs en apnée a échantillonné <strong>4 sites</strong> (Ambalaboy
+et Fasimena dans une Aire Marine Protégée, Belitsaky et Tsiandamba à
+l’extérieur), <strong>15 quadrats de 50 × 50 cm</strong> par site, posés
+tous les 5 m le long d’un ruban. Pour chaque quadrat ils ont noté sur
+une ardoise la profondeur (ordinateur de plongée), l’espèce dominante,
+le % de recouvrement (estimation visuelle), la hauteur de canopée
+(règle, cm) et le nombre de pousses, converti en pousses par m².
+<em>Type :</em> une ligne = un quadrat ; variables numériques
+(continues) et catégorielles.</p>
+<p><strong>Comptage des poissons récifaux</strong>
+(<code>fish_uvc.csv</code>) : comptage visuel sous-marin sur <strong>4
+récifs</strong> (Andavaka et Belavenoke dans l’AMP, Ambola et Tsifota à
+l’extérieur), <strong>3 transects-bandes de 50 × 5 m</strong> (250 m²)
+par récif. Un plongeur a parcouru chaque transect en notant chaque
+groupe de poissons : espèce, famille, longueur totale estimée (cm) et
+nombre d’individus. Les paramètres taille–poids <code>a</code> et
+<code>b</code> ont été ajoutés ensuite depuis FishBase. <em>Type :</em>
+une ligne = un groupe de poissons de même espèce et de même taille ;
+effectifs (entiers), longueurs (continues), catégories.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/seagrass_quadrats.csv" download>⇩
+seagrass_quadrats.csv</a>
+<a class="btn-dl" href="data/fish_uvc.csv" download>⇩
+fish_uvc.csv</a></p>
 <div id="address" class="section level2">
 <h2><span class="en">The address system
 <code>[row, column]</code></span><span class="fr">Le système d’adresse
@@ -477,8 +604,7 @@ une carte quadrillée. En R, on écrit l’adresse entre crochets,
 <strong>d’abord les lignes, puis une virgule, puis les
 colonnes</strong>. Laisser un côté vide signifie « tout ».</p>
 </div>
-<figure class="svg-fig">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" role="img" aria-label="Selecting rows, columns and blocks with [row, column]" font-family="Source Sans 3, Arial, sans-serif">
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" role="img" aria-label="Selecting rows, columns and blocks with [row, column]" font-family="Source Sans 3, Arial, sans-serif">
 <defs>
 <g id="grid"><g fill="#f7f9fa" stroke="#c9d3d8"><rect x="0" y="0" width="50" height="26"/><rect x="50" y="0" width="50" height="26"/><rect x="100" y="0" width="50" height="26"/><rect x="150" y="0" width="50" height="26"/><rect x="0" y="26" width="50" height="26"/><rect x="50" y="26" width="50" height="26"/><rect x="100" y="26" width="50" height="26"/><rect x="150" y="26" width="50" height="26"/><rect x="0" y="52" width="50" height="26"/><rect x="50" y="52" width="50" height="26"/><rect x="100" y="52" width="50" height="26"/><rect x="150" y="52" width="50" height="26"/><rect x="0" y="78" width="50" height="26"/><rect x="50" y="78" width="50" height="26"/><rect x="100" y="78" width="50" height="26"/><rect x="150" y="78" width="50" height="26"/><rect x="0" y="104" width="50" height="26"/><rect x="50" y="104" width="50" height="26"/><rect x="100" y="104" width="50" height="26"/><rect x="150" y="104" width="50" height="26"/></g>
 <g font-size="11" fill="#5d6b75" text-anchor="middle"><text x="25" y="-6">1</text><text x="75" y="-6">2</text><text x="125" y="-6">3</text><text x="175" y="-6">4</text><text x="-10" y="17">1</text><text x="-10" y="43">2</text><text x="-10" y="69">3</text><text x="-10" y="95">4</text><text x="-10" y="121">5</text></g></g>
@@ -486,22 +612,14 @@ colonnes</strong>. Laisser un côté vide signifie « tout ».</p>
 <g transform="translate(40,60)"><use href="#grid"/><rect x="0" y="26" width="200" height="26" fill="#d9694a" opacity=".55"/></g>
 <g transform="translate(330,60)"><use href="#grid"/><rect x="100" y="0" width="50" height="130" fill="#1b7f8c" opacity=".55"/></g>
 <g transform="translate(620,60)"><use href="#grid"/><rect x="0" y="26" width="50" height="52" fill="#4a7d3a" opacity=".6"/><rect x="100" y="26" width="50" height="52" fill="#4a7d3a" opacity=".6"/></g>
-<g font-family="JetBrains Mono, monospace" font-size="17" font-weight="600" fill="#0b3d5c" text-anchor="middle"><text x="140" y="30">df[2,
-]</text><text x="430" y="30">df[, 3]</text><text x="720" y="30">df[2:3,
-c(1, 3)]</text></g>
+<g font-family="JetBrains Mono, monospace" font-size="17" font-weight="600" fill="#0b3d5c" text-anchor="middle"><text x="140" y="30">df[2, ]</text><text x="430" y="30">df[, 3]</text><text x="720" y="30">df[2:3, c(1, 3)]</text></g>
 <g font-size="15" fill="#3c4a52" text-anchor="middle">
-<text class="en" x="140" y="222">row 2, all
-columns</text><text class="fr" x="140" y="222">ligne 2, toutes les
-colonnes</text> <text class="en" x="430" y="222">all rows, column
-3</text><text class="fr" x="430" y="222">toutes les lignes, colonne
-3</text> <text class="en" x="720" y="222">rows 2 to 3, columns 1 and
-3</text><text class="fr" x="720" y="222">lignes 2 à 3, colonnes 1 et
-3</text> <text class="en" x="430" y="246" fill="#5d6b75">Rule: [ ROWS ,
-COLUMNS ] — empty means
-“all”</text><text class="fr" x="430" y="246" fill="#5d6b75">Règle : [
-LIGNES , COLONNES ] — vide signifie « tout »</text> </g>
-</svg>
-</figure>
+<text class="en" x="140" y="222">row 2, all columns</text><text class="fr" x="140" y="222">ligne 2, toutes les colonnes</text>
+<text class="en" x="430" y="222">all rows, column 3</text><text class="fr" x="430" y="222">toutes les lignes, colonne 3</text>
+<text class="en" x="720" y="222">rows 2 to 3, columns 1 and 3</text><text class="fr" x="720" y="222">lignes 2 à 3, colonnes 1 et 3</text>
+<text class="en" x="430" y="246" fill="#5d6b75">Rule: [ ROWS , COLUMNS ] — empty means "all"</text><text class="fr" x="430" y="246" fill="#5d6b75">Règle : [ LIGNES , COLONNES ] — vide signifie « tout »</text>
+</g>
+</svg></figure>
 <div id="rows-and-columns-by-numberlignes-et-colonnes-par-numéro"
 class="section level3">
 <h3><span class="en">Rows and columns by number</span><span
@@ -1103,8 +1221,7 @@ fois la même ligne.</p>
 #&gt; [1] &quot;Ambalaboy&quot;  &quot;Fasimena&quot;   &quot;Tsiandamba&quot; &quot;Belitsaky&quot; 
 #&gt; 
 #&gt; $species
-#&gt; [1] &quot;Thalassia hemprichii&quot;     &quot;Syringodium isoetifolium&quot; &quot;Cymodocea serrulata&quot;     
-#&gt; [4] &quot;Thalassodendron ciliatum&quot;</code></pre>
+#&gt; [1] &quot;Thalassia hemprichii&quot;     &quot;Syringodium isoetifolium&quot; &quot;Cymodocea serrulata&quot;      &quot;Thalassodendron ciliatum&quot;</code></pre>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" tabindex="-1"></a><span class="fu">apply</span>(sg[, num], <span class="dv">2</span>, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># 2 = by column</span></span></code></pre></div>
 <pre><code>#&gt;        cover_pct          depth_m canopy_height_cm    shoot_density 
 #&gt;             50.0              1.6             17.3            438.0</code></pre>
@@ -1126,6 +1243,23 @@ fonctionne qu’avec des colonnes <strong>numériques</strong> :
 sélectionnez-les d’abord.</p>
 </div>
 </div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Checkpoint.</strong> The seagrass table with all the columns
+created in this session, and the fish table with <code>weight_g</code>
+and <code>biomass_g</code> (used again in Sessions 6 and 8):</p>
+</div>
+<div class="fr">
+<p><strong>Checkpoint.</strong> Le tableau d’herbier avec toutes les
+colonnes créées dans cette séance, et le tableau des poissons avec
+<code>weight_g</code> et <code>biomass_g</code> (réutilisé aux séances 6
+et 8) :</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/checkpoints/B04_seagrass_columns.csv" download>⇩
+B04_seagrass_columns.csv</a>
+<a class="btn-dl" href="data/checkpoints/B04_fish_biomass.csv" download>⇩
+B04_fish_biomass.csv</a></p>
 </div>
 <div id="application" class="section level2">
 <h2><span class="en">Application work &amp; quiz</span><span
@@ -1202,6 +1336,24 @@ classe <code>"character"</code> ?</li>
 et <code>count</code>, trouvez le maximum de chacune. Quel est le plus
 grand des deux maxima ?</li>
 </ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 3: correct the value <strong>before</strong> computing the
+mean: <code>fish[12, "length_cm"] &lt;- 18</code>. Question 5:
+<code>sum(fish$biomass_g) / 1000</code>. Question 7:
+<code>fish$a &lt;- NULL</code> removes a column. If your later answers
+look wrong, re-import the file and redo the steps <strong>in
+order</strong>.</p>
+</div>
+<div class="fr">
+<p>Question 3 : corrigez la valeur <strong>avant</strong> de calculer la
+moyenne : <code>fish[12, "length_cm"] &lt;- 18</code>. Question 5 :
+<code>sum(fish$biomass_g) / 1000</code>. Question 7 :
+<code>fish$a &lt;- NULL</code> supprime une colonne. Si vos réponses
+suivantes semblent fausses, réimportez le fichier et refaites les étapes
+<strong>dans l’ordre</strong>.</p>
 </div>
 </div>
 <div id="quiz-s04" class="quiz" data-quiz-id="s04"

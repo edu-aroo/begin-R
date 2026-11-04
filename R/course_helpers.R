@@ -28,13 +28,16 @@ knitr::opts_chunk$set(
 fig_svg <- function(name, caption_en = NULL, caption_fr = NULL) {
   path <- file.path("assets", "img", paste0(name, ".svg"))
   svg  <- paste(readLines(path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+  svg  <- gsub("$", "&#36;", svg, fixed = TRUE)   # a "$" would be read by pandoc as the start of a math formula
   cap  <- ""
   if (!is.null(caption_en)) {
     cap <- sprintf('<figcaption><span class="en">%s</span><span class="fr">%s</span></figcaption>',
                    caption_en, caption_fr)
   }
   # asis_output() tells knitr: "this is raw HTML, do not escape it"
-  knitr::asis_output(sprintf('<figure class="svg-fig">%s%s</figure>', svg, cap))
+  # The ```{=html} fence makes pandoc copy the SVG untouched (no markdown processing of its texts:
+  # spaces and straight quotes are kept).
+  knitr::asis_output(sprintf('\n\n```{=html}\n<figure class="svg-fig">%s%s</figure>\n```\n\n', svg, cap))
 }
 
 # ---- Quiz questions -----------------------------------------------------------
@@ -66,6 +69,7 @@ q_text <- function(en, fr, answers) {
 # encryption: it only stops students from reading the answers at a glance in
 # the page source.
 quiz <- function(id, qs, title_en = NULL, title_fr = NULL) {
+  register_quiz(id, length(qs))      # remember id + number of questions (see below)
   json <- jsonlite::toJSON(qs, auto_unbox = TRUE, digits = NA)
   b64  <- jsonlite::base64_enc(charToRaw(enc2utf8(as.character(json))))
   b64  <- gsub("\n", "", b64)
@@ -74,6 +78,22 @@ quiz <- function(id, qs, title_en = NULL, title_fr = NULL) {
     sprintf(' data-title-en="%s" data-title-fr="%s"', title_en, title_fr)
   knitr::asis_output(sprintf(
     '<div class="quiz" id="quiz-%s" data-quiz-id="%s"%s data-q="%s"></div>', id, id, ttl, b64))
+}
+
+# ---- Quiz registry ------------------------------------------------------------
+# Every quiz() call writes a tiny file .quiz_registry/<id>.json with its number
+# of questions, its page and its level. R/build_site.R combines them into
+# assets/quiz_index.json (read by the Google Apps Script) and
+# assets/quiz_index.js (read by course.js) -> the site knows the maximum score of
+# EVERY quiz of a level, even the pages a student has not opened yet.
+# Level = first letter of the file name: "i" intermediate, "a" advanced, else beginner.
+register_quiz <- function(id, n) {
+  page  <- sub("\\..*$", "", basename(knitr::current_input()))
+  level <- if (grepl("^i[0-9]", page)) "intermediate" else
+           if (grepl("^a[0-9]", page)) "advanced" else "beginner"
+  dir.create(".quiz_registry", showWarnings = FALSE)
+  writeLines(jsonlite::toJSON(list(id = id, max = n, page = page, level = level), auto_unbox = TRUE),
+             file.path(".quiz_registry", paste0(id, ".json")))
 }
 
 # ---- Download button for a data file -----------------------------------------

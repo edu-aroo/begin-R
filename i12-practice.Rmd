@@ -1,0 +1,381 @@
+---
+title: "[I12 · Practice session]{.en}[I12 · Séance d'exercices]{.fr}"
+pagetitle: "R for marine sciences · I12"
+subtitle: "~3.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/answers_i12.R")     # computes all the expected answers (hidden from the page)
+```
+
+::: objectives
+::: en
+#### What this session is for
+No new concepts: six independent exercises to **practise** Sessions I0 to I11 on the **raw** files, before the final project. Each exercise has its own quiz (**two attempts**, the best one counts) and its own solution, opened when you have used your attempts or got full marks. The final project opens when the six exercises together reach 75 % of their points.
+
+- Write everything in one script `scripts/i12_practice.R`, one section per exercise (**Ctrl + Shift + R**).
+- Each exercise starts from a file of the `data/` folder: do not reuse objects from another exercise.
+- Hints are free: they do not cost points.
+:::
+::: fr
+#### À quoi sert cette séance
+Pas de nouvelle notion : six exercices indépendants pour **pratiquer** les séances I0 à I11 sur les fichiers **bruts**, avant le projet final. Chaque exercice a son propre quiz (**deux tentatives**, la meilleure compte) et sa propre solution, ouverte quand vous avez utilisé vos tentatives ou obtenu tous les points. Le projet final s'ouvre quand les six exercices réunis atteignent 75 % de leurs points.
+
+- Écrivez tout dans un seul script `scripts/i12_practice.R`, une section par exercice (**Ctrl + Maj + R**).
+- Chaque exercice part d'un fichier du dossier `data/` : ne réutilisez pas les objets d'un autre exercice.
+- Les indices sont gratuits : ils ne coûtent pas de points.
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Data (simulated).** The files you already know from Sessions I2 to I4: the probe measurements of the **10 water-quality stations** (`water_quality_long.csv`, `water_quality_wide.csv`, `stations.csv`) and the **household survey** (`survey_households.csv`, `survey_members.csv`, `survey_assets.csv`; 420 households interviewed in 2025 by four enumerators, with a few duplicated entries and free-text answers). See Sessions I2 and I4 for how they were collected.
+:::
+::: fr
+**Données (simulées).** Les fichiers que vous connaissez depuis les séances I2 à I4 : les mesures à la sonde des **10 stations de qualité de l'eau** (`water_quality_long.csv`, `water_quality_wide.csv`, `stations.csv`) et l'**enquête ménages** (`survey_households.csv`, `survey_members.csv`, `survey_assets.csv` ; 420 ménages interrogés en 2025 par quatre enquêteurs, avec quelques doublons et des réponses en texte libre). Voir les séances I2 et I4 pour leur mode de collecte.
+:::
+:::
+
+`r dl("r_course_data_intermediate.zip", "all intermediate data (zip)")`
+
+## [Exercise 1 — Import, missing codes and dates]{.en}[Exercice 1 — Import, codes manquants et dates]{.fr} {#ex1}
+
+::: en
+*Sessions I0–I1.* Import `water_quality_long.csv` **without** cleaning it.
+
+1. How many temperatures are coded `-999`?
+2. How many pH values are `0`?
+3. How many dissolved-oxygen values are `NA`?
+4. Convert `date` to a `Date` (format `dd/mm/yyyy`). How many measurements were taken in **July** (all years together)?
+5. How many days separate the first and the last sampling date?
+6. Replace `-999` by `NA`: mean temperature (2 decimals)?
+:::
+::: fr
+*Séances I0–I1.* Importez `water_quality_long.csv` **sans** le nettoyer.
+
+1. Combien de températures sont codées `-999` ?
+2. Combien de valeurs de pH valent `0` ?
+3. Combien de valeurs d'oxygène dissous sont `NA` ?
+4. Convertissez `date` en `Date` (format `jj/mm/aaaa`). Combien de mesures ont été faites en **juillet** (toutes années confondues) ?
+5. Combien de jours séparent la première et la dernière date d'échantillonnage ?
+6. Remplacez `-999` par `NA` : température moyenne (2 décimales) ?
+:::
+
+::: hint
+::: en
+`sum(x == -999, na.rm = TRUE)` counts a code; `lubridate::month()` gives the month number; subtracting two dates gives a number of days (`as.numeric()`).
+:::
+::: fr
+`sum(x == -999, na.rm = TRUE)` compte un code ; `lubridate::month()` donne le numéro du mois ; soustraire deux dates donne un nombre de jours (`as.numeric()`).
+:::
+:::
+
+```{r q1, echo=FALSE}
+quiz("ip1", list(
+  q_num("1. Number of -999 temperatures?", "1. Nombre de températures -999 ?", ip1a, tol = 0),
+  q_num("2. Number of pH = 0?", "2. Nombre de pH = 0 ?", ip1b, tol = 0),
+  q_num("3. Number of NA in DO_mgL?", "3. Nombre de NA dans DO_mgL ?", ip1c, tol = 0),
+  q_num("4. Measurements in July?", "4. Mesures en juillet ?", ip1d, tol = 0),
+  q_num("5. Days between first and last date?", "5. Jours entre la première et la dernière date ?", ip1e, tol = 0),
+  q_num("6. Mean temperature after cleaning (2 decimals)?", "6. Température moyenne après nettoyage (2 décimales) ?", ip1f, tol = 0.006)
+), title_en = "Exercise 1", title_fr = "Exercice 1")
+```
+
+::: {.solution data-quiz="ip1"}
+```{r, eval=FALSE}
+library(lubridate)
+w <- read.csv("data/water_quality_long.csv")
+sum(w$temp_C == -999, na.rm = TRUE)     # 1
+sum(w$pH == 0, na.rm = TRUE)            # 2
+sum(is.na(w$DO_mgL))                    # 3
+w$date <- as.Date(w$date, format = "%d/%m/%Y")
+sum(month(w$date) == 7)                 # 4
+as.numeric(max(w$date) - min(w$date))   # 5
+w$temp_C[w$temp_C == -999] <- NA
+round(mean(w$temp_C, na.rm = TRUE), 2)  # 6
+```
+:::
+
+## [Exercise 2 — Reshape and join]{.en}[Exercice 2 — Restructurer et joindre]{.fr} {#ex2}
+
+::: en
+*Sessions I2–I3.*
+
+1. Import `water_quality_wide.csv` (use `check.names = FALSE` to keep the month names) and make it **long**: one row per station and month, columns `station`, `month`, `temp`. Number of rows?
+2. Join the zone of each station (`stations.csv`). Mean temperature of the **South** stations in `2024-07` (2 decimals)?
+3. Which month (`yyyy-mm`) has the highest mean temperature over all stations?
+4. Survey: how many rows of `survey_members.csv` have an `hh_id` that does **not** exist in `survey_households.csv`?
+5. `survey_assets.csv`: how many **different** households own at least one `pirogue`?
+:::
+::: fr
+*Séances I2–I3.*
+
+1. Importez `water_quality_wide.csv` (avec `check.names = FALSE` pour garder les noms des mois) et passez-le en format **long** : une ligne par station et par mois, colonnes `station`, `month`, `temp`. Nombre de lignes ?
+2. Joignez la zone de chaque station (`stations.csv`). Température moyenne des stations du **Sud** en `2024-07` (2 décimales) ?
+3. Quel mois (`aaaa-mm`) a la température moyenne la plus élevée sur l'ensemble des stations ?
+4. Enquête : combien de lignes de `survey_members.csv` ont un `hh_id` qui n'existe **pas** dans `survey_households.csv` ?
+5. `survey_assets.csv` : combien de ménages **différents** possèdent au moins une `pirogue` ?
+:::
+
+::: hint
+::: en
+`pivot_longer(wide, -station, names_to = "month", values_to = "temp")`; `anti_join()` keeps the rows **without** a match; `n_distinct()` counts different values.
+:::
+::: fr
+`pivot_longer(wide, -station, names_to = "month", values_to = "temp")` ; `anti_join()` garde les lignes **sans** correspondance ; `n_distinct()` compte les valeurs différentes.
+:::
+:::
+
+```{r q2, echo=FALSE}
+quiz("ip2", list(
+  q_num("1. Rows of the long table?", "1. Lignes du tableau long ?", ip2a, tol = 0),
+  q_num("2. Mean temperature, South, 2024-07 (2 decimals)?", "2. Température moyenne, Sud, 2024-07 (2 décimales) ?", ip2b, tol = 0.006),
+  q_text("3. Warmest month (yyyy-mm)?", "3. Mois le plus chaud (aaaa-mm) ?", ip2c),
+  q_num("4. Member rows without a matching household?", "4. Lignes de membres sans ménage correspondant ?", ip2d, tol = 0),
+  q_num("5. Households with a pirogue?", "5. Ménages possédant une pirogue ?", ip2e, tol = 0)
+), title_en = "Exercise 2", title_fr = "Exercice 2")
+```
+
+::: {.solution data-quiz="ip2"}
+```{r, eval=FALSE}
+library(dplyr); library(tidyr)
+wide <- read.csv("data/water_quality_wide.csv", check.names = FALSE)
+long <- pivot_longer(wide, -station, names_to = "month", values_to = "temp")
+nrow(long)                                                          # 1
+st <- read.csv("data/stations.csv")
+long <- left_join(long, st[, c("station", "zone")], by = "station")
+long %>% filter(zone == "South", month == "2024-07") %>% summarise(m = round(mean(temp), 2))  # 2
+long %>% group_by(month) %>% summarise(t = mean(temp)) %>% arrange(desc(t)) %>% head(1)       # 3
+hh  <- read.csv("data/survey_households.csv")
+mem <- read.csv("data/survey_members.csv")
+nrow(anti_join(mem, hh, by = "hh_id"))                              # 4
+assets <- read.csv("data/survey_assets.csv")
+n_distinct(assets$hh_id[assets$asset == "pirogue"])                 # 5
+```
+:::
+
+## [Exercise 3 — Survey data and text]{.en}[Exercice 3 — Données d'enquête et texte]{.fr} {#ex3}
+
+::: en
+*Session I4.* Import `survey_households.csv` with `na.strings = ""`.
+
+1. How many **exact duplicate** rows are there?
+2. After removing them: how many households list `fishing` among their `activities`?
+3. Clean `mpa_benefits` (spaces and capitals). Among households that answered, what percentage "Agree" or "Strongly agree" (1 decimal)?
+4. Most frequent `main_income`?
+5. Mean number of activities per household (2 decimals)?
+:::
+::: fr
+*Séance I4.* Importez `survey_households.csv` avec `na.strings = ""`.
+
+1. Combien y a-t-il de lignes **doublons exacts** ?
+2. Après les avoir supprimées : combien de ménages citent `fishing` dans leurs `activities` ?
+3. Nettoyez `mpa_benefits` (espaces et majuscules). Parmi les ménages qui ont répondu, quel pourcentage est « Agree » ou « Strongly agree » (1 décimale) ?
+4. `main_income` le plus fréquent ?
+5. Nombre moyen d'activités par ménage (2 décimales) ?
+:::
+
+::: hint
+::: en
+`sum(duplicated(h))`; `str_detect()`; `str_to_sentence(str_squish(x))`; activities are separated by `;`, so the number of activities is the number of `;` + 1 (`str_count()`).
+:::
+::: fr
+`sum(duplicated(h))` ; `str_detect()` ; `str_to_sentence(str_squish(x))` ; les activités sont séparées par `;`, donc le nombre d'activités est le nombre de `;` + 1 (`str_count()`).
+:::
+:::
+
+```{r q3, echo=FALSE}
+quiz("ip3", list(
+  q_num("1. Exact duplicate rows?", "1. Lignes doublons exacts ?", ip3a, tol = 0),
+  q_num("2. Households with fishing among activities?", "2. Ménages avec fishing dans leurs activités ?", ip3b, tol = 0),
+  q_num("3. % Agree or Strongly agree (1 decimal)?", "3. % Agree ou Strongly agree (1 décimale) ?", ip3c, tol = 0.06),
+  q_text("4. Most frequent main income (as written in the data)?", "4. Revenu principal le plus fréquent (comme écrit dans les données) ?", ip3d),
+  q_num("5. Mean number of activities (2 decimals)?", "5. Nombre moyen d'activités (2 décimales) ?", ip3e, tol = 0.006)
+), title_en = "Exercise 3", title_fr = "Exercice 3")
+```
+
+::: {.solution data-quiz="ip3"}
+```{r, eval=FALSE}
+library(stringr)
+h <- read.csv("data/survey_households.csv", na.strings = "")
+sum(duplicated(h))                                            # 1
+h <- h[!duplicated(h), ]
+sum(str_detect(h$activities, "fishing"))                      # 2
+lik <- str_to_sentence(str_squish(h$mpa_benefits))
+lik <- lik[!is.na(lik)]
+round(100 * mean(lik %in% c("Agree", "Strongly agree")), 1)   # 3
+sort(table(h$main_income), decreasing = TRUE)[1]              # 4
+round(mean(str_count(h$activities, ";") + 1), 2)              # 5
+```
+:::
+
+## [Exercise 4 — Loops, conditions and functions]{.en}[Exercice 4 — Boucles, conditions et fonctions]{.fr} {#ex4}
+
+::: en
+*Sessions I5–I6.* Use the clean water-quality checkpoint `I2_water_quality_clean.csv`.
+
+1. Write a function `cv(x)` returning the **coefficient of variation** in % (100 × SD / mean, ignoring NA). Apply it to `salinity_psu` for each station (with a loop, `sapply()` or `group_by()`). Which station has the highest CV, and what is it (2 decimals)?
+2. How many measurements have a temperature ≥ 28 °C?
+3. Classify turbidity: `clear` (< 3 NTU), `moderate` (3 to < 6), `turbid` (≥ 6). How many `turbid` measurements?
+:::
+::: fr
+*Séances I5–I6.* Utilisez le checkpoint nettoyé `I2_water_quality_clean.csv`.
+
+1. Écrivez une fonction `cv(x)` qui renvoie le **coefficient de variation** en % (100 × ET / moyenne, en ignorant les NA). Appliquez-la à `salinity_psu` pour chaque station (avec une boucle, `sapply()` ou `group_by()`). Quelle station a le CV le plus élevé, et combien vaut-il (2 décimales) ?
+2. Combien de mesures ont une température ≥ 28 °C ?
+3. Classez la turbidité : `clear` (< 3 NTU), `moderate` (3 à < 6), `turbid` (≥ 6). Combien de mesures `turbid` ?
+:::
+
+::: hint
+::: en
+`sapply(split(w$salinity_psu, w$station), cv)` applies `cv()` to each station. For 3 classes, nest two `ifelse()` or use `case_when()`.
+:::
+::: fr
+`sapply(split(w$salinity_psu, w$station), cv)` applique `cv()` à chaque station. Pour 3 classes, imbriquez deux `ifelse()` ou utilisez `case_when()`.
+:::
+:::
+
+```{r q4, echo=FALSE}
+quiz("ip4", list(
+  q_text("1a. Station with the highest salinity CV?", "1a. Station au CV de salinité le plus élevé ?", ip4a),
+  q_num("1b. Its CV in % (2 decimals)?", "1b. Son CV en % (2 décimales) ?", ip4b, tol = 0.006),
+  q_num("2. Measurements with temperature ≥ 28 °C?", "2. Mesures avec température ≥ 28 °C ?", ip4c, tol = 0),
+  q_num("3. Turbid measurements (≥ 6 NTU)?", "3. Mesures turbides (≥ 6 NTU) ?", ip4d, tol = 0)
+), title_en = "Exercise 4", title_fr = "Exercice 4")
+```
+
+::: {.solution data-quiz="ip4"}
+```{r, eval=FALSE}
+w <- read.csv("data/checkpoints/I2_water_quality_clean.csv")
+cv <- function(x) 100 * sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
+cvs <- sapply(split(w$salinity_psu, w$station), cv)
+sort(cvs, decreasing = TRUE)[1]                           # 1
+sum(w$temp_C >= 28, na.rm = TRUE)                         # 2
+w$turb_class <- dplyr::case_when(w$turbidity_NTU < 3 ~ "clear",
+                                 w$turbidity_NTU < 6 ~ "moderate",
+                                 TRUE ~ "turbid")         # TRUE = "all other cases"
+table(w$turb_class)                                       # 3
+```
+:::
+
+## [Exercise 5 — Graphs]{.en}[Exercice 5 — Graphiques]{.fr} {#ex5}
+
+::: en
+*Sessions I7–I8.* Same clean water-quality file.
+
+1. Plot the **mean dissolved oxygen per calendar month** (1–12, all years and stations together) as points joined by a line, with a 95 % CI. Which month has the lowest mean DO, and what is it (2 decimals)?
+2. Make boxplots of turbidity by station, coloured by zone (join `stations.csv`), ordered by median, with a clear title and axis labels. Save it as PNG 16 × 10 cm.
+3. Answer the questions about ggplot code below.
+:::
+::: fr
+*Séances I7–I8.* Même fichier de qualité d'eau nettoyé.
+
+1. Tracez l'**oxygène dissous moyen par mois calendaire** (1–12, toutes années et stations confondues) en points reliés par une ligne, avec un IC à 95 %. Quel mois a l'O₂ moyen le plus faible, et combien vaut-il (2 décimales) ?
+2. Faites des boxplots de la turbidité par station, colorés par zone (joignez `stations.csv`), ordonnés par médiane, avec un titre et des axes clairs. Enregistrez en PNG 16 × 10 cm.
+3. Répondez aux questions sur le code ggplot ci-dessous.
+:::
+
+```{r q5, echo=FALSE}
+quiz("ip5", list(
+  q_num("1a. Month (1–12) with the lowest mean DO?", "1a. Mois (1–12) à l'O₂ moyen le plus faible ?", ip5a, tol = 0),
+  q_num("1b. Its mean DO in mg/L (2 decimals)?", "1b. Son O₂ moyen en mg/L (2 décimales) ?", ip5b, tol = 0.006),
+  q_mcq("2. To order stations by their median turbidity on the x-axis you use:", "2. Pour ordonner les stations selon leur turbidité médiane sur l'axe x, on utilise :",
+        c("aes(x = reorder(station, turbidity_NTU, median, na.rm = TRUE))", "arrange(turbidity_NTU)", "scale_x_continuous()", "coord_flip()"),
+        c("aes(x = reorder(station, turbidity_NTU, median, na.rm = TRUE))", "arrange(turbidity_NTU)", "scale_x_continuous()", "coord_flip()"), correct = 1),
+  q_mcq("3. facet_wrap(~ zone, scales = \"free_y\") means:", "3. facet_wrap(~ zone, scales = \"free_y\") signifie :",
+        c("one panel per zone, each with its own y-axis range", "one panel per zone, all with the same axes", "the y-axis is removed", "zones are coloured"),
+        c("un panneau par zone, chacun avec sa propre étendue de l'axe y", "un panneau par zone, tous avec les mêmes axes", "l'axe y est supprimé", "les zones sont colorées"), correct = 1),
+  q_mcq("4. You want to zoom on SGR between 2 and 5 without removing data from a boxplot. Use:", "4. Vous voulez zoomer sur le SGR entre 2 et 5 sans retirer de données d'un boxplot. Utilisez :",
+        c("ylim(2, 5)", "scale_y_continuous(limits = c(2, 5))", "coord_cartesian(ylim = c(2, 5))", "filter(sgr > 2, sgr < 5)"),
+        c("ylim(2, 5)", "scale_y_continuous(limits = c(2, 5))", "coord_cartesian(ylim = c(2, 5))", "filter(sgr > 2, sgr < 5)"), correct = 3)
+), title_en = "Exercise 5", title_fr = "Exercice 5")
+```
+
+::: {.solution data-quiz="ip5"}
+```{r, eval=FALSE}
+library(dplyr); library(ggplot2); library(lubridate)
+w <- read.csv("data/checkpoints/I2_water_quality_clean.csv"); w$date <- as.Date(w$date)
+se <- function(x) sd(x, na.rm = TRUE) / sqrt(sum(!is.na(x)))
+do_m <- w %>% mutate(month = month(date)) %>% group_by(month) %>%
+  summarise(m = mean(DO_mgL, na.rm = TRUE), se = se(DO_mgL))
+do_m[which.min(do_m$m), ]                                                   # 1
+ggplot(do_m, aes(month, m)) + geom_line() +
+  geom_pointrange(aes(ymin = m - 1.96 * se, ymax = m + 1.96 * se)) +
+  scale_x_continuous(breaks = 1:12) + labs(x = "Month", y = "Mean DO (mg/L)") + theme_minimal()
+st <- read.csv("data/stations.csv")
+p <- w %>% left_join(st[, c("station", "zone")], by = "station") %>%
+  ggplot(aes(reorder(station, turbidity_NTU, median, na.rm = TRUE), turbidity_NTU, fill = zone)) +
+  geom_boxplot(na.rm = TRUE) +
+  labs(x = "Station", y = "Turbidity (NTU)", title = "Turbidity by station, 2023-2025") + theme_minimal()
+ggsave("outputs/turbidity_stations.png", p, width = 16, height = 10, units = "cm", dpi = 300)  # 2
+```
+:::
+
+## [Exercise 6 — Choosing and running a test]{.en}[Exercice 6 — Choisir et faire un test]{.fr} {#ex6}
+
+::: en
+*Sessions I9–I10.* For each question, **plot first**, then choose and justify the test in a comment.
+
+1. Turbidity in the **North** vs the **South** stations (clean water-quality file + `stations.csv`). Turbidity is right-skewed. Median turbidity in the South (NTU)?
+2. Which test do you choose for question 1 (see quiz)?
+3. Spearman correlation between salinity and turbidity (all measurements, 3 decimals).
+4. Survey (`I4_households_clean.csv` + zone from `villages.csv`): does the proportion of households doing seaweed farming (`does_seaweed`) differ between the three zones? Smallest expected count (1 decimal) and chi-square p-value (3 decimals).
+:::
+::: fr
+*Séances I9–I10.* Pour chaque question, **tracez d'abord**, puis choisissez et justifiez le test en commentaire.
+
+1. Turbidité aux stations du **Nord** vs du **Sud** (fichier de qualité d'eau nettoyé + `stations.csv`). La turbidité est asymétrique à droite. Turbidité médiane au Sud (NTU) ?
+2. Quel test choisissez-vous pour la question 1 (voir le quiz) ?
+3. Corrélation de Spearman entre salinité et turbidité (toutes les mesures, 3 décimales).
+4. Enquête (`I4_households_clean.csv` + zone depuis `villages.csv`) : la proportion de ménages cultivant les algues (`does_seaweed`) diffère-t-elle entre les trois zones ? Plus petit effectif attendu (1 décimale) et p-value du khi-deux (3 décimales).
+:::
+
+::: hint
+::: en
+Question 4: `table(hh$zone, hh$does_seaweed)` is a 3 × 2 table; `chisq.test()` works the same way as for a 2 × 2 table (no Yates correction is applied above 2 × 2).
+:::
+::: fr
+Question 4 : `table(hh$zone, hh$does_seaweed)` est un tableau 3 × 2 ; `chisq.test()` fonctionne comme pour un 2 × 2 (pas de correction de Yates au-delà de 2 × 2).
+:::
+:::
+
+```{r q6, echo=FALSE}
+quiz("ip6", list(
+  q_num("1. Median turbidity in the South (NTU)?", "1. Turbidité médiane au Sud (NTU) ?", ip6a, tol = 0.01),
+  q_mcq("2. Best test for question 1?", "2. Meilleur test pour la question 1 ?",
+        c("wilcox.test(turbidity_NTU ~ zone) (or t.test on log turbidity)", "chisq.test()", "cor.test()", "t.test(..., paired = TRUE)"),
+        c("wilcox.test(turbidity_NTU ~ zone) (ou t.test sur log turbidité)", "chisq.test()", "cor.test()", "t.test(..., paired = TRUE)"), correct = 1),
+  q_num("3. Spearman rho, salinity vs turbidity (3 decimals)?", "3. rho de Spearman, salinité vs turbidité (3 décimales) ?", ip6b, tol = 0.0006),
+  q_num("4a. Smallest expected count (1 decimal)?", "4a. Plus petit effectif attendu (1 décimale) ?", ip6d, tol = 0.06),
+  q_num("4b. Chi-square p-value (3 decimals)?", "4b. p-value du khi-deux (3 décimales) ?", ip6c, tol = 0.0006),
+  q_mcq("5. What do you conclude for question 4?", "5. Que concluez-vous pour la question 4 ?",
+        c("The proportion is identical in the three zones",
+          "No evidence that the proportion of seaweed households differs between zones",
+          "Seaweed farming is more common in the South",
+          "The test is invalid because the table is 3 × 2"),
+        c("La proportion est identique dans les trois zones",
+          "Pas de preuve que la proportion de ménages cultivateurs diffère entre zones",
+          "La culture d'algues est plus fréquente au Sud",
+          "Le test est invalide car le tableau est 3 × 2"), correct = 2)
+), title_en = "Exercise 6", title_fr = "Exercice 6")
+```
+
+::: {.solution data-quiz="ip6"}
+```{r, eval=FALSE}
+library(dplyr); library(ggplot2)
+w  <- read.csv("data/checkpoints/I2_water_quality_clean.csv")
+st <- read.csv("data/stations.csv")
+ns <- w %>% left_join(st[, c("station", "zone")], by = "station") %>% filter(zone %in% c("North", "South"))
+ggplot(ns, aes(zone, turbidity_NTU)) + geom_boxplot()
+tapply(ns$turbidity_NTU, ns$zone, median, na.rm = TRUE)          # 1
+# skewed, outliers -> Wilcoxon rank-sum (or t-test on log)        # 2
+wilcox.test(turbidity_NTU ~ zone, data = ns)                     # p < 0.001: South more turbid
+cor(w$salinity_psu, w$turbidity_NTU, method = "spearman", use = "complete.obs")   # 3
+hh <- read.csv("data/checkpoints/I4_households_clean.csv")
+hh <- left_join(hh, read.csv("data/villages.csv")[, c("village", "zone")], by = "village")
+tz <- table(hh$zone, hh$does_seaweed)
+round(prop.table(tz, 1) * 100, 1)
+chisq.test(tz)$expected; chisq.test(tz)                          # 4: p ~ 0.73 -> no evidence (5)
+```
+:::

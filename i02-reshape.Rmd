@@ -1,0 +1,285 @@
+---
+title: "[I2 · Reshaping tables]{.en}[I2 · Restructurer des tableaux]{.fr}"
+pagetitle: "R for marine sciences · I2"
+subtitle: "~2.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/intermediate_pipeline.R")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- recognise **wide** and **long** formats and know which one each task needs;
+- go from wide to long with `pivot_longer()` and from long to wide with `pivot_wider()`;
+- split and join columns with `separate()` and `unite()`;
+- replace error codes by `NA` and summarise many parameters at once.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- reconnaître les formats **large** et **long** et savoir lequel chaque tâche demande ;
+- passer du large au long avec `pivot_longer()` et du long au large avec `pivot_wider()` ;
+- séparer et réunir des colonnes avec `separate()` et `unite()` ;
+- remplacer des codes d'erreur par `NA` et résumer plusieurs paramètres d'un coup.
+:::
+:::
+
+## [How the water-quality data were collected]{.en}[Comment les données de qualité de l'eau ont été collectées]{.fr} {#context}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** To understand differences in seaweed growth, the cooperative and a partner NGO measured the water at **10 fixed stations** (`stations.csv`: position, zone, depth) **twice a month for 3 years** (2023–2025), with a handheld multiparameter probe lowered at mid-depth: **temperature** (°C), **salinity** (PSU), **pH**, **dissolved oxygen** (mg/L) and **turbidity** (NTU). When the temperature sensor failed, the probe recorded the error code `-999`; a faulty pH electrode sometimes gave `0`. Oxygen is missing when the sensor was being recalibrated.
+
+The NGO also sent a summary file prepared in Excel, with **one row per station and one column per month** (monthly mean temperature).
+
+**Type of data:** environmental time series — repeated physico-chemical measurements at fixed sites (quantitative, continuous).
+:::
+::: fr
+**Contexte simulé.** Pour comprendre les différences de croissance des algues, la coopérative et une ONG partenaire ont mesuré l'eau à **10 stations fixes** (`stations.csv` : position, zone, profondeur) **deux fois par mois pendant 3 ans** (2023–2025), avec une sonde multiparamètre descendue à mi-profondeur : **température** (°C), **salinité** (PSU), **pH**, **oxygène dissous** (mg/L) et **turbidité** (NTU). Quand le capteur de température tombait en panne, la sonde enregistrait le code d'erreur `-999` ; une électrode de pH défectueuse donnait parfois `0`. L'oxygène manque quand le capteur était en recalibrage.
+
+L'ONG a aussi envoyé un fichier de synthèse préparé dans Excel, avec **une ligne par station et une colonne par mois** (température moyenne mensuelle).
+
+**Type de données :** séries temporelles environnementales — mesures physico-chimiques répétées sur des sites fixes (quantitatives, continues).
+:::
+:::
+
+## [Wide or long?]{.en}[Large ou long ?]{.fr} {#formats}
+
+::: en
+The same information can be stored in two ways:
+
+- **Wide**: one row per station, one column per month (or per parameter). Easy to read by eye, typical of Excel reports.
+- **Long**: one row per measurement, with a column saying *what* was measured and a column with the *value*. Needed by ggplot2 (colour or facet by parameter), by `group_by()` + `summarise()`, and by statistical tests.
+
+Rule of thumb: **store and analyse in long format, present in wide format.**
+:::
+::: fr
+La même information peut être rangée de deux façons :
+
+- **Large** : une ligne par station, une colonne par mois (ou par paramètre). Facile à lire à l'œil, typique des rapports Excel.
+- **Long** : une ligne par mesure, avec une colonne indiquant *ce qui* a été mesuré et une colonne pour la *valeur*. Nécessaire pour ggplot2 (couleur ou panneau par paramètre), pour `group_by()` + `summarise()`, et pour les tests statistiques.
+
+Règle pratique : **stocker et analyser en format long, présenter en format large.**
+:::
+
+```{r, message=FALSE}
+library(dplyr); library(tidyr)
+wide <- read.csv("data/water_quality_wide.csv", check.names = FALSE)   # keep "2023-01" as names
+wide[1:3, 1:6]
+dim(wide)
+```
+
+## [Wide to long: pivot_longer()]{.en}[Du large au long : pivot_longer()]{.fr} {#longer}
+
+::: en
+`pivot_longer()` takes the columns you list (`cols`), puts their **names** in a new column (`names_to`) and their **values** in another (`values_to`).
+:::
+::: fr
+`pivot_longer()` prend les colonnes indiquées (`cols`), met leurs **noms** dans une nouvelle colonne (`names_to`) et leurs **valeurs** dans une autre (`values_to`).
+:::
+
+```{r}
+long <- wide %>%
+  pivot_longer(cols = -station,            # every column except station
+               names_to = "month",
+               values_to = "temp_mean")
+head(long)
+dim(long)                                  # 10 stations x 36 months = 360 rows
+```
+
+## [Splitting a column: separate()]{.en}[Séparer une colonne : separate()]{.fr} {#separate}
+
+::: en
+`"2023-01"` holds two pieces of information. `separate()` splits it; `convert = TRUE` turns the pieces into numbers. `unite()` does the opposite.
+:::
+::: fr
+`"2023-01"` contient deux informations. `separate()` les sépare ; `convert = TRUE` transforme les morceaux en nombres. `unite()` fait l'inverse.
+:::
+
+```{r}
+long <- long %>% separate(month, into = c("year", "month"), sep = "-", convert = TRUE)
+head(long, 3)
+long %>% unite("period", year, month, sep = "/") %>% head(2)
+```
+
+## [Several parameters: clean, then pivot]{.en}[Plusieurs paramètres : nettoyer, puis pivoter]{.fr} {#parameters}
+
+::: en
+The visit file has one column per parameter. First replace the error codes by `NA`, then pivot the five parameter columns. A **range** of columns `temp_C:turbidity_NTU` selects all columns between the two.
+:::
+::: fr
+Le fichier des visites a une colonne par paramètre. Remplacez d'abord les codes d'erreur par `NA`, puis pivotez les cinq colonnes de paramètres. Une **plage** de colonnes `temp_C:turbidity_NTU` sélectionne toutes les colonnes entre les deux.
+:::
+
+```{r}
+wq <- read.csv("data/water_quality_long.csv")
+wq$date <- as.Date(wq$date, format = "%d/%m/%Y")
+wq$temp_C[wq$temp_C == -999] <- NA          # error code of the temperature sensor
+wq$pH[wq$pH == 0] <- NA                     # faulty pH electrode
+wq_tidy <- wq %>%
+  pivot_longer(temp_C:turbidity_NTU, names_to = "parameter", values_to = "value")
+head(wq_tidy)
+```
+
+::: en
+Now one `group_by()` summarises the five parameters at once:
+:::
+::: fr
+Maintenant un seul `group_by()` résume les cinq paramètres d'un coup :
+:::
+
+```{r}
+wq_tidy %>%
+  group_by(parameter) %>%
+  summarise(n = sum(!is.na(value)), mean = mean(value, na.rm = TRUE),
+            min = min(value, na.rm = TRUE), max = max(value, na.rm = TRUE))
+```
+
+## [Long to wide: pivot_wider()]{.en}[Du long au large : pivot_wider()]{.fr} {#wider}
+
+::: en
+For a report table — one row per station, one column per parameter — use `pivot_wider()`: `names_from` gives the new column names, `values_from` the values.
+:::
+::: fr
+Pour un tableau de rapport — une ligne par station, une colonne par paramètre — utilisez `pivot_wider()` : `names_from` donne les noms des nouvelles colonnes, `values_from` les valeurs.
+:::
+
+```{r}
+station_table <- wq_tidy %>%
+  group_by(station, parameter) %>%
+  summarise(mean = round(mean(value, na.rm = TRUE), 2), .groups = "drop") %>%
+  pivot_wider(names_from = parameter, values_from = mean)
+station_table
+```
+
+::: compare
+::: {.col .base}
+R base
+
+```{r}
+# the same table with tapply: one parameter at a time
+round(tapply(wq$temp_C, wq$station, mean, na.rm = TRUE), 2)[1:4]
+```
+:::
+::: {.col .pkg}
+tidyr + dplyr
+
+```{r}
+station_table %>% select(station, temp_C) %>% head(4)
+```
+:::
+:::
+
+::: {.callout .try}
+::: en
+**Try it.** Build a table with one row per **year** and one column per parameter (mean values). *Tip: create `year` with `format(date, "%Y")` first.*
+:::
+::: fr
+**À vous.** Construisez un tableau avec une ligne par **année** et une colonne par paramètre (valeurs moyennes). *Astuce : créez d'abord `year` avec `format(date, "%Y")`.*
+:::
+:::
+
+`r dl("I2_water_quality_clean.csv", "checkpoint: I2_water_quality_clean.csv", dir = "data/checkpoints")` `r dl("I2_water_quality_monthly.csv", "checkpoint: I2_water_quality_monthly.csv", dir = "data/checkpoints")`
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+W <- read.csv("data/water_quality_wide.csv", check.names = FALSE)
+lw <- W %>% pivot_longer(-station, names_to = "month", values_to = "temp_mean") %>%
+  separate(month, into = c("year", "month"), sep = "-", convert = TRUE)
+a1 <- nrow(lw)
+a2 <- round(mean(lw$temp_mean[lw$year == 2024 & lw$month == 7]), 2)
+c0 <- cp_wq_clean()
+a3 <- sum(is.na(c0$temp_C))
+tt <- cp_wq_tidy(c0)
+a4 <- nrow(tt)
+a5 <- round(mean(tt$value[tt$parameter == "DO_mgL"], na.rm = TRUE), 3)
+st <- tt %>% group_by(station, parameter) %>% summarise(m = mean(value, na.rm = TRUE), .groups = "drop") %>%
+  pivot_wider(names_from = parameter, values_from = m)
+a6 <- st$station[which.max(st$turbidity_NTU)]
+a7 <- ncol(st)
+yy <- tt %>% mutate(year = format(date, "%Y")) %>% filter(parameter == "salinity_psu") %>%
+  group_by(year) %>% summarise(m = mean(value, na.rm = TRUE))
+a8 <- round(yy$m[yy$year == "2025"], 3)
+```
+
+::: application
+::: en
+### Application work I2
+
+Script `scripts/i02_reshape.R`.
+
+1. Pivot `water_quality_wide.csv` to long format and separate year and month. How many rows?
+2. Mean temperature of the 10 stations in **July 2024** (2 decimals)?
+3. In `water_quality_long.csv`, convert the date and replace the error codes (`-999`, pH `0`) by `NA`. How many temperatures are now missing?
+4. Pivot the five parameters to long format. How many rows?
+5. Mean dissolved oxygen of all measurements (3 decimals)?
+6. Build the station table (`pivot_wider`). Which station has the highest mean turbidity? How many columns has the table?
+7. Mean salinity in **2025** (3 decimals)?
+:::
+::: fr
+### Travail d'application I2
+
+Script `scripts/i02_reshape.R`.
+
+1. Pivotez `water_quality_wide.csv` en format long et séparez année et mois. Combien de lignes ?
+2. Température moyenne des 10 stations en **juillet 2024** (2 décimales) ?
+3. Dans `water_quality_long.csv`, convertissez la date et remplacez les codes d'erreur (`-999`, pH `0`) par `NA`. Combien de températures manquent maintenant ?
+4. Pivotez les cinq paramètres en format long. Combien de lignes ?
+5. Oxygène dissous moyen de toutes les mesures (3 décimales) ?
+6. Construisez le tableau par station (`pivot_wider`). Quelle station a la turbidité moyenne la plus élevée ? Combien de colonnes compte le tableau ?
+7. Salinité moyenne en **2025** (3 décimales) ?
+:::
+:::
+
+::: hint
+::: en
+Question 3: the original file already has some missing temperatures? Count `NA` **after** replacing `-999`. Question 6: the station column counts as a column.
+:::
+::: fr
+Question 3 : comptez les `NA` **après** avoir remplacé `-999`. Question 6 : la colonne station compte comme une colonne.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("i02", list(
+  q_num("1. Rows after pivot_longer?", "1. Lignes après pivot_longer ?", a1, tol = 0),
+  q_num("2. Mean temperature in July 2024 (2 decimals)?", "2. Température moyenne en juillet 2024 (2 décimales) ?", a2, tol = 0.006),
+  q_num("3. Missing temperatures after cleaning?", "3. Températures manquantes après nettoyage ?", a3, tol = 0),
+  q_num("4. Rows of the long table of parameters?", "4. Lignes du tableau long des paramètres ?", a4, tol = 0),
+  q_num("5. Mean dissolved oxygen (3 decimals)?", "5. Oxygène dissous moyen (3 décimales) ?", a5, tol = 0.0006),
+  q_text("6a. Station with the highest mean turbidity?", "6a. Station à la turbidité moyenne la plus élevée ?", a6),
+  q_num("6b. Number of columns of the station table?", "6b. Nombre de colonnes du tableau par station ?", a7, tol = 0),
+  q_num("7. Mean salinity in 2025 (3 decimals)?", "7. Salinité moyenne en 2025 (3 décimales) ?", a8, tol = 0.0006),
+  q_mcq("8. Which format does ggplot2 need to draw one panel per parameter?", "8. Quel format faut-il à ggplot2 pour un panneau par paramètre ?",
+        c("Wide", "Long", "Either", "Neither"), c("Large", "Long", "Les deux", "Aucun"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="i02"}
+```{r, eval=FALSE}
+library(dplyr); library(tidyr)
+wide <- read.csv("data/water_quality_wide.csv", check.names = FALSE)
+long <- wide %>% pivot_longer(-station, names_to = "month", values_to = "temp_mean") %>%
+  separate(month, into = c("year", "month"), sep = "-", convert = TRUE)
+nrow(long)                                                                  # 1
+round(mean(long$temp_mean[long$year == 2024 & long$month == 7]), 2)         # 2
+
+wq <- read.csv("data/water_quality_long.csv")
+wq$date <- as.Date(wq$date, format = "%d/%m/%Y")
+wq$temp_C[wq$temp_C == -999] <- NA
+wq$pH[wq$pH == 0] <- NA
+sum(is.na(wq$temp_C))                                                       # 3
+tidy <- wq %>% pivot_longer(temp_C:turbidity_NTU, names_to = "parameter", values_to = "value")
+nrow(tidy)                                                                  # 4
+round(mean(tidy$value[tidy$parameter == "DO_mgL"], na.rm = TRUE), 3)        # 5
+st <- tidy %>% group_by(station, parameter) %>%
+  summarise(m = mean(value, na.rm = TRUE), .groups = "drop") %>%
+  pivot_wider(names_from = parameter, values_from = m)
+st$station[which.max(st$turbidity_NTU)]; ncol(st)                           # 6
+tidy %>% mutate(year = format(date, "%Y")) %>% filter(parameter == "salinity_psu") %>%
+  group_by(year) %>% summarise(m = round(mean(value, na.rm = TRUE), 3))     # 7
+```
+:::

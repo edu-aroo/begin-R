@@ -107,6 +107,15 @@ Téléchargez le **script modèle**, enregistrez-le dans votre dossier `scripts/
 *Séances 3 et 5.* Importez le fichier dans un objet `raw`. Regardez sa structure, son nombre de lignes, les valeurs uniques de `mpa`, `zone` et `category` (`unique()`, `table(..., useNA = "always")`). Notez chaque problème observé **avant** de corriger quoi que ce soit.
 :::
 
+::: {.callout .try}
+::: en
+**Try it.** Before cleaning, write as comments in your script the list of the problems you found in Step 1. Then compare with the list of Step 2: did you miss any?
+:::
+::: fr
+**À vous.** Avant de nettoyer, écrivez en commentaires dans votre script la liste des problèmes trouvés à l'étape 1. Comparez ensuite avec la liste de l'étape 2 : en avez-vous oublié ?
+:::
+:::
+
 ## [Step 2 — Clean]{.en}[Étape 2 — Nettoyer]{.fr} {#step2}
 
 ::: en
@@ -130,6 +139,15 @@ Téléchargez le **script modèle**, enregistrez-le dans votre dossier `scripts/
 6. Enregistrez le tableau des points propre dans `outputs/`.
 :::
 
+::: hint
+::: en
+To check your cleaning: `table(raw$mpa)` must show exactly 3 MPAs, `table(raw$zone)` 2 zones and `table(raw$category, useNA = "always")` only upper-case codes plus `NA`. Remove the duplicates **before** counting the missing points.
+:::
+::: fr
+Pour vérifier votre nettoyage : `table(raw$mpa)` doit montrer exactement 3 AMP, `table(raw$zone)` 2 zones et `table(raw$category, useNA = "always")` seulement des codes en majuscules plus `NA`. Supprimez les doublons **avant** de compter les points manquants.
+:::
+:::
+
 ## [Step 3 — Build the database]{.en}[Étape 3 — Construire la base de données]{.fr} {#step3}
 
 ::: en
@@ -137,6 +155,15 @@ Téléchargez le **script modèle**, enregistrez-le dans votre dossier `scripts/
 :::
 ::: fr
 *Séances 2, 4 et 6.* Ajoutez une colonne logique `is_hc <- category == "HC"` aux points propres. Ensuite `aggregate(is_hc ~ mpa + zone + transect, data = pts, FUN = mean)` donne, pour chaque transect, la proportion de points de corail dur. Multipliez par 100 dans une nouvelle colonne `hc_cover` et supprimez `is_hc`. Vous obtenez un tableau `db` avec **une ligne par transect**. Vérifiez qu'il a le nombre de lignes attendu (3 AMP × 2 zones × 3 transects). Enregistrez-le : c'est votre **base de données**.
+:::
+
+::: hint
+::: en
+One transect = 50 points. Cover of hard coral on a transect = 100 × number of `HC` points / number of points recorded on that transect. Build this table first (one row per transect), then compute the mean and SD per MPA and zone.
+:::
+::: fr
+Un transect = 50 points. Couverture en corail dur d'un transect = 100 × nombre de points `HC` / nombre de points relevés sur ce transect. Construisez d'abord ce tableau (une ligne par transect), puis calculez la moyenne et l'ET par AMP et par zone.
+:::
 :::
 
 ## [Step 4 — Mean and SD]{.en}[Étape 4 — Moyenne et écart-type]{.fr} {#step4}

@@ -1,0 +1,214 @@
+---
+title: "R pour les sciences marines — niveau intermédiaire"
+subtitle: "Partie 2 · Séances I5 à I8 — Conditions, boucles, fonctions, maîtriser ggplot2"
+author: "Aroo Falinirina"
+output:
+  html_document:
+    theme: null
+    highlight: tango
+    mathjax: null
+    self_contained: true
+    css: slides.css
+    includes:
+      in_header: slides-engine.html
+---
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+
+```{r, include=FALSE}
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+```{r, include=FALSE}
+source("slides/_setup_int.R")
+seaweed <- cp_seaweed()
+seaweed$zone <- factor(seaweed$zone, levels = c("North", "Centre", "South"))
+wq <- cp_wq_clean()
+```
+
+## Au programme
+
+- **I5** : conditions (`if`, `ifelse`, `case_when`) et boucles (`for`, `sapply`)
+- **I6** : écrire ses propres fonctions
+- **I7** : ggplot2 (1) : échelles, couleurs, facettes, thèmes
+- **I8** : ggplot2 (2) : moyennes ± IC, séries temporelles, annotations, patchwork
+
+<div class="notes">
+~12 min I5 · ~12 min I6 · ~18 min I7 · ~18 min I8.
+</div>
+
+## I5 — Conditions et boucles {.segue}
+
+## Une décision ou une colonne entière ?
+
+```{r}
+n <- sum(!is.na(seaweed$sgr))
+if (n < 30) message("petit échantillon") else message("n = ", n, " : ok")
+
+seaweed$growth <- ifelse(seaweed$sgr >= 3.5, "good", "low")      # vectorisé
+seaweed$growth_cl <- case_when(seaweed$sgr < 3 ~ "low",
+                               seaweed$sgr < 4 ~ "medium",
+                               TRUE ~ "high")                    # tous les autres cas
+table(seaweed$growth_cl, useNA = "ifany")
+```
+
+<div class="box warn">`if ()` attend **un seul** TRUE/FALSE ; pour une colonne : `ifelse()` ou `case_when()`.</div>
+
+## Une boucle `for`
+
+```{r}
+villages <- sort(unique(seaweed$village))
+res <- numeric(length(villages))                  # conteneur vide
+for (i in seq_along(villages)) {
+  v <- seaweed[seaweed$village == villages[i], ]
+  res[i] <- mean(v$sgr, na.rm = TRUE)
+}
+round(setNames(res, villages), 2)[1:6]
+```
+
+## La même chose, plus court
+
+```{r}
+round(sapply(split(seaweed$sgr, seaweed$village), mean, na.rm = TRUE), 2)[1:6]
+```
+
+- `split()` coupe un vecteur par groupe → une liste
+- `sapply()` applique une fonction à chaque élément
+- `for` reste utile pour **fabriquer des fichiers** : une figure, un tableau par village
+
+```{r, eval=FALSE}
+for (v in villages) {
+  p <- ggplot(seaweed[seaweed$village == v, ], aes(planting_date, sgr)) + geom_point()
+  ggsave(file.path("outputs", paste0("sgr_", v, ".png")), p, width = 16, height = 10, units = "cm")
+}
+```
+
+## I6 — Fonctions {.segue}
+
+## Écrire une fonction
+
+```{r}
+sgr <- function(w0, w1, days) {
+  if (any(w0 <= 0, na.rm = TRUE)) stop("les poids doivent être positifs")
+  100 * (log(w1) - log(w0)) / days          # la dernière valeur est renvoyée
+}
+sgr(10, 45, 45)                                # test à la main : 100 * ln(4.5) / 45
+se <- function(x) sd(x, na.rm = TRUE) / sqrt(sum(!is.na(x)))
+se(seaweed$sgr)
+```
+
+<div class="box tip">Règle : dès que vous copiez-collez le même code **trois fois**, écrivez une fonction.</div>
+
+## Fonctions + groupes
+
+```{r}
+describe <- function(x) c(n = sum(!is.na(x)), mean = mean(x, na.rm = TRUE),
+                          sd = sd(x, na.rm = TRUE), se = se(x))
+round(describe(seaweed$sgr), 3)
+seaweed %>% group_by(technique) %>%
+  summarise(n = sum(!is.na(sgr)), mean = mean(sgr, na.rm = TRUE), se = se(sgr))
+```
+
+## I7 — ggplot2 (1) {.segue}
+
+## La grammaire, rappel
+
+`ggplot(données, aes(x, y, colour = ...))` + `geom_*()` + `scale_*()` + `labs()` + `theme_*()` + `facet_*()`
+
+```{r, fig.height=3.6}
+ggplot(seaweed, aes(temp_mean, sgr, colour = technique)) +
+  geom_point(alpha = 0.3, na.rm = TRUE) +
+  scale_colour_manual(values = c("long-line" = "#1b7f8c", "off-bottom" = "#d9694a")) +
+  labs(x = "Température moyenne (°C)", y = "SGR (% / jour)", colour = NULL)
+```
+
+## Échelles et couleurs
+
+| But | Fonction |
+|---|---|
+| couleurs choisies | `scale_colour_manual(values = c(...))` |
+| palettes prêtes | `scale_*_brewer()`, `scale_*_viridis_d/c()` (daltoniens) |
+| graduations | `scale_y_continuous(breaks = ...)` |
+| dates | `scale_x_date(date_breaks = "3 months", date_labels = "%b %Y")` |
+| zoomer sans couper | `coord_cartesian(ylim = c(2, 5))` |
+
+<div class="box warn">`ylim()` / `limits =` **supprime** les points hors limites avant les calculs (boxplots faux) ; `coord_cartesian()` zoome seulement.</div>
+
+## Facettes
+
+```{r, fig.height=3.6}
+ggplot(seaweed, aes(technique, sgr, fill = technique)) +
+  geom_boxplot(na.rm = TRUE, show.legend = FALSE) +
+  facet_wrap(~ zone) +
+  scale_fill_manual(values = c("#1b7f8c", "#d9694a")) + labs(x = NULL, y = "SGR (% / jour)")
+```
+
+## Thèmes
+
+```{r, fig.height=3.3}
+theme_coop <- function(size = 14) {                 # votre thème = une fonction (I6)
+  theme_minimal(base_size = size) +
+    theme(legend.position = "top", panel.grid.minor = element_blank(),
+          plot.title = element_text(face = "bold", colour = "#0b3d5c"))
+}
+ggplot(seaweed, aes(sgr)) + geom_histogram(binwidth = 0.1, fill = "#1b7f8c", na.rm = TRUE) +
+  labs(title = "Croissance des algues", x = "SGR (% / jour)", y = "Cordes") + theme_coop()
+```
+
+## I8 — ggplot2 (2) {.segue}
+
+## Moyennes ± IC à 95 %
+
+```{r, fig.height=3.3}
+summ <- seaweed %>% group_by(zone, technique) %>%
+  summarise(m = mean(sgr, na.rm = TRUE), se = se(sgr), .groups = "drop")
+ggplot(summ, aes(zone, m, colour = technique)) +
+  geom_pointrange(aes(ymin = m - 1.96 * se, ymax = m + 1.96 * se),
+                  position = position_dodge(width = 0.5)) +
+  labs(x = NULL, y = "SGR moyen (% / jour)", colour = NULL, caption = "Barres : IC 95 %")
+```
+
+## Séries temporelles
+
+```{r, fig.height=3.3}
+st <- read.csv("data/stations.csv")
+wz <- wq %>% left_join(st[, c("station", "zone")], by = "station") %>%
+  group_by(zone, date) %>% summarise(temp = mean(temp_C, na.rm = TRUE), .groups = "drop")
+ggplot(wz, aes(date, temp, colour = zone)) + geom_line() +
+  scale_x_date(date_breaks = "6 months", date_labels = "%b %Y") +
+  labs(x = NULL, y = "Température (°C)", colour = NULL)
+```
+
+## Ordonner et annoter
+
+```{r, fig.height=3.4}
+ggplot(seaweed, aes(reorder(village, sgr, median, na.rm = TRUE), sgr)) +
+  geom_boxplot(fill = "#cfe7ea", na.rm = TRUE) + coord_flip() +
+  geom_hline(yintercept = 3.5, linetype = 2, colour = "#d9694a") +
+  annotate("text", x = 1.5, y = 4.6, label = "objectif : 3,5 %/j", colour = "#d9694a") +
+  labs(x = NULL, y = "SGR (% / jour)")
+```
+
+## Combiner avec patchwork
+
+```{r, fig.height=3, fig.width=9, out.width="80%", eval=TRUE}
+pA <- ggplot(seaweed, aes(sgr)) + geom_histogram(binwidth = 0.1, na.rm = TRUE)
+pB <- ggplot(seaweed, aes(season, sgr)) + geom_boxplot(na.rm = TRUE)
+pC <- ggplot(seaweed, aes(temp_mean, sgr)) + geom_smooth(method = "loess", formula = y ~ x, na.rm = TRUE)
+(pA | pB | pC) + plot_annotation(tag_levels = "A")
+# ggsave("outputs/figure_1.png", width = 18, height = 8, units = "cm", dpi = 300)
+```
+
+## À retenir — partie 2
+
+- `if` pour une décision, `ifelse()` / `case_when()` pour une colonne
+- `for` pour répéter et produire des fichiers ; `sapply(split())` pour résumer
+- une fonction = du code réutilisable et testé
+- un bon graphique : bonnes **échelles**, couleurs lisibles, **légende avec unités**, IC indiqués
+- `coord_cartesian()` pour zoomer, `patchwork` pour assembler, `ggsave()` pour exporter
+
+<div class="box tip">**À faire** : séances I5 à I8 en ligne, avec leurs quiz.</div>
+
+## Merci ! {.segue}

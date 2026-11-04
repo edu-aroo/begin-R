@@ -1,0 +1,364 @@
+---
+title: "[I11 · First maps with ggplot2]{.en}[I11 · Premières cartes avec ggplot2]{.fr}"
+pagetitle: "R for marine sciences · I11"
+subtitle: "~2.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/intermediate_pipeline.R")
+library(ggplot2); library(dplyr)
+seaweed <- cp_seaweed()
+wq <- cp_wq_clean()
+knitr::opts_chunk$set(fig.width = 6, fig.height = 6.2, out.width = "70%")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- understand **longitude / latitude** coordinates and why a map needs a correct **aspect ratio** (`coord_quickmap()`);
+- draw land as a **polygon** and add several datasets as **layers** (villages, stations);
+- **join** results to coordinates (Session I3) and map them with **size and colour**;
+- add labels, a north arrow and an approximate scale, facet a map, and save it;
+- know what the **sf** package adds (preview of the Advanced level).
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- comprendre les coordonnées **longitude / latitude** et pourquoi une carte a besoin d'un **rapport d'aspect** correct (`coord_quickmap()`) ;
+- dessiner la terre comme un **polygone** et ajouter plusieurs jeux de données en **couches** (villages, stations) ;
+- **joindre** des résultats aux coordonnées (séance I3) et les cartographier par la **taille et la couleur** ;
+- ajouter des étiquettes, une flèche du nord et une échelle approximative, découper une carte en facettes et l'enregistrer ;
+- savoir ce qu'apporte le package **sf** (aperçu du niveau avancé).
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Data of this session (simulated).** Three small coordinate tables, all in **WGS84** longitude/latitude (decimal degrees, the system of a handheld GPS and of Google Maps):
+
+- `coastline.csv` — the shoreline was **digitised** by the NGO technician by clicking points along the coast on a free satellite image (93 points), then closed towards the east to form the **land polygon**. Type: ordered vertices of a polygon.
+- `villages.csv` — position of the landing beach of each of the 12 villages (handheld GPS), its zone and the number of cooperative farmers. Type: points + attributes.
+- `stations.csv` — position (GPS on the boat) and depth (weighted rope) of the 10 water-quality stations. Type: points + attributes.
+
+The coastline is invented: it represents **no real place**. In this region the land is to the **east** and the sea to the **west**.
+:::
+::: fr
+**Données de cette séance (simulées).** Trois petites tables de coordonnées, toutes en longitude/latitude **WGS84** (degrés décimaux, le système d'un GPS de poche et de Google Maps) :
+
+- `coastline.csv` — le trait de côte a été **numérisé** par le technicien de l'ONG en cliquant des points le long de la côte sur une image satellite gratuite (93 points), puis fermé vers l'est pour former le **polygone de terre**. Type : sommets ordonnés d'un polygone.
+- `villages.csv` — position de la plage de débarquement de chacun des 12 villages (GPS de poche), sa zone et le nombre de cultivateurs de la coopérative. Type : points + attributs.
+- `stations.csv` — position (GPS sur le bateau) et profondeur (corde lestée) des 10 stations de qualité de l'eau. Type : points + attributs.
+
+Le trait de côte est inventé : il ne représente **aucun lieu réel**. Dans cette région la terre est à l'**est** et la mer à l'**ouest**.
+:::
+:::
+
+`r dl("coastline.csv", "coastline.csv")` `r dl("villages.csv", "villages.csv")` `r dl("stations.csv", "stations.csv")`
+
+## [A map is a scatter plot]{.en}[Une carte est un nuage de points]{.fr} {#points}
+
+::: en
+Longitude is the **x** (east–west) coordinate and latitude the **y** (north–south) coordinate. South of the equator, latitudes are **negative**: −23.2 is further south than −22.6. So a first map is just `geom_point()`:
+:::
+::: fr
+La longitude est la coordonnée **x** (est–ouest) et la latitude la coordonnée **y** (nord–sud). Au sud de l'équateur, les latitudes sont **négatives** : −23,2 est plus au sud que −22,6. Une première carte est donc simplement `geom_point()` :
+:::
+
+```{r}
+villages <- read.csv("data/villages.csv")
+stations <- read.csv("data/stations.csv")
+coast    <- read.csv("data/coastline.csv")
+
+ggplot(villages, aes(x = lon, y = lat)) +
+  geom_point() +
+  coord_quickmap()      # correct aspect ratio for the latitude (see below)
+```
+
+::: {.callout .warning}
+::: en
+**Why `coord_quickmap()`?** One degree of latitude is always ≈ 111 km, but one degree of longitude shrinks towards the poles (≈ 111 × cos(latitude) km: about 102 km here at 23° S). Without a map coordinate system, ggplot stretches the axes to fill the figure and the shapes are distorted. `coord_quickmap()` sets the right ratio; `coord_sf()` (with the sf package, below) uses a true map projection.
+:::
+::: fr
+**Pourquoi `coord_quickmap()` ?** Un degré de latitude vaut toujours ≈ 111 km, mais un degré de longitude rétrécit vers les pôles (≈ 111 × cos(latitude) km : environ 102 km ici à 23° S). Sans système de coordonnées cartographique, ggplot étire les axes pour remplir la figure et les formes sont déformées. `coord_quickmap()` fixe le bon rapport ; `coord_sf()` (avec le package sf, plus bas) utilise une vraie projection cartographique.
+:::
+:::
+
+## [Land, sea and layers]{.en}[Terre, mer et couches]{.fr} {#layers}
+
+::: en
+`geom_polygon()` joins the points **in the order of the rows** and fills the inside: the coastline file must stay in its original order (never `arrange()` it!). Each layer can have its **own data**: put `data =` and `aes()` inside the `geom_*()`. Layers are drawn in the order you write them: land first, then points on top.
+:::
+::: fr
+`geom_polygon()` relie les points **dans l'ordre des lignes** et remplit l'intérieur : le fichier de côte doit rester dans son ordre d'origine (ne jamais le trier avec `arrange()` !). Chaque couche peut avoir ses **propres données** : mettez `data =` et `aes()` dans le `geom_*()`. Les couches sont dessinées dans l'ordre où vous les écrivez : la terre d'abord, puis les points par-dessus.
+:::
+
+```{r}
+base_map <- ggplot() +
+  geom_polygon(data = coast, aes(lon, lat), fill = "#efe6d2", colour = "#8a7a5a", linewidth = 0.4) +
+  coord_quickmap(xlim = c(43.38, 43.88), ylim = c(-23.35, -22.55), expand = FALSE) +  # zoom on the study area
+  labs(x = "Longitude (°E)", y = "Latitude (°)") +
+  theme_minimal(base_size = 12) +
+  theme(panel.background = element_rect(fill = "#d8ecf2", colour = NA),   # the sea
+        panel.grid = element_line(colour = "white", linewidth = 0.3))
+base_map                                     # a ggplot object can be stored and reused (Session I8)
+```
+
+```{r}
+base_map +
+  geom_point(data = stations, aes(lon, lat), shape = 21, fill = "#1b7f8c", colour = "white", size = 3) +
+  geom_point(data = villages, aes(lon, lat), shape = 22, fill = "#d9694a", colour = "black", size = 2.5) +
+  geom_text(data = villages, aes(lon, lat, label = village), hjust = 0, nudge_x = 0.012, size = 3.2) +
+  geom_text(data = stations, aes(lon, lat, label = station), hjust = 1, nudge_x = -0.01,
+            size = 2.8, colour = "#0b3d5c")
+```
+
+::: en
+`hjust = 0` aligns the **start** of the text on the point (text to the right), `hjust = 1` its **end** (text to the left); `nudge_x` moves it a little. When labels overlap, the package **ggrepel** (`geom_text_repel()`) moves them automatically — optional: `install.packages("ggrepel")`.
+:::
+::: fr
+`hjust = 0` aligne le **début** du texte sur le point (texte à droite), `hjust = 1` sa **fin** (texte à gauche) ; `nudge_x` le décale un peu. Quand les étiquettes se chevauchent, le package **ggrepel** (`geom_text_repel()`) les déplace automatiquement — optionnel : `install.packages("ggrepel")`.
+:::
+
+::: compare
+::: {.col .base}
+**base R**
+```{r, eval=FALSE}
+plot(coast$lon, coast$lat, type = "n", asp = 1 / cos(23 * pi / 180),
+     xlim = c(43.38, 43.88), xlab = "Lon", ylab = "Lat")
+polygon(coast$lon, coast$lat, col = "wheat")
+points(villages$lon, villages$lat, pch = 15, col = "tomato")
+text(villages$lon, villages$lat, villages$village, pos = 4, cex = 0.7)
+```
+:::
+::: {.col .pkg}
+**ggplot2**
+```{r, eval=FALSE}
+ggplot() +
+  geom_polygon(data = coast, aes(lon, lat), fill = "wheat") +
+  geom_point(data = villages, aes(lon, lat), colour = "tomato") +
+  geom_text(data = villages, aes(lon, lat, label = village), hjust = 0) +
+  coord_quickmap()
+```
+:::
+:::
+
+## [Mapping results]{.en}[Cartographier des résultats]{.fr} {#results}
+
+::: en
+A thematic map shows a **value** at each place. The recipe always has the same three steps: **summarise** per place (Sessions I3, I6) → **join** to the coordinates by the shared key → map the value to `size`, `colour` or `fill`.
+:::
+::: fr
+Une carte thématique montre une **valeur** en chaque lieu. La recette a toujours les trois mêmes étapes : **résumer** par lieu (séances I3, I6) → **joindre** aux coordonnées par la clé commune → associer la valeur à `size`, `colour` ou `fill`.
+:::
+
+```{r}
+growth <- seaweed %>%
+  group_by(village) %>%
+  summarise(mean_sgr = mean(sgr, na.rm = TRUE), n_lines = n(), .groups = "drop")
+growth_map <- left_join(villages, growth, by = "village")      # key: village
+head(growth_map)
+
+base_map +
+  geom_point(data = growth_map, aes(lon, lat, size = n_lines, fill = mean_sgr),
+             shape = 21, colour = "black") +
+  geom_text(data = growth_map, aes(lon, lat, label = village), hjust = 0, nudge_x = 0.015, size = 3) +
+  scale_fill_viridis_c(option = "mako", direction = -1, name = "Mean SGR\n(% per day)") +  # colour-blind safe
+  scale_size_area(max_size = 9, name = "Lines") +
+  labs(title = "Seaweed growth by village, 2024–2025")
+```
+
+::: {.callout .tip}
+::: en
+**Good map habits.** Use `size` for a **quantity** (number of lines, of farmers) and `colour/fill` for an **intensity** (mean, rate). Use `scale_size_area()` so that the **area** of the circle is proportional to the value. Choose a **sequential** colour scale (viridis) for a value that goes from low to high, and keep the legend title explicit with its unit.
+:::
+::: fr
+**Bonnes habitudes.** Utilisez `size` pour une **quantité** (nombre de lignes, de cultivateurs) et `colour/fill` pour une **intensité** (moyenne, taux). Utilisez `scale_size_area()` pour que la **surface** du cercle soit proportionnelle à la valeur. Choisissez une échelle de couleurs **séquentielle** (viridis) pour une valeur qui va de faible à élevée, et gardez un titre de légende explicite avec son unité.
+:::
+:::
+
+### [Facets: one map per season]{.en}[Facettes : une carte par saison]{.fr}
+
+```{r, fig.width=8.5, fig.height=6, out.width="90%"}
+growth_season <- seaweed %>%
+  group_by(village, season) %>%
+  summarise(mean_sgr = mean(sgr, na.rm = TRUE), .groups = "drop") %>%
+  left_join(villages, by = "village")
+
+base_map +
+  geom_point(data = growth_season, aes(lon, lat, fill = mean_sgr), shape = 21, size = 4) +
+  scale_fill_viridis_c(option = "mako", direction = -1, name = "Mean SGR") +
+  facet_wrap(~ season, labeller = labeller(season = c(dry = "Dry season", wet = "Wet season")))
+```
+
+::: en
+The same colour scale is shared by both panels, so the colours can be compared directly: growth is higher everywhere in the dry season (Session I10).
+:::
+::: fr
+La même échelle de couleurs est partagée par les deux panneaux, donc les couleurs se comparent directement : la croissance est plus forte partout en saison sèche (séance I10).
+:::
+
+## [North arrow, scale and export]{.en}[Flèche du nord, échelle et export]{.fr} {#finish}
+
+::: en
+Without a GIS package we can draw them with `annotate()`. For the scale: 0.1° of **latitude** ≈ 11.1 km everywhere, so a **vertical** bar of 0.09° is 10 km. (A horizontal bar would need the cos(latitude) correction.)
+:::
+::: fr
+Sans package SIG, on peut les dessiner avec `annotate()`. Pour l'échelle : 0,1° de **latitude** ≈ 11,1 km partout, donc une barre **verticale** de 0,09° fait 10 km. (Une barre horizontale demanderait la correction cos(latitude).)
+:::
+
+```{r}
+final_map <- base_map +
+  geom_point(data = stations, aes(lon, lat), shape = 21, fill = "#1b7f8c", colour = "white", size = 3) +
+  geom_point(data = villages, aes(lon, lat), shape = 22, fill = "#d9694a", size = 2.5) +
+  # north arrow
+  annotate("segment", x = 43.44, xend = 43.44, y = -22.70, yend = -22.63,
+           arrow = arrow(length = unit(0.25, "cm")), linewidth = 0.8) +
+  annotate("text", x = 43.44, y = -22.61, label = "N", fontface = "bold") +
+  # vertical scale bar of 10 km (0.09 degree of latitude)
+  annotate("segment", x = 43.44, xend = 43.44, y = -23.30, yend = -23.21, linewidth = 1.5) +
+  annotate("text", x = 43.45, y = -23.255, label = "10 km", hjust = 0, size = 3.2) +
+  labs(title = "Study area", subtitle = "Squares: villages · circles: water-quality stations",
+       caption = "Coordinates WGS84 · simulated data")
+final_map
+```
+
+```{r, eval=FALSE}
+ggsave("outputs/map_study_area.png", final_map, width = 14, height = 16, units = "cm", dpi = 300)
+```
+
+::: {.callout .try}
+::: en
+**Try it.** Map the 10 stations coloured by their **mean turbidity** (`turbidity_NTU`, from the clean water-quality data) with a size proportional to their depth. Which zone is the most turbid?
+:::
+::: fr
+**À vous.** Cartographiez les 10 stations colorées par leur **turbidité moyenne** (`turbidity_NTU`, données de qualité d'eau nettoyées) avec une taille proportionnelle à leur profondeur. Quelle zone est la plus turbide ?
+:::
+:::
+
+## [Preview: the sf package]{.en}[Aperçu : le package sf]{.fr} {#sf}
+
+::: en
+Real projects use GIS files (shapefiles, GeoPackages) and **projections**. The **sf** package stores the geometry in a special column of a data frame, so that dplyr verbs still work, and `geom_sf()` + `coord_sf()` draw it with a real map projection. You will use it (with terra and tmap) at the **Advanced** level; here is just a taste. Optional: `install.packages("sf")`.
+:::
+::: fr
+Les vrais projets utilisent des fichiers SIG (shapefiles, GeoPackages) et des **projections**. Le package **sf** stocke la géométrie dans une colonne spéciale d'un data frame, si bien que les verbes dplyr fonctionnent toujours, et `geom_sf()` + `coord_sf()` la dessinent avec une vraie projection. Vous l'utiliserez (avec terra et tmap) au niveau **avancé** ; voici juste un avant-goût. Optionnel : `install.packages("sf")`.
+:::
+
+```{r sf, eval=requireNamespace("sf", quietly = TRUE), message=FALSE}
+library(sf)
+villages_sf <- st_as_sf(villages, coords = c("lon", "lat"), crs = 4326)   # 4326 = code of WGS84
+land_sf <- st_sfc(st_polygon(list(as.matrix(rbind(coast, coast[1, ])))), crs = 4326)  # closed ring
+villages_sf                     # a data frame with a "geometry" column
+ggplot() +
+  geom_sf(data = land_sf, fill = "#efe6d2") +
+  geom_sf(data = villages_sf, aes(size = n_farmers), colour = "#d9694a") +
+  coord_sf(xlim = c(43.38, 43.88), ylim = c(-23.35, -22.55)) +
+  scale_x_continuous(breaks = c(43.4, 43.6, 43.8)) +
+  theme_minimal()
+```
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+V <- read.csv("data/villages.csv"); S <- cp_seaweed(); W <- cp_wq_clean()
+a1 <- sum(V$n_farmers[V$zone == "South"])
+g <- S %>% group_by(village) %>% summarise(m = mean(sgr, na.rm = TRUE)) %>% arrange(desc(m))
+a2 <- g$village[1]; a3 <- round(g$m[1], 3)
+tu <- W %>% group_by(station) %>% summarise(t = mean(turbidity_NTU, na.rm = TRUE)) %>% arrange(desc(t))
+a4 <- tu$station[1]
+a5 <- round((max(V$lat) - min(V$lat)) * 111)
+```
+
+::: application
+::: en
+### Application work I11
+
+Script `scripts/i11_maps.R`.
+
+1. Map the villages with a size proportional to `n_farmers`. Total number of farmers in the **South** zone?
+2. Join the mean SGR per village to `villages.csv` and map it. Which village has the highest mean SGR, and what is its value (3 decimals)?
+3. Map the stations coloured by mean turbidity (Try it above). Which station is the most turbid?
+4. North–south extent of the villages in km (difference of latitudes × 111, rounded to the km)?
+5. Add a north arrow, a 10 km scale bar, a title and a caption to your map of question 2, and save it as PNG.
+:::
+::: fr
+### Travail d'application I11
+
+Script `scripts/i11_maps.R`.
+
+1. Cartographiez les villages avec une taille proportionnelle à `n_farmers`. Nombre total de cultivateurs dans la zone **Sud** ?
+2. Joignez le SGR moyen par village à `villages.csv` et cartographiez-le. Quel village a le SGR moyen le plus élevé, et quelle est sa valeur (3 décimales) ?
+3. Cartographiez les stations colorées par turbidité moyenne (« À vous » ci-dessus). Quelle station est la plus turbide ?
+4. Étendue nord–sud des villages en km (différence des latitudes × 111, arrondie au km) ?
+5. Ajoutez une flèche du nord, une barre d'échelle de 10 km, un titre et une légende à votre carte de la question 2, et enregistrez-la en PNG.
+:::
+:::
+
+::: hint
+::: en
+Question 3: `wq %>% group_by(station) %>% summarise(turb = mean(turbidity_NTU, na.rm = TRUE))`, then `left_join()` with `stations` by `"station"`.
+:::
+::: fr
+Question 3 : `wq %>% group_by(station) %>% summarise(turb = mean(turbidity_NTU, na.rm = TRUE))`, puis `left_join()` avec `stations` par `"station"`.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("i11", list(
+  q_num("1. Total number of farmers in the South zone?", "1. Nombre total de cultivateurs dans la zone Sud ?", a1, tol = 0),
+  q_text("2a. Village with the highest mean SGR?", "2a. Village au SGR moyen le plus élevé ?", a2),
+  q_num("2b. Its mean SGR (3 decimals)?", "2b. Son SGR moyen (3 décimales) ?", a3, tol = 0.0006),
+  q_text("3. Most turbid station (e.g. WQ01)?", "3. Station la plus turbide (ex. WQ01) ?", a4),
+  q_num("4. North–south extent of the villages (km)?", "4. Étendue nord–sud des villages (km) ?", a5, tol = 1),
+  q_mcq("5. What does coord_quickmap() do?", "5. Que fait coord_quickmap() ?",
+        c("It downloads a background map", "It sets an aspect ratio so that distances in longitude and latitude look right",
+          "It sorts the points", "It converts coordinates to km"),
+        c("Elle télécharge un fond de carte", "Elle fixe un rapport d'aspect pour que les distances en longitude et latitude soient justes",
+          "Elle trie les points", "Elle convertit les coordonnées en km"), correct = 2),
+  q_mcq("6. Your land polygon looks like a zig-zag star. Most likely cause?", "6. Votre polygone de terre ressemble à une étoile en zigzag. Cause la plus probable ?",
+        c("The rows of the coastline were re-ordered (e.g. with arrange())", "The colours are wrong",
+          "coord_quickmap() is missing", "The latitudes are negative"),
+        c("Les lignes du trait de côte ont été réordonnées (par ex. avec arrange())", "Les couleurs sont fausses",
+          "coord_quickmap() manque", "Les latitudes sont négatives"), correct = 1),
+  q_mcq("7. To show the number of lines AND the mean SGR of each village on the same map, the best choice is:",
+        "7. Pour montrer le nombre de lignes ET le SGR moyen de chaque village sur la même carte, le meilleur choix est :",
+        c("size = n_lines, fill = mean_sgr", "size = mean_sgr, fill = n_lines", "two separate geom_text()", "shape = mean_sgr"),
+        c("size = n_lines, fill = mean_sgr", "size = mean_sgr, fill = n_lines", "deux geom_text() séparés", "shape = mean_sgr"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="i11"}
+```{r, eval=FALSE}
+library(ggplot2); library(dplyr)
+villages <- read.csv("data/villages.csv"); stations <- read.csv("data/stations.csv")
+coast <- read.csv("data/coastline.csv")
+seaweed <- read.csv("data/checkpoints/I3_seaweed_analysis.csv")
+wq <- read.csv("data/checkpoints/I2_water_quality_clean.csv")
+base_map <- ggplot() + geom_polygon(data = coast, aes(lon, lat), fill = "#efe6d2") +
+  coord_quickmap(xlim = c(43.38, 43.88), ylim = c(-23.35, -22.55)) + theme_minimal()
+# 1
+base_map + geom_point(data = villages, aes(lon, lat, size = n_farmers))
+sum(villages$n_farmers[villages$zone == "South"])
+# 2
+growth <- seaweed %>% group_by(village) %>% summarise(mean_sgr = mean(sgr, na.rm = TRUE))
+gm <- left_join(villages, growth, by = "village")
+gm[which.max(gm$mean_sgr), c("village", "mean_sgr")]
+p2 <- base_map + geom_point(data = gm, aes(lon, lat, fill = mean_sgr), shape = 21, size = 4) +
+  scale_fill_viridis_c(name = "Mean SGR")
+# 3
+turb <- wq %>% group_by(station) %>% summarise(turb = mean(turbidity_NTU, na.rm = TRUE)) %>%
+  left_join(stations, by = "station")
+turb[which.max(turb$turb), ]
+base_map + geom_point(data = turb, aes(lon, lat, colour = turb, size = depth_m))
+# 4
+round((max(villages$lat) - min(villages$lat)) * 111)
+# 5
+p5 <- p2 +
+  annotate("segment", x = 43.44, xend = 43.44, y = -22.70, yend = -22.63, arrow = arrow()) +
+  annotate("text", x = 43.44, y = -22.61, label = "N") +
+  annotate("segment", x = 43.44, xend = 43.44, y = -23.30, yend = -23.21, linewidth = 1.5) +
+  annotate("text", x = 43.45, y = -23.255, label = "10 km", hjust = 0) +
+  labs(title = "Mean seaweed growth by village", caption = "WGS84 · simulated data")
+ggsave("outputs/map_sgr.png", p5, width = 14, height = 16, units = "cm", dpi = 300)
+```
+:::

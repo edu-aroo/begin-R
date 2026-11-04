@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · I13</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I13 · Final project: sea
+cucumber farming in three farms</span><span class="fr">I13 · Projet
+final : élevage d’holothuries dans trois fermes</span></h1>
+<h3 class="subtitle">~4.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="in-this-project-you-will-on-your-own"
+class="section level4 en">
+<h4>In this project you will, on your own</h4>
+<ul>
+<li>import <strong>three related tables</strong>, convert dates and
+check their structure;</li>
+<li>summarise <strong>4 800 individual weights</strong> into one growth
+value per pen, with <strong>your own function</strong>;</li>
+<li>compute <strong>survival</strong>, <strong>biomass</strong> and
+<strong>yield</strong>, and <strong>join</strong> everything into one
+analysis table;</li>
+<li>make <strong>publication-quality figures</strong> (growth curves,
+comparisons, a map);</li>
+<li><strong>choose, justify and report</strong> a test of mean
+comparison and a correlation;</li>
+<li>write a short interpretation for the farmers.</li>
+</ul>
+<p>This is the last quiz of the Intermediate level (two attempts, the
+best one counts).</p>
+</div>
+<div id="dans-ce-projet-vous-allez-en-autonomie"
+class="section level4 fr">
+<h4>Dans ce projet, vous allez, en autonomie</h4>
+<ul>
+<li>importer <strong>trois tables liées</strong>, convertir les dates et
+vérifier leur structure ;</li>
+<li>résumer <strong>4 800 poids individuels</strong> en une valeur de
+croissance par enclos, avec <strong>votre propre fonction</strong>
+;</li>
+<li>calculer la <strong>survie</strong>, la <strong>biomasse</strong> et
+le <strong>rendement</strong>, et <strong>joindre</strong> le tout en
+une table d’analyse ;</li>
+<li>produire des <strong>figures de qualité publication</strong>
+(courbes de croissance, comparaisons, une carte) ;</li>
+<li><strong>choisir, justifier et rapporter</strong> un test de
+comparaison de moyennes et une corrélation ;</li>
+<li>rédiger une courte interprétation pour les éleveurs.</li>
+</ul>
+<p>C’est le dernier quiz du niveau intermédiaire (deux tentatives, la
+meilleure compte).</p>
+</div>
+</div>
+<div id="data" class="section level2">
+<h2><span class="en">The farms and the data</span><span class="fr">Les
+fermes et les données</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> Three community farms (<em>Farm
+A</em> in Ankarabe, <em>Farm B</em> in Ambalakely, <em>Farm C</em> in
+Sarondrano) rear the sandfish <em>Holothuria scabra</em> in <strong>sea
+pens</strong>: squares of seagrass and sand on the tidal flat, fenced
+with nets. In September–October 2024 each farm stocked <strong>8
+pens</strong> with hatchery juveniles (about 15 g). The farm technicians
+then followed growth for 10 months.</p>
+<ul>
+<li><code>seacucumber_pens.csv</code> — one row per pen (24 rows): farm,
+village, area (m²), stocking date (written <code>dd/mm/yyyy</code> in
+the paper register), number of juveniles stocked and stocking
+<strong>density</strong> (individuals per m²). <em>Type: reference
+table.</em></li>
+<li><code>seacucumber_monitoring.csv</code> — every 30 days, the
+technician collected <strong>20 animals at random</strong> in each pen,
+weighed them on a kitchen scale (g) after letting them drain, and put
+them back (4 800 rows: 24 pens × 10 visits × 20 animals). <em>Type:
+repeated measurements, long format.</em></li>
+<li><code>seacucumber_harvest.csv</code> — number of animals
+<strong>alive at harvest</strong> (counted when the pens were emptied).
+<em>Type: one count per pen.</em></li>
+</ul>
+<p><strong>Questions of the farmers:</strong> Which farm grows sea
+cucumbers fastest? Does a high stocking density slow down growth? Which
+farm gets the best yield per m²?</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> Trois fermes communautaires
+(<em>Farm A</em> à Ankarabe, <em>Farm B</em> à Ambalakely, <em>Farm
+C</em> à Sarondrano) élèvent l’holothurie de sable <em>Holothuria
+scabra</em> en <strong>enclos marins</strong> : des carrés d’herbier et
+de sable sur l’estran, clôturés de filets. En septembre–octobre 2024,
+chaque ferme a ensemencé <strong>8 enclos</strong> avec des juvéniles
+d’écloserie (environ 15 g). Les techniciens ont ensuite suivi la
+croissance pendant 10 mois.</p>
+<ul>
+<li><code>seacucumber_pens.csv</code> — une ligne par enclos (24 lignes)
+: ferme, village, surface (m²), date d’ensemencement (écrite
+<code>jj/mm/aaaa</code> dans le registre papier), nombre de juvéniles et
+<strong>densité</strong> d’ensemencement (individus par m²). <em>Type :
+table de référence.</em></li>
+<li><code>seacucumber_monitoring.csv</code> — tous les 30 jours, le
+technicien prélevait <strong>20 animaux au hasard</strong> dans chaque
+enclos, les pesait sur une balance de cuisine (g) après égouttage, puis
+les remettait (4 800 lignes : 24 enclos × 10 visites × 20 animaux).
+<em>Type : mesures répétées, format long.</em></li>
+<li><code>seacucumber_harvest.csv</code> — nombre d’animaux
+<strong>vivants à la récolte</strong> (comptés à la vidange des enclos).
+<em>Type : un comptage par enclos.</em></li>
+</ul>
+<p><strong>Questions des éleveurs :</strong> Quelle ferme fait grandir
+les holothuries le plus vite ? Une forte densité ralentit-elle la
+croissance ? Quelle ferme obtient le meilleur rendement au m² ?</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/seacucumber_pens.csv" download>⇩
+seacucumber_pens.csv</a>
+<a class="btn-dl" href="data/seacucumber_monitoring.csv" download>⇩
+seacucumber_monitoring.csv</a>
+<a class="btn-dl" href="data/seacucumber_harvest.csv" download>⇩
+seacucumber_harvest.csv</a>
+<a class="btn-dl" href="templates/final_project_intermediate_template.R" download>⇩
+template script</a></p>
+<div class="en">
+<p><strong>Definitions to use</strong> (so that everybody gets the same
+numbers):</p>
+<ul>
+<li><strong>Mean weight</strong> of a pen at a visit = mean of the 20
+weights of that visit.</li>
+<li><strong>Growth rate</strong> of a pen = SGR between the
+<strong>first</strong> (month 1) and the <strong>last</strong> (month
+10) visit, from the mean weights: SGR = 100 × (ln W<sub>last</sub> − ln
+W<sub>first</sub>) / days, where <em>days</em> is the number of days
+between the two visit dates. Write it as a function
+<code>sgr(w0, w1, days)</code> (Session I6).</li>
+<li><strong>Survival</strong> (%) = 100 × alive at harvest / juveniles
+stocked.</li>
+<li><strong>Biomass at harvest</strong> (kg) = alive at harvest × mean
+weight at the last visit / 1000.</li>
+<li><strong>Yield</strong> (kg/m²) = biomass / pen area.</li>
+</ul>
+</div>
+<div class="fr">
+<p><strong>Définitions à utiliser</strong> (pour que tout le monde
+obtienne les mêmes chiffres) :</p>
+<ul>
+<li><strong>Poids moyen</strong> d’un enclos à une visite = moyenne des
+20 poids de cette visite.</li>
+<li><strong>Taux de croissance</strong> d’un enclos = SGR entre la
+<strong>première</strong> (mois 1) et la <strong>dernière</strong> (mois
+10) visite, à partir des poids moyens : SGR = 100 × (ln
+P<sub>dernier</sub> − ln P<sub>premier</sub>) / jours, où <em>jours</em>
+est le nombre de jours entre les deux dates de visite. Écrivez-le comme
+une fonction <code>sgr(w0, w1, days)</code> (séance I6).</li>
+<li><strong>Survie</strong> (%) = 100 × vivants à la récolte / juvéniles
+ensemencés.</li>
+<li><strong>Biomasse à la récolte</strong> (kg) = vivants à la récolte ×
+poids moyen à la dernière visite / 1000.</li>
+<li><strong>Rendement</strong> (kg/m²) = biomasse / surface de
+l’enclos.</li>
+</ul>
+</div>
+</div>
+<div id="tasks" class="section level2">
+<h2><span class="en">Your tasks</span><span class="fr">Vos
+tâches</span></h2>
+<div class="application">
+<div class="en">
+<p>Work in <code>scripts/i13_final_project.R</code> (start from the
+template). Each step reuses one or more sessions.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Import and check</strong> (I0–I1). Import the three files,
+convert <code>stocking_date</code> and <code>date</code> to
+<code>Date</code>. How many pens have a density <strong>above
+1.5</strong> per m²? Check that every pen has 10 visits × 20
+animals.</li>
+<li><strong>Summarise per pen and visit</strong> (I3, I6). Mean weight
+per pen and visit. Overall mean of the individual weights at
+<strong>month 10</strong> (1 decimal)?</li>
+<li><strong>Growth per pen</strong> (I6). With your <code>sgr()</code>
+function, compute one SGR per pen. Which pen grows fastest, and what is
+its SGR (3 decimals)?</li>
+<li><strong>One analysis table</strong> (I3). Join pens, harvest and
+growth; add survival, biomass and yield. Mean survival of <strong>Farm
+B</strong> (%, 1 decimal)? Total biomass harvested by the three farms
+(kg, nearest kg)?</li>
+<li><strong>Figures</strong> (I7–I8). (a) growth curves: mean weight ±
+95 % CI per farm against <code>month_no</code>; (b) SGR per pen by farm
+(points + mean); (c) SGR against density, coloured by farm. Combine them
+with patchwork and save the figure.</li>
+<li><strong>Compare two farms</strong> (I9–I10). Is growth different
+between <strong>Farm B and Farm C</strong>? Plot, check the shape (8
+pens per farm), choose the test and justify it. Difference of mean SGR,
+C − B (3 decimals)?</li>
+<li><strong>Density and growth</strong> (I10). Pearson correlation
+between density and SGR over the 24 pens (3 decimals). Is Pearson
+appropriate here? What else could explain the relation?</li>
+<li><strong>Map</strong> (I11). Map the three farm villages on the
+coastline, with a point size proportional to total biomass and a colour
+for mean yield.</li>
+<li><strong>Interpretation.</strong> Write 5–8 lines of comments
+answering the farmers’ three questions, with numbers.</li>
+</ol>
+</div>
+<div class="fr">
+<p>Travaillez dans <code>scripts/i13_final_project.R</code> (partez du
+modèle). Chaque étape réutilise une ou plusieurs séances.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Importer et vérifier</strong> (I0–I1). Importez les trois
+fichiers, convertissez <code>stocking_date</code> et <code>date</code>
+en <code>Date</code>. Combien d’enclos ont une densité
+<strong>supérieure à 1,5</strong> par m² ? Vérifiez que chaque enclos a
+10 visites × 20 animaux.</li>
+<li><strong>Résumer par enclos et par visite</strong> (I3, I6). Poids
+moyen par enclos et par visite. Moyenne générale des poids individuels
+au <strong>mois 10</strong> (1 décimale) ?</li>
+<li><strong>Croissance par enclos</strong> (I6). Avec votre fonction
+<code>sgr()</code>, calculez un SGR par enclos. Quel enclos grandit le
+plus vite, et quel est son SGR (3 décimales) ?</li>
+<li><strong>Une table d’analyse</strong> (I3). Joignez enclos, récolte
+et croissance ; ajoutez survie, biomasse et rendement. Survie moyenne de
+<strong>Farm B</strong> (%, 1 décimale) ? Biomasse totale récoltée par
+les trois fermes (kg, au kg près) ?</li>
+<li><strong>Figures</strong> (I7–I8). (a) courbes de croissance : poids
+moyen ± IC 95 % par ferme selon <code>month_no</code> ; (b) SGR par
+enclos selon la ferme (points + moyenne) ; (c) SGR selon la densité,
+coloré par ferme. Combinez-les avec patchwork et enregistrez la
+figure.</li>
+<li><strong>Comparer deux fermes</strong> (I9–I10). La croissance
+diffère-t-elle entre <strong>Farm B et Farm C</strong> ? Tracez,
+vérifiez la forme (8 enclos par ferme), choisissez le test et
+justifiez-le. Différence de SGR moyen, C − B (3 décimales) ?</li>
+<li><strong>Densité et croissance</strong> (I10). Corrélation de Pearson
+entre densité et SGR sur les 24 enclos (3 décimales). Pearson est-il
+adapté ici ? Qu’est-ce qui pourrait aussi expliquer la relation ?</li>
+<li><strong>Carte</strong> (I11). Cartographiez les trois villages des
+fermes sur le trait de côte, avec une taille de point proportionnelle à
+la biomasse totale et une couleur pour le rendement moyen.</li>
+<li><strong>Interprétation.</strong> Écrivez 5 à 8 lignes de
+commentaires répondant aux trois questions des éleveurs, avec des
+chiffres.</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Step 3: after
+<code>group_by(pen_id) %&gt;% arrange(month_no, .by_group = TRUE)</code>,
+<code>first(mean_w)</code> and <code>last(mean_w)</code> give the first
+and last mean weights, and
+<code>as.numeric(last(date) - first(date))</code> the number of
+days.</p>
+</div>
+<div class="fr">
+<p>Étape 3 : après
+<code>group_by(pen_id) %&gt;% arrange(month_no, .by_group = TRUE)</code>,
+<code>first(mean_w)</code> et <code>last(mean_w)</code> donnent le
+premier et le dernier poids moyen, et
+<code>as.numeric(last(date) - first(date))</code> le nombre de
+jours.</p>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Step 7: the three farms differ both in growth <strong>and</strong> in
+their densities. A correlation over the 24 pens mixes the effect of
+density with the effect of the farm (site, water, care). Look at the
+scatter plot coloured by farm: does the relation also exist
+<strong>within</strong> each farm?</p>
+</div>
+<div class="fr">
+<p>Étape 7 : les trois fermes diffèrent à la fois par la croissance
+<strong>et</strong> par leurs densités. Une corrélation sur les 24
+enclos mélange l’effet de la densité et l’effet de la ferme (site, eau,
+soins). Regardez le nuage de points coloré par ferme : la relation
+existe-t-elle aussi <strong>à l’intérieur</strong> de chaque ferme ?</p>
+</div>
+</div>
+</div>
+<div id="quiz" class="section level2">
+<h2><span class="en">Quiz</span><span class="fr">Quiz</span></h2>
+<div id="quiz-i13" class="quiz" data-quiz-id="i13"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUGVucyB3aXRoIGEgZGVuc2l0eSBhYm92ZSAxLjUgcGVyIG3Csj8iLCJmciI6IjEuIEVuY2xvcyBhdmVjIHVuZSBkZW5zaXTDqSBzdXDDqXJpZXVyZSDDoCAxLDUgcGFyIG3CsiA/IiwiYW5zd2VyIjo0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBNZWFuIGluZGl2aWR1YWwgd2VpZ2h0IGF0IG1vbnRoIDEwIChnLCAxIGRlY2ltYWwpPyIsImZyIjoiMi4gUG9pZHMgaW5kaXZpZHVlbCBtb3llbiBhdSBtb2lzIDEwIChnLCAxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6MTEyLCJ0b2wiOjAuMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiM2EuIFBlbiB3aXRoIHRoZSBoaWdoZXN0IFNHUiAoZS5nLiBQMDEpPyIsImZyIjoiM2EuIEVuY2xvcyBhdSBTR1IgbGUgcGx1cyDDqWxldsOpIChleC4gUDAxKSA/IiwiYW5zd2VyIjpbIlAyNCJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjNiLiBJdHMgU0dSICglIHBlciBkYXksIDMgZGVjaW1hbHMpPyIsImZyIjoiM2IuIFNvbiBTR1IgKCUgcGFyIGpvdXIsIDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MC44MjUsInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNGEuIE1lYW4gc3Vydml2YWwgb2YgRmFybSBCICglLCAxIGRlY2ltYWwpPyIsImZyIjoiNGEuIFN1cnZpZSBtb3llbm5lIGRlIEZhcm0gQiAoJSwgMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjYzLjUsInRvbCI6MC4wNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjRiLiBUb3RhbCBiaW9tYXNzIGhhcnZlc3RlZCAoa2csIG5lYXJlc3Qga2cpPyIsImZyIjoiNGIuIEJpb21hc3NlIHRvdGFsZSByw6ljb2x0w6llIChrZywgYXUga2cgcHLDqHMpID8iLCJhbnN3ZXIiOjk4OSwidG9sIjoxLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNmEuIE1lYW4gU0dSIGRpZmZlcmVuY2UgRmFybSBDIOKIkiBGYXJtIEIgKDMgZGVjaW1hbHMpPyIsImZyIjoiNmEuIERpZmbDqXJlbmNlIGRlIFNHUiBtb3llbiBGYXJtIEMg4oiSIEZhcm0gQiAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjowLjE5LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjZiLiBXaGljaCB0ZXN0IGFuZCB3aHk/IiwiZnIiOiI2Yi4gUXVlbCB0ZXN0IGV0IHBvdXJxdW9pID8iLCJvcHRpb25zX2VuIjpbIldlbGNoIHQtdGVzdDogU0dSIG9mIDggcGVucyBwZXIgZmFybSwgcm91Z2hseSBub3JtYWwgd2l0aG91dCBvdXRsaWVycyAoV2lsY294b24gd291bGQgYWxzbyBiZSBkZWZlbnNpYmxlKSIsIlBhaXJlZCB0LXRlc3Q6IHRoZSBmYXJtcyBhcmUgcGFpcmVkIiwiQ2hpLXNxdWFyZSB0ZXN0OiBTR1IgaXMgYSBwZXJjZW50YWdlIiwiUGVhcnNvbiBjb3JyZWxhdGlvbiBiZXR3ZWVuIHRoZSB0d28gZmFybXMiXSwib3B0aW9uc19mciI6WyJUZXN0IHQgZGUgV2VsY2ggOiBTR1IgZGUgOCBlbmNsb3MgcGFyIGZlcm1lLCDDoCBwZXUgcHLDqHMgbm9ybWFsIHNhbnMgdmFsZXVyIGV4dHLDqm1lIChXaWxjb3hvbiBzZXJhaXQgYXVzc2kgZMOpZmVuZGFibGUpIiwiVGVzdCB0IGFwcGFyacOpIDogbGVzIGZlcm1lcyBzb250IGFwcGFyacOpZXMiLCJLaGktZGV1eCA6IGxlIFNHUiBlc3QgdW4gcG91cmNlbnRhZ2UiLCJDb3Jyw6lsYXRpb24gZGUgUGVhcnNvbiBlbnRyZSBsZXMgZGV1eCBmZXJtZXMiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJudW0iLCJlbiI6IjdhLiBQZWFyc29uIHIgYmV0d2VlbiBkZW5zaXR5IGFuZCBTR1IsIDI0IHBlbnMgKDMgZGVjaW1hbHMpPyIsImZyIjoiN2EuIHIgZGUgUGVhcnNvbiBlbnRyZSBkZW5zaXTDqSBldCBTR1IsIDI0IGVuY2xvcyAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjotMC40OTQsInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiN2IuIEJlc3QgaW50ZXJwcmV0YXRpb24gb2YgdGhpcyBjb3JyZWxhdGlvbj8iLCJmciI6IjdiLiBNZWlsbGV1cmUgaW50ZXJwcsOpdGF0aW9uIGRlIGNldHRlIGNvcnLDqWxhdGlvbiA/Iiwib3B0aW9uc19lbiI6WyJEZW5zaXR5IGNhdXNlcyBzbG93ZXIgZ3Jvd3RoOiB0aGlzIGlzIHByb3ZlbiIsIlBlbnMgd2l0aCBoaWdoZXIgZGVuc2l0eSB0ZW5kIHRvIGdyb3cgbW9yZSBzbG93bHksIGJ1dCB0aGUgZmFybSBlZmZlY3QgbWF5IGFsc28gY29udHJpYnV0ZTogY2hlY2sgdGhlIHJlbGF0aW9uIHdpdGhpbiBlYWNoIGZhcm0iLCJUaGVyZSBpcyBubyByZWxhdGlvbiBiZWNhdXNlIHIgaXMgbm90IOKIkjEiLCJUaGUgY29ycmVsYXRpb24gaXMgaW52YWxpZCB3aXRoIDI0IHBlbnMiXSwib3B0aW9uc19mciI6WyJMYSBkZW5zaXTDqSBjYXVzZSB1bmUgY3JvaXNzYW5jZSBwbHVzIGxlbnRlIDogYydlc3QgcHJvdXbDqSIsIkxlcyBlbmNsb3MgcGx1cyBkZW5zZXMgb250IHRlbmRhbmNlIMOgIGdyYW5kaXIgbW9pbnMgdml0ZSwgbWFpcyBsJ2VmZmV0IGZlcm1lIHBldXQgYXVzc2kgam91ZXIgOiB2w6lyaWZpZXIgbGEgcmVsYXRpb24gZGFucyBjaGFxdWUgZmVybWUiLCJJbCBuJ3kgYSBwYXMgZGUgcmVsYXRpb24gY2FyIHIgbidlc3QgcGFzIOKIkjEiLCJMYSBjb3Jyw6lsYXRpb24gZXN0IGludmFsaWRlIGF2ZWMgMjQgZW5jbG9zIl0sImFuc3dlciI6MX1d">
+
+</div>
+<div class="solution" data-quiz="i13">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(ggplot2); <span class="fu">library</span>(patchwork)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># 1 ----------------------------------------------------------------------------</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>pens <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/seacucumber_pens.csv&quot;</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>mon  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/seacucumber_monitoring.csv&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>harv <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/seacucumber_harvest.csv&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>pens<span class="sc">$</span>stocking_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(pens<span class="sc">$</span>stocking_date, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>mon<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mon<span class="sc">$</span>date)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">sum</span>(pens<span class="sc">$</span>density_per_m2 <span class="sc">&gt;</span> <span class="fl">1.5</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">table</span>(mon<span class="sc">$</span>pen_id))                      <span class="co"># every pen: 200 rows</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># 2 ----------------------------------------------------------------------------</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>pen_month <span class="ot">&lt;-</span> mon <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(pen_id, month_no, date) <span class="sc">%&gt;%</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_w =</span> <span class="fu">mean</span>(weight_g), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(mon<span class="sc">$</span>weight_g[mon<span class="sc">$</span>month_no <span class="sc">==</span> <span class="dv">10</span>]), <span class="dv">1</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co"># 3 ----------------------------------------------------------------------------</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>sgr <span class="ot">&lt;-</span> <span class="cf">function</span>(w0, w1, days) <span class="dv">100</span> <span class="sc">*</span> (<span class="fu">log</span>(w1) <span class="sc">-</span> <span class="fu">log</span>(w0)) <span class="sc">/</span> days</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>growth <span class="ot">&lt;-</span> pen_month <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(pen_id) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(month_no, <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">w_first =</span> <span class="fu">first</span>(mean_w), <span class="at">w_last =</span> <span class="fu">last</span>(mean_w),</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>            <span class="at">days =</span> <span class="fu">as.numeric</span>(<span class="fu">last</span>(date) <span class="sc">-</span> <span class="fu">first</span>(date)), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sgr =</span> <span class="fu">sgr</span>(w_first, w_last, days))</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>growth[<span class="fu">which.max</span>(growth<span class="sc">$</span>sgr), ]</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co"># 4 ----------------------------------------------------------------------------</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>res <span class="ot">&lt;-</span> pens <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(harv, <span class="at">by =</span> <span class="st">&quot;pen_id&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(growth, <span class="at">by =</span> <span class="st">&quot;pen_id&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">survival_pct =</span> <span class="dv">100</span> <span class="sc">*</span> alive_at_harvest <span class="sc">/</span> juveniles_stocked,</span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>         <span class="at">biomass_kg   =</span> alive_at_harvest <span class="sc">*</span> w_last <span class="sc">/</span> <span class="dv">1000</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>         <span class="at">yield_kg_m2  =</span> biomass_kg <span class="sc">/</span> area_m2)</span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>res <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(farm) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">surv =</span> <span class="fu">mean</span>(survival_pct), <span class="at">yield =</span> <span class="fu">mean</span>(yield_kg_m2))</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sum</span>(res<span class="sc">$</span>biomass_kg))</span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co"># 5 ----------------------------------------------------------------------------</span></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>curves <span class="ot">&lt;-</span> mon <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(pens[, <span class="fu">c</span>(<span class="st">&quot;pen_id&quot;</span>, <span class="st">&quot;farm&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;pen_id&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>  <span class="fu">group_by</span>(farm, month_no) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(weight_g), <span class="at">se =</span> <span class="fu">se</span>(weight_g), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>pa <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(curves, <span class="fu">aes</span>(month_no, m, <span class="at">colour =</span> farm)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> m <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se, <span class="at">ymax =</span> m <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se)) <span class="sc">+</span></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Months after stocking&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Mean weight (g)&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>pb <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(res, <span class="fu">aes</span>(farm, sgr)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">colour =</span> <span class="st">&quot;grey40&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">colour =</span> <span class="st">&quot;#d9694a&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;SGR (% per day)&quot;</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>pc <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(res, <span class="fu">aes</span>(density_per_m2, sgr, <span class="at">colour =</span> farm)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Density (ind./m²)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;SGR (% per day)&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a>fig <span class="ot">&lt;-</span> (pa <span class="sc">/</span> (pb <span class="sc">|</span> pc)) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">&quot;A&quot;</span>) <span class="sc">&amp;</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;outputs/seacucumber_figure.png&quot;</span>, fig, <span class="at">width =</span> <span class="dv">18</span>, <span class="at">height =</span> <span class="dv">16</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="co"># 6 ----------------------------------------------------------------------------</span></span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a>bc <span class="ot">&lt;-</span> res[res<span class="sc">$</span>farm <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Farm B&quot;</span>, <span class="st">&quot;Farm C&quot;</span>), ]</span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="fu">tapply</span>(bc<span class="sc">$</span>sgr, bc<span class="sc">$</span>farm, shapiro.test)          <span class="co"># small groups: look at the points too</span></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="fu">t.test</span>(sgr <span class="sc">~</span> farm, <span class="at">data =</span> bc)                  <span class="co"># Welch; C grows faster, p &lt; 0.001</span></span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(bc<span class="sc">$</span>sgr[bc<span class="sc">$</span>farm <span class="sc">==</span> <span class="st">&quot;Farm C&quot;</span>]) <span class="sc">-</span> <span class="fu">mean</span>(bc<span class="sc">$</span>sgr[bc<span class="sc">$</span>farm <span class="sc">==</span> <span class="st">&quot;Farm B&quot;</span>]), <span class="dv">3</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="co"># 7 ----------------------------------------------------------------------------</span></span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="fu">cor.test</span>(res<span class="sc">$</span>density_per_m2, res<span class="sc">$</span>sgr)          <span class="co"># r ~ -0.49, p ~ 0.01</span></span>
+<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a><span class="fu">by</span>(res, res<span class="sc">$</span>farm, <span class="cf">function</span>(d) <span class="fu">cor</span>(d<span class="sc">$</span>density_per_m2, d<span class="sc">$</span>sgr))   <span class="co"># within each farm</span></span>
+<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a><span class="co"># 8 ----------------------------------------------------------------------------</span></span>
+<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a>coast <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/coastline.csv&quot;</span>); villages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/villages.csv&quot;</span>)</span>
+<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a>farm_sum <span class="ot">&lt;-</span> res <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(farm, village) <span class="sc">%&gt;%</span></span>
+<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">biomass =</span> <span class="fu">sum</span>(biomass_kg), <span class="at">yield =</span> <span class="fu">mean</span>(yield_kg_m2), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a>  <span class="fu">left_join</span>(villages[, <span class="fu">c</span>(<span class="st">&quot;village&quot;</span>, <span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;village&quot;</span>)</span>
+<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_polygon</span>(<span class="at">data =</span> coast, <span class="fu">aes</span>(lon, lat), <span class="at">fill =</span> <span class="st">&quot;#efe6d2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> farm_sum, <span class="fu">aes</span>(lon, lat, <span class="at">size =</span> biomass, <span class="at">fill =</span> yield), <span class="at">shape =</span> <span class="dv">21</span>) <span class="sc">+</span></span>
+<span id="cb1-57"><a href="#cb1-57" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> farm_sum, <span class="fu">aes</span>(lon, lat, <span class="at">label =</span> farm), <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">nudge_x =</span> <span class="fl">0.02</span>) <span class="sc">+</span></span>
+<span id="cb1-58"><a href="#cb1-58" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">&quot;Yield (kg/m²)&quot;</span>) <span class="sc">+</span> <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">10</span>, <span class="at">name =</span> <span class="st">&quot;Biomass (kg)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-59"><a href="#cb1-59" tabindex="-1"></a>  <span class="fu">coord_quickmap</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">43.38</span>, <span class="fl">43.88</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">23.35</span>, <span class="sc">-</span><span class="fl">22.55</span>)) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb1-60"><a href="#cb1-60" tabindex="-1"></a><span class="co"># 9 ----------------------------------------------------------------------------</span></span>
+<span id="cb1-61"><a href="#cb1-61" tabindex="-1"></a><span class="co"># Farm C grows fastest (mean SGR ~0.72 %/day) and Farm B slowest (~0.53); the difference</span></span>
+<span id="cb1-62"><a href="#cb1-62" tabindex="-1"></a><span class="co"># C - B (0.19 %/day) is clear (Welch t-test, p &lt; 0.001). Denser pens tend to grow more</span></span>
+<span id="cb1-63"><a href="#cb1-63" tabindex="-1"></a><span class="co"># slowly (r = -0.49, p = 0.01, n = 24), but part of this may be a farm effect.</span></span>
+<span id="cb1-64"><a href="#cb1-64" tabindex="-1"></a><span class="co"># Farm C has the best yield (~0.10 kg/m2) despite a slightly lower survival.</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

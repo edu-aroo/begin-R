@@ -352,5 +352,5 @@ write.csv(sg, "outputs/seagrass_s03.csv", row.names = FALSE)
 - Data frame : `read.csv()`, `str()`, `summary()`, `$`, `[ligne, colonne]`
 
 <div class="box tip">
-**À faire** : séances 0 à 3 en ligne, avec leurs travaux d'application et leurs quiz (une seule tentative par quiz).
+**À faire** : séances 0 à 3 en ligne, avec leurs travaux d'application et leurs quiz (deux tentatives par quiz, la meilleure compte).
 </div>

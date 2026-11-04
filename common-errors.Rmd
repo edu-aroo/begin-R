@@ -1,0 +1,67 @@
+---
+title: "[Common errors and how to fix them]{.en}[Erreurs fréquentes et comment les corriger]{.fr}"
+pagetitle: "R for marine sciences · Common errors"
+subtitle: "[Read the message: R usually tells you what is wrong]{.en}[Lisez le message : R dit généralement ce qui ne va pas]{.fr}"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+::: {.callout .tip}
+::: en
+**Method.** (1) Read the **first** error message (the next ones are often consequences). (2) Look at the line it points to and the line just before. (3) Copy the message into a search engine: someone has had the same problem. (4) Restart R (*Session → Restart R*) and re-run the script from the top: many errors come from objects left in memory.
+:::
+::: fr
+**Méthode.** (1) Lisez le **premier** message d'erreur (les suivants en sont souvent la conséquence). (2) Regardez la ligne indiquée et celle juste avant. (3) Copiez le message dans un moteur de recherche : quelqu'un a eu le même problème. (4) Redémarrez R (*Session → Restart R*) et relancez le script depuis le début : beaucoup d'erreurs viennent d'objets restés en mémoire.
+:::
+:::
+
+## [Objects and functions]{.en}[Objets et fonctions]{.fr} {.no-track}
+
+| [Message]{.en}[Message]{.fr} | [What it means]{.en}[Ce que ça veut dire]{.fr} | [How to fix it]{.en}[Comment corriger]{.fr} |
+|---|---|---|
+| `object 'x' not found` | [R does not know this object.]{.en}[R ne connaît pas cet objet.]{.fr} | [Check the spelling and capitals (`Cover` ≠ `cover`); run the line that creates it; inside `$` or `[ ]`, check the column name with `names()`.]{.en}[Vérifiez l'orthographe et les majuscules (`Cover` ≠ `cover`) ; exécutez la ligne qui le crée ; dans `$` ou `[ ]`, vérifiez le nom de colonne avec `names()`.]{.fr} |
+| `could not find function "xxx"` | [The function does not exist, or its package is not loaded.]{.en}[La fonction n'existe pas, ou son package n'est pas chargé.]{.fr} | [Check the spelling; add `library(package)` at the top of the script; or write `package::xxx()`.]{.en}[Vérifiez l'orthographe ; ajoutez `library(package)` en haut du script ; ou écrivez `package::xxx()`.]{.fr} |
+| `there is no package called 'xxx'` | [The package is not installed.]{.en}[Le package n'est pas installé.]{.fr} | [`install.packages("xxx")` once, in the console.]{.en}[`install.packages("xxx")` une fois, dans la console.]{.fr} |
+| `unused argument (digit = 1)` | [An argument name is wrong.]{.en}[Un nom d'argument est faux.]{.fr} | [Open the help (`?round`) and check the argument names (`digits`).]{.en}[Ouvrez l'aide (`?round`) et vérifiez les noms d'arguments (`digits`).]{.fr} |
+| `argument "x" is missing, with no default` | [A required argument was not given.]{.en}[Un argument obligatoire n'a pas été donné.]{.fr} | [Look at *Usage* in the help page.]{.en}[Regardez *Usage* dans la page d'aide.]{.fr} |
+| `non-numeric argument to binary operator` | [You calculate with text (e.g. `"45" * 2`).]{.en}[Vous calculez avec du texte (ex. `"45" * 2`).]{.fr} | [Check the type with `class()` or `str()`; convert with `as.numeric()` after cleaning (`%`, `-`, commas).]{.en}[Vérifiez le type avec `class()` ou `str()` ; convertissez avec `as.numeric()` après nettoyage (`%`, `-`, virgules).]{.fr} |
+| `NAs introduced by coercion` (warning) | [Some values could not become numbers.]{.en}[Certaines valeurs n'ont pas pu devenir des nombres.]{.fr} | [Look at them: `x[is.na(as.numeric(x))]`, then clean them.]{.en}[Regardez-les : `x[is.na(as.numeric(x))]`, puis nettoyez-les.]{.fr} |
+
+## [Syntax: brackets, quotes, commas]{.en}[Syntaxe : parenthèses, guillemets, virgules]{.fr} {.no-track}
+
+| [Message]{.en}[Message]{.fr} | [What it means]{.en}[Ce que ça veut dire]{.fr} | [How to fix it]{.en}[Comment corriger]{.fr} |
+|---|---|---|
+| [Console shows `+` instead of `>`]{.en}[La console affiche `+` au lieu de `>`]{.fr} | [The command is not finished: a `)`, `]`, `}` or `"` is missing.]{.en}[La commande n'est pas finie : il manque `)`, `]`, `}` ou `"`.]{.fr} | [Press **Esc**, then correct the line. RStudio highlights matching brackets.]{.en}[Appuyez sur **Échap**, puis corrigez la ligne. RStudio surligne les parenthèses correspondantes.]{.fr} |
+| `unexpected symbol` | [Two things side by side without operator or comma.]{.en}[Deux éléments côte à côte sans opérateur ni virgule.]{.fr} | [Often a missing comma between arguments, or a space in a name (`coral cover`).]{.en}[Souvent une virgule manquante entre arguments, ou un espace dans un nom (`coral cover`).]{.fr} |
+| `unexpected ')'` / `unexpected '}'` | [One closing bracket too many.]{.en}[Une parenthèse fermante en trop.]{.fr} | [Count the brackets; put the cursor on one to see its partner.]{.en}[Comptez les parenthèses ; placez le curseur sur l'une pour voir sa partenaire.]{.fr} |
+| `unexpected ','` | [Often a decimal comma: `7,4`.]{.en}[Souvent une virgule décimale : `7,4`.]{.fr} | [Write `7.4` (dot).]{.en}[Écrivez `7.4` (point).]{.fr} |
+| `unexpected '='` | [`=` used where `==` is needed (comparison).]{.en}[`=` utilisé là où il faut `==` (comparaison).]{.fr} | [`sg[sg$site == "Ifaty", ]`]{.en}[`sg[sg$site == "Ifaty", ]`]{.fr} |
+| `unexpected input` / `unexpected INCOMPLETE_STRING` | [Curly quotes “ ” copied from Word/PDF, or an unclosed `"`.]{.en}[Guillemets typographiques “ ” copiés de Word/PDF, ou `"` non fermé.]{.fr} | [Retype the quotes in RStudio as straight quotes `"`.]{.en}[Retapez les guillemets dans RStudio : guillemets droits `"`.]{.fr} |
+
+## [Files and data]{.en}[Fichiers et données]{.fr} {.no-track}
+
+| [Message]{.en}[Message]{.fr} | [What it means]{.en}[Ce que ça veut dire]{.fr} | [How to fix it]{.en}[Comment corriger]{.fr} |
+|---|---|---|
+| `cannot open file '...': No such file or directory` | [R does not find the file at this path.]{.en}[R ne trouve pas le fichier à ce chemin.]{.fr} | [Open the RStudio project; check `list.files("data")`; check the extension (`.csv`, `.xlsx`) and capitals.]{.en}[Ouvrez le projet RStudio ; vérifiez `list.files("data")` ; vérifiez l'extension (`.csv`, `.xlsx`) et les majuscules.]{.fr} |
+| [All the data in **one column**]{.en}[Toutes les données dans **une seule colonne**]{.fr} | [The file uses `;` as separator.]{.en}[Le fichier utilise `;` comme séparateur.]{.fr} | [`read.csv2()` or `read.csv(file, sep = ";", dec = ",")`.]{.en}[`read.csv2()` ou `read.csv(fichier, sep = ";", dec = ",")`.]{.fr} |
+| [Accents shown as `Ã©`]{.en}[Accents affichés `Ã©`]{.fr} | [Wrong text encoding.]{.en}[Mauvais encodage du texte.]{.fr} | [`read.csv(file, fileEncoding = "UTF-8")` or `"latin1"`.]{.en}[`read.csv(fichier, fileEncoding = "UTF-8")` ou `"latin1"`.]{.fr} |
+| `undefined columns selected` | [A column name inside `[ , ]` does not exist.]{.en}[Un nom de colonne dans `[ , ]` n'existe pas.]{.fr} | [Check `names(df)`; did you forget the comma in `df[cond, ]`?]{.en}[Vérifiez `names(df)` ; avez-vous oublié la virgule dans `df[cond, ]` ?]{.fr} |
+| `replacement has X rows, data has Y` | [The new column does not have the right length.]{.en}[La nouvelle colonne n'a pas la bonne longueur.]{.fr} | [A calculation on another table, or a summary (one value per group) put in a row-level table.]{.en}[Un calcul sur un autre tableau, ou un résumé (une valeur par groupe) placé dans un tableau par ligne.]{.fr} |
+| `arguments imply differing number of rows` | [Vectors of different lengths in `data.frame()`.]{.en}[Vecteurs de longueurs différentes dans `data.frame()`.]{.fr} | [Check `length()` of each vector.]{.en}[Vérifiez `length()` de chaque vecteur.]{.fr} |
+| [`mean()` gives `NA`]{.en}[`mean()` donne `NA`]{.fr} | [There are missing values.]{.en}[Il y a des valeurs manquantes.]{.fr} | [`mean(x, na.rm = TRUE)`.]{.en}[`mean(x, na.rm = TRUE)`.]{.fr} |
+| [A join gives **more** rows than expected]{.en}[Une jointure donne **plus** de lignes que prévu]{.fr} | [The key is duplicated in one table.]{.en}[La clé est dupliquée dans un des tableaux.]{.fr} | [`sum(duplicated(df$key))` in both tables before joining.]{.en}[`sum(duplicated(df$cle))` dans les deux tableaux avant la jointure.]{.fr} |
+| `character string is not in a standard unambiguous format` | [`as.Date()` does not understand the date format.]{.en}[`as.Date()` ne comprend pas le format de la date.]{.fr} | [Give the format: `as.Date(x, format = "%d/%m/%Y")`.]{.en}[Donnez le format : `as.Date(x, format = "%d/%m/%Y")`.]{.fr} |
+
+## [Graphs and packages]{.en}[Graphiques et packages]{.fr} {.no-track}
+
+| [Message]{.en}[Message]{.fr} | [What it means]{.en}[Ce que ça veut dire]{.fr} | [How to fix it]{.en}[Comment corriger]{.fr} |
+|---|---|---|
+| `figure margins too large` | [The Plots pane is too small.]{.en}[Le panneau Plots est trop petit.]{.fr} | [Enlarge the pane, or use `par(mar = c(4, 4, 2, 1))`.]{.en}[Agrandissez le panneau, ou utilisez `par(mar = c(4, 4, 2, 1))`.]{.fr} |
+| `plot.new has not been called yet` | [`legend()`, `arrows()`, `abline()` before a plot.]{.en}[`legend()`, `arrows()`, `abline()` avant un graphique.]{.fr} | [Draw the plot first.]{.en}[Tracez d'abord le graphique.]{.fr} |
+| [PNG file empty or not created]{.en}[Fichier PNG vide ou absent]{.fr} | [`dev.off()` was not run.]{.en}[`dev.off()` n'a pas été exécuté.]{.fr} | [Always `png()` → plot → `dev.off()`.]{.en}[Toujours `png()` → graphique → `dev.off()`.]{.fr} |
+| `object 'site' not found` [in ggplot]{.en}[dans ggplot]{.fr} | [Column not in the data given to `ggplot()`.]{.en}[Colonne absente des données données à `ggplot()`.]{.fr} | [Check `names()` of the data frame used in `ggplot(data, ...)`.]{.en}[Vérifiez `names()` du data frame utilisé dans `ggplot(données, ...)`.]{.fr} |
+| `Error in +.gg` / [a layer is ignored]{.en}[une couche est ignorée]{.fr} | [The `+` is at the start of the line instead of the end.]{.en}[Le `+` est en début de ligne au lieu de la fin.]{.fr} | [Put `+` at the **end** of each line except the last.]{.en}[Mettez le `+` à la **fin** de chaque ligne sauf la dernière.]{.fr} |
+| `Rtools is required to build R packages` | [Windows: a package must be compiled.]{.en}[Windows : un package doit être compilé.]{.fr} | [Install Rtools (Beginner, Session 0), or answer *No* to "install from source".]{.en}[Installez Rtools (Débutant, séance 0), ou répondez *No* à « install from source ».]{.fr} |
+| `The following objects are masked from ...` | [Not an error: two packages have a function with the same name.]{.en}[Pas une erreur : deux packages ont une fonction du même nom.]{.fr} | [Use `dplyr::filter()` to be explicit.]{.en}[Utilisez `dplyr::filter()` pour être explicite.]{.fr} |

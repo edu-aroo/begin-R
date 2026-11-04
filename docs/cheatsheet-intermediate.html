@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · Intermediate cheatsheet</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">Cheatsheet — Intermediate
+level</span><span class="fr">Aide-mémoire — Niveau
+intermédiaire</span></h1>
+<h3 class="subtitle"><span class="en">Print it (Ctrl + P) and keep it
+next to your keyboard</span><span class="fr">Imprimez-le (Ctrl + P) et
+gardez-le près du clavier</span></h3>
+
+</div>
+
+
+<!-- Same structure as cheatsheet.Rmd (beginner): each cell holds both languages
+     [English]{.en}[Français]{.fr}; {.no-track} keeps these sections out of the progress bar.
+     The pipe character inside a table must be written <code>&#124;</code>. -->
+<div class="cheat">
+<div id="packages-of-this-levelpackages-de-ce-niveau"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Packages of this level</span><span
+class="fr">Packages de ce niveau</span></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;readxl&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;tidyr&quot;</span>, <span class="st">&quot;lubridate&quot;</span>, <span class="st">&quot;stringr&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;patchwork&quot;</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># optional: &quot;ggrepel&quot; (labels that do not overlap), &quot;sf&quot; (maps, Advanced level)</span></span></code></pre></div>
+</div>
+<div id="i0-importing-real-filesi0-importer-de-vrais-fichiers"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">I0 — Importing real
+files</span><span class="fr">I0 — Importer de vrais fichiers</span></h2>
+<div class="keypoints">
+<ul>
+<li><span class="en">Open the file first (Excel / text editor): where
+does the table start, which separator, which missing-value
+codes?</span><span class="fr">Ouvrez d’abord le fichier (Excel / éditeur
+de texte) : où commence le tableau, quel séparateur, quels codes de
+valeurs manquantes ?</span></li>
+<li><span class="en">Never modify the raw file: all corrections go in
+the script.</span><span class="fr">Ne modifiez jamais le fichier brut :
+toutes les corrections vont dans le script.</span></li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>readxl::excel_sheets()</code></td>
+<td><span class="en">Names of the sheets of a workbook</span><span
+class="fr">Noms des feuilles d’un classeur</span></td>
+<td><code>excel_sheets("data/seaweed_farming.xlsx")</code></td>
+</tr>
+<tr class="even">
+<td><code>read_excel(path, sheet, skip, range, na)</code></td>
+<td><span class="en">Read one sheet; <code>skip</code> = lines above the
+table</span><span class="fr">Lire une feuille ; <code>skip</code> =
+lignes au-dessus du tableau</span></td>
+<td><code>read_excel(f, sheet = "lines", skip = 3)</code></td>
+</tr>
+<tr class="odd">
+<td><code>read.csv(..., na.strings, check.names)</code></td>
+<td><span class="en">CSV with comma; declare missing codes; keep odd
+column names</span><span class="fr">CSV à virgule ; déclarer les codes
+manquants ; garder des noms de colonnes atypiques</span></td>
+<td><code>read.csv(f, na.strings = c("", "NA", "-999"))</code></td>
+</tr>
+<tr class="even">
+<td><code>read.csv2()</code></td>
+<td><span class="en">CSV with <code>;</code> and decimal comma (French
+Excel)</span><span class="fr">CSV à <code>;</code> et virgule décimale
+(Excel français)</span></td>
+<td><code>read.csv2("data/x.csv")</code></td>
+</tr>
+<tr class="odd">
+<td><code>as.data.frame()</code></td>
+<td><span class="en">Turn a tibble into a classic data frame</span><span
+class="fr">Transformer un tibble en data frame classique</span></td>
+<td><code>as.data.frame(lines)</code></td>
+</tr>
+<tr class="even">
+<td><code>dim()</code>, <code>str()</code>, <code>summary()</code></td>
+<td><span class="en">Size, structure, summary of every
+column</span><span class="fr">Taille, structure, résumé de chaque
+colonne</span></td>
+<td><code>str(lines)</code></td>
+</tr>
+<tr class="odd">
+<td><code>colSums(is.na(df))</code></td>
+<td><span class="en">Missing values per column</span><span
+class="fr">Valeurs manquantes par colonne</span></td>
+<td><code>colSums(is.na(farmers))</code></td>
+</tr>
+<tr class="even">
+<td><code>write.csv(df, file, row.names = FALSE)</code></td>
+<td><span class="en">Save a checkpoint</span><span
+class="fr">Enregistrer un checkpoint</span></td>
+<td><code>write.csv(lines, "data/clean.csv", row.names = FALSE)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="i1-datesi1-dates" class="section level2 no-track">
+<h2 class="no-track"><span class="en">I1 — Dates</span><span
+class="fr">I1 — Dates</span></h2>
+<div class="keypoints">
+<ul>
+<li><span class="en">A date must have class <code>Date</code> to be
+sorted, subtracted and plotted correctly. Excel dates are numbers of
+days since 1899-12-30.</span><span class="fr">Une date doit être de
+classe <code>Date</code> pour être triée, soustraite et tracée
+correctement. Les dates Excel sont des nombres de jours depuis le
+1899-12-30.</span></li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>as.Date(x, format)</code></td>
+<td><span class="en">Text → date (<code>%d</code> day, <code>%m</code>
+month, <code>%Y</code> year, <code>%b</code> month name)</span><span
+class="fr">Texte → date (<code>%d</code> jour, <code>%m</code> mois,
+<code>%Y</code> année, <code>%b</code> nom du mois)</span></td>
+<td><code>as.Date("21/03/2025", format = "%d/%m/%Y")</code></td>
+</tr>
+<tr class="even">
+<td><code>as.Date(n, origin = "1899-12-30")</code></td>
+<td><span class="en">Excel number → date</span><span class="fr">Nombre
+Excel → date</span></td>
+<td><code>as.Date(45372, origin = "1899-12-30")</code></td>
+</tr>
+<tr class="odd">
+<td><code>dmy()</code>, <code>ymd()</code>, <code>mdy()</code></td>
+<td><span class="en">lubridate: read dates by the order of their
+parts</span><span class="fr">lubridate : lire des dates selon l’ordre de
+leurs parties</span></td>
+<td><code>dmy("21/03/2025")</code></td>
+</tr>
+<tr class="even">
+<td><code>year()</code>, <code>month()</code>, <code>wday()</code></td>
+<td><span class="en">Extract year, month, weekday</span><span
+class="fr">Extraire année, mois, jour de la semaine</span></td>
+<td><code>month(d)</code></td>
+</tr>
+<tr class="odd">
+<td><code>format(d, "%Y-%m")</code></td>
+<td><span class="en">Date → text in any format</span><span
+class="fr">Date → texte dans n’importe quel format</span></td>
+<td><code>format(d, "%b %Y")</code></td>
+</tr>
+<tr class="even">
+<td><code>d2 - d1</code>, <code>difftime()</code>,
+<code>as.numeric()</code></td>
+<td><span class="en">Number of days between dates</span><span
+class="fr">Nombre de jours entre deux dates</span></td>
+<td><code>as.numeric(harvest - planting)</code></td>
+</tr>
+<tr class="odd">
+<td><code>floor_date(d, "month")</code></td>
+<td><span class="en">Round down to the month / week</span><span
+class="fr">Arrondir au mois / à la semaine</span></td>
+<td><code>floor_date(d, "week")</code></td>
+</tr>
+<tr class="even">
+<td><code>cut(x, breaks, labels)</code></td>
+<td><span class="en">Numbers → classes</span><span class="fr">Nombres →
+classes</span></td>
+<td><code>cut(age, c(0, 30, 50, Inf))</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="i2-reshapingi2-restructurer" class="section level2 no-track">
+<h2 class="no-track"><span class="en">I2 — Reshaping</span><span
+class="fr">I2 — Restructurer</span></h2>
+<div class="keypoints">
+<ul>
+<li><span class="en"><strong>Tidy data</strong>: one variable per
+column, one observation per row. ggplot and dplyr want long
+data.</span><span class="fr"><strong>Données rangées</strong> : une
+variable par colonne, une observation par ligne. ggplot et dplyr veulent
+des données longues.</span></li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pivot_longer(df, cols, names_to, values_to)</code></td>
+<td><span class="en">Wide → long</span><span class="fr">Large →
+long</span></td>
+<td><code>pivot_longer(wide, -station, names_to = "month", values_to = "temp")</code></td>
+</tr>
+<tr class="even">
+<td><code>pivot_wider(df, names_from, values_from)</code></td>
+<td><span class="en">Long → wide</span><span class="fr">Long →
+large</span></td>
+<td><code>pivot_wider(long, names_from = year, values_from = temp)</code></td>
+</tr>
+<tr class="odd">
+<td><code>separate(df, col, into, sep)</code></td>
+<td><span class="en">Split one column into several</span><span
+class="fr">Séparer une colonne en plusieurs</span></td>
+<td><code>separate(df, month, c("year", "m"), sep = "-")</code></td>
+</tr>
+<tr class="even">
+<td><code>unite(df, new, a, b, sep)</code></td>
+<td><span class="en">Glue columns together</span><span class="fr">Coller
+des colonnes</span></td>
+<td><code>unite(df, "id", station, date)</code></td>
+</tr>
+<tr class="odd">
+<td><code>group_by() |&gt; summarise()</code></td>
+<td><span class="en">Summary per group</span><span class="fr">Résumé par
+groupe</span></td>
+<td><code>group_by(zone) |&gt; summarise(m = mean(temp, na.rm =
+TRUE))</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="i3-joinsi3-jointures" class="section level2 no-track">
+<h2 class="no-track"><span class="en">I3 — Joins</span><span
+class="fr">I3 — Jointures</span></h2>
+<div class="keypoints">
+<ul>
+<li><span class="en">Check the <strong>key</strong> first: same name,
+same type, same spelling, unique in the reference table
+(<code>sum(duplicated(key))</code>). Compare <code>nrow()</code> before
+and after.</span><span class="fr">Vérifiez d’abord la
+<strong>clé</strong> : même nom, même type, même orthographe, unique
+dans la table de référence (<code>sum(duplicated(clé))</code>). Comparez
+<code>nrow()</code> avant et après.</span></li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Keeps</span><span class="fr">Garde</span></th>
+<th><span class="en">Base R</span><span class="fr">R de base</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>left_join(x, y, by = "key")</code></td>
+<td><span class="en">All rows of x</span><span class="fr">Toutes les
+lignes de x</span></td>
+<td><code>merge(x, y, all.x = TRUE)</code></td>
+</tr>
+<tr class="even">
+<td><code>inner_join(x, y, by)</code></td>
+<td><span class="en">Rows with a match in both</span><span
+class="fr">Lignes présentes dans les deux</span></td>
+<td><code>merge(x, y)</code></td>
+</tr>
+<tr class="odd">
+<td><code>full_join(x, y, by)</code></td>
+<td><span class="en">All rows of both</span><span class="fr">Toutes les
+lignes des deux</span></td>
+<td><code>merge(x, y, all = TRUE)</code></td>
+</tr>
+<tr class="even">
+<td><code>anti_join(x, y, by)</code></td>
+<td><span class="en">Rows of x <strong>without</strong> a match (to find
+errors)</span><span class="fr">Lignes de x <strong>sans</strong>
+correspondance (pour trouver les erreurs)</span></td>
+<td><code>x[!x$key %in% y$key, ]</code></td>
+</tr>
+<tr class="odd">
+<td><code>semi_join(x, y, by)</code></td>
+<td><span class="en">Rows of x with a match, columns of x
+only</span><span class="fr">Lignes de x avec correspondance, colonnes de
+x seulement</span></td>
+<td><code>x[x$key %in% y$key, ]</code></td>
+</tr>
+<tr class="even">
+<td><code>by = c("zone", "year", "month")</code></td>
+<td><span class="en">Join on several keys</span><span class="fr">Joindre
+sur plusieurs clés</span></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="i4-survey-data-and-texti4-données-denquête-et-texte"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">I4 — Survey data and
+text</span><span class="fr">I4 — Données d’enquête et texte</span></h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>duplicated()</code>, <code>distinct()</code></td>
+<td><span class="en">Find / remove duplicate rows</span><span
+class="fr">Trouver / supprimer les doublons</span></td>
+<td><code>h[!duplicated(h), ]</code></td>
+</tr>
+<tr class="even">
+<td><code>str_squish()</code>, <code>str_trim()</code></td>
+<td><span class="en">Remove extra spaces</span><span
+class="fr">Supprimer les espaces en trop</span></td>
+<td><code>str_squish("  Agree ")</code></td>
+</tr>
+<tr class="odd">
+<td><code>str_to_lower/upper/title/sentence()</code></td>
+<td><span class="en">Change case</span><span class="fr">Changer la
+casse</span></td>
+<td><code>str_to_sentence("STRONGLY agree")</code></td>
+</tr>
+<tr class="even">
+<td><code>str_detect(x, pattern)</code></td>
+<td><span class="en">TRUE if the pattern is present</span><span
+class="fr">TRUE si le motif est présent</span></td>
+<td><code>str_detect(activities, "seaweed")</code></td>
+</tr>
+<tr class="odd">
+<td><code>str_count()</code>, <code>str_replace_all()</code>,
+<code>str_sub()</code>, <code>str_split()</code></td>
+<td><span class="en">Count, replace, cut, split text</span><span
+class="fr">Compter, remplacer, découper, séparer du texte</span></td>
+<td><code>str_count(x, ";") + 1</code></td>
+</tr>
+<tr class="even">
+<td><code>separate_rows(df, col, sep)</code></td>
+<td><span class="en">Multiple-choice answers → one row per
+answer</span><span class="fr">Réponses à choix multiples → une ligne par
+réponse</span></td>
+<td><code>separate_rows(h, activities, sep = ";")</code></td>
+</tr>
+<tr class="odd">
+<td><code>factor(x, levels, ordered = TRUE)</code></td>
+<td><span class="en">Ordered categories (Likert scale)</span><span
+class="fr">Catégories ordonnées (échelle de Likert)</span></td>
+<td><code>factor(x, levels = c("Disagree", "Neutral", "Agree"), ordered = TRUE)</code></td>
+</tr>
+<tr class="even">
+<td><code>prop.table(table(), margin)</code>,
+<code>addmargins()</code></td>
+<td><span class="en">Percentages per row (1) or column (2),
+totals</span><span class="fr">Pourcentages par ligne (1) ou colonne (2),
+totaux</span></td>
+<td><code>round(prop.table(t, 1) * 100, 1)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="i5-conditions-and-loopsi5-conditions-et-boucles"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">I5 — Conditions and
+loops</span><span class="fr">I5 — Conditions et boucles</span></h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>if (cond) {...} else {...}</code></td>
+<td><span class="en">One decision (one TRUE/FALSE)</span><span
+class="fr">Une décision (un seul TRUE/FALSE)</span></td>
+<td><code>if (n &lt; 5) message("small sample")</code></td>
+</tr>
+<tr class="even">
+<td><code>ifelse(test, yes, no)</code></td>
+<td><span class="en">Vectorised decision on a column</span><span
+class="fr">Décision vectorisée sur une colonne</span></td>
+<td><code>ifelse(sgr &gt; 3.5, "good", "low")</code></td>
+</tr>
+<tr class="odd">
+<td><code>case_when(cond ~ value, TRUE ~ other)</code></td>
+<td><span class="en">Several classes</span><span class="fr">Plusieurs
+classes</span></td>
+<td><code>case_when(t &lt; 3 ~ "clear", t &lt; 6 ~ "moderate", TRUE ~ "turbid")</code></td>
+</tr>
+<tr class="even">
+<td><code>for (i in seq_along(x)) {...}</code></td>
+<td><span class="en">Repeat for each element</span><span
+class="fr">Répéter pour chaque élément</span></td>
+<td><code>for (v in villages) {...}</code></td>
+</tr>
+<tr class="odd">
+<td><code>vector("list", n)</code>, <code>numeric(n)</code></td>
+<td><span class="en">Empty container to fill in a loop</span><span
+class="fr">Conteneur vide à remplir dans une boucle</span></td>
+<td><code>res &lt;- numeric(10)</code></td>
+</tr>
+<tr class="even">
+<td><code>sapply(x, f)</code>, <code>lapply(x, f)</code></td>
+<td><span class="en">Apply a function to each element (vector / list
+result)</span><span class="fr">Appliquer une fonction à chaque élément
+(résultat vecteur / liste)</span></td>
+<td><code>sapply(split(w$sal, w$station), cv)</code></td>
+</tr>
+<tr class="odd">
+<td><code>do.call(rbind, list)</code></td>
+<td><span class="en">Stack a list of data frames</span><span
+class="fr">Empiler une liste de data frames</span></td>
+<td><code>do.call(rbind, results)</code></td>
+</tr>
+<tr class="even">
+<td><code>list.files()</code>, <code>file.path()</code>,
+<code>dir.create()</code></td>
+<td><span class="en">Files and folders in loops</span><span
+class="fr">Fichiers et dossiers dans les boucles</span></td>
+<td><code>list.files("data", pattern = "csv$")</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="i6-functionsi6-fonctions" class="section level2 no-track">
+<h2 class="no-track"><span class="en">I6 — Functions</span><span
+class="fr">I6 — Fonctions</span></h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>sgr <span class="ot">&lt;-</span> <span class="cf">function</span>(w0, w1, days) {            <span class="co"># name &lt;- function(arguments)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">any</span>(w0 <span class="sc">&lt;=</span> <span class="dv">0</span>)) <span class="fu">stop</span>(<span class="st">&quot;weights must be positive&quot;</span>)   <span class="co"># check the inputs</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> (<span class="fu">log</span>(w1) <span class="sc">-</span> <span class="fu">log</span>(w0)) <span class="sc">/</span> days         <span class="co"># the last value is returned</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>}</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>cv <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>geo_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(x), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<div class="keypoints">
+<ul>
+<li><span class="en">Write a function as soon as you copy-paste the same
+code three times. Test it on a case you can compute by hand.</span><span
+class="fr">Écrivez une fonction dès que vous copiez-collez le même code
+trois fois. Testez-la sur un cas calculable à la main.</span></li>
+<li><span class="en">Arguments can have defaults:
+<code>function(x, digits = 2)</code>. Use <code>return()</code> only to
+stop early; <code>stop()</code> / <code>warning()</code> for
+errors.</span><span class="fr">Les arguments peuvent avoir des valeurs
+par défaut : <code>function(x, digits = 2)</code>. <code>return()</code>
+seulement pour sortir plus tôt ; <code>stop()</code> /
+<code>warning()</code> pour les erreurs.</span></li>
+</ul>
+</div>
+</div>
+<div id="i7i8-mastering-ggplot2i7i8-maîtriser-ggplot2"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">I7–I8 — Mastering
+ggplot2</span><span class="fr">I7–I8 — Maîtriser ggplot2</span></h2>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>labs(x, y, title, subtitle, caption, colour)</code></td>
+<td><span class="en">All texts of the graph, with units</span><span
+class="fr">Tous les textes du graphique, avec unités</span></td>
+</tr>
+<tr class="even">
+<td><code>scale_colour_manual(values)</code>,
+<code>scale_*_brewer()</code>, <code>scale_*_viridis_c/d()</code></td>
+<td><span class="en">Choose colours (viridis: colour-blind
+safe)</span><span class="fr">Choisir les couleurs (viridis : adapté aux
+daltoniens)</span></td>
+</tr>
+<tr class="odd">
+<td><code>scale_y_continuous(breaks, labels)</code>,
+<code>scale_y_log10()</code>,
+<code>scale_x_date(date_breaks, date_labels)</code></td>
+<td><span class="en">Axis ticks and labels</span><span
+class="fr">Graduations et étiquettes des axes</span></td>
+</tr>
+<tr class="even">
+<td><code>coord_cartesian(ylim)</code></td>
+<td><span class="en"><strong>Zoom</strong> without removing data
+(<code>ylim()</code> removes!)</span><span
+class="fr"><strong>Zoomer</strong> sans retirer de données
+(<code>ylim()</code> retire !)</span></td>
+</tr>
+<tr class="odd">
+<td><code>facet_wrap(~ g, scales = "free_y")</code>,
+<code>facet_grid(r ~ c)</code></td>
+<td><span class="en">Small multiples</span><span class="fr">Petits
+multiples</span></td>
+</tr>
+<tr class="even">
+<td><code>theme_minimal()</code>,
+<code>theme(legend.position, axis.text = element_text())</code></td>
+<td><span class="en">Overall look</span><span class="fr">Aspect
+général</span></td>
+</tr>
+<tr class="odd">
+<td><code>geom_pointrange(aes(ymin, ymax), position = position_dodge(0.5))</code></td>
+<td><span class="en">Means ± CI side by side</span><span
+class="fr">Moyennes ± IC côte à côte</span></td>
+</tr>
+<tr class="even">
+<td><code>geom_line()</code>, <code>geom_smooth()</code></td>
+<td><span class="en">Time series, trend</span><span class="fr">Séries
+temporelles, tendance</span></td>
+</tr>
+<tr class="odd">
+<td><code>reorder(g, x, median)</code></td>
+<td><span class="en">Order categories by a value</span><span
+class="fr">Ordonner des catégories selon une valeur</span></td>
+</tr>
+<tr class="even">
+<td><code>annotate("text" / "segment" / "rect", ...)</code>,
+<code>geom_hline()</code></td>
+<td><span class="en">Add notes, lines, areas</span><span
+class="fr">Ajouter notes, lignes, zones</span></td>
+</tr>
+<tr class="odd">
+<td><code>p1 + p2</code>, <code>p1 / p2</code>, <code>(p1 | p2) /
+p3</code>, <code>plot_annotation(tag_levels = "A")</code></td>
+<td><span class="en">patchwork: combine graphs</span><span
+class="fr">patchwork : combiner des graphiques</span></td>
+</tr>
+<tr class="even">
+<td><code>ggsave(file, plot, width, height, units = "cm", dpi = 300)</code></td>
+<td><span class="en">Export PNG / PDF</span><span class="fr">Exporter en
+PNG / PDF</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div
+id="i9-distributions-transformations-p-valuesi9-distributions-transformations-p-values"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">I9 — Distributions,
+transformations, p-values</span><span class="fr">I9 — Distributions,
+transformations, p-values</span></h2>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>geom_histogram()</code>, <code>geom_density()</code></td>
+<td><span class="en">Look at the shape first</span><span
+class="fr">Regarder d’abord la forme</span></td>
+</tr>
+<tr class="even">
+<td><code>qqnorm(x); qqline(x)</code> /
+<code>stat_qq() + stat_qq_line()</code></td>
+<td><span class="en">QQ-plot: normal data follow the line</span><span
+class="fr">QQ-plot : des données normales suivent la droite</span></td>
+</tr>
+<tr class="odd">
+<td><code>shapiro.test(x)</code></td>
+<td><span class="en">Normality test (weak with small n, too strict with
+large n)</span><span class="fr">Test de normalité (faible avec petit n,
+trop strict avec grand n)</span></td>
+</tr>
+<tr class="even">
+<td><code>rnorm()</code>, <code>dnorm()</code>, <code>pnorm()</code>,
+<code>qnorm()</code></td>
+<td><span class="en">Normal distribution: draw, density, probability,
+quantile</span><span class="fr">Loi normale : tirage, densité,
+probabilité, quantile</span></td>
+</tr>
+<tr class="odd">
+<td><code>log(x)</code>, <code>log1p(x)</code>,
+<code>sqrt(x)</code></td>
+<td><span class="en">Transform right-skewed data / with zeros /
+counts</span><span class="fr">Transformer des données asymétriques /
+avec zéros / des comptages</span></td>
+</tr>
+<tr class="even">
+<td><code>exp(mean(log(x)))</code></td>
+<td><span class="en">Geometric mean (back-transformed)</span><span
+class="fr">Moyenne géométrique (re-transformée)</span></td>
+</tr>
+<tr class="odd">
+<td><code>replicate(n, expr)</code>, <code>sample(x)</code></td>
+<td><span class="en">Simulations, permutations</span><span
+class="fr">Simulations, permutations</span></td>
+</tr>
+</tbody>
+</table>
+<div class="keypoints">
+<ul>
+<li><span class="en"><strong>p-value</strong> = probability of a result
+at least this extreme <strong>if H0 were true</strong>. Not the
+probability that H0 is true. Non-significant ≠ no effect; significant ≠
+important. Always report the effect size and its CI.</span><span
+class="fr"><strong>p-value</strong> = probabilité d’un résultat au moins
+aussi extrême <strong>si H0 était vraie</strong>. Pas la probabilité que
+H0 soit vraie. Non significatif ≠ pas d’effet ; significatif ≠
+important. Rapportez toujours la taille d’effet et son IC.</span></li>
+</ul>
+</div>
+</div>
+<div id="i10-choosing-a-testi10-choisir-un-test"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">I10 — Choosing a test</span><span
+class="fr">I10 — Choisir un test</span></h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Question</span><span
+class="fr">Question</span></th>
+<th><span class="en">Parametric</span><span
+class="fr">Paramétrique</span></th>
+<th><span class="en">Non-parametric / exact</span><span class="fr">Non
+paramétrique / exact</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="en">2 means, independent groups</span><span
+class="fr">2 moyennes, groupes indépendants</span></td>
+<td><code>t.test(y ~ g, data)</code> (Welch)</td>
+<td><code>wilcox.test(y ~ g, data)</code></td>
+</tr>
+<tr class="even">
+<td><span class="en">2 means, paired (same units twice)</span><span
+class="fr">2 moyennes, appariées (mêmes unités 2 fois)</span></td>
+<td><code>t.test(after, before, paired = TRUE)</code></td>
+<td><code>wilcox.test(after, before, paired = TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td><span class="en">Proportions (2 categorical variables)</span><span
+class="fr">Proportions (2 variables catégorielles)</span></td>
+<td><code>chisq.test(table(a, b))</code>, <code>prop.test()</code> —
+<span class="en">expected ≥ 5</span><span class="fr">attendus ≥
+5</span></td>
+<td><code>fisher.test(table(a, b))</code></td>
+</tr>
+<tr class="even">
+<td><span class="en">Relationship (2 numeric variables)</span><span
+class="fr">Relation (2 variables numériques)</span></td>
+<td><code>cor.test(x, y)</code> (Pearson, linear)</td>
+<td><code>cor.test(x, y, method = "spearman")</code> (monotonic)</td>
+</tr>
+</tbody>
+</table>
+<div class="keypoints">
+<ul>
+<li><span class="en"><strong>Plot first.</strong> Choose the test from
+the question, the variable types and pairing, <strong>before</strong>
+looking at p.</span><span class="fr"><strong>Tracez d’abord.</strong>
+Choisissez le test d’après la question, le type des variables et
+l’appariement, <strong>avant</strong> de regarder p.</span></li>
+<li><span class="en"><code>chisq.test(t)$expected</code> checks the
+counts; <code>tt$estimate</code>, <code>tt$conf.int</code>,
+<code>tt$p.value</code> extract results.</span><span
+class="fr"><code>chisq.test(t)$expected</code> vérifie les effectifs ;
+<code>tt$estimate</code>, <code>tt$conf.int</code>,
+<code>tt$p.value</code> extraient les résultats.</span></li>
+<li><span class="en">Curved (rise then fall) relationship: no
+correlation coefficient fits — describe it with a graph.</span><span
+class="fr">Relation courbe (monte puis descend) : aucun coefficient de
+corrélation ne convient — décrivez-la par un graphique.</span></li>
+<li><span class="en">Report: “X was higher in A than in B (means,
+difference, 95 % CI; test, statistic, df, p; n)”.</span><span
+class="fr">Rapportez : « X était plus élevé en A qu’en B (moyennes,
+différence, IC 95 % ; test, statistique, ddl, p ; n) ».</span></li>
+</ul>
+</div>
+</div>
+<div id="i11-maps-with-ggplot2i11-cartes-avec-ggplot2"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">I11 — Maps with
+ggplot2</span><span class="fr">I11 — Cartes avec ggplot2</span></h2>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(x = lon, y = lat)</code></td>
+<td><span class="en">Longitude on x, latitude on y (south =
+negative)</span><span class="fr">Longitude en x, latitude en y (sud =
+négatif)</span></td>
+</tr>
+<tr class="even">
+<td><code>coord_quickmap(xlim, ylim)</code></td>
+<td><span class="en">Correct aspect ratio and zoom</span><span
+class="fr">Rapport d’aspect correct et zoom</span></td>
+</tr>
+<tr class="odd">
+<td><code>geom_polygon(data = coast, aes(lon, lat), fill)</code></td>
+<td><span class="en">Land; rows must stay in their order</span><span
+class="fr">Terre ; les lignes doivent rester dans leur ordre</span></td>
+</tr>
+<tr class="even">
+<td><code>geom_point(data = ..., aes(size, fill), shape = 21)</code></td>
+<td><span class="en">Points with their own data per layer</span><span
+class="fr">Points avec leurs propres données par couche</span></td>
+</tr>
+<tr class="odd">
+<td><code>geom_text(aes(label), hjust, nudge_x)</code></td>
+<td><span class="en">Labels</span><span
+class="fr">Étiquettes</span></td>
+</tr>
+<tr class="even">
+<td><code>scale_size_area()</code>,
+<code>scale_fill_viridis_c()</code></td>
+<td><span class="en">Area ∝ quantity; sequential colours for
+intensity</span><span class="fr">Surface ∝ quantité ; couleurs
+séquentielles pour l’intensité</span></td>
+</tr>
+<tr class="odd">
+<td><code>annotate("segment", ..., arrow = arrow())</code></td>
+<td><span class="en">North arrow; 0.09° of latitude ≈ 10 km</span><span
+class="fr">Flèche du nord ; 0,09° de latitude ≈ 10 km</span></td>
+</tr>
+<tr class="even">
+<td><code>sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326)</code>
++ <code>geom_sf()</code></td>
+<td><span class="en">Preview of real GIS (Advanced level)</span><span
+class="fr">Aperçu du vrai SIG (niveau avancé)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

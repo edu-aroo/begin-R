@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · I6</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I6 · Writing your own
+functions</span><span class="fr">I6 · Écrire ses propres
+fonctions</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>write a <strong>function</strong> with arguments, default values and
+a returned result;</li>
+<li><strong>check</strong> the arguments and stop with a clear message
+when they are wrong;</li>
+<li>return several results in a <strong>list</strong>;</li>
+<li>apply your function to each group with <code>sapply()</code>,
+<code>tapply()</code> or <code>group_by()</code>;</li>
+<li>keep your functions in a separate file and load them with
+<code>source()</code>.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>écrire une <strong>fonction</strong> avec des arguments, des valeurs
+par défaut et un résultat renvoyé ;</li>
+<li><strong>vérifier</strong> les arguments et arrêter avec un message
+clair quand ils sont faux ;</li>
+<li>renvoyer plusieurs résultats dans une <strong>liste</strong> ;</li>
+<li>appliquer votre fonction à chaque groupe avec <code>sapply()</code>,
+<code>tapply()</code> ou <code>group_by()</code> ;</li>
+<li>ranger vos fonctions dans un fichier séparé et les charger avec
+<code>source()</code>.</li>
+</ul>
+</div>
+</div>
+<p><a class="btn-dl" href="data/checkpoints/I3_seaweed_analysis.csv" download>⇩
+checkpoint: I3_seaweed_analysis.csv</a></p>
+<div id="why" class="section level2">
+<h2><span class="en">Why write functions?</span><span
+class="fr">Pourquoi écrire des fonctions ?</span></h2>
+<div class="en">
+<p>Since Session I1 you compute the growth rate with
+<code>100 * log(final / initial) / days</code>. You will need it again
+for the sea cucumbers of the final project, for each village, for a
+report… A <strong>function</strong> gives a name to this calculation:
+you write and check it <strong>once</strong>, and every use is short and
+identical. Rule of thumb: <strong>if you copied the same code three
+times, write a function.</strong></p>
+</div>
+<div class="fr">
+<p>Depuis la séance I1 vous calculez le taux de croissance avec
+<code>100 * log(final / initial) / days</code>. Vous en aurez encore
+besoin pour les holothuries du projet final, pour chaque village, pour
+un rapport… Une <strong>fonction</strong> donne un nom à ce calcul :
+vous l’écrivez et la vérifiez <strong>une fois</strong>, et chaque
+utilisation est courte et identique. Règle pratique : <strong>si vous
+avez copié le même code trois fois, écrivez une fonction.</strong></p>
+</div>
+</div>
+<div id="anatomy" class="section level2">
+<h2><span class="en">Anatomy of a function</span><span
+class="fr">Anatomie d’une fonction</span></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>sgr <span class="ot">&lt;-</span> <span class="cf">function</span>(w_initial, w_final, days) {     <span class="co"># name &lt;- function(arguments)</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> <span class="fu">log</span>(w_final <span class="sc">/</span> w_initial) <span class="sc">/</span> days         <span class="co"># the LAST value is returned</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">sgr</span>(<span class="dv">10</span>, <span class="dv">25</span>, <span class="dv">45</span>)                                  <span class="co"># one line</span></span></code></pre></div>
+<pre><code>#&gt; [1] 2.036202</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">sgr</span>(<span class="at">w_initial =</span> <span class="dv">10</span>, <span class="at">w_final =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>), <span class="at">days =</span> <span class="dv">45</span>)   <span class="co"># works on vectors too</span></span></code></pre></div>
+<pre><code>#&gt; [1] 2.036202 2.441361</code></pre>
+<div class="en">
+<ul>
+<li>The <strong>arguments</strong> are local names: inside the function,
+<code>w_initial</code> is whatever you pass. Objects created inside the
+function disappear when it ends — they do not overwrite your
+objects.</li>
+<li>The result is the <strong>last value</strong> computed.
+<code>return(x)</code> makes it explicit (useful to leave early).</li>
+<li>Because the calculation is vectorised, the function works on whole
+columns:</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>Les <strong>arguments</strong> sont des noms locaux : dans la
+fonction, <code>w_initial</code> vaut ce que vous lui passez. Les objets
+créés dans la fonction disparaissent à la fin — ils n’écrasent pas vos
+objets.</li>
+<li>Le résultat est la <strong>dernière valeur</strong> calculée.
+<code>return(x)</code> le rend explicite (utile pour sortir plus
+tôt).</li>
+<li>Comme le calcul est vectorisé, la fonction marche sur des colonnes
+entières :</li>
+</ul>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>seaweed<span class="sc">$</span>sgr2 <span class="ot">&lt;-</span> <span class="fu">sgr</span>(seaweed<span class="sc">$</span>initial_weight_kg, seaweed<span class="sc">$</span>final_weight_kg, seaweed<span class="sc">$</span>days)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">all.equal</span>(seaweed<span class="sc">$</span>sgr, seaweed<span class="sc">$</span>sgr2)        <span class="co"># same as Session I1</span></span></code></pre></div>
+<pre><code>#&gt; [1] TRUE</code></pre>
+</div>
+<div id="defaults" class="section level2">
+<h2><span class="en">Default values</span><span class="fr">Valeurs par
+défaut</span></h2>
+<div class="en">
+<p>Give an argument a default value with <code>=</code>: users can omit
+it. Here, a summary function with <code>digits = 2</code> and
+<code>na.rm = TRUE</code> by default:</p>
+</div>
+<div class="fr">
+<p>Donnez une valeur par défaut à un argument avec <code>=</code> :
+l’utilisateur peut l’omettre. Ici, une fonction de résumé avec
+<code>digits = 2</code> et <code>na.rm = TRUE</code> par défaut :</p>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>describe <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">digits =</span> <span class="dv">2</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  n  <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x))</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  m  <span class="ot">&lt;-</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> na.rm)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  s  <span class="ot">&lt;-</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> na.rm)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> n, <span class="at">mean =</span> m, <span class="at">sd =</span> s, <span class="at">se =</span> s <span class="sc">/</span> <span class="fu">sqrt</span>(n)), digits)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>}</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">describe</span>(seaweed<span class="sc">$</span>sgr)</span></code></pre></div>
+<pre><code>#&gt;       n    mean      sd      se 
+#&gt; 2317.00    3.44    0.67    0.01</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">describe</span>(seaweed<span class="sc">$</span>sgr, <span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;         n      mean        sd        se 
+#&gt; 2317.0000    3.4387    0.6659    0.0138</code></pre>
+</div>
+<div id="checks" class="section level2">
+<h2><span class="en">Checking the arguments</span><span
+class="fr">Vérifier les arguments</span></h2>
+<div class="en">
+<p>A good function <strong>refuses wrong inputs with a clear
+message</strong>, instead of returning a silent wrong result.
+<code>stop()</code> stops with an error; <code>warning()</code>
+continues with a warning.</p>
+</div>
+<div class="fr">
+<p>Une bonne fonction <strong>refuse les mauvaises entrées avec un
+message clair</strong>, au lieu de renvoyer un résultat faux en silence.
+<code>stop()</code> arrête avec une erreur ; <code>warning()</code>
+continue avec un avertissement.</p>
+</div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>sgr <span class="ot">&lt;-</span> <span class="cf">function</span>(w_initial, w_final, days) {</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(w_initial) <span class="sc">||</span> <span class="sc">!</span><span class="fu">is.numeric</span>(w_final)) <span class="fu">stop</span>(<span class="st">&quot;weights must be numbers&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">any</span>(days <span class="sc">&lt;=</span> <span class="dv">0</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="fu">stop</span>(<span class="st">&quot;days must be positive&quot;</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">any</span>(w_final <span class="sc">&gt;</span> <span class="dv">100</span> <span class="sc">*</span> w_initial, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>    <span class="fu">warning</span>(<span class="st">&quot;some final weights are &gt; 100 x the initial weight: grams instead of kg?&quot;</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> <span class="fu">log</span>(w_final <span class="sc">/</span> w_initial) <span class="sc">/</span> days</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>}</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">sgr</span>(<span class="st">&quot;10&quot;</span>, <span class="dv">25</span>, <span class="dv">45</span>)</span></code></pre></div>
+<pre><code>#&gt; Error in `sgr()`:
+#&gt; ! weights must be numbers</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">sgr</span>(<span class="dv">10</span>, <span class="dv">2500</span>, <span class="dv">45</span>)</span></code></pre></div>
+<pre><code>#&gt; Warning in sgr(10, 2500, 45): some final weights are &gt; 100 x the initial weight: grams instead of kg?</code></pre>
+<pre><code>#&gt; [1] 12.26991</code></pre>
+<div class="en">
+<p><code>||</code> and <code>&amp;&amp;</code> are the “single value”
+versions of <code>|</code> and <code>&amp;</code>, used inside
+<code>if()</code>.</p>
+</div>
+<div class="fr">
+<p><code>||</code> et <code>&amp;&amp;</code> sont les versions « valeur
+unique » de <code>|</code> et <code>&amp;</code>, utilisées dans
+<code>if()</code>.</p>
+</div>
+</div>
+<div id="lists" class="section level2">
+<h2><span class="en">Returning several results: lists</span><span
+class="fr">Renvoyer plusieurs résultats : les listes</span></h2>
+<div class="en">
+<p>A function returns <strong>one</strong> object. To return several
+results of different types, put them in a <strong>list</strong> (an
+object that can hold anything) and access the parts with
+<code>$</code>.</p>
+</div>
+<div class="fr">
+<p>Une fonction renvoie <strong>un seul</strong> objet. Pour renvoyer
+plusieurs résultats de types différents, mettez-les dans une
+<strong>liste</strong> (un objet qui peut tout contenir) et accédez aux
+éléments avec <code>$</code>.</p>
+</div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>farm_report <span class="ot">&lt;-</span> <span class="cf">function</span>(d) {</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">n_lines     =</span> <span class="fu">nrow</span>(d),</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>       <span class="at">loss_pct    =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(d<span class="sc">$</span>status <span class="sc">!=</span> <span class="st">&quot;harvested&quot;</span>), <span class="dv">1</span>),</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>       <span class="at">harvest_t   =</span> <span class="fu">round</span>(<span class="fu">sum</span>(d<span class="sc">$</span>final_weight_kg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="dv">1000</span>, <span class="dv">2</span>),</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>       <span class="at">best_farmer =</span> <span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">tapply</span>(d<span class="sc">$</span>sgr, d<span class="sc">$</span>farmer_id, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))))</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>}</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">farm_report</span>(seaweed[seaweed<span class="sc">$</span>village <span class="sc">==</span> <span class="st">&quot;Lovobe&quot;</span>, ])</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>r</span></code></pre></div>
+<pre><code>#&gt; $n_lines
+#&gt; [1] 220
+#&gt; 
+#&gt; $loss_pct
+#&gt; [1] 13.6
+#&gt; 
+#&gt; $harvest_t
+#&gt; [1] 10.61
+#&gt; 
+#&gt; $best_farmer
+#&gt; [1] &quot;F034&quot;</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>r<span class="sc">$</span>harvest_t</span></code></pre></div>
+<pre><code>#&gt; [1] 10.61</code></pre>
+</div>
+<div id="apply" class="section level2">
+<h2><span class="en">Applying a function to each group</span><span
+class="fr">Appliquer une fonction à chaque groupe</span></h2>
+<div class="en">
+<p>Your functions work everywhere a built-in function works: in
+<code>tapply()</code>, <code>sapply()</code>, <code>aggregate()</code>,
+<code>summarise()</code>.</p>
+</div>
+<div class="fr">
+<p>Vos fonctions marchent partout où marche une fonction intégrée : dans
+<code>tapply()</code>, <code>sapply()</code>, <code>aggregate()</code>,
+<code>summarise()</code>.</p>
+</div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(seaweed<span class="sc">$</span>sgr, seaweed<span class="sc">$</span>technique, se), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;  long-line off-bottom 
+#&gt;     0.0193     0.0175</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># sapply over a vector of villages: one call of farm_report() each</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">c</span>(<span class="st">&quot;Lovobe&quot;</span>, <span class="st">&quot;Mahavelo&quot;</span>, <span class="st">&quot;Befasy&quot;</span>),</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>       <span class="cf">function</span>(v) <span class="fu">farm_report</span>(seaweed[seaweed<span class="sc">$</span>village <span class="sc">==</span> v, ])<span class="sc">$</span>harvest_t)</span></code></pre></div>
+<pre><code>#&gt;   Lovobe Mahavelo   Befasy 
+#&gt;    10.61    19.81     7.38</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>seaweed <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(zone) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(sgr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">se =</span> <span class="fu">se</span>(sgr))</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 3 × 3
+#&gt;   zone    mean     se
+#&gt;   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1 Centre  3.39 0.0255
+#&gt; 2 North   3.38 0.0230
+#&gt; 3 South   3.55 0.0231</code></pre>
+<div class="en">
+<p><code>function(v) ...</code> written directly inside
+<code>sapply()</code> is an <strong>anonymous function</strong>: a short
+function used once. Since R 4.1 you can write it
+<code>\(v) ...</code>.</p>
+</div>
+<div class="fr">
+<p><code>function(v) ...</code> écrite directement dans
+<code>sapply()</code> est une <strong>fonction anonyme</strong> : une
+petite fonction utilisée une fois. Depuis R 4.1 on peut l’écrire
+<code>\(v) ...</code>.</p>
+</div>
+</div>
+<div id="source" class="section level2">
+<h2><span class="en">Keeping your functions in a file</span><span
+class="fr">Ranger ses fonctions dans un fichier</span></h2>
+<div class="en">
+<p>Put your functions in <code>scripts/functions.R</code> (with comments
+explaining each argument), and start every analysis script with
+<code>source("scripts/functions.R")</code>. You build your own small
+toolbox, reused from project to project.</p>
+</div>
+<div class="fr">
+<p>Mettez vos fonctions dans <code>scripts/functions.R</code> (avec des
+commentaires expliquant chaque argument), et commencez chaque script
+d’analyse par <code>source("scripts/functions.R")</code>. Vous
+construisez votre propre petite boîte à outils, réutilisée d’un projet à
+l’autre.</p>
+</div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># scripts/functions.R ----------------------------------------------------------</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="co"># sgr(): specific growth rate in % per day</span></span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a><span class="co">#   w_initial, w_final: weights (same unit); days: duration</span></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>sgr <span class="ot">&lt;-</span> <span class="cf">function</span>(w_initial, w_final, days) <span class="dv">100</span> <span class="sc">*</span> <span class="fu">log</span>(w_final <span class="sc">/</span> w_initial) <span class="sc">/</span> days</span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a><span class="co"># se(): standard error of the mean, ignoring NA</span></span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span></code></pre></div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-i6" class="section level3 en">
+<h3>Application work I6</h3>
+<p>Script <code>scripts/i06_functions.R</code> and a file
+<code>scripts/functions.R</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Write <code>sgr(w_initial, w_final, days)</code> with the checks
+shown above. What is <code>sgr(8, 21, 42)</code> (3 decimals)?</li>
+<li>Write <code>survival(stocked, alive)</code> returning the % of
+animals still alive. With <code>seacucumber_pens.csv</code> and
+<code>seacucumber_harvest.csv</code> (join by <code>pen_id</code>),
+compute the survival of each pen. Mean survival (2 decimals)? Which farm
+has the highest mean survival?</li>
+<li>Write <code>se(x)</code>. Standard error of SGR for
+<strong>off-bottom</strong> lines (4 decimals)?</li>
+<li>Write <code>harvest_t(d)</code> returning the total harvest in
+tonnes of a table <code>d</code>. Value for the <strong>Centre</strong>
+zone (3 decimals)?</li>
+<li>Write <code>cv(x)</code>, the coefficient of variation in %
+(<code>100 * sd / mean</code>, ignoring NA). CV of all SGR values (2
+decimals)? Using <code>tapply()</code>, which village has the most
+variable growth (highest CV)?</li>
+</ol>
+</div>
+<div id="travail-dapplication-i6" class="section level3 fr">
+<h3>Travail d’application I6</h3>
+<p>Script <code>scripts/i06_functions.R</code> et un fichier
+<code>scripts/functions.R</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Écrivez <code>sgr(w_initial, w_final, days)</code> avec les
+vérifications ci-dessus. Combien vaut <code>sgr(8, 21, 42)</code> (3
+décimales) ?</li>
+<li>Écrivez <code>survival(stocked, alive)</code> qui renvoie le %
+d’animaux encore vivants. Avec <code>seacucumber_pens.csv</code> et
+<code>seacucumber_harvest.csv</code> (jointure par <code>pen_id</code>),
+calculez la survie de chaque enclos. Survie moyenne (2 décimales) ?
+Quelle ferme a la survie moyenne la plus élevée ?</li>
+<li>Écrivez <code>se(x)</code>. Erreur standard du SGR des lignes
+<strong>off-bottom</strong> (4 décimales) ?</li>
+<li>Écrivez <code>harvest_t(d)</code> qui renvoie la récolte totale en
+tonnes d’un tableau <code>d</code>. Valeur pour la zone
+<strong>Centre</strong> (3 décimales) ?</li>
+<li>Écrivez <code>cv(x)</code>, le coefficient de variation en %
+(<code>100 * sd / mean</code>, sans NA). CV de toutes les valeurs de SGR
+(2 décimales) ? Avec <code>tapply()</code>, quel village a la croissance
+la plus variable (CV le plus élevé) ?</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 2:
+<code>ph &lt;- merge(pens, harvest, by = "pen_id")</code>, then
+<code>ph$survival &lt;- survival(ph$juveniles_stocked, ph$alive_at_harvest)</code>.</p>
+</div>
+<div class="fr">
+<p>Question 2 :
+<code>ph &lt;- merge(pens, harvest, by = "pen_id")</code>, puis
+<code>ph$survival &lt;- survival(ph$juveniles_stocked, ph$alive_at_harvest)</code>.</p>
+</div>
+</div>
+<div id="quiz-i06" class="quiz" data-quiz-id="i06"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gc2dyKDgsIDIxLCA0MikgKDMgZGVjaW1hbHMpPyIsImZyIjoiMS4gc2dyKDgsIDIxLCA0MikgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6Mi4yOTgsInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMmEuIE1lYW4gc3Vydml2YWwgaW4gJSAoMiBkZWNpbWFscyk/IiwiZnIiOiIyYS4gU3VydmllIG1veWVubmUgZW4gJSAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjo1OS43NiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyYi4gRmFybSB3aXRoIHRoZSBoaWdoZXN0IG1lYW4gc3Vydml2YWw/IiwiZnIiOiIyYi4gRmVybWUgw6AgbGEgc3VydmllIG1veWVubmUgbGEgcGx1cyDDqWxldsOpZSA/IiwiYW5zd2VyIjpbIkZhcm0gQiIsIkIiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBTRSBvZiBTR1IsIG9mZi1ib3R0b20gKDQgZGVjaW1hbHMpPyIsImZyIjoiMy4gRVMgZHUgU0dSLCBvZmYtYm90dG9tICg0IGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjAuMDE3NSwidG9sIjo2ZS0wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIEhhcnZlc3Qgb2YgdGhlIENlbnRyZSB6b25lIGluIHRvbm5lcyAoMyBkZWNpbWFscyk/IiwiZnIiOiI0LiBSw6ljb2x0ZSBkZSBsYSB6b25lIENlbnRyZSBlbiB0b25uZXMgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MzYuMzAzLCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjVhLiBDViBvZiBhbGwgU0dSIHZhbHVlcyAoMiBkZWNpbWFscyk/IiwiZnIiOiI1YS4gQ1YgZGUgdG91dGVzIGxlcyB2YWxldXJzIGRlIFNHUiAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoxOS4zNywidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI1Yi4gVmlsbGFnZSB3aXRoIHRoZSBoaWdoZXN0IENWPyIsImZyIjoiNWIuIFZpbGxhZ2UgYXUgQ1YgbGUgcGx1cyDDqWxldsOpID8iLCJhbnN3ZXIiOlsiQmVmYXN5Il19LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gV2hhdCBkb2VzIGEgZnVuY3Rpb24gcmV0dXJuPyIsImZyIjoiNi4gUXVlIHJlbnZvaWUgdW5lIGZvbmN0aW9uID8iLCJvcHRpb25zX2VuIjpbIkFsbCBvYmplY3RzIGNyZWF0ZWQgaW5zaWRlIGl0IiwiVGhlIGxhc3QgdmFsdWUgY29tcHV0ZWQgKG9yIHJldHVybigpKSIsIk5vdGhpbmcgdW5sZXNzIHlvdSB1c2UgcHJpbnQoKSIsIkl0cyBmaXJzdCBhcmd1bWVudCJdLCJvcHRpb25zX2ZyIjpbIlRvdXMgbGVzIG9iamV0cyBjcsOpw6lzIMOgIGwnaW50w6lyaWV1ciIsIkxhIGRlcm5pw6hyZSB2YWxldXIgY2FsY3Vsw6llIChvdSByZXR1cm4oKSkiLCJSaWVuIHNhdWYgYXZlYyBwcmludCgpIiwiU29uIHByZW1pZXIgYXJndW1lbnQiXSwiYW5zd2VyIjoxfV0=">
+
+</div>
+<div class="solution" data-quiz="i06">
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>sgr <span class="ot">&lt;-</span> <span class="cf">function</span>(w_initial, w_final, days) {</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(w_initial) <span class="sc">||</span> <span class="sc">!</span><span class="fu">is.numeric</span>(w_final)) <span class="fu">stop</span>(<span class="st">&quot;weights must be numbers&quot;</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">any</span>(days <span class="sc">&lt;=</span> <span class="dv">0</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="fu">stop</span>(<span class="st">&quot;days must be positive&quot;</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> <span class="fu">log</span>(w_final <span class="sc">/</span> w_initial) <span class="sc">/</span> days</span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>}</span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sgr</span>(<span class="dv">8</span>, <span class="dv">21</span>, <span class="dv">42</span>), <span class="dv">3</span>)                                             <span class="co"># 1</span></span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a>survival <span class="ot">&lt;-</span> <span class="cf">function</span>(stocked, alive) <span class="dv">100</span> <span class="sc">*</span> alive <span class="sc">/</span> stocked</span>
+<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a>pens    <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/seacucumber_pens.csv&quot;</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>harvest <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/seacucumber_harvest.csv&quot;</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a>ph <span class="ot">&lt;-</span> <span class="fu">merge</span>(pens, harvest, <span class="at">by =</span> <span class="st">&quot;pen_id&quot;</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a>ph<span class="sc">$</span>survival <span class="ot">&lt;-</span> <span class="fu">survival</span>(ph<span class="sc">$</span>juveniles_stocked, ph<span class="sc">$</span>alive_at_harvest)</span>
+<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(ph<span class="sc">$</span>survival), <span class="dv">2</span>); <span class="fu">tapply</span>(ph<span class="sc">$</span>survival, ph<span class="sc">$</span>farm, mean)      <span class="co"># 2</span></span>
+<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" tabindex="-1"></a>seaweed <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I3_seaweed_analysis.csv&quot;</span>)</span>
+<span id="cb27-16"><a href="#cb27-16" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span>
+<span id="cb27-17"><a href="#cb27-17" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">se</span>(seaweed<span class="sc">$</span>sgr[seaweed<span class="sc">$</span>technique <span class="sc">==</span> <span class="st">&quot;off-bottom&quot;</span>]), <span class="dv">4</span>)         <span class="co"># 3</span></span>
+<span id="cb27-18"><a href="#cb27-18" tabindex="-1"></a></span>
+<span id="cb27-19"><a href="#cb27-19" tabindex="-1"></a>harvest_t <span class="ot">&lt;-</span> <span class="cf">function</span>(d) <span class="fu">sum</span>(d<span class="sc">$</span>final_weight_kg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb27-20"><a href="#cb27-20" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">harvest_t</span>(seaweed[seaweed<span class="sc">$</span>zone <span class="sc">==</span> <span class="st">&quot;Centre&quot;</span>, ]), <span class="dv">3</span>)             <span class="co"># 4</span></span>
+<span id="cb27-21"><a href="#cb27-21" tabindex="-1"></a></span>
+<span id="cb27-22"><a href="#cb27-22" tabindex="-1"></a>cv <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-23"><a href="#cb27-23" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cv</span>(seaweed<span class="sc">$</span>sgr), <span class="dv">2</span>)                                            <span class="co"># 5a</span></span>
+<span id="cb27-24"><a href="#cb27-24" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">tapply</span>(seaweed<span class="sc">$</span>sgr, seaweed<span class="sc">$</span>village, cv), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span>] <span class="co"># 5b</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

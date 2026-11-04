@@ -31,8 +31,10 @@
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <!-- header.html: inserted inside <head> of every page (see _site.yml) -->
-<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
 <script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
 <script src="assets/course.js"></script>
 <meta name="author" content="Aroo Falinirina">
 
@@ -333,7 +335,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -342,7 +344,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
+    Beginner
      
     <span class="caret"></span>
   </a>
@@ -382,8 +384,83 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
 <li>
-  <a href="cheatsheet.html">Cheatsheet</a>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -409,8 +486,10 @@ session</span><span class="fr">9 · Séance d’exercices</span></h1>
 <h4>What this session is for</h4>
 <p>No new concepts here: six independent exercises to
 <strong>practise</strong> what you learned in Sessions 2 to 8, before
-the final project. Each exercise has its own quiz (<strong>one attempt
-each</strong>) and its own solution, unlocked after you submit.</p>
+the final project. Each exercise has its own quiz (<strong>two
+attempts</strong>, the best one counts) and its own solution, opened
+when you have used your attempts or got full marks. The final project
+opens when the six exercises together reach 75 % of their points.</p>
 <ul>
 <li>Do them in order or in any order; each starts by importing its
 data.</li>
@@ -424,9 +503,11 @@ indicated before moving on.</li>
 <h4>À quoi sert cette séance</h4>
 <p>Pas de nouvelle notion ici : six exercices indépendants pour
 <strong>pratiquer</strong> ce que vous avez appris dans les séances 2 à
-8, avant le projet final. Chaque exercice a son propre quiz (<strong>une
-seule tentative chacun</strong>) et sa propre solution, débloquée après
-validation.</p>
+8, avant le projet final. Chaque exercice a son propre quiz
+(<strong>deux tentatives</strong>, la meilleure compte) et sa propre
+solution, ouverte quand vous avez utilisé vos tentatives ou obtenu tous
+les points. Le projet final s’ouvre quand les six exercices réunis
+atteignent 75 % de leurs points.</p>
 <ul>
 <li>Faites-les dans l’ordre ou non ; chacun commence par importer ses
 données.</li>
@@ -438,6 +519,56 @@ indiquée avant de continuer.</li>
 </ul>
 </div>
 </div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Seagrass survey</strong>
+(<code>seagrass_quadrats.csv</code>): in March 2026 a team of two
+snorkellers sampled <strong>4 sites</strong> (Ambalaboy and Fasimena
+inside a Marine Protected Area, Belitsaky and Tsiandamba outside),
+<strong>15 quadrats of 50 × 50 cm</strong> per site, placed every 5 m
+along a tape. For each quadrat they wrote on an underwater slate the
+depth (dive computer), the dominant species, the % cover (visual
+estimate), the canopy height (ruler, cm) and the number of shoots,
+converted to shoots per m². <em>Type:</em> one row = one quadrat;
+numeric (continuous) and categorical variables.</p>
+<p><strong>Reef fish census</strong> (<code>fish_uvc.csv</code>):
+underwater visual census on <strong>4 reefs</strong> (Andavaka and
+Belavenoke inside the MPA, Ambola and Tsifota outside), <strong>3 belt
+transects of 50 × 5 m</strong> (250 m²) per reef. A diver swam each
+transect and recorded every group of fish: species, family, estimated
+total length (cm) and number of individuals. The length–weight
+parameters <code>a</code> and <code>b</code> were added afterwards from
+FishBase. <em>Type:</em> one row = one group of fish of the same species
+and size; counts (integers), lengths (continuous), categories.</p>
+</div>
+<div class="fr">
+<p><strong>Suivi des herbiers</strong>
+(<code>seagrass_quadrats.csv</code>) : en mars 2026, une équipe de deux
+plongeurs en apnée a échantillonné <strong>4 sites</strong> (Ambalaboy
+et Fasimena dans une Aire Marine Protégée, Belitsaky et Tsiandamba à
+l’extérieur), <strong>15 quadrats de 50 × 50 cm</strong> par site, posés
+tous les 5 m le long d’un ruban. Pour chaque quadrat ils ont noté sur
+une ardoise la profondeur (ordinateur de plongée), l’espèce dominante,
+le % de recouvrement (estimation visuelle), la hauteur de canopée
+(règle, cm) et le nombre de pousses, converti en pousses par m².
+<em>Type :</em> une ligne = un quadrat ; variables numériques
+(continues) et catégorielles.</p>
+<p><strong>Comptage des poissons récifaux</strong>
+(<code>fish_uvc.csv</code>) : comptage visuel sous-marin sur <strong>4
+récifs</strong> (Andavaka et Belavenoke dans l’AMP, Ambola et Tsifota à
+l’extérieur), <strong>3 transects-bandes de 50 × 5 m</strong> (250 m²)
+par récif. Un plongeur a parcouru chaque transect en notant chaque
+groupe de poissons : espèce, famille, longueur totale estimée (cm) et
+nombre d’individus. Les paramètres taille–poids <code>a</code> et
+<code>b</code> ont été ajoutés ensuite depuis FishBase. <em>Type :</em>
+une ligne = un groupe de poissons de même espèce et de même taille ;
+effectifs (entiers), longueurs (continues), catégories.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/seagrass_quadrats.csv" download>⇩
+seagrass_quadrats.csv</a>
+<a class="btn-dl" href="data/fish_uvc.csv" download>⇩
+fish_uvc.csv</a></p>
 <div id="ex1" class="section level2">
 <h2><span class="en">Exercise 1 — Building vectors</span><span
 class="fr">Exercice 1 — Créer des vecteurs</span></h2>
@@ -474,6 +605,20 @@ grande position tirée ?</li>
 <li>Quelle est la somme des deux premières valeurs de
 <code>rev(x)</code> ?</li>
 </ol>
+</div>
+<div class="hint">
+<div class="en">
+<p><code>seq()</code> includes the start value; count with
+<code>length()</code>. In <code>paste0()</code>,
+<code>rep(1:5, times = 3)</code> repeats the whole series,
+<code>rep(..., each = 5)</code> repeats each value.</p>
+</div>
+<div class="fr">
+<p><code>seq()</code> inclut la valeur de départ ; comptez avec
+<code>length()</code>. Dans <code>paste0()</code>,
+<code>rep(1:5, times = 3)</code> répète toute la série,
+<code>rep(..., each = 5)</code> répète chaque valeur.</p>
+</div>
 </div>
 <div id="quiz-p1" class="quiz" data-quiz-id="p1"
 data-title-en="Quiz — Exercise 1" data-title-fr="Quiz — Exercice 1"
@@ -525,6 +670,18 @@ Profondeur moyenne ensuite (2 décimales) ?</li>
 <li>Combien de valeurs de <code>canopy_height_cm</code> sont manquantes
 ?</li>
 </ol>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 2: <code>sum(sg[1:5, "seagrass_cover"])</code>. Question 4:
+<code>sg2 &lt;- sg</code>, then
+<code>sg2$depth_m[sg2$depth_m &lt; 0.6] &lt;- 0.6</code>.</p>
+</div>
+<div class="fr">
+<p>Question 2 : <code>sum(sg[1:5, "seagrass_cover"])</code>. Question 4
+: <code>sg2 &lt;- sg</code>, puis
+<code>sg2$depth_m[sg2$depth_m &lt; 0.6] &lt;- 0.6</code>.</p>
+</div>
 </div>
 <div id="quiz-p2" class="quiz" data-quiz-id="p2"
 data-title-en="Quiz — Exercise 2" data-title-fr="Quiz — Exercice 2"
@@ -585,6 +742,20 @@ reste-t-il ?</li>
 chaque colonne. Moyenne de <code>count</code> (2 décimales) ?</li>
 </ol>
 </div>
+<div class="hint">
+<div class="en">
+<p><code>^</code> is computed before <code>*</code>:
+<code>fish$count * fish$a * fish$length_cm^fish$b / 1000</code>. For
+question 5,
+<code>sapply(fish[, c("length_cm", "count", "biomass_kg")], mean)</code>.</p>
+</div>
+<div class="fr">
+<p><code>^</code> est calculé avant <code>*</code> :
+<code>fish$count * fish$a * fish$length_cm^fish$b / 1000</code>. Pour la
+question 5,
+<code>sapply(fish[, c("length_cm", "count", "biomass_kg")], mean)</code>.</p>
+</div>
+</div>
 <div id="quiz-p3" class="quiz" data-quiz-id="p3"
 data-title-en="Quiz — Exercise 3" data-title-fr="Quiz — Exercice 3"
 data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gVG90YWwgbnVtYmVyIG9mIGZpc2g/IiwiZnIiOiIxLiBOb21icmUgdG90YWwgZGUgcG9pc3NvbnMgPyIsImFuc3dlciI6MTE1OSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gTGFyZ2VzdCBiaW9tYXNzX2tnICgzIGRlY2ltYWxzKT8iLCJmciI6IjIuIFBsdXMgZ3JhbmRlIGJpb21hc3Nfa2cgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6NS4zNCwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBuX3Blcl9oYSBpbiByb3cgMTA/IiwiZnIiOiIzLiBuX3Blcl9oYSDDoCBsYSBsaWduZSAxMCA/IiwiYW5zd2VyIjoyNDAsInRvbCI6MC4wMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE51bWJlciBvZiBjb2x1bW5zIGxlZnQ/IiwiZnIiOiI0LiBOb21icmUgZGUgY29sb25uZXMgcmVzdGFudGVzID8iLCJhbnN3ZXIiOjgsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIE1lYW4gb2YgY291bnQgKDIgZGVjaW1hbHMpPyIsImZyIjoiNS4gTW95ZW5uZSBkZSBjb3VudCAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjo4LjIyLCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gV2hpY2ggbGluZSBhZGRzIGEgY29sdW1uIHRvIGZpc2g/IiwiZnIiOiI2LiBRdWVsbGUgbGlnbmUgYWpvdXRlIHVuZSBjb2xvbm5lIMOgIGZpc2ggPyIsIm9wdGlvbnNfZW4iOlsiZmlzaFtcIm5ld1wiXSA9PSAxIiwiZmlzaCRuZXcgPC0gMSIsIm5ldyhmaXNoKSA8LSAxIiwiZmlzaCA8LSBmaXNoICsgbmV3Il0sIm9wdGlvbnNfZnIiOlsiZmlzaFtcIm5ld1wiXSA9PSAxIiwiZmlzaCRuZXcgPC0gMSIsIm5ldyhmaXNoKSA8LSAxIiwiZmlzaCA8LSBmaXNoICsgbmV3Il0sImFuc3dlciI6MX1d">
@@ -600,6 +771,20 @@ data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gVG90YWwgbnVtYmVyIG9mIGZpc2g/IiwiZnIiOiIx
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>fish <span class="ot">&lt;-</span> <span class="fu">subset</span>(fish, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(family, a, b))</span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">ncol</span>(fish)                                                       <span class="co"># 4</span></span>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">sapply</span>(fish[, <span class="fu">c</span>(<span class="st">&quot;length_cm&quot;</span>, <span class="st">&quot;count&quot;</span>, <span class="st">&quot;biomass_kg&quot;</span>)], mean)      <span class="co"># 5</span></span></code></pre></div>
+</div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Before Exercise 4: with
+<code>subset()</code>, keep the fish of more than 25 cm
+<strong>inside</strong> the MPA and only the columns <code>site</code>,
+<code>species</code> and <code>length_cm</code>. How many rows?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Avant l’exercice 4 : avec
+<code>subset()</code>, gardez les poissons de plus de 25 cm
+<strong>dans</strong> l’AMP et seulement les colonnes <code>site</code>,
+<code>species</code> et <code>length_cm</code>. Combien de lignes ?</p>
+</div>
 </div>
 </div>
 <div id="ex4" class="section level2">
@@ -652,6 +837,18 @@ reste-t-il ?</li>
 retirez <code>%</code>, transformez <code>"-"</code> en <code>NA</code>,
 convertissez en nombres. Moyenne de <code>y</code> sans NA ?</li>
 </ol>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 1:
+<code>fish$species %in% c("Lutjanus kasmira", "Epinephelus merra") &amp; fish$mpa_status == "Outside"</code>,
+then <code>sum()</code>.</p>
+</div>
+<div class="fr">
+<p>Question 1 :
+<code>fish$species %in% c("Lutjanus kasmira", "Epinephelus merra") &amp; fish$mpa_status == "Outside"</code>,
+puis <code>sum()</code>.</p>
+</div>
 </div>
 <div id="quiz-p4" class="quiz" data-quiz-id="p4"
 data-title-en="Quiz — Exercise 4" data-title-fr="Quiz — Exercice 4"
@@ -713,6 +910,19 @@ des transects <strong>Inside</strong> (2 décimales) ?</li>
 ?</li>
 </ol>
 </div>
+<div class="hint">
+<div class="en">
+<p>Question 4: after <code>aggregate()</code>, the result has one row
+per transect (12 rows). Convert with <code>/ 1000 / 250 * 10000</code>,
+then use <code>tapply()</code> on that table.</p>
+</div>
+<div class="fr">
+<p>Question 4 : après <code>aggregate()</code>, le résultat a une ligne
+par transect (12 lignes). Convertissez avec
+<code>/ 1000 / 250 * 10000</code>, puis utilisez <code>tapply()</code>
+sur ce tableau.</p>
+</div>
+</div>
 <div id="quiz-p5" class="quiz" data-quiz-id="p5"
 data-title-en="Quiz — Exercise 5" data-title-fr="Quiz — Exercice 5"
 data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gVG90YWwgZmlzaCBjb3VudGVkIGF0IEFtYm9sYT8iLCJmciI6IjEuIFRvdGFsIGRlIHBvaXNzb25zIGNvbXB0w6lzIMOgIEFtYm9sYSA/IiwiYW5zd2VyIjoyOTYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIE1lYW4gbGVuZ3RoIGluc2lkZSB0aGUgTVBBICgyIGRlY2ltYWxzKT8iLCJmciI6IjIuIFRhaWxsZSBtb3llbm5lIGRhbnMgbCdBTVAgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MTcuMzIsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBTRCBvZiBsZW5ndGggb2YgU2NhcnVzIGdob2JiYW4gKDIgZGVjaW1hbHMpPyIsImZyIjoiMy4gRVQgZGUgbGEgdGFpbGxlIGRlIFNjYXJ1cyBnaG9iYmFuICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjcuMzEsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZWFuIGtnL2hhIG9mIHRoZSBJbnNpZGUgdHJhbnNlY3RzICgyIGRlY2ltYWxzKT8iLCJmciI6IjQuIE1veWVubmUgZGVzIGtnL2hhIGRlcyB0cmFuc2VjdHMgSW5zaWRlICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjQ0Ni4wOSwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIFNFIG9mIGtnL2hhIG9mIHRoZSBPdXRzaWRlIHRyYW5zZWN0cyAoMiBkZWNpbWFscyk/IiwiZnIiOiI1LiBFUyBkZXMga2cvaGEgZGVzIHRyYW5zZWN0cyBPdXRzaWRlICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjQxLjA1LCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gV2h5IGNvbXB1dGUgYmlvbWFzcyBwZXIgdHJhbnNlY3QgYmVmb3JlIGF2ZXJhZ2luZz8iLCJmciI6IjYuIFBvdXJxdW9pIGNhbGN1bGVyIGxhIGJpb21hc3NlIHBhciB0cmFuc2VjdCBhdmFudCBkZSBmYWlyZSBsYSBtb3llbm5lID8iLCJvcHRpb25zX2VuIjpbIkJlY2F1c2UgUiBjYW5ub3Qgc3VtIHJvd3MiLCJCZWNhdXNlIHRoZSB0cmFuc2VjdCBpcyB0aGUgc2FtcGxpbmcgdW5pdCAocmVwbGljYXRlKSIsIlRvIGdldCBtb3JlIGRlY2ltYWxzIiwiSXQgbWFrZXMgbm8gZGlmZmVyZW5jZSJdLCJvcHRpb25zX2ZyIjpbIlBhcmNlIHF1ZSBSIG5lIHNhaXQgcGFzIGFkZGl0aW9ubmVyIGRlcyBsaWduZXMiLCJQYXJjZSBxdWUgbGUgdHJhbnNlY3QgZXN0IGwndW5pdMOpIGQnw6ljaGFudGlsbG9ubmFnZSAocsOpcGxpY2F0KSIsIlBvdXIgYXZvaXIgcGx1cyBkZSBkw6ljaW1hbGVzIiwiQ2VsYSBuZSBjaGFuZ2UgcmllbiJdLCJhbnN3ZXIiOjF9XQ==">
@@ -767,6 +977,16 @@ plus fréquente (<code>h$counts</code>) ?</li>
 <li>Répondez aux questions sur les équivalences entre R de base et le
 tidyverse.</li>
 </ol>
+</div>
+<div class="hint">
+<div class="en">
+<p>For the medians of a boxplot without reading the graph:
+<code>sort(tapply(fish$length_cm, fish$family, median))</code>.</p>
+</div>
+<div class="fr">
+<p>Pour les médianes d’un boxplot sans lire le graphique :
+<code>sort(tapply(fish$length_cm, fish$family, median))</code>.</p>
+</div>
 </div>
 <div id="quiz-p6" class="quiz" data-quiz-id="p6"
 data-title-en="Quiz — Exercise 6" data-title-fr="Quiz — Exercice 6"

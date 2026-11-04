@@ -31,8 +31,10 @@
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <!-- header.html: inserted inside <head> of every page (see _site.yml) -->
-<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
 <script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
 <script src="assets/course.js"></script>
 <meta name="author" content="Aroo Falinirina">
 
@@ -333,7 +335,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -342,7 +344,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
+    Beginner
      
     <span class="caret"></span>
   </a>
@@ -382,8 +384,83 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
 <li>
-  <a href="cheatsheet.html">Cheatsheet</a>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -443,8 +520,7 @@ avec <code>[ligne, colonne]</code> ;</li>
 <div id="survey" class="section level2">
 <h2><span class="en">The seagrass survey</span><span class="fr">Le suivi
 des herbiers</span></h2>
-<figure class="svg-fig">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="Quadrat sampling inside and outside an MPA" font-family="Source Sans 3, Arial, sans-serif">
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="Quadrat sampling inside and outside an MPA" font-family="Source Sans 3, Arial, sans-serif">
 <defs><pattern id="sg" width="14" height="22" patternUnits="userSpaceOnUse"><path d="M3 22 Q5 10 2 0 M9 22 Q11 12 13 2" stroke="#4a7d3a" stroke-width="1.6" fill="none"/></pattern></defs>
 <rect x="0" y="0" width="860" height="300" fill="#e9f4f6"/>
 <rect x="0" y="230" width="860" height="70" fill="#f1e6cc"/>
@@ -452,27 +528,16 @@ des herbiers</span></h2>
 <rect x="450" y="120" width="380" height="120" fill="url(#sg)" opacity=".55"/>
 <rect x="20" y="40" width="400" height="215" fill="none" stroke="#0b3d5c" stroke-width="3" stroke-dasharray="10 6" rx="8"/>
 <g fill="none" stroke="#d9694a" stroke-width="3"><rect x="70" y="170" width="44" height="44"/><rect x="170" y="150" width="44" height="44"/><rect x="270" y="175" width="44" height="44"/><rect x="345" y="140" width="44" height="44"/><rect x="490" y="175" width="44" height="44"/><rect x="590" y="160" width="44" height="44"/><rect x="690" y="180" width="44" height="44"/><rect x="770" y="150" width="44" height="44"/></g>
-<text class="en" x="35" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Inside
-the MPA</text>
-<text class="fr" x="35" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Dans
-l’AMP</text>
-<text class="en" x="460" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Outside
-the MPA</text>
-<text class="fr" x="460" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Hors
-AMP</text>
+<text class="en" x="35" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Inside the MPA</text>
+<text class="fr" x="35" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Dans l'AMP</text>
+<text class="en" x="460" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Outside the MPA</text>
+<text class="fr" x="460" y="30" font-size="18" font-weight="700" fill="#0b3d5c">Hors AMP</text>
 <g transform="translate(470,50)"><rect width="28" height="28" fill="none" stroke="#d9694a" stroke-width="3"/>
-<text class="en" x="38" y="20" font-size="15" fill="#1f2a33">quadrat 50
-× 50 cm = 0.25 m² → one row of data</text>
-<text class="fr" x="38" y="20" font-size="15" fill="#1f2a33">quadrat 50
-× 50 cm = 0,25 m² → une ligne de données</text></g>
-<text class="en" x="30" y="280" font-size="15" fill="#5d6b75">In each
-quadrat we record: % seagrass cover, dominant species, canopy height,
-number of shoots, depth.</text>
-<text class="fr" x="30" y="280" font-size="15" fill="#5d6b75">Dans
-chaque quadrat : % de recouvrement, espèce dominante, hauteur de
-canopée, nombre de pousses, profondeur.</text>
-</svg>
-</figure>
+<text class="en" x="38" y="20" font-size="15" fill="#1f2a33">quadrat 50 × 50 cm = 0.25 m² → one row of data</text>
+<text class="fr" x="38" y="20" font-size="15" fill="#1f2a33">quadrat 50 × 50 cm = 0,25 m² → une ligne de données</text></g>
+<text class="en" x="30" y="280" font-size="15" fill="#5d6b75">In each quadrat we record: % seagrass cover, dominant species, canopy height, number of shoots, depth.</text>
+<text class="fr" x="30" y="280" font-size="15" fill="#5d6b75">Dans chaque quadrat : % de recouvrement, espèce dominante, hauteur de canopée, nombre de pousses, profondeur.</text>
+</svg></figure>
 <div class="en">
 <p>From now on we work with a (simulated) seagrass survey: <strong>4
 sites</strong>, two inside a Marine Protected Area (MPA) and two
@@ -489,6 +554,35 @@ m²).</p>
 profondeur, l’espèce dominante, le % de recouvrement, la hauteur de
 canopée (cm) et la densité de pousses (pousses par m²).</p>
 </div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Seagrass survey</strong>
+(<code>seagrass_quadrats.csv</code>): in March 2026 a team of two
+snorkellers sampled <strong>4 sites</strong> (Ambalaboy and Fasimena
+inside a Marine Protected Area, Belitsaky and Tsiandamba outside),
+<strong>15 quadrats of 50 × 50 cm</strong> per site, placed every 5 m
+along a tape. For each quadrat they wrote on an underwater slate the
+depth (dive computer), the dominant species, the % cover (visual
+estimate), the canopy height (ruler, cm) and the number of shoots,
+converted to shoots per m². <em>Type:</em> one row = one quadrat;
+numeric (continuous) and categorical variables.</p>
+</div>
+<div class="fr">
+<p><strong>Suivi des herbiers</strong>
+(<code>seagrass_quadrats.csv</code>) : en mars 2026, une équipe de deux
+plongeurs en apnée a échantillonné <strong>4 sites</strong> (Ambalaboy
+et Fasimena dans une Aire Marine Protégée, Belitsaky et Tsiandamba à
+l’extérieur), <strong>15 quadrats de 50 × 50 cm</strong> par site, posés
+tous les 5 m le long d’un ruban. Pour chaque quadrat ils ont noté sur
+une ardoise la profondeur (ordinateur de plongée), l’espèce dominante,
+le % de recouvrement (estimation visuelle), la hauteur de canopée
+(règle, cm) et le nombre de pousses, converti en pousses par m².
+<em>Type :</em> une ligne = un quadrat ; variables numériques
+(continues) et catégorielles.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/seagrass_quadrats.csv" download>⇩
+seagrass_quadrats.csv</a></p>
 </div>
 <div id="data-frame" class="section level2">
 <h2><span class="en">What is a data frame?</span><span
@@ -509,33 +603,26 @@ vecteurs de <strong>même longueur</strong>, placés côte à côte. Chaque
 exactement la structure d’une fiche de terrain ou d’un tableau Excel
 bien organisé.</p>
 </div>
-<figure class="svg-fig">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="Anatomy of a data frame" font-family="Source Sans 3, Arial, sans-serif">
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="Anatomy of a data frame" font-family="Source Sans 3, Arial, sans-serif">
 <g font-family="JetBrains Mono, monospace" font-size="15">
 <rect x="150" y="40" width="560" height="36" fill="#0b3d5c"/>
 <g fill="#fff"><text x="160" y="64">site</text><text x="300" y="64">mpa_status</text><text x="430" y="64">quadrat</text><text x="540" y="64">seagrass_cover</text></g>
 <g fill="#f7f9fa" stroke="#dde3e6"><rect x="150" y="76" width="560" height="34"/><rect x="150" y="110" width="560" height="34"/><rect x="150" y="144" width="560" height="34"/><rect x="150" y="178" width="560" height="34"/></g>
 <rect x="150" y="110" width="560" height="34" fill="#fde3d9" stroke="#d9694a" stroke-width="2"/>
 <rect x="530" y="40" width="180" height="172" fill="none" stroke="#4a7d3a" stroke-width="3" rx="4"/>
-<g fill="#1f2a33"><text x="160" y="99">Ambalaboy</text><text x="300" y="99">Inside</text><text x="460" y="99">1</text><text x="600" y="99">69</text><text x="160" y="133">Ambalaboy</text><text x="300" y="133">Inside</text><text x="460" y="133">2</text><text x="600" y="133">47</text><text x="160" y="167">Ambalaboy</text><text x="300" y="167">Inside</text><text x="460" y="167">3</text><text x="600" y="167">64</text><text x="160" y="201">…</text><text x="300" y="201">…</text><text x="460" y="201">…</text><text x="600" y="201">…</text></g>
+<g fill="#1f2a33"><text x="160" y="99">Ambalaboy</text><text x="300" y="99">Inside</text><text x="460" y="99">1</text><text x="600" y="99">69</text><text x="160" y="133">Ambalaboy</text><text x="300" y="133">Inside</text><text x="460" y="133">2</text><text x="600" y="133">47</text><text x="160" y="167">Ambalaboy</text><text x="300" y="167">Inside</text><text x="460" y="167">3</text><text x="600" y="167">64</text><text x="160" y="201">...</text><text x="300" y="201">...</text><text x="460" y="201">...</text><text x="600" y="201">...</text></g>
 <g fill="#5d6b75" font-size="13"><text x="120" y="99" text-anchor="end">1</text><text x="120" y="133" text-anchor="end">2</text><text x="120" y="167" text-anchor="end">3</text></g>
-</g> <g font-size="16">
-<text class="en" x="20" y="133" fill="#d9694a" font-weight="700"><tspan x="20">a
-ROW =</tspan><tspan x="20" dy="19">one quadrat</tspan></text>
-<text class="fr" x="20" y="133" fill="#d9694a" font-weight="700"><tspan x="20">une
-LIGNE =</tspan><tspan x="20" dy="19">un quadrat</tspan></text>
-<text class="en" x="725" y="110" fill="#4a7d3a" font-weight="700"><tspan x="725">a
-COLUMN =</tspan><tspan x="725" dy="19">one variable</tspan></text>
-<text class="fr" x="725" y="110" fill="#4a7d3a" font-weight="700"><tspan x="725">une
-COLONNE =</tspan><tspan x="725" dy="19">une variable</tspan></text>
-<text x="150" y="250" font-family="JetBrains Mono, monospace" font-size="15" fill="#0b3d5c">df[2,
-] df$seagrass_cover df[2, “seagrass_cover”] → 47</text>
-<text class="en" x="150" y="280" fill="#5d6b75">row 2, all columns · one
-whole column · one single cell</text>
-<text class="fr" x="150" y="280" fill="#5d6b75">ligne 2, toutes colonnes
-· une colonne entière · une seule cellule</text> </g>
-</svg>
-</figure>
+</g>
+<g font-size="16">
+<text class="en" x="20" y="133" fill="#d9694a" font-weight="700"><tspan x="20">a ROW =</tspan><tspan x="20" dy="19">one quadrat</tspan></text>
+<text class="fr" x="20" y="133" fill="#d9694a" font-weight="700"><tspan x="20">une LIGNE =</tspan><tspan x="20" dy="19">un quadrat</tspan></text>
+<text class="en" x="725" y="110" fill="#4a7d3a" font-weight="700"><tspan x="725">a COLUMN =</tspan><tspan x="725" dy="19">one variable</tspan></text>
+<text class="fr" x="725" y="110" fill="#4a7d3a" font-weight="700"><tspan x="725">une COLONNE =</tspan><tspan x="725" dy="19">une variable</tspan></text>
+<text x="150" y="250" font-family="JetBrains Mono, monospace" font-size="15" fill="#0b3d5c">df[2, ]        df&#36;seagrass_cover        df[2, "seagrass_cover"]  → 47</text>
+<text class="en" x="150" y="280" fill="#5d6b75">row 2, all columns · one whole column · one single cell</text>
+<text class="fr" x="150" y="280" fill="#5d6b75">ligne 2, toutes colonnes · une colonne entière · une seule cellule</text>
+</g>
+</svg></figure>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># a small data frame typed by hand</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>mini <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">site    =</span> <span class="fu">c</span>(<span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Tsiandamba&quot;</span>),</span>
@@ -748,6 +835,22 @@ qui renvoient une <strong>position</strong> :</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>sg[i, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;quadrat&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]</span></code></pre></div>
 <pre><code>#&gt;        site quadrat seagrass_cover
 #&gt; 28 Fasimena      13             74</code></pre>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Which site and quadrat have the
+<strong>highest</strong> canopy height? Use
+<code>which.max(sg$canopy_height_cm)</code> to find the row, then
+<code>sg[row, c("site", "quadrat")]</code>. What does
+<code>which.max()</code> do with the <code>NA</code>?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Quel site et quel quadrat ont la
+<strong>plus grande</strong> hauteur de canopée ? Utilisez
+<code>which.max(sg$canopy_height_cm)</code> pour trouver la ligne, puis
+<code>sg[ligne, c("site", "quadrat")]</code>. Que fait
+<code>which.max()</code> des <code>NA</code> ?</p>
+</div>
+</div>
 </div>
 <div id="new-column" class="section level2">
 <h2><span class="en">Adding a column and saving</span><span
@@ -787,6 +890,20 @@ colonnes calculées à partir de plusieurs colonnes, suppression de
 colonnes, et application d’une fonction à chaque colonne.</p>
 </div>
 </div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Checkpoint.</strong> The table with the two new columns of
+this session (<code>cover_prop</code>, <code>shoots_counted</code>), to
+compare with yours:</p>
+</div>
+<div class="fr">
+<p><strong>Checkpoint.</strong> Le tableau avec les deux nouvelles
+colonnes de cette séance (<code>cover_prop</code>,
+<code>shoots_counted</code>), à comparer avec le vôtre :</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/checkpoints/B03_seagrass_new_columns.csv" download>⇩
+B03_seagrass_new_columns.csv</a></p>
 </div>
 <div id="application" class="section level2">
 <h2><span class="en">Application work &amp; quiz</span><span
@@ -837,6 +954,22 @@ faible</strong>.</li>
 <li>Ajoutez une colonne <code>cover_prop</code> et enregistrez le
 tableau dans <code>outputs/</code> avec <code>write.csv()</code>.</li>
 </ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 5: <code>which.max(sg$shoot_density)</code> gives the
+<strong>row number</strong> of the maximum; then
+<code>sg$site[that_row]</code>. Question 6: the same with
+<code>which.min()</code>. Question 9:
+<code>sg[20, "seagrass_cover"]</code>.</p>
+</div>
+<div class="fr">
+<p>Question 5 : <code>which.max(sg$shoot_density)</code> donne le
+<strong>numéro de ligne</strong> du maximum ; puis
+<code>sg$site[cette_ligne]</code>. Question 6 : pareil avec
+<code>which.min()</code>. Question 9 :
+<code>sg[20, "seagrass_cover"]</code>.</p>
 </div>
 </div>
 <div id="quiz-s03" class="quiz" data-quiz-id="s03"

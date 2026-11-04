@@ -11,7 +11,7 @@
 
 
 
-<title>R course · Home</title>
+<title>R for marine sciences · Home</title>
 
 <script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -31,8 +31,10 @@
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <!-- header.html: inserted inside <head> of every page (see _site.yml) -->
-<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
 <script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
 <script src="assets/course.js"></script>
 <meta name="author" content="Aroo Falinirina">
 
@@ -232,7 +234,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -241,7 +243,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
+    Beginner
      
     <span class="caret"></span>
   </a>
@@ -281,8 +283,83 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
 <li>
-  <a href="cheatsheet.html">Cheatsheet</a>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -296,10 +373,11 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore"><span class="en">R for
-beginners</span><span class="fr">R pour débutants</span></h1>
-<h3 class="subtitle"><span class="en">Marine ecology edition</span><span
-class="fr">Édition écolodie marine</span></h3>
+<h1 class="title toc-ignore"><span class="en">R for marine
+sciences</span><span class="fr">R pour les sciences marines</span></h1>
+<h3 class="subtitle"><span class="en">From your first line of code to
+reproducible analyses</span><span class="fr">De la première ligne de
+code aux analyses reproductibles</span></h3>
 
 </div>
 
@@ -309,9 +387,8 @@ class="fr">Édition écolodie marine</span></h3>
   ::: en  ...  :::   -> a block shown only in English (class "en")
   ::: fr  ...  :::   -> a block shown only in French  (class "fr")
   [text]{.en}        -> the same thing for a few words inside a sentence
-  The language button in the navbar (course.js, PART 3) switches between them.
+  <div id="dashboard"> is filled by course.js (PART 9) with the student's levels.
 -->
-<!-- course.js fills this empty box with the student's progress table -->
 <div id="dashboard">
 
 </div>
@@ -319,168 +396,137 @@ class="fr">Édition écolodie marine</span></h3>
 <h2 class="no-track"><span class="en">Welcome</span><span
 class="fr">Bienvenue</span></h2>
 <div class="en">
-<p>This course takes you from <strong>zero</strong> (R is not even
-installed) to a complete, reproducible analysis of coral reef and
-seagrass survey data. It is designed for <strong>self-study</strong>:
-every session explains the reasoning, shows the code <em>and</em> its
-result, and ends with an <strong>application exercise</strong> followed
-by a <strong>quiz</strong> where you enter the numbers you obtained.</p>
-<p>You only need a computer (Windows, macOS or Linux) and about
-<strong>31 hours</strong> in total, spread over 11 sessions. A
-<strong>cheatsheet</strong> (menu bar) summarises every function of the
-course.</p>
+<p>This course teaches <strong>R</strong> to students and professionals
+of the marine sciences, through <strong>three levels</strong>:</p>
+<ul>
+<li><strong>Beginner</strong> (≈ 31 h) — from installing R to a complete
+analysis of coral reef and seagrass data, with base R first, then dplyr
+and ggplot2.</li>
+<li><strong>Intermediate</strong> (≈ 40 h) — real-world files, dates,
+reshaping and joining tables, survey data, loops and functions,
+mastering ggplot2, first maps, and choosing the right test — with
+aquaculture, socio-economic and water-quality data.</li>
+<li><strong>Advanced</strong> (coming soon) — reports with R Markdown
+and Quarto, reproducible projects with Git, spatial data and maps.</li>
+</ul>
+<p>Each level is designed for <strong>self-study</strong>: every session
+explains the reasoning, shows the code <em>and</em> its result, and ends
+with an application exercise and a quiz.</p>
 </div>
 <div class="fr">
-<p>Ce cours vous emmène de <strong>zéro</strong> (R n’est même pas
-installé) jusqu’à une analyse complète et reproductible de données de
-suivi des récifs coralliens et des herbiers marins. Il est conçu pour
-l’<strong>auto-formation</strong> : chaque séance explique le
-raisonnement, montre le code <em>et</em> son résultat, et se termine par
-un <strong>travail d’application</strong> suivi d’un
-<strong>quiz</strong> où vous saisissez les valeurs obtenues.</p>
-<p>Il vous faut seulement un ordinateur (Windows, macOS ou Linux) et
-environ <strong>31 heures</strong> au total, réparties en 11 séances. Un
-<strong>aide-mémoire</strong> (barre de menu) résume toutes les
-fonctions du cours.</p>
+<p>Ce cours enseigne <strong>R</strong> aux étudiants et professionnels
+des sciences marines, en <strong>trois niveaux</strong> :</p>
+<ul>
+<li><strong>Débutant</strong> (≈ 31 h) — de l’installation de R à
+l’analyse complète de données de récifs coralliens et d’herbiers,
+d’abord en R de base, puis avec dplyr et ggplot2.</li>
+<li><strong>Intermédiaire</strong> (≈ 40 h) — fichiers réels, dates,
+restructuration et jointure de tableaux, données d’enquête, boucles et
+fonctions, maîtrise de ggplot2, premières cartes, et choix du bon test —
+avec des données d’aquaculture, socio-économiques et de qualité de
+l’eau.</li>
+<li><strong>Avancé</strong> (bientôt) — rapports avec R Markdown et
+Quarto, projets reproductibles avec Git, données spatiales et
+cartes.</li>
+</ul>
+<p>Chaque niveau est conçu pour l’<strong>auto-formation</strong> :
+chaque séance explique le raisonnement, montre le code <em>et</em> son
+résultat, et se termine par un exercice d’application et un quiz.</p>
 </div>
 </div>
-<div id="how-to-use-this-coursecomment-utiliser-ce-cours"
+<div id="how-the-course-workscomment-fonctionne-le-cours"
 class="section level2 no-track">
-<h2 class="no-track"><span class="en">How to use this course</span><span
-class="fr">Comment utiliser ce cours</span></h2>
+<h2 class="no-track"><span class="en">How the course works</span><span
+class="fr">Comment fonctionne le cours</span></h2>
 <div class="en">
 <ol style="list-style-type: decimal">
-<li><strong>Follow the sessions in order.</strong> Each one builds on
-the previous one.</li>
-<li><strong>Type the code yourself</strong> in RStudio rather than only
-copying it: your fingers learn too. The <em>Copy</em> button is there
-for long blocks.</li>
-<li>At the end of each section, click <strong>“Mark this section as
-done”</strong>. Your progress is saved automatically: next time you log
-in, you go back exactly where you stopped.</li>
-<li>Do the <strong>application work</strong> in your own script, then
-enter your results in the <strong>quiz</strong>. <strong>Each quiz can
-be submitted only once</strong>: check your answers in your script
-before submitting. Your score is final and recorded.</li>
-<li>The <strong>solution</strong> of each exercise unlocks once you have
-submitted the quiz. Study it, especially for the questions you got
-wrong.</li>
+<li><strong>Follow the sessions in order.</strong> Click <strong>“Mark
+this section as done”</strong> at the end of each section: your progress
+is saved, and next time you log in you go back exactly where you
+stopped.</li>
+<li><strong>Do the application work in your own script</strong>, then
+enter your results in the <strong>quiz</strong>. Each quiz allows
+<strong>2 attempts</strong>; your <strong>best</strong> attempt counts.
+After an attempt, the questions in red show what to check in your
+script.</li>
+<li>The <strong>solution</strong> opens when the quiz is finished (both
+attempts used, or full marks). <strong>Hints</strong> (💡) are free:
+they never cost points.</li>
+<li><strong>Moving to the next session:</strong> a session opens when
+you have finished the quiz of the previous one with at least <strong>75
+%</strong> of the points (for a practice session: 75 % of the points of
+its six exercises together). Locked sessions show a 🔒.</li>
+<li><strong>Moving to the next level:</strong> finish all quizzes of a
+level with at least <strong>75 %</strong> of the points. The next level
+then opens automatically and you receive a
+<strong>certificate</strong>.</li>
+<li>If 75 % can no longer be reached on a session after your two
+attempts, you are taken to a help page with my contacts: we will look at
+it together.</li>
 </ol>
 </div>
 <div class="fr">
 <ol style="list-style-type: decimal">
-<li><strong>Suivez les séances dans l’ordre.</strong> Chacune s’appuie
-sur la précédente.</li>
-<li><strong>Tapez le code vous-même</strong> dans RStudio au lieu de
-seulement le copier : vos doigts apprennent aussi. Le bouton
-<em>Copier</em> sert pour les longs blocs.</li>
-<li>À la fin de chaque section, cliquez sur <strong>« Marquer cette
-section comme terminée »</strong>. Votre progression est enregistrée
-automatiquement : à la prochaine connexion, vous revenez exactement là
-où vous vous êtes arrêté.</li>
-<li>Faites le <strong>travail d’application</strong> dans votre propre
-script, puis saisissez vos résultats dans le <strong>quiz</strong>.
-<strong>Chaque quiz ne peut être validé qu’une seule fois</strong> :
-vérifiez vos réponses dans votre script avant de valider. Votre score
-est définitif et enregistré.</li>
-<li>La <strong>solution</strong> de chaque exercice se débloque une fois
-le quiz validé. Étudiez-la, surtout pour les questions manquées.</li>
+<li><strong>Suivez les séances dans l’ordre.</strong> Cliquez sur
+<strong>« Marquer cette section comme terminée »</strong> à la fin de
+chaque section : votre progression est enregistrée, et à la prochaine
+connexion vous revenez exactement là où vous vous êtes arrêté.</li>
+<li><strong>Faites le travail d’application dans votre propre
+script</strong>, puis saisissez vos résultats dans le
+<strong>quiz</strong>. Chaque quiz permet <strong>2 tentatives</strong>
+; votre <strong>meilleure</strong> tentative compte. Après une
+tentative, les questions en rouge indiquent quoi vérifier dans votre
+script.</li>
+<li>La <strong>solution</strong> s’ouvre quand le quiz est terminé (deux
+tentatives utilisées, ou score parfait). Les <strong>indices</strong>
+(💡) sont gratuits : ils ne coûtent jamais de points.</li>
+<li><strong>Passer à la séance suivante :</strong> une séance s’ouvre
+quand vous avez terminé le quiz de la précédente avec au moins
+<strong>75 %</strong> des points (pour une séance d’exercices : 75 % des
+points de ses six exercices réunis). Les séances verrouillées portent un
+🔒.</li>
+<li><strong>Passer au niveau suivant :</strong> terminez tous les quiz
+d’un niveau avec au moins <strong>75 %</strong> des points. Le niveau
+suivant s’ouvre alors automatiquement et vous recevez un
+<strong>certificat</strong>.</li>
+<li>Si les 75 % ne peuvent plus être atteints à une séance après vos
+deux tentatives, vous êtes redirigé vers une page d’aide avec mes
+contacts : nous regarderons cela ensemble.</li>
 </ol>
 </div>
 </div>
-<div
-id="programme-and-suggested-scheduleprogramme-et-calendrier-conseillé"
-class="section level2 no-track">
-<h2 class="no-track"><span class="en">Programme and suggested
-schedule</span><span class="fr">Programme et calendrier
-conseillé</span></h2>
+<div id="resourcesressources" class="section level2 no-track">
+<h2 class="no-track"><span class="en">Resources</span><span
+class="fr">Ressources</span></h2>
 <div class="en">
-<p>Suggested pace: <strong>2 sessions per week → 6 weeks</strong>.
-Durations include reading, typing the examples and the application
-work.</p>
+<ul>
+<li><strong>Cheatsheets</strong> — every function of a level on one page
+(menu <em>Resources</em>).</li>
+<li><strong>Common errors</strong> — the error messages you will meet
+most often, what they mean and how to fix them.</li>
+<li><strong>Check my setup</strong> — a script that checks your
+installation before each level
+(<a class="btn-dl" href="templates/check_setup.R" download>⇩
+check_setup.R</a>).</li>
+<li>All datasets are <strong>simulated</strong> for teaching: names of
+sites, villages and MPAs are invented.</li>
+</ul>
 </div>
 <div class="fr">
-<p>Rythme conseillé : <strong>2 séances par semaine → 6
-semaines</strong>. Les durées incluent la lecture, la saisie des
-exemples et le travail d’application.</p>
+<ul>
+<li><strong>Aide-mémoire</strong> — toutes les fonctions d’un niveau sur
+une page (menu <em>Ressources</em>).</li>
+<li><strong>Erreurs fréquentes</strong> — les messages d’erreur que vous
+rencontrerez le plus souvent, ce qu’ils signifient et comment les
+corriger.</li>
+<li><strong>Vérifier mon installation</strong> — un script qui vérifie
+votre installation avant chaque niveau
+(<a class="btn-dl" href="templates/check_setup.R" download>⇩
+check_setup.R</a>).</li>
+<li>Toutes les données sont <strong>simulées</strong> pour
+l’enseignement : les noms de sites, villages et AMP sont inventés.</li>
+</ul>
 </div>
-<div class="session-grid">
-<div class="session-card">
-<b>0 · 1.5 h</b><br><span class="en">Install R, Rtools, RStudio; tour of
-RStudio; create a project</span><span class="fr">Installer R, Rtools,
-RStudio ; visite de RStudio ; créer un projet</span>
-</div>
-<div class="session-card">
-<b>1 · 2 h</b><br><span class="en">R as a calculator, objects,
-functions, scripts, help</span><span class="fr">R comme calculatrice,
-objets, fonctions, scripts, aide</span>
-</div>
-<div class="session-card">
-<b>2 · 3 h</b><br><span class="en">Vectors, data types, seq / rep /
-sample, indexing, missing values</span><span class="fr">Vecteurs, types
-de données, seq / rep / sample, indexation, valeurs manquantes</span>
-</div>
-<div class="session-card">
-<b>3 · 2 h</b><br><span class="en">Data frames, importing a CSV file,
-exploring data</span><span class="fr">Data frames, importer un fichier
-CSV, explorer les données</span>
-</div>
-<div class="session-card">
-<b>4 · 3.5 h</b><br><span class="en">[row, column], $ vs [ ], changing
-values, adding and removing columns, sapply / apply</span><span
-class="fr">[ligne, colonne], $ ou [ ], modifier des valeurs, ajouter et
-supprimer des colonnes, sapply / apply</span>
-</div>
-<div class="session-card">
-<b>5 · 3 h</b><br><span class="en">Conditions, subset() in depth,
-sorting, cleaning field data</span><span class="fr">Conditions, subset()
-en détail, tri, nettoyage des données de terrain</span>
-</div>
-<div class="session-card">
-<b>6 · 2.5 h</b><br><span class="en">Mean, SD, SE; statistics per site
-and per MPA status</span><span class="fr">Moyenne, écart-type, erreur
-standard ; statistiques par site et statut d’AMP</span>
-</div>
-<div class="session-card">
-<b>7 · 3 h</b><br><span class="en">Histograms, boxplots, barplots with
-error bars, saving figures</span><span class="fr">Histogrammes,
-boxplots, barplots avec barres d’erreur, enregistrer les figures</span>
-</div>
-<div class="session-card">
-<b>8 · 3.5 h</b><br><span class="en">What packages are; dplyr and
-ggplot2 next to their base R equivalents</span><span class="fr">Ce que
-sont les packages ; dplyr et ggplot2 à côté de leurs équivalents en R de
-base</span>
-</div>
-<div class="session-card">
-<b>9 · 3 h</b><br><span class="en">Practice session: 6 exercises, one
-quiz each</span><span class="fr">Séance d’exercices : 6 exercices, un
-quiz chacun</span>
-</div>
-<div class="session-card">
-<b>10 · 4 h</b><br><span class="en">Final project: raw coral data →
-database → mean ± SD per MPA → graph</span><span class="fr">Projet final
-: données brutes → base de données → moyenne ± ET par AMP →
-graphique</span>
-</div>
-</div>
-</div>
-<div id="course-datadonnées-du-cours" class="section level2 no-track">
-<h2 class="no-track"><span class="en">Course data</span><span
-class="fr">Données du cours</span></h2>
-<div class="en">
-<p>All datasets are <strong>simulated</strong> for teaching. Site and
-MPA names are invented and the values do not describe any real reef or
-seagrass bed. You will download them in Session 0.</p>
-</div>
-<div class="fr">
-<p>Tous les jeux de données sont <strong>simulés</strong> pour
-l’enseignement. Les noms de sites et d’AMP sont inventés et les valeurs
-ne décrivent aucun récif ni herbier réel. Vous les téléchargerez lors de
-la séance 0.</p>
-</div>
-<p><a class="btn-dl" href="data/r_course_data.zip" download>⇩
-r_course_data.zip (5 CSV)</a></p>
 </div>
 
 

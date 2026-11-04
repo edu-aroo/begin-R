@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · I3</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I3 · Joining
+tables</span><span class="fr">I3 · Joindre des tableaux</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>explain what a <strong>key</strong> is and check that it is
+unique;</li>
+<li>combine tables with <code>left_join()</code>,
+<code>inner_join()</code>, <code>full_join()</code> and base R
+<code>merge()</code>;</li>
+<li>find the rows that do <strong>not</strong> match with
+<code>anti_join()</code>;</li>
+<li>join on <strong>several keys</strong> (zone + year + month) and
+check the result;</li>
+<li>build the single analysis table used in the next sessions.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>expliquer ce qu’est une <strong>clé</strong> et vérifier qu’elle est
+unique ;</li>
+<li>combiner des tableaux avec <code>left_join()</code>,
+<code>inner_join()</code>, <code>full_join()</code> et
+<code>merge()</code> de R de base ;</li>
+<li>trouver les lignes qui <strong>ne</strong> correspondent
+<strong>pas</strong> avec <code>anti_join()</code> ;</li>
+<li>joindre sur <strong>plusieurs clés</strong> (zone + année + mois) et
+vérifier le résultat ;</li>
+<li>construire le tableau d’analyse unique utilisé dans les séances
+suivantes.</li>
+</ul>
+</div>
+</div>
+<p><a class="btn-dl" href="data/checkpoints/I1_lines_dated.csv" download>⇩
+checkpoint: I1_lines_dated.csv</a>
+<a class="btn-dl" href="data/checkpoints/I0_farmers.csv" download>⇩
+checkpoint: I0_farmers.csv</a>
+<a class="btn-dl" href="data/checkpoints/I2_water_quality_monthly.csv" download>⇩
+checkpoint: I2_water_quality_monthly.csv</a></p>
+<div id="why" class="section level2">
+<h2><span class="en">Why several tables?</span><span class="fr">Pourquoi
+plusieurs tableaux ?</span></h2>
+<div class="en">
+<p>Good field databases avoid repeating information. The technician did
+not type the village, sex and technique of the farmer on each of the 2
+575 lines: he typed them <strong>once</strong> in the
+<code>farmers</code> sheet, and each line only carries the
+<code>farmer_id</code>. That column is a <strong>key</strong>: it links
+the two tables. To analyse growth by sex or technique, we must bring the
+farmer information next to each line — a <strong>join</strong>.</p>
+</div>
+<div class="fr">
+<p>Les bonnes bases de données de terrain évitent de répéter
+l’information. Le technicien n’a pas saisi le village, le sexe et la
+technique du producteur sur chacune des 2 575 lignes : il les a saisis
+<strong>une fois</strong> dans la feuille <code>farmers</code>, et
+chaque ligne ne porte que le <code>farmer_id</code>. Cette colonne est
+une <strong>clé</strong> : elle relie les deux tableaux. Pour analyser
+la croissance par sexe ou par technique, il faut amener l’information du
+producteur à côté de chaque ligne — une <strong>jointure</strong>.</p>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context of <code>villages.csv</code>.</strong> When
+the cooperative was created, the technician recorded with a handheld GPS
+the position (longitude, latitude, WGS84) of the landing beach of each
+of the 12 villages, and assigned each village to a <strong>zone</strong>
+(North, Centre, South) used by the NGO for the water-quality stations.
+<strong>Type of data:</strong> reference table (one row per village),
+spatial coordinates.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé de <code>villages.csv</code>.</strong> À la
+création de la coopérative, le technicien a relevé au GPS la position
+(longitude, latitude, WGS84) de la plage de débarquement de chacun des
+12 villages, et attribué chaque village à une <strong>zone</strong>
+(Nord, Centre, Sud) utilisée par l’ONG pour les stations de qualité de
+l’eau. <strong>Type de données :</strong> table de référence (une ligne
+par village), coordonnées spatiales.</p>
+</div>
+</div>
+</div>
+<div id="keys" class="section level2">
+<h2><span class="en">Keys must be unique on one side</span><span
+class="fr">Les clés doivent être uniques d’un côté</span></h2>
+<div class="en">
+<p>Before joining, check that the key identifies <strong>one
+row</strong> in the reference table. Otherwise each line would be copied
+several times.</p>
+</div>
+<div class="fr">
+<p>Avant de joindre, vérifiez que la clé identifie <strong>une seule
+ligne</strong> dans la table de référence. Sinon chaque ligne serait
+copiée plusieurs fois.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(farmers<span class="sc">$</span>farmer_id))        <span class="co"># 0: one row per farmer</span></span></code></pre></div>
+<pre><code>#&gt; [1] 0</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">all</span>(lines<span class="sc">$</span>farmer_id <span class="sc">%in%</span> farmers<span class="sc">$</span>farmer_id)   <span class="co"># every line has a known farmer</span></span></code></pre></div>
+<pre><code>#&gt; [1] TRUE</code></pre>
+</div>
+<div id="join-types" class="section level2">
+<h2><span class="en">The four main joins</span><span class="fr">Les
+quatre jointures principales</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Keeps</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>left_join(x, y)</code></td>
+<td>all rows of <code>x</code>, with <code>y</code> added where the key
+matches (<code>NA</code> otherwise)</td>
+<td>add information to your main table — <strong>the most
+used</strong></td>
+</tr>
+<tr class="even">
+<td><code>inner_join(x, y)</code></td>
+<td>only rows whose key is in both</td>
+<td>analyse only complete cases</td>
+</tr>
+<tr class="odd">
+<td><code>full_join(x, y)</code></td>
+<td>all rows of both</td>
+<td>compare two lists</td>
+</tr>
+<tr class="even">
+<td><code>anti_join(x, y)</code></td>
+<td>rows of <code>x</code> with <strong>no</strong> match in
+<code>y</code></td>
+<td>find errors: unknown ids, missing records</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction</th>
+<th>Garde</th>
+<th>Usage typique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>left_join(x, y)</code></td>
+<td>toutes les lignes de <code>x</code>, avec <code>y</code> ajouté
+quand la clé correspond (<code>NA</code> sinon)</td>
+<td>ajouter de l’information à votre tableau principal — <strong>la plus
+utilisée</strong></td>
+</tr>
+<tr class="even">
+<td><code>inner_join(x, y)</code></td>
+<td>seulement les lignes dont la clé est dans les deux</td>
+<td>analyser seulement les cas complets</td>
+</tr>
+<tr class="odd">
+<td><code>full_join(x, y)</code></td>
+<td>toutes les lignes des deux</td>
+<td>comparer deux listes</td>
+</tr>
+<tr class="even">
+<td><code>anti_join(x, y)</code></td>
+<td>les lignes de <code>x</code> <strong>sans</strong> correspondance
+dans <code>y</code></td>
+<td>trouver les erreurs : identifiants inconnus, enregistrements
+manquants</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>lf <span class="ot">&lt;-</span> <span class="fu">left_join</span>(lines, farmers, <span class="at">by =</span> <span class="st">&quot;farmer_id&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">dim</span>(lines); <span class="fu">dim</span>(lf)                       <span class="co"># same number of rows, more columns</span></span></code></pre></div>
+<pre><code>#&gt; [1] 2575   15</code></pre>
+<pre><code>#&gt; [1] 2575   21</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>lf[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="st">&quot;line_id&quot;</span>, <span class="st">&quot;farmer_id&quot;</span>, <span class="st">&quot;village&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;technique&quot;</span>, <span class="st">&quot;sgr&quot;</span>)]</span></code></pre></div>
+<pre><code>#&gt;   line_id farmer_id  village sex technique      sgr
+#&gt; 1   L0001      F013 Ankarabe   M long-line 4.187869
+#&gt; 2   L0002      F013 Ankarabe   M long-line 3.592181
+#&gt; 3   L0003      F013 Ankarabe   M long-line 3.733980</code></pre>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>lf2 <span class="ot">&lt;-</span> <span class="fu">merge</span>(lines, farmers, <span class="at">by =</span> <span class="st">&quot;farmer_id&quot;</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>             <span class="at">all.x =</span> <span class="cn">TRUE</span>)   <span class="co"># all.x = left join</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">dim</span>(lf2)</span></code></pre></div>
+<pre><code>#&gt; [1] 2575   21</code></pre>
+</div>
+<div class="col pkg">
+<p>dplyr</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>lf3 <span class="ot">&lt;-</span> <span class="fu">left_join</span>(lines, farmers,</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>                 <span class="at">by =</span> <span class="st">&quot;farmer_id&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">dim</span>(lf3)</span></code></pre></div>
+<pre><code>#&gt; [1] 2575   21</code></pre>
+</div>
+</div>
+<div class="en">
+<p><code>merge()</code> sorts the result by the key;
+<code>left_join()</code> keeps the original order.
+<code>all = TRUE</code> gives a full join, <code>all.y = TRUE</code> a
+right join, nothing an inner join.</p>
+</div>
+<div class="fr">
+<p><code>merge()</code> trie le résultat par la clé ;
+<code>left_join()</code> garde l’ordre d’origine.
+<code>all = TRUE</code> donne une jointure complète,
+<code>all.y = TRUE</code> une jointure à droite, rien une jointure
+interne.</p>
+</div>
+</div>
+<div id="anti" class="section level2">
+<h2><span class="en">Finding problems with anti_join()</span><span
+class="fr">Trouver les problèmes avec anti_join()</span></h2>
+<div class="en">
+<p>The survey (Session I4) has a household table and a member table
+linked by <code>hh_id</code>. Members whose household does not exist
+reveal typing errors:</p>
+</div>
+<div class="fr">
+<p>L’enquête (séance I4) a un tableau des ménages et un tableau des
+membres reliés par <code>hh_id</code>. Les membres dont le ménage
+n’existe pas révèlent des erreurs de saisie :</p>
+</div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>hh <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_households.csv&quot;</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>members <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_members.csv&quot;</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">anti_join</span>(members, hh, <span class="at">by =</span> <span class="st">&quot;hh_id&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt;   hh_id member_no relation sex age in_school works_seaweed
+#&gt; 1 HH901         1     head   F  63                      no
+#&gt; 2 HH903         2    other   M  59                      no
+#&gt; 3 HH904         3    child   M  22                      no
+#&gt; 4 HH902         3    other   M  18                      no</code></pre>
+<div class="callout warning">
+<div class="en">
+<p><strong>A join that adds rows is a red flag.</strong> If
+<code>hh</code> contains a household twice (duplicated interview), every
+member of that household will be copied twice after the join. Always
+compare <code>nrow()</code> before and after, and check
+<code>sum(duplicated(key))</code> on the reference table.</p>
+</div>
+<div class="fr">
+<p><strong>Une jointure qui ajoute des lignes est un signal
+d’alerte.</strong> Si <code>hh</code> contient un ménage en double
+(entretien saisi deux fois), chaque membre de ce ménage sera copié deux
+fois après la jointure. Comparez toujours <code>nrow()</code> avant et
+après, et vérifiez <code>sum(duplicated(cle))</code> sur la table de
+référence.</p>
+</div>
+</div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(hh<span class="sc">$</span>hh_id))</span></code></pre></div>
+<pre><code>#&gt; [1] 5</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">nrow</span>(members); <span class="fu">nrow</span>(<span class="fu">left_join</span>(members, hh, <span class="at">by =</span> <span class="st">&quot;hh_id&quot;</span>))</span></code></pre></div>
+<pre><code>#&gt; [1] 2348</code></pre>
+<pre><code>#&gt; Warning in left_join(members, hh, by = &quot;hh_id&quot;): Detected an unexpected many-to-many relationship between `x` and `y`.
+#&gt; ℹ Row 544 of `x` matches multiple rows in `y`.
+#&gt; ℹ Row 1 of `y` matches multiple rows in `x`.
+#&gt; ℹ If a many-to-many relationship is expected, set `relationship = &quot;many-to-many&quot;` to silence this warning.</code></pre>
+<pre><code>#&gt; [1] 2376</code></pre>
+</div>
+<div id="multi" class="section level2">
+<h2><span class="en">Joining on several keys</span><span
+class="fr">Joindre sur plusieurs clés</span></h2>
+<div class="en">
+<p>To relate growth to sea temperature, we need the mean temperature
+<strong>of the zone of the village, in the month of planting</strong>.
+The water-quality summary from Session I2 has one row per
+<code>zone</code>, <code>year</code> and <code>month</code>: the join
+uses three keys at once.</p>
+</div>
+<div class="fr">
+<p>Pour relier la croissance à la température de l’eau, il faut la
+température moyenne <strong>de la zone du village, le mois du
+semis</strong>. Le résumé de qualité de l’eau de la séance I2 a une
+ligne par <code>zone</code>, <code>year</code> et <code>month</code> :
+la jointure utilise trois clés à la fois.</p>
+</div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>villages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/villages.csv&quot;</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>wq_month <span class="ot">&lt;-</span> <span class="fu">cp_wq_monthly</span>()                   <span class="co"># = I2_water_quality_monthly.csv</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="fu">head</span>(wq_month, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;     zone year month temp_mean sal_mean
+#&gt; 1 Centre 2023     1  27.85000  33.8250
+#&gt; 2 Centre 2023     2  29.12857  33.5625
+#&gt; 3 Centre 2023     3  28.32500  33.6625</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>seaweed <span class="ot">&lt;-</span> lines <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>  <span class="fu">left_join</span>(farmers, <span class="at">by =</span> <span class="st">&quot;farmer_id&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="fu">left_join</span>(villages[, <span class="fu">c</span>(<span class="st">&quot;village&quot;</span>, <span class="st">&quot;zone&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;village&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>  <span class="fu">left_join</span>(wq_month[, <span class="fu">c</span>(<span class="st">&quot;zone&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;temp_mean&quot;</span>)],</span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;zone&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>))</span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a><span class="fu">dim</span>(seaweed)</span></code></pre></div>
+<pre><code>#&gt; [1] 2575   23</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(seaweed<span class="sc">$</span>temp_mean))                 <span class="co"># 0: every line found its temperature</span></span></code></pre></div>
+<pre><code>#&gt; [1] 0</code></pre>
+<div class="callout tip">
+<div class="en">
+<p>When the key has <strong>different names</strong> in the two tables:
+<code>by = c("village" = "village_name")</code>. In
+<code>merge()</code>:
+<code>by.x = "village", by.y = "village_name"</code>.</p>
+</div>
+<div class="fr">
+<p>Quand la clé a des <strong>noms différents</strong> dans les deux
+tableaux : <code>by = c("village" = "village_name")</code>. Dans
+<code>merge()</code> :
+<code>by.x = "village", by.y = "village_name"</code>.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/checkpoints/I3_seaweed_analysis.csv" download>⇩
+checkpoint: I3_seaweed_analysis.csv</a></p>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-i3" class="section level3 en">
+<h3>Application work I3</h3>
+<p>Script <code>scripts/i03_joins.R</code>.</p>
+<p><strong>Part A — seaweed analysis table</strong></p>
+<ol style="list-style-type: decimal">
+<li>Join the lines (I1) with the farmers (I0), the villages
+(<code>zone</code>) and the monthly temperatures (I2) as shown above.
+How many columns does the final table have?</li>
+<li>Mean SGR of lines farmed by <strong>women</strong> (3
+decimals)?</li>
+<li>Mean SGR of <strong>long-line</strong> lines (3 decimals)?</li>
+<li>Which zone has the highest mean SGR?</li>
+<li>Mean <code>temp_mean</code> of the lines of <strong>Lovobe</strong>
+(3 decimals)?</li>
+</ol>
+<p><strong>Part B — survey tables</strong></p>
+<ol start="6" style="list-style-type: decimal">
+<li>How many member rows have an <code>hh_id</code> that does not exist
+in the household table?</li>
+<li>Joining members with the raw household table: how many rows are
+<strong>added</strong> (because of duplicated households)?</li>
+<li>Remove duplicated households, then <code>inner_join()</code> members
+and households. How many rows?</li>
+<li>How many households own <strong>no</strong> asset at all
+(<code>anti_join</code> with <code>survey_assets.csv</code>)?</li>
+</ol>
+</div>
+<div id="travail-dapplication-i3" class="section level3 fr">
+<h3>Travail d’application I3</h3>
+<p>Script <code>scripts/i03_joins.R</code>.</p>
+<p><strong>Partie A — tableau d’analyse des algues</strong></p>
+<ol style="list-style-type: decimal">
+<li>Joignez les lignes (I1) avec les producteurs (I0), les villages
+(<code>zone</code>) et les températures mensuelles (I2) comme ci-dessus.
+Combien de colonnes compte le tableau final ?</li>
+<li>SGR moyen des lignes cultivées par des <strong>femmes</strong> (3
+décimales) ?</li>
+<li>SGR moyen des lignes en <strong>long-line</strong> (3 décimales)
+?</li>
+<li>Quelle zone a le SGR moyen le plus élevé ?</li>
+<li><code>temp_mean</code> moyenne des lignes de <strong>Lovobe</strong>
+(3 décimales) ?</li>
+</ol>
+<p><strong>Partie B — tableaux de l’enquête</strong></p>
+<ol start="6" style="list-style-type: decimal">
+<li>Combien de lignes de membres ont un <code>hh_id</code> qui n’existe
+pas dans le tableau des ménages ?</li>
+<li>En joignant les membres avec le tableau brut des ménages : combien
+de lignes sont <strong>ajoutées</strong> (à cause des ménages en double)
+?</li>
+<li>Retirez les ménages en double, puis <code>inner_join()</code>
+membres et ménages. Combien de lignes ?</li>
+<li>Combien de ménages ne possèdent <strong>aucun</strong> bien
+(<code>anti_join</code> avec <code>survey_assets.csv</code>) ?</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 7: compare
+<code>nrow(left_join(members, hh, by = "hh_id"))</code> with
+<code>nrow(members)</code>. Question 9:
+<code>anti_join(households, assets, by = "hh_id")</code> keeps
+households that never appear in the asset table.</p>
+</div>
+<div class="fr">
+<p>Question 7 : comparez
+<code>nrow(left_join(members, hh, by = "hh_id"))</code> avec
+<code>nrow(members)</code>. Question 9 :
+<code>anti_join(households, assets, by = "hh_id")</code> garde les
+ménages absents du tableau des biens.</p>
+</div>
+</div>
+<div id="quiz-i03" class="quiz" data-quiz-id="i03"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gQ29sdW1ucyBvZiB0aGUgZmluYWwgdGFibGU/IiwiZnIiOiIxLiBDb2xvbm5lcyBkdSB0YWJsZWF1IGZpbmFsID8iLCJhbnN3ZXIiOjIzLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBNZWFuIFNHUiBvZiB3b21lbidzIGxpbmVzICgzIGRlY2ltYWxzKT8iLCJmciI6IjIuIFNHUiBtb3llbiBkZXMgbGlnbmVzIGRlcyBmZW1tZXMgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6My40OTUsInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTWVhbiBTR1Igb2YgbG9uZy1saW5lIGxpbmVzICgzIGRlY2ltYWxzKT8iLCJmciI6IjMuIFNHUiBtb3llbiBkZXMgbGlnbmVzIGxvbmctbGluZSAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjozLjY4OCwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiNC4gWm9uZSB3aXRoIHRoZSBoaWdoZXN0IG1lYW4gU0dSPyIsImZyIjoiNC4gWm9uZSBhdSBTR1IgbW95ZW4gbGUgcGx1cyDDqWxldsOpID8iLCJhbnN3ZXIiOlsiU291dGgiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI1LiBNZWFuIHRlbXBfbWVhbiBhdCBMb3ZvYmUgKDMgZGVjaW1hbHMpPyIsImZyIjoiNS4gdGVtcF9tZWFuIG1veWVubmUgw6AgTG92b2JlICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjI2LjI1MywidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI2LiBNZW1iZXIgcm93cyB3aXRoIHVua25vd24gaGhfaWQ/IiwiZnIiOiI2LiBMaWduZXMgZGUgbWVtYnJlcyBhdmVjIGhoX2lkIGluY29ubnUgPyIsImFuc3dlciI6NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNy4gUm93cyBhZGRlZCBieSB0aGUgZHVwbGljYXRlZCBob3VzZWhvbGRzPyIsImZyIjoiNy4gTGlnbmVzIGFqb3V0w6llcyBwYXIgbGVzIG3DqW5hZ2VzIGVuIGRvdWJsZSA/IiwiYW5zd2VyIjoyOCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiOC4gUm93cyBvZiB0aGUgaW5uZXIgam9pbj8iLCJmciI6IjguIExpZ25lcyBkZSBsYSBqb2ludHVyZSBpbnRlcm5lID8iLCJhbnN3ZXIiOjIzNDQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjkuIEhvdXNlaG9sZHMgd2l0aG91dCBhbnkgYXNzZXQ/IiwiZnIiOiI5LiBNw6luYWdlcyBzYW5zIGF1Y3VuIGJpZW4gPyIsImFuc3dlciI6OTEsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjEwLiBXaGljaCBqb2luIGtlZXBzIGFsbCByb3dzIG9mIHRoZSBmaXJzdCB0YWJsZT8iLCJmciI6IjEwLiBRdWVsbGUgam9pbnR1cmUgZ2FyZGUgdG91dGVzIGxlcyBsaWduZXMgZHUgcHJlbWllciB0YWJsZWF1ID8iLCJvcHRpb25zX2VuIjpbImlubmVyX2pvaW4oKSIsImxlZnRfam9pbigpIiwiYW50aV9qb2luKCkiLCJzZW1pX2pvaW4oKSJdLCJvcHRpb25zX2ZyIjpbImlubmVyX2pvaW4oKSIsImxlZnRfam9pbigpIiwiYW50aV9qb2luKCkiLCJzZW1pX2pvaW4oKSJdLCJhbnN3ZXIiOjF9XQ==">
+
+</div>
+<div class="solution" data-quiz="i03">
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>lines    <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I1_lines_dated.csv&quot;</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>farmers  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I0_farmers.csv&quot;</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>villages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/villages.csv&quot;</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>wq_month <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I2_water_quality_monthly.csv&quot;</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>seaweed <span class="ot">&lt;-</span> lines <span class="sc">%&gt;%</span></span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a>  <span class="fu">left_join</span>(farmers, <span class="at">by =</span> <span class="st">&quot;farmer_id&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a>  <span class="fu">left_join</span>(villages[, <span class="fu">c</span>(<span class="st">&quot;village&quot;</span>, <span class="st">&quot;zone&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;village&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a>  <span class="fu">left_join</span>(wq_month[, <span class="fu">c</span>(<span class="st">&quot;zone&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;temp_mean&quot;</span>)], <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;zone&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>))</span>
+<span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a><span class="fu">ncol</span>(seaweed)                                                          <span class="co"># 1</span></span>
+<span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(seaweed<span class="sc">$</span>sgr, seaweed<span class="sc">$</span>sex, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">3</span>)         <span class="co"># 2</span></span>
+<span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(seaweed<span class="sc">$</span>sgr, seaweed<span class="sc">$</span>technique, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">3</span>)   <span class="co"># 3</span></span>
+<span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a><span class="fu">tapply</span>(seaweed<span class="sc">$</span>sgr, seaweed<span class="sc">$</span>zone, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                  <span class="co"># 4</span></span>
+<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(seaweed<span class="sc">$</span>temp_mean[seaweed<span class="sc">$</span>village <span class="sc">==</span> <span class="st">&quot;Lovobe&quot;</span>]), <span class="dv">3</span>)         <span class="co"># 5</span></span>
+<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a></span>
+<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a>hh      <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_households.csv&quot;</span>)</span>
+<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a>members <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_members.csv&quot;</span>)</span>
+<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a>assets  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_assets.csv&quot;</span>)</span>
+<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">anti_join</span>(members, hh, <span class="at">by =</span> <span class="st">&quot;hh_id&quot;</span>))                             <span class="co"># 6</span></span>
+<span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">left_join</span>(members, hh, <span class="at">by =</span> <span class="st">&quot;hh_id&quot;</span>)) <span class="sc">-</span> <span class="fu">nrow</span>(members)             <span class="co"># 7</span></span>
+<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a>hh <span class="ot">&lt;-</span> hh[<span class="sc">!</span><span class="fu">duplicated</span>(hh), ]</span>
+<span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">inner_join</span>(members, hh, <span class="at">by =</span> <span class="st">&quot;hh_id&quot;</span>))                            <span class="co"># 8</span></span>
+<span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">anti_join</span>(hh, assets, <span class="at">by =</span> <span class="st">&quot;hh_id&quot;</span>))                              <span class="co"># 9</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

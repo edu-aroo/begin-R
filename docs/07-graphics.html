@@ -31,8 +31,10 @@
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <!-- header.html: inserted inside <head> of every page (see _site.yml) -->
-<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
 <script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
 <script src="assets/course.js"></script>
 <meta name="author" content="Aroo Falinirina">
 
@@ -333,7 +335,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -342,7 +344,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
+    Beginner
      
     <span class="caret"></span>
   </a>
@@ -382,8 +384,83 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
 <li>
-  <a href="cheatsheet.html">Cheatsheet</a>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -447,6 +524,37 @@ flèches pour revenir aux précédents et <strong>Zoom</strong> pour
 agrandir.</p>
 </div>
 </div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Seagrass survey</strong>
+(<code>seagrass_quadrats.csv</code>): in March 2026 a team of two
+snorkellers sampled <strong>4 sites</strong> (Ambalaboy and Fasimena
+inside a Marine Protected Area, Belitsaky and Tsiandamba outside),
+<strong>15 quadrats of 50 × 50 cm</strong> per site, placed every 5 m
+along a tape. For each quadrat they wrote on an underwater slate the
+depth (dive computer), the dominant species, the % cover (visual
+estimate), the canopy height (ruler, cm) and the number of shoots,
+converted to shoots per m². <em>Type:</em> one row = one quadrat;
+numeric (continuous) and categorical variables.</p>
+</div>
+<div class="fr">
+<p><strong>Suivi des herbiers</strong>
+(<code>seagrass_quadrats.csv</code>) : en mars 2026, une équipe de deux
+plongeurs en apnée a échantillonné <strong>4 sites</strong> (Ambalaboy
+et Fasimena dans une Aire Marine Protégée, Belitsaky et Tsiandamba à
+l’extérieur), <strong>15 quadrats de 50 × 50 cm</strong> par site, posés
+tous les 5 m le long d’un ruban. Pour chaque quadrat ils ont noté sur
+une ardoise la profondeur (ordinateur de plongée), l’espèce dominante,
+le % de recouvrement (estimation visuelle), la hauteur de canopée
+(règle, cm) et le nombre de pousses, converti en pousses par m².
+<em>Type :</em> une ligne = un quadrat ; variables numériques
+(continues) et catégorielles.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/seagrass_quadrats.csv" download>⇩
+seagrass_quadrats.csv</a>
+<a class="btn-dl" href="data/checkpoints/B06_seagrass_summary_by_site.csv" download>⇩
+B06_seagrass_summary_by_site.csv</a></p>
 <div id="which" class="section level2">
 <h2><span class="en">Which graph for which question?</span><span
 class="fr">Quel graphique pour quelle question ?</span></h2>
@@ -681,6 +789,20 @@ class="fr">Effectifs par catégorie</span></h3>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>        <span class="at">names.arg =</span> <span class="fu">names</span>(counts), <span class="at">cex.names =</span> <span class="fl">0.85</span>, <span class="at">font.axis =</span> <span class="dv">3</span>)   <span class="co"># font 3 = italic</span></span></code></pre></div>
 <p><img src="07-graphics_files/figure-html/unnamed-chunk-7-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fl">0.1</span>)   <span class="co"># back to default margins</span></span></code></pre></div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Draw a scatter plot of
+<code>shoot_density</code> against <code>canopy_height_cm</code>, with
+one colour per MPA status, axis titles with units and a legend. Do
+taller canopies have more shoots?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Tracez un nuage de points de
+<code>shoot_density</code> en fonction de <code>canopy_height_cm</code>,
+avec une couleur par statut d’AMP, des titres d’axes avec unités et une
+légende. Les canopées plus hautes ont-elles plus de pousses ?</p>
+</div>
+</div>
 </div>
 </div>
 <div id="mfrow" class="section level2">
@@ -781,6 +903,26 @@ la plus haute (moyenne + ET), arrondie à 1 décimale ?</li>
 élevé ?</li>
 <li>Répondez au quiz.</li>
 </ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 1:
+<code>h &lt;- hist(sg$seagrass_cover, breaks = seq(0, 100, by = 10))</code>
+then <code>max(h$counts)</code>. Question 3: compute
+<code>m &lt;- tapply(..., mean)</code> and
+<code>s &lt;- tapply(..., sd)</code>, then <code>max(m + s)</code>.
+Question 4:
+<code>barplot(sort(m_species), horiz = TRUE, las = 1)</code>.</p>
+</div>
+<div class="fr">
+<p>Question 1 :
+<code>h &lt;- hist(sg$seagrass_cover, breaks = seq(0, 100, by = 10))</code>
+puis <code>max(h$counts)</code>. Question 3 : calculez
+<code>m &lt;- tapply(..., mean)</code> et
+<code>s &lt;- tapply(..., sd)</code>, puis <code>max(m + s)</code>.
+Question 4 :
+<code>barplot(sort(m_espece), horiz = TRUE, las = 1)</code>.</p>
 </div>
 </div>
 <div id="quiz-s07" class="quiz" data-quiz-id="s07"

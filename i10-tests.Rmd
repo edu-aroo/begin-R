@@ -1,0 +1,451 @@
+---
+title: "[I10 · Comparing means and proportions, correlations: choosing the right test]{.en}[I10 · Comparer des moyennes et des proportions, corrélations : choisir le bon test]{.fr}"
+pagetitle: "R for marine sciences · I10"
+subtitle: "~3.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/intermediate_pipeline.R")
+library(ggplot2); library(dplyr); library(tidyr); library(patchwork)
+seaweed <- cp_seaweed()
+hh <- cp_households()
+farmers <- cp_farmers()
+wq <- cp_wq_clean()
+knitr::opts_chunk$set(fig.width = 7.5, fig.height = 3.8, out.width = "90%")
+theme_c <- function() theme_minimal(base_size = 13)
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- choose a test from **the question** and **the type of variables**, and justify it;
+- explain the difference between **parametric** and **non-parametric** tests, and when to prefer each;
+- compare **two means** (independent or paired groups) with `t.test()` and `wilcox.test()`;
+- compare **percentages** with `chisq.test()`, `prop.test()` and `fisher.test()`;
+- measure a **correlation** with Pearson or Spearman, and recognise when no correlation coefficient is appropriate;
+- **report** a result in one clear sentence (effect size + test + p-value).
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- choisir un test à partir de **la question** et du **type des variables**, et le justifier ;
+- expliquer la différence entre tests **paramétriques** et **non paramétriques**, et quand préférer chacun ;
+- comparer **deux moyennes** (groupes indépendants ou appariés) avec `t.test()` et `wilcox.test()` ;
+- comparer des **pourcentages** avec `chisq.test()`, `prop.test()` et `fisher.test()` ;
+- mesurer une **corrélation** avec Pearson ou Spearman, et reconnaître quand aucun coefficient de corrélation ne convient ;
+- **rapporter** un résultat en une phrase claire (taille d'effet + test + p-value).
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Data of this session (simulated).** Four datasets you already know, each answering one question of the cooperative or of the environment office:
+
+- **Seaweed lines** (`I3_seaweed_analysis.csv`, cooperative logbooks, 2024–2025): does growth (SGR) differ between the dry and the wet season? Does it follow water temperature?
+- **Household survey** (`I4_households_clean.csv`, 420 face-to-face interviews, 2025): do households headed by women and men declare different incomes?
+- **Farmers' register** (`I0_farmers.csv`, 96 cooperative members): do women and men use the two farming techniques in the same proportions?
+- **Water quality** (`I2_water_quality_clean.csv`): 10 fixed stations sampled monthly with a multiparameter probe, 2023–2025. Was 2025 warmer than 2024? Is dissolved oxygen related to temperature?
+:::
+::: fr
+**Données de cette séance (simulées).** Quatre jeux que vous connaissez déjà, chacun répondant à une question de la coopérative ou du service de l'environnement :
+
+- **Lignes d'algues** (`I3_seaweed_analysis.csv`, cahiers de la coopérative, 2024–2025) : la croissance (SGR) diffère-t-elle entre saison sèche et saison des pluies ? Suit-elle la température de l'eau ?
+- **Enquête ménages** (`I4_households_clean.csv`, 420 entretiens en face à face, 2025) : les ménages dirigés par des femmes et par des hommes déclarent-ils des revenus différents ?
+- **Registre des cultivateurs** (`I0_farmers.csv`, 96 membres de la coopérative) : femmes et hommes utilisent-ils les deux techniques dans les mêmes proportions ?
+- **Qualité de l'eau** (`I2_water_quality_clean.csv`) : 10 stations fixes échantillonnées chaque mois avec une sonde multiparamètre, 2023–2025. 2025 a-t-elle été plus chaude que 2024 ? L'oxygène dissous est-il lié à la température ?
+:::
+:::
+
+`r dl("I3_seaweed_analysis.csv", "I3_seaweed_analysis.csv", dir = "data/checkpoints")` `r dl("I4_households_clean.csv", "I4_households_clean.csv", dir = "data/checkpoints")` `r dl("I0_farmers.csv", "I0_farmers.csv", dir = "data/checkpoints")` `r dl("I2_water_quality_clean.csv", "I2_water_quality_clean.csv", dir = "data/checkpoints")`
+
+## [Choosing a test]{.en}[Choisir un test]{.fr} {#choose}
+
+::: en
+A test is chosen **before** looking at p-values, from three questions: **(1)** what is my question (difference of means, of proportions, or relationship)? **(2)** what type are my variables (numeric or categorical)? **(3)** are the observations independent, or are the **same units measured twice** (paired)? Then the shape of the data (Session I9) tells you whether the parametric version is reasonable.
+:::
+::: fr
+Un test se choisit **avant** de regarder les p-values, à partir de trois questions : **(1)** quelle est ma question (différence de moyennes, de proportions, ou relation) ? **(2)** de quel type sont mes variables (numériques ou catégorielles) ? **(3)** les observations sont-elles indépendantes, ou les **mêmes unités sont-elles mesurées deux fois** (apparié) ? Ensuite, la forme des données (séance I9) indique si la version paramétrique est raisonnable.
+:::
+
+`r fig_svg("choose-test", "Decision chart for the tests of this session. Blue: parametric test; orange: non-parametric or exact alternative.", "Schéma de décision pour les tests de cette séance. Bleu : test paramétrique ; orange : alternative non paramétrique ou exacte.")`
+
+### [Parametric or non-parametric?]{.en}[Paramétrique ou non paramétrique ?]{.fr}
+
+::: en
+| | Parametric | Non-parametric |
+|---|---|---|
+| Works on | the values themselves (means, SD) | the **ranks** of the values (1st, 2nd, 3rd…) |
+| Assumes | approximately normal data (or large groups, Session I9) | only that the distributions have a similar shape |
+| Examples | `t.test()`, Pearson `cor.test()` | `wilcox.test()`, Spearman `cor.test(method = "spearman")` |
+| Strength | more **powerful** when the assumptions hold; gives an effect size in the units of the data | **robust** to outliers and skewness |
+| Weakness | sensitive to outliers and strong skewness, especially in small samples | slightly less powerful; compares "typical values" rather than means |
+
+**Rule of thumb:** roughly normal (or large groups without extreme outliers) → parametric. Small groups and clearly skewed, or strong outliers → either **transform** (log, Session I9) and use the parametric test, or use the non-parametric test. Choose one approach and justify it — do not run both and keep the one that "works".
+:::
+::: fr
+| | Paramétrique | Non paramétrique |
+|---|---|---|
+| Travaille sur | les valeurs elles-mêmes (moyennes, ET) | les **rangs** des valeurs (1er, 2e, 3e…) |
+| Suppose | des données à peu près normales (ou de grands groupes, séance I9) | seulement que les distributions ont une forme semblable |
+| Exemples | `t.test()`, `cor.test()` de Pearson | `wilcox.test()`, `cor.test(method = "spearman")` de Spearman |
+| Atout | plus **puissant** quand les hypothèses sont vérifiées ; donne un effet dans les unités des données | **robuste** aux valeurs extrêmes et à l'asymétrie |
+| Faiblesse | sensible aux valeurs extrêmes et à une forte asymétrie, surtout avec de petits échantillons | un peu moins puissant ; compare des « valeurs typiques » plutôt que des moyennes |
+
+**Règle pratique :** à peu près normal (ou grands groupes sans valeurs extrêmes) → paramétrique. Petits groupes et nettement asymétrique, ou fortes valeurs extrêmes → soit **transformer** (log, séance I9) et utiliser le test paramétrique, soit utiliser le test non paramétrique. Choisissez une approche et justifiez-la — ne faites pas les deux pour garder celle qui « marche ».
+:::
+
+## [Comparing two means: independent groups]{.en}[Comparer deux moyennes : groupes indépendants]{.fr} {#ttest}
+
+### [Seaweed growth in the dry and wet season]{.en}[Croissance des algues en saison sèche et en saison des pluies]{.fr}
+
+::: en
+SGR is roughly normal (Session I9) and the groups are large: the **t-test** is appropriate. **Always plot first.**
+:::
+::: fr
+Le SGR est à peu près normal (séance I9) et les groupes sont grands : le **test t** est adapté. **Toujours tracer d'abord.**
+:::
+
+```{r, fig.height=3.2}
+ggplot(seaweed, aes(season, sgr, fill = season)) +
+  geom_boxplot(width = 0.5, na.rm = TRUE, show.legend = FALSE) +
+  scale_fill_manual(values = c(dry = "#e8c27a", wet = "#7fb8c4")) +
+  labs(x = NULL, y = "SGR (% per day)") + theme_c()
+
+tt <- t.test(sgr ~ season, data = seaweed)   # formula: numeric ~ group (2 levels)
+tt
+```
+
+::: en
+How to read the output:
+
+- `t = 9.56`: the difference of means divided by its standard error. Far from 0 → the difference is large compared with sampling noise.
+- `df`: degrees of freedom. The decimal value shows that R used **Welch's** version (the default), which does not assume equal variances in the two groups — keep it.
+- `p-value < 2.2e-16`: the smallest number R prints. Write "p < 0.001".
+- `95 percent confidence interval`: the difference dry − wet is between 0.21 and 0.31 % per day. **This is the effect size you should report.**
+:::
+::: fr
+Comment lire la sortie :
+
+- `t = 9.56` : la différence de moyennes divisée par son erreur standard. Loin de 0 → la différence est grande par rapport au bruit d'échantillonnage.
+- `df` : degrés de liberté. La valeur décimale montre que R a utilisé la version de **Welch** (par défaut), qui ne suppose pas des variances égales dans les deux groupes — gardez-la.
+- `p-value < 2.2e-16` : le plus petit nombre que R affiche. Écrivez « p < 0,001 ».
+- `95 percent confidence interval` : la différence sèche − pluies est comprise entre 0,21 et 0,31 % par jour. **C'est la taille d'effet à rapporter.**
+:::
+
+```{r}
+tt$estimate                    # the two means
+diff(rev(tt$estimate))         # dry - wet
+tt$conf.int                    # 95 % CI of the difference
+tt$p.value
+```
+
+::: {.callout .tip}
+::: en
+**Report it like this.** "Seaweed grew faster in the dry season (mean SGR 3.56 vs 3.30 % day⁻¹; difference 0.26, 95 % CI 0.21–0.31; Welch t-test, t = 9.56, df = 2267, p < 0.001)." The reader learns the direction, the size, the precision and the test in one sentence.
+:::
+::: fr
+**Rapportez-le ainsi.** « Les algues ont poussé plus vite en saison sèche (SGR moyen 3,56 contre 3,30 % j⁻¹ ; différence 0,26, IC 95 % 0,21–0,31 ; test t de Welch, t = 9,56, ddl = 2267, p < 0,001). » Le lecteur apprend en une phrase le sens, la taille, la précision et le test.
+:::
+:::
+
+### [Household income of women- and men-headed households]{.en}[Revenu des ménages dirigés par des femmes et par des hommes]{.fr}
+
+::: en
+Income is strongly right-skewed (Session I9). Two valid options, **decided before testing**:
+:::
+::: fr
+Le revenu est fortement asymétrique à droite (séance I9). Deux options valides, **décidées avant de tester** :
+:::
+
+::: compare
+::: {.col .base}
+**[Option A: non-parametric (ranks)]{.en}[Option A : non paramétrique (rangs)]{.fr}**
+```{r}
+wilcox.test(monthly_income_mga ~ head_sex,
+            data = hh)
+```
+:::
+::: {.col .pkg}
+**[Option B: t-test on log(income)]{.en}[Option B : test t sur log(revenu)]{.fr}**
+```{r}
+t.test(log(monthly_income_mga) ~ head_sex,
+       data = hh)$p.value
+```
+:::
+:::
+
+```{r}
+tapply(hh$monthly_income_mga, hh$head_sex, median)
+```
+
+::: en
+`wilcox.test()` (Wilcoxon rank-sum, also called **Mann–Whitney**) ranks all incomes together and checks whether one group tends to have higher ranks. Both options agree: **no evidence of a difference** (p = 0.43 and 0.61). Option B has an advantage: `exp()` of the difference of log-means is a **ratio** of geometric means ("x % higher"), which is easy to interpret. Note the message "with continuity correction": with large samples R uses an approximation — it is normal.
+:::
+::: fr
+`wilcox.test()` (Wilcoxon de la somme des rangs, aussi appelé **Mann–Whitney**) classe tous les revenus ensemble et vérifie si un groupe a tendance à avoir des rangs plus élevés. Les deux options concordent : **pas de preuve d'une différence** (p = 0,43 et 0,61). L'option B a un avantage : `exp()` de la différence des moyennes de log est un **rapport** de moyennes géométriques (« x % plus élevé »), facile à interpréter. Le message « with continuity correction » : avec de grands échantillons R utilise une approximation — c'est normal.
+:::
+
+## [Paired data: the same units measured twice]{.en}[Données appariées : les mêmes unités mesurées deux fois]{.fr} {#paired}
+
+::: en
+Was the water warmer in 2025 than in 2024? The **same 10 stations** were measured both years: a warm station is warm both years. Treating the two years as independent groups would mix the large differences **between stations** with the small change **between years**. A **paired** test works on the 10 differences (2025 − 2024), one per station.
+:::
+::: fr
+L'eau était-elle plus chaude en 2025 qu'en 2024 ? Les **mêmes 10 stations** ont été mesurées les deux années : une station chaude l'est les deux années. Traiter les deux années comme des groupes indépendants mélangerait les grandes différences **entre stations** et le petit changement **entre années**. Un test **apparié** travaille sur les 10 différences (2025 − 2024), une par station.
+:::
+
+```{r}
+wq$year <- as.integer(format(wq$date, "%Y"))
+station_year <- wq %>%
+  filter(year %in% c(2024, 2025)) %>%
+  group_by(station, year) %>%
+  summarise(temp = mean(temp_C, na.rm = TRUE), .groups = "drop") %>%
+  pivot_wider(names_from = year, values_from = temp, names_prefix = "y")   # Session I2: one row per station
+station_year
+
+t.test(station_year$y2025, station_year$y2024, paired = TRUE)
+```
+
+::: en
+The rows must be **in the same order** for both vectors (here guaranteed by the wide table: one row = one station). With only 10 differences, check their shape (`hist(station_year$y2025 - station_year$y2024)`); if in doubt, use `wilcox.test(..., paired = TRUE)`.
+
+**Look at the effect size!** The difference is −0.10 °C (95 % CI −0.18 to −0.02): statistically significant (p = 0.02), but a tenth of a degree is far smaller than the seasonal variation (several °C). **Significant does not mean important.** Whether 0.1 °C matters is an ecological question, not a statistical one.
+:::
+::: fr
+Les lignes doivent être **dans le même ordre** pour les deux vecteurs (ici garanti par le tableau large : une ligne = une station). Avec seulement 10 différences, vérifiez leur forme (`hist(station_year$y2025 - station_year$y2024)`) ; en cas de doute, utilisez `wilcox.test(..., paired = TRUE)`.
+
+**Regardez la taille d'effet !** La différence vaut −0,10 °C (IC 95 % −0,18 à −0,02) : statistiquement significative (p = 0,02), mais un dixième de degré est bien plus petit que la variation saisonnière (plusieurs °C). **Significatif ne veut pas dire important.** Savoir si 0,1 °C compte est une question écologique, pas statistique.
+:::
+
+## [Comparing percentages]{.en}[Comparer des pourcentages]{.fr} {#prop}
+
+::: en
+Do women and men use the two techniques in the same proportions? Both variables are **categorical**: we compare **counts** in a contingency table, never the percentages directly (percentages hide the sample size).
+:::
+::: fr
+Femmes et hommes utilisent-ils les deux techniques dans les mêmes proportions ? Les deux variables sont **catégorielles** : on compare des **effectifs** dans un tableau de contingence, jamais directement les pourcentages (ils cachent la taille de l'échantillon).
+:::
+
+```{r}
+tab <- table(farmers$sex, farmers$technique)
+tab
+round(prop.table(tab, margin = 1) * 100, 1)   # % per row: within each sex
+```
+
+::: en
+53 % of women use long-lines against 34 % of men. Is a difference of 19 percentage points convincing with 96 farmers? The **chi-square test** compares the observed counts with the counts **expected** if technique did not depend on sex. Its approximation is reliable only if **all expected counts are ≥ 5** — check it.
+:::
+::: fr
+53 % des femmes utilisent les cordes flottantes contre 34 % des hommes. Une différence de 19 points de pourcentage est-elle convaincante avec 96 cultivateurs ? Le **test du khi-deux** compare les effectifs observés aux effectifs **attendus** si la technique ne dépendait pas du sexe. Son approximation n'est fiable que si **tous les effectifs attendus sont ≥ 5** — vérifiez-le.
+:::
+
+```{r}
+chi <- chisq.test(tab)
+chi$expected          # all > 5: the chi-square is OK
+chi
+fisher.test(tab)      # exact test: use it when an expected count is < 5
+prop.test(tab)        # same test, presented as two proportions with a CI of the difference
+```
+
+::: en
+All three agree (p ≈ 0.10–0.11): **no convincing evidence** that technique depends on sex. But look at the confidence interval of `prop.test()`: the difference could be anywhere from about −3 to +40 percentage points. With only 96 farmers we simply **cannot tell** — this is not proof that women and men farm alike. Report: "53 % of women and 34 % of men used long-lines (χ² = 2.57, df = 1, p = 0.11; n = 96)".
+
+For a 2 × 2 table R applies **Yates' continuity correction** by default (a small conservative adjustment). `fisher.test()` also gives an **odds ratio**, a common effect size for 2 × 2 tables.
+:::
+::: fr
+Les trois concordent (p ≈ 0,10–0,11) : **pas de preuve convaincante** que la technique dépende du sexe. Mais regardez l'intervalle de confiance de `prop.test()` : la différence pourrait aller d'environ −3 à +40 points de pourcentage. Avec seulement 96 cultivateurs, nous **ne pouvons simplement pas trancher** — ce n'est pas une preuve que femmes et hommes cultivent de la même façon. Rapportez : « 53 % des femmes et 34 % des hommes utilisaient les cordes flottantes (χ² = 2,57, ddl = 1, p = 0,11 ; n = 96) ».
+
+Pour un tableau 2 × 2, R applique par défaut la **correction de continuité de Yates** (un petit ajustement prudent). `fisher.test()` donne aussi un **odds ratio** (rapport des cotes), une taille d'effet courante pour les tableaux 2 × 2.
+:::
+
+::: {.callout .try}
+::: en
+**Try it.** In the survey, do households headed by women do seaweed farming (`does_seaweed`) as often as those headed by men? Build the table, the row percentages, check the expected counts and run the test.
+:::
+::: fr
+**À vous.** Dans l'enquête, les ménages dirigés par des femmes cultivent-ils les algues (`does_seaweed`) aussi souvent que ceux dirigés par des hommes ? Construisez le tableau, les pourcentages par ligne, vérifiez les effectifs attendus et faites le test.
+:::
+:::
+
+## [Correlation: Pearson or Spearman]{.en}[Corrélation : Pearson ou Spearman]{.fr} {#cor}
+
+::: en
+A **correlation coefficient** (between −1 and +1) measures how two numeric variables vary together: 0 = no association, ±1 = perfect association. **Pearson's r** measures a **linear** (straight-line) association and uses the values; **Spearman's ρ (rho)** uses the **ranks** and measures a **monotonic** association (always increasing or always decreasing, not necessarily straight). Spearman is the non-parametric choice: robust to outliers and to skewed variables.
+:::
+::: fr
+Un **coefficient de corrélation** (entre −1 et +1) mesure comment deux variables numériques varient ensemble : 0 = pas d'association, ±1 = association parfaite. Le **r de Pearson** mesure une association **linéaire** (en ligne droite) et utilise les valeurs ; le **ρ (rho) de Spearman** utilise les **rangs** et mesure une association **monotone** (toujours croissante ou toujours décroissante, pas forcément droite). Spearman est le choix non paramétrique : robuste aux valeurs extrêmes et aux variables asymétriques.
+:::
+
+### [Temperature and dissolved oxygen]{.en}[Température et oxygène dissous]{.fr}
+
+```{r, fig.height=3.4}
+ggplot(wq, aes(temp_C, DO_mgL)) + geom_point(alpha = 0.4, colour = "#1b7f8c", na.rm = TRUE) +
+  labs(x = "Temperature (°C)", y = "Dissolved oxygen (mg/L)") + theme_c()
+cor.test(wq$temp_C, wq$DO_mgL)          # Pearson by default; NA pairs are dropped
+```
+
+::: en
+The cloud is roughly a straight band without extreme points → Pearson is appropriate: r = −0.55 (95 % CI −0.60 to −0.50), p < 0.001. Warmer water holds less oxygen: a well-known physical relationship. `r^2` ≈ 0.30: temperature "accounts for" about 30 % of the variation of DO.
+:::
+::: fr
+Le nuage est à peu près une bande droite sans points extrêmes → Pearson est adapté : r = −0,55 (IC 95 % −0,60 à −0,50), p < 0,001. Une eau plus chaude contient moins d'oxygène : une relation physique bien connue. `r^2` ≈ 0,30 : la température « explique » environ 30 % de la variation de l'O₂ dissous.
+:::
+
+### [Seaweed growth and temperature: when a coefficient misleads]{.en}[Croissance des algues et température : quand un coefficient trompe]{.fr}
+
+```{r, fig.height=3.4}
+cor(seaweed$temp_mean, seaweed$sgr, use = "complete.obs")                     # Pearson
+cor(seaweed$temp_mean, seaweed$sgr, use = "complete.obs", method = "spearman") # Spearman
+ggplot(seaweed, aes(temp_mean, sgr)) +
+  geom_jitter(width = 0.05, alpha = 0.25, colour = "#1b7f8c", na.rm = TRUE) +
+  geom_smooth(method = "loess", formula = y ~ x, colour = "#d9694a", na.rm = TRUE) +  # flexible trend line
+  labs(x = "Mean monthly water temperature (°C)", y = "SGR (% per day)") + theme_c()
+```
+
+::: en
+Both coefficients are weak (about −0.19), which suggests "temperature hardly matters". The plot says the opposite: growth **rises** up to about 25–26 °C and then **falls**. The relationship is strong but **not monotonic**, so neither Pearson nor Spearman can describe it: their value mixes the rising and the falling parts. **Always plot before computing a correlation**; for such a curve, describe it with the graph (and, at the advanced level, with a model).
+
+Two more reminders: **correlation is not causation** (both variables can depend on a third one, e.g. the season), and with thousands of points even a tiny correlation is "significant" — look at the coefficient, not only at p.
+:::
+::: fr
+Les deux coefficients sont faibles (environ −0,19), ce qui suggère « la température compte peu ». Le graphique dit le contraire : la croissance **augmente** jusqu'à environ 25–26 °C puis **diminue**. La relation est forte mais **non monotone** : ni Pearson ni Spearman ne peuvent la décrire, leur valeur mélange la partie croissante et la partie décroissante. **Tracez toujours avant de calculer une corrélation** ; pour une telle courbe, décrivez-la avec le graphique (et, au niveau avancé, avec un modèle).
+
+Deux autres rappels : **corrélation n'est pas causalité** (les deux variables peuvent dépendre d'une troisième, par exemple la saison), et avec des milliers de points même une corrélation minuscule est « significative » — regardez le coefficient, pas seulement p.
+:::
+
+::: {.callout .warning}
+::: en
+**One question, one test.** Every test has a 5 % chance of a false positive when H0 is true. If you run 20 tests "to see", about one will be significant by chance. Decide your questions first, test them, and report all of them — including the non-significant ones.
+:::
+::: fr
+**Une question, un test.** Chaque test a 5 % de risque de faux positif quand H0 est vraie. Si vous faites 20 tests « pour voir », environ un sera significatif par hasard. Décidez d'abord vos questions, testez-les, et rapportez-les toutes — y compris les non significatives.
+:::
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+S <- cp_seaweed(); H <- cp_households(); FA <- cp_farmers(); W <- cp_wq_clean()
+T1 <- t.test(sgr ~ season, data = S)
+a1 <- round(unname(T1$estimate[1] - T1$estimate[2]), 3)
+a2 <- round(T1$conf.int[1], 3)
+a3 <- round(wilcox.test(monthly_income_mga ~ head_sex, data = H)$p.value, 3)
+W$year <- as.integer(format(W$date, "%Y"))
+sy <- W %>% filter(year %in% 2024:2025) %>% group_by(station, year) %>%
+  summarise(t = mean(temp_C, na.rm = TRUE), .groups = "drop") %>%
+  pivot_wider(names_from = year, values_from = t, names_prefix = "y")
+a4 <- round(t.test(sy$y2025, sy$y2024, paired = TRUE)$p.value, 3)
+tb <- table(FA$sex, FA$technique)
+a5 <- round(min(chisq.test(tb)$expected), 2)
+a6 <- round(chisq.test(tb)$p.value, 3)
+a7 <- round(cor(W$temp_C, W$DO_mgL, use = "complete.obs"), 3)
+a8 <- round(cor(S$temp_mean, S$sgr, use = "complete.obs", method = "spearman"), 3)
+```
+
+::: application
+::: en
+### Application work I10
+
+Script `scripts/i10_tests.R`. For each question, **write first which test you choose and why** (one comment line), then plot, then test.
+
+1. Seaweed SGR, dry vs wet season (Welch t-test). Difference of means dry − wet (3 decimals) and lower limit of its 95 % CI (3 decimals).
+2. Monthly income by `head_sex`, with the Wilcoxon test: p-value (3 decimals)?
+3. Station mean temperatures, 2025 vs 2024 (paired t-test): p-value (3 decimals)?
+4. Table `sex × technique` of the farmers: smallest **expected** count (2 decimals), and p-value of `chisq.test()` (3 decimals).
+5. Pearson correlation between `temp_C` and `DO_mgL` (3 decimals).
+6. Spearman correlation between `temp_mean` and `sgr` in the seaweed data (3 decimals). Why is it misleading?
+7. Write one reporting sentence for questions 1 and 4.
+:::
+::: fr
+### Travail d'application I10
+
+Script `scripts/i10_tests.R`. Pour chaque question, **écrivez d'abord quel test vous choisissez et pourquoi** (une ligne de commentaire), puis tracez, puis testez.
+
+1. SGR des algues, saison sèche vs saison des pluies (test t de Welch). Différence des moyennes sèche − pluies (3 décimales) et borne inférieure de son IC à 95 % (3 décimales).
+2. Revenu mensuel selon `head_sex`, avec le test de Wilcoxon : p-value (3 décimales) ?
+3. Températures moyennes des stations, 2025 vs 2024 (test t apparié) : p-value (3 décimales) ?
+4. Tableau `sex × technique` des cultivateurs : plus petit effectif **attendu** (2 décimales), et p-value de `chisq.test()` (3 décimales).
+5. Corrélation de Pearson entre `temp_C` et `DO_mgL` (3 décimales).
+6. Corrélation de Spearman entre `temp_mean` et `sgr` dans les données d'algues (3 décimales). Pourquoi est-elle trompeuse ?
+7. Écrivez une phrase de résultat pour les questions 1 et 4.
+:::
+:::
+
+::: hint
+::: en
+Question 1: `tt <- t.test(sgr ~ season, data = seaweed)`; `tt$estimate` holds the two means (dry first, alphabetical order) and `tt$conf.int` the interval. Question 4: `chisq.test(tab)$expected`, then `min()`.
+:::
+::: fr
+Question 1 : `tt <- t.test(sgr ~ season, data = seaweed)` ; `tt$estimate` contient les deux moyennes (dry d'abord, ordre alphabétique) et `tt$conf.int` l'intervalle. Question 4 : `chisq.test(tab)$expected`, puis `min()`.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("i10", list(
+  q_num("1a. Mean SGR difference dry − wet (3 decimals)?", "1a. Différence de SGR moyen sèche − pluies (3 décimales) ?", a1, tol = 0.0006),
+  q_num("1b. Lower limit of its 95 % CI (3 decimals)?", "1b. Borne inférieure de son IC à 95 % (3 décimales) ?", a2, tol = 0.0006),
+  q_num("2. Wilcoxon p-value, income by head_sex (3 decimals)?", "2. p-value de Wilcoxon, revenu selon head_sex (3 décimales) ?", a3, tol = 0.0006),
+  q_num("3. Paired t-test p-value, 2025 vs 2024 (3 decimals)?", "3. p-value du test t apparié, 2025 vs 2024 (3 décimales) ?", a4, tol = 0.0006),
+  q_num("4a. Smallest expected count in sex × technique (2 decimals)?", "4a. Plus petit effectif attendu dans sex × technique (2 décimales) ?", a5, tol = 0.006),
+  q_num("4b. Chi-square p-value (3 decimals)?", "4b. p-value du khi-deux (3 décimales) ?", a6, tol = 0.0006),
+  q_num("5. Pearson r between temp_C and DO_mgL (3 decimals)?", "5. r de Pearson entre temp_C et DO_mgL (3 décimales) ?", a7, tol = 0.0006),
+  q_num("6. Spearman rho between temp_mean and sgr (3 decimals)?", "6. rho de Spearman entre temp_mean et sgr (3 décimales) ?", a8, tol = 0.0006),
+  q_mcq("7. Why is the Spearman coefficient of question 6 misleading?", "7. Pourquoi le coefficient de Spearman de la question 6 est-il trompeur ?",
+        c("Because Spearman only works with normal data",
+          "Because the relationship rises then falls (not monotonic), so the coefficient averages two opposite trends",
+          "Because there are too many observations",
+          "It is not misleading: temperature has almost no effect"),
+        c("Parce que Spearman ne fonctionne qu'avec des données normales",
+          "Parce que la relation monte puis descend (non monotone) : le coefficient mélange deux tendances opposées",
+          "Parce qu'il y a trop d'observations",
+          "Il n'est pas trompeur : la température n'a presque pas d'effet"), correct = 2),
+  q_mcq("8. Sea cucumber weights of the SAME 30 tagged animals, measured in March and in June. Which test?",
+        "8. Poids des MÊMES 30 holothuries marquées, mesurés en mars et en juin. Quel test ?",
+        c("t.test(weight ~ month) (independent groups)", "chisq.test()",
+          "t.test(june, march, paired = TRUE) or its Wilcoxon version", "cor.test()"),
+        c("t.test(poids ~ mois) (groupes indépendants)", "chisq.test()",
+          "t.test(juin, mars, paired = TRUE) ou sa version Wilcoxon", "cor.test()"), correct = 3),
+  q_mcq("9. A 2 × 2 table has an expected count of 2.8. Which test?", "9. Un tableau 2 × 2 a un effectif attendu de 2,8. Quel test ?",
+        c("chisq.test()", "fisher.test()", "t.test()", "No test is possible"),
+        c("chisq.test()", "fisher.test()", "t.test()", "Aucun test n'est possible"), correct = 2),
+  q_mcq("10. The paired test of question 3 is significant but the difference is −0.1 °C. What do you conclude?",
+        "10. Le test apparié de la question 3 est significatif mais la différence vaut −0,1 °C. Que concluez-vous ?",
+        c("There is a small but detectable difference; whether it matters ecologically is another question", "2025 was much colder: alert!",
+          "The test is wrong", "p-values below 0.05 always mean an important effect"),
+        c("Il y a une différence petite mais détectable ; savoir si elle compte écologiquement est une autre question", "2025 a été beaucoup plus froide : alerte !",
+          "Le test est faux", "Une p-value sous 0,05 signifie toujours un effet important"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="i10"}
+```{r, eval=FALSE}
+library(dplyr); library(tidyr); library(ggplot2)
+seaweed <- read.csv("data/checkpoints/I3_seaweed_analysis.csv")
+hh      <- read.csv("data/checkpoints/I4_households_clean.csv")
+farmers <- read.csv("data/checkpoints/I0_farmers.csv")
+wq      <- read.csv("data/checkpoints/I2_water_quality_clean.csv"); wq$date <- as.Date(wq$date)
+
+# 1. numeric ~ 2 independent groups, large and ~normal -> Welch t-test
+tt <- t.test(sgr ~ season, data = seaweed)
+round(tt$estimate[1] - tt$estimate[2], 3); round(tt$conf.int, 3)
+# 2. skewed income -> Wilcoxon rank-sum
+wilcox.test(monthly_income_mga ~ head_sex, data = hh)
+# 3. same stations measured twice -> paired t-test
+wq$year <- as.integer(format(wq$date, "%Y"))
+sy <- wq %>% filter(year %in% 2024:2025) %>% group_by(station, year) %>%
+  summarise(t = mean(temp_C, na.rm = TRUE), .groups = "drop") %>%
+  pivot_wider(names_from = year, values_from = t, names_prefix = "y")
+t.test(sy$y2025, sy$y2024, paired = TRUE)
+# 4. two categorical variables -> chi-square (expected counts >= 5)
+tab <- table(farmers$sex, farmers$technique)
+min(chisq.test(tab)$expected); chisq.test(tab)
+# 5. linear cloud without outliers -> Pearson
+cor.test(wq$temp_C, wq$DO_mgL)
+# 6. Spearman, but the plot shows a curve (rise then fall): no single coefficient fits
+cor(seaweed$temp_mean, seaweed$sgr, use = "complete.obs", method = "spearman")
+# 7. "Seaweed grew faster in the dry season (3.56 vs 3.30 % per day; difference 0.26,
+#     95 % CI 0.21-0.31; Welch t-test, p < 0.001)."
+#    "53 % of women and 34 % of men used long-lines (chi-square = 2.57, df = 1, p = 0.11, n = 96):
+#     no convincing evidence of a difference with this sample size."
+```
+:::

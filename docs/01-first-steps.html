@@ -31,8 +31,10 @@
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <!-- header.html: inserted inside <head> of every page (see _site.yml) -->
-<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
 <script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
 <script src="assets/course.js"></script>
 <meta name="author" content="Aroo Falinirina">
 
@@ -333,7 +335,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -342,7 +344,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
+    Beginner
      
     <span class="caret"></span>
   </a>
@@ -382,8 +384,83 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
 <li>
-  <a href="cheatsheet.html">Cheatsheet</a>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -446,6 +523,24 @@ script (<strong>Ctrl + Maj + N</strong>) et enregistrez-le sous
 <code>scripts/s01_first_steps.R</code>. Tapez chaque exemple de cette
 page dedans et exécutez chaque ligne avec <strong>Ctrl +
 Entrée</strong>.</p>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> No data file yet.
+The numbers of this session are typical values written on a field sheet
+during a reef and seagrass survey: the size of a quadrat (50 × 50 cm), a
+number of shoots counted, the length of a transect, the size of a
+no-take zone. <em>Type:</em> single numbers (measurements and
+counts).</p>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong> Pas encore de
+fichier. Les nombres de cette séance sont des valeurs typiques d’une
+fiche de terrain lors d’un suivi récif et herbier : la taille d’un
+quadrat (50 × 50 cm), un nombre de pousses comptées, la longueur d’un
+transect, la surface d’une zone de non-prélèvement. <em>Type :</em> des
+nombres isolés (mesures et comptages).</p>
 </div>
 </div>
 <div id="calculator" class="section level2">
@@ -589,8 +684,8 @@ mieux que <code>m1</code>.</li>
 </ul>
 </div>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">ls</span>()                 <span class="co"># lists the objects in memory (same as the Environment pane)</span></span></code></pre></div>
-<pre><code>#&gt; [1] &quot;density&quot;      &quot;dl&quot;           &quot;fig_svg&quot;      &quot;q_mcq&quot;        &quot;q_num&quot;        &quot;q_text&quot;       &quot;quadrat_area&quot;
-#&gt; [8] &quot;quiz&quot;         &quot;shoots&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;density&quot;       &quot;dl&quot;            &quot;fig_svg&quot;       &quot;q_mcq&quot;         &quot;q_num&quot;         &quot;q_text&quot;       
+#&gt;  [7] &quot;quadrat_area&quot;  &quot;quiz&quot;          &quot;register_quiz&quot; &quot;shoots&quot;</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">rm</span>(density)          <span class="co"># removes an object</span></span></code></pre></div>
 </div>
 </div>
@@ -652,6 +747,22 @@ leurs valeurs par défaut), <strong>Arguments</strong> et, tout en bas,
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a>?round                 <span class="co"># help page of round()</span></span>
 <span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a><span class="fu">help</span>(<span class="st">&quot;log&quot;</span>)            <span class="co"># same thing</span></span>
 <span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a>??<span class="st">&quot;standard deviation&quot;</span> <span class="co"># search all help pages for a topic</span></span></code></pre></div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Create <code>quadrat_side &lt;- 0.5</code>
+(m) and <code>shoots &lt;- 87</code>. Compute the quadrat area, then the
+density per m², rounded to 1 decimal with <code>round()</code>. Change
+<code>shoots</code> to 120 and re-run: why is it useful to use objects
+instead of typing the numbers?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Créez <code>quadrat_side &lt;- 0.5</code>
+(m) et <code>shoots &lt;- 87</code>. Calculez la surface du quadrat,
+puis la densité par m², arrondie à 1 décimale avec <code>round()</code>.
+Changez <code>shoots</code> en 120 et relancez : pourquoi est-il utile
+d’utiliser des objets au lieu de taper les nombres ?</p>
+</div>
+</div>
 </div>
 </div>
 <div id="scripts" class="section level2">
@@ -771,6 +882,20 @@ en <strong>hectares</strong> (1 km² = 100 ha).</li>
 décimales</strong>.</li>
 <li>Répondez au quiz avec vos résultats.</li>
 </ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 1: the quadrat area is 0.5 × 0.5 = 0.25 m², and density =
+shoots / area. Question 2: cover (%) = 100 × length of coral / length of
+the transect. Question 3: compute the area in km² first, then multiply
+by 100.</p>
+</div>
+<div class="fr">
+<p>Question 1 : la surface du quadrat vaut 0,5 × 0,5 = 0,25 m², et
+densité = pousses / surface. Question 2 : couverture (%) = 100 ×
+longueur de corail / longueur du transect. Question 3 : calculez d’abord
+la surface en km², puis multipliez par 100.</p>
 </div>
 </div>
 <div id="quiz-s01" class="quiz" data-quiz-id="s01"

@@ -1,0 +1,279 @@
+---
+title: "[I8 · Mastering ggplot2 (2): summaries, time, annotations, layouts]{.en}[I8 · Maîtriser ggplot2 (2) : résumés, temps, annotations, mises en page]{.fr}"
+pagetitle: "R for marine sciences · I8"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/intermediate_pipeline.R")
+library(ggplot2); library(dplyr)
+seaweed <- cp_seaweed()
+seaweed$zone <- factor(seaweed$zone, levels = c("North", "Centre", "South"))
+wq <- cp_wq_clean()
+knitr::opts_chunk$set(fig.width = 7.5, fig.height = 4.2, out.width = "90%")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- show **means with error bars** (SD, SE or 95 % CI) for groups side by side (`position_dodge`);
+- draw **time series** with readable date axes;
+- **order** categories by their values and **annotate** a graph (lines, text, areas);
+- write your own **theme function** (Session I6) and produce **one figure per group** with a loop (Session I5);
+- combine several graphs in one figure with **patchwork** and export it for a report.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- montrer des **moyennes avec barres d'erreur** (ET, ES ou IC à 95 %) pour des groupes côte à côte (`position_dodge`) ;
+- tracer des **séries temporelles** avec des axes de dates lisibles ;
+- **ordonner** des catégories selon leurs valeurs et **annoter** un graphique (lignes, texte, zones) ;
+- écrire votre propre **fonction de thème** (séance I6) et produire **une figure par groupe** avec une boucle (séance I5) ;
+- combiner plusieurs graphiques en une figure avec **patchwork** et l'exporter pour un rapport.
+:::
+:::
+
+`r dl("I3_seaweed_analysis.csv", "checkpoint: I3_seaweed_analysis.csv", dir = "data/checkpoints")` `r dl("I2_water_quality_clean.csv", "checkpoint: I2_water_quality_clean.csv", dir = "data/checkpoints")`
+
+## [Means and error bars]{.en}[Moyennes et barres d'erreur]{.fr} {#errorbars}
+
+::: en
+First compute the summary per group (Session I6 functions are handy), then draw it. The **95 % confidence interval** of a mean is approximately mean ± 1.96 × SE (for large samples): it shows the precision of the mean, and is the most informative choice when comparing groups. Always say in the caption which one you show.
+:::
+::: fr
+Calculez d'abord le résumé par groupe (les fonctions de la séance I6 sont pratiques), puis tracez-le. L'**intervalle de confiance à 95 %** d'une moyenne vaut environ moyenne ± 1,96 × ES (pour les grands échantillons) : il montre la précision de la moyenne, et c'est le choix le plus informatif pour comparer des groupes. Indiquez toujours dans la légende lequel vous montrez.
+:::
+
+```{r}
+se <- function(x) sd(x, na.rm = TRUE) / sqrt(sum(!is.na(x)))
+summ <- seaweed %>%
+  group_by(zone, technique) %>%
+  summarise(n = sum(!is.na(sgr)), mean = mean(sgr, na.rm = TRUE), se = se(sgr), .groups = "drop") %>%
+  mutate(low = mean - 1.96 * se, high = mean + 1.96 * se)
+summ
+```
+
+```{r}
+dodge <- position_dodge(width = 0.5)          # shift the two techniques side by side
+ggplot(summ, aes(zone, mean, colour = technique)) +
+  geom_pointrange(aes(ymin = low, ymax = high), position = dodge, size = 0.6) +
+  scale_colour_manual(values = c("long-line" = "#1b7f8c", "off-bottom" = "#d9694a")) +
+  labs(x = NULL, y = "Mean SGR (% per day)", colour = NULL,
+       caption = "Points: means; bars: 95 % confidence intervals") +
+  theme_minimal(base_size = 13) + theme(legend.position = "top")
+```
+
+::: en
+For bars, use `geom_col(position = position_dodge(0.8))` + `geom_errorbar(position = position_dodge(0.8), width = 0.2)` — the dodge width must be the **same** in both layers. Points (`geom_pointrange`) are often better than bars: bars suggest that values start at zero, which is not meaningful for a rate or a temperature.
+:::
+::: fr
+Pour des barres, utilisez `geom_col(position = position_dodge(0.8))` + `geom_errorbar(position = position_dodge(0.8), width = 0.2)` — la largeur de décalage doit être la **même** dans les deux couches. Les points (`geom_pointrange`) sont souvent préférables aux barres : les barres suggèrent que les valeurs partent de zéro, ce qui n'a pas de sens pour un taux ou une température.
+:::
+
+## [Time series]{.en}[Séries temporelles]{.fr} {#time}
+
+::: en
+With a `Date` column on the x-axis, `scale_x_date()` controls the ticks: `date_breaks = "3 months"`, `date_labels = "%b %Y"` (format codes of Session I1). `geom_line()` joins the points **of the same group**: set `group` or `colour`.
+:::
+::: fr
+Avec une colonne `Date` sur l'axe x, `scale_x_date()` contrôle les graduations : `date_breaks = "3 months"`, `date_labels = "%b %Y"` (codes de format de la séance I1). `geom_line()` relie les points **d'un même groupe** : précisez `group` ou `colour`.
+:::
+
+```{r}
+st <- read.csv("data/stations.csv")
+wq_zone <- wq %>% left_join(st[, c("station", "zone")], by = "station") %>%
+  group_by(zone, date) %>% summarise(temp = mean(temp_C, na.rm = TRUE), .groups = "drop")
+ggplot(wq_zone, aes(date, temp, colour = zone)) +
+  geom_line(linewidth = 0.8) +
+  scale_x_date(date_breaks = "6 months", date_labels = "%b %Y") +
+  scale_colour_brewer(palette = "Dark2") +
+  labs(x = NULL, y = "Mean temperature (°C)", colour = "Zone") +
+  theme_minimal()
+```
+
+## [Ordering and annotating]{.en}[Ordonner et annoter]{.fr} {#annotate}
+
+::: en
+`reorder(category, value, FUN = median)` sorts categories by a summary of the values — a ranked graph is much faster to read. Annotations guide the reader: a reference line (`geom_hline()`), a shaded period (`annotate("rect")`), a text label (`annotate("text")`).
+:::
+::: fr
+`reorder(catégorie, valeur, FUN = median)` trie les catégories selon un résumé des valeurs — un graphique classé se lit beaucoup plus vite. Les annotations guident le lecteur : une ligne de référence (`geom_hline()`), une période ombrée (`annotate("rect")`), un texte (`annotate("text")`).
+:::
+
+```{r}
+overall <- mean(seaweed$sgr, na.rm = TRUE)
+ggplot(seaweed, aes(reorder(village, sgr, FUN = median, na.rm = TRUE), sgr)) +
+  geom_boxplot(fill = "#a8d5da", na.rm = TRUE, outlier.alpha = 0.3) +
+  geom_hline(yintercept = overall, linetype = "dashed", colour = "#d9694a") +
+  annotate("text", x = 1.5, y = overall + 0.15, label = "cooperative mean", colour = "#d9694a", size = 3.5) +
+  coord_flip() +
+  labs(x = NULL, y = "SGR (% per day)") + theme_minimal()
+```
+
+```{r}
+ggplot(wq_zone, aes(date, temp, colour = zone)) +
+  annotate("rect", xmin = as.Date("2024-11-01"), xmax = as.Date("2025-04-30"),
+           ymin = -Inf, ymax = Inf, alpha = 0.15, fill = "#1b7f8c") +
+  annotate("text", x = as.Date("2025-01-31"), y = 23.3, label = "wet season", colour = "#0b3d5c") +
+  geom_line() + theme_minimal() + labs(x = NULL, y = "°C")
+```
+
+## [Your own theme, and one figure per group]{.en}[Votre propre thème, et une figure par groupe]{.fr} {#own-theme}
+
+::: en
+A **function returning a theme** (Session I6) gives all your report figures the same look, and you change it in one place. A **loop** (Session I5) saves one figure per village.
+:::
+::: fr
+Une **fonction qui renvoie un thème** (séance I6) donne le même aspect à toutes les figures d'un rapport, et on la modifie à un seul endroit. Une **boucle** (séance I5) enregistre une figure par village.
+:::
+
+```{r}
+theme_coop <- function(base_size = 12) {
+  theme_minimal(base_size = base_size) +
+    theme(plot.title = element_text(face = "bold", colour = "#0b3d5c"),
+          legend.position = "top", panel.grid.minor = element_blank())
+}
+p_v <- function(v) {
+  d <- seaweed[seaweed$village == v, ]
+  ggplot(d, aes(planting_date, sgr, colour = technique)) +
+    geom_point(na.rm = TRUE) +
+    labs(title = v, x = NULL, y = "SGR (% per day)") + theme_coop()
+}
+p_v("Lovobe")
+```
+
+```{r, eval=FALSE}
+dir.create("outputs/figures", showWarnings = FALSE)
+for (v in unique(seaweed$village)) {
+  ggsave(file.path("outputs/figures", paste0("sgr_", v, ".png")), p_v(v),
+         width = 16, height = 10, units = "cm", dpi = 300)
+}
+```
+
+## [Combining graphs with patchwork]{.en}[Combiner des graphiques avec patchwork]{.fr} {#patchwork}
+
+::: en
+**patchwork** adds graphs together: `p1 + p2` side by side, `p1 / p2` stacked, `(p1 | p2) / p3` mixed. `plot_annotation(tag_levels = "A")` adds the letters A, B, C used in articles.
+:::
+::: fr
+**patchwork** additionne des graphiques : `p1 + p2` côte à côte, `p1 / p2` empilés, `(p1 | p2) / p3` combinés. `plot_annotation(tag_levels = "A")` ajoute les lettres A, B, C utilisées dans les articles.
+:::
+
+```{r, fig.height=6.5, message=FALSE}
+library(patchwork)
+pA <- ggplot(wq_zone, aes(date, temp, colour = zone)) + geom_line() + theme_coop() +
+  labs(x = NULL, y = "Temperature (°C)", colour = NULL)
+pB <- ggplot(summ, aes(zone, mean, colour = technique)) +
+  geom_pointrange(aes(ymin = low, ymax = high), position = dodge) + theme_coop() +
+  labs(x = NULL, y = "SGR (% per day)", colour = NULL)
+pC <- ggplot(seaweed, aes(temp_mean, sgr)) + geom_point(alpha = 0.2, na.rm = TRUE) +
+  geom_smooth(method = "loess", formula = y ~ x, na.rm = TRUE, colour = "#d9694a") + theme_coop() +
+  labs(x = "Temperature (°C)", y = "SGR (% per day)")
+(pA) / (pB | pC) + plot_annotation(tag_levels = "A",
+                                    title = "Sea temperature and seaweed growth, 2024–2025")
+```
+
+```{r, eval=FALSE}
+fig <- (pA) / (pB | pC) + plot_annotation(tag_levels = "A")
+ggsave("outputs/figure_1.png", fig, width = 18, height = 16, units = "cm", dpi = 300)
+ggsave("outputs/figure_1.pdf", fig, width = 18, height = 16, units = "cm")   # vector, for printing
+```
+
+::: {.callout .ecology}
+::: en
+Panel C already suggests the answer to one of the cooperative's questions: growth is **not** a straight line of temperature — it is best around 25–26 °C and drops when the water is warmer. Keep this in mind for the correlation in Session I10.
+:::
+::: fr
+Le panneau C suggère déjà la réponse à une question de la coopérative : la croissance n'est **pas** une droite de la température — elle est meilleure autour de 25–26 °C et baisse quand l'eau est plus chaude. Gardez-le en tête pour la corrélation de la séance I10.
+:::
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+S <- cp_seaweed()
+sm <- S %>% group_by(zone, technique) %>% summarise(m = mean(sgr, na.rm = TRUE), s = se(sgr), .groups = "drop")
+r <- sm[sm$zone == "North" & sm$technique == "off-bottom", ]
+a1 <- round(r$m + 1.96 * r$s, 3)
+st <- read.csv("data/stations.csv")
+wz <- cp_wq_clean() %>% left_join(st[, c("station", "zone")], by = "station") %>%
+  group_by(zone, date) %>% summarise(temp = mean(temp_C, na.rm = TRUE), .groups = "drop")
+a2 <- as.character(wz$date[which.max(wz$temp)])
+a3 <- round(max(wz$temp), 2)
+med <- tapply(S$sgr, S$village, median, na.rm = TRUE); a4 <- names(which.max(med)); a5 <- names(which.min(med))
+sy <- S %>% group_by(season, year) %>% summarise(m = mean(sgr, na.rm = TRUE), .groups = "drop")
+a6 <- round(sy$m[sy$season == "wet" & sy$year == 2025], 3)
+```
+
+::: application
+::: en
+### Application work I8
+
+Script `scripts/i08_ggplot.R`, using your `theme_coop()`.
+
+1. Plot mean SGR ± 95 % CI by zone and technique (`geom_pointrange`, dodge). Upper limit of the CI for **off-bottom** lines in the **North** (3 decimals)?
+2. Time series of mean temperature per zone. On which date (`yyyy-mm-dd`) is the highest mean recorded, and what is its value (2 decimals)?
+3. Boxplots of SGR by village ordered by median. Which village has the **highest** median? The **lowest**?
+4. Mean SGR per season and year (`group_by(season, year)`), shown as points joined by lines. Value for the **wet season 2025** (3 decimals)?
+5. Combine three of your graphs with patchwork (tags A, B, C) and save the figure in PNG and PDF.
+6. Use a loop to save one SGR figure per village.
+:::
+::: fr
+### Travail d'application I8
+
+Script `scripts/i08_ggplot.R`, avec votre `theme_coop()`.
+
+1. Tracez le SGR moyen ± IC à 95 % par zone et technique (`geom_pointrange`, décalage). Borne supérieure de l'IC des lignes **off-bottom** du **Nord** (3 décimales) ?
+2. Série temporelle de la température moyenne par zone. À quelle date (`aaaa-mm-jj`) la moyenne la plus élevée est-elle enregistrée ? Donnez la date, et la valeur (2 décimales).
+3. Boxplots du SGR par village ordonnés par médiane. Quel village a la médiane la **plus élevée** ? La **plus faible** ?
+4. SGR moyen par saison et par année (`group_by(season, year)`), en points reliés par des lignes. Valeur pour la **saison des pluies 2025** (3 décimales) ?
+5. Combinez trois de vos graphiques avec patchwork (étiquettes A, B, C) et enregistrez la figure en PNG et en PDF.
+6. Avec une boucle, enregistrez une figure de SGR par village.
+:::
+:::
+
+::: hint
+::: en
+Question 2: after building `wq_zone`, `wq_zone[which.max(wq_zone$temp), ]` gives the row of the maximum.
+:::
+::: fr
+Question 2 : après avoir construit `wq_zone`, `wq_zone[which.max(wq_zone$temp), ]` donne la ligne du maximum.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("i08", list(
+  q_num("1. Upper 95 % CI limit, off-bottom, North (3 decimals)?", "1. Borne supérieure de l'IC 95 %, off-bottom, Nord (3 décimales) ?", a1, tol = 0.0006),
+  q_text("2a. Date of the highest mean temperature (yyyy-mm-dd)?", "2a. Date de la température moyenne la plus élevée (aaaa-mm-jj) ?", a2),
+  q_num("2b. Its value (2 decimals)?", "2b. Sa valeur (2 décimales) ?", a3, tol = 0.006),
+  q_text("3a. Village with the highest median SGR?", "3a. Village au SGR médian le plus élevé ?", a4),
+  q_text("3b. Village with the lowest median SGR?", "3b. Village au SGR médian le plus faible ?", a5),
+  q_num("4. Mean SGR, wet season 2025 (3 decimals)?", "4. SGR moyen, saison des pluies 2025 (3 décimales) ?", a6, tol = 0.0006),
+  q_mcq("5. In patchwork, (p1 | p2) / p3 gives:", "5. Avec patchwork, (p1 | p2) / p3 donne :",
+        c("three plots in a row", "p1 and p2 side by side, p3 below", "p3 above p1 and p2", "an error"),
+        c("trois graphiques en ligne", "p1 et p2 côte à côte, p3 en dessous", "p3 au-dessus de p1 et p2", "une erreur"), correct = 2),
+  q_mcq("6. Why must position_dodge() have the same width in geom_col() and geom_errorbar()?", "6. Pourquoi position_dodge() doit-il avoir la même largeur dans geom_col() et geom_errorbar() ?",
+        c("Otherwise the error bars are not centred on their bars", "To save memory", "It does not matter", "Because of the colours"),
+        c("Sinon les barres d'erreur ne sont pas centrées sur leurs barres", "Pour économiser la mémoire", "Cela n'a pas d'importance", "À cause des couleurs"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="i08"}
+```{r, eval=FALSE}
+library(ggplot2); library(dplyr); library(patchwork)
+seaweed <- read.csv("data/checkpoints/I3_seaweed_analysis.csv")
+seaweed$planting_date <- as.Date(seaweed$planting_date)
+se <- function(x) sd(x, na.rm = TRUE) / sqrt(sum(!is.na(x)))
+summ <- seaweed %>% group_by(zone, technique) %>%
+  summarise(mean = mean(sgr, na.rm = TRUE), se = se(sgr), .groups = "drop") %>%
+  mutate(low = mean - 1.96 * se, high = mean + 1.96 * se)
+summ                                                                  # 1
+wq <- read.csv("data/checkpoints/I2_water_quality_clean.csv"); wq$date <- as.Date(wq$date)
+st <- read.csv("data/stations.csv")
+wq_zone <- wq %>% left_join(st[, c("station", "zone")], by = "station") %>%
+  group_by(zone, date) %>% summarise(temp = mean(temp_C, na.rm = TRUE), .groups = "drop")
+wq_zone[which.max(wq_zone$temp), ]                                    # 2
+sort(tapply(seaweed$sgr, seaweed$village, median, na.rm = TRUE))      # 3
+seaweed %>% group_by(season, year) %>% summarise(m = round(mean(sgr, na.rm = TRUE), 3))  # 4
+```
+:::

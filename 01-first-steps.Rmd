@@ -34,6 +34,15 @@ Ouvrez votre projet `R_course_reef`, créez un nouveau script (**Ctrl + Maj + N*
 :::
 :::
 
+::: {.callout .ecology}
+::: en
+**Data of this session (simulated).** No data file yet. The numbers of this session are typical values written on a field sheet during a reef and seagrass survey: the size of a quadrat (50 × 50 cm), a number of shoots counted, the length of a transect, the size of a no-take zone. *Type:* single numbers (measurements and counts).
+:::
+::: fr
+**Données de cette séance (simulées).** Pas encore de fichier. Les nombres de cette séance sont des valeurs typiques d'une fiche de terrain lors d'un suivi récif et herbier : la taille d'un quadrat (50 × 50 cm), un nombre de pousses comptées, la longueur d'un transect, la surface d'une zone de non-prélèvement. *Type :* des nombres isolés (mesures et comptages).
+:::
+:::
+
 ## [R as a calculator]{.en}[R comme calculatrice]{.fr} {#calculator}
 
 ::: en
@@ -179,6 +188,15 @@ help("log")            # same thing
 ??"standard deviation" # search all help pages for a topic
 ```
 
+::: {.callout .try}
+::: en
+**Try it.** Create `quadrat_side <- 0.5` (m) and `shoots <- 87`. Compute the quadrat area, then the density per m², rounded to 1 decimal with `round()`. Change `shoots` to 120 and re-run: why is it useful to use objects instead of typing the numbers?
+:::
+::: fr
+**À vous.** Créez `quadrat_side <- 0.5` (m) et `shoots <- 87`. Calculez la surface du quadrat, puis la densité par m², arrondie à 1 décimale avec `round()`. Changez `shoots` en 120 et relancez : pourquoi est-il utile d'utiliser des objets au lieu de taper les nombres ?
+:::
+:::
+
 ## [Scripts and comments]{.en}[Scripts et commentaires]{.fr} {#scripts}
 
 ::: en
@@ -258,6 +276,15 @@ Dans votre script `scripts/s01_first_steps.R`, en utilisant des **objets** (aucu
 3. La zone de non-prélèvement d'une AMP est un rectangle de **1,8 km × 0,75 km**. Calculez sa surface en **km²**, puis en **hectares** (1 km² = 100 ha).
 4. Arrondissez le résultat de `sqrt(1000)` à **2 décimales**.
 5. Répondez au quiz avec vos résultats.
+:::
+:::
+
+::: hint
+::: en
+Question 1: the quadrat area is 0.5 × 0.5 = 0.25 m², and density = shoots / area. Question 2: cover (%) = 100 × length of coral / length of the transect. Question 3: compute the area in km² first, then multiply by 100.
+:::
+::: fr
+Question 1 : la surface du quadrat vaut 0,5 × 0,5 = 0,25 m², et densité = pousses / surface. Question 2 : couverture (%) = 100 × longueur de corail / longueur du transect. Question 3 : calculez d'abord la surface en km², puis multipliez par 100.
 :::
 :::
 

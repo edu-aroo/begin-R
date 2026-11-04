@@ -38,6 +38,17 @@ From now on we work with a (simulated) seagrass survey: **4 sites**, two inside 
 Désormais, nous travaillons sur un suivi (simulé) d'herbiers : **4 sites**, deux à l'intérieur d'une Aire Marine Protégée (AMP) et deux à l'extérieur, avec **15 quadrats** de 50 × 50 cm par site. Pour chaque quadrat l'équipe a noté la date, la profondeur, l'espèce dominante, le % de recouvrement, la hauteur de canopée (cm) et la densité de pousses (pousses par m²).
 :::
 
+::: {.callout .ecology}
+::: en
+**Seagrass survey** (`seagrass_quadrats.csv`): in March 2026 a team of two snorkellers sampled **4 sites** (Ambalaboy and Fasimena inside a Marine Protected Area, Belitsaky and Tsiandamba outside), **15 quadrats of 50 × 50 cm** per site, placed every 5 m along a tape. For each quadrat they wrote on an underwater slate the depth (dive computer), the dominant species, the % cover (visual estimate), the canopy height (ruler, cm) and the number of shoots, converted to shoots per m². *Type:* one row = one quadrat; numeric (continuous) and categorical variables.
+:::
+::: fr
+**Suivi des herbiers** (`seagrass_quadrats.csv`) : en mars 2026, une équipe de deux plongeurs en apnée a échantillonné **4 sites** (Ambalaboy et Fasimena dans une Aire Marine Protégée, Belitsaky et Tsiandamba à l'extérieur), **15 quadrats de 50 × 50 cm** par site, posés tous les 5 m le long d'un ruban. Pour chaque quadrat ils ont noté sur une ardoise la profondeur (ordinateur de plongée), l'espèce dominante, le % de recouvrement (estimation visuelle), la hauteur de canopée (règle, cm) et le nombre de pousses, converti en pousses par m². *Type :* une ligne = un quadrat ; variables numériques (continues) et catégorielles.
+:::
+:::
+
+`r dl("seagrass_quadrats.csv", "seagrass_quadrats.csv")`
+
 ## [What is a data frame?]{.en}[Qu'est-ce qu'un data frame ?]{.fr} {#data-frame}
 
 ::: en
@@ -172,6 +183,15 @@ i
 sg[i, c("site", "quadrat", "seagrass_cover")]
 ```
 
+::: {.callout .try}
+::: en
+**Try it.** Which site and quadrat have the **highest** canopy height? Use `which.max(sg$canopy_height_cm)` to find the row, then `sg[row, c("site", "quadrat")]`. What does `which.max()` do with the `NA`?
+:::
+::: fr
+**À vous.** Quel site et quel quadrat ont la **plus grande** hauteur de canopée ? Utilisez `which.max(sg$canopy_height_cm)` pour trouver la ligne, puis `sg[ligne, c("site", "quadrat")]`. Que fait `which.max()` des `NA` ?
+:::
+:::
+
 ## [Adding a column and saving]{.en}[Ajouter une colonne et enregistrer]{.fr} {#new-column}
 
 ::: en
@@ -200,6 +220,17 @@ This was a first look at `$`, `[row, column]` and new columns. **Session 4** goe
 C'était un premier aperçu de `$`, `[ligne, colonne]` et des nouvelles colonnes. La **séance 4** va beaucoup plus loin : modifier des valeurs, colonnes calculées à partir de plusieurs colonnes, suppression de colonnes, et application d'une fonction à chaque colonne.
 :::
 :::
+
+::: {.callout .tip}
+::: en
+**Checkpoint.** The table with the two new columns of this session (`cover_prop`, `shoots_counted`), to compare with yours:
+:::
+::: fr
+**Checkpoint.** Le tableau avec les deux nouvelles colonnes de cette séance (`cover_prop`, `shoots_counted`), à comparer avec le vôtre :
+:::
+:::
+
+`r dl("B03_seagrass_new_columns.csv", "B03_seagrass_new_columns.csv", dir = "data/checkpoints")`
 
 ## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
 
@@ -248,6 +279,15 @@ Nouveau script `scripts/s03_data_frames.R`.
 8. Profondeur moyenne, arrondie à 2 décimales.
 9. Le recouvrement de la ligne 20.
 10. Ajoutez une colonne `cover_prop` et enregistrez le tableau dans `outputs/` avec `write.csv()`.
+:::
+:::
+
+::: hint
+::: en
+Question 5: `which.max(sg$shoot_density)` gives the **row number** of the maximum; then `sg$site[that_row]`. Question 6: the same with `which.min()`. Question 9: `sg[20, "seagrass_cover"]`.
+:::
+::: fr
+Question 5 : `which.max(sg$shoot_density)` donne le **numéro de ligne** du maximum ; puis `sg$site[cette_ligne]`. Question 6 : pareil avec `which.min()`. Question 9 : `sg[20, "seagrass_cover"]`.
 :::
 :::
 

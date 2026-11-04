@@ -31,8 +31,10 @@
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <!-- header.html: inserted inside <head> of every page (see _site.yml) -->
-<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
 <script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
 <script src="assets/course.js"></script>
 <meta name="author" content="Aroo Falinirina">
 
@@ -333,7 +335,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -342,7 +344,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
+    Beginner
      
     <span class="caret"></span>
   </a>
@@ -382,8 +384,83 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
 <li>
-  <a href="cheatsheet.html">Cheatsheet</a>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -434,8 +511,7 @@ contenant les données du cours.</li>
 <div id="roles" class="section level2">
 <h2><span class="en">Three programs, three roles</span><span
 class="fr">Trois logiciels, trois rôles</span></h2>
-<figure class="svg-fig">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" role="img" aria-label="R, Rtools and RStudio roles" font-family="Source Sans 3, Arial, sans-serif">
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" role="img" aria-label="R, Rtools and RStudio roles" font-family="Source Sans 3, Arial, sans-serif">
 <defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5d6b75"/></marker></defs>
 <rect x="10" y="40" width="250" height="230" rx="14" fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"/>
 <rect x="305" y="40" width="250" height="230" rx="14" fill="#f6f1e7" stroke="#b08a4a" stroke-width="2"/>
@@ -452,36 +528,17 @@ class="fr">Trois logiciels, trois rôles</span></h2>
 <g transform="translate(390,100)" fill="none" stroke="#b08a4a" stroke-width="3"><rect x="0" y="18" width="80" height="44" rx="5"/><path d="M28 18v-10h24v10M0 36h80"/><rect x="34" y="31" width="12" height="10" fill="#b08a4a"/></g>
 <!-- dashboard -->
 <g transform="translate(680,100)" fill="none" stroke="#4a7d3a" stroke-width="3"><rect x="0" y="4" width="90" height="56" rx="5"/><path d="M45 4v56M0 32h45"/><path d="M52 50l10-12 8 6 12-18" stroke-width="2.5"/></g>
-<text class="en" x="135" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="135">The
-language and the</tspan><tspan x="135" dy="21">“engine” that does
-every</tspan><tspan x="135" dy="21">calculation</tspan></text>
-<text class="fr" x="135" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="135">Le
-langage et le « moteur »</tspan><tspan x="135" dy="21">qui fait
-tous</tspan><tspan x="135" dy="21">les calculs</tspan></text>
-<text class="en" x="430" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="430">Windows
-only: tools to</tspan><tspan x="430" dy="21">build packages
-from</tspan><tspan x="430" dy="21">source code</tspan></text>
-<text class="fr" x="430" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="430">Windows
-seulement : outils</tspan><tspan x="430" dy="21">pour compiler des
-packages</tspan><tspan x="430" dy="21">depuis le code
-source</tspan></text>
-<text class="en" x="725" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="725">The
-“dashboard” where you</tspan><tspan x="725" dy="21">write scripts, see
-results,</tspan><tspan x="725" dy="21">plots and files</tspan></text>
-<text class="fr" x="725" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="725">Le
-« tableau de bord » où l’on</tspan><tspan x="725" dy="21">écrit les
-scripts, voit résultats,</tspan><tspan x="725" dy="21">graphiques et
-fichiers</tspan></text>
+<text class="en" x="135" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="135">The language and the</tspan><tspan x="135" dy="21">"engine" that does every</tspan><tspan x="135" dy="21">calculation</tspan></text>
+<text class="fr" x="135" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="135">Le langage et le « moteur »</tspan><tspan x="135" dy="21">qui fait tous</tspan><tspan x="135" dy="21">les calculs</tspan></text>
+<text class="en" x="430" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="430">Windows only: tools to</tspan><tspan x="430" dy="21">build packages from</tspan><tspan x="430" dy="21">source code</tspan></text>
+<text class="fr" x="430" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="430">Windows seulement : outils</tspan><tspan x="430" dy="21">pour compiler des packages</tspan><tspan x="430" dy="21">depuis le code source</tspan></text>
+<text class="en" x="725" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="725">The "dashboard" where you</tspan><tspan x="725" dy="21">write scripts, see results,</tspan><tspan x="725" dy="21">plots and files</tspan></text>
+<text class="fr" x="725" y="195" text-anchor="middle" font-size="17" fill="#1f2a33"><tspan x="725">Le « tableau de bord » où l'on</tspan><tspan x="725" dy="21">écrit les scripts, voit résultats,</tspan><tspan x="725" dy="21">graphiques et fichiers</tspan></text>
 <path d="M262 155 H300" stroke="#5d6b75" stroke-width="2" marker-end="url(#ar1)"/>
 <path d="M557 155 H595" stroke="#5d6b75" stroke-width="2" marker-end="url(#ar1)"/>
-<text class="en" x="430" y="310" text-anchor="middle" font-size="16" fill="#5d6b75">Install
-in this order: 1 → 2 → 3. RStudio needs R; R does not need
-RStudio.</text>
-<text class="fr" x="430" y="310" text-anchor="middle" font-size="16" fill="#5d6b75">Installer
-dans cet ordre : 1 → 2 → 3. RStudio a besoin de R ; R n’a pas besoin de
-RStudio.</text>
-</svg>
-</figure>
+<text class="en" x="430" y="310" text-anchor="middle" font-size="16" fill="#5d6b75">Install in this order: 1 → 2 → 3. RStudio needs R; R does not need RStudio.</text>
+<text class="fr" x="430" y="310" text-anchor="middle" font-size="16" fill="#5d6b75">Installer dans cet ordre : 1 → 2 → 3. RStudio a besoin de R ; R n'a pas besoin de RStudio.</text>
+</svg></figure>
 <div class="en">
 <p>Think of a car:</p>
 <ul>
@@ -670,8 +727,7 @@ ci-dessous et appuyez sur <strong>Entrée</strong> :</p>
 <div id="tour" class="section level2">
 <h2><span class="en">A tour of RStudio</span><span class="fr">Visite de
 RStudio</span></h2>
-<figure class="svg-fig">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="The four panes of RStudio" font-family="Source Sans 3, Arial, sans-serif">
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="The four panes of RStudio" font-family="Source Sans 3, Arial, sans-serif">
 <rect x="10" y="10" width="840" height="450" rx="12" fill="#f2f4f5" stroke="#9aa7ae" stroke-width="2"/>
 <rect x="10" y="10" width="840" height="30" rx="12" fill="#d7dde0"/><circle cx="32" cy="25" r="6" fill="#d9694a"/><circle cx="52" cy="25" r="6" fill="#e3b04b"/><circle cx="72" cy="25" r="6" fill="#4a7d3a"/>
 <text x="430" y="31" text-anchor="middle" font-size="15" fill="#3c4a52">RStudio</text>
@@ -679,47 +735,23 @@ RStudio</span></h2>
 <rect x="22" y="270" width="490" height="180" rx="8" fill="#fff" stroke="#0b3d5c" stroke-width="2.5"/>
 <rect x="522" y="50" width="316" height="170" rx="8" fill="#fff" stroke="#b08a4a" stroke-width="2.5"/>
 <rect x="522" y="230" width="316" height="220" rx="8" fill="#fff" stroke="#4a7d3a" stroke-width="2.5"/>
-<text x="40" y="80" font-size="20" font-weight="700" fill="#1b7f8c">1 ·
-Source / Script</text>
-<text x="40" y="300" font-size="20" font-weight="700" fill="#0b3d5c">2 ·
-Console</text>
-<text x="540" y="80" font-size="20" font-weight="700" fill="#b08a4a">3 ·
-Environment</text>
-<text x="540" y="260" font-size="20" font-weight="700" fill="#4a7d3a">4
-· Files / Plots / Help</text>
-<g font-family="JetBrains Mono, monospace" font-size="14" fill="#3c4a52"><text x="40" y="112">#
-my_script.R</text><text x="40" y="134">cover &lt;- c(45, 60,
-12)</text><text x="40" y="156">mean(cover)</text><text x="40" y="332">&gt;
-mean(cover)</text><text x="40" y="354">[1]
-39</text><text x="40" y="376">&gt; |</text><text x="540" y="112">cover
-num [1:3] 45 60 12</text></g> <g font-size="15" fill="#5d6b75">
-<text class="en" x="40" y="200"><tspan x="40">Where you WRITE and SAVE
-your code (.R file).</tspan><tspan x="40" dy="20">Run a line with Ctrl +
-Enter (Cmd + Enter on Mac).</tspan></text>
-<text class="fr" x="40" y="200"><tspan x="40">Où l’on ÉCRIT et
-ENREGISTRE son code (fichier .R).</tspan><tspan x="40" dy="20">Exécuter
-une ligne : Ctrl + Entrée (Cmd + Entrée sur Mac).</tspan></text>
-<text class="en" x="40" y="410"><tspan x="40">Where R RUNS the code and
-prints results.</tspan><tspan x="40" dy="20">Nothing typed here is
-saved.</tspan></text> <text class="fr" x="40" y="410"><tspan x="40">Où R
-EXÉCUTE le code et affiche les
-résultats.</tspan><tspan x="40" dy="20">Rien de ce qui est tapé ici
-n’est enregistré.</tspan></text>
-<text class="en" x="540" y="150"><tspan x="540">The objects currently in
-memory</tspan><tspan x="540" dy="20">(data, vectors,
-results).</tspan></text>
-<text class="fr" x="540" y="150"><tspan x="540">Les objets actuellement
-en mémoire</tspan><tspan x="540" dy="20">(données, vecteurs,
-résultats).</tspan></text>
-<text class="en" x="540" y="300"><tspan x="540">Files of your project,
-your graphs,</tspan><tspan x="540" dy="20">installed packages and the
-help pages.</tspan></text>
-<text class="fr" x="540" y="300"><tspan x="540">Fichiers du projet,
-graphiques,</tspan><tspan x="540" dy="20">packages installés et pages
-d’aide.</tspan></text> </g>
+<text x="40" y="80" font-size="20" font-weight="700" fill="#1b7f8c">1 · Source / Script</text>
+<text x="40" y="300" font-size="20" font-weight="700" fill="#0b3d5c">2 · Console</text>
+<text x="540" y="80" font-size="20" font-weight="700" fill="#b08a4a">3 · Environment</text>
+<text x="540" y="260" font-size="20" font-weight="700" fill="#4a7d3a">4 · Files / Plots / Help</text>
+<g font-family="JetBrains Mono, monospace" font-size="14" fill="#3c4a52"><text x="40" y="112"># my_script.R</text><text x="40" y="134">cover &lt;- c(45, 60, 12)</text><text x="40" y="156">mean(cover)</text><text x="40" y="332">&gt; mean(cover)</text><text x="40" y="354">[1] 39</text><text x="40" y="376">&gt; |</text><text x="540" y="112">cover   num [1:3] 45 60 12</text></g>
+<g font-size="15" fill="#5d6b75">
+<text class="en" x="40" y="200"><tspan x="40">Where you WRITE and SAVE your code (.R file).</tspan><tspan x="40" dy="20">Run a line with Ctrl + Enter (Cmd + Enter on Mac).</tspan></text>
+<text class="fr" x="40" y="200"><tspan x="40">Où l'on ÉCRIT et ENREGISTRE son code (fichier .R).</tspan><tspan x="40" dy="20">Exécuter une ligne : Ctrl + Entrée (Cmd + Entrée sur Mac).</tspan></text>
+<text class="en" x="40" y="410"><tspan x="40">Where R RUNS the code and prints results.</tspan><tspan x="40" dy="20">Nothing typed here is saved.</tspan></text>
+<text class="fr" x="40" y="410"><tspan x="40">Où R EXÉCUTE le code et affiche les résultats.</tspan><tspan x="40" dy="20">Rien de ce qui est tapé ici n'est enregistré.</tspan></text>
+<text class="en" x="540" y="150"><tspan x="540">The objects currently in memory</tspan><tspan x="540" dy="20">(data, vectors, results).</tspan></text>
+<text class="fr" x="540" y="150"><tspan x="540">Les objets actuellement en mémoire</tspan><tspan x="540" dy="20">(données, vecteurs, résultats).</tspan></text>
+<text class="en" x="540" y="300"><tspan x="540">Files of your project, your graphs,</tspan><tspan x="540" dy="20">installed packages and the help pages.</tspan></text>
+<text class="fr" x="540" y="300"><tspan x="540">Fichiers du projet, graphiques,</tspan><tspan x="540" dy="20">packages installés et pages d'aide.</tspan></text>
+</g>
 <g transform="translate(600,350)"><rect x="0" y="0" width="22" height="60" fill="#4a7d3a" opacity=".8"/><rect x="34" y="20" width="22" height="40" fill="#4a7d3a" opacity=".6"/><rect x="68" y="35" width="22" height="25" fill="#4a7d3a" opacity=".45"/><path d="M-6 62h110" stroke="#5d6b75"/></g>
-</svg>
-</figure>
+</svg></figure>
 <div class="en">
 <p>RStudio has four panes. The <strong>Script</strong> pane only appears
 when you open a script: <em>File → New File → R Script</em> (shortcut
@@ -834,6 +866,20 @@ veille. C’est ce qui rend une analyse <em>reproductible</em> : n’importe
 qui (y compris vous dans six mois) peut relancer le script et obtenir
 les mêmes chiffres.</p>
 </div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> In the <strong>Console</strong>, type
+<code>1 + 1</code> and press <strong>Enter</strong>. Then type
+<code>Sys.Date()</code>. Where does the result appear? Which pane would
+you use to keep these lines for later?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Dans la <strong>Console</strong>, tapez
+<code>1 + 1</code> puis <strong>Entrée</strong>. Tapez ensuite
+<code>Sys.Date()</code>. Où apparaît le résultat ? Quel panneau
+utiliseriez-vous pour garder ces lignes pour plus tard ?</p>
+</div>
+</div>
 </div>
 </div>
 <div id="project" class="section level2">
@@ -873,6 +919,24 @@ Project</strong>.</li>
 placez les 5 fichiers CSV dans le dossier <code>data</code>.</li>
 </ol>
 </div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> The zip contains
+the files of the whole Beginner level. They are
+<strong>simulated</strong>: invented with R to look like real field data
+from south-west Madagascar, but they describe no real place. Each
+session explains how its data were “collected” and what type of data
+they are.</p>
+</div>
+<div class="fr">
+<p><strong>Données du cours (simulées).</strong> Le zip contient les
+fichiers de tout le niveau débutant. Ils sont <strong>simulés</strong> :
+inventés avec R pour ressembler à de vraies données de terrain du
+sud-ouest de Madagascar, mais ils ne décrivent aucun lieu réel. Chaque
+séance explique comment ses données ont été « collectées » et de quel
+type elles sont.</p>
+</div>
+</div>
 <p><a class="btn-dl" href="data/r_course_data.zip" download>⇩
 r_course_data.zip</a></p>
 <pre><code>R_course_reef/
@@ -892,8 +956,12 @@ r_course_data.zip</a></p>
 <p>Vérifiez dans la console que R « voit » les fichiers :</p>
 </div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">&quot;data&quot;</span>)      <span class="co"># lists the files in the data folder of the project</span></span></code></pre></div>
-<pre><code>#&gt; [1] &quot;coral_cover_raw.csv&quot;   &quot;coral_pit_example.csv&quot; &quot;fish_uvc.csv&quot;          &quot;seagrass_messy.csv&quot;   
-#&gt; [5] &quot;seagrass_quadrats.csv&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;coastline.csv&quot;              &quot;coral_cover_raw.csv&quot;        &quot;coral_pit_example.csv&quot;     
+#&gt;  [4] &quot;fish_uvc.csv&quot;               &quot;seacucumber_harvest.csv&quot;    &quot;seacucumber_monitoring.csv&quot;
+#&gt;  [7] &quot;seacucumber_pens.csv&quot;       &quot;seagrass_messy.csv&quot;         &quot;seagrass_quadrats.csv&quot;     
+#&gt; [10] &quot;stations.csv&quot;               &quot;survey_assets.csv&quot;          &quot;survey_households.csv&quot;     
+#&gt; [13] &quot;survey_members.csv&quot;         &quot;villages.csv&quot;               &quot;water_quality_long.csv&quot;    
+#&gt; [16] &quot;water_quality_wide.csv&quot;</code></pre>
 <div class="callout warning">
 <div class="en">
 <p>If you get <code>character(0)</code>, R does not find the folder:
@@ -941,6 +1009,21 @@ exécutez-les une par une avec <strong>Ctrl + Entrée</strong> :
 <li>Répondez au quiz à partir de ce que vous voyez à l’écran et de ce
 que vous avez lu dans cette séance.</li>
 </ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>If <code>list.files("data")</code> returns <code>character(0)</code>,
+the zip was not extracted <strong>inside</strong> the <code>data</code>
+folder of your project, or RStudio is not working in your project (check
+the project name at the top right of RStudio).</p>
+</div>
+<div class="fr">
+<p>Si <code>list.files("data")</code> renvoie <code>character(0)</code>,
+le zip n’a pas été décompressé <strong>dans</strong> le dossier
+<code>data</code> de votre projet, ou RStudio ne travaille pas dans
+votre projet (vérifiez le nom du projet en haut à droite de
+RStudio).</p>
 </div>
 </div>
 <div id="quiz-s00" class="quiz" data-quiz-id="s00"

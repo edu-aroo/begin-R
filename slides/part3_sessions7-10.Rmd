@@ -442,7 +442,7 @@ ggsave("outputs/fig.png", p,
 | 5 | Statistiques par groupe, une valeur par transect | séance 6 |
 | 6 | Graphiques ; équivalences R de base ↔ tidyverse | séances 7–8 |
 
-<div class="box warn">Un quiz par exercice, **une seule tentative** : vérifier dans le script avant de valider.</div>
+<div class="box warn">Un quiz par exercice, **deux tentatives** (la meilleure compte) : vérifier dans le script avant de valider.</div>
 
 ## Séance 10 — Projet final {.segue}
 
@@ -522,11 +522,11 @@ Le quiz final reprend chaque étape : nombre de lignes, doublons, points manquan
 
 ## Et ensuite ?
 
-**Cours intermédiaire** :
+**Niveau intermédiaire** (débloqué avec 75 % des points du niveau débutant) :
 
+- vrais fichiers : Excel à plusieurs feuilles, dates, restructurer, joindre, enquêtes
 - programmation : `if` / `else`, boucles `for`, écrire ses propres fonctions
-- restructurer (`tidyr`), joindre des tableaux, dates
-- tests statistiques (t, ANOVA, non paramétriques), modèles linéaires
-- rapports reproductibles avec R Markdown
+- maîtriser ggplot2 et premières cartes
+- distributions, p-values, comparer des moyennes et des pourcentages, corrélations
 
 ## Merci ! {.segue}

@@ -1,0 +1,302 @@
+---
+title: "[I1 · Dates]{.en}[I1 · Les dates]{.fr}"
+pagetitle: "R for marine sciences · I1"
+subtitle: "~2.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/intermediate_pipeline.R")
+lines <- cp_lines_raw()
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- convert text and Excel date-times into real **dates** with `as.Date()` and its `format`;
+- extract the year, month, day of week; compute **durations** between two dates;
+- create **seasons** and periods from dates;
+- use **lubridate** to do the same with shorter code;
+- compute the seaweed **growth rate** of each line.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- convertir du texte et des dates-heures Excel en vraies **dates** avec `as.Date()` et son `format` ;
+- extraire l'année, le mois, le jour de la semaine ; calculer des **durées** entre deux dates ;
+- créer des **saisons** et des périodes à partir des dates ;
+- utiliser **lubridate** pour faire la même chose avec un code plus court ;
+- calculer le **taux de croissance** des algues de chaque ligne.
+:::
+:::
+
+::: {.callout .tip}
+::: en
+Start from your I0 script, or from the checkpoint file: `lines <- read.csv("data/checkpoints/I0_lines.csv")`. With the checkpoint, `planting_date` is text `"2024-01-08"`, so convert it with `as.Date()` first.
+:::
+::: fr
+Partez de votre script I0, ou du fichier de contrôle : `lines <- read.csv("data/checkpoints/I0_lines.csv")`. Avec le fichier de contrôle, `planting_date` est du texte `"2024-01-08"` : convertissez-le d'abord avec `as.Date()`.
+:::
+:::
+
+`r dl("I0_lines.csv", "checkpoint: I0_lines.csv", dir = "data/checkpoints")`
+
+## [Why dates need special care]{.en}[Pourquoi les dates demandent de l'attention]{.fr} {#why}
+
+::: en
+To R, `"22/02/2024"` is just text: it cannot compute that 45 days separate planting and harvest, nor sort dates correctly (`"02/03/2024"` would come before `"22/02/2024"` in alphabetical order). A **Date** object stores the number of days since 1 January 1970, which makes all calculations possible.
+:::
+::: fr
+Pour R, `"22/02/2024"` n'est que du texte : il ne peut pas calculer que 45 jours séparent le semis de la récolte, ni trier correctement les dates (`"02/03/2024"` passerait avant `"22/02/2024"` dans l'ordre alphabétique). Un objet **Date** stocke le nombre de jours depuis le 1er janvier 1970, ce qui rend tous les calculs possibles.
+:::
+
+```{r}
+d <- as.Date("2024-01-08")       # the international format yyyy-mm-dd is read directly
+class(d)
+as.numeric(d)                    # days since 1970-01-01
+d + 45                           # 45 days later
+```
+
+## [Text to date: as.Date() and format]{.en}[Du texte à la date : as.Date() et format]{.fr} {#format}
+
+::: en
+When the text is not `yyyy-mm-dd`, tell R how it is written with **format codes**:
+
+| Code | Meaning | Example |
+|---|---|---|
+| `%d` | day (01–31) | `08` |
+| `%m` | month number (01–12) | `03` |
+| `%b` / `%B` | month name, short / full (in the computer's language) | `Mar` / `March` |
+| `%y` / `%Y` | year, 2 / 4 digits | `24` / `2024` |
+| `%A` | day of the week | `Monday` |
+:::
+::: fr
+Quand le texte n'est pas en `aaaa-mm-jj`, indiquez à R comment il est écrit avec des **codes de format** :
+
+| Code | Signification | Exemple |
+|---|---|---|
+| `%d` | jour (01–31) | `08` |
+| `%m` | numéro du mois (01–12) | `03` |
+| `%b` / `%B` | nom du mois, court / complet (dans la langue de l'ordinateur) | `mars` / `mars` |
+| `%y` / `%Y` | année, 2 / 4 chiffres | `24` / `2024` |
+| `%A` | jour de la semaine | `lundi` |
+:::
+
+```{r}
+as.Date("22/02/2024", format = "%d/%m/%Y")
+as.Date("02-22-24", format = "%m-%d-%y")
+lines$harvest_date[1:3]
+lines$harvest_date <- as.Date(lines$harvest_date, format = "%d/%m/%Y")
+lines$harvest_date[1:3]
+```
+
+::: {.callout .warning}
+::: en
+If the format does not match the text, `as.Date()` returns `NA` **without error**. Always check: `sum(is.na(x))` before and after conversion must be equal.
+
+**Excel dates** read as numbers (e.g. `45299`): `as.Date(45299, origin = "1899-12-30")`. **Date-times** (`POSIXct`, from readxl): `as.Date(x)`.
+:::
+::: fr
+Si le format ne correspond pas au texte, `as.Date()` renvoie `NA` **sans erreur**. Vérifiez toujours : `sum(is.na(x))` avant et après conversion doivent être égaux.
+
+**Dates Excel** lues comme des nombres (ex. `45299`) : `as.Date(45299, origin = "1899-12-30")`. **Dates-heures** (`POSIXct`, de readxl) : `as.Date(x)`.
+:::
+:::
+
+## [Durations, parts of a date, sequences]{.en}[Durées, parties d'une date, séquences]{.fr} {#parts}
+
+```{r}
+lines$days <- as.numeric(lines$harvest_date - lines$planting_date)   # difference in days
+summary(lines$days)
+format(lines$planting_date[1:3], "%Y")                  # year as text
+as.integer(format(lines$planting_date[1:3], "%m"))      # month as a number
+format(as.Date("2024-01-08"), "%d %B %Y")               # nice label for a report
+difftime(as.Date("2025-12-31"), as.Date("2024-01-01"), units = "weeks")
+seq(as.Date("2024-01-01"), by = "month", length.out = 4)   # monthly sampling calendar
+```
+
+## [Seasons and periods]{.en}[Saisons et périodes]{.fr} {#seasons}
+
+::: en
+In this region the **wet season** runs from November to April, the **dry season** from May to October. A season is a category built from the month number with `%in%` and `ifelse()` (`ifelse()` will be studied in detail in Session I5).
+:::
+::: fr
+Dans cette région, la **saison des pluies** va de novembre à avril, la **saison sèche** de mai à octobre. Une saison est une catégorie construite à partir du numéro du mois avec `%in%` et `ifelse()` (`ifelse()` sera étudié en détail en séance I5).
+:::
+
+```{r}
+lines$year   <- as.integer(format(lines$planting_date, "%Y"))
+lines$month  <- as.integer(format(lines$planting_date, "%m"))
+lines$season <- ifelse(lines$month %in% c(11, 12, 1, 2, 3, 4), "wet", "dry")
+table(lines$year, lines$season)
+```
+
+::: en
+`cut()` groups dates into periods, for example quarters:
+:::
+::: fr
+`cut()` regroupe les dates en périodes, par exemple en trimestres :
+:::
+
+```{r}
+head(cut(lines$planting_date, breaks = "quarter"))
+```
+
+## [The same with lubridate]{.en}[La même chose avec lubridate]{.fr} {#lubridate}
+
+::: en
+**lubridate** (tidyverse) has functions named after the order of the parts: `dmy()` for day-month-year, `ymd()`, `mdy()`… No format codes to remember. And `year()`, `month()`, `wday()` extract parts directly as numbers.
+:::
+::: fr
+**lubridate** (tidyverse) propose des fonctions nommées d'après l'ordre des éléments : `dmy()` pour jour-mois-année, `ymd()`, `mdy()`… Pas de codes de format à retenir. Et `year()`, `month()`, `wday()` extraient directement les éléments sous forme de nombres.
+:::
+
+::: compare
+::: {.col .base}
+R base
+
+```{r}
+as.Date("22/02/2024", format = "%d/%m/%Y")
+as.integer(format(as.Date("2024-02-22"), "%m"))
+as.Date("2024-02-22") + 30
+```
+:::
+::: {.col .pkg}
+lubridate
+
+```{r, message=FALSE}
+library(lubridate)
+dmy("22/02/2024")
+month(ymd("2024-02-22"))
+ymd("2024-02-22") + days(30)
+```
+:::
+:::
+
+```{r}
+dmy(c("22/02/2024", "3-4-2024", "05.06.2024"))   # tolerant to separators
+floor_date(ymd("2024-02-22"), "month")          # first day of the month
+```
+
+## [Growth rate of each line]{.en}[Taux de croissance de chaque ligne]{.fr} {#growth}
+
+::: {.callout .ecology}
+::: en
+Seaweed farmers and researchers compare lines with the **specific growth rate** (SGR), in % per day:
+
+**SGR = 100 × ln(final weight / initial weight) / number of days**
+
+It accounts for different initial weights and cycle lengths. Values of 3–5 %/day are usual for *Kappaphycus*.
+:::
+::: fr
+Producteurs et chercheurs comparent les lignes avec le **taux de croissance spécifique** (SGR), en % par jour :
+
+**SGR = 100 × ln(poids final / poids initial) / nombre de jours**
+
+Il tient compte des poids initiaux et des durées de cycle différents. Des valeurs de 3 à 5 %/jour sont habituelles pour *Kappaphycus*.
+:::
+:::
+
+```{r}
+i <- which(lines$final_weight_kg > 200)                  # weights typed in grams (I0)
+lines$final_weight_kg[i] <- lines$final_weight_kg[i] / 1000
+lines$sgr <- 100 * log(lines$final_weight_kg / lines$initial_weight_kg) / lines$days
+summary(lines$sgr)
+round(tapply(lines$sgr, lines$season, mean, na.rm = TRUE), 2)
+```
+
+`r dl("I1_lines_dated.csv", "checkpoint: I1_lines_dated.csv", dir = "data/checkpoints")`
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+L <- cp_lines_dated()
+a1 <- as.character(min(L$harvest_date))
+a2 <- round(mean(L$days), 2)
+a3 <- max(L$days)
+a4 <- sum(L$year == 2025)
+a5 <- names(which.max(table(L$month)))
+a6 <- sum(L$season == "wet")
+a7 <- round(mean(L$sgr, na.rm = TRUE), 3)
+a8 <- round(mean(L$sgr[L$season == "dry"], na.rm = TRUE), 3)
+a9 <- as.character(weekdays(as.Date("2024-06-12"), abbreviate = FALSE))
+a10 <- as.numeric(as.Date("2025-12-31") - as.Date("2024-01-01"))
+```
+
+::: application
+::: en
+### Application work I1
+
+Script `scripts/i01_dates.R`, with the sheet `lines` (or the checkpoint file).
+
+1. Convert `harvest_date` to a date. What is the **earliest** harvest date (`yyyy-mm-dd`)?
+2. Add `days` (harvest − planting). Mean duration (2 decimals)? Longest duration?
+3. Add `year`, `month` (from the planting date) and `season`. How many lines were planted in 2025?
+4. In which month (number 1–12) were the most lines planted?
+5. How many lines were planted in the wet season?
+6. Correct the weights in grams, then compute `sgr`. Mean SGR of all lines (3 decimals, ignore NA)? Mean SGR in the dry season (3 decimals)?
+7. How many days between 1 January 2024 and 31 December 2025?
+:::
+::: fr
+### Travail d'application I1
+
+Script `scripts/i01_dates.R`, avec la feuille `lines` (ou le fichier de contrôle).
+
+1. Convertissez `harvest_date` en date. Quelle est la **première** date de récolte (`aaaa-mm-jj`) ?
+2. Ajoutez `days` (récolte − semis). Durée moyenne (2 décimales) ? Durée la plus longue ?
+3. Ajoutez `year`, `month` (à partir de la date de semis) et `season`. Combien de lignes ont été semées en 2025 ?
+4. Quel mois (numéro 1–12) compte le plus de lignes semées ?
+5. Combien de lignes ont été semées en saison des pluies ?
+6. Corrigez les poids en grammes, puis calculez `sgr`. SGR moyen de toutes les lignes (3 décimales, sans NA) ? SGR moyen en saison sèche (3 décimales) ?
+7. Combien de jours entre le 1er janvier 2024 et le 31 décembre 2025 ?
+:::
+:::
+
+::: hint
+::: en
+Question 4: `table(lines$month)` then `which.max()`; the answer is the **name** of the cell, i.e. the month number. Question 6: the log is `log()` (natural logarithm) in R.
+:::
+::: fr
+Question 4 : `table(lines$month)` puis `which.max()` ; la réponse est le **nom** de la case, c'est-à-dire le numéro du mois. Question 6 : le logarithme népérien est `log()` dans R.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("i01", list(
+  q_text("1. Earliest harvest date (yyyy-mm-dd)?", "1. Première date de récolte (aaaa-mm-jj) ?", a1),
+  q_num("2a. Mean duration in days (2 decimals)?", "2a. Durée moyenne en jours (2 décimales) ?", a2, tol = 0.006),
+  q_num("2b. Longest duration (days)?", "2b. Durée la plus longue (jours) ?", a3, tol = 0),
+  q_num("3. Lines planted in 2025?", "3. Lignes semées en 2025 ?", a4, tol = 0),
+  q_num("4. Month with the most plantings (1-12)?", "4. Mois avec le plus de semis (1-12) ?", as.numeric(a5), tol = 0),
+  q_num("5. Lines planted in the wet season?", "5. Lignes semées en saison des pluies ?", a6, tol = 0),
+  q_num("6a. Mean SGR (3 decimals)?", "6a. SGR moyen (3 décimales) ?", a7, tol = 0.0006),
+  q_num("6b. Mean SGR in the dry season (3 decimals)?", "6b. SGR moyen en saison sèche (3 décimales) ?", a8, tol = 0.0006),
+  q_num("7. Days between 2024-01-01 and 2025-12-31?", "7. Jours entre le 2024-01-01 et le 2025-12-31 ?", a10, tol = 0),
+  q_mcq("8. Which call converts \"03/11/2024\" (3 November) correctly?", "8. Quel appel convertit correctement \"03/11/2024\" (3 novembre) ?",
+        c("as.Date(\"03/11/2024\")", "as.Date(\"03/11/2024\", format = \"%m/%d/%Y\")",
+          "as.Date(\"03/11/2024\", format = \"%d/%m/%Y\")", "ymd(\"03/11/2024\")"), correct = 3)
+))
+```
+
+::: {.solution data-quiz="i01"}
+```{r, eval=FALSE}
+library(readxl)
+lines <- read_excel("data/seaweed_farming.xlsx", sheet = "lines", skip = 3)
+lines$planting_date <- as.Date(lines$planting_date)
+lines$harvest_date  <- as.Date(lines$harvest_date, format = "%d/%m/%Y")
+min(lines$harvest_date)                                              # 1
+lines$days <- as.numeric(lines$harvest_date - lines$planting_date)
+round(mean(lines$days), 2); max(lines$days)                          # 2
+lines$year   <- as.integer(format(lines$planting_date, "%Y"))
+lines$month  <- as.integer(format(lines$planting_date, "%m"))
+lines$season <- ifelse(lines$month %in% c(11, 12, 1, 2, 3, 4), "wet", "dry")
+sum(lines$year == 2025)                                              # 3
+which.max(table(lines$month))                                        # 4 (the name is the month)
+sum(lines$season == "wet")                                           # 5
+i <- which(lines$final_weight_kg > 200)
+lines$final_weight_kg[i] <- lines$final_weight_kg[i] / 1000
+lines$sgr <- 100 * log(lines$final_weight_kg / lines$initial_weight_kg) / lines$days
+round(mean(lines$sgr, na.rm = TRUE), 3)                              # 6a
+round(mean(lines$sgr[lines$season == "dry"], na.rm = TRUE), 3)       # 6b
+as.numeric(as.Date("2025-12-31") - as.Date("2024-01-01"))            # 7
+```
+:::

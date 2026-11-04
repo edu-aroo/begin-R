@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Aroo Falinirina" />
+
+
+<title>R pour les sciences marines — niveau intermédiaire</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<!-- ===========================================================================
+  slides-engine.html — turns a normal R Markdown html_document into slides.
+  Inserted in <head> by the YAML of each deck (includes: in_header).
+  In the .Rmd:  "## Title" = one slide · "## Title {.segue}" = section divider
+                <div class="notes"> ... </div> = speaker notes (press N)
+  Keys: → / Space / PageDown = next · ← / PageUp = previous · Home / End
+        F = full screen · N = show/hide notes · O = overview of all slides
+  Each slide is a 1280 × 720 box scaled to the window, so it looks the same on
+  any screen or projector. Content that is too long is shrunk automatically.
+=========================================================================== -->
+<script>
+(function () {
+  "use strict";
+  let slides = [], cur = 0;
+
+  function build() {
+    document.body.classList.add("deck");
+    const stage = document.createElement("div");
+    stage.id = "stage";
+    // slide 0 = the title block made by R Markdown (#header)
+    // (theme: null puts h1.title / h3.subtitle / h4.author directly in <body>)
+    const header = document.getElementById("header");
+    const titleParts = header ? [header]
+      : Array.from(document.querySelectorAll("h1.title, h3.subtitle, h4.author, h4.date"));
+    if (titleParts.length) { const s = wrap(titleParts); s.classList.add("title-slide"); stage.appendChild(s); }
+    // every "## Title" section = one slide
+    document.querySelectorAll("div.section.level2").forEach(sec => {
+      const s = wrap([sec]);
+      if (sec.classList.contains("segue")) s.classList.add("segue");
+      stage.appendChild(s);
+    });
+    document.body.innerHTML = "";
+    document.body.appendChild(stage);
+    slides = Array.from(stage.children);
+
+    const bar = document.createElement("div");
+    bar.id = "deck-bar";
+    document.body.appendChild(bar);
+    const sig = document.createElement("div");
+    sig.id = "deck-sign"; sig.textContent = "by Aroo Falinirina";
+    document.body.appendChild(sig);
+
+    const n = parseInt(location.hash.replace("#", ""), 10);
+    show(isNaN(n) ? 0 : Math.min(Math.max(n - 1, 0), slides.length - 1));
+    window.addEventListener("resize", scale);
+    scale();
+    slides.forEach(fit);
+  }
+
+  function wrap(nodes) {
+    const s = document.createElement("section");
+    s.className = "slide";
+    const inner = document.createElement("div");
+    inner.className = "slide-inner";
+    nodes.forEach(n => inner.appendChild(n));
+    s.appendChild(inner);
+    return s;
+  }
+
+  // scale the 1280 x 720 slide to the window
+  function scale() {
+    const k = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    document.documentElement.style.setProperty("--k", k);
+  }
+
+  // shrink the font of a slide until its content fits in the box
+  function fit(s) {
+    const inner = s.querySelector(".slide-inner");
+    let size = 100;
+    s.style.display = "block";
+    const base = parseFloat(getComputedStyle(inner).fontSize);   // 27px in slides.css
+    while (inner.scrollHeight > inner.clientHeight + 2 && size > 62) {
+      size -= 4; inner.style.fontSize = (base * size / 100) + "px";
+    }
+    s.style.display = "";
+  }
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    slides[cur].classList.remove("current");
+    cur = i;
+    slides[cur].classList.add("current");
+    history.replaceState(null, "", "#" + (cur + 1));
+    const bar = document.getElementById("deck-bar");
+    bar.textContent = (cur + 1) + " / " + slides.length;
+    bar.style.setProperty("--p", ((cur + 1) / slides.length * 100) + "%");
+  }
+
+  document.addEventListener("keydown", e => {
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+    else if (e.key === "Home") show(0);
+    else if (e.key === "End") show(slides.length - 1);
+    else if (e.key === "f" || e.key === "F") {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen();
+    }
+    else if (e.key === "n" || e.key === "N") document.body.classList.toggle("show-notes");
+    else if (e.key === "o" || e.key === "O") document.body.classList.toggle("overview");
+  });
+  // click on a slide in overview mode jumps to it; otherwise click = next
+  document.addEventListener("click", e => {
+    const s = e.target.closest(".slide");
+    if (document.body.classList.contains("overview") && s) {
+      document.body.classList.remove("overview"); show(slides.indexOf(s)); return;
+    }
+    if (e.target.closest("a, pre, code, button")) return;
+    if (e.clientX > window.innerWidth * 0.5) show(cur + 1); else show(cur - 1);
+  });
+
+  document.addEventListener("DOMContentLoaded", build);
+})();
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #204a87; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #8f5902; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #204a87; font-weight: bold; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #ce5c00; font-weight: bold; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">
+:root { --ocean: #0b3d5c; --lagoon: #1b7f8c; --seagrass: #4a7d3a; --coral: #d9694a;
+--sand: #f6f1e7; --ink: #1f2a33; --muted: #5d6b75; --k: 1; }
+
+.en { display: none !important; }
+html, body { margin: 0; height: 100%; background: #0f1d26; overflow: hidden; }
+body.deck { font-family: "Source Sans 3", "Segoe UI", Calibri, Arial, sans-serif; color: var(--ink); }
+
+.slide { display: none; position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px;
+transform: translate(-50%, -50%) scale(var(--k)); background: #fff;
+box-shadow: 0 10px 40px rgba(0,0,0,.4); overflow: hidden; }
+.slide.current { display: block; }
+.slide-inner { box-sizing: border-box; height: 100%; padding: 46px 70px 56px; font-size: 100%; overflow: hidden; }
+.slide::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 7px;
+background: linear-gradient(90deg, var(--seagrass), var(--lagoon), var(--coral)); }
+
+.slide-inner { font-size: 27px; line-height: 1.4; }
+.slide h2 { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; color: var(--ocean);
+font-size: 1.65em; font-weight: 600; margin: 0 0 .45em; padding-bottom: .2em; border-bottom: 2px solid #e3e9ec; }
+.slide h3 { color: var(--lagoon); font-size: 1.1em; margin: .4em 0 .2em; }
+.slide p { margin: .35em 0; }
+.slide ul, .slide ol { margin: .3em 0; padding-left: 1.3em; }
+.slide li { margin: .22em 0; }
+.slide a { color: var(--lagoon); }
+.slide strong { color: var(--ocean); }
+
+.slide.title-slide { background: linear-gradient(135deg, #0b3d5c 0%, #1b7f8c 70%, #4a7d3a 100%); }
+.slide.title-slide .slide-inner { display: flex; flex-direction: column; justify-content: center; padding: 80px 100px; }
+.slide.title-slide h1 { font-family: "Source Serif 4", Georgia, serif; color: #fff; font-size: 64px; margin: 0 0 20px; line-height: 1.1; }
+.slide.title-slide .subtitle { color: #d8eef1; font-size: 30px; font-weight: 400; margin: 0 0 40px; }
+.slide.title-slide .author { color: #fff; font-family: Georgia, serif; font-style: italic; font-size: 26px; font-weight: 400; margin: 0; }
+
+.slide.segue { background: var(--ocean); }
+.slide.segue .slide-inner { display: flex; align-items: center; }
+.slide.segue h2 { color: #fff; border: 0; font-size: 2.3em; }
+
+pre, code { font-family: "JetBrains Mono", Consolas, "Courier New", monospace; }
+.slide pre { font-size: .66em; line-height: 1.35; background: #f7f9fa; border: 1px solid #dde3e6;
+border-left: 5px solid var(--lagoon); border-radius: 6px; padding: 8px 14px; margin: .35em 0; white-space: pre-wrap; }
+.slide pre:not(.r) { border-left-color: #b9c4ca; background: #fbfcfc; }
+.slide :not(pre) > code { background: #eef4f5; color: #0d4f63; padding: 0 5px; border-radius: 4px; font-size: .9em; }
+.slide img { max-width: 100%; max-height: 420px; display: block; margin: 6px auto; }
+.slide .svg-fig { margin: 0 auto; text-align: center; }
+.slide .svg-fig svg { max-height: 540px; width: auto; max-width: 100%; }
+
+.slide table { border-collapse: collapse; margin: .4em 0; font-size: .8em; }
+.slide th { background: var(--ocean); color: #fff; padding: 6px 12px; text-align: left; }
+.slide td { padding: 5px 12px; border-bottom: 1px solid #dde3e6; }
+
+.box { border-radius: 10px; padding: 8px 18px; margin: 12px 0; background: var(--sand); font-size: .92em; }
+.box.tip { background: #eef5ea; border-left: 6px solid var(--seagrass); }
+.box.warn { background: #fdf0eb; border-left: 6px solid var(--coral); }
+.box.eco { background: #e9f4f6; border-left: 6px solid var(--lagoon); }
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.cols > .c > p:first-child { margin: 0; font-weight: 700; font-size: .7em; letter-spacing: .06em; text-transform: uppercase; }
+.cols > .base > p:first-child { color: #8a6a32; }
+.cols > .pkg > p:first-child { color: var(--lagoon); }
+.cols img { max-height: 330px; }
+
+.notes { display: none; }
+body.show-notes .notes { display: block; position: absolute; left: 0; right: 0; bottom: 0; max-height: 40%; overflow: auto;
+background: #fff7e6; border-top: 3px solid #e3b04b; padding: 10px 70px; font-size: 20px; color: #5a4a20; }
+
+#deck-bar { --p: 0%; position: fixed; left: 0; right: 0; bottom: 0; height: 22px; color: #9fb3bd; font-size: 13px;
+text-align: right; padding-right: 12px; line-height: 22px;
+background: linear-gradient(90deg, var(--lagoon) var(--p), transparent var(--p)) no-repeat bottom / 100% 3px; }
+#deck-sign { position: fixed; left: 14px; bottom: 3px; color: #9fb3bd; font-family: Georgia, serif; font-style: italic; font-size: 13px; }
+
+body.overview { overflow: auto; }
+body.overview #stage { display: grid; grid-template-columns: repeat(auto-fill, 330px); gap: 16px; padding: 16px; }
+body.overview .slide { display: block; position: relative; left: auto; top: auto; transform: scale(.25);
+transform-origin: top left; width: 1280px; height: 720px; margin: 0 -960px -540px 0; cursor: pointer; }
+body.overview .slide.current { outline: 12px solid var(--coral); }
+
+@media print {
+@page { size: 1280px 720px; margin: 0; }
+html, body { overflow: visible; background: #fff; }
+.slide { display: block !important; position: relative; left: 0; top: 0; transform: none; box-shadow: none; page-break-after: always; }
+#deck-bar, #deck-sign { display: none; }
+}
+.slide pre code { white-space: pre-wrap; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">R pour les sciences marines — niveau
+intermédiaire</h1>
+<h3 class="subtitle">Partie 1 · Séances I0 à I4 — Importer, dates,
+restructurer, joindre, enquêtes</h3>
+<h4 class="author">Aroo Falinirina</h4>
+
+
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+<div id="au-programme" class="section level2">
+<h2>Au programme</h2>
+<ul>
+<li><strong>I0</strong> : importer de vrais fichiers (Excel à plusieurs
+feuilles, CSV)</li>
+<li><strong>I1</strong> : les dates et les durées</li>
+<li><strong>I2</strong> : restructurer : format large ↔︎ long</li>
+<li><strong>I3</strong> : joindre plusieurs tableaux</li>
+<li><strong>I4</strong> : données d’enquête : texte, doublons, choix
+multiples, Likert</li>
+</ul>
+<div class="notes">
+<p>~10 min par séance + 10 min de questions. Les étudiants font les
+séances en ligne ; ici on montre l’essentiel et les pièges.</p>
+</div>
+</div>
+<div id="trois-jeux-de-données-simulés" class="section level2 segue">
+<h2 class="segue">Trois jeux de données (simulés)</h2>
+</div>
+<div id="le-contexte" class="section level2">
+<h2>Le contexte</h2>
+<div class="box eco">
+<p>Une <strong>coopérative d’algoculture</strong> (12 villages, 96
+cultivateurs) note ses cordes dans un classeur Excel ; une
+<strong>ONG</strong> mesure l’eau à 10 stations ; une <strong>enquête
+ménages</strong> (420 ménages) décrit les activités et revenus. Tout est
+<strong>simulé</strong> : aucun lieu réel.</p>
+</div>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fichier</th>
+<th>Contenu</th>
+<th>Séances</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>seaweed_farming.xlsx</code></td>
+<td>cultivateurs + 2 575 cordes</td>
+<td>I0, I1, I3</td>
+</tr>
+<tr class="even">
+<td><code>water_quality_*.csv</code></td>
+<td>sonde : T °C, salinité, pH, O₂, turbidité</td>
+<td>I2, I3</td>
+</tr>
+<tr class="odd">
+<td><code>survey_*.csv</code></td>
+<td>ménages, membres, biens</td>
+<td>I3, I4</td>
+</tr>
+<tr class="even">
+<td><code>seacucumber_*.csv</code></td>
+<td>enclos à holothuries</td>
+<td>projet final</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="i0-importer-de-vrais-fichiers" class="section level2 segue">
+<h2 class="segue">I0 — Importer de vrais fichiers</h2>
+</div>
+<div id="regarder-le-fichier-avant-r" class="section level2">
+<h2>Regarder le fichier avant R</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">excel_sheets</span>(<span class="st">&quot;data/seaweed_farming.xlsx&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;README&quot;  &quot;farmers&quot; &quot;lines&quot;</span></span></code></pre></div>
+<ul>
+<li>une feuille <code>README</code>, une par table</li>
+<li>dans <code>lines</code>, le tableau commence à la <strong>ligne
+4</strong> → <code>skip = 3</code></li>
+<li>poids en kg… sauf quelques-uns saisis <strong>en
+grammes</strong></li>
+</ul>
+<div class="box warn">
+Ne jamais corriger le fichier brut à la main : chaque correction va dans
+le script.
+</div>
+</div>
+<div id="read_excel" class="section level2">
+<h2><code>read_excel()</code></h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>lines <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/seaweed_farming.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;lines&quot;</span>, <span class="at">skip =</span> <span class="dv">3</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>lines <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(lines)          <span class="co"># tibble -&gt; data frame classique</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">dim</span>(lines)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; [1] 2575   10</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">str</span>(lines[, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    2575 obs. of  6 variables:</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;  $ line_id      : chr  &quot;L0001&quot; &quot;L0002&quot; &quot;L0003&quot; &quot;L0004&quot; ...</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;  $ farmer_id    : chr  &quot;F013&quot; &quot;F013&quot; &quot;F013&quot; &quot;F013&quot; ...</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt;  $ cycle        : num  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;  $ planting_date: POSIXct, format: &quot;2024-01-08&quot; &quot;2024-01-08&quot; ...</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;  $ harvest_date : chr  &quot;22/02/2024&quot; &quot;20/02/2024&quot; &quot;26/02/2024&quot; &quot;18/02/2024&quot; ...</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;  $ line_length_m: num  15 15 15 15 20 20 20 20 20 20 ...</span></span></code></pre></div>
+</div>
+<div id="vérifier-textes-mal-saisis" class="section level2">
+<h2>Vérifier : textes mal saisis</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>farmers <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/seaweed_farming.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;farmers&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(farmers<span class="sc">$</span>village))        <span class="co"># 12 villages... vraiment ?</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; [1] 18</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>farmers<span class="sc">$</span>village <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">toTitleCase</span>(<span class="fu">tolower</span>(<span class="fu">trimws</span>(farmers<span class="sc">$</span>village)))</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(farmers<span class="sc">$</span>village))</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; [1] 12</span></span></code></pre></div>
+</div>
+<div id="csv-séparateurs-et-codes-manquants" class="section level2">
+<h2>CSV : séparateurs et codes manquants</h2>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Fonction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>virgule <code>,</code> + point décimal</td>
+<td><code>read.csv()</code></td>
+</tr>
+<tr class="even">
+<td>point-virgule <code>;</code> + virgule décimale (Excel
+français)</td>
+<td><code>read.csv2()</code></td>
+</tr>
+<tr class="odd">
+<td>codes « manquant » : <code>-999</code>, vide</td>
+<td><code>na.strings = c(&quot;&quot;, &quot;-999&quot;)</code></td>
+</tr>
+<tr class="even">
+<td>noms de colonnes comme <code>2024-01</code></td>
+<td><code>check.names = FALSE</code></td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(<span class="fu">read.csv</span>(<span class="st">&quot;data/water_quality_long.csv&quot;</span>)))</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt;       station          date        temp_C  salinity_psu            pH </span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt;             0             0             0             0             0 </span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;        DO_mgL turbidity_NTU </span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;             8             0</span></span></code></pre></div>
+</div>
+<div id="i1-dates" class="section level2 segue">
+<h2 class="segue">I1 — Dates</h2>
+</div>
+<div id="une-date-doit-être-de-classe-date" class="section level2">
+<h2>Une date doit être de classe <code>Date</code></h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">class</span>(lines<span class="sc">$</span>planting_date)             <span class="co"># Excel -&gt; date reconnue</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;POSIXct&quot; &quot;POSIXt&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">head</span>(lines<span class="sc">$</span>harvest_date, <span class="dv">3</span>)            <span class="co"># texte jj/mm/aaaa</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;22/02/2024&quot; &quot;20/02/2024&quot; &quot;26/02/2024&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>lines<span class="sc">$</span>harvest_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(lines<span class="sc">$</span>harvest_date, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>lines<span class="sc">$</span>days <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(lines<span class="sc">$</span>harvest_date <span class="sc">-</span> lines<span class="sc">$</span>planting_date)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; Warning: Incompatible methods (&quot;-.Date&quot;, &quot;-.POSIXt&quot;) for &quot;-&quot;</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">summary</span>(lines<span class="sc">$</span>days)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. </span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; -1.764e+09 -1.749e+09 -1.734e+09 -1.734e+09 -1.720e+09 -1.705e+09</span></span></code></pre></div>
+</div>
+<div id="lubridate-et-formats" class="section level2">
+<h2>lubridate et formats</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Écrit</th>
+<th>Fonction</th>
+<th>Code <code>format</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>21/03/2025</code></td>
+<td><code>dmy()</code></td>
+<td><code>&quot;%d/%m/%Y&quot;</code></td>
+</tr>
+<tr class="even">
+<td><code>2025-03-21</code></td>
+<td><code>ymd()</code></td>
+<td><code>&quot;%Y-%m-%d&quot;</code></td>
+</tr>
+<tr class="odd">
+<td><code>03/21/2025</code></td>
+<td><code>mdy()</code></td>
+<td><code>&quot;%m/%d/%Y&quot;</code></td>
+</tr>
+<tr class="even">
+<td>nombre Excel <code>45737</code></td>
+<td><code>as.Date(n, origin = &quot;1899-12-30&quot;)</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dmy</span>(<span class="st">&quot;21/03/2025&quot;</span>); <span class="fu">c</span>(<span class="fu">year</span>(d), <span class="fu">month</span>(d)); <span class="fu">format</span>(d, <span class="st">&quot;%b %Y&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; [1] 2025    3</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mar 2025&quot;</span></span></code></pre></div>
+</div>
+<div id="saisons-et-taux-de-croissance" class="section level2">
+<h2>Saisons et taux de croissance</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>lines<span class="sc">$</span>season <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">month</span>(lines<span class="sc">$</span>planting_date) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">11</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>), <span class="st">&quot;wet&quot;</span>, <span class="st">&quot;dry&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fu">which</span>(lines<span class="sc">$</span>final_weight_kg <span class="sc">&gt;</span> <span class="dv">200</span>)        <span class="co"># poids saisis en grammes</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>lines<span class="sc">$</span>final_weight_kg[i] <span class="ot">&lt;-</span> lines<span class="sc">$</span>final_weight_kg[i] <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>lines<span class="sc">$</span>sgr <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">log</span>(lines<span class="sc">$</span>final_weight_kg <span class="sc">/</span> lines<span class="sc">$</span>initial_weight_kg) <span class="sc">/</span> lines<span class="sc">$</span>days</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">tapply</span>(lines<span class="sc">$</span>sgr, lines<span class="sc">$</span>season, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;           dry           wet </span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; -9.222248e-08 -8.602454e-08</span></span></code></pre></div>
+<div class="box tip">
+SGR = 100 × ln(Pf / Pi) / jours, en % par jour.
+</div>
+</div>
+<div id="i2-restructurer" class="section level2 segue">
+<h2 class="segue">I2 — Restructurer</h2>
+</div>
+<div id="large-ou-long" class="section level2">
+<h2>Large ou long ?</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>wide <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/water_quality_wide.csv&quot;</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>wide[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt;   station 2023-01 2023-02 2023-03 2023-04 2023-05</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; 1    WQ01    28.2    29.0    28.4    27.5    25.3</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; 2    WQ02    29.0    28.7    28.7    27.5    25.7</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; 3    WQ03    29.0    28.6    28.1    27.3    25.3</span></span></code></pre></div>
+<ul>
+<li><strong>large</strong> : lisible pour un humain, une colonne par
+mois</li>
+<li><strong>long</strong> (« rangé ») : <strong>une variable par
+colonne, une observation par ligne</strong> → ce que veulent dplyr et
+ggplot</li>
+</ul>
+</div>
+<div id="pivot_longer-et-pivot_wider" class="section level2">
+<h2><code>pivot_longer()</code> et <code>pivot_wider()</code></h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(wide, <span class="sc">-</span>station, <span class="at">names_to =</span> <span class="st">&quot;month&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;temp&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">head</span>(long, <span class="dv">4</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 3</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt;   station month    temp</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; 1 WQ01    2023-01  28.2</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; 2 WQ01    2023-02  29  </span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; 3 WQ01    2023-03  28.4</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; 4 WQ01    2023-04  27.5</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">separate</span>(long, month, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;m&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="fu">pivot_wider</span>(long[long<span class="sc">$</span>station <span class="sc">==</span> <span class="st">&quot;WQ01&quot;</span>, ], <span class="at">names_from =</span> year, <span class="at">values_from =</span> temp)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, ]</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 5</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt;   station m     `2023` `2024` `2025`</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt; 1 WQ01    01      28.2   28.6   28.4</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt; 2 WQ01    02      29     28.8   28.4</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt; 3 WQ01    03      28.4   28.3   29</span></span></code></pre></div>
+</div>
+<div id="nettoyer-les-mesures-de-la-sonde" class="section level2">
+<h2>Nettoyer les mesures de la sonde</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>wq <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/water_quality_long.csv&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">temp_999 =</span> <span class="fu">sum</span>(wq<span class="sc">$</span>temp_C <span class="sc">==</span> <span class="sc">-</span><span class="dv">999</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">pH_0 =</span> <span class="fu">sum</span>(wq<span class="sc">$</span>pH <span class="sc">==</span> <span class="dv">0</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; temp_999     pH_0 </span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt;       12        6</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>wq<span class="sc">$</span>temp_C[wq<span class="sc">$</span>temp_C <span class="sc">==</span> <span class="sc">-</span><span class="dv">999</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>                 <span class="co"># code d&#39;erreur du capteur</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>wq<span class="sc">$</span>pH[wq<span class="sc">$</span>pH <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>                            <span class="co"># électrode défectueuse</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>wq<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(wq<span class="sc">$</span>date, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</span></code></pre></div>
+</div>
+<div id="i3-joindre" class="section level2 segue">
+<h2 class="segue">I3 — Joindre</h2>
+</div>
+<div id="une-clé-commune" class="section level2">
+<h2>Une clé commune</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>seaweed <span class="ot">&lt;-</span> lines <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">left_join</span>(farmers, <span class="at">by =</span> <span class="st">&quot;farmer_id&quot;</span>) <span class="sc">%&gt;%</span>                     <span class="co"># qui cultive ?</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">read.csv</span>(<span class="st">&quot;data/villages.csv&quot;</span>)[, <span class="fu">c</span>(<span class="st">&quot;village&quot;</span>, <span class="st">&quot;zone&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;village&quot;</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">avant =</span> <span class="fu">nrow</span>(lines), <span class="at">apres =</span> <span class="fu">nrow</span>(seaweed))                  <span class="co"># doit être identique !</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; avant apres </span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt;  2575  2575</span></span></code></pre></div>
+<div class="box warn">
+Si le nombre de lignes <strong>augmente</strong> après
+<code>left_join()</code>, la clé n’est pas unique dans la table de
+référence : <code>sum(duplicated(farmers$farmer_id))</code>.
+</div>
+</div>
+<div id="les-familles-de-jointures" class="section level2">
+<h2>Les familles de jointures</h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>dplyr</th>
+<th>Garde</th>
+<th>R de base</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>left_join(x, y)</code></td>
+<td>toutes les lignes de x</td>
+<td><code>merge(x, y, all.x = TRUE)</code></td>
+</tr>
+<tr class="even">
+<td><code>inner_join(x, y)</code></td>
+<td>lignes présentes dans les deux</td>
+<td><code>merge(x, y)</code></td>
+</tr>
+<tr class="odd">
+<td><code>full_join(x, y)</code></td>
+<td>tout</td>
+<td><code>merge(x, y, all = TRUE)</code></td>
+</tr>
+<tr class="even">
+<td><code>anti_join(x, y)</code></td>
+<td>lignes de x <strong>sans</strong> correspondance</td>
+<td><code>x[!x$k %in% y$k, ]</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="anti_join-pour-trouver-les-erreurs" class="section level2">
+<h2><code>anti_join()</code> pour trouver les erreurs</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>hh  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_households.csv&quot;</span>, <span class="at">na.strings =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>mem <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_members.csv&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">anti_join</span>(mem, hh, <span class="at">by =</span> <span class="st">&quot;hh_id&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(hh_id)   <span class="co"># identifiants mal saisis</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt;   hh_id</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt; 1 HH901</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; 2 HH903</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; 3 HH904</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; 4 HH902</span></span></code></pre></div>
+</div>
+<div id="joindre-sur-plusieurs-clés" class="section level2">
+<h2>Joindre sur plusieurs clés</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>monthly <span class="ot">&lt;-</span> <span class="fu">cp_wq_monthly</span>()[, <span class="fu">c</span>(<span class="st">&quot;zone&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;temp_mean&quot;</span>)]</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>seaweed<span class="sc">$</span>year  <span class="ot">&lt;-</span> <span class="fu">year</span>(seaweed<span class="sc">$</span>planting_date); seaweed<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">month</span>(seaweed<span class="sc">$</span>planting_date)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>seaweed <span class="ot">&lt;-</span> <span class="fu">left_join</span>(seaweed, monthly, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;zone&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>))</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">summary</span>(seaweed<span class="sc">$</span>temp_mean)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt;   23.12   24.28   25.76   26.08   28.07   29.12</span></span></code></pre></div>
+</div>
+<div id="i4-données-denquête" class="section level2 segue">
+<h2 class="segue">I4 — Données d’enquête</h2>
+</div>
+<div id="doublons-et-textes-libres" class="section level2">
+<h2>Doublons et textes libres</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(hh))                        <span class="co"># lignes saisies deux fois</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>hh <span class="ot">&lt;-</span> hh[<span class="sc">!</span><span class="fu">duplicated</span>(hh), ]</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="fu">table</span>(hh<span class="sc">$</span>mpa_benefits)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]                <span class="co"># « Agree », « agree », « AGREE ».</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt;              Agree     Strongly agree  Strongly disagree              agree </span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt;                  5                  4                  1                  9 </span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt;              Agree           Disagree </span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt;                136                 46</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>hh<span class="sc">$</span>mpa_benefits <span class="ot">&lt;-</span> <span class="fu">str_to_sentence</span>(<span class="fu">str_squish</span>(hh<span class="sc">$</span>mpa_benefits))</span></code></pre></div>
+</div>
+<div id="échelle-de-likert-facteur-ordonné" class="section level2">
+<h2>Échelle de Likert = facteur ordonné</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>lik <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Strongly disagree&quot;</span>, <span class="st">&quot;Disagree&quot;</span>, <span class="st">&quot;Neutral&quot;</span>, <span class="st">&quot;Agree&quot;</span>, <span class="st">&quot;Strongly agree&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>hh<span class="sc">$</span>mpa_benefits <span class="ot">&lt;-</span> <span class="fu">factor</span>(hh<span class="sc">$</span>mpa_benefits, <span class="at">levels =</span> lik, <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(hh<span class="sc">$</span>mpa_benefits)) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; Strongly disagree          Disagree           Neutral             Agree </span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt;               7.3              11.2              26.0              36.4 </span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt;    Strongly agree </span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt;              19.2</span></span></code></pre></div>
+</div>
+<div id="questions-à-choix-multiples" class="section level2">
+<h2>Questions à choix multiples</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">head</span>(hh<span class="sc">$</span>activities, <span class="dv">3</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;trade;gleaning;agriculture&quot; &quot;fishing;gleaning;trade&quot;    </span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="co">#&gt; [3] &quot;seaweed;gleaning&quot;</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>hh<span class="sc">$</span>n_activities <span class="ot">&lt;-</span> <span class="fu">str_count</span>(hh<span class="sc">$</span>activities, <span class="st">&quot;;&quot;</span>) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>hh<span class="sc">$</span>does_seaweed <span class="ot">&lt;-</span> <span class="fu">str_detect</span>(hh<span class="sc">$</span>activities, <span class="st">&quot;seaweed&quot;</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>hh <span class="sc">%&gt;%</span> <span class="fu">separate_rows</span>(activities, <span class="at">sep =</span> <span class="st">&quot;;&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">count</span>(activities, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 2</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co">#&gt;   activities      n</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;       &lt;int&gt;</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co">#&gt; 1 fishing       156</span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co">#&gt; 2 seaweed       144</span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="co">#&gt; 3 trade         144</span></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co">#&gt; 4 gleaning      142</span></span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a><span class="co">#&gt; 5 agriculture   137</span></span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="co">#&gt; 6 livestock     128</span></span></code></pre></div>
+</div>
+<div id="à-retenir-partie-1" class="section level2">
+<h2>À retenir — partie 1</h2>
+<ul>
+<li><strong>Regarder</strong> le fichier brut, puis importer avec les
+bons arguments (<code>skip</code>, <code>na.strings</code>)</li>
+<li>dates en classe <code>Date</code>, durées par soustraction</li>
+<li><strong>long</strong> pour analyser, <strong>large</strong> pour
+présenter</li>
+<li>jointure : vérifier la <strong>clé</strong> et le <strong>nombre de
+lignes</strong></li>
+<li>texte : <code>str_squish()</code>, casse, <code>str_detect()</code>,
+facteurs ordonnés</li>
+</ul>
+<div class="box tip">
+<strong>À faire</strong> : séances I0 à I4 en ligne, avec les fichiers
+checkpoint et les quiz (2 tentatives).
+</div>
+</div>
+<div id="merci" class="section level2 segue">
+<h2 class="segue">Merci !</h2>
+</div>
+
+
+
+<!-- code folding -->
+
+
+
+</body>
+</html>

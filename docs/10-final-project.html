@@ -31,8 +31,10 @@
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <!-- header.html: inserted inside <head> of every page (see _site.yml) -->
-<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
 <script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
 <script src="assets/course.js"></script>
 <meta name="author" content="Aroo Falinirina">
 
@@ -333,7 +335,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -342,7 +344,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
+    Beginner
      
     <span class="caret"></span>
   </a>
@@ -382,8 +384,83 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
 <li>
-  <a href="cheatsheet.html">Cheatsheet</a>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -559,34 +636,20 @@ pêche, et est-ce vrai dans les trois AMP ?</em></p>
 <div id="the-pit-methodla-méthode-pit" class="section level3">
 <h3><span class="en">The PIT method</span><span class="fr">La méthode
 PIT</span></h3>
-<figure class="svg-fig">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" role="img" aria-label="Point intercept transect" font-family="Source Sans 3, Arial, sans-serif">
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 260" role="img" aria-label="Point intercept transect" font-family="Source Sans 3, Arial, sans-serif">
 <rect width="860" height="260" fill="#e9f4f6"/>
 <path d="M0 170 Q60 140 120 165 T240 160 T360 170 T480 150 T600 168 T720 158 T860 165 V260 H0z" fill="#f1e6cc"/>
 <g><ellipse cx="90" cy="150" rx="45" ry="28" fill="#e48b6c"/><ellipse cx="300" cy="148" rx="55" ry="30" fill="#d9694a"/><path d="M430 160 q10 -40 20 0 q10 -45 20 0" fill="#a3b84a"/><ellipse cx="610" cy="152" rx="40" ry="24" fill="#e48b6c"/><g fill="#c8b9a2"><circle cx="190" cy="165" r="9"/><circle cx="205" cy="162" r="7"/><circle cx="520" cy="163" r="8"/><circle cx="740" cy="160" r="9"/><circle cx="755" cy="164" r="6"/></g></g>
 <line x1="30" y1="120" x2="830" y2="120" stroke="#e3b04b" stroke-width="5"/>
 <g stroke="#0b3d5c" stroke-width="2"><line x1="90" y1="112" x2="90" y2="140"/><line x1="200" y1="112" x2="200" y2="155"/><line x1="300" y1="112" x2="300" y2="128"/><line x1="450" y1="112" x2="450" y2="140"/><line x1="610" y1="112" x2="610" y2="138"/><line x1="745" y1="112" x2="745" y2="150"/></g>
 <g font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" text-anchor="middle"><text x="90" y="100" fill="#d9694a">HC</text><text x="200" y="100" fill="#8a7a62">RB</text><text x="300" y="100" fill="#d9694a">HC</text><text x="450" y="100" fill="#4a7d3a">MA</text><text x="610" y="100" fill="#d9694a">HC</text><text x="745" y="100" fill="#8a7a62">RB</text></g>
-<text class="en" x="30" y="40" font-size="17" font-weight="700" fill="#0b3d5c">Point
-Intercept Transect (PIT): a 25 m tape, one point every 0.5 m = 50
-points</text>
-<text class="fr" x="30" y="40" font-size="17" font-weight="700" fill="#0b3d5c">Transect
-à points (PIT) : ruban de 25 m, un point tous les 0,5 m = 50
-points</text>
-<text class="en" x="30" y="215" font-size="16" fill="#1f2a33">% hard
-coral cover = (number of HC points / total points) × 100 — e.g. 3 / 6 ×
-100 = 50 %</text>
-<text class="fr" x="30" y="215" font-size="16" fill="#1f2a33">%
-couverture de corail dur = (nombre de points HC / total des points) ×
-100 — ex. 3 / 6 × 100 = 50 %</text>
-<text class="en" x="30" y="242" font-size="14" fill="#5d6b75">HC hard
-coral · SC soft coral · MA macroalgae · TA turf algae · RB rubble · SD
-sand</text>
-<text class="fr" x="30" y="242" font-size="14" fill="#5d6b75">HC corail
-dur · SC corail mou · MA macroalgues · TA algues gazonnantes · RB débris
-· SD sable</text>
-</svg>
-</figure>
+<text class="en" x="30" y="40" font-size="17" font-weight="700" fill="#0b3d5c">Point Intercept Transect (PIT): a 25 m tape, one point every 0.5 m = 50 points</text>
+<text class="fr" x="30" y="40" font-size="17" font-weight="700" fill="#0b3d5c">Transect à points (PIT) : ruban de 25 m, un point tous les 0,5 m = 50 points</text>
+<text class="en" x="30" y="215" font-size="16" fill="#1f2a33">% hard coral cover = (number of HC points / total points) × 100  —  e.g. 3 / 6 × 100 = 50 %</text>
+<text class="fr" x="30" y="215" font-size="16" fill="#1f2a33">% couverture de corail dur = (nombre de points HC / total des points) × 100  —  ex. 3 / 6 × 100 = 50 %</text>
+<text class="en" x="30" y="242" font-size="14" fill="#5d6b75">HC hard coral · SC soft coral · MA macroalgae · TA turf algae · RB rubble · SD sand</text>
+<text class="fr" x="30" y="242" font-size="14" fill="#5d6b75">HC corail dur · SC corail mou · MA macroalgues · TA algues gazonnantes · RB débris · SD sable</text>
+</svg></figure>
 <div class="en">
 <p>Each row of the file is <strong>one point</strong> under the tape.
 The hard coral cover of a transect is the percentage of its points coded
@@ -613,33 +676,15 @@ est la proportion de <code>TRUE</code>. Donc
 <code>mean(category == "HC")</code> donne la proportion de points de
 corail dur, et × 100 le pourcentage.</p>
 </div>
-<figure class="svg-fig">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 170" role="img" aria-label="Data analysis workflow" font-family="Source Sans 3, Arial, sans-serif">
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 170" role="img" aria-label="Data analysis workflow" font-family="Source Sans 3, Arial, sans-serif">
 <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0b3d5c"/></marker></defs>
 <g stroke-width="2"><rect x="10" y="40" width="150" height="80" rx="10" fill="#fdf0eb" stroke="#d9694a"/><rect x="185" y="40" width="150" height="80" rx="10" fill="#f6f1e7" stroke="#b08a4a"/><rect x="360" y="40" width="150" height="80" rx="10" fill="#e9f4f6" stroke="#1b7f8c"/><rect x="535" y="40" width="150" height="80" rx="10" fill="#eef5ea" stroke="#4a7d3a"/><rect x="710" y="40" width="140" height="80" rx="10" fill="#0b3d5c" stroke="#0b3d5c"/></g>
 <g stroke="#0b3d5c" stroke-width="2" marker-end="url(#ar2)"><path d="M160 80h22"/><path d="M335 80h22"/><path d="M510 80h22"/><path d="M685 80h22"/></g>
-<g font-size="15" font-weight="700" text-anchor="middle"><text x="85" y="72" fill="#d9694a" class="en">1.
-Raw data</text><text x="85" y="72" fill="#d9694a" class="fr">1. Données
-brutes</text><text x="260" y="72" fill="#8a6a32" class="en">2.
-Clean</text><text x="260" y="72" fill="#8a6a32" class="fr">2.
-Nettoyer</text><text x="435" y="72" fill="#1b7f8c" class="en">3.
-Database</text><text x="435" y="72" fill="#1b7f8c" class="fr">3. Base de
-données</text><text x="610" y="72" fill="#4a7d3a" class="en">4.
-Summarise</text><text x="610" y="72" fill="#4a7d3a" class="fr">4.
-Résumer</text><text x="780" y="72" fill="#fff" class="en">5.
-Graph</text><text x="780" y="72" fill="#fff" class="fr">5.
-Graphique</text></g>
-<g font-size="13" text-anchor="middle" font-family="JetBrains Mono, monospace" fill="#3c4a52"><text x="85" y="100">read.csv()</text><text x="260" y="100">trimws()
-gsub()</text><text x="435" y="100">tapply()</text><text x="610" y="100">mean()
-sd()</text><text x="780" y="100" fill="#cfe3ea">barplot()</text></g>
-<text class="en" x="430" y="155" text-anchor="middle" font-size="15" fill="#5d6b75">Every
-step is written in a script, so the whole analysis can be re-run in one
-click.</text>
-<text class="fr" x="430" y="155" text-anchor="middle" font-size="15" fill="#5d6b75">Chaque
-étape est écrite dans un script : toute l’analyse peut être relancée en
-un clic.</text>
-</svg>
-</figure>
+<g font-size="15" font-weight="700" text-anchor="middle"><text x="85" y="72" fill="#d9694a" class="en">1. Raw data</text><text x="85" y="72" fill="#d9694a" class="fr">1. Données brutes</text><text x="260" y="72" fill="#8a6a32" class="en">2. Clean</text><text x="260" y="72" fill="#8a6a32" class="fr">2. Nettoyer</text><text x="435" y="72" fill="#1b7f8c" class="en">3. Database</text><text x="435" y="72" fill="#1b7f8c" class="fr">3. Base de données</text><text x="610" y="72" fill="#4a7d3a" class="en">4. Summarise</text><text x="610" y="72" fill="#4a7d3a" class="fr">4. Résumer</text><text x="780" y="72" fill="#fff" class="en">5. Graph</text><text x="780" y="72" fill="#fff" class="fr">5. Graphique</text></g>
+<g font-size="13" text-anchor="middle" font-family="JetBrains Mono, monospace" fill="#3c4a52"><text x="85" y="100">read.csv()</text><text x="260" y="100">trimws() gsub()</text><text x="435" y="100">tapply()</text><text x="610" y="100">mean() sd()</text><text x="780" y="100" fill="#cfe3ea">barplot()</text></g>
+<text class="en" x="430" y="155" text-anchor="middle" font-size="15" fill="#5d6b75">Every step is written in a script, so the whole analysis can be re-run in one click.</text>
+<text class="fr" x="430" y="155" text-anchor="middle" font-size="15" fill="#5d6b75">Chaque étape est écrite dans un script : toute l'analyse peut être relancée en un clic.</text>
+</svg></figure>
 <p><a class="btn-dl" href="data/coral_cover_raw.csv" download>⇩
 coral_cover_raw.csv</a>
 <a class="btn-dl" href="templates/final_project_template.R" download>⇩
@@ -681,6 +726,18 @@ valeurs uniques de <code>mpa</code>, <code>zone</code> et
 <code>category</code> (<code>unique()</code>,
 <code>table(..., useNA = "always")</code>). Notez chaque problème
 observé <strong>avant</strong> de corriger quoi que ce soit.</p>
+</div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Before cleaning, write as comments in your
+script the list of the problems you found in Step 1. Then compare with
+the list of Step 2: did you miss any?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Avant de nettoyer, écrivez en commentaires
+dans votre script la liste des problèmes trouvés à l’étape 1. Comparez
+ensuite avec la liste de l’étape 2 : en avez-vous oublié ?</p>
+</div>
 </div>
 </div>
 <div id="step2" class="section level2">
@@ -730,6 +787,22 @@ couverture sera calculée sur les points réellement relevés.</li>
 <code>outputs/</code>.</li>
 </ol>
 </div>
+<div class="hint">
+<div class="en">
+<p>To check your cleaning: <code>table(raw$mpa)</code> must show exactly
+3 MPAs, <code>table(raw$zone)</code> 2 zones and
+<code>table(raw$category, useNA = "always")</code> only upper-case codes
+plus <code>NA</code>. Remove the duplicates <strong>before</strong>
+counting the missing points.</p>
+</div>
+<div class="fr">
+<p>Pour vérifier votre nettoyage : <code>table(raw$mpa)</code> doit
+montrer exactement 3 AMP, <code>table(raw$zone)</code> 2 zones et
+<code>table(raw$category, useNA = "always")</code> seulement des codes
+en majuscules plus <code>NA</code>. Supprimez les doublons
+<strong>avant</strong> de compter les points manquants.</p>
+</div>
+</div>
 </div>
 <div id="step3" class="section level2">
 <h2><span class="en">Step 3 — Build the database</span><span
@@ -755,6 +828,20 @@ supprimez <code>is_hc</code>. Vous obtenez un tableau <code>db</code>
 avec <strong>une ligne par transect</strong>. Vérifiez qu’il a le nombre
 de lignes attendu (3 AMP × 2 zones × 3 transects). Enregistrez-le :
 c’est votre <strong>base de données</strong>.</p>
+</div>
+<div class="hint">
+<div class="en">
+<p>One transect = 50 points. Cover of hard coral on a transect = 100 ×
+number of <code>HC</code> points / number of points recorded on that
+transect. Build this table first (one row per transect), then compute
+the mean and SD per MPA and zone.</p>
+</div>
+<div class="fr">
+<p>Un transect = 50 points. Couverture en corail dur d’un transect = 100
+× nombre de points <code>HC</code> / nombre de points relevés sur ce
+transect. Construisez d’abord ce tableau (une ligne par transect), puis
+calculez la moyenne et l’ET par AMP et par zone.</p>
+</div>
 </div>
 </div>
 <div id="step4" class="section level2">

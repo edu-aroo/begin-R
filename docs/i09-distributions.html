@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · I9</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I9 · Distributions,
+transformations and the meaning of a p-value</span><span class="fr">I9 ·
+Distributions, transformations et sens d’une p-value</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>describe the <strong>shape</strong> of a distribution (symmetric,
+skewed, bimodal) and choose between <strong>mean and
+median</strong>;</li>
+<li>recognise a <strong>normal distribution</strong> and check it with a
+histogram and a <strong>QQ-plot</strong> (and know the limits of the
+Shapiro–Wilk test);</li>
+<li><strong>transform</strong> a skewed variable (log, square root), and
+<strong>back-transform</strong> the result (geometric mean);</li>
+<li>explain in plain words what a <strong>p-value</strong> is — and what
+it is not — using a <strong>permutation</strong> built with
+<code>sample()</code> and a loop.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>décrire la <strong>forme</strong> d’une distribution (symétrique,
+asymétrique, bimodale) et choisir entre <strong>moyenne et
+médiane</strong> ;</li>
+<li>reconnaître une <strong>distribution normale</strong> et la vérifier
+avec un histogramme et un <strong>QQ-plot</strong> (et connaître les
+limites du test de Shapiro–Wilk) ;</li>
+<li><strong>transformer</strong> une variable asymétrique (log, racine
+carrée) et <strong>re-transformer</strong> le résultat (moyenne
+géométrique) ;</li>
+<li>expliquer simplement ce qu’est une <strong>p-value</strong> — et ce
+qu’elle n’est pas — à l’aide d’une <strong>permutation</strong>
+construite avec <code>sample()</code> et une boucle.</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> No new data: we
+reuse two datasets you already cleaned.</p>
+<ul>
+<li><strong>Seaweed lines</strong>
+(<code>I3_seaweed_analysis.csv</code>): one row per farming line, from
+the cooperative’s logbooks (planting and harvest dates, fresh weights
+weighed on a hanging scale). The variable studied is the
+<strong>specific growth rate</strong> (SGR, % per day), a
+<em>continuous</em> variable.</li>
+<li><strong>Household survey</strong>
+(<code>I4_households_clean.csv</code>): 420 households interviewed face
+to face by four enumerators in 2025. The variable studied is the
+declared <strong>monthly income</strong> (Malagasy ariary, MGA):
+continuous, always positive, and — like most incomes — with a few very
+high values.</li>
+</ul>
+<p>This is a session about <strong>understanding</strong> before
+testing: the tests themselves come in Session I10.</p>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong> Pas de nouvelles
+données : nous réutilisons deux jeux que vous avez déjà nettoyés.</p>
+<ul>
+<li><strong>Lignes d’algues</strong>
+(<code>I3_seaweed_analysis.csv</code>) : une ligne par corde de culture,
+issue des cahiers de la coopérative (dates de plantation et de récolte,
+poids frais pesés au peson). La variable étudiée est le <strong>taux de
+croissance spécifique</strong> (SGR, % par jour), une variable
+<em>continue</em>.</li>
+<li><strong>Enquête ménages</strong>
+(<code>I4_households_clean.csv</code>) : 420 ménages interrogés en face
+à face par quatre enquêteurs en 2025. La variable étudiée est le
+<strong>revenu mensuel</strong> déclaré (ariary malgache, MGA) :
+continu, toujours positif et — comme la plupart des revenus — avec
+quelques valeurs très élevées.</li>
+</ul>
+<p>Cette séance sert à <strong>comprendre</strong> avant de tester : les
+tests eux-mêmes viennent à la séance I10.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/checkpoints/I3_seaweed_analysis.csv" download>⇩
+checkpoint: I3_seaweed_analysis.csv</a>
+<a class="btn-dl" href="data/checkpoints/I4_households_clean.csv" download>⇩
+checkpoint: I4_households_clean.csv</a></p>
+<div id="sample" class="section level2">
+<h2><span class="en">Sample and population</span><span
+class="fr">Échantillon et population</span></h2>
+<div class="en">
+<p>The 420 households are a <strong>sample</strong>; what we want to
+know is something about the <strong>population</strong> (all households
+of the 12 villages). A statistic computed on the sample (a mean, a
+proportion, a correlation) is an <em>estimate</em>: another sample would
+give a slightly different value. Statistics are mostly about this
+question: <strong>is the pattern I see larger than what sampling chance
+alone would produce?</strong> Keep this sentence in mind for the whole
+session.</p>
+</div>
+<div class="fr">
+<p>Les 420 ménages sont un <strong>échantillon</strong> ; ce que nous
+voulons connaître concerne la <strong>population</strong> (tous les
+ménages des 12 villages). Une statistique calculée sur l’échantillon
+(moyenne, proportion, corrélation) est une <em>estimation</em> : un
+autre échantillon donnerait une valeur un peu différente. La statistique
+répond surtout à cette question : <strong>le motif que je vois est-il
+plus grand que ce que le seul hasard de l’échantillonnage produirait
+?</strong> Gardez cette phrase en tête pendant toute la séance.</p>
+</div>
+</div>
+<div id="shape" class="section level2">
+<h2><span class="en">The shape of a distribution</span><span
+class="fr">La forme d’une distribution</span></h2>
+<div class="en">
+<p>A <strong>distribution</strong> describes which values a variable
+takes and how often. Always <strong>plot it first</strong> (Beginner
+Session 8, Intermediate Session I7): a histogram, or a density
+curve.</p>
+</div>
+<div class="fr">
+<p>Une <strong>distribution</strong> décrit les valeurs que prend une
+variable et leur fréquence. <strong>Tracez-la toujours d’abord</strong>
+(débutant séance 8, intermédiaire séance I7) : un histogramme, ou une
+courbe de densité.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>p_sgr <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(seaweed, <span class="fu">aes</span>(sgr)) <span class="sc">+</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.1</span>, <span class="at">fill =</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;SGR (% per day)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Lines&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Seaweed growth&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>p_inc <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(hh, <span class="fu">aes</span>(monthly_income_mga <span class="sc">/</span> <span class="dv">1000</span>)) <span class="sc">+</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="st">&quot;#d9694a&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Monthly income (thousand MGA)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Households&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Household income&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>p_sgr <span class="sc">|</span> p_inc</span></code></pre></div>
+<p><img src="i09-distributions_files/figure-html/shapes-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="en">
+<ul>
+<li><strong>SGR</strong> is roughly <strong>symmetric</strong>,
+bell-shaped: most values near the centre, as many above as below.</li>
+<li><strong>Income</strong> is <strong>right-skewed</strong> (positively
+skewed): many modest incomes and a long tail of a few high ones. This is
+typical of incomes, weights, abundances, concentrations: values that
+cannot be negative and that grow <em>multiplicatively</em>.</li>
+<li>A distribution with two humps is <strong>bimodal</strong>: it often
+means that two groups are mixed (e.g. two techniques, two seasons). Look
+for the grouping variable!</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>Le <strong>SGR</strong> est à peu près <strong>symétrique</strong>,
+en cloche : la plupart des valeurs au centre, autant au-dessus qu’en
+dessous.</li>
+<li>Le <strong>revenu</strong> est <strong>asymétrique à droite</strong>
+(asymétrie positive) : beaucoup de revenus modestes et une longue queue
+de quelques revenus élevés. C’est typique des revenus, poids,
+abondances, concentrations : des valeurs qui ne peuvent pas être
+négatives et qui croissent de façon <em>multiplicative</em>.</li>
+<li>Une distribution à deux bosses est <strong>bimodale</strong> : cela
+signifie souvent que deux groupes sont mélangés (deux techniques, deux
+saisons…). Cherchez la variable de groupe !</li>
+</ul>
+</div>
+<div id="mean-or-medianmoyenne-ou-médiane" class="section level3">
+<h3><span class="en">Mean or median?</span><span class="fr">Moyenne ou
+médiane ?</span></h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>inc <span class="ot">&lt;-</span> hh<span class="sc">$</span>monthly_income_mga</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(inc), <span class="at">median =</span> <span class="fu">median</span>(inc))</span></code></pre></div>
+<pre><code>#&gt;   mean median 
+#&gt; 516950 426000</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">sum</span>(inc <span class="sc">&gt;</span> <span class="fl">1e6</span>)          <span class="co"># number of households above 1 million MGA</span></span></code></pre></div>
+<pre><code>#&gt; [1] 29</code></pre>
+<div class="en">
+<p>The mean is <strong>pulled</strong> by the long tail: here it is
+about 90 000 MGA above the median. For a skewed variable, the
+<strong>median</strong> (with the quartiles) describes a “typical”
+household better; the mean is still useful for totals (total income of
+the village = mean × number of households). For a symmetric variable,
+mean and median are close and the mean (± SD) is the usual summary.</p>
+</div>
+<div class="fr">
+<p>La moyenne est <strong>tirée</strong> par la longue queue : ici elle
+dépasse la médiane d’environ 90 000 MGA. Pour une variable asymétrique,
+la <strong>médiane</strong> (avec les quartiles) décrit mieux un ménage
+« typique » ; la moyenne reste utile pour des totaux (revenu total du
+village = moyenne × nombre de ménages). Pour une variable symétrique,
+moyenne et médiane sont proches et la moyenne (± ET) est le résumé
+habituel.</p>
+</div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Compute the mean and median of
+<code>final_weight_kg</code> in <code>seaweed</code>. Is it skewed? In
+which direction? Then draw its histogram to check.</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Calculez la moyenne et la médiane de
+<code>final_weight_kg</code> dans <code>seaweed</code>. Est-elle
+asymétrique ? Dans quel sens ? Tracez ensuite son histogramme pour
+vérifier.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="normal" class="section level2">
+<h2><span class="en">The normal distribution</span><span class="fr">La
+distribution normale</span></h2>
+<div class="en">
+<p>The <strong>normal</strong> (Gaussian) distribution is the symmetric
+bell curve defined by two numbers: its mean (centre) and its standard
+deviation (spread). Many tests (“parametric” tests, such as the
+<em>t</em>-test and Pearson’s correlation) assume that the data — or the
+model errors — are approximately normal. In a normal distribution, about
+<strong>68 %</strong> of the values are within mean ± 1 SD, <strong>95
+%</strong> within mean ± 2 SD (exactly 1.96) and <strong>99.7 %</strong>
+within ± 3 SD.</p>
+<p>R has four functions for each distribution: <code>rnorm()</code>
+draws random values, <code>dnorm()</code> gives the density (the height
+of the curve), <code>pnorm()</code> the probability below a value,
+<code>qnorm()</code> the value below which a given probability lies.</p>
+</div>
+<div class="fr">
+<p>La distribution <strong>normale</strong> (gaussienne) est la courbe
+en cloche symétrique définie par deux nombres : sa moyenne (centre) et
+son écart-type (dispersion). Beaucoup de tests (tests « paramétriques »,
+comme le test <em>t</em> et la corrélation de Pearson) supposent que les
+données — ou les erreurs du modèle — sont à peu près normales. Dans une
+distribution normale, environ <strong>68 %</strong> des valeurs sont
+dans moyenne ± 1 ET, <strong>95 %</strong> dans moyenne ± 2 ET
+(exactement 1,96) et <strong>99,7 %</strong> dans ± 3 ET.</p>
+<p>R a quatre fonctions pour chaque distribution : <code>rnorm()</code>
+tire des valeurs au hasard, <code>dnorm()</code> donne la densité
+(hauteur de la courbe), <code>pnorm()</code> la probabilité en dessous
+d’une valeur, <code>qnorm()</code> la valeur sous laquelle se trouve une
+probabilité donnée.</p>
+</div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="fl">1.96</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fl">1.96</span>)   <span class="co"># ~0.95: area between -1.96 and +1.96 SD</span></span></code></pre></div>
+<pre><code>#&gt; [1] 0.9500042</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.975</span>)                 <span class="co"># 1.96: the value used for 95 % confidence intervals (Session I8)</span></span></code></pre></div>
+<pre><code>#&gt; [1] 1.959964</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)                  <span class="co"># same random numbers for everybody (Beginner Session 6)</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>fake <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="fl">3.4</span>, <span class="at">sd =</span> <span class="fl">0.65</span>)   <span class="co"># 1000 &quot;ideal&quot; SGR values</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(fake <span class="sc">-</span> <span class="fu">mean</span>(fake)) <span class="sc">&lt;</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sd</span>(fake))  <span class="co"># proportion within mean ± 2 SD</span></span></code></pre></div>
+<pre><code>#&gt; [1] 0.949</code></pre>
+<div class="en">
+<p>Let us put the theoretical curve on top of the real SGR histogram.
+The trick: draw the histogram on the <strong>density</strong> scale
+(<code>after_stat(density)</code>) so that the bars and the curve have
+the same units.</p>
+</div>
+<div class="fr">
+<p>Superposons la courbe théorique à l’histogramme réel du SGR. L’astuce
+: dessiner l’histogramme sur l’échelle de <strong>densité</strong>
+(<code>after_stat(density)</code>) pour que les barres et la courbe
+aient les mêmes unités.</p>
+</div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mean</span>(seaweed<span class="sc">$</span>sgr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>); s <span class="ot">&lt;-</span> <span class="fu">sd</span>(seaweed<span class="sc">$</span>sgr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">ggplot</span>(seaweed, <span class="fu">aes</span>(sgr)) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">binwidth =</span> <span class="fl">0.1</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">&quot;#cfe7ea&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> m, <span class="at">sd =</span> s),</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>                <span class="at">colour =</span> <span class="st">&quot;#0b3d5c&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span>            <span class="co"># normal curve with the same mean and SD</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;SGR (% per day)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Density&quot;</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Bars: observed lines; curve: normal distribution with the same mean and SD&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span></code></pre></div>
+<p><img src="i09-distributions_files/figure-html/unnamed-chunk-3-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="qq" class="section level2">
+<h2><span class="en">Checking normality</span><span class="fr">Vérifier
+la normalité</span></h2>
+<div class="en">
+<p>The <strong>QQ-plot</strong> (quantile–quantile) is the best visual
+check. Each point compares an observed value with the value expected if
+the data were normal. <strong>Normal data fall on the straight
+line</strong>; a curve (banana shape) indicates skewness; points leaving
+the line only at the ends indicate heavy tails or outliers.</p>
+</div>
+<div class="fr">
+<p>Le <strong>QQ-plot</strong> (quantile–quantile) est le meilleur
+contrôle visuel. Chaque point compare une valeur observée à la valeur
+attendue si les données étaient normales. <strong>Des données normales
+tombent sur la droite</strong> ; une courbe (forme de banane) indique
+une asymétrie ; des points qui ne quittent la droite qu’aux extrémités
+indiquent des queues épaisses ou des valeurs extrêmes.</p>
+</div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="cf">function</span>(x, title) {                     <span class="co"># small function (Session I6) to avoid repeating code</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x), <span class="fu">aes</span>(<span class="at">sample =</span> x)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>    <span class="fu">stat_qq</span>(<span class="at">colour =</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">stat_qq_line</span>(<span class="at">colour =</span> <span class="st">&quot;#d9694a&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Theoretical quantiles&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Observed&quot;</span>, <span class="at">title =</span> title) <span class="sc">+</span> <span class="fu">theme_c</span>()</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>}</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="fu">qq</span>(seaweed<span class="sc">$</span>sgr[<span class="sc">!</span><span class="fu">is.na</span>(seaweed<span class="sc">$</span>sgr)], <span class="st">&quot;SGR&quot;</span>) <span class="sc">|</span> <span class="fu">qq</span>(inc, <span class="st">&quot;Income&quot;</span>) <span class="sc">|</span> <span class="fu">qq</span>(<span class="fu">log</span>(inc), <span class="st">&quot;log(income)&quot;</span>)</span></code></pre></div>
+<p><img src="i09-distributions_files/figure-html/qq-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="compare">
+<div class="col base">
+<p><strong>base R</strong></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">qqnorm</span>(inc)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">qqline</span>(inc, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+</div>
+<div class="col pkg">
+<p><strong>ggplot2</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">ggplot</span>(hh, <span class="fu">aes</span>(<span class="at">sample =</span> monthly_income_mga)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span> <span class="fu">stat_qq_line</span>()</span></code></pre></div>
+</div>
+</div>
+<div
+id="the-shapirowilk-test-and-why-not-to-over-trust-itle-test-de-shapirowilk-et-pourquoi-ne-pas-trop-sy-fier"
+class="section level3">
+<h3><span class="en">The Shapiro–Wilk test, and why not to over-trust
+it</span><span class="fr">Le test de Shapiro–Wilk, et pourquoi ne pas
+trop s’y fier</span></h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(inc)              <span class="co"># H0: the data come from a normal distribution</span></span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Shapiro-Wilk normality test
+#&gt; 
+#&gt; data:  inc
+#&gt; W = 0.79851, p-value &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">log</span>(inc))</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Shapiro-Wilk normality test
+#&gt; 
+#&gt; data:  log(inc)
+#&gt; W = 0.99634, p-value = 0.4517</code></pre>
+<div class="callout warning">
+<div class="en">
+<p><code>shapiro.test()</code> tests the null hypothesis “the data are
+normal”. A small p-value means “clear evidence of non-normality”.
+But:</p>
+<ul>
+<li>with <strong>few</strong> data (n &lt; 20), it almost never rejects,
+even for clearly skewed data: it has little power;</li>
+<li>with <strong>many</strong> data (n &gt; 500), it rejects for tiny,
+harmless deviations;</li>
+<li>it only accepts 3 to 5000 values.</li>
+</ul>
+<p>So: <strong>look at the histogram and the QQ-plot first</strong>, and
+use the test as a complement. What matters is whether the deviation is
+large enough to distort your analysis — and with large samples, tests on
+<strong>means</strong> are quite robust (see the next section).</p>
+</div>
+<div class="fr">
+<p><code>shapiro.test()</code> teste l’hypothèse nulle « les données
+sont normales ». Une petite p-value signifie « preuve claire de
+non-normalité ». Mais :</p>
+<ul>
+<li>avec <strong>peu</strong> de données (n &lt; 20), il ne rejette
+presque jamais, même pour des données nettement asymétriques : il a peu
+de puissance ;</li>
+<li>avec <strong>beaucoup</strong> de données (n &gt; 500), il rejette
+pour des écarts minimes et sans conséquence ;</li>
+<li>il n’accepte que 3 à 5000 valeurs.</li>
+</ul>
+<p>Donc : <strong>regardez d’abord l’histogramme et le QQ-plot</strong>,
+et utilisez le test en complément. Ce qui compte, c’est de savoir si
+l’écart est assez grand pour fausser votre analyse — et avec de grands
+échantillons, les tests sur les <strong>moyennes</strong> sont assez
+robustes (voir la section suivante).</p>
+</div>
+</div>
+</div>
+<div
+id="why-means-behave-well-a-simulationpourquoi-les-moyennes-se-comportent-bien-une-simulation"
+class="section level3">
+<h3><span class="en">Why means behave well: a simulation</span><span
+class="fr">Pourquoi les moyennes se comportent bien : une
+simulation</span></h3>
+<div class="en">
+<p>Even when the data are skewed, the <strong>mean of a sample</strong>
+becomes approximately normal when the sample is large enough (the
+<em>central limit theorem</em>). Let us see it with a loop (Session I5):
+we draw 2000 samples of 5 or of 50 households and keep their mean
+income.</p>
+</div>
+<div class="fr">
+<p>Même quand les données sont asymétriques, la <strong>moyenne d’un
+échantillon</strong> devient à peu près normale quand l’échantillon est
+assez grand (le <em>théorème central limite</em>). Vérifions-le avec une
+boucle (séance I5) : nous tirons 2000 échantillons de 5 ou de 50 ménages
+et gardons leur revenu moyen.</p>
+</div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>means5  <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(inc, <span class="dv">5</span>)))    <span class="co"># replicate() = a short for-loop that collects results</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>means50 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(inc, <span class="dv">50</span>)))</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;n = 5&quot;</span>, <span class="st">&quot;n = 50&quot;</span>), <span class="at">each =</span> <span class="dv">2000</span>), <span class="at">mean =</span> <span class="fu">c</span>(means5, means50) <span class="sc">/</span> <span class="dv">1000</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="fu">ggplot</span>(sims, <span class="fu">aes</span>(mean)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>, <span class="at">fill =</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> n, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Mean income of the sample (thousand MGA)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Samples&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span></code></pre></div>
+<p><img src="i09-distributions_files/figure-html/clt-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="en">
+<p>With 5 households the means are still skewed; with 50 they are almost
+perfectly bell-shaped, and much less spread. This is why a
+<em>t</em>-test on large groups tolerates non-normal data, while with
+small groups normality really matters.</p>
+</div>
+<div class="fr">
+<p>Avec 5 ménages, les moyennes restent asymétriques ; avec 50, elles
+sont presque parfaitement en cloche, et beaucoup moins dispersées. C’est
+pourquoi un test <em>t</em> sur de grands groupes tolère des données non
+normales, alors qu’avec de petits groupes la normalité compte
+vraiment.</p>
+</div>
+</div>
+</div>
+<div id="transform" class="section level2">
+<h2><span class="en">Transformations</span><span
+class="fr">Transformations</span></h2>
+<div class="en">
+<p>A <strong>transformation</strong> applies the same function to every
+value to change the shape of the distribution, usually to make it more
+symmetric (closer to normal) and to reduce the weight of extreme values.
+The order of the values is unchanged.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Transformation</th>
+<th>R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Positive, right-skewed (income, weight, concentration, biomass)</td>
+<td>logarithm</td>
+<td><code>log(x)</code></td>
+</tr>
+<tr class="even">
+<td>Same, but with zeros</td>
+<td>log of x + 1</td>
+<td><code>log1p(x)</code> (= <code>log(x + 1)</code>)</td>
+</tr>
+<tr class="odd">
+<td>Counts (individuals per quadrat), moderate skew</td>
+<td>square root</td>
+<td><code>sqrt(x)</code></td>
+</tr>
+<tr class="even">
+<td>Proportions / percentages</td>
+<td>no simple fix: analyse the counts (Session I10)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p>Une <strong>transformation</strong> applique la même fonction à
+chaque valeur pour changer la forme de la distribution, en général pour
+la rendre plus symétrique (plus proche de la normale) et réduire le
+poids des valeurs extrêmes. L’ordre des valeurs ne change pas.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Transformation</th>
+<th>R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Positif, asymétrique à droite (revenu, poids, concentration,
+biomasse)</td>
+<td>logarithme</td>
+<td><code>log(x)</code></td>
+</tr>
+<tr class="even">
+<td>Idem, mais avec des zéros</td>
+<td>log de x + 1</td>
+<td><code>log1p(x)</code> (= <code>log(x + 1)</code>)</td>
+</tr>
+<tr class="odd">
+<td>Comptages (individus par quadrat), asymétrie modérée</td>
+<td>racine carrée</td>
+<td><code>sqrt(x)</code></td>
+</tr>
+<tr class="even">
+<td>Proportions / pourcentages</td>
+<td>pas de solution simple : analyser les effectifs (séance I10)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>hh<span class="sc">$</span>log_income <span class="ot">&lt;-</span> <span class="fu">log</span>(hh<span class="sc">$</span>monthly_income_mga)    <span class="co"># natural log (base e); log10() also works</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">ggplot</span>(hh, <span class="fu">aes</span>(log_income)) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">&quot;#d9694a&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;log(monthly income)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Households&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span></code></pre></div>
+<p><img src="i09-distributions_files/figure-html/trans-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="en">
+<p>After the log, income is nicely symmetric (and Shapiro–Wilk no longer
+rejects normality above). You can then compute a mean <strong>on the log
+scale</strong> — but report it on the original scale by
+<strong>back-transforming</strong> with <code>exp()</code>. The result,
+<code>exp(mean(log(x)))</code>, is the <strong>geometric mean</strong>:
+a “typical” value that is not pulled by the tail, close to the
+median.</p>
+</div>
+<div class="fr">
+<p>Après le log, le revenu est bien symétrique (et Shapiro–Wilk ne
+rejette plus la normalité plus haut). On peut alors calculer une moyenne
+<strong>sur l’échelle log</strong> — mais on la rapporte sur l’échelle
+d’origine en la <strong>re-transformant</strong> avec
+<code>exp()</code>. Le résultat, <code>exp(mean(log(x)))</code>, est la
+<strong>moyenne géométrique</strong> : une valeur « typique » non tirée
+par la queue, proche de la médiane.</p>
+</div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>geo_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(x), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))   <span class="co"># a reusable function (Session I6)</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">arithmetic =</span> <span class="fu">mean</span>(inc), <span class="at">geometric =</span> <span class="fu">geo_mean</span>(inc), <span class="at">median =</span> <span class="fu">median</span>(inc))</span></code></pre></div>
+<pre><code>#&gt; arithmetic  geometric     median 
+#&gt;   516950.0   437185.9   426000.0</code></pre>
+<div class="callout warning">
+<div class="en">
+<p><strong>Three traps.</strong> (1) <code>log(0)</code> is
+<code>-Inf</code> and <code>log</code> of a negative number is
+<code>NaN</code>: check <code>min(x)</code> first, and use
+<code>log1p()</code> if there are zeros. (2) A difference of means on
+the log scale is a <strong>ratio</strong> on the original scale:
+<code>exp(0.07)</code> ≈ 1.07, i.e. “7 % higher”. (3) Do not transform
+“until the test is significant”: choose the transformation from the
+nature of the variable and from the plots, <strong>before</strong>
+testing.</p>
+</div>
+<div class="fr">
+<p><strong>Trois pièges.</strong> (1) <code>log(0)</code> vaut
+<code>-Inf</code> et le <code>log</code> d’un nombre négatif vaut
+<code>NaN</code> : vérifiez d’abord <code>min(x)</code>, et utilisez
+<code>log1p()</code> s’il y a des zéros. (2) Une différence de moyennes
+sur l’échelle log est un <strong>rapport</strong> sur l’échelle
+d’origine : <code>exp(0.07)</code> ≈ 1,07, soit « 7 % plus élevé ». (3)
+Ne transformez pas « jusqu’à ce que le test soit significatif » :
+choisissez la transformation d’après la nature de la variable et les
+graphiques, <strong>avant</strong> de tester.</p>
+</div>
+</div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> <code>distance_coast_km</code> contains
+zeros. What does <code>min(log(hh$distance_coast_km))</code> return?
+Compare the QQ-plots of <code>distance_coast_km</code>,
+<code>sqrt(distance_coast_km)</code> and
+<code>log1p(distance_coast_km)</code>.</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> <code>distance_coast_km</code> contient des
+zéros. Que renvoie <code>min(log(hh$distance_coast_km))</code> ?
+Comparez les QQ-plots de <code>distance_coast_km</code>,
+<code>sqrt(distance_coast_km)</code> et
+<code>log1p(distance_coast_km)</code>.</p>
+</div>
+</div>
+</div>
+<div id="pvalue" class="section level2">
+<h2><span class="en">What a p-value really means</span><span
+class="fr">Ce que signifie vraiment une p-value</span></h2>
+<div class="en">
+<p><strong>Question of the cooperative:</strong> do households that farm
+seaweed earn more? The geometric means differ:</p>
+</div>
+<div class="fr">
+<p><strong>Question de la coopérative :</strong> les ménages qui
+cultivent les algues gagnent-ils plus ? Les moyennes géométriques
+diffèrent :</p>
+</div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">tapply</span>(hh<span class="sc">$</span>monthly_income_mga, hh<span class="sc">$</span>does_seaweed, geo_mean)</span></code></pre></div>
+<pre><code>#&gt;    FALSE     TRUE 
+#&gt; 426466.0 458491.4</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">mean</span>(hh<span class="sc">$</span>log_income[hh<span class="sc">$</span>does_seaweed]) <span class="sc">-</span> <span class="fu">mean</span>(hh<span class="sc">$</span>log_income[<span class="sc">!</span>hh<span class="sc">$</span>does_seaweed])</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>obs          <span class="co"># observed difference on the log scale</span></span></code></pre></div>
+<pre><code>#&gt; [1] 0.07240896</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">exp</span>(obs)     <span class="co"># ratio: seaweed households earn ~7.5 % more (typical household)</span></span></code></pre></div>
+<pre><code>#&gt; [1] 1.075095</code></pre>
+<div class="en">
+<p>But is a 7.5 % difference larger than what <strong>chance</strong>
+alone could produce with groups of 144 and 276 households? Let us build
+the answer ourselves. Suppose that farming seaweed has
+<strong>no</strong> link with income (this is the <strong>null
+hypothesis</strong>, H0). Then the labels “seaweed / no seaweed” are
+arbitrary: we can <strong>shuffle</strong> them with
+<code>sample()</code> and recompute the difference, many times. This
+gives the distribution of differences produced by chance alone — a
+<strong>permutation test</strong>.</p>
+</div>
+<div class="fr">
+<p>Mais une différence de 7,5 % est-elle plus grande que ce que le
+<strong>hasard</strong> seul pourrait produire avec des groupes de 144
+et 276 ménages ? Construisons la réponse nous-mêmes. Supposons que la
+culture d’algues n’ait <strong>aucun</strong> lien avec le revenu (c’est
+l’<strong>hypothèse nulle</strong>, H0). Alors les étiquettes « algues /
+pas d’algues » sont arbitraires : on peut les <strong>mélanger</strong>
+avec <code>sample()</code> et recalculer la différence, de nombreuses
+fois. On obtient la distribution des différences produites par le seul
+hasard — un <strong>test de permutation</strong>.</p>
+</div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>n_perm <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>perm <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n_perm)                      <span class="co"># empty vector to fill (Session I5)</span></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_perm) {</span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>  shuffled <span class="ot">&lt;-</span> <span class="fu">sample</span>(hh<span class="sc">$</span>does_seaweed)        <span class="co"># same labels, random order</span></span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a>  perm[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(hh<span class="sc">$</span>log_income[shuffled]) <span class="sc">-</span> <span class="fu">mean</span>(hh<span class="sc">$</span>log_income[<span class="sc">!</span>shuffled])</span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>}</span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a>p_perm <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(perm) <span class="sc">&gt;=</span> <span class="fu">abs</span>(obs))        <span class="co"># share of shuffles at least as extreme as what we observed</span></span>
+<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a>p_perm</span></code></pre></div>
+<pre><code>#&gt; [1] 0.2166</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">d =</span> perm), <span class="fu">aes</span>(d)) <span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="st">&quot;#c9d3d8&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">c</span>(<span class="sc">-</span>obs, obs), <span class="at">colour =</span> <span class="st">&quot;#d9694a&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Difference in mean log(income) when the labels are shuffled&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Shuffles&quot;</span>,</span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Red line: observed difference (dashed: same size, other direction)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span></code></pre></div>
+<p><img src="i09-distributions_files/figure-html/perm-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="en">
+<p>About <strong>22 %</strong> of the random shuffles give a difference
+at least as large as the one we observed. That proportion <strong>is the
+p-value</strong>:</p>
+<blockquote>
+<p><strong>p-value</strong> = the probability of observing a difference
+(or a correlation…) <strong>at least as extreme</strong> as ours
+<strong>if the null hypothesis were true</strong>.</p>
+</blockquote>
+<p>Here, p ≈ 0.22: a difference of this size is common under chance
+alone, so the data give <strong>no convincing evidence</strong> that
+seaweed households earn more. A classic <em>t</em>-test on the log scale
+gives almost the same p-value — it uses a mathematical formula instead
+of shuffling:</p>
+</div>
+<div class="fr">
+<p>Environ <strong>22 %</strong> des mélanges aléatoires donnent une
+différence au moins aussi grande que celle observée. Cette proportion
+<strong>est la p-value</strong> :</p>
+<blockquote>
+<p><strong>p-value</strong> = la probabilité d’observer une différence
+(ou une corrélation…) <strong>au moins aussi extrême</strong> que la
+nôtre <strong>si l’hypothèse nulle était vraie</strong>.</p>
+</blockquote>
+<p>Ici, p ≈ 0.22 : une différence de cette taille est fréquente sous le
+seul effet du hasard ; les données n’apportent donc <strong>pas de
+preuve convaincante</strong> que les ménages cultivateurs gagnent plus.
+Un test <em>t</em> classique sur l’échelle log donne presque la même
+p-value — il utilise une formule mathématique au lieu des mélanges :</p>
+</div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">t.test</span>(log_income <span class="sc">~</span> does_seaweed, <span class="at">data =</span> hh)<span class="sc">$</span>p.value</span></code></pre></div>
+<pre><code>#&gt; [1] 0.2147531</code></pre>
+<div class="callout warning">
+<div class="en">
+<p><strong>What a p-value is NOT.</strong></p>
+<ul>
+<li>It is <strong>not</strong> the probability that H0 is true, nor the
+probability that the result is “due to chance”.</li>
+<li>A <strong>non-significant</strong> result (p &gt; 0.05) does
+<strong>not</strong> prove that there is no difference: it says that the
+data cannot distinguish the difference from chance (maybe the effect is
+small, or the sample too small). Write “no evidence of a difference”,
+not “no difference”.</li>
+<li>A <strong>significant</strong> result does not say the effect is
+<strong>large or important</strong>: with thousands of data, a tiny
+difference becomes significant. Always report the <strong>size of the
+effect</strong> (difference, ratio, correlation) with its confidence
+interval, next to the p-value.</li>
+<li>0.05 is a <strong>convention</strong>, not a law of nature: p =
+0.049 and p = 0.051 tell almost the same story.</li>
+</ul>
+</div>
+<div class="fr">
+<p><strong>Ce qu’une p-value N’EST PAS.</strong></p>
+<ul>
+<li>Ce n’est <strong>pas</strong> la probabilité que H0 soit vraie, ni
+la probabilité que le résultat soit « dû au hasard ».</li>
+<li>Un résultat <strong>non significatif</strong> (p &gt; 0,05) ne
+<strong>prouve pas</strong> qu’il n’y a pas de différence : il dit que
+les données ne permettent pas de distinguer la différence du hasard
+(l’effet est peut-être faible, ou l’échantillon trop petit). Écrivez «
+pas de preuve d’une différence », pas « pas de différence ».</li>
+<li>Un résultat <strong>significatif</strong> ne dit pas que l’effet est
+<strong>grand ou important</strong> : avec des milliers de données, une
+différence minuscule devient significative. Rapportez toujours la
+<strong>taille de l’effet</strong> (différence, rapport, corrélation)
+avec son intervalle de confiance, à côté de la p-value.</li>
+<li>0,05 est une <strong>convention</strong>, pas une loi de la nature :
+p = 0,049 et p = 0,051 racontent presque la même histoire.</li>
+</ul>
+</div>
+</div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Rerun the permutation with
+<code>set.seed(7)</code>. Does the p-value change? By how much? Why is
+it never exactly the same as the <em>t</em>-test? (Hint: 5000 shuffles
+is a sample of all possible shuffles.)</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Relancez la permutation avec
+<code>set.seed(7)</code>. La p-value change-t-elle ? De combien ?
+Pourquoi n’est-elle jamais exactement égale à celle du test <em>t</em> ?
+(Indice : 5000 mélanges sont un échantillon de tous les mélanges
+possibles.)</p>
+</div>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-i9" class="section level3 en">
+<h3>Application work I9</h3>
+<p>Script <code>scripts/i09_distributions.R</code>. Start from the two
+checkpoint files above.</p>
+<ol style="list-style-type: decimal">
+<li>Median and mean of <code>monthly_income_mga</code> (MGA).</li>
+<li>From these two numbers, what is the shape of the income
+distribution?</li>
+<li>Geometric mean income, rounded to the nearest ariary (write a
+<code>geo_mean()</code> function).</li>
+<li>p-value of <code>shapiro.test()</code> on
+<code>log(monthly_income_mga)</code> (3 decimals).</li>
+<li>For <code>sgr</code> (without NA), proportion of lines within mean ±
+2 SD (3 decimals). Is it close to what a normal distribution
+predicts?</li>
+<li>In the village <strong>Lovobe</strong>, observed difference of mean
+SGR: long-line − off-bottom (3 decimals). Then run a permutation test
+(5000 shuffles of <code>technique</code>, inside Lovobe) and compare
+your p-value with <code>t.test()</code>.</li>
+<li>Draw the QQ-plot of <code>final_weight_kg</code> and of its log.
+Which looks more normal?</li>
+</ol>
+</div>
+<div id="travail-dapplication-i9" class="section level3 fr">
+<h3>Travail d’application I9</h3>
+<p>Script <code>scripts/i09_distributions.R</code>. Partez des deux
+fichiers checkpoint ci-dessus.</p>
+<ol style="list-style-type: decimal">
+<li>Médiane et moyenne de <code>monthly_income_mga</code> (MGA).</li>
+<li>D’après ces deux nombres, quelle est la forme de la distribution des
+revenus ?</li>
+<li>Revenu moyen géométrique, arrondi à l’ariary près (écrivez une
+fonction <code>geo_mean()</code>).</li>
+<li>p-value de <code>shapiro.test()</code> sur
+<code>log(monthly_income_mga)</code> (3 décimales).</li>
+<li>Pour <code>sgr</code> (sans NA), proportion des lignes comprises
+dans moyenne ± 2 ET (3 décimales). Est-ce proche de ce que prédit une
+distribution normale ?</li>
+<li>Dans le village <strong>Lovobe</strong>, différence observée de SGR
+moyen : long-line − off-bottom (3 décimales). Faites ensuite un test de
+permutation (5000 mélanges de <code>technique</code>, dans Lovobe) et
+comparez votre p-value avec <code>t.test()</code>.</li>
+<li>Tracez le QQ-plot de <code>final_weight_kg</code> et de son log.
+Lequel paraît le plus normal ?</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 6: first
+<code>lv &lt;- seaweed[seaweed$village == "Lovobe" &amp; !is.na(seaweed$sgr), ]</code>,
+then work only with <code>lv</code>. Inside the loop, shuffle
+<code>lv$technique</code> with <code>sample()</code>.</p>
+</div>
+<div class="fr">
+<p>Question 6 : d’abord
+<code>lv &lt;- seaweed[seaweed$village == "Lovobe" &amp; !is.na(seaweed$sgr), ]</code>,
+puis travaillez seulement avec <code>lv</code>. Dans la boucle, mélangez
+<code>lv$technique</code> avec <code>sample()</code>.</p>
+</div>
+</div>
+<div id="quiz-i09" class="quiz" data-quiz-id="i09"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMWEuIE1lZGlhbiBtb250aGx5IGluY29tZSAoTUdBKT8iLCJmciI6IjFhLiBSZXZlbnUgbWVuc3VlbCBtw6lkaWFuIChNR0EpID8iLCJhbnN3ZXIiOjQyNjAwMCwidG9sIjoxLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMWIuIE1lYW4gbW9udGhseSBpbmNvbWUgKE1HQSk/IiwiZnIiOiIxYi4gUmV2ZW51IG1lbnN1ZWwgbW95ZW4gKE1HQSkgPyIsImFuc3dlciI6NTE2OTUwLCJ0b2wiOjEsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiIyLiBUaGUgbWVhbiBpcyBjbGVhcmx5IGhpZ2hlciB0aGFuIHRoZSBtZWRpYW4uIFRoZSBkaXN0cmlidXRpb24gaXM6IiwiZnIiOiIyLiBMYSBtb3llbm5lIGVzdCBuZXR0ZW1lbnQgc3Vww6lyaWV1cmUgw6AgbGEgbcOpZGlhbmUuIExhIGRpc3RyaWJ1dGlvbiBlc3QgOiIsIm9wdGlvbnNfZW4iOlsicmlnaHQtc2tld2VkIChsb25nIHRhaWwgb2YgaGlnaCB2YWx1ZXMpIiwibGVmdC1za2V3ZWQgKGxvbmcgdGFpbCBvZiBsb3cgdmFsdWVzKSIsInN5bW1ldHJpYyIsImJpbW9kYWwiXSwib3B0aW9uc19mciI6WyJhc3ltw6l0cmlxdWUgw6AgZHJvaXRlIChsb25ndWUgcXVldWUgZGUgdmFsZXVycyDDqWxldsOpZXMpIiwiYXN5bcOpdHJpcXVlIMOgIGdhdWNoZSAobG9uZ3VlIHF1ZXVlIGRlIHZhbGV1cnMgZmFpYmxlcykiLCJzeW3DqXRyaXF1ZSIsImJpbW9kYWxlIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBHZW9tZXRyaWMgbWVhbiBpbmNvbWUgKG5lYXJlc3QgTUdBKT8iLCJmciI6IjMuIFJldmVudSBtb3llbiBnw6lvbcOpdHJpcXVlICjDoCBsJ2FyaWFyeSBwcsOocykgPyIsImFuc3dlciI6NDM3MTg2LCJ0b2wiOjEsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBTaGFwaXJv4oCTV2lsayBwLXZhbHVlIG9uIGxvZyhpbmNvbWUpICgzIGRlY2ltYWxzKT8iLCJmciI6IjQuIHAtdmFsdWUgZGUgU2hhcGlyb+KAk1dpbGsgc3VyIGxvZyhyZXZlbnUpICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjAuNDUyLCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIFByb3BvcnRpb24gb2YgU0dSIHZhbHVlcyB3aXRoaW4gbWVhbiDCsSAyIFNEICgzIGRlY2ltYWxzKT8iLCJmciI6IjUuIFByb3BvcnRpb24gZGVzIFNHUiBkYW5zIG1veWVubmUgwrEgMiBFVCAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjowLjk2MSwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI2LiBMb3ZvYmU6IG1lYW4gU0dSIGxvbmctbGluZSDiiJIgb2ZmLWJvdHRvbSAoMyBkZWNpbWFscyk/IiwiZnIiOiI2LiBMb3ZvYmUgOiBTR1IgbW95ZW4gbG9uZy1saW5lIOKIkiBvZmYtYm90dG9tICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjAuMzc0LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIEEgdGVzdCBnaXZlcyBwID0gMC4wMy4gV2hpY2ggc2VudGVuY2UgaXMgY29ycmVjdD8iLCJmciI6IjcuIFVuIHRlc3QgZG9ubmUgcCA9IDAsMDMuIFF1ZWxsZSBwaHJhc2UgZXN0IGNvcnJlY3RlID8iLCJvcHRpb25zX2VuIjpbIlRoZXJlIGlzIGEgMyAlIHByb2JhYmlsaXR5IHRoYXQgSDAgaXMgdHJ1ZSIsIklmIEgwIHdlcmUgdHJ1ZSwgYSByZXN1bHQgYXQgbGVhc3QgdGhpcyBleHRyZW1lIHdvdWxkIG9jY3VyIGFib3V0IDMgJSBvZiB0aGUgdGltZSIsIlRoZSBlZmZlY3QgaXMgbGFyZ2UgYW5kIGltcG9ydGFudCIsIlRoZXJlIGlzIGEgOTcgJSBwcm9iYWJpbGl0eSB0aGF0IHRoZSBkaWZmZXJlbmNlIGlzIHJlYWwiXSwib3B0aW9uc19mciI6WyJJbCB5IGEgMyAlIGRlIHByb2JhYmlsaXTDqSBxdWUgSDAgc29pdCB2cmFpZSIsIlNpIEgwIMOpdGFpdCB2cmFpZSwgdW4gcsOpc3VsdGF0IGF1IG1vaW5zIGF1c3NpIGV4dHLDqm1lIGFycml2ZXJhaXQgZW52aXJvbiAzICUgZHUgdGVtcHMiLCJMJ2VmZmV0IGVzdCBncmFuZCBldCBpbXBvcnRhbnQiLCJJbCB5IGEgOTcgJSBkZSBwcm9iYWJpbGl0w6kgcXVlIGxhIGRpZmbDqXJlbmNlIHNvaXQgcsOpZWxsZSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gV2l0aCAyMzAwIFNHUiB2YWx1ZXMsIHNoYXBpcm8udGVzdCgpIGdpdmVzIHAgPSAwLjAxIGJ1dCB0aGUgUVEtcGxvdCBpcyBhbG1vc3QgYSBzdHJhaWdodCBsaW5lLiBCZXN0IGNvbmNsdXNpb24/IiwiZnIiOiI4LiBBdmVjIDIzMDAgdmFsZXVycyBkZSBTR1IsIHNoYXBpcm8udGVzdCgpIGRvbm5lIHAgPSAwLDAxIG1haXMgbGUgUVEtcGxvdCBlc3QgcHJlc3F1ZSB1bmUgZHJvaXRlLiBNZWlsbGV1cmUgY29uY2x1c2lvbiA/Iiwib3B0aW9uc19lbiI6WyJXaXRoIHNvIG1hbnkgdmFsdWVzIHRoZSB0ZXN0IGRldGVjdHMgdGlueSBkZXZpYXRpb25zOyB0aGUgZGlzdHJpYnV0aW9uIGlzIGNsb3NlIGVub3VnaCB0byBub3JtYWwiLCJUaGUgZGF0YSBhcmUgZmFyIGZyb20gbm9ybWFsOiBuZXZlciB1c2UgYSB0LXRlc3QiLCJTaGFwaXJv4oCTV2lsayBjYW5ub3QgYmUgdXNlZCBhYm92ZSA1MCB2YWx1ZXMiLCJSZW1vdmUgdmFsdWVzIHVudGlsIHAgPiAwLjA1Il0sIm9wdGlvbnNfZnIiOlsiQXZlYyBhdXRhbnQgZGUgdmFsZXVycyBsZSB0ZXN0IGTDqXRlY3RlIGRlcyDDqWNhcnRzIG1pbmltZXMgOyBsYSBkaXN0cmlidXRpb24gZXN0IGFzc2V6IHByb2NoZSBkZSBsYSBub3JtYWxlIiwiTGVzIGRvbm7DqWVzIHNvbnQgbG9pbiBkZSBsYSBub3JtYWxlIDogbmUgamFtYWlzIHV0aWxpc2VyIGRlIHRlc3QgdCIsIlNoYXBpcm/igJNXaWxrIG5lIHBldXQgcGFzIMOqdHJlIHV0aWxpc8OpIGF1LWRlbMOgIGRlIDUwIHZhbGV1cnMiLCJTdXBwcmltZXIgZGVzIHZhbGV1cnMganVzcXUnw6AgY2UgcXVlIHAgPiAwLDA1Il0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBOdW1iZXIgb2Ygc2VhIGN1Y3VtYmVycyBwZXIgcXVhZHJhdCwgd2l0aCBtYW55IHplcm9zIGFuZCBhIGZldyBsYXJnZSBjb3VudHMuIFdoaWNoIHRyYW5zZm9ybWF0aW9uIGNhbiB5b3UgdXNlPyIsImZyIjoiOS4gTm9tYnJlIGQnaG9sb3RodXJpZXMgcGFyIHF1YWRyYXQsIGF2ZWMgYmVhdWNvdXAgZGUgesOpcm9zIGV0IHF1ZWxxdWVzIGdyYW5kcyBjb21wdGFnZXMuIFF1ZWxsZSB0cmFuc2Zvcm1hdGlvbiB1dGlsaXNlciA/Iiwib3B0aW9uc19lbiI6WyJsb2coeCkiLCJleHAoeCkiLCJzcXJ0KHgpIG9yIGxvZzFwKHgpIiwieF4yIl0sIm9wdGlvbnNfZnIiOlsibG9nKHgpIiwiZXhwKHgpIiwic3FydCh4KSBvdSBsb2cxcCh4KSIsInheMiJdLCJhbnN3ZXIiOjJ9XQ==">
+
+</div>
+<div class="solution" data-quiz="i09">
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2); <span class="fu">library</span>(dplyr)</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>hh <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I4_households_clean.csv&quot;</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>seaweed <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I3_seaweed_analysis.csv&quot;</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>inc <span class="ot">&lt;-</span> hh<span class="sc">$</span>monthly_income_mga</span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a><span class="fu">median</span>(inc); <span class="fu">mean</span>(inc)                                  <span class="co"># 1: mean &gt; median -&gt; right-skewed (2)</span></span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>geo_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(x), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">geo_mean</span>(inc))                                    <span class="co"># 3</span></span>
+<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">log</span>(inc))                                  <span class="co"># 4</span></span>
+<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a>x <span class="ot">&lt;-</span> seaweed<span class="sc">$</span>sgr[<span class="sc">!</span><span class="fu">is.na</span>(seaweed<span class="sc">$</span>sgr)]</span>
+<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(x <span class="sc">-</span> <span class="fu">mean</span>(x)) <span class="sc">&lt;</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sd</span>(x))                      <span class="co"># 5: ~0.96, close to the 95 % of a normal</span></span>
+<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a>lv <span class="ot">&lt;-</span> seaweed[seaweed<span class="sc">$</span>village <span class="sc">==</span> <span class="st">&quot;Lovobe&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(seaweed<span class="sc">$</span>sgr), ]</span>
+<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">mean</span>(lv<span class="sc">$</span>sgr[lv<span class="sc">$</span>technique <span class="sc">==</span> <span class="st">&quot;long-line&quot;</span>]) <span class="sc">-</span> <span class="fu">mean</span>(lv<span class="sc">$</span>sgr[lv<span class="sc">$</span>technique <span class="sc">==</span> <span class="st">&quot;off-bottom&quot;</span>])</span>
+<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a><span class="fu">round</span>(obs, <span class="dv">3</span>)                                           <span class="co"># 6</span></span>
+<span id="cb35-14"><a href="#cb35-14" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb35-15"><a href="#cb35-15" tabindex="-1"></a>perm <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">5000</span>)</span>
+<span id="cb35-16"><a href="#cb35-16" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5000</span>) {</span>
+<span id="cb35-17"><a href="#cb35-17" tabindex="-1"></a>  tech <span class="ot">&lt;-</span> <span class="fu">sample</span>(lv<span class="sc">$</span>technique)</span>
+<span id="cb35-18"><a href="#cb35-18" tabindex="-1"></a>  perm[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(lv<span class="sc">$</span>sgr[tech <span class="sc">==</span> <span class="st">&quot;long-line&quot;</span>]) <span class="sc">-</span> <span class="fu">mean</span>(lv<span class="sc">$</span>sgr[tech <span class="sc">==</span> <span class="st">&quot;off-bottom&quot;</span>])</span>
+<span id="cb35-19"><a href="#cb35-19" tabindex="-1"></a>}</span>
+<span id="cb35-20"><a href="#cb35-20" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(perm) <span class="sc">&gt;=</span> <span class="fu">abs</span>(obs))                             <span class="co"># very small p-value (often 0 of 5000: p &lt; 0.0002)</span></span>
+<span id="cb35-21"><a href="#cb35-21" tabindex="-1"></a><span class="fu">t.test</span>(sgr <span class="sc">~</span> technique, <span class="at">data =</span> lv)<span class="sc">$</span>p.value              <span class="co"># ~0.0006: same conclusion</span></span>
+<span id="cb35-22"><a href="#cb35-22" tabindex="-1"></a>w <span class="ot">&lt;-</span> seaweed<span class="sc">$</span>final_weight_kg[<span class="sc">!</span><span class="fu">is.na</span>(seaweed<span class="sc">$</span>final_weight_kg)]</span>
+<span id="cb35-23"><a href="#cb35-23" tabindex="-1"></a><span class="fu">qqnorm</span>(w); <span class="fu">qqline</span>(w); <span class="fu">qqnorm</span>(<span class="fu">log</span>(w)); <span class="fu">qqline</span>(<span class="fu">log</span>(w))    <span class="co"># 7: the log is closer to the line</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

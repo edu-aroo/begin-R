@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · I1</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I1 · Dates</span><span
+class="fr">I1 · Les dates</span></h1>
+<h3 class="subtitle">~2.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>convert text and Excel date-times into real <strong>dates</strong>
+with <code>as.Date()</code> and its <code>format</code>;</li>
+<li>extract the year, month, day of week; compute
+<strong>durations</strong> between two dates;</li>
+<li>create <strong>seasons</strong> and periods from dates;</li>
+<li>use <strong>lubridate</strong> to do the same with shorter
+code;</li>
+<li>compute the seaweed <strong>growth rate</strong> of each line.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>convertir du texte et des dates-heures Excel en vraies
+<strong>dates</strong> avec <code>as.Date()</code> et son
+<code>format</code> ;</li>
+<li>extraire l’année, le mois, le jour de la semaine ; calculer des
+<strong>durées</strong> entre deux dates ;</li>
+<li>créer des <strong>saisons</strong> et des périodes à partir des
+dates ;</li>
+<li>utiliser <strong>lubridate</strong> pour faire la même chose avec un
+code plus court ;</li>
+<li>calculer le <strong>taux de croissance</strong> des algues de chaque
+ligne.</li>
+</ul>
+</div>
+</div>
+<div class="callout tip">
+<div class="en">
+<p>Start from your I0 script, or from the checkpoint file:
+<code>lines &lt;- read.csv("data/checkpoints/I0_lines.csv")</code>. With
+the checkpoint, <code>planting_date</code> is text
+<code>"2024-01-08"</code>, so convert it with <code>as.Date()</code>
+first.</p>
+</div>
+<div class="fr">
+<p>Partez de votre script I0, ou du fichier de contrôle :
+<code>lines &lt;- read.csv("data/checkpoints/I0_lines.csv")</code>. Avec
+le fichier de contrôle, <code>planting_date</code> est du texte
+<code>"2024-01-08"</code> : convertissez-le d’abord avec
+<code>as.Date()</code>.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/checkpoints/I0_lines.csv" download>⇩
+checkpoint: I0_lines.csv</a></p>
+<div id="why" class="section level2">
+<h2><span class="en">Why dates need special care</span><span
+class="fr">Pourquoi les dates demandent de l’attention</span></h2>
+<div class="en">
+<p>To R, <code>"22/02/2024"</code> is just text: it cannot compute that
+45 days separate planting and harvest, nor sort dates correctly
+(<code>"02/03/2024"</code> would come before <code>"22/02/2024"</code>
+in alphabetical order). A <strong>Date</strong> object stores the number
+of days since 1 January 1970, which makes all calculations possible.</p>
+</div>
+<div class="fr">
+<p>Pour R, <code>"22/02/2024"</code> n’est que du texte : il ne peut pas
+calculer que 45 jours séparent le semis de la récolte, ni trier
+correctement les dates (<code>"02/03/2024"</code> passerait avant
+<code>"22/02/2024"</code> dans l’ordre alphabétique). Un objet
+<strong>Date</strong> stocke le nombre de jours depuis le 1er janvier
+1970, ce qui rend tous les calculs possibles.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;2024-01-08&quot;</span>)       <span class="co"># the international format yyyy-mm-dd is read directly</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">class</span>(d)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Date&quot;</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">as.numeric</span>(d)                    <span class="co"># days since 1970-01-01</span></span></code></pre></div>
+<pre><code>#&gt; [1] 19730</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>d <span class="sc">+</span> <span class="dv">45</span>                           <span class="co"># 45 days later</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;2024-02-22&quot;</code></pre>
+</div>
+<div id="format" class="section level2">
+<h2><span class="en">Text to date: as.Date() and format</span><span
+class="fr">Du texte à la date : as.Date() et format</span></h2>
+<div class="en">
+<p>When the text is not <code>yyyy-mm-dd</code>, tell R how it is
+written with <strong>format codes</strong>:</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Code</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>%d</code></td>
+<td>day (01–31)</td>
+<td><code>08</code></td>
+</tr>
+<tr class="even">
+<td><code>%m</code></td>
+<td>month number (01–12)</td>
+<td><code>03</code></td>
+</tr>
+<tr class="odd">
+<td><code>%b</code> / <code>%B</code></td>
+<td>month name, short / full (in the computer’s language)</td>
+<td><code>Mar</code> / <code>March</code></td>
+</tr>
+<tr class="even">
+<td><code>%y</code> / <code>%Y</code></td>
+<td>year, 2 / 4 digits</td>
+<td><code>24</code> / <code>2024</code></td>
+</tr>
+<tr class="odd">
+<td><code>%A</code></td>
+<td>day of the week</td>
+<td><code>Monday</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p>Quand le texte n’est pas en <code>aaaa-mm-jj</code>, indiquez à R
+comment il est écrit avec des <strong>codes de format</strong> :</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Code</th>
+<th>Signification</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>%d</code></td>
+<td>jour (01–31)</td>
+<td><code>08</code></td>
+</tr>
+<tr class="even">
+<td><code>%m</code></td>
+<td>numéro du mois (01–12)</td>
+<td><code>03</code></td>
+</tr>
+<tr class="odd">
+<td><code>%b</code> / <code>%B</code></td>
+<td>nom du mois, court / complet (dans la langue de l’ordinateur)</td>
+<td><code>mars</code> / <code>mars</code></td>
+</tr>
+<tr class="even">
+<td><code>%y</code> / <code>%Y</code></td>
+<td>année, 2 / 4 chiffres</td>
+<td><code>24</code> / <code>2024</code></td>
+</tr>
+<tr class="odd">
+<td><code>%A</code></td>
+<td>jour de la semaine</td>
+<td><code>lundi</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">as.Date</span>(<span class="st">&quot;22/02/2024&quot;</span>, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;2024-02-22&quot;</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">as.Date</span>(<span class="st">&quot;02-22-24&quot;</span>, <span class="at">format =</span> <span class="st">&quot;%m-%d-%y&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;2024-02-22&quot;</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>lines<span class="sc">$</span>harvest_date[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;22/02/2024&quot; &quot;20/02/2024&quot; &quot;26/02/2024&quot;</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>lines<span class="sc">$</span>harvest_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(lines<span class="sc">$</span>harvest_date, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>lines<span class="sc">$</span>harvest_date[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;2024-02-22&quot; &quot;2024-02-20&quot; &quot;2024-02-26&quot;</code></pre>
+<div class="callout warning">
+<div class="en">
+<p>If the format does not match the text, <code>as.Date()</code> returns
+<code>NA</code> <strong>without error</strong>. Always check:
+<code>sum(is.na(x))</code> before and after conversion must be
+equal.</p>
+<p><strong>Excel dates</strong> read as numbers
+(e.g. <code>45299</code>):
+<code>as.Date(45299, origin = "1899-12-30")</code>.
+<strong>Date-times</strong> (<code>POSIXct</code>, from readxl):
+<code>as.Date(x)</code>.</p>
+</div>
+<div class="fr">
+<p>Si le format ne correspond pas au texte, <code>as.Date()</code>
+renvoie <code>NA</code> <strong>sans erreur</strong>. Vérifiez toujours
+: <code>sum(is.na(x))</code> avant et après conversion doivent être
+égaux.</p>
+<p><strong>Dates Excel</strong> lues comme des nombres (ex.
+<code>45299</code>) :
+<code>as.Date(45299, origin = "1899-12-30")</code>.
+<strong>Dates-heures</strong> (<code>POSIXct</code>, de readxl) :
+<code>as.Date(x)</code>.</p>
+</div>
+</div>
+</div>
+<div id="parts" class="section level2">
+<h2><span class="en">Durations, parts of a date, sequences</span><span
+class="fr">Durées, parties d’une date, séquences</span></h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>lines<span class="sc">$</span>days <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(lines<span class="sc">$</span>harvest_date <span class="sc">-</span> lines<span class="sc">$</span>planting_date)   <span class="co"># difference in days</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">summary</span>(lines<span class="sc">$</span>days)</span></code></pre></div>
+<pre><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;   40.00   42.00   45.00   45.02   48.00   50.00</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">format</span>(lines<span class="sc">$</span>planting_date[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="st">&quot;%Y&quot;</span>)                  <span class="co"># year as text</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;2024&quot; &quot;2024&quot; &quot;2024&quot;</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">as.integer</span>(<span class="fu">format</span>(lines<span class="sc">$</span>planting_date[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="st">&quot;%m&quot;</span>))      <span class="co"># month as a number</span></span></code></pre></div>
+<pre><code>#&gt; [1] 1 1 1</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">format</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2024-01-08&quot;</span>), <span class="st">&quot;%d %B %Y&quot;</span>)               <span class="co"># nice label for a report</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;08 January 2024&quot;</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">difftime</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2025-12-31&quot;</span>), <span class="fu">as.Date</span>(<span class="st">&quot;2024-01-01&quot;</span>), <span class="at">units =</span> <span class="st">&quot;weeks&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt; Time difference of 104.2857 weeks</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2024-01-01&quot;</span>), <span class="at">by =</span> <span class="st">&quot;month&quot;</span>, <span class="at">length.out =</span> <span class="dv">4</span>)   <span class="co"># monthly sampling calendar</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;2024-01-01&quot; &quot;2024-02-01&quot; &quot;2024-03-01&quot; &quot;2024-04-01&quot;</code></pre>
+</div>
+<div id="seasons" class="section level2">
+<h2><span class="en">Seasons and periods</span><span class="fr">Saisons
+et périodes</span></h2>
+<div class="en">
+<p>In this region the <strong>wet season</strong> runs from November to
+April, the <strong>dry season</strong> from May to October. A season is
+a category built from the month number with <code>%in%</code> and
+<code>ifelse()</code> (<code>ifelse()</code> will be studied in detail
+in Session I5).</p>
+</div>
+<div class="fr">
+<p>Dans cette région, la <strong>saison des pluies</strong> va de
+novembre à avril, la <strong>saison sèche</strong> de mai à octobre. Une
+saison est une catégorie construite à partir du numéro du mois avec
+<code>%in%</code> et <code>ifelse()</code> (<code>ifelse()</code> sera
+étudié en détail en séance I5).</p>
+</div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>lines<span class="sc">$</span>year   <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(lines<span class="sc">$</span>planting_date, <span class="st">&quot;%Y&quot;</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>lines<span class="sc">$</span>month  <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(lines<span class="sc">$</span>planting_date, <span class="st">&quot;%m&quot;</span>))</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>lines<span class="sc">$</span>season <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(lines<span class="sc">$</span>month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="st">&quot;wet&quot;</span>, <span class="st">&quot;dry&quot;</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="fu">table</span>(lines<span class="sc">$</span>year, lines<span class="sc">$</span>season)</span></code></pre></div>
+<pre><code>#&gt;       
+#&gt;        dry wet
+#&gt;   2024 692 696
+#&gt;   2025 652 535</code></pre>
+<div class="en">
+<p><code>cut()</code> groups dates into periods, for example
+quarters:</p>
+</div>
+<div class="fr">
+<p><code>cut()</code> regroupe les dates en périodes, par exemple en
+trimestres :</p>
+</div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">cut</span>(lines<span class="sc">$</span>planting_date, <span class="at">breaks =</span> <span class="st">&quot;quarter&quot;</span>))</span></code></pre></div>
+<pre><code>#&gt; [1] 2024-01-01 2024-01-01 2024-01-01 2024-01-01 2024-01-01 2024-01-01
+#&gt; Levels: 2024-01-01 2024-04-01 2024-07-01 2024-10-01 2025-01-01 2025-04-01 2025-07-01 2025-10-01</code></pre>
+</div>
+<div id="lubridate" class="section level2">
+<h2><span class="en">The same with lubridate</span><span class="fr">La
+même chose avec lubridate</span></h2>
+<div class="en">
+<p><strong>lubridate</strong> (tidyverse) has functions named after the
+order of the parts: <code>dmy()</code> for day-month-year,
+<code>ymd()</code>, <code>mdy()</code>… No format codes to remember. And
+<code>year()</code>, <code>month()</code>, <code>wday()</code> extract
+parts directly as numbers.</p>
+</div>
+<div class="fr">
+<p><strong>lubridate</strong> (tidyverse) propose des fonctions nommées
+d’après l’ordre des éléments : <code>dmy()</code> pour jour-mois-année,
+<code>ymd()</code>, <code>mdy()</code>… Pas de codes de format à
+retenir. Et <code>year()</code>, <code>month()</code>,
+<code>wday()</code> extraient directement les éléments sous forme de
+nombres.</p>
+</div>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">as.Date</span>(<span class="st">&quot;22/02/2024&quot;</span>, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;2024-02-22&quot;</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">as.integer</span>(<span class="fu">format</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2024-02-22&quot;</span>), <span class="st">&quot;%m&quot;</span>))</span></code></pre></div>
+<pre><code>#&gt; [1] 2</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">as.Date</span>(<span class="st">&quot;2024-02-22&quot;</span>) <span class="sc">+</span> <span class="dv">30</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;2024-03-23&quot;</code></pre>
+</div>
+<div class="col pkg">
+<p>lubridate</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a><span class="fu">dmy</span>(<span class="st">&quot;22/02/2024&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;2024-02-22&quot;</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">month</span>(<span class="fu">ymd</span>(<span class="st">&quot;2024-02-22&quot;</span>))</span></code></pre></div>
+<pre><code>#&gt; [1] 2</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="fu">ymd</span>(<span class="st">&quot;2024-02-22&quot;</span>) <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">30</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;2024-03-23&quot;</code></pre>
+</div>
+</div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="fu">dmy</span>(<span class="fu">c</span>(<span class="st">&quot;22/02/2024&quot;</span>, <span class="st">&quot;3-4-2024&quot;</span>, <span class="st">&quot;05.06.2024&quot;</span>))   <span class="co"># tolerant to separators</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;2024-02-22&quot; &quot;2024-04-03&quot; &quot;2024-06-05&quot;</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="fu">floor_date</span>(<span class="fu">ymd</span>(<span class="st">&quot;2024-02-22&quot;</span>), <span class="st">&quot;month&quot;</span>)          <span class="co"># first day of the month</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;2024-02-01&quot;</code></pre>
+</div>
+<div id="growth" class="section level2">
+<h2><span class="en">Growth rate of each line</span><span
+class="fr">Taux de croissance de chaque ligne</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p>Seaweed farmers and researchers compare lines with the
+<strong>specific growth rate</strong> (SGR), in % per day:</p>
+<p><strong>SGR = 100 × ln(final weight / initial weight) / number of
+days</strong></p>
+<p>It accounts for different initial weights and cycle lengths. Values
+of 3–5 %/day are usual for <em>Kappaphycus</em>.</p>
+</div>
+<div class="fr">
+<p>Producteurs et chercheurs comparent les lignes avec le <strong>taux
+de croissance spécifique</strong> (SGR), en % par jour :</p>
+<p><strong>SGR = 100 × ln(poids final / poids initial) / nombre de
+jours</strong></p>
+<p>Il tient compte des poids initiaux et des durées de cycle différents.
+Des valeurs de 3 à 5 %/jour sont habituelles pour
+<em>Kappaphycus</em>.</p>
+</div>
+</div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fu">which</span>(lines<span class="sc">$</span>final_weight_kg <span class="sc">&gt;</span> <span class="dv">200</span>)                  <span class="co"># weights typed in grams (I0)</span></span>
+<span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a>lines<span class="sc">$</span>final_weight_kg[i] <span class="ot">&lt;-</span> lines<span class="sc">$</span>final_weight_kg[i] <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb47-3"><a href="#cb47-3" tabindex="-1"></a>lines<span class="sc">$</span>sgr <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">log</span>(lines<span class="sc">$</span>final_weight_kg <span class="sc">/</span> lines<span class="sc">$</span>initial_weight_kg) <span class="sc">/</span> lines<span class="sc">$</span>days</span>
+<span id="cb47-4"><a href="#cb47-4" tabindex="-1"></a><span class="fu">summary</span>(lines<span class="sc">$</span>sgr)</span></code></pre></div>
+<pre><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
+#&gt;   1.405   2.967   3.445   3.439   3.882   5.456     258</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(lines<span class="sc">$</span>sgr, lines<span class="sc">$</span>season, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>#&gt;  dry  wet 
+#&gt; 3.56 3.30</code></pre>
+<p><a class="btn-dl" href="data/checkpoints/I1_lines_dated.csv" download>⇩
+checkpoint: I1_lines_dated.csv</a></p>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-i1" class="section level3 en">
+<h3>Application work I1</h3>
+<p>Script <code>scripts/i01_dates.R</code>, with the sheet
+<code>lines</code> (or the checkpoint file).</p>
+<ol style="list-style-type: decimal">
+<li>Convert <code>harvest_date</code> to a date. What is the
+<strong>earliest</strong> harvest date (<code>yyyy-mm-dd</code>)?</li>
+<li>Add <code>days</code> (harvest − planting). Mean duration (2
+decimals)? Longest duration?</li>
+<li>Add <code>year</code>, <code>month</code> (from the planting date)
+and <code>season</code>. How many lines were planted in 2025?</li>
+<li>In which month (number 1–12) were the most lines planted?</li>
+<li>How many lines were planted in the wet season?</li>
+<li>Correct the weights in grams, then compute <code>sgr</code>. Mean
+SGR of all lines (3 decimals, ignore NA)? Mean SGR in the dry season (3
+decimals)?</li>
+<li>How many days between 1 January 2024 and 31 December 2025?</li>
+</ol>
+</div>
+<div id="travail-dapplication-i1" class="section level3 fr">
+<h3>Travail d’application I1</h3>
+<p>Script <code>scripts/i01_dates.R</code>, avec la feuille
+<code>lines</code> (ou le fichier de contrôle).</p>
+<ol style="list-style-type: decimal">
+<li>Convertissez <code>harvest_date</code> en date. Quelle est la
+<strong>première</strong> date de récolte (<code>aaaa-mm-jj</code>)
+?</li>
+<li>Ajoutez <code>days</code> (récolte − semis). Durée moyenne (2
+décimales) ? Durée la plus longue ?</li>
+<li>Ajoutez <code>year</code>, <code>month</code> (à partir de la date
+de semis) et <code>season</code>. Combien de lignes ont été semées en
+2025 ?</li>
+<li>Quel mois (numéro 1–12) compte le plus de lignes semées ?</li>
+<li>Combien de lignes ont été semées en saison des pluies ?</li>
+<li>Corrigez les poids en grammes, puis calculez <code>sgr</code>. SGR
+moyen de toutes les lignes (3 décimales, sans NA) ? SGR moyen en saison
+sèche (3 décimales) ?</li>
+<li>Combien de jours entre le 1er janvier 2024 et le 31 décembre 2025
+?</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 4: <code>table(lines$month)</code> then
+<code>which.max()</code>; the answer is the <strong>name</strong> of the
+cell, i.e. the month number. Question 6: the log is <code>log()</code>
+(natural logarithm) in R.</p>
+</div>
+<div class="fr">
+<p>Question 4 : <code>table(lines$month)</code> puis
+<code>which.max()</code> ; la réponse est le <strong>nom</strong> de la
+case, c’est-à-dire le numéro du mois. Question 6 : le logarithme
+népérien est <code>log()</code> dans R.</p>
+</div>
+</div>
+<div id="quiz-i01" class="quiz" data-quiz-id="i01"
+data-q="W3sidHlwZSI6InRleHQiLCJlbiI6IjEuIEVhcmxpZXN0IGhhcnZlc3QgZGF0ZSAoeXl5eS1tbS1kZCk/IiwiZnIiOiIxLiBQcmVtacOocmUgZGF0ZSBkZSByw6ljb2x0ZSAoYWFhYS1tbS1qaikgPyIsImFuc3dlciI6WyIyMDI0LTAyLTE4Il19LHsidHlwZSI6Im51bSIsImVuIjoiMmEuIE1lYW4gZHVyYXRpb24gaW4gZGF5cyAoMiBkZWNpbWFscyk/IiwiZnIiOiIyYS4gRHVyw6llIG1veWVubmUgZW4gam91cnMgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6NDUuMDIsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyYi4gTG9uZ2VzdCBkdXJhdGlvbiAoZGF5cyk/IiwiZnIiOiIyYi4gRHVyw6llIGxhIHBsdXMgbG9uZ3VlIChqb3VycykgPyIsImFuc3dlciI6NTAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIExpbmVzIHBsYW50ZWQgaW4gMjAyNT8iLCJmciI6IjMuIExpZ25lcyBzZW3DqWVzIGVuIDIwMjUgPyIsImFuc3dlciI6MTE4NywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNC4gTW9udGggd2l0aCB0aGUgbW9zdCBwbGFudGluZ3MgKDEtMTIpPyIsImZyIjoiNC4gTW9pcyBhdmVjIGxlIHBsdXMgZGUgc2VtaXMgKDEtMTIpID8iLCJhbnN3ZXIiOjEwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI1LiBMaW5lcyBwbGFudGVkIGluIHRoZSB3ZXQgc2Vhc29uPyIsImZyIjoiNS4gTGlnbmVzIHNlbcOpZXMgZW4gc2Fpc29uIGRlcyBwbHVpZXMgPyIsImFuc3dlciI6MTIzMSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNmEuIE1lYW4gU0dSICgzIGRlY2ltYWxzKT8iLCJmciI6IjZhLiBTR1IgbW95ZW4gKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6My40MzksInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNmIuIE1lYW4gU0dSIGluIHRoZSBkcnkgc2Vhc29uICgzIGRlY2ltYWxzKT8iLCJmciI6IjZiLiBTR1IgbW95ZW4gZW4gc2Fpc29uIHPDqGNoZSAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjozLjU2MywidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI3LiBEYXlzIGJldHdlZW4gMjAyNC0wMS0wMSBhbmQgMjAyNS0xMi0zMT8iLCJmciI6IjcuIEpvdXJzIGVudHJlIGxlIDIwMjQtMDEtMDEgZXQgbGUgMjAyNS0xMi0zMSA/IiwiYW5zd2VyIjo3MzAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFdoaWNoIGNhbGwgY29udmVydHMgXCIwMy8xMS8yMDI0XCIgKDMgTm92ZW1iZXIpIGNvcnJlY3RseT8iLCJmciI6IjguIFF1ZWwgYXBwZWwgY29udmVydGl0IGNvcnJlY3RlbWVudCBcIjAzLzExLzIwMjRcIiAoMyBub3ZlbWJyZSkgPyIsIm9wdGlvbnNfZW4iOlsiYXMuRGF0ZShcIjAzLzExLzIwMjRcIikiLCJhcy5EYXRlKFwiMDMvMTEvMjAyNFwiLCBmb3JtYXQgPSBcIiVtLyVkLyVZXCIpIiwiYXMuRGF0ZShcIjAzLzExLzIwMjRcIiwgZm9ybWF0ID0gXCIlZC8lbS8lWVwiKSIsInltZChcIjAzLzExLzIwMjRcIikiXSwib3B0aW9uc19mciI6WyJhcy5EYXRlKFwiMDMvMTEvMjAyNFwiKSIsImFzLkRhdGUoXCIwMy8xMS8yMDI0XCIsIGZvcm1hdCA9IFwiJW0vJWQvJVlcIikiLCJhcy5EYXRlKFwiMDMvMTEvMjAyNFwiLCBmb3JtYXQgPSBcIiVkLyVtLyVZXCIpIiwieW1kKFwiMDMvMTEvMjAyNFwiKSJdLCJhbnN3ZXIiOjJ9XQ==">
+
+</div>
+<div class="solution" data-quiz="i01">
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a>lines <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/seaweed_farming.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;lines&quot;</span>, <span class="at">skip =</span> <span class="dv">3</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" tabindex="-1"></a>lines<span class="sc">$</span>planting_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(lines<span class="sc">$</span>planting_date)</span>
+<span id="cb51-4"><a href="#cb51-4" tabindex="-1"></a>lines<span class="sc">$</span>harvest_date  <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(lines<span class="sc">$</span>harvest_date, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
+<span id="cb51-5"><a href="#cb51-5" tabindex="-1"></a><span class="fu">min</span>(lines<span class="sc">$</span>harvest_date)                                              <span class="co"># 1</span></span>
+<span id="cb51-6"><a href="#cb51-6" tabindex="-1"></a>lines<span class="sc">$</span>days <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(lines<span class="sc">$</span>harvest_date <span class="sc">-</span> lines<span class="sc">$</span>planting_date)</span>
+<span id="cb51-7"><a href="#cb51-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(lines<span class="sc">$</span>days), <span class="dv">2</span>); <span class="fu">max</span>(lines<span class="sc">$</span>days)                          <span class="co"># 2</span></span>
+<span id="cb51-8"><a href="#cb51-8" tabindex="-1"></a>lines<span class="sc">$</span>year   <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(lines<span class="sc">$</span>planting_date, <span class="st">&quot;%Y&quot;</span>))</span>
+<span id="cb51-9"><a href="#cb51-9" tabindex="-1"></a>lines<span class="sc">$</span>month  <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(lines<span class="sc">$</span>planting_date, <span class="st">&quot;%m&quot;</span>))</span>
+<span id="cb51-10"><a href="#cb51-10" tabindex="-1"></a>lines<span class="sc">$</span>season <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(lines<span class="sc">$</span>month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="st">&quot;wet&quot;</span>, <span class="st">&quot;dry&quot;</span>)</span>
+<span id="cb51-11"><a href="#cb51-11" tabindex="-1"></a><span class="fu">sum</span>(lines<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2025</span>)                                              <span class="co"># 3</span></span>
+<span id="cb51-12"><a href="#cb51-12" tabindex="-1"></a><span class="fu">which.max</span>(<span class="fu">table</span>(lines<span class="sc">$</span>month))                                        <span class="co"># 4 (the name is the month)</span></span>
+<span id="cb51-13"><a href="#cb51-13" tabindex="-1"></a><span class="fu">sum</span>(lines<span class="sc">$</span>season <span class="sc">==</span> <span class="st">&quot;wet&quot;</span>)                                           <span class="co"># 5</span></span>
+<span id="cb51-14"><a href="#cb51-14" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fu">which</span>(lines<span class="sc">$</span>final_weight_kg <span class="sc">&gt;</span> <span class="dv">200</span>)</span>
+<span id="cb51-15"><a href="#cb51-15" tabindex="-1"></a>lines<span class="sc">$</span>final_weight_kg[i] <span class="ot">&lt;-</span> lines<span class="sc">$</span>final_weight_kg[i] <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb51-16"><a href="#cb51-16" tabindex="-1"></a>lines<span class="sc">$</span>sgr <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">log</span>(lines<span class="sc">$</span>final_weight_kg <span class="sc">/</span> lines<span class="sc">$</span>initial_weight_kg) <span class="sc">/</span> lines<span class="sc">$</span>days</span>
+<span id="cb51-17"><a href="#cb51-17" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(lines<span class="sc">$</span>sgr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">3</span>)                              <span class="co"># 6a</span></span>
+<span id="cb51-18"><a href="#cb51-18" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(lines<span class="sc">$</span>sgr[lines<span class="sc">$</span>season <span class="sc">==</span> <span class="st">&quot;dry&quot;</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">3</span>)       <span class="co"># 6b</span></span>
+<span id="cb51-19"><a href="#cb51-19" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2025-12-31&quot;</span>) <span class="sc">-</span> <span class="fu">as.Date</span>(<span class="st">&quot;2024-01-01&quot;</span>))            <span class="co"># 7</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

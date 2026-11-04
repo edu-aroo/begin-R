@@ -11,7 +11,7 @@ source("R/course_helpers.R")
 ::: objectives
 ::: en
 #### What this session is for
-No new concepts here: six independent exercises to **practise** what you learned in Sessions 2 to 8, before the final project. Each exercise has its own quiz (**one attempt each**) and its own solution, unlocked after you submit.
+No new concepts here: six independent exercises to **practise** what you learned in Sessions 2 to 8, before the final project. Each exercise has its own quiz (**two attempts**, the best one counts) and its own solution, opened when you have used your attempts or got full marks. The final project opens when the six exercises together reach 75 % of their points.
 
 - Do them in order or in any order; each starts by importing its data.
 - Write everything in one script `scripts/s09_practice.R`, with one section per exercise (**Ctrl + Shift + R**).
@@ -19,7 +19,7 @@ No new concepts here: six independent exercises to **practise** what you learned
 :::
 ::: fr
 #### À quoi sert cette séance
-Pas de nouvelle notion ici : six exercices indépendants pour **pratiquer** ce que vous avez appris dans les séances 2 à 8, avant le projet final. Chaque exercice a son propre quiz (**une seule tentative chacun**) et sa propre solution, débloquée après validation.
+Pas de nouvelle notion ici : six exercices indépendants pour **pratiquer** ce que vous avez appris dans les séances 2 à 8, avant le projet final. Chaque exercice a son propre quiz (**deux tentatives**, la meilleure compte) et sa propre solution, ouverte quand vous avez utilisé vos tentatives ou obtenu tous les points. Le projet final s'ouvre quand les six exercices réunis atteignent 75 % de leurs points.
 
 - Faites-les dans l'ordre ou non ; chacun commence par importer ses données.
 - Écrivez tout dans un seul script `scripts/s09_practice.R`, avec une section par exercice (**Ctrl + Maj + R**).
@@ -89,6 +89,21 @@ h6 <- hist(fish$length_cm, breaks = seq(0, 40, by = 5), plot = FALSE)
 p6b <- max(h6$counts)
 ```
 
+::: {.callout .ecology}
+::: en
+**Seagrass survey** (`seagrass_quadrats.csv`): in March 2026 a team of two snorkellers sampled **4 sites** (Ambalaboy and Fasimena inside a Marine Protected Area, Belitsaky and Tsiandamba outside), **15 quadrats of 50 × 50 cm** per site, placed every 5 m along a tape. For each quadrat they wrote on an underwater slate the depth (dive computer), the dominant species, the % cover (visual estimate), the canopy height (ruler, cm) and the number of shoots, converted to shoots per m². *Type:* one row = one quadrat; numeric (continuous) and categorical variables.
+
+**Reef fish census** (`fish_uvc.csv`): underwater visual census on **4 reefs** (Andavaka and Belavenoke inside the MPA, Ambola and Tsifota outside), **3 belt transects of 50 × 5 m** (250 m²) per reef. A diver swam each transect and recorded every group of fish: species, family, estimated total length (cm) and number of individuals. The length–weight parameters `a` and `b` were added afterwards from FishBase. *Type:* one row = one group of fish of the same species and size; counts (integers), lengths (continuous), categories.
+:::
+::: fr
+**Suivi des herbiers** (`seagrass_quadrats.csv`) : en mars 2026, une équipe de deux plongeurs en apnée a échantillonné **4 sites** (Ambalaboy et Fasimena dans une Aire Marine Protégée, Belitsaky et Tsiandamba à l'extérieur), **15 quadrats de 50 × 50 cm** par site, posés tous les 5 m le long d'un ruban. Pour chaque quadrat ils ont noté sur une ardoise la profondeur (ordinateur de plongée), l'espèce dominante, le % de recouvrement (estimation visuelle), la hauteur de canopée (règle, cm) et le nombre de pousses, converti en pousses par m². *Type :* une ligne = un quadrat ; variables numériques (continues) et catégorielles.
+
+**Comptage des poissons récifaux** (`fish_uvc.csv`) : comptage visuel sous-marin sur **4 récifs** (Andavaka et Belavenoke dans l'AMP, Ambola et Tsifota à l'extérieur), **3 transects-bandes de 50 × 5 m** (250 m²) par récif. Un plongeur a parcouru chaque transect en notant chaque groupe de poissons : espèce, famille, longueur totale estimée (cm) et nombre d'individus. Les paramètres taille–poids `a` et `b` ont été ajoutés ensuite depuis FishBase. *Type :* une ligne = un groupe de poissons de même espèce et de même taille ; effectifs (entiers), longueurs (continues), catégories.
+:::
+:::
+
+`r dl("seagrass_quadrats.csv", "seagrass_quadrats.csv")` `r dl("fish_uvc.csv", "fish_uvc.csv")`
+
 ## [Exercise 1 — Building vectors]{.en}[Exercice 1 — Créer des vecteurs]{.fr} {#ex1}
 
 ::: en
@@ -108,6 +123,15 @@ p6b <- max(h6$counts)
 3. Lancez `set.seed(7)`, puis tirez 6 positions PIT avec `sample(seq(0.5, 25, by = 0.5), 6)`. Quelle est la plus grande position tirée ?
 4. Avec `x <- c(12, 45, 7, 88, 23, 56)` : quelle est la **deuxième plus petite** valeur (utilisez `sort()`) ?
 5. Quelle est la somme des deux premières valeurs de `rev(x)` ?
+:::
+
+::: hint
+::: en
+`seq()` includes the start value; count with `length()`. In `paste0()`, `rep(1:5, times = 3)` repeats the whole series, `rep(..., each = 5)` repeats each value.
+:::
+::: fr
+`seq()` inclut la valeur de départ ; comptez avec `length()`. Dans `paste0()`, `rep(1:5, times = 3)` répète toute la série, `rep(..., each = 5)` répète chaque valeur.
+:::
 :::
 
 ```{r quizp1, echo=FALSE}
@@ -157,6 +181,15 @@ sum(rev(x)[1:2])                          # 5. rev(x) starts with 56, 23
 5. Combien de valeurs de `canopy_height_cm` sont manquantes ?
 :::
 
+::: hint
+::: en
+Question 2: `sum(sg[1:5, "seagrass_cover"])`. Question 4: `sg2 <- sg`, then `sg2$depth_m[sg2$depth_m < 0.6] <- 0.6`.
+:::
+::: fr
+Question 2 : `sum(sg[1:5, "seagrass_cover"])`. Question 4 : `sg2 <- sg`, puis `sg2$depth_m[sg2$depth_m < 0.6] <- 0.6`.
+:::
+:::
+
 ```{r quizp2, echo=FALSE}
 quiz("p2", list(
   q_text("1. Species in row 17?", "1. Espèce de la ligne 17 ?", p2a),
@@ -204,6 +237,15 @@ sum(is.na(sg$canopy_height_cm))                     # 5
 5. Avec `sapply()` sur `length_cm`, `count` et `biomass_kg`, calculez la moyenne de chaque colonne. Moyenne de `count` (2 décimales) ?
 :::
 
+::: hint
+::: en
+`^` is computed before `*`: `fish$count * fish$a * fish$length_cm^fish$b / 1000`. For question 5, `sapply(fish[, c("length_cm", "count", "biomass_kg")], mean)`.
+:::
+::: fr
+`^` est calculé avant `*` : `fish$count * fish$a * fish$length_cm^fish$b / 1000`. Pour la question 5, `sapply(fish[, c("length_cm", "count", "biomass_kg")], mean)`.
+:::
+:::
+
 ```{r quizp3, echo=FALSE}
 quiz("p3", list(
   q_num("1. Total number of fish?", "1. Nombre total de poissons ?", p3a, tol = 0),
@@ -230,6 +272,15 @@ sapply(fish[, c("length_cm", "count", "biomass_kg")], mean)      # 5
 ```
 :::
 
+::: {.callout .try}
+::: en
+**Try it.** Before Exercise 4: with `subset()`, keep the fish of more than 25 cm **inside** the MPA and only the columns `site`, `species` and `length_cm`. How many rows?
+:::
+::: fr
+**À vous.** Avant l'exercice 4 : avec `subset()`, gardez les poissons de plus de 25 cm **dans** l'AMP et seulement les colonnes `site`, `species` et `length_cm`. Combien de lignes ?
+:::
+:::
+
 ## [Exercise 4 — `subset()` and cleaning]{.en}[Exercice 4 — `subset()` et nettoyage]{.fr} {#ex4}
 
 ::: en
@@ -249,6 +300,15 @@ sapply(fish[, c("length_cm", "count", "biomass_kg")], mean)      # 5
 3. Taille moyenne des poissons-perroquets (`family == "Scaridae"`) **dans** l'AMP (2 décimales).
 4. Nettoyez `x <- c(" Ifaty", "ifaty", "IFATY ", "Mangily", "mangily ")` avec `trimws()`, `tolower()` et `tools::toTitleCase()`. Combien de valeurs différentes reste-t-il ?
 5. Nettoyez `y <- c("12", "15%", "-", "40", "8%")` : retirez `%`, transformez `"-"` en `NA`, convertissez en nombres. Moyenne de `y` sans NA ?
+:::
+
+::: hint
+::: en
+Question 1: `fish$species %in% c("Lutjanus kasmira", "Epinephelus merra") & fish$mpa_status == "Outside"`, then `sum()`.
+:::
+::: fr
+Question 1 : `fish$species %in% c("Lutjanus kasmira", "Epinephelus merra") & fish$mpa_status == "Outside"`, puis `sum()`.
+:::
 :::
 
 ```{r quizp4, echo=FALSE}
@@ -300,6 +360,15 @@ mean(as.numeric(y), na.rm = TRUE)                                            # 5
 5. ES des kg/ha des transects **Outside** (2 décimales) ?
 :::
 
+::: hint
+::: en
+Question 4: after `aggregate()`, the result has one row per transect (12 rows). Convert with `/ 1000 / 250 * 10000`, then use `tapply()` on that table.
+:::
+::: fr
+Question 4 : après `aggregate()`, le résultat a une ligne par transect (12 lignes). Convertissez avec `/ 1000 / 250 * 10000`, puis utilisez `tapply()` sur ce tableau.
+:::
+:::
+
 ```{r quizp5, echo=FALSE}
 quiz("p5", list(
   q_num("1. Total fish counted at Ambola?", "1. Total de poissons comptés à Ambola ?", p5a, tol = 0),
@@ -347,6 +416,15 @@ round(sd(out) / sqrt(length(out)), 2)                               # 5. n = 6 t
 2. Tracez `h <- hist(fish$length_cm, breaks = seq(0, 40, by = 5))`. Combien de groupes de poissons se trouvent dans la classe de taille la plus fréquente (`h$counts`) ?
 3. Faites le même boxplot avec ggplot2.
 4. Répondez aux questions sur les équivalences entre R de base et le tidyverse.
+:::
+
+::: hint
+::: en
+For the medians of a boxplot without reading the graph: `sort(tapply(fish$length_cm, fish$family, median))`.
+:::
+::: fr
+Pour les médianes d'un boxplot sans lire le graphique : `sort(tapply(fish$length_cm, fish$family, median))`.
+:::
 :::
 
 ```{r quizp6, echo=FALSE}

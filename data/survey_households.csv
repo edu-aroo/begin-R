@@ -1,0 +1,426 @@
+"hh_id","village","interview_date","enumerator","head_sex","head_age","head_education","main_income","monthly_income_mga","distance_coast_km","activities","mpa_benefits","satisfaction_1to5"
+"HH001","Tsimanjaka","2025-07-02","Mamy","Male",53,"Primary","seaweed farming",498000,0.19,"trade;gleaning;agriculture","Agree",3
+"HH002","Ankarabe","2025-08-15","Tojo","Male",29,"Secondary","fishing",635000,0.37,"fishing;gleaning;trade","Agree",3
+"HH003","Ambalakely","2025-07-19","Fara","Female",33,"Secondary","fishing",656000,0.8,"seaweed;gleaning","agree",4
+"HH004","Befasy","2025-07-17","Fara","Male",30,"Primary","seaweed farming",1619000,0.01,"fishing","Neutral",4
+"HH005","Sarondrano","2025-07-12","Mamy","Female",41,"Primary","fishing",227000,0.08,"fishing","Disagree",2
+"HH006","Mahavelo","2025-07-07","Mamy","Male",50,"Primary","seaweed farming",296000,0.81,"seaweed"," Agree",2
+"HH007","Ankarabe","2025-08-10","Mamy","Female",32,"Higher","agriculture",339000,1.58,"fishing;seaweed;agriculture","Strongly agree",3
+"HH008","Befasy","2025-07-20","Mamy","Male",62,"None","seaweed farming",926000,0.08,"livestock;fishing","Strongly agree",3
+"HH009","Tsimanjaka","2025-07-01","Fara","Male",69,"Primary","fishing",412000,0.51,"agriculture;livestock;seaweed","Agree",4
+"HH010","Befasy","2025-07-19","Tojo","Male",24,"Primary","salaried",707000,0.38,"gleaning;seaweed;livestock","Strongly agree",3
+"HH011","Sarondrano","2025-07-18","Tojo","Male",48,"None","agriculture",182000,1.2,"gleaning","Disagree",3
+"HH012","Ankarabe","2025-07-10","Tojo","Male",65,"None","fishing",395000,0.35,"gleaning","Strongly agree",3
+"HH013","Tsimanjaka","2025-08-15","Tojo","Female",40,"Primary","trade",622000,0.6,"trade;seaweed;agriculture","Strongly agree",4
+"HH014","Ankarabe","2025-07-09","Mamy","Male",41,"Primary","trade",349000,0.72,"gleaning;livestock","Neutral",3
+"HH015","Mahavelo","2025-07-02","Tojo","Male",33,"Primary","agriculture",281000,0.2,"seaweed;agriculture","Agree",4
+"HH016","Tsimanjaka","2025-07-23","Fara","Female",67,"Secondary","agriculture",334000,0.36,"trade","Disagree",5
+"HH017","Mahavelo","2025-07-22","Tojo","Male",56,"Primary","seaweed farming",488000,0.58,"trade;fishing;seaweed","Disagree",1
+"HH018","Sarondrano","2025-08-01","Fara","Female",29,"Secondary","trade",258000,0.04,"livestock;trade;fishing","Strongly disagree",4
+"HH019","Tsimanjaka","2025-07-18","Mamy","Male",23,"Primary","seaweed farming",575000,0.13,"gleaning;trade;agriculture","Strongly agree",3
+"HH020","Sarondrano","2025-08-11","Fara","Female",39,"Primary","fishing",320000,0.67,"gleaning;livestock","Disagree",3
+"HH021","Tsimanjaka","2025-07-23","Tojo","Female",27,"Secondary","fishing",694000,1.12,"livestock;agriculture;fishing","Agree",4
+"HH022","Ambalakely","2025-08-06","Tojo","Male",27,"Higher","trade",343000,0.09,"livestock","Neutral",4
+"HH023","Tsimanjaka","2025-07-19","Mamy","Male",48,"Primary","trade",272000,0.3,"livestock","Neutral",4
+"HH024","Ankarabe","2025-07-26","Mamy","Male",69,"None","seaweed farming",1113000,0.58,"livestock","Neutral",4
+"HH025","Befasy","2025-07-11","Tojo","Female",73,"Primary","salaried",355000,0.3,"livestock","Agree",3
+"HH026","Mahavelo","2025-07-20","Tojo","Male",53,"None","salaried",572000,1.22,"livestock;gleaning;seaweed","Agree",3
+"HH027","Sarondrano","2025-07-01","Fara","Female",64,"None","fishing",354000,0.66,"fishing;agriculture","Agree",2
+"HH028","Befasy","2025-07-07","Tojo","Female",28,"Secondary","trade",566000,2.26,"seaweed;trade;agriculture","Agree",3
+"HH029","Ankarabe","2025-08-10","Fara","Male",22,"Primary","fishing",386000,0.68,"trade","Neutral",3
+"HH030","Ambalakely","2025-07-02","Tojo","Male",30,"Primary","fishing",653000,0.49,"gleaning;fishing;livestock","Strongly agree",1
+"HH031","Ambalakely","2025-08-11","Fara","Female",42,"Primary","fishing",321000,0.38,"gleaning;agriculture","Agree",3
+"HH032","Ambalakely","2025-07-19","Fara","Male",43,"Secondary","fishing",565000,0.14,"trade;seaweed","Disagree",2
+"HH033","Ankarabe","2025-08-10","Mamy","Male",28,"None","salaried",339000,0.04,"seaweed;agriculture;gleaning","Neutral",3
+"HH034","Ambalakely","2025-07-08","Fara","Female",33,"Higher","seaweed farming",688000,0.43,"trade","Neutral",1
+"HH035","Sarondrano","2025-07-16","Tojo","Male",28,"Primary","fishing",174000,0.02,"gleaning","Neutral",2
+"HH036","Ankarabe","2025-07-31","Mamy","Male",52,"Secondary","trade",875000,0.76,"agriculture;fishing","Strongly agree",3
+"HH037","Sarondrano","2025-08-11","Mamy","Female",24,"Secondary","seaweed farming",239000,0.13,"trade;gleaning","neutral",3
+"HH038","Sarondrano","2025-07-18","Mamy","Male",50,"Primary","agriculture",213000,0.14,"trade;gleaning;livestock","Neutral",5
+"HH039","Sarondrano","2025-08-12","Tojo","Male",22,"Secondary","fishing",830000,0.33,"agriculture;trade;seaweed","Strongly disagree",3
+"HH040","Sarondrano","2025-07-19","Tojo","Female",35,"None","fishing",251000,0.29,"seaweed;gleaning","Strongly agree",4
+"HH041","Ambalakely","2025-08-07","Mamy","Male",50,"Secondary","agriculture",327000,0.49,"fishing;seaweed;trade","Strongly disagree",3
+"HH042","Ankarabe","2025-07-21","Mamy","Male",38,"Primary","fishing",662000,0.06,"agriculture","Neutral",1
+"HH043","Ankarabe","2025-07-26","Mamy","Male",30,"Primary","fishing",213000,0.01,"livestock;trade;fishing","Agree",3
+"HH044","Befasy","2025-07-09","Fara","Female",20,"Primary","seaweed farming",453000,0.25,"gleaning","Agree",4
+"HH045","Ankarabe","2025-08-08","Fara","Male",52,"Primary","seaweed farming",447000,1.26,"seaweed;trade;fishing","Disagree",2
+"HH046","Befasy","2025-08-06","Fara","Male",65,"Primary","fishing",662000,1.62,"livestock","Agree",2
+"HH047","Sarondrano","2025-07-06","Fara","Male",72,"None","fishing",263000,1.39,"trade;seaweed;livestock","Neutral",4
+"HH048","Befasy","2025-07-06","Tojo","Male",62,"Primary","trade",212000,2.57,"seaweed","neutral",4
+"HH049","Befasy","2025-07-28","Fara","Male",60,"Primary","agriculture",275000,2.4,"seaweed;agriculture","Strongly disagree",3
+"HH050","Ambalakely","2025-07-27","Tojo","Male",64,"Primary","fishing",272000,0.97,"livestock;gleaning;trade","Agree",3
+"HH051","Mahavelo","2025-07-21","Fara","Male",31,"None","seaweed farming",681000,0.33,"fishing","Neutral",3
+"HH052","Tsimanjaka","2025-07-20","Fara","Female",63,"Primary","trade",275000,0.3,"agriculture;trade","Neutral",5
+"HH053","Sarondrano","2025-07-18","Mamy","Female",50,"None","fishing",485000,0.72,"gleaning","neutral",4
+"HH054","Befasy","2025-08-07","Fara","Male",54,"Primary","seaweed farming",599000,0.16,"fishing;livestock;seaweed","Neutral",5
+"HH055","Sarondrano","2025-07-19","Tojo","Male",28,"None","fishing",1124000,1.44,"gleaning","Agree",5
+"HH056","Mahavelo","2025-07-04","Fara","Male",21,"None","fishing",290000,1.16,"gleaning","Agree",3
+"HH057","Sarondrano","2025-07-18","Fara","Male",52,"Primary","trade",223000,0.61,"gleaning;trade"," Strongly agree",2
+"HH058","Mahavelo","2025-07-26","Mamy","Male",30,"None","fishing",506000,1.66,"livestock;trade;seaweed","Neutral",4
+"HH059","Tsimanjaka","2025-07-28","Mamy","Male",66,"Secondary","agriculture",371000,0.27,"gleaning;seaweed;agriculture","Agree",1
+"HH060","Tsimanjaka","2025-08-11","Tojo","Male",34,"Primary","agriculture",118000,0.53,"trade;gleaning;livestock","Neutral",4
+"HH061","Ambalakely","2025-08-14","Tojo","Female",39,"None","fishing",419000,0.56,"trade","Neutral",2
+"HH062","Befasy","2025-07-02","Mamy","Female",50,"None","trade",319000,0.52,"livestock;seaweed","Agree",5
+"HH063","Tsimanjaka","2025-07-31","Fara","Male",71,"None","seaweed farming",382000,0.99,"seaweed","Strongly agree",5
+"HH064","Tsimanjaka","2025-07-10","Tojo","Male",58,"Secondary","seaweed farming",321000,0.7,"trade","Neutral",4
+"HH065","Ambalakely","2025-07-29","Tojo","Female",45,"Secondary","fishing",219000,0.03,"agriculture;gleaning;livestock","Disagree",2
+"HH066","Sarondrano","2025-08-04","Tojo","Male",57,"Secondary","fishing",248000,0.69,"fishing","Neutral",3
+"HH067","Sarondrano","2025-07-04","Tojo","Male",27,"Secondary","fishing",436000,2.42,"gleaning","Agree",1
+"HH068","Tsimanjaka","2025-07-10","Tojo","Male",72,"Primary","fishing",349000,0.61,"agriculture;livestock","Disagree",5
+"HH069","Befasy","2025-07-14","Tojo","Male",41,"None","seaweed farming",533000,0.42,"seaweed;agriculture","Agree",5
+"HH070","Sarondrano","2025-08-10","Mamy","Female",41,"Secondary","fishing",790000,0.86,"fishing;gleaning",,4
+"HH071","Sarondrano","2025-07-17","Fara","Male",53,"None","agriculture",422000,1.58,"agriculture;seaweed","Agree",3
+"HH072","Sarondrano","2025-07-17","Fara","Female",46,"Secondary","fishing",530000,0.38,"fishing;trade","Strongly disagree",4
+"HH073","Befasy","2025-07-24","Mamy","Female",71,"None","seaweed farming",390000,0.48,"livestock;fishing","Neutral",5
+"HH074","Tsimanjaka","2025-07-19","Mamy","Male",33,"Higher","trade",1564000,0.12,"trade","Agree",4
+"HH075","Ankarabe","2025-07-11","Tojo","Male",48,"Primary","trade",853000,0.69,"fishing;agriculture;trade","Strongly agree",3
+"HH076","Befasy","2025-08-01","Mamy","Female",70,"Higher","fishing",217000,0.07,"livestock;gleaning;seaweed","Neutral",2
+"HH077","Ankarabe","2025-07-16","Fara","Female",74,"Primary","agriculture",472000,0,"livestock","Neutral",2
+"HH078","Mahavelo","2025-07-28","Tojo","Female",25,"Primary","fishing",566000,0.07,"agriculture","Neutral",3
+"HH079","Ambalakely","2025-07-25","Fara","Male",59,"Primary","trade",174000,0.52,"trade;seaweed","Strongly agree",4
+"HH080","Sarondrano","2025-07-01","Tojo","Female",55,"Primary","seaweed farming",221000,0.2,"livestock;fishing","Strongly agree",5
+"HH081","Ambalakely","2025-07-29","Fara","Male",41,"None","fishing",193000,0.84,"trade;gleaning;agriculture","Disagree",2
+"HH082","Sarondrano","2025-07-29","Fara","Male",35,"Primary","agriculture",276000,0.71,"livestock;seaweed;fishing","Agree",4
+"HH083","Sarondrano","2025-07-17","Tojo","Male",23,"Secondary","seaweed farming",191000,0.37,"gleaning;seaweed","Strongly agree",4
+"HH084","Sarondrano","2025-08-14","Tojo","Female",22,"Primary","fishing",503000,1.8,"fishing","Disagree",4
+"HH085","Sarondrano","2025-07-25","Fara","Female",71,"Primary","seaweed farming",618000,0.41,"trade;fishing;agriculture","Strongly agree",4
+"HH086","Befasy","2025-07-02","Fara","Male",21,"Primary","agriculture",284000,1.06,"seaweed","Disagree",4
+"HH087","Befasy","2025-07-28","Tojo","Male",64,"Primary","agriculture",284000,0.92,"agriculture;livestock","Agree",5
+"HH088","Sarondrano","2025-08-11","Mamy","Male",55,"Primary","salaried",953000,0.73,"gleaning;agriculture;trade","Disagree",5
+"HH089","Befasy","2025-07-28","Mamy","Female",50,"Secondary","agriculture",218000,0.1,"fishing;livestock","Agree",4
+"HH090","Befasy","2025-07-03","Fara","Male",74,"Primary","fishing",459000,0.08,"trade","Neutral",5
+"HH091","Sarondrano","2025-07-29","Tojo","Male",65,"Primary","salaried",364000,1.21,"gleaning;seaweed","strongly agree",4
+"HH092","Sarondrano","2025-07-10","Fara","Female",53,"Primary","salaried",380000,0.15,"trade;gleaning;fishing","Agree",5
+"HH093","Ambalakely","2025-07-18","Mamy","Male",45,"None","fishing",182000,0.45,"gleaning;fishing;livestock","Neutral",4
+"HH094","Befasy","2025-07-02","Fara","Female",66,"None","fishing",467000,1.57,"livestock;trade","Strongly agree",3
+"HH095","Tsimanjaka","2025-08-02","Fara","Female",50,"None","agriculture",430000,0.05,"fishing","Neutral",4
+"HH096","Befasy","2025-07-27","Tojo","Male",69,"Primary","trade",855000,1.03,"gleaning","Disagree",1
+"HH097","Sarondrano","2025-07-02","Tojo","Female",47,"Primary","agriculture",217000,0.6,"agriculture;fishing","Strongly agree",3
+"HH098","Ankarabe","2025-07-21","Tojo","Female",68,"None","seaweed farming",865000,0.38,"livestock;seaweed","Neutral",2
+"HH099","Tsimanjaka","2025-07-03","Mamy","Male",20,"None","fishing",274000,0.07,"fishing","Strongly agree",1
+"HH100","Mahavelo","2025-07-31","Fara","Female",40,"Primary","fishing",228000,0.26,"fishing","Agree",2
+"HH101","Ankarabe","2025-07-24","Mamy","Male",67,"Secondary","fishing",1176000,0.21,"livestock;trade","Agree",3
+"HH102","Mahavelo","2025-07-12","Fara","Female",24,"Primary","seaweed farming",386000,0.01,"gleaning;livestock;fishing","Strongly agree",4
+"HH103","Sarondrano","2025-07-06","Mamy","Male",49,"Secondary","fishing",643000,0.31,"seaweed;fishing;agriculture","Neutral",4
+"HH104","Tsimanjaka","2025-07-13","Fara","Male",21,"Secondary","seaweed farming",403000,0.6,"livestock","Strongly disagree",2
+"HH105","Mahavelo","2025-07-07","Mamy","Male",48,"Primary","fishing",497000,1.33,"seaweed;livestock","Agree",4
+"HH106","Mahavelo","2025-07-10","Mamy","Male",24,"Primary","fishing",646000,0.3,"fishing","Neutral",1
+"HH107","Befasy","2025-07-22","Tojo","Male",56,"None","seaweed farming",519000,1.15,"gleaning;trade","Neutral",2
+"HH108","Mahavelo","2025-07-18","Mamy","Female",69,"Primary","fishing",246000,0.58,"seaweed","Strongly agree",4
+"HH109","Ambalakely","2025-07-03","Fara","Male",24,"Primary","seaweed farming",813000,0.34,"trade;livestock","Agree",3
+"HH110","Ambalakely","2025-07-08","Tojo","Male",73,"Secondary","seaweed farming",475000,0.33,"seaweed;agriculture","Strongly agree",3
+"HH111","Sarondrano","2025-07-01","Fara","Male",63,"Secondary","fishing",529000,0.27,"seaweed","Neutral",3
+"HH112","Befasy","2025-08-09","Fara","Male",70,"Primary","seaweed farming",202000,0.09,"seaweed;livestock","Agree",2
+"HH113","Mahavelo","2025-08-08","Tojo","Male",68,"Primary","salaried",482000,0.41,"gleaning;fishing"," Strongly disagree",2
+"HH114","Mahavelo","2025-08-11","Mamy","Female",68,"Secondary","fishing",363000,0.39,"fishing;livestock","Neutral",3
+"HH115","Sarondrano","2025-07-07","Mamy","Male",21,"Primary","trade",1078000,0.09,"gleaning","Neutral",3
+"HH116","Tsimanjaka","2025-07-15","Fara","Male",73,"Primary","fishing",195000,0.1,"agriculture"," Strongly agree",3
+"HH117","Tsimanjaka","2025-08-07","Mamy","Male",25,"Secondary","salaried",1659000,0.2,"fishing;seaweed;trade","Neutral",2
+"HH118","Mahavelo","2025-07-26","Tojo","Male",65,"Primary","trade",293000,1.08,"agriculture","Disagree",3
+"HH119","Befasy","2025-07-08","Tojo","Female",49,"Primary","trade",410000,0.37,"seaweed","Agree",5
+"HH120","Befasy","2025-08-10","Mamy","Female",56,"Primary","trade",576000,0.57,"trade;fishing","Agree",5
+"HH121","Tsimanjaka","2025-07-17","Fara","Female",65,"None","fishing",410000,1.16,"gleaning;seaweed","Agree",3
+"HH122","Ankarabe","2025-08-09","Tojo","Male",52,"Secondary","seaweed farming",270000,0.49,"gleaning;seaweed;fishing",,3
+"HH123","Befasy","2025-07-19","Fara","Male",65,"Primary","trade",356000,0.79,"agriculture;fishing;gleaning","Strongly agree",5
+"HH124","Ankarabe","2025-07-18","Tojo","Male",72,"Primary","fishing",568000,0.58,"gleaning","Neutral",2
+"HH125","Sarondrano","2025-07-23","Fara","Male",26,"None","fishing",185000,0.3,"gleaning;trade","Neutral",5
+"HH126","Ankarabe","2025-07-24","Mamy","Male",61,"Secondary","seaweed farming",439000,0.77,"gleaning","Strongly agree",4
+"HH127","Mahavelo","2025-07-20","Mamy","Male",65,"Primary","fishing",1339000,0.55,"agriculture","Disagree",3
+"HH128","Sarondrano","2025-07-05","Fara","Male",21,"Primary","seaweed farming",186000,0.01,"trade;livestock;agriculture","Strongly agree",5
+"HH129","Sarondrano","2025-07-10","Tojo","Male",63,"None","seaweed farming",337000,0.35,"fishing;livestock;trade","Agree",4
+"HH130","Tsimanjaka","2025-08-11","Fara","Male",67,"Secondary","fishing",1734000,0.44,"trade","Strongly agree",4
+"HH131","Befasy","2025-07-12","Tojo","Male",23,"Primary","seaweed farming",748000,0.95,"gleaning","Neutral",4
+"HH132","Sarondrano","2025-07-31","Fara","Female",70,"Primary","seaweed farming",442000,0.03,"gleaning;livestock","Agree",1
+"HH133","Sarondrano","2025-07-26","Tojo","Male",62,"Primary","fishing",774000,0.31,"trade;fishing","Agree",3
+"HH134","Tsimanjaka","2025-07-04","Mamy","Female",68,"Primary","salaried",831000,0.48,"livestock","Disagree",1
+"HH135","Ambalakely","2025-07-04","Fara","Female",65,"Secondary","fishing",629000,0,"fishing","Neutral",3
+"HH136","Befasy","2025-07-05","Tojo","Male",63,"None","seaweed farming",322000,2.2,"fishing;trade","Strongly agree",3
+"HH137","Ankarabe","2025-08-02","Fara","Male",21,"Primary","salaried",2020000,0.49,"seaweed;fishing;gleaning","Neutral",1
+"HH138","Befasy","2025-07-22","Mamy","Male",32,"Higher","seaweed farming",1402000,1.07,"livestock;seaweed","Agree",1
+"HH139","Mahavelo","2025-07-22","Tojo","Male",55,"Secondary","fishing",421000,0.36,"livestock;gleaning","Disagree",3
+"HH140","Ankarabe","2025-07-22","Fara","Male",38,"Primary","fishing",493000,0.4,"agriculture;seaweed","Agree",3
+"HH141","Ankarabe","2025-07-05","Mamy","Female",74,"None","fishing",768000,0.32,"trade;fishing","Agree",4
+"HH142","Mahavelo","2025-07-07","Fara","Male",45,"Secondary","fishing",445000,0.12,"gleaning;trade","Neutral",3
+"HH143","Sarondrano","2025-08-06","Mamy","Male",25,"Secondary","fishing",421000,0.07,"trade;fishing;livestock","Strongly disagree",1
+"HH144","Sarondrano","2025-07-21","Tojo","Female",48,"Primary","fishing",572000,0.81,"trade;seaweed;agriculture","Strongly agree",4
+"HH145","Sarondrano","2025-08-07","Tojo","Male",53,"Secondary","fishing",446000,1.95,"fishing;livestock",,2
+"HH146","Mahavelo","2025-08-12","Tojo","Male",72,"Primary","trade",344000,0.28,"gleaning;fishing;seaweed","Neutral",5
+"HH147","Befasy","2025-08-11","Fara","Male",22,"Primary","trade",1026000,0.94,"agriculture;trade","Neutral",2
+"HH148","Ambalakely","2025-07-18","Mamy","Male",64,"Primary","fishing",464000,0.02,"trade;livestock;fishing"," Strongly agree",4
+"HH149","Befasy","2025-08-05","Mamy","Male",45,"Secondary","agriculture",85000,0.3,"trade;livestock;gleaning","Disagree",2
+"HH150","Ambalakely","2025-07-22","Mamy","Female",40,"Secondary","salaried",991000,0.82,"trade;fishing","Disagree",2
+"HH151","Befasy","2025-07-26","Fara","Male",50,"None","fishing",8e+05,0.03,"gleaning;seaweed;agriculture","Agree",3
+"HH152","Ankarabe","2025-08-15","Fara","Male",44,"Primary","fishing",403000,1.24,"livestock","Agree",1
+"HH153","Befasy","2025-08-03","Mamy","Female",22,"Primary","fishing",539000,0.73,"trade","Disagree",2
+"HH154","Ambalakely","2025-08-04","Tojo","Female",51,"None","fishing",362000,0.78,"agriculture","Disagree",3
+"HH155","Befasy","2025-07-08","Fara","Male",23,"Secondary","trade",521000,0.26,"trade","Agree",3
+"HH156","Mahavelo","2025-08-01","Fara","Male",43,"Primary","trade",321000,0.57,"livestock;agriculture;trade","Neutral",4
+"HH157","Befasy","2025-07-09","Mamy","Male",63,"Primary","seaweed farming",577000,0.09,"fishing;agriculture","Strongly agree",2
+"HH158","Mahavelo","2025-08-11","Fara","Male",46,"None","trade",537000,0.15,"gleaning",,4
+"HH159","Ambalakely","2025-07-09","Fara","Female",60,"Higher","seaweed farming",1391000,0.52,"agriculture;livestock;gleaning","Disagree",3
+"HH160","Sarondrano","2025-08-02","Tojo","Male",21,"Primary","salaried",1088000,0.9,"fishing;agriculture;seaweed","Neutral",4
+"HH161","Sarondrano","2025-07-02","Fara","Male",64,"Primary","seaweed farming",879000,1.04,"livestock;trade;seaweed","Neutral",3
+"HH162","Ankarabe","2025-07-27","Fara","Male",56,"Primary","seaweed farming",590000,0.07,"fishing;livestock;trade","Agree",5
+"HH163","Ambalakely","2025-07-30","Fara","Male",59,"Primary","agriculture",248000,1.1,"seaweed;trade;agriculture","Agree",3
+"HH164","Sarondrano","2025-08-06","Mamy","Male",23,"Primary","trade",1e+06,0.25,"gleaning;agriculture;seaweed","Agree",2
+"HH165","Befasy","2025-07-22","Fara","Male",26,"Primary","salaried",379000,0.18,"seaweed","Agree",4
+"HH166","Ankarabe","2025-08-03","Mamy","Male",63,"Primary","fishing",224000,1.43,"gleaning","Agree",5
+"HH167","Ankarabe","2025-07-20","Mamy","Male",39,"Primary","agriculture",251000,2.33,"agriculture;livestock","Strongly disagree",3
+"HH168","Sarondrano","2025-07-31","Fara","Male",44,"Primary","fishing",344000,0.96,"agriculture;trade;fishing","Neutral",3
+"HH169","Sarondrano","2025-07-17","Tojo","Female",54,"Secondary","seaweed farming",302000,1.21,"agriculture;trade","Neutral",2
+"HH170","Tsimanjaka","2025-07-23","Mamy","Female",39,"None","trade",318000,1.9,"seaweed","Agree",5
+"HH171","Ankarabe","2025-08-03","Tojo","Male",40,"Primary","trade",1611000,0.72,"seaweed","Agree",4
+"HH172","Tsimanjaka","2025-07-12","Tojo","Male",65,"Primary","seaweed farming",410000,0.32,"fishing;trade;gleaning","agree",3
+"HH173","Tsimanjaka","2025-07-26","Mamy","Male",42,"None","fishing",242000,1.58,"gleaning;agriculture","Strongly agree",4
+"HH174","Tsimanjaka","2025-07-16","Fara","Male",66,"None","seaweed farming",221000,0.46,"gleaning;fishing","Strongly agree",4
+"HH175","Ambalakely","2025-07-28","Fara","Female",50,"Secondary","agriculture",167000,0.3,"seaweed;agriculture","Strongly agree",4
+"HH176","Ambalakely","2025-08-10","Tojo","Female",38,"Primary","trade",1028000,0.49,"seaweed;trade;livestock","Strongly agree",2
+"HH177","Tsimanjaka","2025-08-09","Mamy","Female",56,"Secondary","fishing",504000,0.14,"seaweed","Strongly disagree",2
+"HH178","Mahavelo","2025-07-18","Tojo","Male",74,"Primary","seaweed farming",1324000,0.11,"fishing;livestock","Strongly agree",4
+"HH179","Ankarabe","2025-08-06","Tojo","Male",63,"None","fishing",426000,1.95,"seaweed;fishing;trade","Agree",2
+"HH180","Ankarabe","2025-07-02","Fara","Male",68,"None","seaweed farming",633000,0.28,"trade;fishing;seaweed","Neutral",4
+"HH181","Sarondrano","2025-07-09","Mamy","Female",21,"Higher","salaried",639000,0.18,"seaweed;livestock;gleaning","Disagree",3
+"HH182","Ankarabe","2025-08-14","Tojo","Female",33,"Secondary","trade",666000,1.1,"livestock;fishing;agriculture","strongly disagree",3
+"HH183","Sarondrano","2025-07-18","Mamy","Male",63,"None","seaweed farming",535000,0,"seaweed;gleaning;trade","Agree",3
+"HH184","Mahavelo","2025-07-09","Tojo","Male",37,"Primary","salaried",370000,0.39,"agriculture",,5
+"HH185","Sarondrano","2025-07-01","Fara","Male",69,"None","seaweed farming",207000,1.35,"livestock","Strongly agree",1
+"HH186","Ankarabe","2025-07-06","Fara","Male",29,"Primary","trade",266000,0.04,"agriculture","Strongly agree",1
+"HH187","Mahavelo","2025-08-11","Mamy","Male",73,"Secondary","fishing",499000,1.79,"fishing;agriculture","Strongly agree",4
+"HH188","Ambalakely","2025-07-08","Fara","Male",38,"Primary","seaweed farming",178000,0.01,"livestock;fishing;gleaning","Strongly agree",4
+"HH189","Mahavelo","2025-08-12","Tojo","Female",55,"Primary","fishing",444000,0.11,"livestock;agriculture","Agree",3
+"HH190","Ankarabe","2025-07-17","Mamy","Male",35,"Secondary","fishing",382000,0.64,"fishing"," Strongly agree",5
+"HH191","Befasy","2025-08-09","Fara","Female",71,"None","agriculture",252000,0.47,"seaweed;trade","Neutral",4
+"HH192","Sarondrano","2025-08-02","Fara","Male",31,"Primary","trade",495000,0.84,"fishing","Strongly disagree",4
+"HH193","Mahavelo","2025-07-08","Fara","Female",74,"Primary","fishing",459000,0.26,"fishing;gleaning","Strongly disagree",4
+"HH194","Tsimanjaka","2025-07-03","Tojo","Female",34,"Secondary","agriculture",330000,0.57,"trade;gleaning;seaweed","Neutral",1
+"HH195","Tsimanjaka","2025-08-05","Fara","Male",24,"Primary","fishing",320000,1.37,"fishing","Strongly disagree",4
+"HH196","Befasy","2025-07-22","Tojo","Male",54,"None","seaweed farming",447000,0.01,"trade;agriculture","Agree",4
+"HH197","Ankarabe","2025-07-29","Fara","Male",69,"Primary","fishing",266000,0.28,"trade;seaweed","Strongly agree",4
+"HH198","Mahavelo","2025-07-15","Tojo","Male",68,"None","seaweed farming",780000,0.32,"seaweed;gleaning","Agree",2
+"HH199","Tsimanjaka","2025-07-25","Fara","Male",35,"None","seaweed farming",371000,0.53,"agriculture;gleaning;livestock","Disagree",3
+"HH200","Befasy","2025-08-04","Mamy","Female",55,"Secondary","seaweed farming",1934000,0.02,"gleaning","Neutral",3
+"HH201","Befasy","2025-07-03","Fara","Male",45,"Secondary","salaried",297000,0.09,"fishing"," Agree",1
+"HH202","Ambalakely","2025-08-06","Tojo","Female",74,"Primary","seaweed farming",347000,0.37,"fishing","Strongly agree",3
+"HH203","Ankarabe","2025-08-01","Mamy","Female",32,"Primary","fishing",698000,0.4,"trade;fishing","Agree",4
+"HH204","Sarondrano","2025-07-17","Fara","Male",52,"Primary","trade",373000,0.21,"trade;agriculture","Disagree",5
+"HH205","Befasy","2025-08-10","Fara","Female",48,"Primary","trade",361000,0.63,"seaweed;fishing;agriculture","Agree",1
+"HH206","Mahavelo","2025-07-14","Fara","Male",27,"Secondary","agriculture",538000,1.61,"trade;agriculture;fishing","neutral",3
+"HH207","Befasy","2025-07-12","Fara","Female",68,"Primary","seaweed farming",426000,0.94,"agriculture","Disagree",1
+"HH208","Ambalakely","2025-07-30","Tojo","Male",28,"Primary","seaweed farming",378000,0.96,"agriculture","Strongly agree",4
+"HH209","Ankarabe","2025-07-24","Fara","Female",63,"Primary","trade",587000,0.34,"seaweed;livestock;gleaning","Agree",4
+"HH210","Befasy","2025-07-02","Fara","Male",70,"Primary","fishing",337000,1.09,"trade;agriculture;livestock","Strongly disagree",3
+"HH211","Sarondrano","2025-07-02","Tojo","Male",55,"Primary","seaweed farming",826000,0.72,"agriculture;seaweed","Agree",1
+"HH212","Befasy","2025-07-14","Fara","Male",59,"Primary","seaweed farming",376000,0.72,"fishing","Neutral",1
+"HH213","Befasy","2025-08-12","Fara","Male",39,"Higher","fishing",606000,0.25,"gleaning;trade;seaweed","Disagree",1
+"HH214","Ankarabe","2025-07-28","Fara","Male",42,"Primary","salaried",3229000,0.06,"agriculture;fishing","Agree",4
+"HH215","Befasy","2025-08-01","Mamy","Male",68,"None","seaweed farming",378000,0.77,"trade;livestock","Neutral",2
+"HH216","Befasy","2025-07-10","Fara","Male",60,"Primary","seaweed farming",723000,0.52,"fishing;trade","Agree",3
+"HH217","Ambalakely","2025-07-08","Mamy","Male",42,"None","seaweed farming",233000,3.33,"agriculture;livestock","Strongly disagree",2
+"HH218","Tsimanjaka","2025-07-06","Tojo","Female",64,"Primary","seaweed farming",524000,0.43,"trade;gleaning;fishing","Agree",1
+"HH219","Ambalakely","2025-07-19","Fara","Male",43,"Secondary","fishing",229000,0.39,"livestock","Disagree",3
+"HH220","Tsimanjaka","2025-08-10","Fara","Male",52,"Secondary","seaweed farming",3e+05,2.04,"trade","Disagree",4
+"HH221","Ankarabe","2025-07-05","Fara","Male",43,"None","seaweed farming",881000,0.63,"gleaning;trade;fishing","Agree",2
+"HH222","Tsimanjaka","2025-08-04","Tojo","Male",66,"Higher","fishing",325000,0.13,"gleaning","Agree",2
+"HH223","Ambalakely","2025-07-13","Tojo","Male",30,"Primary","trade",1545000,0.46,"fishing;trade;agriculture","Strongly agree",3
+"HH224","Befasy","2025-07-27","Fara","Female",67,"Primary","seaweed farming",424000,0.89,"fishing;seaweed;gleaning","Agree",3
+"HH225","Befasy","2025-07-07","Mamy","Male",23,"Primary","seaweed farming",202000,0.53,"agriculture;livestock;gleaning","Strongly agree",4
+"HH226","Tsimanjaka","2025-07-28","Fara","Male",60,"Higher","seaweed farming",826000,0.02,"livestock;agriculture","Agree",4
+"HH227","Sarondrano","2025-08-04","Fara","Female",57,"Secondary","trade",263000,0.62,"livestock;seaweed","Neutral",4
+"HH228","Ambalakely","2025-07-07","Tojo","Male",49,"Primary","salaried",1068000,0.33,"gleaning;fishing;agriculture","Agree",2
+"HH229","Mahavelo","2025-07-30","Mamy","Female",55,"Primary","fishing",596000,0.24,"seaweed;agriculture;fishing","agree",3
+"HH230","Sarondrano","2025-07-10","Fara","Male",39,"Secondary","fishing",458000,0.14,"livestock;fishing",,3
+"HH231","Tsimanjaka","2025-07-10","Tojo","Male",73,"Primary","salaried",2098000,0.45,"trade;seaweed","Disagree",4
+"HH232","Tsimanjaka","2025-07-19","Fara","Female",49,"Secondary","trade",253000,0.78,"trade;gleaning;seaweed","Neutral",5
+"HH233","Tsimanjaka","2025-07-12","Tojo","Female",42,"None","fishing",798000,0.13,"fishing;trade;gleaning","Agree",4
+"HH234","Ankarabe","2025-08-09","Fara","Female",49,"Primary","seaweed farming",380000,0.41,"gleaning;trade","Agree",2
+"HH235","Ankarabe","2025-08-06","Fara","Male",67,"Primary","seaweed farming",243000,1.69,"trade;fishing;seaweed","Strongly agree",2
+"HH236","Mahavelo","2025-07-19","Tojo","Female",27,"None","fishing",590000,0.52,"agriculture;trade","Neutral",4
+"HH237","Tsimanjaka","2025-08-08","Mamy","Female",33,"Primary","trade",617000,1.01,"livestock;fishing;seaweed","Agree",5
+"HH238","Sarondrano","2025-07-02","Mamy","Female",67,"Secondary","fishing",933000,0.5,"fishing;trade;agriculture","Agree",4
+"HH239","Ankarabe","2025-07-30","Mamy","Male",52,"None","fishing",1161000,0.58,"seaweed","Strongly disagree",2
+"HH240","Befasy","2025-07-08","Mamy","Female",21,"Primary","trade",642000,0.66,"livestock;agriculture;gleaning"," Agree",4
+"HH241","Ankarabe","2025-08-05","Tojo","Female",56,"Higher","trade",144000,1.64,"agriculture;seaweed;livestock","agree",4
+"HH242","Sarondrano","2025-08-02","Fara","Female",60,"Primary","fishing",785000,0.22,"seaweed;agriculture;fishing","Neutral",3
+"HH243","Mahavelo","2025-07-29","Tojo","Male",29,"None","trade",642000,0.56,"gleaning;seaweed","Agree",2
+"HH244","Befasy","2025-08-05","Tojo","Male",34,"None","fishing",716000,0.27,"agriculture;gleaning","agree",5
+"HH245","Ambalakely","2025-08-03","Mamy","Male",68,"Primary","seaweed farming",201000,2.43,"trade;gleaning;agriculture","Agree",2
+"HH246","Ambalakely","2025-07-30","Tojo","Female",21,"Primary","seaweed farming",878000,0.16,"seaweed;agriculture;trade","Neutral",4
+"HH247","Ambalakely","2025-07-17","Mamy","Female",21,"Secondary","fishing",351000,0.11,"agriculture;gleaning;trade","Strongly agree",3
+"HH248","Mahavelo","2025-07-31","Mamy","Male",60,"Secondary","fishing",332000,0.72,"gleaning;fishing","Strongly agree",4
+"HH249","Sarondrano","2025-08-13","Mamy","Female",49,"None","seaweed farming",1213000,0.35,"livestock","Agree",3
+"HH250","Mahavelo","2025-07-09","Tojo","Female",47,"Secondary","seaweed farming",153000,0.83,"livestock;trade;agriculture","Agree",3
+"HH251","Ankarabe","2025-08-04","Tojo","Female",63,"Secondary","salaried",369000,0.92,"fishing;seaweed","Disagree",5
+"HH252","Ankarabe","2025-08-05","Tojo","Male",37,"Primary","fishing",434000,0.96,"seaweed;livestock;trade","Neutral",3
+"HH253","Ambalakely","2025-07-19","Mamy","Female",40,"None","salaried",829000,1.08,"trade;fishing;livestock","Agree",5
+"HH254","Mahavelo","2025-08-06","Mamy","Male",27,"Primary","seaweed farming",364000,0.73,"seaweed","Strongly disagree",3
+"HH255","Befasy","2025-07-11","Mamy","Male",31,"None","fishing",416000,0.65,"agriculture;fishing","Disagree",2
+"HH256","Befasy","2025-07-09","Fara","Male",55,"Primary","fishing",615000,0.51,"agriculture;livestock","Neutral",4
+"HH257","Mahavelo","2025-08-07","Mamy","Male",73,"Primary","salaried",546000,0.32,"gleaning;livestock;trade","Strongly agree",3
+"HH258","Tsimanjaka","2025-07-16","Fara","Male",72,"Secondary","agriculture",129000,0.17,"fishing;seaweed","Agree",4
+"HH259","Sarondrano","2025-08-04","Fara","Female",47,"Secondary","trade",1103000,0.49,"gleaning;seaweed;livestock","Strongly agree",4
+"HH260","Tsimanjaka","2025-08-12","Tojo","Male",29,"Secondary","seaweed farming",770000,0.65,"seaweed;agriculture","Agree",5
+"HH261","Ankarabe","2025-08-13","Tojo","Male",64,"Secondary","fishing",307000,0.83,"seaweed;gleaning","Strongly disagree",2
+"HH262","Ankarabe","2025-08-11","Tojo","Female",71,"Secondary","trade",665000,0.02,"seaweed","Neutral",2
+"HH263","Tsimanjaka","2025-07-18","Mamy","Male",51,"Primary","fishing",372000,0.18,"fishing;livestock;seaweed","Neutral",4
+"HH264","Befasy","2025-07-27","Fara","Male",64,"Secondary","trade",675000,1.4,"agriculture;seaweed;gleaning","Agree",3
+"HH265","Befasy","2025-07-19","Fara","Female",72,"Secondary","seaweed farming",233000,0.36,"trade","Disagree",4
+"HH266","Sarondrano","2025-07-18","Mamy","Male",37,"Primary","agriculture",317000,0.05,"gleaning;livestock","Agree",2
+"HH267","Mahavelo","2025-07-02","Tojo","Female",48,"Primary","fishing",186000,0.18,"fishing;trade",,4
+"HH268","Ambalakely","2025-07-11","Mamy","Male",50,"Secondary","seaweed farming",241000,1.62,"seaweed","Strongly agree",2
+"HH269","Mahavelo","2025-07-26","Mamy","Female",38,"Higher","fishing",126000,1.04,"seaweed","Agree",2
+"HH270","Mahavelo","2025-08-06","Tojo","Female",41,"None","seaweed farming",157000,0.56,"seaweed;trade;gleaning","Neutral",3
+"HH271","Ambalakely","2025-07-26","Tojo","Female",68,"None","seaweed farming",811000,0.16,"seaweed","Agree",2
+"HH272","Mahavelo","2025-07-19","Fara","Male",37,"Secondary","salaried",577000,0.19,"gleaning;agriculture;trade","Neutral",5
+"HH273","Ankarabe","2025-07-25","Tojo","Female",26,"Primary","fishing",868000,1.13,"agriculture;fishing","Agree",3
+"HH274","Mahavelo","2025-08-05","Mamy","Female",65,"None","fishing",234000,0.09,"gleaning;fishing","Strongly disagree",2
+"HH275","Befasy","2025-08-01","Fara","Male",40,"Primary","agriculture",176000,0.03,"agriculture;trade","Agree",4
+"HH276","Mahavelo","2025-08-05","Fara","Male",63,"Secondary","seaweed farming",424000,0.1,"fishing","Strongly agree",3
+"HH277","Mahavelo","2025-07-16","Tojo","Male",68,"None","fishing",341000,0.12,"seaweed;gleaning","Agree",4
+"HH278","Sarondrano","2025-07-11","Tojo","Female",54,"Primary","fishing",274000,0.55,"fishing;agriculture","Neutral",5
+"HH279","Mahavelo","2025-08-02","Fara","Male",52,"Primary","trade",610000,0.58,"agriculture;livestock","Disagree",3
+"HH280","Ankarabe","2025-07-14","Fara","Male",57,"Primary","seaweed farming",289000,0.42,"livestock;gleaning","Neutral",4
+"HH281","Befasy","2025-07-03","Fara","Female",28,"Secondary","trade",520000,0.95,"gleaning;livestock;seaweed","Neutral",4
+"HH282","Sarondrano","2025-07-09","Mamy","Male",73,"Secondary","fishing",376000,1.58,"fishing;gleaning;seaweed","Disagree",3
+"HH283","Ankarabe","2025-07-06","Fara","Male",23,"None","seaweed farming",136000,1.19,"agriculture","Neutral",3
+"HH284","Ambalakely","2025-07-21","Tojo","Male",74,"Primary","seaweed farming",336000,0.46,"gleaning;livestock","Neutral",4
+"HH285","Sarondrano","2025-07-11","Fara","Male",47,"Primary","trade",456000,0.83,"fishing","Agree",3
+"HH286","Mahavelo","2025-08-03","Mamy","Male",71,"Primary","seaweed farming",493000,0.82,"seaweed","strongly agree",4
+"HH287","Ambalakely","2025-07-11","Mamy","Male",63,"Secondary","fishing",390000,0.19,"fishing","Neutral",4
+"HH288","Ambalakely","2025-07-26","Fara","Male",52,"Primary","seaweed farming",755000,1.23,"agriculture","Strongly agree",2
+"HH289","Befasy","2025-07-09","Tojo","Male",46,"None","fishing",322000,0.41,"livestock","Agree",4
+"HH290","Tsimanjaka","2025-08-15","Tojo","Male",29,"None","trade",621000,0.77,"seaweed;trade","Agree",4
+"HH291","Sarondrano","2025-07-19","Fara","Male",67,"Secondary","fishing",480000,0.65,"gleaning","Neutral",2
+"HH292","Befasy","2025-07-18","Mamy","Male",56,"None","seaweed farming",977000,0.51,"fishing","Agree",4
+"HH293","Mahavelo","2025-07-25","Tojo","Female",42,"Primary","salaried",920000,0.67,"agriculture;seaweed","Strongly agree",1
+"HH294","Ambalakely","2025-07-18","Tojo","Male",70,"Primary","fishing",419000,0.27,"agriculture;fishing;seaweed","Agree",1
+"HH295","Befasy","2025-07-22","Fara","Male",72,"Primary","agriculture",147000,0.22,"livestock;gleaning","Agree",2
+"HH296","Sarondrano","2025-08-07","Fara","Male",56,"None","agriculture",806000,2.12,"fishing;seaweed","Strongly agree",3
+"HH297","Mahavelo","2025-08-12","Fara","Female",48,"Primary","trade",637000,1.33,"fishing;gleaning;trade","Agree",3
+"HH298","Befasy","2025-07-16","Tojo","Male",22,"Secondary","seaweed farming",324000,0.02,"fishing;livestock","Agree",4
+"HH299","Tsimanjaka","2025-07-19","Tojo","Female",68,"Secondary","seaweed farming",677000,2.09,"fishing;trade","neutral",2
+"HH300","Ambalakely","2025-07-09","Mamy","Male",63,"None","fishing",237000,0.01,"agriculture","Neutral",4
+"HH301","Tsimanjaka","2025-07-20","Fara","Female",21,"Primary","salaried",807000,0.55,"gleaning","Strongly disagree",3
+"HH302","Mahavelo","2025-07-22","Fara","Male",24,"Primary","trade",506000,0.01,"seaweed","agree",5
+"HH303","Mahavelo","2025-07-03","Fara","Female",48,"Primary","fishing",433000,0.1,"livestock;gleaning;agriculture","Agree",4
+"HH304","Sarondrano","2025-07-16","Mamy","Male",21,"None","seaweed farming",457000,0.2,"trade;fishing;agriculture","agree",5
+"HH305","Ankarabe","2025-08-12","Tojo","Male",66,"Secondary","agriculture",418000,0.3,"livestock;seaweed","Neutral",2
+"HH306","Ambalakely","2025-08-12","Tojo","Male",75,"Higher","fishing",774000,0.64,"agriculture;livestock;fishing","Agree",4
+"HH307","Tsimanjaka","2025-08-04","Fara","Female",29,"Primary","fishing",526000,0.43,"gleaning;seaweed","Neutral",1
+"HH308","Ambalakely","2025-07-02","Mamy","Female",55,"Higher","salaried",984000,0.52,"agriculture;trade;livestock","Neutral",3
+"HH309","Befasy","2025-08-14","Fara","Male",45,"Secondary","seaweed farming",198000,0.66,"gleaning;fishing;livestock","Agree",4
+"HH310","Tsimanjaka","2025-07-01","Tojo","Female",41,"None","trade",982000,0.16,"agriculture;seaweed"," Agree",4
+"HH311","Mahavelo","2025-08-01","Tojo","Male",73,"Secondary","fishing",378000,0.33,"seaweed;gleaning;fishing","Disagree",4
+"HH312","Ankarabe","2025-08-04","Tojo","Male",74,"Secondary","trade",586000,0.84,"livestock;trade;fishing","Agree",4
+"HH313","Sarondrano","2025-07-23","Tojo","Male",69,"Primary","trade",418000,0.44,"gleaning;trade;seaweed","Strongly agree",4
+"HH314","Ambalakely","2025-07-11","Fara","Male",59,"Primary","fishing",182000,1.7,"gleaning;fishing","Neutral",3
+"HH315","Sarondrano","2025-08-14","Fara","Male",36,"Secondary","seaweed farming",603000,0.14,"trade;fishing","Agree",4
+"HH316","Mahavelo","2025-08-05","Mamy","Male",70,"Primary","salaried",344000,0.99,"trade","agree",3
+"HH317","Mahavelo","2025-07-26","Mamy","Male",34,"Primary","fishing",189000,0.22,"gleaning","Agree",4
+"HH318","Mahavelo","2025-08-10","Tojo","Male",60,"None","trade",613000,0.09,"gleaning;fishing","strongly agree",4
+"HH319","Ankarabe","2025-07-17","Fara","Male",53,"Primary","trade",634000,0.11,"agriculture","Agree",4
+"HH320","Mahavelo","2025-07-22","Tojo","Female",21,"Primary","fishing",137000,0.75,"trade;livestock","Neutral",2
+"HH321","Befasy","2025-07-19","Mamy","Male",55,"Primary","fishing",455000,0.23,"livestock;seaweed;gleaning","Neutral",4
+"HH322","Ambalakely","2025-07-01","Mamy","Male",67,"Primary","agriculture",555000,0.04,"trade;seaweed;livestock","Agree",3
+"HH323","Mahavelo","2025-08-13","Mamy","Female",54,"Higher","seaweed farming",225000,0.48,"seaweed;agriculture","Neutral",5
+"HH324","Sarondrano","2025-07-22","Mamy","Female",20,"Primary","fishing",298000,0.12,"fishing","Strongly agree",3
+"HH325","Befasy","2025-07-15","Mamy","Male",24,"Primary","fishing",312000,0.32,"seaweed;gleaning","Agree",3
+"HH326","Sarondrano","2025-08-04","Fara","Female",70,"Secondary","fishing",1213000,0.16,"fishing;trade","Neutral",4
+"HH327","Mahavelo","2025-08-06","Mamy","Male",73,"Primary","seaweed farming",214000,0.4,"trade;fishing;gleaning","Agree",2
+"HH328","Mahavelo","2025-07-13","Tojo","Female",39,"Secondary","trade",383000,0.22,"agriculture;trade;seaweed","Neutral",3
+"HH329","Tsimanjaka","2025-08-09","Tojo","Male",61,"Primary","seaweed farming",645000,0.33,"livestock"," Agree",2
+"HH330","Ambalakely","2025-07-25","Fara","Male",54,"Primary","trade",346000,0.14,"gleaning","Neutral",2
+"HH331","Befasy","2025-08-04","Tojo","Male",46,"None","seaweed farming",696000,0.79,"agriculture;gleaning;seaweed","Neutral",5
+"HH332","Sarondrano","2025-07-30","Fara","Male",28,"Higher","trade",682000,0.09,"livestock","Strongly disagree",3
+"HH333","Befasy","2025-07-26","Tojo","Female",35,"None","fishing",357000,0.09,"seaweed;fishing","Agree",3
+"HH334","Befasy","2025-08-10","Tojo","Female",38,"Primary","fishing",168000,0.56,"livestock;fishing","Strongly agree",3
+"HH335","Sarondrano","2025-08-07","Tojo","Female",22,"Primary","fishing",750000,0.26,"gleaning;agriculture;seaweed","Strongly agree",2
+"HH336","Befasy","2025-07-09","Mamy","Male",57,"None","seaweed farming",399000,1.34,"livestock","Agree",3
+"HH337","Ambalakely","2025-07-24","Mamy","Male",71,"Primary","fishing",429000,0.12,"livestock;fishing;trade","Agree",2
+"HH338","Ankarabe","2025-07-14","Mamy","Male",25,"Primary","fishing",319000,0.18,"trade","Neutral",3
+"HH339","Befasy","2025-07-10","Fara","Male",54,"Primary","fishing",380000,0.22,"gleaning","Agree",3
+"HH340","Sarondrano","2025-07-17","Tojo","Female",27,"None","trade",438000,2.1,"livestock;agriculture","Agree",1
+"HH341","Mahavelo","2025-08-05","Tojo","Female",36,"Primary","agriculture",196000,2.03,"fishing;trade","Strongly agree",4
+"HH342","Ambalakely","2025-07-13","Mamy","Female",42,"Primary","trade",853000,0.08,"livestock","Strongly agree",2
+"HH343","Mahavelo","2025-07-03","Fara","Male",75,"None","seaweed farming",202000,0.33,"seaweed;trade;livestock","Disagree",4
+"HH344","Ankarabe","2025-07-16","Fara","Male",49,"Primary","salaried",722000,1.7,"seaweed","Strongly agree",3
+"HH345","Mahavelo","2025-08-04","Tojo","Female",73,"Higher","fishing",258000,0.03,"gleaning","Strongly agree",5
+"HH346","Ankarabe","2025-07-08","Fara","Male",71,"Primary","seaweed farming",928000,0.5,"fishing;seaweed;trade","Agree",4
+"HH347","Tsimanjaka","2025-08-15","Fara","Male",49,"None","seaweed farming",249000,2.42,"seaweed;fishing;trade","Agree",2
+"HH348","Sarondrano","2025-07-04","Tojo","Female",32,"Secondary","agriculture",721000,0.32,"gleaning","Strongly agree",2
+"HH349","Mahavelo","2025-08-12","Tojo","Male",63,"Primary","seaweed farming",122000,0.01,"seaweed;livestock","Neutral",5
+"HH350","Tsimanjaka","2025-08-07","Mamy","Female",46,"None","trade",395000,0.09,"livestock;agriculture","Strongly disagree",3
+"HH351","Sarondrano","2025-07-21","Tojo","Female",52,"Secondary","trade",365000,0.46,"fishing;agriculture;trade","Neutral",3
+"HH352","Ambalakely","2025-07-13","Tojo","Male",59,"None","agriculture",470000,0.17,"livestock;agriculture","Agree",5
+"HH353","Mahavelo","2025-07-07","Fara","Male",37,"Secondary","seaweed farming",148000,0.34,"agriculture","Agree",1
+"HH354","Ankarabe","2025-07-07","Fara","Male",74,"Secondary","salaried",609000,0.08,"agriculture;seaweed;fishing","Disagree",3
+"HH355","Ankarabe","2025-07-02","Fara","Female",57,"Primary","fishing",172000,0.47,"gleaning","Neutral",1
+"HH356","Ankarabe","2025-07-15","Fara","Male",71,"None","fishing",522000,0.14,"seaweed","Agree",2
+"HH357","Mahavelo","2025-08-10","Mamy","Male",22,"None","fishing",371000,0.55,"trade","Strongly disagree",4
+"HH358","Ankarabe","2025-08-11","Fara","Male",27,"Secondary","trade",496000,0.79,"agriculture;livestock","Agree",2
+"HH359","Sarondrano","2025-07-08","Tojo","Female",65,"None","trade",1055000,0.03,"seaweed;agriculture;trade","Agree",1
+"HH360","Sarondrano","2025-08-14","Mamy","Female",36,"Higher","trade",601000,0.08,"fishing;gleaning;trade","Agree",1
+"HH361","Ambalakely","2025-07-16","Fara","Male",64,"Primary","fishing",813000,0.73,"seaweed;livestock","Neutral",3
+"HH362","Tsimanjaka","2025-08-10","Mamy","Male",75,"None","seaweed farming",289000,0.38,"fishing;livestock;gleaning","Strongly disagree",3
+"HH363","Befasy","2025-08-04","Fara","Male",55,"None","salaried",386000,0.03,"fishing;gleaning","Neutral",3
+"HH364","Ankarabe","2025-07-20","Tojo","Male",50,"None","seaweed farming",516000,0.26,"trade;fishing;agriculture","Disagree",3
+"HH365","Sarondrano","2025-07-09","Tojo","Female",52,"None","fishing",580000,0.31,"fishing;agriculture;trade","Neutral",3
+"HH366","Tsimanjaka","2025-08-14","Tojo","Female",69,"None","fishing",688000,0.02,"trade","Agree",3
+"HH367","Ankarabe","2025-08-14","Fara","Male",68,"Secondary","salaried",316000,0.29,"livestock;fishing","Agree",1
+"HH368","Tsimanjaka","2025-07-17","Tojo","Female",26,"None","salaried",378000,0.1,"fishing;livestock","Agree",4
+"HH369","Tsimanjaka","2025-08-04","Mamy","Male",65,"Secondary","agriculture",543000,0.11,"trade;seaweed","Agree",4
+"HH370","Befasy","2025-07-31","Fara","Female",65,"Primary","seaweed farming",1151000,0.41,"fishing;gleaning","Strongly agree",3
+"HH371","Befasy","2025-07-26","Fara","Male",63,"None","fishing",251000,2.6,"gleaning;agriculture;trade","Agree",3
+"HH372","Ambalakely","2025-07-26","Mamy","Male",22,"None","seaweed farming",273000,0.33,"fishing;agriculture",,4
+"HH373","Tsimanjaka","2025-07-28","Mamy","Male",20,"Primary","fishing",192000,0.6,"seaweed;fishing","Strongly agree",2
+"HH374","Sarondrano","2025-07-09","Fara","Female",64,"Primary","fishing",512000,0.2,"seaweed;gleaning;trade","Strongly agree",3
+"HH375","Ankarabe","2025-07-25","Mamy","Male",40,"Primary","agriculture",626000,0.47,"trade","Disagree",5
+"HH376","Ankarabe","2025-07-12","Tojo","Male",30,"Secondary","seaweed farming",620000,0.17,"livestock","Neutral",5
+"HH377","Ankarabe","2025-07-31","Tojo","Male",24,"None","salaried",461000,0.33,"agriculture;fishing;seaweed","Agree",1
+"HH378","Befasy","2025-08-12","Tojo","Female",68,"None","fishing",253000,0.27,"seaweed","Agree",4
+"HH379","Mahavelo","2025-08-08","Tojo","Male",59,"Primary","fishing",347000,0.07,"gleaning;fishing","Neutral",4
+"HH380","Befasy","2025-08-08","Mamy","Male",69,"Primary","fishing",189000,0.44,"gleaning","Agree",2
+"HH381","Tsimanjaka","2025-07-03","Tojo","Male",43,"Secondary","fishing",191000,0.02,"agriculture;gleaning;livestock","Strongly agree",2
+"HH382","Befasy","2025-08-08","Fara","Male",23,"Secondary","trade",911000,1.59,"fishing","Strongly disagree",2
+"HH383","Tsimanjaka","2025-07-21","Mamy","Male",50,"Secondary","seaweed farming",657000,0.36,"gleaning","Agree",4
+"HH384","Sarondrano","2025-07-06","Mamy","Male",47,"Primary","trade",781000,0.05,"trade;seaweed;agriculture","Agree",5
+"HH385","Befasy","2025-08-13","Fara","Male",39,"Secondary","fishing",354000,0.08,"fishing;trade;agriculture","Agree",5
+"HH386","Ambalakely","2025-07-24","Mamy","Male",49,"Primary","seaweed farming",216000,0.52,"fishing;gleaning","Strongly agree",2
+"HH387","Tsimanjaka","2025-08-04","Fara","Female",35,"Primary","salaried",841000,0.28,"seaweed;fishing","Disagree",4
+"HH388","Mahavelo","2025-07-27","Tojo","Female",50,"Secondary","trade",616000,1,"livestock;agriculture","Disagree",2
+"HH389","Mahavelo","2025-07-04","Fara","Male",44,"Secondary","trade",568000,0.08,"fishing","Strongly agree",3
+"HH390","Befasy","2025-07-30","Mamy","Female",35,"Primary","fishing",537000,0.34,"livestock","Agree",4
+"HH391","Mahavelo","2025-07-27","Tojo","Female",67,"Primary","fishing",261000,1.31,"agriculture;livestock","Neutral",4
+"HH392","Mahavelo","2025-07-02","Mamy","Female",53,"Primary","salaried",396000,0.06,"trade;seaweed","Disagree",1
+"HH393","Mahavelo","2025-07-19","Fara","Male",30,"Higher","seaweed farming",271000,0.39,"gleaning;trade;agriculture","Neutral",1
+"HH394","Tsimanjaka","2025-08-05","Fara","Male",55,"Secondary","fishing",601000,0.59,"fishing;gleaning","Strongly agree",4
+"HH395","Ambalakely","2025-08-10","Fara","Female",45,"None","fishing",525000,0.08,"gleaning;trade;seaweed","Neutral",3
+"HH396","Befasy","2025-07-12","Fara","Female",33,"Primary","fishing",283000,0.1,"fishing;trade","Agree",2
+"HH397","Mahavelo","2025-07-31","Tojo","Female",50,"Primary","fishing",220000,0.69,"agriculture","Agree",2
+"HH398","Mahavelo","2025-07-25","Mamy","Male",52,"Secondary","salaried",217000,0.2,"gleaning","Agree",3
+"HH399","Mahavelo","2025-07-01","Mamy","Male",74,"Secondary","fishing",770000,0.39,"agriculture","Agree",3
+"HH400","Ambalakely","2025-07-04","Mamy","Male",31,"Secondary","seaweed farming",427000,0.43,"fishing;trade","Strongly agree",3
+"HH401","Befasy","2025-07-20","Mamy","Male",29,"Secondary","trade",813000,0.06,"fishing;agriculture;seaweed","Strongly agree",2
+"HH402","Ambalakely","2025-07-15","Mamy","Male",46,"Primary","fishing",272000,0.21,"agriculture;trade","Neutral",3
+"HH403","Tsimanjaka","2025-08-13","Tojo","Male",65,"Primary","seaweed farming",405000,0.33,"fishing;gleaning;agriculture","strongly agree",3
+"HH404","Tsimanjaka","2025-08-08","Mamy","Male",33,"Primary","seaweed farming",303000,0.4,"fishing","Agree",3
+"HH405","Ankarabe","2025-07-28","Tojo","Female",58,"Secondary","seaweed farming",232000,1.97,"fishing;trade","agree",4
+"HH406","Sarondrano","2025-07-27","Mamy","Male",31,"Secondary","fishing",303000,0.76,"trade;seaweed;gleaning","Agree",5
+"HH407","Ambalakely","2025-07-01","Mamy","Female",20,"None","seaweed farming",787000,1.58,"livestock;fishing","Neutral",5
+"HH408","Tsimanjaka","2025-07-16","Mamy","Male",30,"Secondary","fishing",789000,0.65,"gleaning;fishing;agriculture","Strongly disagree",2
+"HH409","Sarondrano","2025-07-08","Tojo","Male",60,"Primary","fishing",285000,0.58,"gleaning;agriculture","Strongly agree",1
+"HH410","Ankarabe","2025-07-17","Fara","Female",45,"Primary","seaweed farming",1223000,0.81,"trade","Agree",3
+"HH411","Sarondrano","2025-07-31","Tojo","Male",70,"None","seaweed farming",289000,0.94,"seaweed;agriculture","Strongly disagree",2
+"HH412","Tsimanjaka","2025-07-17","Tojo","Male",48,"Secondary","trade",422000,2.55,"fishing;gleaning;agriculture","Neutral",2
+"HH413","Ankarabe","2025-08-06","Fara","Male",52,"None","trade",633000,0.27,"gleaning","Neutral",1
+"HH414","Ambalakely","2025-07-06","Tojo","Male",38,"Primary","seaweed farming",492000,1.07,"livestock;seaweed;agriculture","Neutral",4
+"HH415","Sarondrano","2025-07-26","Fara","Female",64,"None","fishing",240000,0,"livestock","Disagree",3
+"HH416","Befasy","2025-08-03","Mamy","Male",60,"None","seaweed farming",191000,0.05,"seaweed;livestock","Strongly disagree",2
+"HH417","Mahavelo","2025-07-14","Tojo","Male",66,"Primary","seaweed farming",593000,0.1,"seaweed","Agree",3
+"HH418","Mahavelo","2025-07-27","Mamy","Female",44,"Higher","fishing",371000,1.08,"livestock","Strongly disagree",5
+"HH419","Sarondrano","2025-07-02","Fara","Female",36,"Secondary","trade",570000,1.02,"seaweed;agriculture;fishing","Disagree",4
+"HH420","Ankarabe","2025-08-03","Mamy","Female",57,"Primary","seaweed farming",435000,0.11,"trade;agriculture;fishing","Neutral",3
+"HH098","Ankarabe","2025-07-21","Tojo","Female",68,"None","seaweed farming",865000,0.38,"livestock;seaweed","Neutral",2
+"HH399","Mahavelo","2025-07-01","Mamy","Male",74,"Secondary","fishing",770000,0.39,"agriculture","Agree",3
+"HH141","Ankarabe","2025-07-05","Mamy","Female",74,"None","fishing",768000,0.32,"trade;fishing","Agree",4
+"HH128","Sarondrano","2025-07-05","Fara","Male",21,"Primary","seaweed farming",186000,0.01,"trade;livestock;agriculture","Strongly agree",5
+"HH407","Ambalakely","2025-07-01","Mamy","Female",20,"None","seaweed farming",787000,1.58,"livestock;fishing","Neutral",5

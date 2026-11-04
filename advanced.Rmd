@@ -1,0 +1,24 @@
+---
+title: "[Advanced level]{.en}[Niveau avancé]{.fr}"
+pagetitle: "R for marine sciences · Advanced"
+subtitle: "[Coming soon]{.en}[Bientôt disponible]{.fr}"
+---
+
+::: en
+The advanced level is in preparation. It will cover:
+
+- reproducible, professional projects (`renv`, Git, GitHub / GitLab);
+- reports with R Markdown, and automatic reports (one report per site);
+- spatial data (`sf`, `terra`) and maps (`tmap`, `ggplot2`);
+- Quarto: every number written by code, cross-references, table of contents, lists of figures and tables, references, HTML and PDF output;
+- publishing on GitHub Pages / GitLab Pages.
+:::
+::: fr
+Le niveau avancé est en préparation. Il abordera :
+
+- les projets professionnels et reproductibles (`renv`, Git, GitHub / GitLab) ;
+- les rapports avec R Markdown, et les rapports automatiques (un rapport par site) ;
+- les données spatiales (`sf`, `terra`) et les cartes (`tmap`, `ggplot2`) ;
+- Quarto : chaque chiffre écrit par le code, renvois, table des matières, listes des figures et tableaux, références, sortie HTML et PDF ;
+- la publication sur GitHub Pages / GitLab Pages.
+:::

@@ -1,0 +1,230 @@
+---
+title: "[I13 · Final project: sea cucumber farming in three farms]{.en}[I13 · Projet final : élevage d'holothuries dans trois fermes]{.fr}"
+pagetitle: "R for marine sciences · I13"
+subtitle: "~4.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/answers_i13.R")      # expected answers (hidden)
+```
+
+::: objectives
+::: en
+#### In this project you will, on your own
+- import **three related tables**, convert dates and check their structure;
+- summarise **4 800 individual weights** into one growth value per pen, with **your own function**;
+- compute **survival**, **biomass** and **yield**, and **join** everything into one analysis table;
+- make **publication-quality figures** (growth curves, comparisons, a map);
+- **choose, justify and report** a test of mean comparison and a correlation;
+- write a short interpretation for the farmers.
+
+This is the last quiz of the Intermediate level (two attempts, the best one counts).
+:::
+::: fr
+#### Dans ce projet, vous allez, en autonomie
+- importer **trois tables liées**, convertir les dates et vérifier leur structure ;
+- résumer **4 800 poids individuels** en une valeur de croissance par enclos, avec **votre propre fonction** ;
+- calculer la **survie**, la **biomasse** et le **rendement**, et **joindre** le tout en une table d'analyse ;
+- produire des **figures de qualité publication** (courbes de croissance, comparaisons, une carte) ;
+- **choisir, justifier et rapporter** un test de comparaison de moyennes et une corrélation ;
+- rédiger une courte interprétation pour les éleveurs.
+
+C'est le dernier quiz du niveau intermédiaire (deux tentatives, la meilleure compte).
+:::
+:::
+
+## [The farms and the data]{.en}[Les fermes et les données]{.fr} {#data}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** Three community farms (*Farm A* in Ankarabe, *Farm B* in Ambalakely, *Farm C* in Sarondrano) rear the sandfish *Holothuria scabra* in **sea pens**: squares of seagrass and sand on the tidal flat, fenced with nets. In September–October 2024 each farm stocked **8 pens** with hatchery juveniles (about 15 g). The farm technicians then followed growth for 10 months.
+
+- `seacucumber_pens.csv` — one row per pen (24 rows): farm, village, area (m²), stocking date (written `dd/mm/yyyy` in the paper register), number of juveniles stocked and stocking **density** (individuals per m²). *Type: reference table.*
+- `seacucumber_monitoring.csv` — every 30 days, the technician collected **20 animals at random** in each pen, weighed them on a kitchen scale (g) after letting them drain, and put them back (4 800 rows: 24 pens × 10 visits × 20 animals). *Type: repeated measurements, long format.*
+- `seacucumber_harvest.csv` — number of animals **alive at harvest** (counted when the pens were emptied). *Type: one count per pen.*
+
+**Questions of the farmers:** Which farm grows sea cucumbers fastest? Does a high stocking density slow down growth? Which farm gets the best yield per m²?
+:::
+::: fr
+**Contexte simulé.** Trois fermes communautaires (*Farm A* à Ankarabe, *Farm B* à Ambalakely, *Farm C* à Sarondrano) élèvent l'holothurie de sable *Holothuria scabra* en **enclos marins** : des carrés d'herbier et de sable sur l'estran, clôturés de filets. En septembre–octobre 2024, chaque ferme a ensemencé **8 enclos** avec des juvéniles d'écloserie (environ 15 g). Les techniciens ont ensuite suivi la croissance pendant 10 mois.
+
+- `seacucumber_pens.csv` — une ligne par enclos (24 lignes) : ferme, village, surface (m²), date d'ensemencement (écrite `jj/mm/aaaa` dans le registre papier), nombre de juvéniles et **densité** d'ensemencement (individus par m²). *Type : table de référence.*
+- `seacucumber_monitoring.csv` — tous les 30 jours, le technicien prélevait **20 animaux au hasard** dans chaque enclos, les pesait sur une balance de cuisine (g) après égouttage, puis les remettait (4 800 lignes : 24 enclos × 10 visites × 20 animaux). *Type : mesures répétées, format long.*
+- `seacucumber_harvest.csv` — nombre d'animaux **vivants à la récolte** (comptés à la vidange des enclos). *Type : un comptage par enclos.*
+
+**Questions des éleveurs :** Quelle ferme fait grandir les holothuries le plus vite ? Une forte densité ralentit-elle la croissance ? Quelle ferme obtient le meilleur rendement au m² ?
+:::
+:::
+
+`r dl("seacucumber_pens.csv", "seacucumber_pens.csv")` `r dl("seacucumber_monitoring.csv", "seacucumber_monitoring.csv")` `r dl("seacucumber_harvest.csv", "seacucumber_harvest.csv")` `r dl("final_project_intermediate_template.R", "template script", dir = "templates")`
+
+::: en
+**Definitions to use** (so that everybody gets the same numbers):
+
+- **Mean weight** of a pen at a visit = mean of the 20 weights of that visit.
+- **Growth rate** of a pen = SGR between the **first** (month 1) and the **last** (month 10) visit, from the mean weights: SGR = 100 × (ln W~last~ − ln W~first~) / days, where *days* is the number of days between the two visit dates. Write it as a function `sgr(w0, w1, days)` (Session I6).
+- **Survival** (%) = 100 × alive at harvest / juveniles stocked.
+- **Biomass at harvest** (kg) = alive at harvest × mean weight at the last visit / 1000.
+- **Yield** (kg/m²) = biomass / pen area.
+:::
+::: fr
+**Définitions à utiliser** (pour que tout le monde obtienne les mêmes chiffres) :
+
+- **Poids moyen** d'un enclos à une visite = moyenne des 20 poids de cette visite.
+- **Taux de croissance** d'un enclos = SGR entre la **première** (mois 1) et la **dernière** (mois 10) visite, à partir des poids moyens : SGR = 100 × (ln P~dernier~ − ln P~premier~) / jours, où *jours* est le nombre de jours entre les deux dates de visite. Écrivez-le comme une fonction `sgr(w0, w1, days)` (séance I6).
+- **Survie** (%) = 100 × vivants à la récolte / juvéniles ensemencés.
+- **Biomasse à la récolte** (kg) = vivants à la récolte × poids moyen à la dernière visite / 1000.
+- **Rendement** (kg/m²) = biomasse / surface de l'enclos.
+:::
+
+## [Your tasks]{.en}[Vos tâches]{.fr} {#tasks}
+
+::: application
+::: en
+Work in `scripts/i13_final_project.R` (start from the template). Each step reuses one or more sessions.
+
+1. **Import and check** (I0–I1). Import the three files, convert `stocking_date` and `date` to `Date`. How many pens have a density **above 1.5** per m²? Check that every pen has 10 visits × 20 animals.
+2. **Summarise per pen and visit** (I3, I6). Mean weight per pen and visit. Overall mean of the individual weights at **month 10** (1 decimal)?
+3. **Growth per pen** (I6). With your `sgr()` function, compute one SGR per pen. Which pen grows fastest, and what is its SGR (3 decimals)?
+4. **One analysis table** (I3). Join pens, harvest and growth; add survival, biomass and yield. Mean survival of **Farm B** (%, 1 decimal)? Total biomass harvested by the three farms (kg, nearest kg)?
+5. **Figures** (I7–I8). (a) growth curves: mean weight ± 95 % CI per farm against `month_no`; (b) SGR per pen by farm (points + mean); (c) SGR against density, coloured by farm. Combine them with patchwork and save the figure.
+6. **Compare two farms** (I9–I10). Is growth different between **Farm B and Farm C**? Plot, check the shape (8 pens per farm), choose the test and justify it. Difference of mean SGR, C − B (3 decimals)?
+7. **Density and growth** (I10). Pearson correlation between density and SGR over the 24 pens (3 decimals). Is Pearson appropriate here? What else could explain the relation?
+8. **Map** (I11). Map the three farm villages on the coastline, with a point size proportional to total biomass and a colour for mean yield.
+9. **Interpretation.** Write 5–8 lines of comments answering the farmers' three questions, with numbers.
+:::
+::: fr
+Travaillez dans `scripts/i13_final_project.R` (partez du modèle). Chaque étape réutilise une ou plusieurs séances.
+
+1. **Importer et vérifier** (I0–I1). Importez les trois fichiers, convertissez `stocking_date` et `date` en `Date`. Combien d'enclos ont une densité **supérieure à 1,5** par m² ? Vérifiez que chaque enclos a 10 visites × 20 animaux.
+2. **Résumer par enclos et par visite** (I3, I6). Poids moyen par enclos et par visite. Moyenne générale des poids individuels au **mois 10** (1 décimale) ?
+3. **Croissance par enclos** (I6). Avec votre fonction `sgr()`, calculez un SGR par enclos. Quel enclos grandit le plus vite, et quel est son SGR (3 décimales) ?
+4. **Une table d'analyse** (I3). Joignez enclos, récolte et croissance ; ajoutez survie, biomasse et rendement. Survie moyenne de **Farm B** (%, 1 décimale) ? Biomasse totale récoltée par les trois fermes (kg, au kg près) ?
+5. **Figures** (I7–I8). (a) courbes de croissance : poids moyen ± IC 95 % par ferme selon `month_no` ; (b) SGR par enclos selon la ferme (points + moyenne) ; (c) SGR selon la densité, coloré par ferme. Combinez-les avec patchwork et enregistrez la figure.
+6. **Comparer deux fermes** (I9–I10). La croissance diffère-t-elle entre **Farm B et Farm C** ? Tracez, vérifiez la forme (8 enclos par ferme), choisissez le test et justifiez-le. Différence de SGR moyen, C − B (3 décimales) ?
+7. **Densité et croissance** (I10). Corrélation de Pearson entre densité et SGR sur les 24 enclos (3 décimales). Pearson est-il adapté ici ? Qu'est-ce qui pourrait aussi expliquer la relation ?
+8. **Carte** (I11). Cartographiez les trois villages des fermes sur le trait de côte, avec une taille de point proportionnelle à la biomasse totale et une couleur pour le rendement moyen.
+9. **Interprétation.** Écrivez 5 à 8 lignes de commentaires répondant aux trois questions des éleveurs, avec des chiffres.
+:::
+:::
+
+::: hint
+::: en
+Step 3: after `group_by(pen_id) %>% arrange(month_no, .by_group = TRUE)`, `first(mean_w)` and `last(mean_w)` give the first and last mean weights, and `as.numeric(last(date) - first(date))` the number of days.
+:::
+::: fr
+Étape 3 : après `group_by(pen_id) %>% arrange(month_no, .by_group = TRUE)`, `first(mean_w)` et `last(mean_w)` donnent le premier et le dernier poids moyen, et `as.numeric(last(date) - first(date))` le nombre de jours.
+:::
+:::
+
+::: hint
+::: en
+Step 7: the three farms differ both in growth **and** in their densities. A correlation over the 24 pens mixes the effect of density with the effect of the farm (site, water, care). Look at the scatter plot coloured by farm: does the relation also exist **within** each farm?
+:::
+::: fr
+Étape 7 : les trois fermes diffèrent à la fois par la croissance **et** par leurs densités. Une corrélation sur les 24 enclos mélange l'effet de la densité et l'effet de la ferme (site, eau, soins). Regardez le nuage de points coloré par ferme : la relation existe-t-elle aussi **à l'intérieur** de chaque ferme ?
+:::
+:::
+
+## [Quiz]{.en}[Quiz]{.fr} {#quiz}
+
+```{r quiz, echo=FALSE}
+quiz("i13", list(
+  q_num("1. Pens with a density above 1.5 per m²?", "1. Enclos avec une densité supérieure à 1,5 par m² ?", f13a, tol = 0),
+  q_num("2. Mean individual weight at month 10 (g, 1 decimal)?", "2. Poids individuel moyen au mois 10 (g, 1 décimale) ?", f13b, tol = 0.06),
+  q_text("3a. Pen with the highest SGR (e.g. P01)?", "3a. Enclos au SGR le plus élevé (ex. P01) ?", f13c),
+  q_num("3b. Its SGR (% per day, 3 decimals)?", "3b. Son SGR (% par jour, 3 décimales) ?", f13d, tol = 0.0006),
+  q_num("4a. Mean survival of Farm B (%, 1 decimal)?", "4a. Survie moyenne de Farm B (%, 1 décimale) ?", f13e, tol = 0.06),
+  q_num("4b. Total biomass harvested (kg, nearest kg)?", "4b. Biomasse totale récoltée (kg, au kg près) ?", f13f, tol = 1),
+  q_num("6a. Mean SGR difference Farm C − Farm B (3 decimals)?", "6a. Différence de SGR moyen Farm C − Farm B (3 décimales) ?", f13g, tol = 0.0006),
+  q_mcq("6b. Which test and why?", "6b. Quel test et pourquoi ?",
+        c("Welch t-test: SGR of 8 pens per farm, roughly normal without outliers (Wilcoxon would also be defensible)",
+          "Paired t-test: the farms are paired",
+          "Chi-square test: SGR is a percentage",
+          "Pearson correlation between the two farms"),
+        c("Test t de Welch : SGR de 8 enclos par ferme, à peu près normal sans valeur extrême (Wilcoxon serait aussi défendable)",
+          "Test t apparié : les fermes sont appariées",
+          "Khi-deux : le SGR est un pourcentage",
+          "Corrélation de Pearson entre les deux fermes"), correct = 1),
+  q_num("7a. Pearson r between density and SGR, 24 pens (3 decimals)?", "7a. r de Pearson entre densité et SGR, 24 enclos (3 décimales) ?", f13h, tol = 0.0006),
+  q_mcq("7b. Best interpretation of this correlation?", "7b. Meilleure interprétation de cette corrélation ?",
+        c("Density causes slower growth: this is proven",
+          "Pens with higher density tend to grow more slowly, but the farm effect may also contribute: check the relation within each farm",
+          "There is no relation because r is not −1",
+          "The correlation is invalid with 24 pens"),
+        c("La densité cause une croissance plus lente : c'est prouvé",
+          "Les enclos plus denses ont tendance à grandir moins vite, mais l'effet ferme peut aussi jouer : vérifier la relation dans chaque ferme",
+          "Il n'y a pas de relation car r n'est pas −1",
+          "La corrélation est invalide avec 24 enclos"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="i13"}
+```{r, eval=FALSE}
+library(dplyr); library(ggplot2); library(patchwork)
+# 1 ----------------------------------------------------------------------------
+pens <- read.csv("data/seacucumber_pens.csv")
+mon  <- read.csv("data/seacucumber_monitoring.csv")
+harv <- read.csv("data/seacucumber_harvest.csv")
+pens$stocking_date <- as.Date(pens$stocking_date, format = "%d/%m/%Y")
+mon$date <- as.Date(mon$date)
+sum(pens$density_per_m2 > 1.5)
+table(table(mon$pen_id))                      # every pen: 200 rows
+# 2 ----------------------------------------------------------------------------
+pen_month <- mon %>% group_by(pen_id, month_no, date) %>%
+  summarise(mean_w = mean(weight_g), .groups = "drop")
+round(mean(mon$weight_g[mon$month_no == 10]), 1)
+# 3 ----------------------------------------------------------------------------
+sgr <- function(w0, w1, days) 100 * (log(w1) - log(w0)) / days
+growth <- pen_month %>% group_by(pen_id) %>% arrange(month_no, .by_group = TRUE) %>%
+  summarise(w_first = first(mean_w), w_last = last(mean_w),
+            days = as.numeric(last(date) - first(date)), .groups = "drop") %>%
+  mutate(sgr = sgr(w_first, w_last, days))
+growth[which.max(growth$sgr), ]
+# 4 ----------------------------------------------------------------------------
+res <- pens %>% left_join(harv, by = "pen_id") %>% left_join(growth, by = "pen_id") %>%
+  mutate(survival_pct = 100 * alive_at_harvest / juveniles_stocked,
+         biomass_kg   = alive_at_harvest * w_last / 1000,
+         yield_kg_m2  = biomass_kg / area_m2)
+res %>% group_by(farm) %>% summarise(surv = mean(survival_pct), yield = mean(yield_kg_m2))
+round(sum(res$biomass_kg))
+# 5 ----------------------------------------------------------------------------
+se <- function(x) sd(x) / sqrt(length(x))
+curves <- mon %>% left_join(pens[, c("pen_id", "farm")], by = "pen_id") %>%
+  group_by(farm, month_no) %>% summarise(m = mean(weight_g), se = se(weight_g), .groups = "drop")
+pa <- ggplot(curves, aes(month_no, m, colour = farm)) + geom_line() +
+  geom_pointrange(aes(ymin = m - 1.96 * se, ymax = m + 1.96 * se)) +
+  labs(x = "Months after stocking", y = "Mean weight (g)", colour = NULL)
+pb <- ggplot(res, aes(farm, sgr)) + geom_jitter(width = 0.1, colour = "grey40") +
+  stat_summary(fun = mean, geom = "point", size = 4, colour = "#d9694a") +
+  labs(x = NULL, y = "SGR (% per day)")
+pc <- ggplot(res, aes(density_per_m2, sgr, colour = farm)) + geom_point(size = 2.5) +
+  labs(x = "Density (ind./m²)", y = "SGR (% per day)", colour = NULL)
+fig <- (pa / (pb | pc)) + plot_annotation(tag_levels = "A") & theme_minimal()
+ggsave("outputs/seacucumber_figure.png", fig, width = 18, height = 16, units = "cm", dpi = 300)
+# 6 ----------------------------------------------------------------------------
+bc <- res[res$farm %in% c("Farm B", "Farm C"), ]
+tapply(bc$sgr, bc$farm, shapiro.test)          # small groups: look at the points too
+t.test(sgr ~ farm, data = bc)                  # Welch; C grows faster, p < 0.001
+round(mean(bc$sgr[bc$farm == "Farm C"]) - mean(bc$sgr[bc$farm == "Farm B"]), 3)
+# 7 ----------------------------------------------------------------------------
+cor.test(res$density_per_m2, res$sgr)          # r ~ -0.49, p ~ 0.01
+by(res, res$farm, function(d) cor(d$density_per_m2, d$sgr))   # within each farm
+# 8 ----------------------------------------------------------------------------
+coast <- read.csv("data/coastline.csv"); villages <- read.csv("data/villages.csv")
+farm_sum <- res %>% group_by(farm, village) %>%
+  summarise(biomass = sum(biomass_kg), yield = mean(yield_kg_m2), .groups = "drop") %>%
+  left_join(villages[, c("village", "lon", "lat")], by = "village")
+ggplot() + geom_polygon(data = coast, aes(lon, lat), fill = "#efe6d2") +
+  geom_point(data = farm_sum, aes(lon, lat, size = biomass, fill = yield), shape = 21) +
+  geom_text(data = farm_sum, aes(lon, lat, label = farm), hjust = 0, nudge_x = 0.02) +
+  scale_fill_viridis_c(name = "Yield (kg/m²)") + scale_size_area(max_size = 10, name = "Biomass (kg)") +
+  coord_quickmap(xlim = c(43.38, 43.88), ylim = c(-23.35, -22.55)) + theme_minimal()
+# 9 ----------------------------------------------------------------------------
+# Farm C grows fastest (mean SGR ~0.72 %/day) and Farm B slowest (~0.53); the difference
+# C - B (0.19 %/day) is clear (Welch t-test, p < 0.001). Denser pens tend to grow more
+# slowly (r = -0.49, p = 0.01, n = 24), but part of this may be a farm effect.
+# Farm C has the best yield (~0.10 kg/m2) despite a slightly lower survival.
+```
+:::

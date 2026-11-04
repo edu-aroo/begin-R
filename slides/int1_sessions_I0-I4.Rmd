@@ -1,0 +1,246 @@
+---
+title: "R pour les sciences marines — niveau intermédiaire"
+subtitle: "Partie 1 · Séances I0 à I4 — Importer, dates, restructurer, joindre, enquêtes"
+author: "Aroo Falinirina"
+output:
+  html_document:
+    theme: null
+    highlight: tango
+    mathjax: null
+    self_contained: true
+    css: slides.css
+    includes:
+      in_header: slides-engine.html
+---
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+
+```{r, include=FALSE}
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+```{r, include=FALSE}
+source("slides/_setup_int.R")
+library(readxl); library(lubridate)
+```
+
+## Au programme
+
+- **I0** : importer de vrais fichiers (Excel à plusieurs feuilles, CSV)
+- **I1** : les dates et les durées
+- **I2** : restructurer : format large ↔ long
+- **I3** : joindre plusieurs tableaux
+- **I4** : données d'enquête : texte, doublons, choix multiples, Likert
+
+<div class="notes">
+~10 min par séance + 10 min de questions. Les étudiants font les séances en ligne ; ici on montre l'essentiel et les pièges.
+</div>
+
+## Trois jeux de données (simulés) {.segue}
+
+## Le contexte
+
+<div class="box eco">
+Une **coopérative d'algoculture** (12 villages, 96 cultivateurs) note ses cordes dans un classeur Excel ; une **ONG** mesure l'eau à 10 stations ; une **enquête ménages** (420 ménages) décrit les activités et revenus. Tout est **simulé** : aucun lieu réel.
+</div>
+
+| Fichier | Contenu | Séances |
+|---|---|---|
+| `seaweed_farming.xlsx` | cultivateurs + 2 575 cordes | I0, I1, I3 |
+| `water_quality_*.csv` | sonde : T °C, salinité, pH, O₂, turbidité | I2, I3 |
+| `survey_*.csv` | ménages, membres, biens | I3, I4 |
+| `seacucumber_*.csv` | enclos à holothuries | projet final |
+
+## I0 — Importer de vrais fichiers {.segue}
+
+## Regarder le fichier avant R
+
+```{r}
+excel_sheets("data/seaweed_farming.xlsx")
+```
+
+- une feuille `README`, une par table
+- dans `lines`, le tableau commence à la **ligne 4** → `skip = 3`
+- poids en kg… sauf quelques-uns saisis **en grammes**
+
+<div class="box warn">Ne jamais corriger le fichier brut à la main : chaque correction va dans le script.</div>
+
+## `read_excel()`
+
+```{r}
+lines <- read_excel("data/seaweed_farming.xlsx", sheet = "lines", skip = 3)
+lines <- as.data.frame(lines)          # tibble -> data frame classique
+dim(lines)
+str(lines[, 1:6])
+```
+
+## Vérifier : textes mal saisis
+
+```{r}
+farmers <- read_excel("data/seaweed_farming.xlsx", sheet = "farmers")
+length(unique(farmers$village))        # 12 villages... vraiment ?
+farmers$village <- tools::toTitleCase(tolower(trimws(farmers$village)))
+length(unique(farmers$village))
+```
+
+## CSV : séparateurs et codes manquants
+
+| Situation | Fonction |
+|---|---|
+| virgule `,` + point décimal | `read.csv()` |
+| point-virgule `;` + virgule décimale (Excel français) | `read.csv2()` |
+| codes « manquant » : `-999`, vide | `na.strings = c("", "-999")` |
+| noms de colonnes comme `2024-01` | `check.names = FALSE` |
+
+```{r}
+colSums(is.na(read.csv("data/water_quality_long.csv")))
+```
+
+## I1 — Dates {.segue}
+
+## Une date doit être de classe `Date`
+
+```{r}
+class(lines$planting_date)             # Excel -> date reconnue
+head(lines$harvest_date, 3)            # texte jj/mm/aaaa
+lines$harvest_date <- as.Date(lines$harvest_date, format = "%d/%m/%Y")
+lines$days <- as.numeric(lines$harvest_date - lines$planting_date)
+summary(lines$days)
+```
+
+## lubridate et formats
+
+| Écrit | Fonction | Code `format` |
+|---|---|---|
+| `21/03/2025` | `dmy()` | `"%d/%m/%Y"` |
+| `2025-03-21` | `ymd()` | `"%Y-%m-%d"` |
+| `03/21/2025` | `mdy()` | `"%m/%d/%Y"` |
+| nombre Excel `45737` | `as.Date(n, origin = "1899-12-30")` | |
+
+```{r}
+d <- dmy("21/03/2025"); c(year(d), month(d)); format(d, "%b %Y")
+```
+
+## Saisons et taux de croissance
+
+```{r}
+lines$season <- ifelse(month(lines$planting_date) %in% c(11:12, 1:4), "wet", "dry")
+i <- which(lines$final_weight_kg > 200)        # poids saisis en grammes
+lines$final_weight_kg[i] <- lines$final_weight_kg[i] / 1000
+lines$sgr <- 100 * log(lines$final_weight_kg / lines$initial_weight_kg) / lines$days
+tapply(lines$sgr, lines$season, mean, na.rm = TRUE)
+```
+
+<div class="box tip">SGR = 100 × ln(Pf / Pi) / jours, en % par jour.</div>
+
+## I2 — Restructurer {.segue}
+
+## Large ou long ?
+
+```{r}
+wide <- read.csv("data/water_quality_wide.csv", check.names = FALSE)
+wide[1:3, 1:6]
+```
+
+- **large** : lisible pour un humain, une colonne par mois
+- **long** (« rangé ») : **une variable par colonne, une observation par ligne** → ce que veulent dplyr et ggplot
+
+## `pivot_longer()` et `pivot_wider()`
+
+```{r}
+long <- pivot_longer(wide, -station, names_to = "month", values_to = "temp")
+head(long, 4)
+long <- separate(long, month, into = c("year", "m"), sep = "-")
+pivot_wider(long[long$station == "WQ01", ], names_from = year, values_from = temp)[1:3, ]
+```
+
+## Nettoyer les mesures de la sonde
+
+```{r}
+wq <- read.csv("data/water_quality_long.csv")
+c(temp_999 = sum(wq$temp_C == -999, na.rm = TRUE), pH_0 = sum(wq$pH == 0, na.rm = TRUE))
+wq$temp_C[wq$temp_C == -999] <- NA                 # code d'erreur du capteur
+wq$pH[wq$pH == 0] <- NA                            # électrode défectueuse
+wq$date <- as.Date(wq$date, format = "%d/%m/%Y")
+```
+
+## I3 — Joindre {.segue}
+
+## Une clé commune
+
+```{r}
+seaweed <- lines %>%
+  left_join(farmers, by = "farmer_id") %>%                     # qui cultive ?
+  left_join(read.csv("data/villages.csv")[, c("village", "zone")], by = "village")
+c(avant = nrow(lines), apres = nrow(seaweed))                  # doit être identique !
+```
+
+<div class="box warn">Si le nombre de lignes **augmente** après `left_join()`, la clé n'est pas unique dans la table de référence : `sum(duplicated(farmers$farmer_id))`.</div>
+
+## Les familles de jointures
+
+| dplyr | Garde | R de base |
+|---|---|---|
+| `left_join(x, y)` | toutes les lignes de x | `merge(x, y, all.x = TRUE)` |
+| `inner_join(x, y)` | lignes présentes dans les deux | `merge(x, y)` |
+| `full_join(x, y)` | tout | `merge(x, y, all = TRUE)` |
+| `anti_join(x, y)` | lignes de x **sans** correspondance | `x[!x$k %in% y$k, ]` |
+
+## `anti_join()` pour trouver les erreurs
+
+```{r}
+hh  <- read.csv("data/survey_households.csv", na.strings = "")
+mem <- read.csv("data/survey_members.csv")
+anti_join(mem, hh, by = "hh_id") %>% distinct(hh_id)   # identifiants mal saisis
+```
+
+## Joindre sur plusieurs clés
+
+```{r}
+monthly <- cp_wq_monthly()[, c("zone", "year", "month", "temp_mean")]
+seaweed$year  <- year(seaweed$planting_date); seaweed$month <- month(seaweed$planting_date)
+seaweed <- left_join(seaweed, monthly, by = c("zone", "year", "month"))
+summary(seaweed$temp_mean)
+```
+
+## I4 — Données d'enquête {.segue}
+
+## Doublons et textes libres
+
+```{r}
+sum(duplicated(hh))                        # lignes saisies deux fois
+hh <- hh[!duplicated(hh), ]
+table(hh$mpa_benefits)[1:6]                # « Agree », « agree », « AGREE ».
+hh$mpa_benefits <- str_to_sentence(str_squish(hh$mpa_benefits))
+```
+
+## Échelle de Likert = facteur ordonné
+
+```{r}
+lik <- c("Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree")
+hh$mpa_benefits <- factor(hh$mpa_benefits, levels = lik, ordered = TRUE)
+round(prop.table(table(hh$mpa_benefits)) * 100, 1)
+```
+
+## Questions à choix multiples
+
+```{r}
+head(hh$activities, 3)
+hh$n_activities <- str_count(hh$activities, ";") + 1
+hh$does_seaweed <- str_detect(hh$activities, "seaweed")
+hh %>% separate_rows(activities, sep = ";") %>% count(activities, sort = TRUE)
+```
+
+## À retenir — partie 1
+
+- **Regarder** le fichier brut, puis importer avec les bons arguments (`skip`, `na.strings`)
+- dates en classe `Date`, durées par soustraction
+- **long** pour analyser, **large** pour présenter
+- jointure : vérifier la **clé** et le **nombre de lignes**
+- texte : `str_squish()`, casse, `str_detect()`, facteurs ordonnés
+
+<div class="box tip">**À faire** : séances I0 à I4 en ligne, avec les fichiers checkpoint et les quiz (2 tentatives).</div>
+
+## Merci ! {.segue}

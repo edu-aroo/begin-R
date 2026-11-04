@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · I12</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I12 · Practice
+session</span><span class="fr">I12 · Séance d’exercices</span></h1>
+<h3 class="subtitle">~3.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="what-this-session-is-for" class="section level4 en">
+<h4>What this session is for</h4>
+<p>No new concepts: six independent exercises to
+<strong>practise</strong> Sessions I0 to I11 on the <strong>raw</strong>
+files, before the final project. Each exercise has its own quiz
+(<strong>two attempts</strong>, the best one counts) and its own
+solution, opened when you have used your attempts or got full marks. The
+final project opens when the six exercises together reach 75 % of their
+points.</p>
+<ul>
+<li>Write everything in one script <code>scripts/i12_practice.R</code>,
+one section per exercise (<strong>Ctrl + Shift + R</strong>).</li>
+<li>Each exercise starts from a file of the <code>data/</code> folder:
+do not reuse objects from another exercise.</li>
+<li>Hints are free: they do not cost points.</li>
+</ul>
+</div>
+<div id="à-quoi-sert-cette-séance" class="section level4 fr">
+<h4>À quoi sert cette séance</h4>
+<p>Pas de nouvelle notion : six exercices indépendants pour
+<strong>pratiquer</strong> les séances I0 à I11 sur les fichiers
+<strong>bruts</strong>, avant le projet final. Chaque exercice a son
+propre quiz (<strong>deux tentatives</strong>, la meilleure compte) et
+sa propre solution, ouverte quand vous avez utilisé vos tentatives ou
+obtenu tous les points. Le projet final s’ouvre quand les six exercices
+réunis atteignent 75 % de leurs points.</p>
+<ul>
+<li>Écrivez tout dans un seul script
+<code>scripts/i12_practice.R</code>, une section par exercice
+(<strong>Ctrl + Maj + R</strong>).</li>
+<li>Chaque exercice part d’un fichier du dossier <code>data/</code> : ne
+réutilisez pas les objets d’un autre exercice.</li>
+<li>Les indices sont gratuits : ils ne coûtent pas de points.</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data (simulated).</strong> The files you already know from
+Sessions I2 to I4: the probe measurements of the <strong>10
+water-quality stations</strong> (<code>water_quality_long.csv</code>,
+<code>water_quality_wide.csv</code>, <code>stations.csv</code>) and the
+<strong>household survey</strong> (<code>survey_households.csv</code>,
+<code>survey_members.csv</code>, <code>survey_assets.csv</code>; 420
+households interviewed in 2025 by four enumerators, with a few
+duplicated entries and free-text answers). See Sessions I2 and I4 for
+how they were collected.</p>
+</div>
+<div class="fr">
+<p><strong>Données (simulées).</strong> Les fichiers que vous connaissez
+depuis les séances I2 à I4 : les mesures à la sonde des <strong>10
+stations de qualité de l’eau</strong>
+(<code>water_quality_long.csv</code>,
+<code>water_quality_wide.csv</code>, <code>stations.csv</code>) et
+l’<strong>enquête ménages</strong> (<code>survey_households.csv</code>,
+<code>survey_members.csv</code>, <code>survey_assets.csv</code> ; 420
+ménages interrogés en 2025 par quatre enquêteurs, avec quelques doublons
+et des réponses en texte libre). Voir les séances I2 et I4 pour leur
+mode de collecte.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/r_course_data_intermediate.zip" download>⇩
+all intermediate data (zip)</a></p>
+<div id="ex1" class="section level2">
+<h2><span class="en">Exercise 1 — Import, missing codes and
+dates</span><span class="fr">Exercice 1 — Import, codes manquants et
+dates</span></h2>
+<div class="en">
+<p><em>Sessions I0–I1.</em> Import <code>water_quality_long.csv</code>
+<strong>without</strong> cleaning it.</p>
+<ol style="list-style-type: decimal">
+<li>How many temperatures are coded <code>-999</code>?</li>
+<li>How many pH values are <code>0</code>?</li>
+<li>How many dissolved-oxygen values are <code>NA</code>?</li>
+<li>Convert <code>date</code> to a <code>Date</code> (format
+<code>dd/mm/yyyy</code>). How many measurements were taken in
+<strong>July</strong> (all years together)?</li>
+<li>How many days separate the first and the last sampling date?</li>
+<li>Replace <code>-999</code> by <code>NA</code>: mean temperature (2
+decimals)?</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Séances I0–I1.</em> Importez <code>water_quality_long.csv</code>
+<strong>sans</strong> le nettoyer.</p>
+<ol style="list-style-type: decimal">
+<li>Combien de températures sont codées <code>-999</code> ?</li>
+<li>Combien de valeurs de pH valent <code>0</code> ?</li>
+<li>Combien de valeurs d’oxygène dissous sont <code>NA</code> ?</li>
+<li>Convertissez <code>date</code> en <code>Date</code> (format
+<code>jj/mm/aaaa</code>). Combien de mesures ont été faites en
+<strong>juillet</strong> (toutes années confondues) ?</li>
+<li>Combien de jours séparent la première et la dernière date
+d’échantillonnage ?</li>
+<li>Remplacez <code>-999</code> par <code>NA</code> : température
+moyenne (2 décimales) ?</li>
+</ol>
+</div>
+<div class="hint">
+<div class="en">
+<p><code>sum(x == -999, na.rm = TRUE)</code> counts a code;
+<code>lubridate::month()</code> gives the month number; subtracting two
+dates gives a number of days (<code>as.numeric()</code>).</p>
+</div>
+<div class="fr">
+<p><code>sum(x == -999, na.rm = TRUE)</code> compte un code ;
+<code>lubridate::month()</code> donne le numéro du mois ; soustraire
+deux dates donne un nombre de jours (<code>as.numeric()</code>).</p>
+</div>
+</div>
+<div id="quiz-ip1" class="quiz" data-quiz-id="ip1"
+data-title-en="Exercise 1" data-title-fr="Exercice 1"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIC05OTkgdGVtcGVyYXR1cmVzPyIsImZyIjoiMS4gTm9tYnJlIGRlIHRlbXDDqXJhdHVyZXMgLTk5OSA/IiwiYW5zd2VyIjoxMiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gTnVtYmVyIG9mIHBIID0gMD8iLCJmciI6IjIuIE5vbWJyZSBkZSBwSCA9IDAgPyIsImFuc3dlciI6NiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTnVtYmVyIG9mIE5BIGluIERPX21nTD8iLCJmciI6IjMuIE5vbWJyZSBkZSBOQSBkYW5zIERPX21nTCA/IiwiYW5zd2VyIjo4LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZWFzdXJlbWVudHMgaW4gSnVseT8iLCJmciI6IjQuIE1lc3VyZXMgZW4ganVpbGxldCA/IiwiYW5zd2VyIjo2MCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gRGF5cyBiZXR3ZWVuIGZpcnN0IGFuZCBsYXN0IGRhdGU/IiwiZnIiOiI1LiBKb3VycyBlbnRyZSBsYSBwcmVtacOocmUgZXQgbGEgZGVybmnDqHJlIGRhdGUgPyIsImFuc3dlciI6MTA3OSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNi4gTWVhbiB0ZW1wZXJhdHVyZSBhZnRlciBjbGVhbmluZyAoMiBkZWNpbWFscyk/IiwiZnIiOiI2LiBUZW1ww6lyYXR1cmUgbW95ZW5uZSBhcHLDqHMgbmV0dG95YWdlICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjI2LjE1LCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9XQ==">
+
+</div>
+<div class="solution" data-quiz="ip1">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/water_quality_long.csv&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">sum</span>(w<span class="sc">$</span>temp_C <span class="sc">==</span> <span class="sc">-</span><span class="dv">999</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)     <span class="co"># 1</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">sum</span>(w<span class="sc">$</span>pH <span class="sc">==</span> <span class="dv">0</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)            <span class="co"># 2</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(w<span class="sc">$</span>DO_mgL))                    <span class="co"># 3</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>w<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(w<span class="sc">$</span>date, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">month</span>(w<span class="sc">$</span>date) <span class="sc">==</span> <span class="dv">7</span>)                 <span class="co"># 4</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">max</span>(w<span class="sc">$</span>date) <span class="sc">-</span> <span class="fu">min</span>(w<span class="sc">$</span>date))   <span class="co"># 5</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>w<span class="sc">$</span>temp_C[w<span class="sc">$</span>temp_C <span class="sc">==</span> <span class="sc">-</span><span class="dv">999</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(w<span class="sc">$</span>temp_C, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>)  <span class="co"># 6</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex2" class="section level2">
+<h2><span class="en">Exercise 2 — Reshape and join</span><span
+class="fr">Exercice 2 — Restructurer et joindre</span></h2>
+<div class="en">
+<p><em>Sessions I2–I3.</em></p>
+<ol style="list-style-type: decimal">
+<li>Import <code>water_quality_wide.csv</code> (use
+<code>check.names = FALSE</code> to keep the month names) and make it
+<strong>long</strong>: one row per station and month, columns
+<code>station</code>, <code>month</code>, <code>temp</code>. Number of
+rows?</li>
+<li>Join the zone of each station (<code>stations.csv</code>). Mean
+temperature of the <strong>South</strong> stations in
+<code>2024-07</code> (2 decimals)?</li>
+<li>Which month (<code>yyyy-mm</code>) has the highest mean temperature
+over all stations?</li>
+<li>Survey: how many rows of <code>survey_members.csv</code> have an
+<code>hh_id</code> that does <strong>not</strong> exist in
+<code>survey_households.csv</code>?</li>
+<li><code>survey_assets.csv</code>: how many <strong>different</strong>
+households own at least one <code>pirogue</code>?</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Séances I2–I3.</em></p>
+<ol style="list-style-type: decimal">
+<li>Importez <code>water_quality_wide.csv</code> (avec
+<code>check.names = FALSE</code> pour garder les noms des mois) et
+passez-le en format <strong>long</strong> : une ligne par station et par
+mois, colonnes <code>station</code>, <code>month</code>,
+<code>temp</code>. Nombre de lignes ?</li>
+<li>Joignez la zone de chaque station (<code>stations.csv</code>).
+Température moyenne des stations du <strong>Sud</strong> en
+<code>2024-07</code> (2 décimales) ?</li>
+<li>Quel mois (<code>aaaa-mm</code>) a la température moyenne la plus
+élevée sur l’ensemble des stations ?</li>
+<li>Enquête : combien de lignes de <code>survey_members.csv</code> ont
+un <code>hh_id</code> qui n’existe <strong>pas</strong> dans
+<code>survey_households.csv</code> ?</li>
+<li><code>survey_assets.csv</code> : combien de ménages
+<strong>différents</strong> possèdent au moins une <code>pirogue</code>
+?</li>
+</ol>
+</div>
+<div class="hint">
+<div class="en">
+<p><code>pivot_longer(wide, -station, names_to = "month", values_to = "temp")</code>;
+<code>anti_join()</code> keeps the rows <strong>without</strong> a
+match; <code>n_distinct()</code> counts different values.</p>
+</div>
+<div class="fr">
+<p><code>pivot_longer(wide, -station, names_to = "month", values_to = "temp")</code>
+; <code>anti_join()</code> garde les lignes <strong>sans</strong>
+correspondance ; <code>n_distinct()</code> compte les valeurs
+différentes.</p>
+</div>
+</div>
+<div id="quiz-ip2" class="quiz" data-quiz-id="ip2"
+data-title-en="Exercise 2" data-title-fr="Exercice 2"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUm93cyBvZiB0aGUgbG9uZyB0YWJsZT8iLCJmciI6IjEuIExpZ25lcyBkdSB0YWJsZWF1IGxvbmcgPyIsImFuc3dlciI6MzYwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBNZWFuIHRlbXBlcmF0dXJlLCBTb3V0aCwgMjAyNC0wNyAoMiBkZWNpbWFscyk/IiwiZnIiOiIyLiBUZW1ww6lyYXR1cmUgbW95ZW5uZSwgU3VkLCAyMDI0LTA3ICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjIzLjE3LCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjMuIFdhcm1lc3QgbW9udGggKHl5eXktbW0pPyIsImZyIjoiMy4gTW9pcyBsZSBwbHVzIGNoYXVkIChhYWFhLW1tKSA/IiwiYW5zd2VyIjpbIjIwMjMtMDIiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZW1iZXIgcm93cyB3aXRob3V0IGEgbWF0Y2hpbmcgaG91c2Vob2xkPyIsImZyIjoiNC4gTGlnbmVzIGRlIG1lbWJyZXMgc2FucyBtw6luYWdlIGNvcnJlc3BvbmRhbnQgPyIsImFuc3dlciI6NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gSG91c2Vob2xkcyB3aXRoIGEgcGlyb2d1ZT8iLCJmciI6IjUuIE3DqW5hZ2VzIHBvc3PDqWRhbnQgdW5lIHBpcm9ndWUgPyIsImFuc3dlciI6MTU2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn1d">
+
+</div>
+<div class="solution" data-quiz="ip2">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(tidyr)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>wide <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/water_quality_wide.csv&quot;</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(wide, <span class="sc">-</span>station, <span class="at">names_to =</span> <span class="st">&quot;month&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;temp&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">nrow</span>(long)                                                          <span class="co"># 1</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>st <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stations.csv&quot;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">left_join</span>(long, st[, <span class="fu">c</span>(<span class="st">&quot;station&quot;</span>, <span class="st">&quot;zone&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;station&quot;</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>long <span class="sc">%&gt;%</span> <span class="fu">filter</span>(zone <span class="sc">==</span> <span class="st">&quot;South&quot;</span>, month <span class="sc">==</span> <span class="st">&quot;2024-07&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">round</span>(<span class="fu">mean</span>(temp), <span class="dv">2</span>))  <span class="co"># 2</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>long <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">t =</span> <span class="fu">mean</span>(temp)) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(t)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">1</span>)       <span class="co"># 3</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>hh  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_households.csv&quot;</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>mem <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_members.csv&quot;</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">anti_join</span>(mem, hh, <span class="at">by =</span> <span class="st">&quot;hh_id&quot;</span>))                              <span class="co"># 4</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>assets <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_assets.csv&quot;</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="fu">n_distinct</span>(assets<span class="sc">$</span>hh_id[assets<span class="sc">$</span>asset <span class="sc">==</span> <span class="st">&quot;pirogue&quot;</span>])                 <span class="co"># 5</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex3" class="section level2">
+<h2><span class="en">Exercise 3 — Survey data and text</span><span
+class="fr">Exercice 3 — Données d’enquête et texte</span></h2>
+<div class="en">
+<p><em>Session I4.</em> Import <code>survey_households.csv</code> with
+<code>na.strings = ""</code>.</p>
+<ol style="list-style-type: decimal">
+<li>How many <strong>exact duplicate</strong> rows are there?</li>
+<li>After removing them: how many households list <code>fishing</code>
+among their <code>activities</code>?</li>
+<li>Clean <code>mpa_benefits</code> (spaces and capitals). Among
+households that answered, what percentage “Agree” or “Strongly agree” (1
+decimal)?</li>
+<li>Most frequent <code>main_income</code>?</li>
+<li>Mean number of activities per household (2 decimals)?</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Séance I4.</em> Importez <code>survey_households.csv</code> avec
+<code>na.strings = ""</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Combien y a-t-il de lignes <strong>doublons exacts</strong> ?</li>
+<li>Après les avoir supprimées : combien de ménages citent
+<code>fishing</code> dans leurs <code>activities</code> ?</li>
+<li>Nettoyez <code>mpa_benefits</code> (espaces et majuscules). Parmi
+les ménages qui ont répondu, quel pourcentage est « Agree » ou «
+Strongly agree » (1 décimale) ?</li>
+<li><code>main_income</code> le plus fréquent ?</li>
+<li>Nombre moyen d’activités par ménage (2 décimales) ?</li>
+</ol>
+</div>
+<div class="hint">
+<div class="en">
+<p><code>sum(duplicated(h))</code>; <code>str_detect()</code>;
+<code>str_to_sentence(str_squish(x))</code>; activities are separated by
+<code>;</code>, so the number of activities is the number of
+<code>;</code> + 1 (<code>str_count()</code>).</p>
+</div>
+<div class="fr">
+<p><code>sum(duplicated(h))</code> ; <code>str_detect()</code> ;
+<code>str_to_sentence(str_squish(x))</code> ; les activités sont
+séparées par <code>;</code>, donc le nombre d’activités est le nombre de
+<code>;</code> + 1 (<code>str_count()</code>).</p>
+</div>
+</div>
+<div id="quiz-ip3" class="quiz" data-quiz-id="ip3"
+data-title-en="Exercise 3" data-title-fr="Exercice 3"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gRXhhY3QgZHVwbGljYXRlIHJvd3M/IiwiZnIiOiIxLiBMaWduZXMgZG91YmxvbnMgZXhhY3RzID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIEhvdXNlaG9sZHMgd2l0aCBmaXNoaW5nIGFtb25nIGFjdGl2aXRpZXM/IiwiZnIiOiIyLiBNw6luYWdlcyBhdmVjIGZpc2hpbmcgZGFucyBsZXVycyBhY3Rpdml0w6lzID8iLCJhbnN3ZXIiOjE1NiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gJSBBZ3JlZSBvciBTdHJvbmdseSBhZ3JlZSAoMSBkZWNpbWFsKT8iLCJmciI6IjMuICUgQWdyZWUgb3UgU3Ryb25nbHkgYWdyZWUgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo1NS42LCJ0b2wiOjAuMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiNC4gTW9zdCBmcmVxdWVudCBtYWluIGluY29tZSAoYXMgd3JpdHRlbiBpbiB0aGUgZGF0YSk/IiwiZnIiOiI0LiBSZXZlbnUgcHJpbmNpcGFsIGxlIHBsdXMgZnLDqXF1ZW50IChjb21tZSDDqWNyaXQgZGFucyBsZXMgZG9ubsOpZXMpID8iLCJhbnN3ZXIiOlsiZmlzaGluZyJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIE1lYW4gbnVtYmVyIG9mIGFjdGl2aXRpZXMgKDIgZGVjaW1hbHMpPyIsImZyIjoiNS4gTm9tYnJlIG1veWVuIGQnYWN0aXZpdMOpcyAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoyLjAzLCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9XQ==">
+
+</div>
+<div class="solution" data-quiz="ip3">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_households.csv&quot;</span>, <span class="at">na.strings =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(h))                                            <span class="co"># 1</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>h <span class="ot">&lt;-</span> h[<span class="sc">!</span><span class="fu">duplicated</span>(h), ]</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">str_detect</span>(h<span class="sc">$</span>activities, <span class="st">&quot;fishing&quot;</span>))                      <span class="co"># 2</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>lik <span class="ot">&lt;-</span> <span class="fu">str_to_sentence</span>(<span class="fu">str_squish</span>(h<span class="sc">$</span>mpa_benefits))</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>lik <span class="ot">&lt;-</span> lik[<span class="sc">!</span><span class="fu">is.na</span>(lik)]</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(lik <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Agree&quot;</span>, <span class="st">&quot;Strongly agree&quot;</span>)), <span class="dv">1</span>)   <span class="co"># 3</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(h<span class="sc">$</span>main_income), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span>]              <span class="co"># 4</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">str_count</span>(h<span class="sc">$</span>activities, <span class="st">&quot;;&quot;</span>) <span class="sc">+</span> <span class="dv">1</span>), <span class="dv">2</span>)              <span class="co"># 5</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex4" class="section level2">
+<h2><span class="en">Exercise 4 — Loops, conditions and
+functions</span><span class="fr">Exercice 4 — Boucles, conditions et
+fonctions</span></h2>
+<div class="en">
+<p><em>Sessions I5–I6.</em> Use the clean water-quality checkpoint
+<code>I2_water_quality_clean.csv</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Write a function <code>cv(x)</code> returning the
+<strong>coefficient of variation</strong> in % (100 × SD / mean,
+ignoring NA). Apply it to <code>salinity_psu</code> for each station
+(with a loop, <code>sapply()</code> or <code>group_by()</code>). Which
+station has the highest CV, and what is it (2 decimals)?</li>
+<li>How many measurements have a temperature ≥ 28 °C?</li>
+<li>Classify turbidity: <code>clear</code> (&lt; 3 NTU),
+<code>moderate</code> (3 to &lt; 6), <code>turbid</code> (≥ 6). How many
+<code>turbid</code> measurements?</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Séances I5–I6.</em> Utilisez le checkpoint nettoyé
+<code>I2_water_quality_clean.csv</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Écrivez une fonction <code>cv(x)</code> qui renvoie le
+<strong>coefficient de variation</strong> en % (100 × ET / moyenne, en
+ignorant les NA). Appliquez-la à <code>salinity_psu</code> pour chaque
+station (avec une boucle, <code>sapply()</code> ou
+<code>group_by()</code>). Quelle station a le CV le plus élevé, et
+combien vaut-il (2 décimales) ?</li>
+<li>Combien de mesures ont une température ≥ 28 °C ?</li>
+<li>Classez la turbidité : <code>clear</code> (&lt; 3 NTU),
+<code>moderate</code> (3 à &lt; 6), <code>turbid</code> (≥ 6). Combien
+de mesures <code>turbid</code> ?</li>
+</ol>
+</div>
+<div class="hint">
+<div class="en">
+<p><code>sapply(split(w$salinity_psu, w$station), cv)</code> applies
+<code>cv()</code> to each station. For 3 classes, nest two
+<code>ifelse()</code> or use <code>case_when()</code>.</p>
+</div>
+<div class="fr">
+<p><code>sapply(split(w$salinity_psu, w$station), cv)</code> applique
+<code>cv()</code> à chaque station. Pour 3 classes, imbriquez deux
+<code>ifelse()</code> ou utilisez <code>case_when()</code>.</p>
+</div>
+</div>
+<div id="quiz-ip4" class="quiz" data-quiz-id="ip4"
+data-title-en="Exercise 4" data-title-fr="Exercice 4"
+data-q="W3sidHlwZSI6InRleHQiLCJlbiI6IjFhLiBTdGF0aW9uIHdpdGggdGhlIGhpZ2hlc3Qgc2FsaW5pdHkgQ1Y/IiwiZnIiOiIxYS4gU3RhdGlvbiBhdSBDViBkZSBzYWxpbml0w6kgbGUgcGx1cyDDqWxldsOpID8iLCJhbnN3ZXIiOlsiV1EwNCJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjFiLiBJdHMgQ1YgaW4gJSAoMiBkZWNpbWFscyk/IiwiZnIiOiIxYi4gU29uIENWIGVuICUgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6Mi45MiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIE1lYXN1cmVtZW50cyB3aXRoIHRlbXBlcmF0dXJlIOKJpSAyOCDCsEM/IiwiZnIiOiIyLiBNZXN1cmVzIGF2ZWMgdGVtcMOpcmF0dXJlIOKJpSAyOCDCsEMgPyIsImFuc3dlciI6MTU5LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBUdXJiaWQgbWVhc3VyZW1lbnRzICjiiaUgNiBOVFUpPyIsImZyIjoiMy4gTWVzdXJlcyB0dXJiaWRlcyAo4omlIDYgTlRVKSA/IiwiYW5zd2VyIjoxNTEsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifV0=">
+
+</div>
+<div class="solution" data-quiz="ip4">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I2_water_quality_clean.csv&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>cv <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>cvs <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">split</span>(w<span class="sc">$</span>salinity_psu, w<span class="sc">$</span>station), cv)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">sort</span>(cvs, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span>]                           <span class="co"># 1</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">sum</span>(w<span class="sc">$</span>temp_C <span class="sc">&gt;=</span> <span class="dv">28</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                         <span class="co"># 2</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>w<span class="sc">$</span>turb_class <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(w<span class="sc">$</span>turbidity_NTU <span class="sc">&lt;</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">&quot;clear&quot;</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>                                 w<span class="sc">$</span>turbidity_NTU <span class="sc">&lt;</span> <span class="dv">6</span> <span class="sc">~</span> <span class="st">&quot;moderate&quot;</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>                                 <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;turbid&quot;</span>)         <span class="co"># TRUE = &quot;all other cases&quot;</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="fu">table</span>(w<span class="sc">$</span>turb_class)                                       <span class="co"># 3</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex5" class="section level2">
+<h2><span class="en">Exercise 5 — Graphs</span><span class="fr">Exercice
+5 — Graphiques</span></h2>
+<div class="en">
+<p><em>Sessions I7–I8.</em> Same clean water-quality file.</p>
+<ol style="list-style-type: decimal">
+<li>Plot the <strong>mean dissolved oxygen per calendar month</strong>
+(1–12, all years and stations together) as points joined by a line, with
+a 95 % CI. Which month has the lowest mean DO, and what is it (2
+decimals)?</li>
+<li>Make boxplots of turbidity by station, coloured by zone (join
+<code>stations.csv</code>), ordered by median, with a clear title and
+axis labels. Save it as PNG 16 × 10 cm.</li>
+<li>Answer the questions about ggplot code below.</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Séances I7–I8.</em> Même fichier de qualité d’eau nettoyé.</p>
+<ol style="list-style-type: decimal">
+<li>Tracez l’<strong>oxygène dissous moyen par mois calendaire</strong>
+(1–12, toutes années et stations confondues) en points reliés par une
+ligne, avec un IC à 95 %. Quel mois a l’O₂ moyen le plus faible, et
+combien vaut-il (2 décimales) ?</li>
+<li>Faites des boxplots de la turbidité par station, colorés par zone
+(joignez <code>stations.csv</code>), ordonnés par médiane, avec un titre
+et des axes clairs. Enregistrez en PNG 16 × 10 cm.</li>
+<li>Répondez aux questions sur le code ggplot ci-dessous.</li>
+</ol>
+</div>
+<div id="quiz-ip5" class="quiz" data-quiz-id="ip5"
+data-title-en="Exercise 5" data-title-fr="Exercice 5"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMWEuIE1vbnRoICgx4oCTMTIpIHdpdGggdGhlIGxvd2VzdCBtZWFuIERPPyIsImZyIjoiMWEuIE1vaXMgKDHigJMxMikgw6AgbCdP4oKCIG1veWVuIGxlIHBsdXMgZmFpYmxlID8iLCJhbnN3ZXIiOjIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjFiLiBJdHMgbWVhbiBETyBpbiBtZy9MICgyIGRlY2ltYWxzKT8iLCJmciI6IjFiLiBTb24gT+KCgiBtb3llbiBlbiBtZy9MICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjYuODcsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiIyLiBUbyBvcmRlciBzdGF0aW9ucyBieSB0aGVpciBtZWRpYW4gdHVyYmlkaXR5IG9uIHRoZSB4LWF4aXMgeW91IHVzZToiLCJmciI6IjIuIFBvdXIgb3Jkb25uZXIgbGVzIHN0YXRpb25zIHNlbG9uIGxldXIgdHVyYmlkaXTDqSBtw6lkaWFuZSBzdXIgbCdheGUgeCwgb24gdXRpbGlzZSA6Iiwib3B0aW9uc19lbiI6WyJhZXMoeCA9IHJlb3JkZXIoc3RhdGlvbiwgdHVyYmlkaXR5X05UVSwgbWVkaWFuLCBuYS5ybSA9IFRSVUUpKSIsImFycmFuZ2UodHVyYmlkaXR5X05UVSkiLCJzY2FsZV94X2NvbnRpbnVvdXMoKSIsImNvb3JkX2ZsaXAoKSJdLCJvcHRpb25zX2ZyIjpbImFlcyh4ID0gcmVvcmRlcihzdGF0aW9uLCB0dXJiaWRpdHlfTlRVLCBtZWRpYW4sIG5hLnJtID0gVFJVRSkpIiwiYXJyYW5nZSh0dXJiaWRpdHlfTlRVKSIsInNjYWxlX3hfY29udGludW91cygpIiwiY29vcmRfZmxpcCgpIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiIzLiBmYWNldF93cmFwKH4gem9uZSwgc2NhbGVzID0gXCJmcmVlX3lcIikgbWVhbnM6IiwiZnIiOiIzLiBmYWNldF93cmFwKH4gem9uZSwgc2NhbGVzID0gXCJmcmVlX3lcIikgc2lnbmlmaWUgOiIsIm9wdGlvbnNfZW4iOlsib25lIHBhbmVsIHBlciB6b25lLCBlYWNoIHdpdGggaXRzIG93biB5LWF4aXMgcmFuZ2UiLCJvbmUgcGFuZWwgcGVyIHpvbmUsIGFsbCB3aXRoIHRoZSBzYW1lIGF4ZXMiLCJ0aGUgeS1heGlzIGlzIHJlbW92ZWQiLCJ6b25lcyBhcmUgY29sb3VyZWQiXSwib3B0aW9uc19mciI6WyJ1biBwYW5uZWF1IHBhciB6b25lLCBjaGFjdW4gYXZlYyBzYSBwcm9wcmUgw6l0ZW5kdWUgZGUgbCdheGUgeSIsInVuIHBhbm5lYXUgcGFyIHpvbmUsIHRvdXMgYXZlYyBsZXMgbcOqbWVzIGF4ZXMiLCJsJ2F4ZSB5IGVzdCBzdXBwcmltw6kiLCJsZXMgem9uZXMgc29udCBjb2xvcsOpZXMiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjQuIFlvdSB3YW50IHRvIHpvb20gb24gU0dSIGJldHdlZW4gMiBhbmQgNSB3aXRob3V0IHJlbW92aW5nIGRhdGEgZnJvbSBhIGJveHBsb3QuIFVzZToiLCJmciI6IjQuIFZvdXMgdm91bGV6IHpvb21lciBzdXIgbGUgU0dSIGVudHJlIDIgZXQgNSBzYW5zIHJldGlyZXIgZGUgZG9ubsOpZXMgZCd1biBib3hwbG90LiBVdGlsaXNleiA6Iiwib3B0aW9uc19lbiI6WyJ5bGltKDIsIDUpIiwic2NhbGVfeV9jb250aW51b3VzKGxpbWl0cyA9IGMoMiwgNSkpIiwiY29vcmRfY2FydGVzaWFuKHlsaW0gPSBjKDIsIDUpKSIsImZpbHRlcihzZ3IgPiAyLCBzZ3IgPCA1KSJdLCJvcHRpb25zX2ZyIjpbInlsaW0oMiwgNSkiLCJzY2FsZV95X2NvbnRpbnVvdXMobGltaXRzID0gYygyLCA1KSkiLCJjb29yZF9jYXJ0ZXNpYW4oeWxpbSA9IGMoMiwgNSkpIiwiZmlsdGVyKHNnciA+IDIsIHNnciA8IDUpIl0sImFuc3dlciI6Mn1d">
+
+</div>
+<div class="solution" data-quiz="ip5">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(ggplot2); <span class="fu">library</span>(lubridate)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I2_water_quality_clean.csv&quot;</span>); w<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(w<span class="sc">$</span>date)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>do_m <span class="ot">&lt;-</span> w <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(date)) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(DO_mgL, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">se =</span> <span class="fu">se</span>(DO_mgL))</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>do_m[<span class="fu">which.min</span>(do_m<span class="sc">$</span>m), ]                                                   <span class="co"># 1</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">ggplot</span>(do_m, <span class="fu">aes</span>(month, m)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> m <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se, <span class="at">ymax =</span> m <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se)) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Month&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Mean DO (mg/L)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>st <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stations.csv&quot;</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>p <span class="ot">&lt;-</span> w <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(st[, <span class="fu">c</span>(<span class="st">&quot;station&quot;</span>, <span class="st">&quot;zone&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;station&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">reorder</span>(station, turbidity_NTU, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), turbidity_NTU, <span class="at">fill =</span> zone)) <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Station&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Turbidity (NTU)&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Turbidity by station, 2023-2025&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;outputs/turbidity_stations.png&quot;</span>, p, <span class="at">width =</span> <span class="dv">16</span>, <span class="at">height =</span> <span class="dv">10</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)  <span class="co"># 2</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex6" class="section level2">
+<h2><span class="en">Exercise 6 — Choosing and running a
+test</span><span class="fr">Exercice 6 — Choisir et faire un
+test</span></h2>
+<div class="en">
+<p><em>Sessions I9–I10.</em> For each question, <strong>plot
+first</strong>, then choose and justify the test in a comment.</p>
+<ol style="list-style-type: decimal">
+<li>Turbidity in the <strong>North</strong> vs the
+<strong>South</strong> stations (clean water-quality file +
+<code>stations.csv</code>). Turbidity is right-skewed. Median turbidity
+in the South (NTU)?</li>
+<li>Which test do you choose for question 1 (see quiz)?</li>
+<li>Spearman correlation between salinity and turbidity (all
+measurements, 3 decimals).</li>
+<li>Survey (<code>I4_households_clean.csv</code> + zone from
+<code>villages.csv</code>): does the proportion of households doing
+seaweed farming (<code>does_seaweed</code>) differ between the three
+zones? Smallest expected count (1 decimal) and chi-square p-value (3
+decimals).</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Séances I9–I10.</em> Pour chaque question, <strong>tracez
+d’abord</strong>, puis choisissez et justifiez le test en
+commentaire.</p>
+<ol style="list-style-type: decimal">
+<li>Turbidité aux stations du <strong>Nord</strong> vs du
+<strong>Sud</strong> (fichier de qualité d’eau nettoyé +
+<code>stations.csv</code>). La turbidité est asymétrique à droite.
+Turbidité médiane au Sud (NTU) ?</li>
+<li>Quel test choisissez-vous pour la question 1 (voir le quiz) ?</li>
+<li>Corrélation de Spearman entre salinité et turbidité (toutes les
+mesures, 3 décimales).</li>
+<li>Enquête (<code>I4_households_clean.csv</code> + zone depuis
+<code>villages.csv</code>) : la proportion de ménages cultivant les
+algues (<code>does_seaweed</code>) diffère-t-elle entre les trois zones
+? Plus petit effectif attendu (1 décimale) et p-value du khi-deux (3
+décimales).</li>
+</ol>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 4: <code>table(hh$zone, hh$does_seaweed)</code> is a 3 × 2
+table; <code>chisq.test()</code> works the same way as for a 2 × 2 table
+(no Yates correction is applied above 2 × 2).</p>
+</div>
+<div class="fr">
+<p>Question 4 : <code>table(hh$zone, hh$does_seaweed)</code> est un
+tableau 3 × 2 ; <code>chisq.test()</code> fonctionne comme pour un 2 × 2
+(pas de correction de Yates au-delà de 2 × 2).</p>
+</div>
+</div>
+<div id="quiz-ip6" class="quiz" data-quiz-id="ip6"
+data-title-en="Exercise 6" data-title-fr="Exercice 6"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTWVkaWFuIHR1cmJpZGl0eSBpbiB0aGUgU291dGggKE5UVSk/IiwiZnIiOiIxLiBUdXJiaWRpdMOpIG3DqWRpYW5lIGF1IFN1ZCAoTlRVKSA/IiwiYW5zd2VyIjo2LCJ0b2wiOjAuMDEsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiIyLiBCZXN0IHRlc3QgZm9yIHF1ZXN0aW9uIDE/IiwiZnIiOiIyLiBNZWlsbGV1ciB0ZXN0IHBvdXIgbGEgcXVlc3Rpb24gMSA/Iiwib3B0aW9uc19lbiI6WyJ3aWxjb3gudGVzdCh0dXJiaWRpdHlfTlRVIH4gem9uZSkgKG9yIHQudGVzdCBvbiBsb2cgdHVyYmlkaXR5KSIsImNoaXNxLnRlc3QoKSIsImNvci50ZXN0KCkiLCJ0LnRlc3QoLi4uLCBwYWlyZWQgPSBUUlVFKSJdLCJvcHRpb25zX2ZyIjpbIndpbGNveC50ZXN0KHR1cmJpZGl0eV9OVFUgfiB6b25lKSAob3UgdC50ZXN0IHN1ciBsb2cgdHVyYmlkaXTDqSkiLCJjaGlzcS50ZXN0KCkiLCJjb3IudGVzdCgpIiwidC50ZXN0KC4uLiwgcGFpcmVkID0gVFJVRSkiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIFNwZWFybWFuIHJobywgc2FsaW5pdHkgdnMgdHVyYmlkaXR5ICgzIGRlY2ltYWxzKT8iLCJmciI6IjMuIHJobyBkZSBTcGVhcm1hbiwgc2FsaW5pdMOpIHZzIHR1cmJpZGl0w6kgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6LTAuMTgxLCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjRhLiBTbWFsbGVzdCBleHBlY3RlZCBjb3VudCAoMSBkZWNpbWFsKT8iLCJmciI6IjRhLiBQbHVzIHBldGl0IGVmZmVjdGlmIGF0dGVuZHUgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo0Ni42LCJ0b2wiOjAuMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0Yi4gQ2hpLXNxdWFyZSBwLXZhbHVlICgzIGRlY2ltYWxzKT8iLCJmciI6IjRiLiBwLXZhbHVlIGR1IGtoaS1kZXV4ICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjAuNzI3LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFdoYXQgZG8geW91IGNvbmNsdWRlIGZvciBxdWVzdGlvbiA0PyIsImZyIjoiNS4gUXVlIGNvbmNsdWV6LXZvdXMgcG91ciBsYSBxdWVzdGlvbiA0ID8iLCJvcHRpb25zX2VuIjpbIlRoZSBwcm9wb3J0aW9uIGlzIGlkZW50aWNhbCBpbiB0aGUgdGhyZWUgem9uZXMiLCJObyBldmlkZW5jZSB0aGF0IHRoZSBwcm9wb3J0aW9uIG9mIHNlYXdlZWQgaG91c2Vob2xkcyBkaWZmZXJzIGJldHdlZW4gem9uZXMiLCJTZWF3ZWVkIGZhcm1pbmcgaXMgbW9yZSBjb21tb24gaW4gdGhlIFNvdXRoIiwiVGhlIHRlc3QgaXMgaW52YWxpZCBiZWNhdXNlIHRoZSB0YWJsZSBpcyAzIMOXIDIiXSwib3B0aW9uc19mciI6WyJMYSBwcm9wb3J0aW9uIGVzdCBpZGVudGlxdWUgZGFucyBsZXMgdHJvaXMgem9uZXMiLCJQYXMgZGUgcHJldXZlIHF1ZSBsYSBwcm9wb3J0aW9uIGRlIG3DqW5hZ2VzIGN1bHRpdmF0ZXVycyBkaWZmw6hyZSBlbnRyZSB6b25lcyIsIkxhIGN1bHR1cmUgZCdhbGd1ZXMgZXN0IHBsdXMgZnLDqXF1ZW50ZSBhdSBTdWQiLCJMZSB0ZXN0IGVzdCBpbnZhbGlkZSBjYXIgbGUgdGFibGVhdSBlc3QgMyDDlyAyIl0sImFuc3dlciI6MX1d">
+
+</div>
+<div class="solution" data-quiz="ip6">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>w  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I2_water_quality_clean.csv&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>st <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stations.csv&quot;</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>ns <span class="ot">&lt;-</span> w <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(st[, <span class="fu">c</span>(<span class="st">&quot;station&quot;</span>, <span class="st">&quot;zone&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;station&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(zone <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;North&quot;</span>, <span class="st">&quot;South&quot;</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">ggplot</span>(ns, <span class="fu">aes</span>(zone, turbidity_NTU)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">tapply</span>(ns<span class="sc">$</span>turbidity_NTU, ns<span class="sc">$</span>zone, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)          <span class="co"># 1</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># skewed, outliers -&gt; Wilcoxon rank-sum (or t-test on log)        # 2</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">wilcox.test</span>(turbidity_NTU <span class="sc">~</span> zone, <span class="at">data =</span> ns)                     <span class="co"># p &lt; 0.001: South more turbid</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="fu">cor</span>(w<span class="sc">$</span>salinity_psu, w<span class="sc">$</span>turbidity_NTU, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>, <span class="at">use =</span> <span class="st">&quot;complete.obs&quot;</span>)   <span class="co"># 3</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>hh <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I4_households_clean.csv&quot;</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>hh <span class="ot">&lt;-</span> <span class="fu">left_join</span>(hh, <span class="fu">read.csv</span>(<span class="st">&quot;data/villages.csv&quot;</span>)[, <span class="fu">c</span>(<span class="st">&quot;village&quot;</span>, <span class="st">&quot;zone&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;village&quot;</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>tz <span class="ot">&lt;-</span> <span class="fu">table</span>(hh<span class="sc">$</span>zone, hh<span class="sc">$</span>does_seaweed)</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(tz, <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="fu">chisq.test</span>(tz)<span class="sc">$</span>expected; <span class="fu">chisq.test</span>(tz)                          <span class="co"># 4: p ~ 0.73 -&gt; no evidence (5)</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

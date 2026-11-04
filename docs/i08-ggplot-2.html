@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · I8</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I8 · Mastering ggplot2
+(2): summaries, time, annotations, layouts</span><span class="fr">I8 ·
+Maîtriser ggplot2 (2) : résumés, temps, annotations, mises en
+page</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>show <strong>means with error bars</strong> (SD, SE or 95 % CI) for
+groups side by side (<code>position_dodge</code>);</li>
+<li>draw <strong>time series</strong> with readable date axes;</li>
+<li><strong>order</strong> categories by their values and
+<strong>annotate</strong> a graph (lines, text, areas);</li>
+<li>write your own <strong>theme function</strong> (Session I6) and
+produce <strong>one figure per group</strong> with a loop (Session
+I5);</li>
+<li>combine several graphs in one figure with <strong>patchwork</strong>
+and export it for a report.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>montrer des <strong>moyennes avec barres d’erreur</strong> (ET, ES
+ou IC à 95 %) pour des groupes côte à côte (<code>position_dodge</code>)
+;</li>
+<li>tracer des <strong>séries temporelles</strong> avec des axes de
+dates lisibles ;</li>
+<li><strong>ordonner</strong> des catégories selon leurs valeurs et
+<strong>annoter</strong> un graphique (lignes, texte, zones) ;</li>
+<li>écrire votre propre <strong>fonction de thème</strong> (séance I6)
+et produire <strong>une figure par groupe</strong> avec une boucle
+(séance I5) ;</li>
+<li>combiner plusieurs graphiques en une figure avec
+<strong>patchwork</strong> et l’exporter pour un rapport.</li>
+</ul>
+</div>
+</div>
+<p><a class="btn-dl" href="data/checkpoints/I3_seaweed_analysis.csv" download>⇩
+checkpoint: I3_seaweed_analysis.csv</a>
+<a class="btn-dl" href="data/checkpoints/I2_water_quality_clean.csv" download>⇩
+checkpoint: I2_water_quality_clean.csv</a></p>
+<div id="errorbars" class="section level2">
+<h2><span class="en">Means and error bars</span><span
+class="fr">Moyennes et barres d’erreur</span></h2>
+<div class="en">
+<p>First compute the summary per group (Session I6 functions are handy),
+then draw it. The <strong>95 % confidence interval</strong> of a mean is
+approximately mean ± 1.96 × SE (for large samples): it shows the
+precision of the mean, and is the most informative choice when comparing
+groups. Always say in the caption which one you show.</p>
+</div>
+<div class="fr">
+<p>Calculez d’abord le résumé par groupe (les fonctions de la séance I6
+sont pratiques), puis tracez-le. L’<strong>intervalle de confiance à 95
+%</strong> d’une moyenne vaut environ moyenne ± 1,96 × ES (pour les
+grands échantillons) : il montre la précision de la moyenne, et c’est le
+choix le plus informatif pour comparer des groupes. Indiquez toujours
+dans la légende lequel vous montrez.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>summ <span class="ot">&lt;-</span> seaweed <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">group_by</span>(zone, technique) <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(sgr)), <span class="at">mean =</span> <span class="fu">mean</span>(sgr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">se =</span> <span class="fu">se</span>(sgr), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">low =</span> mean <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se, <span class="at">high =</span> mean <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>summ</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 6 × 7
+#&gt;   zone   technique      n  mean     se   low  high
+#&gt;   &lt;fct&gt;  &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 North  long-line    288  3.70 0.0373  3.63  3.78
+#&gt; 2 North  off-bottom   564  3.21 0.0264  3.16  3.26
+#&gt; 3 Centre long-line    335  3.63 0.0347  3.56  3.69
+#&gt; 4 Centre off-bottom   352  3.16 0.0331  3.10  3.23
+#&gt; 5 South  long-line    441  3.73 0.0297  3.67  3.78
+#&gt; 6 South  off-bottom   337  3.32 0.0325  3.26  3.38</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>dodge <span class="ot">&lt;-</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>)          <span class="co"># shift the two techniques side by side</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">ggplot</span>(summ, <span class="fu">aes</span>(zone, mean, <span class="at">colour =</span> technique)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> low, <span class="at">ymax =</span> high), <span class="at">position =</span> dodge, <span class="at">size =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;long-line&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="st">&quot;off-bottom&quot;</span> <span class="ot">=</span> <span class="st">&quot;#d9694a&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Mean SGR (% per day)&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Points: means; bars: 95 % confidence intervals&quot;</span>) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
+<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-2-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="en">
+<p>For bars, use <code>geom_col(position = position_dodge(0.8))</code> +
+<code>geom_errorbar(position = position_dodge(0.8), width = 0.2)</code>
+— the dodge width must be the <strong>same</strong> in both layers.
+Points (<code>geom_pointrange</code>) are often better than bars: bars
+suggest that values start at zero, which is not meaningful for a rate or
+a temperature.</p>
+</div>
+<div class="fr">
+<p>Pour des barres, utilisez
+<code>geom_col(position = position_dodge(0.8))</code> +
+<code>geom_errorbar(position = position_dodge(0.8), width = 0.2)</code>
+— la largeur de décalage doit être la <strong>même</strong> dans les
+deux couches. Les points (<code>geom_pointrange</code>) sont souvent
+préférables aux barres : les barres suggèrent que les valeurs partent de
+zéro, ce qui n’a pas de sens pour un taux ou une température.</p>
+</div>
+</div>
+<div id="time" class="section level2">
+<h2><span class="en">Time series</span><span class="fr">Séries
+temporelles</span></h2>
+<div class="en">
+<p>With a <code>Date</code> column on the x-axis,
+<code>scale_x_date()</code> controls the ticks:
+<code>date_breaks = "3 months"</code>,
+<code>date_labels = "%b %Y"</code> (format codes of Session I1).
+<code>geom_line()</code> joins the points <strong>of the same
+group</strong>: set <code>group</code> or <code>colour</code>.</p>
+</div>
+<div class="fr">
+<p>Avec une colonne <code>Date</code> sur l’axe x,
+<code>scale_x_date()</code> contrôle les graduations :
+<code>date_breaks = "3 months"</code>,
+<code>date_labels = "%b %Y"</code> (codes de format de la séance I1).
+<code>geom_line()</code> relie les points <strong>d’un même
+groupe</strong> : précisez <code>group</code> ou
+<code>colour</code>.</p>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>st <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stations.csv&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>wq_zone <span class="ot">&lt;-</span> wq <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(st[, <span class="fu">c</span>(<span class="st">&quot;station&quot;</span>, <span class="st">&quot;zone&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;station&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">group_by</span>(zone, date) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">temp =</span> <span class="fu">mean</span>(temp_C, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">ggplot</span>(wq_zone, <span class="fu">aes</span>(date, temp, <span class="at">colour =</span> zone)) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">&quot;6 months&quot;</span>, <span class="at">date_labels =</span> <span class="st">&quot;%b %Y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="fu">scale_colour_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Mean temperature (°C)&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;Zone&quot;</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-3-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="annotate" class="section level2">
+<h2><span class="en">Ordering and annotating</span><span
+class="fr">Ordonner et annoter</span></h2>
+<div class="en">
+<p><code>reorder(category, value, FUN = median)</code> sorts categories
+by a summary of the values — a ranked graph is much faster to read.
+Annotations guide the reader: a reference line
+(<code>geom_hline()</code>), a shaded period
+(<code>annotate("rect")</code>), a text label
+(<code>annotate("text")</code>).</p>
+</div>
+<div class="fr">
+<p><code>reorder(catégorie, valeur, FUN = median)</code> trie les
+catégories selon un résumé des valeurs — un graphique classé se lit
+beaucoup plus vite. Les annotations guident le lecteur : une ligne de
+référence (<code>geom_hline()</code>), une période ombrée
+(<code>annotate("rect")</code>), un texte
+(<code>annotate("text")</code>).</p>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>overall <span class="ot">&lt;-</span> <span class="fu">mean</span>(seaweed<span class="sc">$</span>sgr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">ggplot</span>(seaweed, <span class="fu">aes</span>(<span class="fu">reorder</span>(village, sgr, <span class="at">FUN =</span> median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), sgr)) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">&quot;#a8d5da&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">outlier.alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> overall, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;#d9694a&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="fl">1.5</span>, <span class="at">y =</span> overall <span class="sc">+</span> <span class="fl">0.15</span>, <span class="at">label =</span> <span class="st">&quot;cooperative mean&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;#d9694a&quot;</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;SGR (% per day)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-4-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">ggplot</span>(wq_zone, <span class="fu">aes</span>(date, temp, <span class="at">colour =</span> zone)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="at">xmin =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2024-11-01&quot;</span>), <span class="at">xmax =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2025-04-30&quot;</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>           <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>, <span class="at">fill =</span> <span class="st">&quot;#1b7f8c&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2025-01-31&quot;</span>), <span class="at">y =</span> <span class="fl">23.3</span>, <span class="at">label =</span> <span class="st">&quot;wet season&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;#0b3d5c&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;°C&quot;</span>)</span></code></pre></div>
+<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-5-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="own-theme" class="section level2">
+<h2><span class="en">Your own theme, and one figure per
+group</span><span class="fr">Votre propre thème, et une figure par
+groupe</span></h2>
+<div class="en">
+<p>A <strong>function returning a theme</strong> (Session I6) gives all
+your report figures the same look, and you change it in one place. A
+<strong>loop</strong> (Session I5) saves one figure per village.</p>
+</div>
+<div class="fr">
+<p>Une <strong>fonction qui renvoie un thème</strong> (séance I6) donne
+le même aspect à toutes les figures d’un rapport, et on la modifie à un
+seul endroit. Une <strong>boucle</strong> (séance I5) enregistre une
+figure par village.</p>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>theme_coop <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">base_size =</span> <span class="dv">12</span>) {</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> base_size) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;#0b3d5c&quot;</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>          <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>}</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>p_v <span class="ot">&lt;-</span> <span class="cf">function</span>(v) {</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  d <span class="ot">&lt;-</span> seaweed[seaweed<span class="sc">$</span>village <span class="sc">==</span> v, ]</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(planting_date, sgr, <span class="at">colour =</span> technique)) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> v, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;SGR (% per day)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_coop</span>()</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>}</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="fu">p_v</span>(<span class="st">&quot;Lovobe&quot;</span>)</span></code></pre></div>
+<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-6-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;outputs/figures&quot;</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="cf">for</span> (v <span class="cf">in</span> <span class="fu">unique</span>(seaweed<span class="sc">$</span>village)) {</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">ggsave</span>(<span class="fu">file.path</span>(<span class="st">&quot;outputs/figures&quot;</span>, <span class="fu">paste0</span>(<span class="st">&quot;sgr_&quot;</span>, v, <span class="st">&quot;.png&quot;</span>)), <span class="fu">p_v</span>(v),</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>         <span class="at">width =</span> <span class="dv">16</span>, <span class="at">height =</span> <span class="dv">10</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="patchwork" class="section level2">
+<h2><span class="en">Combining graphs with patchwork</span><span
+class="fr">Combiner des graphiques avec patchwork</span></h2>
+<div class="en">
+<p><strong>patchwork</strong> adds graphs together: <code>p1 + p2</code>
+side by side, <code>p1 / p2</code> stacked, <code>(p1 | p2) / p3</code>
+mixed. <code>plot_annotation(tag_levels = "A")</code> adds the letters
+A, B, C used in articles.</p>
+</div>
+<div class="fr">
+<p><strong>patchwork</strong> additionne des graphiques :
+<code>p1 + p2</code> côte à côte, <code>p1 / p2</code> empilés,
+<code>(p1 | p2) / p3</code> combinés.
+<code>plot_annotation(tag_levels = "A")</code> ajoute les lettres A, B,
+C utilisées dans les articles.</p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>pA <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(wq_zone, <span class="fu">aes</span>(date, temp, <span class="at">colour =</span> zone)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">theme_coop</span>() <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Temperature (°C)&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>pB <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(summ, <span class="fu">aes</span>(zone, mean, <span class="at">colour =</span> technique)) <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> low, <span class="at">ymax =</span> high), <span class="at">position =</span> dodge) <span class="sc">+</span> <span class="fu">theme_coop</span>() <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;SGR (% per day)&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>pC <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(seaweed, <span class="fu">aes</span>(temp_mean, sgr)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">colour =</span> <span class="st">&quot;#d9694a&quot;</span>) <span class="sc">+</span> <span class="fu">theme_coop</span>() <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Temperature (°C)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;SGR (% per day)&quot;</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>(pA) <span class="sc">/</span> (pB <span class="sc">|</span> pC) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>                                    <span class="at">title =</span> <span class="st">&quot;Sea temperature and seaweed growth, 2024–2025&quot;</span>)</span></code></pre></div>
+<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-8-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>fig <span class="ot">&lt;-</span> (pA) <span class="sc">/</span> (pB <span class="sc">|</span> pC) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">&quot;A&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;outputs/figure_1.png&quot;</span>, fig, <span class="at">width =</span> <span class="dv">18</span>, <span class="at">height =</span> <span class="dv">16</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;outputs/figure_1.pdf&quot;</span>, fig, <span class="at">width =</span> <span class="dv">18</span>, <span class="at">height =</span> <span class="dv">16</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>)   <span class="co"># vector, for printing</span></span></code></pre></div>
+<div class="callout ecology">
+<div class="en">
+<p>Panel C already suggests the answer to one of the cooperative’s
+questions: growth is <strong>not</strong> a straight line of temperature
+— it is best around 25–26 °C and drops when the water is warmer. Keep
+this in mind for the correlation in Session I10.</p>
+</div>
+<div class="fr">
+<p>Le panneau C suggère déjà la réponse à une question de la coopérative
+: la croissance n’est <strong>pas</strong> une droite de la température
+— elle est meilleure autour de 25–26 °C et baisse quand l’eau est plus
+chaude. Gardez-le en tête pour la corrélation de la séance I10.</p>
+</div>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-i8" class="section level3 en">
+<h3>Application work I8</h3>
+<p>Script <code>scripts/i08_ggplot.R</code>, using your
+<code>theme_coop()</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Plot mean SGR ± 95 % CI by zone and technique
+(<code>geom_pointrange</code>, dodge). Upper limit of the CI for
+<strong>off-bottom</strong> lines in the <strong>North</strong> (3
+decimals)?</li>
+<li>Time series of mean temperature per zone. On which date
+(<code>yyyy-mm-dd</code>) is the highest mean recorded, and what is its
+value (2 decimals)?</li>
+<li>Boxplots of SGR by village ordered by median. Which village has the
+<strong>highest</strong> median? The <strong>lowest</strong>?</li>
+<li>Mean SGR per season and year (<code>group_by(season, year)</code>),
+shown as points joined by lines. Value for the <strong>wet season
+2025</strong> (3 decimals)?</li>
+<li>Combine three of your graphs with patchwork (tags A, B, C) and save
+the figure in PNG and PDF.</li>
+<li>Use a loop to save one SGR figure per village.</li>
+</ol>
+</div>
+<div id="travail-dapplication-i8" class="section level3 fr">
+<h3>Travail d’application I8</h3>
+<p>Script <code>scripts/i08_ggplot.R</code>, avec votre
+<code>theme_coop()</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Tracez le SGR moyen ± IC à 95 % par zone et technique
+(<code>geom_pointrange</code>, décalage). Borne supérieure de l’IC des
+lignes <strong>off-bottom</strong> du <strong>Nord</strong> (3
+décimales) ?</li>
+<li>Série temporelle de la température moyenne par zone. À quelle date
+(<code>aaaa-mm-jj</code>) la moyenne la plus élevée est-elle enregistrée
+? Donnez la date, et la valeur (2 décimales).</li>
+<li>Boxplots du SGR par village ordonnés par médiane. Quel village a la
+médiane la <strong>plus élevée</strong> ? La <strong>plus
+faible</strong> ?</li>
+<li>SGR moyen par saison et par année
+(<code>group_by(season, year)</code>), en points reliés par des lignes.
+Valeur pour la <strong>saison des pluies 2025</strong> (3 décimales)
+?</li>
+<li>Combinez trois de vos graphiques avec patchwork (étiquettes A, B, C)
+et enregistrez la figure en PNG et en PDF.</li>
+<li>Avec une boucle, enregistrez une figure de SGR par village.</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 2: after building <code>wq_zone</code>,
+<code>wq_zone[which.max(wq_zone$temp), ]</code> gives the row of the
+maximum.</p>
+</div>
+<div class="fr">
+<p>Question 2 : après avoir construit <code>wq_zone</code>,
+<code>wq_zone[which.max(wq_zone$temp), ]</code> donne la ligne du
+maximum.</p>
+</div>
+</div>
+<div id="quiz-i08" class="quiz" data-quiz-id="i08"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gVXBwZXIgOTUgJSBDSSBsaW1pdCwgb2ZmLWJvdHRvbSwgTm9ydGggKDMgZGVjaW1hbHMpPyIsImZyIjoiMS4gQm9ybmUgc3Vww6lyaWV1cmUgZGUgbCdJQyA5NSAlLCBvZmYtYm90dG9tLCBOb3JkICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjMuMjYyLCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyYS4gRGF0ZSBvZiB0aGUgaGlnaGVzdCBtZWFuIHRlbXBlcmF0dXJlICh5eXl5LW1tLWRkKT8iLCJmciI6IjJhLiBEYXRlIGRlIGxhIHRlbXDDqXJhdHVyZSBtb3llbm5lIGxhIHBsdXMgw6lsZXbDqWUgKGFhYWEtbW0tamopID8iLCJhbnN3ZXIiOlsiMjAyNC0wMi0xOSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjJiLiBJdHMgdmFsdWUgKDIgZGVjaW1hbHMpPyIsImZyIjoiMmIuIFNhIHZhbGV1ciAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoyOS40NywidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIzYS4gVmlsbGFnZSB3aXRoIHRoZSBoaWdoZXN0IG1lZGlhbiBTR1I/IiwiZnIiOiIzYS4gVmlsbGFnZSBhdSBTR1IgbcOpZGlhbiBsZSBwbHVzIMOpbGV2w6kgPyIsImFuc3dlciI6WyJUc2ltYW5qYWthIl19LHsidHlwZSI6InRleHQiLCJlbiI6IjNiLiBWaWxsYWdlIHdpdGggdGhlIGxvd2VzdCBtZWRpYW4gU0dSPyIsImZyIjoiM2IuIFZpbGxhZ2UgYXUgU0dSIG3DqWRpYW4gbGUgcGx1cyBmYWlibGUgPyIsImFuc3dlciI6WyJCZWZhc3kiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZWFuIFNHUiwgd2V0IHNlYXNvbiAyMDI1ICgzIGRlY2ltYWxzKT8iLCJmciI6IjQuIFNHUiBtb3llbiwgc2Fpc29uIGRlcyBwbHVpZXMgMjAyNSAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjozLjIyNCwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI1LiBJbiBwYXRjaHdvcmssIChwMSB8IHAyKSAvIHAzIGdpdmVzOiIsImZyIjoiNS4gQXZlYyBwYXRjaHdvcmssIChwMSB8IHAyKSAvIHAzIGRvbm5lIDoiLCJvcHRpb25zX2VuIjpbInRocmVlIHBsb3RzIGluIGEgcm93IiwicDEgYW5kIHAyIHNpZGUgYnkgc2lkZSwgcDMgYmVsb3ciLCJwMyBhYm92ZSBwMSBhbmQgcDIiLCJhbiBlcnJvciJdLCJvcHRpb25zX2ZyIjpbInRyb2lzIGdyYXBoaXF1ZXMgZW4gbGlnbmUiLCJwMSBldCBwMiBjw7R0ZSDDoCBjw7R0ZSwgcDMgZW4gZGVzc291cyIsInAzIGF1LWRlc3N1cyBkZSBwMSBldCBwMiIsInVuZSBlcnJldXIiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIFdoeSBtdXN0IHBvc2l0aW9uX2RvZGdlKCkgaGF2ZSB0aGUgc2FtZSB3aWR0aCBpbiBnZW9tX2NvbCgpIGFuZCBnZW9tX2Vycm9yYmFyKCk/IiwiZnIiOiI2LiBQb3VycXVvaSBwb3NpdGlvbl9kb2RnZSgpIGRvaXQtaWwgYXZvaXIgbGEgbcOqbWUgbGFyZ2V1ciBkYW5zIGdlb21fY29sKCkgZXQgZ2VvbV9lcnJvcmJhcigpID8iLCJvcHRpb25zX2VuIjpbIk90aGVyd2lzZSB0aGUgZXJyb3IgYmFycyBhcmUgbm90IGNlbnRyZWQgb24gdGhlaXIgYmFycyIsIlRvIHNhdmUgbWVtb3J5IiwiSXQgZG9lcyBub3QgbWF0dGVyIiwiQmVjYXVzZSBvZiB0aGUgY29sb3VycyJdLCJvcHRpb25zX2ZyIjpbIlNpbm9uIGxlcyBiYXJyZXMgZCdlcnJldXIgbmUgc29udCBwYXMgY2VudHLDqWVzIHN1ciBsZXVycyBiYXJyZXMiLCJQb3VyIMOpY29ub21pc2VyIGxhIG3DqW1vaXJlIiwiQ2VsYSBuJ2EgcGFzIGQnaW1wb3J0YW5jZSIsIsOAIGNhdXNlIGRlcyBjb3VsZXVycyJdLCJhbnN3ZXIiOjB9XQ==">
+
+</div>
+<div class="solution" data-quiz="i08">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(patchwork)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>seaweed <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I3_seaweed_analysis.csv&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>seaweed<span class="sc">$</span>planting_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(seaweed<span class="sc">$</span>planting_date)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>summ <span class="ot">&lt;-</span> seaweed <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(zone, technique) <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(sgr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">se =</span> <span class="fu">se</span>(sgr), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">low =</span> mean <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se, <span class="at">high =</span> mean <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>summ                                                                  <span class="co"># 1</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>wq <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I2_water_quality_clean.csv&quot;</span>); wq<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(wq<span class="sc">$</span>date)</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>st <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stations.csv&quot;</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>wq_zone <span class="ot">&lt;-</span> wq <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(st[, <span class="fu">c</span>(<span class="st">&quot;station&quot;</span>, <span class="st">&quot;zone&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;station&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>  <span class="fu">group_by</span>(zone, date) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">temp =</span> <span class="fu">mean</span>(temp_C, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>wq_zone[<span class="fu">which.max</span>(wq_zone<span class="sc">$</span>temp), ]                                    <span class="co"># 2</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">tapply</span>(seaweed<span class="sc">$</span>sgr, seaweed<span class="sc">$</span>village, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))      <span class="co"># 3</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>seaweed <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(season, year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">round</span>(<span class="fu">mean</span>(sgr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">3</span>))  <span class="co"># 4</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

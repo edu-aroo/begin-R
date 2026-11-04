@@ -1,0 +1,193 @@
+---
+title: "[Cheatsheet — Intermediate level]{.en}[Aide-mémoire — Niveau intermédiaire]{.fr}"
+pagetitle: "R for marine sciences · Intermediate cheatsheet"
+subtitle: "[Print it (Ctrl + P) and keep it next to your keyboard]{.en}[Imprimez-le (Ctrl + P) et gardez-le près du clavier]{.fr}"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+<!-- Same structure as cheatsheet.Rmd (beginner): each cell holds both languages
+     [English]{.en}[Français]{.fr}; {.no-track} keeps these sections out of the progress bar.
+     The pipe character inside a table must be written <code>&#124;</code>. -->
+
+::: cheat
+
+## [Packages of this level]{.en}[Packages de ce niveau]{.fr} {.no-track}
+
+```{r, eval=FALSE}
+install.packages(c("readxl", "dplyr", "tidyr", "lubridate", "stringr", "ggplot2", "patchwork"))
+# optional: "ggrepel" (labels that do not overlap), "sf" (maps, Advanced level)
+```
+
+## [I0 — Importing real files]{.en}[I0 — Importer de vrais fichiers]{.fr} {.no-track}
+
+::: keypoints
+- [Open the file first (Excel / text editor): where does the table start, which separator, which missing-value codes?]{.en}[Ouvrez d'abord le fichier (Excel / éditeur de texte) : où commence le tableau, quel séparateur, quels codes de valeurs manquantes ?]{.fr}
+- [Never modify the raw file: all corrections go in the script.]{.en}[Ne modifiez jamais le fichier brut : toutes les corrections vont dans le script.]{.fr}
+:::
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `readxl::excel_sheets()` | [Names of the sheets of a workbook]{.en}[Noms des feuilles d'un classeur]{.fr} | `excel_sheets("data/seaweed_farming.xlsx")` |
+| `read_excel(path, sheet, skip, range, na)` | [Read one sheet; `skip` = lines above the table]{.en}[Lire une feuille ; `skip` = lignes au-dessus du tableau]{.fr} | `read_excel(f, sheet = "lines", skip = 3)` |
+| `read.csv(..., na.strings, check.names)` | [CSV with comma; declare missing codes; keep odd column names]{.en}[CSV à virgule ; déclarer les codes manquants ; garder des noms de colonnes atypiques]{.fr} | `read.csv(f, na.strings = c("", "NA", "-999"))` |
+| `read.csv2()` | [CSV with `;` and decimal comma (French Excel)]{.en}[CSV à `;` et virgule décimale (Excel français)]{.fr} | `read.csv2("data/x.csv")` |
+| `as.data.frame()` | [Turn a tibble into a classic data frame]{.en}[Transformer un tibble en data frame classique]{.fr} | `as.data.frame(lines)` |
+| `dim()`, `str()`, `summary()` | [Size, structure, summary of every column]{.en}[Taille, structure, résumé de chaque colonne]{.fr} | `str(lines)` |
+| `colSums(is.na(df))` | [Missing values per column]{.en}[Valeurs manquantes par colonne]{.fr} | `colSums(is.na(farmers))` |
+| `write.csv(df, file, row.names = FALSE)` | [Save a checkpoint]{.en}[Enregistrer un checkpoint]{.fr} | `write.csv(lines, "data/clean.csv", row.names = FALSE)` |
+
+## [I1 — Dates]{.en}[I1 — Dates]{.fr} {.no-track}
+
+::: keypoints
+- [A date must have class `Date` to be sorted, subtracted and plotted correctly. Excel dates are numbers of days since 1899-12-30.]{.en}[Une date doit être de classe `Date` pour être triée, soustraite et tracée correctement. Les dates Excel sont des nombres de jours depuis le 1899-12-30.]{.fr}
+:::
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `as.Date(x, format)` | [Text → date (`%d` day, `%m` month, `%Y` year, `%b` month name)]{.en}[Texte → date (`%d` jour, `%m` mois, `%Y` année, `%b` nom du mois)]{.fr} | `as.Date("21/03/2025", format = "%d/%m/%Y")` |
+| `as.Date(n, origin = "1899-12-30")` | [Excel number → date]{.en}[Nombre Excel → date]{.fr} | `as.Date(45372, origin = "1899-12-30")` |
+| `dmy()`, `ymd()`, `mdy()` | [lubridate: read dates by the order of their parts]{.en}[lubridate : lire des dates selon l'ordre de leurs parties]{.fr} | `dmy("21/03/2025")` |
+| `year()`, `month()`, `wday()` | [Extract year, month, weekday]{.en}[Extraire année, mois, jour de la semaine]{.fr} | `month(d)` |
+| `format(d, "%Y-%m")` | [Date → text in any format]{.en}[Date → texte dans n'importe quel format]{.fr} | `format(d, "%b %Y")` |
+| `d2 - d1`, `difftime()`, `as.numeric()` | [Number of days between dates]{.en}[Nombre de jours entre deux dates]{.fr} | `as.numeric(harvest - planting)` |
+| `floor_date(d, "month")` | [Round down to the month / week]{.en}[Arrondir au mois / à la semaine]{.fr} | `floor_date(d, "week")` |
+| `cut(x, breaks, labels)` | [Numbers → classes]{.en}[Nombres → classes]{.fr} | `cut(age, c(0, 30, 50, Inf))` |
+
+## [I2 — Reshaping]{.en}[I2 — Restructurer]{.fr} {.no-track}
+
+::: keypoints
+- [**Tidy data**: one variable per column, one observation per row. ggplot and dplyr want long data.]{.en}[**Données rangées** : une variable par colonne, une observation par ligne. ggplot et dplyr veulent des données longues.]{.fr}
+:::
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `pivot_longer(df, cols, names_to, values_to)` | [Wide → long]{.en}[Large → long]{.fr} | `pivot_longer(wide, -station, names_to = "month", values_to = "temp")` |
+| `pivot_wider(df, names_from, values_from)` | [Long → wide]{.en}[Long → large]{.fr} | `pivot_wider(long, names_from = year, values_from = temp)` |
+| `separate(df, col, into, sep)` | [Split one column into several]{.en}[Séparer une colonne en plusieurs]{.fr} | `separate(df, month, c("year", "m"), sep = "-")` |
+| `unite(df, new, a, b, sep)` | [Glue columns together]{.en}[Coller des colonnes]{.fr} | `unite(df, "id", station, date)` |
+| <code>group_by() &#124;&gt; summarise()</code> | [Summary per group]{.en}[Résumé par groupe]{.fr} | <code>group_by(zone) &#124;&gt; summarise(m = mean(temp, na.rm = TRUE))</code> |
+
+## [I3 — Joins]{.en}[I3 — Jointures]{.fr} {.no-track}
+
+::: keypoints
+- [Check the **key** first: same name, same type, same spelling, unique in the reference table (`sum(duplicated(key))`). Compare `nrow()` before and after.]{.en}[Vérifiez d'abord la **clé** : même nom, même type, même orthographe, unique dans la table de référence (`sum(duplicated(clé))`). Comparez `nrow()` avant et après.]{.fr}
+:::
+
+| [Function]{.en}[Fonction]{.fr} | [Keeps]{.en}[Garde]{.fr} | [Base R]{.en}[R de base]{.fr} |
+|---|---|---|
+| `left_join(x, y, by = "key")` | [All rows of x]{.en}[Toutes les lignes de x]{.fr} | `merge(x, y, all.x = TRUE)` |
+| `inner_join(x, y, by)` | [Rows with a match in both]{.en}[Lignes présentes dans les deux]{.fr} | `merge(x, y)` |
+| `full_join(x, y, by)` | [All rows of both]{.en}[Toutes les lignes des deux]{.fr} | `merge(x, y, all = TRUE)` |
+| `anti_join(x, y, by)` | [Rows of x **without** a match (to find errors)]{.en}[Lignes de x **sans** correspondance (pour trouver les erreurs)]{.fr} | `x[!x$key %in% y$key, ]` |
+| `semi_join(x, y, by)` | [Rows of x with a match, columns of x only]{.en}[Lignes de x avec correspondance, colonnes de x seulement]{.fr} | `x[x$key %in% y$key, ]` |
+| `by = c("zone", "year", "month")` | [Join on several keys]{.en}[Joindre sur plusieurs clés]{.fr} | |
+
+## [I4 — Survey data and text]{.en}[I4 — Données d'enquête et texte]{.fr} {.no-track}
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `duplicated()`, `distinct()` | [Find / remove duplicate rows]{.en}[Trouver / supprimer les doublons]{.fr} | `h[!duplicated(h), ]` |
+| `str_squish()`, `str_trim()` | [Remove extra spaces]{.en}[Supprimer les espaces en trop]{.fr} | `str_squish("  Agree ")` |
+| `str_to_lower/upper/title/sentence()` | [Change case]{.en}[Changer la casse]{.fr} | `str_to_sentence("STRONGLY agree")` |
+| `str_detect(x, pattern)` | [TRUE if the pattern is present]{.en}[TRUE si le motif est présent]{.fr} | `str_detect(activities, "seaweed")` |
+| `str_count()`, `str_replace_all()`, `str_sub()`, `str_split()` | [Count, replace, cut, split text]{.en}[Compter, remplacer, découper, séparer du texte]{.fr} | `str_count(x, ";") + 1` |
+| `separate_rows(df, col, sep)` | [Multiple-choice answers → one row per answer]{.en}[Réponses à choix multiples → une ligne par réponse]{.fr} | `separate_rows(h, activities, sep = ";")` |
+| `factor(x, levels, ordered = TRUE)` | [Ordered categories (Likert scale)]{.en}[Catégories ordonnées (échelle de Likert)]{.fr} | `factor(x, levels = c("Disagree", "Neutral", "Agree"), ordered = TRUE)` |
+| `prop.table(table(), margin)`, `addmargins()` | [Percentages per row (1) or column (2), totals]{.en}[Pourcentages par ligne (1) ou colonne (2), totaux]{.fr} | `round(prop.table(t, 1) * 100, 1)` |
+
+## [I5 — Conditions and loops]{.en}[I5 — Conditions et boucles]{.fr} {.no-track}
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `if (cond) {...} else {...}` | [One decision (one TRUE/FALSE)]{.en}[Une décision (un seul TRUE/FALSE)]{.fr} | `if (n < 5) message("small sample")` |
+| `ifelse(test, yes, no)` | [Vectorised decision on a column]{.en}[Décision vectorisée sur une colonne]{.fr} | `ifelse(sgr > 3.5, "good", "low")` |
+| `case_when(cond ~ value, TRUE ~ other)` | [Several classes]{.en}[Plusieurs classes]{.fr} | `case_when(t < 3 ~ "clear", t < 6 ~ "moderate", TRUE ~ "turbid")` |
+| `for (i in seq_along(x)) {...}` | [Repeat for each element]{.en}[Répéter pour chaque élément]{.fr} | `for (v in villages) {...}` |
+| `vector("list", n)`, `numeric(n)` | [Empty container to fill in a loop]{.en}[Conteneur vide à remplir dans une boucle]{.fr} | `res <- numeric(10)` |
+| `sapply(x, f)`, `lapply(x, f)` | [Apply a function to each element (vector / list result)]{.en}[Appliquer une fonction à chaque élément (résultat vecteur / liste)]{.fr} | `sapply(split(w$sal, w$station), cv)` |
+| `do.call(rbind, list)` | [Stack a list of data frames]{.en}[Empiler une liste de data frames]{.fr} | `do.call(rbind, results)` |
+| `list.files()`, `file.path()`, `dir.create()` | [Files and folders in loops]{.en}[Fichiers et dossiers dans les boucles]{.fr} | `list.files("data", pattern = "csv$")` |
+
+## [I6 — Functions]{.en}[I6 — Fonctions]{.fr} {.no-track}
+
+```{r, eval=FALSE}
+sgr <- function(w0, w1, days) {            # name <- function(arguments)
+  if (any(w0 <= 0)) stop("weights must be positive")   # check the inputs
+  100 * (log(w1) - log(w0)) / days         # the last value is returned
+}
+se <- function(x) sd(x, na.rm = TRUE) / sqrt(sum(!is.na(x)))
+cv <- function(x) 100 * sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
+geo_mean <- function(x) exp(mean(log(x), na.rm = TRUE))
+```
+
+::: keypoints
+- [Write a function as soon as you copy-paste the same code three times. Test it on a case you can compute by hand.]{.en}[Écrivez une fonction dès que vous copiez-collez le même code trois fois. Testez-la sur un cas calculable à la main.]{.fr}
+- [Arguments can have defaults: `function(x, digits = 2)`. Use `return()` only to stop early; `stop()` / `warning()` for errors.]{.en}[Les arguments peuvent avoir des valeurs par défaut : `function(x, digits = 2)`. `return()` seulement pour sortir plus tôt ; `stop()` / `warning()` pour les erreurs.]{.fr}
+:::
+
+## [I7–I8 — Mastering ggplot2]{.en}[I7–I8 — Maîtriser ggplot2]{.fr} {.no-track}
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} |
+|---|---|
+| `labs(x, y, title, subtitle, caption, colour)` | [All texts of the graph, with units]{.en}[Tous les textes du graphique, avec unités]{.fr} |
+| `scale_colour_manual(values)`, `scale_*_brewer()`, `scale_*_viridis_c/d()` | [Choose colours (viridis: colour-blind safe)]{.en}[Choisir les couleurs (viridis : adapté aux daltoniens)]{.fr} |
+| `scale_y_continuous(breaks, labels)`, `scale_y_log10()`, `scale_x_date(date_breaks, date_labels)` | [Axis ticks and labels]{.en}[Graduations et étiquettes des axes]{.fr} |
+| `coord_cartesian(ylim)` | [**Zoom** without removing data (`ylim()` removes!)]{.en}[**Zoomer** sans retirer de données (`ylim()` retire !)]{.fr} |
+| `facet_wrap(~ g, scales = "free_y")`, `facet_grid(r ~ c)` | [Small multiples]{.en}[Petits multiples]{.fr} |
+| `theme_minimal()`, `theme(legend.position, axis.text = element_text())` | [Overall look]{.en}[Aspect général]{.fr} |
+| `geom_pointrange(aes(ymin, ymax), position = position_dodge(0.5))` | [Means ± CI side by side]{.en}[Moyennes ± IC côte à côte]{.fr} |
+| `geom_line()`, `geom_smooth()` | [Time series, trend]{.en}[Séries temporelles, tendance]{.fr} |
+| `reorder(g, x, median)` | [Order categories by a value]{.en}[Ordonner des catégories selon une valeur]{.fr} |
+| `annotate("text" / "segment" / "rect", ...)`, `geom_hline()` | [Add notes, lines, areas]{.en}[Ajouter notes, lignes, zones]{.fr} |
+| `p1 + p2`, `p1 / p2`, <code>(p1 &#124; p2) / p3</code>, `plot_annotation(tag_levels = "A")` | [patchwork: combine graphs]{.en}[patchwork : combiner des graphiques]{.fr} |
+| `ggsave(file, plot, width, height, units = "cm", dpi = 300)` | [Export PNG / PDF]{.en}[Exporter en PNG / PDF]{.fr} |
+
+## [I9 — Distributions, transformations, p-values]{.en}[I9 — Distributions, transformations, p-values]{.fr} {.no-track}
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} |
+|---|---|
+| `geom_histogram()`, `geom_density()` | [Look at the shape first]{.en}[Regarder d'abord la forme]{.fr} |
+| `qqnorm(x); qqline(x)` / `stat_qq() + stat_qq_line()` | [QQ-plot: normal data follow the line]{.en}[QQ-plot : des données normales suivent la droite]{.fr} |
+| `shapiro.test(x)` | [Normality test (weak with small n, too strict with large n)]{.en}[Test de normalité (faible avec petit n, trop strict avec grand n)]{.fr} |
+| `rnorm()`, `dnorm()`, `pnorm()`, `qnorm()` | [Normal distribution: draw, density, probability, quantile]{.en}[Loi normale : tirage, densité, probabilité, quantile]{.fr} |
+| `log(x)`, `log1p(x)`, `sqrt(x)` | [Transform right-skewed data / with zeros / counts]{.en}[Transformer des données asymétriques / avec zéros / des comptages]{.fr} |
+| `exp(mean(log(x)))` | [Geometric mean (back-transformed)]{.en}[Moyenne géométrique (re-transformée)]{.fr} |
+| `replicate(n, expr)`, `sample(x)` | [Simulations, permutations]{.en}[Simulations, permutations]{.fr} |
+
+::: keypoints
+- [**p-value** = probability of a result at least this extreme **if H0 were true**. Not the probability that H0 is true. Non-significant ≠ no effect; significant ≠ important. Always report the effect size and its CI.]{.en}[**p-value** = probabilité d'un résultat au moins aussi extrême **si H0 était vraie**. Pas la probabilité que H0 soit vraie. Non significatif ≠ pas d'effet ; significatif ≠ important. Rapportez toujours la taille d'effet et son IC.]{.fr}
+:::
+
+## [I10 — Choosing a test]{.en}[I10 — Choisir un test]{.fr} {.no-track}
+
+| [Question]{.en}[Question]{.fr} | [Parametric]{.en}[Paramétrique]{.fr} | [Non-parametric / exact]{.en}[Non paramétrique / exact]{.fr} |
+|---|---|---|
+| [2 means, independent groups]{.en}[2 moyennes, groupes indépendants]{.fr} | `t.test(y ~ g, data)` (Welch) | `wilcox.test(y ~ g, data)` |
+| [2 means, paired (same units twice)]{.en}[2 moyennes, appariées (mêmes unités 2 fois)]{.fr} | `t.test(after, before, paired = TRUE)` | `wilcox.test(after, before, paired = TRUE)` |
+| [Proportions (2 categorical variables)]{.en}[Proportions (2 variables catégorielles)]{.fr} | `chisq.test(table(a, b))`, `prop.test()` — [expected ≥ 5]{.en}[attendus ≥ 5]{.fr} | `fisher.test(table(a, b))` |
+| [Relationship (2 numeric variables)]{.en}[Relation (2 variables numériques)]{.fr} | `cor.test(x, y)` (Pearson, linear) | `cor.test(x, y, method = "spearman")` (monotonic) |
+
+::: keypoints
+- [**Plot first.** Choose the test from the question, the variable types and pairing, **before** looking at p.]{.en}[**Tracez d'abord.** Choisissez le test d'après la question, le type des variables et l'appariement, **avant** de regarder p.]{.fr}
+- [`chisq.test(t)$expected` checks the counts; `tt$estimate`, `tt$conf.int`, `tt$p.value` extract results.]{.en}[`chisq.test(t)$expected` vérifie les effectifs ; `tt$estimate`, `tt$conf.int`, `tt$p.value` extraient les résultats.]{.fr}
+- [Curved (rise then fall) relationship: no correlation coefficient fits — describe it with a graph.]{.en}[Relation courbe (monte puis descend) : aucun coefficient de corrélation ne convient — décrivez-la par un graphique.]{.fr}
+- [Report: "X was higher in A than in B (means, difference, 95 % CI; test, statistic, df, p; n)".]{.en}[Rapportez : « X était plus élevé en A qu'en B (moyennes, différence, IC 95 % ; test, statistique, ddl, p ; n) ».]{.fr}
+:::
+
+## [I11 — Maps with ggplot2]{.en}[I11 — Cartes avec ggplot2]{.fr} {.no-track}
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} |
+|---|---|
+| `aes(x = lon, y = lat)` | [Longitude on x, latitude on y (south = negative)]{.en}[Longitude en x, latitude en y (sud = négatif)]{.fr} |
+| `coord_quickmap(xlim, ylim)` | [Correct aspect ratio and zoom]{.en}[Rapport d'aspect correct et zoom]{.fr} |
+| `geom_polygon(data = coast, aes(lon, lat), fill)` | [Land; rows must stay in their order]{.en}[Terre ; les lignes doivent rester dans leur ordre]{.fr} |
+| `geom_point(data = ..., aes(size, fill), shape = 21)` | [Points with their own data per layer]{.en}[Points avec leurs propres données par couche]{.fr} |
+| `geom_text(aes(label), hjust, nudge_x)` | [Labels]{.en}[Étiquettes]{.fr} |
+| `scale_size_area()`, `scale_fill_viridis_c()` | [Area ∝ quantity; sequential colours for intensity]{.en}[Surface ∝ quantité ; couleurs séquentielles pour l'intensité]{.fr} |
+| `annotate("segment", ..., arrow = arrow())` | [North arrow; 0.09° of latitude ≈ 10 km]{.en}[Flèche du nord ; 0,09° de latitude ≈ 10 km]{.fr} |
+| `sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326)` + `geom_sf()` | [Preview of real GIS (Advanced level)]{.en}[Aperçu du vrai SIG (niveau avancé)]{.fr} |
+
+:::

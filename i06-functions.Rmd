@@ -1,0 +1,282 @@
+---
+title: "[I6 · Writing your own functions]{.en}[I6 · Écrire ses propres fonctions]{.fr}"
+pagetitle: "R for marine sciences · I6"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/intermediate_pipeline.R")
+seaweed <- cp_seaweed()
+pens <- read.csv("data/seacucumber_pens.csv")
+harvest <- read.csv("data/seacucumber_harvest.csv")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- write a **function** with arguments, default values and a returned result;
+- **check** the arguments and stop with a clear message when they are wrong;
+- return several results in a **list**;
+- apply your function to each group with `sapply()`, `tapply()` or `group_by()`;
+- keep your functions in a separate file and load them with `source()`.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- écrire une **fonction** avec des arguments, des valeurs par défaut et un résultat renvoyé ;
+- **vérifier** les arguments et arrêter avec un message clair quand ils sont faux ;
+- renvoyer plusieurs résultats dans une **liste** ;
+- appliquer votre fonction à chaque groupe avec `sapply()`, `tapply()` ou `group_by()` ;
+- ranger vos fonctions dans un fichier séparé et les charger avec `source()`.
+:::
+:::
+
+`r dl("I3_seaweed_analysis.csv", "checkpoint: I3_seaweed_analysis.csv", dir = "data/checkpoints")`
+
+## [Why write functions?]{.en}[Pourquoi écrire des fonctions ?]{.fr} {#why}
+
+::: en
+Since Session I1 you compute the growth rate with `100 * log(final / initial) / days`. You will need it again for the sea cucumbers of the final project, for each village, for a report… A **function** gives a name to this calculation: you write and check it **once**, and every use is short and identical. Rule of thumb: **if you copied the same code three times, write a function.**
+:::
+::: fr
+Depuis la séance I1 vous calculez le taux de croissance avec `100 * log(final / initial) / days`. Vous en aurez encore besoin pour les holothuries du projet final, pour chaque village, pour un rapport… Une **fonction** donne un nom à ce calcul : vous l'écrivez et la vérifiez **une fois**, et chaque utilisation est courte et identique. Règle pratique : **si vous avez copié le même code trois fois, écrivez une fonction.**
+:::
+
+## [Anatomy of a function]{.en}[Anatomie d'une fonction]{.fr} {#anatomy}
+
+```{r}
+sgr <- function(w_initial, w_final, days) {     # name <- function(arguments)
+  100 * log(w_final / w_initial) / days         # the LAST value is returned
+}
+sgr(10, 25, 45)                                  # one line
+sgr(w_initial = 10, w_final = c(25, 30), days = 45)   # works on vectors too
+```
+
+::: en
+- The **arguments** are local names: inside the function, `w_initial` is whatever you pass. Objects created inside the function disappear when it ends — they do not overwrite your objects.
+- The result is the **last value** computed. `return(x)` makes it explicit (useful to leave early).
+- Because the calculation is vectorised, the function works on whole columns:
+:::
+::: fr
+- Les **arguments** sont des noms locaux : dans la fonction, `w_initial` vaut ce que vous lui passez. Les objets créés dans la fonction disparaissent à la fin — ils n'écrasent pas vos objets.
+- Le résultat est la **dernière valeur** calculée. `return(x)` le rend explicite (utile pour sortir plus tôt).
+- Comme le calcul est vectorisé, la fonction marche sur des colonnes entières :
+:::
+
+```{r}
+seaweed$sgr2 <- sgr(seaweed$initial_weight_kg, seaweed$final_weight_kg, seaweed$days)
+all.equal(seaweed$sgr, seaweed$sgr2)        # same as Session I1
+```
+
+## [Default values]{.en}[Valeurs par défaut]{.fr} {#defaults}
+
+::: en
+Give an argument a default value with `=`: users can omit it. Here, a summary function with `digits = 2` and `na.rm = TRUE` by default:
+:::
+::: fr
+Donnez une valeur par défaut à un argument avec `=` : l'utilisateur peut l'omettre. Ici, une fonction de résumé avec `digits = 2` et `na.rm = TRUE` par défaut :
+:::
+
+```{r}
+describe <- function(x, digits = 2, na.rm = TRUE) {
+  n  <- sum(!is.na(x))
+  m  <- mean(x, na.rm = na.rm)
+  s  <- sd(x, na.rm = na.rm)
+  round(c(n = n, mean = m, sd = s, se = s / sqrt(n)), digits)
+}
+describe(seaweed$sgr)
+describe(seaweed$sgr, digits = 4)
+```
+
+## [Checking the arguments]{.en}[Vérifier les arguments]{.fr} {#checks}
+
+::: en
+A good function **refuses wrong inputs with a clear message**, instead of returning a silent wrong result. `stop()` stops with an error; `warning()` continues with a warning.
+:::
+::: fr
+Une bonne fonction **refuse les mauvaises entrées avec un message clair**, au lieu de renvoyer un résultat faux en silence. `stop()` arrête avec une erreur ; `warning()` continue avec un avertissement.
+:::
+
+```{r, error=TRUE}
+sgr <- function(w_initial, w_final, days) {
+  if (!is.numeric(w_initial) || !is.numeric(w_final)) stop("weights must be numbers")
+  if (any(days <= 0, na.rm = TRUE)) stop("days must be positive")
+  if (any(w_final > 100 * w_initial, na.rm = TRUE))
+    warning("some final weights are > 100 x the initial weight: grams instead of kg?")
+  100 * log(w_final / w_initial) / days
+}
+sgr("10", 25, 45)
+sgr(10, 2500, 45)
+```
+
+::: en
+`||` and `&&` are the "single value" versions of `|` and `&`, used inside `if()`.
+:::
+::: fr
+`||` et `&&` sont les versions « valeur unique » de `|` et `&`, utilisées dans `if()`.
+:::
+
+## [Returning several results: lists]{.en}[Renvoyer plusieurs résultats : les listes]{.fr} {#lists}
+
+::: en
+A function returns **one** object. To return several results of different types, put them in a **list** (an object that can hold anything) and access the parts with `$`.
+:::
+::: fr
+Une fonction renvoie **un seul** objet. Pour renvoyer plusieurs résultats de types différents, mettez-les dans une **liste** (un objet qui peut tout contenir) et accédez aux éléments avec `$`.
+:::
+
+```{r}
+farm_report <- function(d) {
+  list(n_lines     = nrow(d),
+       loss_pct    = round(100 * mean(d$status != "harvested"), 1),
+       harvest_t   = round(sum(d$final_weight_kg, na.rm = TRUE) / 1000, 2),
+       best_farmer = names(which.max(tapply(d$sgr, d$farmer_id, mean, na.rm = TRUE))))
+}
+r <- farm_report(seaweed[seaweed$village == "Lovobe", ])
+r
+r$harvest_t
+```
+
+## [Applying a function to each group]{.en}[Appliquer une fonction à chaque groupe]{.fr} {#apply}
+
+::: en
+Your functions work everywhere a built-in function works: in `tapply()`, `sapply()`, `aggregate()`, `summarise()`.
+:::
+::: fr
+Vos fonctions marchent partout où marche une fonction intégrée : dans `tapply()`, `sapply()`, `aggregate()`, `summarise()`.
+:::
+
+```{r, message=FALSE}
+se <- function(x) sd(x, na.rm = TRUE) / sqrt(sum(!is.na(x)))
+round(tapply(seaweed$sgr, seaweed$technique, se), 4)
+
+# sapply over a vector of villages: one call of farm_report() each
+sapply(c("Lovobe", "Mahavelo", "Befasy"),
+       function(v) farm_report(seaweed[seaweed$village == v, ])$harvest_t)
+
+library(dplyr)
+seaweed %>% group_by(zone) %>% summarise(mean = mean(sgr, na.rm = TRUE), se = se(sgr))
+```
+
+::: en
+`function(v) ...` written directly inside `sapply()` is an **anonymous function**: a short function used once. Since R 4.1 you can write it `\(v) ...`.
+:::
+::: fr
+`function(v) ...` écrite directement dans `sapply()` est une **fonction anonyme** : une petite fonction utilisée une fois. Depuis R 4.1 on peut l'écrire `\(v) ...`.
+:::
+
+## [Keeping your functions in a file]{.en}[Ranger ses fonctions dans un fichier]{.fr} {#source}
+
+::: en
+Put your functions in `scripts/functions.R` (with comments explaining each argument), and start every analysis script with `source("scripts/functions.R")`. You build your own small toolbox, reused from project to project.
+:::
+::: fr
+Mettez vos fonctions dans `scripts/functions.R` (avec des commentaires expliquant chaque argument), et commencez chaque script d'analyse par `source("scripts/functions.R")`. Vous construisez votre propre petite boîte à outils, réutilisée d'un projet à l'autre.
+:::
+
+```{r, eval=FALSE}
+# scripts/functions.R ----------------------------------------------------------
+# sgr(): specific growth rate in % per day
+#   w_initial, w_final: weights (same unit); days: duration
+sgr <- function(w_initial, w_final, days) 100 * log(w_final / w_initial) / days
+
+# se(): standard error of the mean, ignoring NA
+se <- function(x) sd(x, na.rm = TRUE) / sqrt(sum(!is.na(x)))
+```
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+f_sgr <- function(a, b, d) 100 * log(b / a) / d
+a1 <- round(f_sgr(8, 21, 42), 3)
+surv <- function(stocked, alive) 100 * alive / stocked
+ph <- merge(pens, harvest, by = "pen_id")
+ph$survival <- surv(ph$juveniles_stocked, ph$alive_at_harvest)
+a2 <- round(mean(ph$survival), 2)
+a3 <- names(which.max(tapply(ph$survival, ph$farm, mean)))
+se_f <- function(x) sd(x, na.rm = TRUE) / sqrt(sum(!is.na(x)))
+a4 <- round(se_f(seaweed$sgr[seaweed$technique == "off-bottom"]), 4)
+fr <- function(d) sum(d$final_weight_kg, na.rm = TRUE) / 1000
+a5 <- round(fr(seaweed[seaweed$zone == "Centre", ]), 3)
+cv <- function(x) 100 * sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
+a6 <- round(cv(seaweed$sgr), 2)
+cvv <- tapply(seaweed$sgr, seaweed$village, cv); a7 <- names(which.max(cvv))
+```
+
+::: application
+::: en
+### Application work I6
+
+Script `scripts/i06_functions.R` and a file `scripts/functions.R`.
+
+1. Write `sgr(w_initial, w_final, days)` with the checks shown above. What is `sgr(8, 21, 42)` (3 decimals)?
+2. Write `survival(stocked, alive)` returning the % of animals still alive. With `seacucumber_pens.csv` and `seacucumber_harvest.csv` (join by `pen_id`), compute the survival of each pen. Mean survival (2 decimals)? Which farm has the highest mean survival?
+3. Write `se(x)`. Standard error of SGR for **off-bottom** lines (4 decimals)?
+4. Write `harvest_t(d)` returning the total harvest in tonnes of a table `d`. Value for the **Centre** zone (3 decimals)?
+5. Write `cv(x)`, the coefficient of variation in % (`100 * sd / mean`, ignoring NA). CV of all SGR values (2 decimals)? Using `tapply()`, which village has the most variable growth (highest CV)?
+:::
+::: fr
+### Travail d'application I6
+
+Script `scripts/i06_functions.R` et un fichier `scripts/functions.R`.
+
+1. Écrivez `sgr(w_initial, w_final, days)` avec les vérifications ci-dessus. Combien vaut `sgr(8, 21, 42)` (3 décimales) ?
+2. Écrivez `survival(stocked, alive)` qui renvoie le % d'animaux encore vivants. Avec `seacucumber_pens.csv` et `seacucumber_harvest.csv` (jointure par `pen_id`), calculez la survie de chaque enclos. Survie moyenne (2 décimales) ? Quelle ferme a la survie moyenne la plus élevée ?
+3. Écrivez `se(x)`. Erreur standard du SGR des lignes **off-bottom** (4 décimales) ?
+4. Écrivez `harvest_t(d)` qui renvoie la récolte totale en tonnes d'un tableau `d`. Valeur pour la zone **Centre** (3 décimales) ?
+5. Écrivez `cv(x)`, le coefficient de variation en % (`100 * sd / mean`, sans NA). CV de toutes les valeurs de SGR (2 décimales) ? Avec `tapply()`, quel village a la croissance la plus variable (CV le plus élevé) ?
+:::
+:::
+
+::: hint
+::: en
+Question 2: `ph <- merge(pens, harvest, by = "pen_id")`, then `ph$survival <- survival(ph$juveniles_stocked, ph$alive_at_harvest)`.
+:::
+::: fr
+Question 2 : `ph <- merge(pens, harvest, by = "pen_id")`, puis `ph$survival <- survival(ph$juveniles_stocked, ph$alive_at_harvest)`.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("i06", list(
+  q_num("1. sgr(8, 21, 42) (3 decimals)?", "1. sgr(8, 21, 42) (3 décimales) ?", a1, tol = 0.0006),
+  q_num("2a. Mean survival in % (2 decimals)?", "2a. Survie moyenne en % (2 décimales) ?", a2, tol = 0.006),
+  q_text("2b. Farm with the highest mean survival?", "2b. Ferme à la survie moyenne la plus élevée ?", c(a3, sub("Farm ", "", a3))),
+  q_num("3. SE of SGR, off-bottom (4 decimals)?", "3. ES du SGR, off-bottom (4 décimales) ?", a4, tol = 0.00006),
+  q_num("4. Harvest of the Centre zone in tonnes (3 decimals)?", "4. Récolte de la zone Centre en tonnes (3 décimales) ?", a5, tol = 0.0006),
+  q_num("5a. CV of all SGR values (2 decimals)?", "5a. CV de toutes les valeurs de SGR (2 décimales) ?", a6, tol = 0.006),
+  q_text("5b. Village with the highest CV?", "5b. Village au CV le plus élevé ?", a7),
+  q_mcq("6. What does a function return?", "6. Que renvoie une fonction ?",
+        c("All objects created inside it", "The last value computed (or return())", "Nothing unless you use print()", "Its first argument"),
+        c("Tous les objets créés à l'intérieur", "La dernière valeur calculée (ou return())", "Rien sauf avec print()", "Son premier argument"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="i06"}
+```{r, eval=FALSE}
+sgr <- function(w_initial, w_final, days) {
+  if (!is.numeric(w_initial) || !is.numeric(w_final)) stop("weights must be numbers")
+  if (any(days <= 0, na.rm = TRUE)) stop("days must be positive")
+  100 * log(w_final / w_initial) / days
+}
+round(sgr(8, 21, 42), 3)                                             # 1
+
+survival <- function(stocked, alive) 100 * alive / stocked
+pens    <- read.csv("data/seacucumber_pens.csv")
+harvest <- read.csv("data/seacucumber_harvest.csv")
+ph <- merge(pens, harvest, by = "pen_id")
+ph$survival <- survival(ph$juveniles_stocked, ph$alive_at_harvest)
+round(mean(ph$survival), 2); tapply(ph$survival, ph$farm, mean)      # 2
+
+seaweed <- read.csv("data/checkpoints/I3_seaweed_analysis.csv")
+se <- function(x) sd(x, na.rm = TRUE) / sqrt(sum(!is.na(x)))
+round(se(seaweed$sgr[seaweed$technique == "off-bottom"]), 4)         # 3
+
+harvest_t <- function(d) sum(d$final_weight_kg, na.rm = TRUE) / 1000
+round(harvest_t(seaweed[seaweed$zone == "Centre", ]), 3)             # 4
+
+cv <- function(x) 100 * sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
+round(cv(seaweed$sgr), 2)                                            # 5a
+sort(tapply(seaweed$sgr, seaweed$village, cv), decreasing = TRUE)[1] # 5b
+```
+:::

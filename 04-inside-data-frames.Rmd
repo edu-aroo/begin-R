@@ -39,6 +39,21 @@ Nouveau script `scripts/s04_inside_df.R`, commençant par `sg <- read.csv("data/
 :::
 :::
 
+::: {.callout .ecology}
+::: en
+**Seagrass survey** (`seagrass_quadrats.csv`): in March 2026 a team of two snorkellers sampled **4 sites** (Ambalaboy and Fasimena inside a Marine Protected Area, Belitsaky and Tsiandamba outside), **15 quadrats of 50 × 50 cm** per site, placed every 5 m along a tape. For each quadrat they wrote on an underwater slate the depth (dive computer), the dominant species, the % cover (visual estimate), the canopy height (ruler, cm) and the number of shoots, converted to shoots per m². *Type:* one row = one quadrat; numeric (continuous) and categorical variables.
+
+**Reef fish census** (`fish_uvc.csv`): underwater visual census on **4 reefs** (Andavaka and Belavenoke inside the MPA, Ambola and Tsifota outside), **3 belt transects of 50 × 5 m** (250 m²) per reef. A diver swam each transect and recorded every group of fish: species, family, estimated total length (cm) and number of individuals. The length–weight parameters `a` and `b` were added afterwards from FishBase. *Type:* one row = one group of fish of the same species and size; counts (integers), lengths (continuous), categories.
+:::
+::: fr
+**Suivi des herbiers** (`seagrass_quadrats.csv`) : en mars 2026, une équipe de deux plongeurs en apnée a échantillonné **4 sites** (Ambalaboy et Fasimena dans une Aire Marine Protégée, Belitsaky et Tsiandamba à l'extérieur), **15 quadrats de 50 × 50 cm** par site, posés tous les 5 m le long d'un ruban. Pour chaque quadrat ils ont noté sur une ardoise la profondeur (ordinateur de plongée), l'espèce dominante, le % de recouvrement (estimation visuelle), la hauteur de canopée (règle, cm) et le nombre de pousses, converti en pousses par m². *Type :* une ligne = un quadrat ; variables numériques (continues) et catégorielles.
+
+**Comptage des poissons récifaux** (`fish_uvc.csv`) : comptage visuel sous-marin sur **4 récifs** (Andavaka et Belavenoke dans l'AMP, Ambola et Tsifota à l'extérieur), **3 transects-bandes de 50 × 5 m** (250 m²) par récif. Un plongeur a parcouru chaque transect en notant chaque groupe de poissons : espèce, famille, longueur totale estimée (cm) et nombre d'individus. Les paramètres taille–poids `a` et `b` ont été ajoutés ensuite depuis FishBase. *Type :* une ligne = un groupe de poissons de même espèce et de même taille ; effectifs (entiers), longueurs (continues), catégories.
+:::
+:::
+
+`r dl("seagrass_quadrats.csv", "seagrass_quadrats.csv")` `r dl("fish_uvc.csv", "fish_uvc.csv")`
+
 ## [The address system `[row, column]`]{.en}[Le système d'adresse `[ligne, colonne]`]{.fr} {#address}
 
 ::: en
@@ -375,6 +390,17 @@ Pour les sommes et les moyennes, il existe des versions rapides prêtes à l'emp
 :::
 :::
 
+::: {.callout .tip}
+::: en
+**Checkpoint.** The seagrass table with all the columns created in this session, and the fish table with `weight_g` and `biomass_g` (used again in Sessions 6 and 8):
+:::
+::: fr
+**Checkpoint.** Le tableau d'herbier avec toutes les colonnes créées dans cette séance, et le tableau des poissons avec `weight_g` et `biomass_g` (réutilisé aux séances 6 et 8) :
+:::
+:::
+
+`r dl("B04_seagrass_columns.csv", "B04_seagrass_columns.csv", dir = "data/checkpoints")` `r dl("B04_fish_biomass.csv", "B04_fish_biomass.csv", dir = "data/checkpoints")`
+
 ## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
 
 ```{r answers04, include=FALSE}
@@ -430,6 +456,15 @@ Le fichier `fish_uvc.csv` contient un comptage visuel sous-marin sur 4 récifs (
 8. Avec `sapply(fish, class)` : combien de colonnes sont de classe `"character"` ?
 9. Ajoutez `transect_id` = site et transect collés avec `"_"`. Combien de transects différents y a-t-il (`unique()`) ?
 10. Avec `sapply()` sur les colonnes `length_cm` et `count`, trouvez le maximum de chacune. Quel est le plus grand des deux maxima ?
+:::
+:::
+
+::: hint
+::: en
+Question 3: correct the value **before** computing the mean: `fish[12, "length_cm"] <- 18`. Question 5: `sum(fish$biomass_g) / 1000`. Question 7: `fish$a <- NULL` removes a column. If your later answers look wrong, re-import the file and redo the steps **in order**.
+:::
+::: fr
+Question 3 : corrigez la valeur **avant** de calculer la moyenne : `fish[12, "length_cm"] <- 18`. Question 5 : `sum(fish$biomass_g) / 1000`. Question 7 : `fish$a <- NULL` supprime une colonne. Si vos réponses suivantes semblent fausses, réimportez le fichier et refaites les étapes **dans l'ordre**.
 :::
 :::
 

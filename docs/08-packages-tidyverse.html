@@ -31,8 +31,10 @@
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <!-- header.html: inserted inside <head> of every page (see _site.yml) -->
-<!-- config.js first (settings), then course.js (behaviour that reads them) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
 <script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
 <script src="assets/course.js"></script>
 <meta name="author" content="Aroo Falinirina">
 
@@ -333,7 +335,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine ecology</a>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -342,7 +344,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
+    Beginner
      
     <span class="caret"></span>
   </a>
@@ -382,8 +384,83 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
 <li>
-  <a href="cheatsheet.html">Cheatsheet</a>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -437,6 +514,57 @@ l’<strong>équivalent en R de base</strong> de chacun ;</li>
 </ul>
 </div>
 </div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Seagrass survey</strong>
+(<code>seagrass_quadrats.csv</code>): in March 2026 a team of two
+snorkellers sampled <strong>4 sites</strong> (Ambalaboy and Fasimena
+inside a Marine Protected Area, Belitsaky and Tsiandamba outside),
+<strong>15 quadrats of 50 × 50 cm</strong> per site, placed every 5 m
+along a tape. For each quadrat they wrote on an underwater slate the
+depth (dive computer), the dominant species, the % cover (visual
+estimate), the canopy height (ruler, cm) and the number of shoots,
+converted to shoots per m². <em>Type:</em> one row = one quadrat;
+numeric (continuous) and categorical variables.</p>
+<p><strong>Reef fish census</strong> (<code>fish_uvc.csv</code>):
+underwater visual census on <strong>4 reefs</strong> (Andavaka and
+Belavenoke inside the MPA, Ambola and Tsifota outside), <strong>3 belt
+transects of 50 × 5 m</strong> (250 m²) per reef. A diver swam each
+transect and recorded every group of fish: species, family, estimated
+total length (cm) and number of individuals. The length–weight
+parameters <code>a</code> and <code>b</code> were added afterwards from
+FishBase. <em>Type:</em> one row = one group of fish of the same species
+and size; counts (integers), lengths (continuous), categories.</p>
+</div>
+<div class="fr">
+<p><strong>Suivi des herbiers</strong>
+(<code>seagrass_quadrats.csv</code>) : en mars 2026, une équipe de deux
+plongeurs en apnée a échantillonné <strong>4 sites</strong> (Ambalaboy
+et Fasimena dans une Aire Marine Protégée, Belitsaky et Tsiandamba à
+l’extérieur), <strong>15 quadrats de 50 × 50 cm</strong> par site, posés
+tous les 5 m le long d’un ruban. Pour chaque quadrat ils ont noté sur
+une ardoise la profondeur (ordinateur de plongée), l’espèce dominante,
+le % de recouvrement (estimation visuelle), la hauteur de canopée
+(règle, cm) et le nombre de pousses, converti en pousses par m².
+<em>Type :</em> une ligne = un quadrat ; variables numériques
+(continues) et catégorielles.</p>
+<p><strong>Comptage des poissons récifaux</strong>
+(<code>fish_uvc.csv</code>) : comptage visuel sous-marin sur <strong>4
+récifs</strong> (Andavaka et Belavenoke dans l’AMP, Ambola et Tsifota à
+l’extérieur), <strong>3 transects-bandes de 50 × 5 m</strong> (250 m²)
+par récif. Un plongeur a parcouru chaque transect en notant chaque
+groupe de poissons : espèce, famille, longueur totale estimée (cm) et
+nombre d’individus. Les paramètres taille–poids <code>a</code> et
+<code>b</code> ont été ajoutés ensuite depuis FishBase. <em>Type :</em>
+une ligne = un groupe de poissons de même espèce et de même taille ;
+effectifs (entiers), longueurs (continues), catégories.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/seagrass_quadrats.csv" download>⇩
+seagrass_quadrats.csv</a>
+<a class="btn-dl" href="data/fish_uvc.csv" download>⇩ fish_uvc.csv</a>
+<a class="btn-dl" href="data/checkpoints/B04_fish_biomass.csv" download>⇩
+B04_fish_biomass.csv</a></p>
 <div id="what-package" class="section level2">
 <h2><span class="en">What is a package?</span><span class="fr">Qu’est-ce
 qu’un package ?</span></h2>
@@ -474,8 +602,7 @@ vérifié automatiquement avant d’être accepté. D’autres packages se
 trouvent sur GitHub ou Bioconductor, mais pour ce cours le CRAN
 suffit.</p>
 </div>
-<figure class="svg-fig">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="From CRAN to your R session: install.packages then library" font-family="Source Sans 3, Arial, sans-serif">
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" role="img" aria-label="From CRAN to your R session: install.packages then library" font-family="Source Sans 3, Arial, sans-serif">
 <defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0b3d5c"/></marker></defs>
 <!-- CRAN: shop with shelves -->
 <rect x="20" y="40" width="220" height="190" rx="12" fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"/>
@@ -484,50 +611,32 @@ suffit.</p>
 <line x1="40" y1="124" x2="220" y2="124" stroke="#0b3d5c" stroke-width="3"/>
 <g fill="#1b7f8c"><rect x="45" y="134" width="14" height="30" rx="2" opacity=".6"/><rect x="63" y="130" width="18" height="34" rx="2"/><rect x="85" y="138" width="14" height="26" rx="2" opacity=".75"/><rect x="103" y="132" width="16" height="32" rx="2" opacity=".9"/><rect x="123" y="136" width="14" height="28" rx="2" opacity=".6"/><rect x="141" y="130" width="18" height="34" rx="2"/><rect x="163" y="134" width="16" height="30" rx="2" opacity=".75"/><rect x="183" y="138" width="14" height="26" rx="2" opacity=".6"/></g>
 <line x1="40" y1="166" x2="220" y2="166" stroke="#0b3d5c" stroke-width="3"/>
-<text class="en" x="130" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="130">online
-“library” of R packages,</tspan><tspan x="130" dy="17">checked by
-volunteers</tspan></text>
-<text class="fr" x="130" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="130">«
-bibliothèque » en ligne de</tspan><tspan x="130" dy="17">packages R,
-vérifiés par des bénévoles</tspan></text> <!-- your computer library -->
+<text class="en" x="130" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="130">online "library" of R packages,</tspan><tspan x="130" dy="17">checked by volunteers</tspan></text>
+<text class="fr" x="130" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="130">« bibliothèque » en ligne de</tspan><tspan x="130" dy="17">packages R, vérifiés par des bénévoles</tspan></text>
+<!-- your computer library -->
 <rect x="320" y="40" width="220" height="190" rx="12" fill="#f6f1e7" stroke="#b08a4a" stroke-width="2"/>
-<text class="en" x="430" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Your
-computer</text>
-<text class="fr" x="430" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Votre
-ordinateur</text>
+<text class="en" x="430" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Your computer</text>
+<text class="fr" x="430" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Votre ordinateur</text>
 <g transform="translate(375,88)"><path d="M0 8 h40 l8 8 h62 v62 h-110 z" fill="#e3c98f" stroke="#b08a4a" stroke-width="2"/><rect x="18" y="30" width="16" height="30" rx="2" fill="#1b7f8c"/><rect x="38" y="34" width="14" height="26" rx="2" fill="#1b7f8c" opacity=".7"/><rect x="56" y="30" width="16" height="30" rx="2" fill="#4a7d3a"/></g>
-<text class="en" x="430" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="430">packages
-stored in your</tspan><tspan x="430" dy="17">R “library”
-folder</tspan></text>
-<text class="fr" x="430" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="430">packages
-rangés dans votre</tspan><tspan x="430" dy="17">dossier « library » de
-R</tspan></text> <!-- R session -->
+<text class="en" x="430" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="430">packages stored in your</tspan><tspan x="430" dy="17">R "library" folder</tspan></text>
+<text class="fr" x="430" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="430">packages rangés dans votre</tspan><tspan x="430" dy="17">dossier « library » de R</tspan></text>
+<!-- R session -->
 <rect x="620" y="40" width="220" height="190" rx="12" fill="#eef5ea" stroke="#4a7d3a" stroke-width="2"/>
-<text class="en" x="730" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Your
-R session</text>
-<text class="fr" x="730" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Votre
-session R</text>
+<text class="en" x="730" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Your R session</text>
+<text class="fr" x="730" y="70" text-anchor="middle" font-size="18" font-weight="700" fill="#0b3d5c">Votre session R</text>
 <g font-family="JetBrains Mono, monospace" font-size="13" fill="#3c4a52"><text x="645" y="104">filter()</text><text x="645" y="124">mutate()</text><text x="645" y="144">ggplot()</text><text x="740" y="104">mean()</text><text x="740" y="124">subset()</text><text x="740" y="144">plot()</text></g>
 <line x1="730" y1="90" x2="730" y2="152" stroke="#c9d3d8"/>
-<text class="en" x="730" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="730">package
-functions now usable</tspan><tspan x="730" dy="17">next to base R
-functions</tspan></text>
-<text class="fr" x="730" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="730">fonctions
-du package utilisables</tspan><tspan x="730" dy="17">à côté des
-fonctions de base</tspan></text> <!-- arrows -->
+<text class="en" x="730" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="730">package functions now usable</tspan><tspan x="730" dy="17">next to base R functions</tspan></text>
+<text class="fr" x="730" y="194" text-anchor="middle" font-size="14" fill="#3c4a52"><tspan x="730">fonctions du package utilisables</tspan><tspan x="730" dy="17">à côté des fonctions de base</tspan></text>
+<!-- arrows -->
 <path d="M242 135 H316" stroke="#0b3d5c" stroke-width="2.5" marker-end="url(#ar3)"/>
 <path d="M542 135 H616" stroke="#0b3d5c" stroke-width="2.5" marker-end="url(#ar3)"/>
 <g font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#d9694a" text-anchor="middle"><text x="280" y="255">install.packages()</text><text x="580" y="255">library()</text></g>
-<text class="en" x="280" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">ONCE
-per computer (internet)</text>
-<text class="fr" x="280" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">UNE
-FOIS par ordinateur (internet)</text>
-<text class="en" x="580" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">EVERY
-time you open R / in each script</text>
-<text class="fr" x="580" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">À
-CHAQUE ouverture de R / dans chaque script</text>
-</svg>
-</figure>
+<text class="en" x="280" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">ONCE per computer (internet)</text>
+<text class="fr" x="280" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">UNE FOIS par ordinateur (internet)</text>
+<text class="en" x="580" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">EVERY time you open R / in each script</text>
+<text class="fr" x="580" y="275" text-anchor="middle" font-size="14" fill="#3c4a52">À CHAQUE ouverture de R / dans chaque script</text>
+</svg></figure>
 <div class="en">
 <p><strong>The library analogy.</strong> CRAN is a bookshop.
 <code>install.packages()</code> <strong>buys</strong> a book and puts it
@@ -992,6 +1101,24 @@ retrouve dans les anciens scripts et dans de nombreux packages. Savoir
 <strong>lire les deux</strong> est l’objectif de cette séance.</p>
 </div>
 </div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> With dplyr, keep the quadrats of the
+<strong>Inside</strong> sites deeper than 1 m, keep only
+<code>site</code>, <code>depth_m</code> and <code>seagrass_cover</code>,
+and sort them by decreasing cover. Then write the same in base R with
+<code>subset()</code> and <code>order()</code>: do you get the same
+rows?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Avec dplyr, gardez les quadrats des sites
+<strong>Inside</strong> à plus de 1 m de profondeur, ne gardez que
+<code>site</code>, <code>depth_m</code> et <code>seagrass_cover</code>,
+et triez-les par recouvrement décroissant. Écrivez ensuite la même chose
+en R de base avec <code>subset()</code> et <code>order()</code> :
+obtenez-vous les mêmes lignes ?</p>
+</div>
+</div>
 </div>
 </div>
 <div id="ggplot" class="section level2">
@@ -1282,6 +1409,22 @@ décimales) ?</li>
 avec ggplot2 <strong>et</strong> avec R de base, et enregistrez les
 deux.</li>
 </ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 4: biomass density must be computed <strong>per transect
+first</strong> (one value per transect), then averaged per site: two
+<code>group_by()</code> + <code>summarise()</code> in a row. Do not
+forget <code>library(dplyr)</code> and <code>library(ggplot2)</code> at
+the top of the script.</p>
+</div>
+<div class="fr">
+<p>Question 4 : la densité de biomasse se calcule <strong>d’abord par
+transect</strong> (une valeur par transect), puis on fait la moyenne par
+site : deux <code>group_by()</code> + <code>summarise()</code> à la
+suite. N’oubliez pas <code>library(dplyr)</code> et
+<code>library(ggplot2)</code> en haut du script.</p>
 </div>
 </div>
 <div id="quiz-s08" class="quiz" data-quiz-id="s08"

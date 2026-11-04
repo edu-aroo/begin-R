@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · I5</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I5 · Conditions and
+loops</span><span class="fr">I5 · Conditions et boucles</span></h1>
+<h3 class="subtitle">~2.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>run code only when a condition is true with <code>if</code> /
+<code>else if</code> / <code>else</code>;</li>
+<li>classify a whole column with <code>ifelse()</code> and
+<code>dplyr::case_when()</code>;</li>
+<li>repeat a task with a <code>for</code> loop, store the results and
+avoid common mistakes;</li>
+<li>know when a loop is <strong>not</strong> needed (vectorised code,
+<code>tapply()</code>, <code>group_by()</code>).</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>exécuter du code seulement si une condition est vraie avec
+<code>if</code> / <code>else if</code> / <code>else</code> ;</li>
+<li>classer une colonne entière avec <code>ifelse()</code> et
+<code>dplyr::case_when()</code> ;</li>
+<li>répéter une tâche avec une boucle <code>for</code>, stocker les
+résultats et éviter les erreurs courantes ;</li>
+<li>savoir quand une boucle n’est <strong>pas</strong> nécessaire (code
+vectorisé, <code>tapply()</code>, <code>group_by()</code>).</li>
+</ul>
+</div>
+</div>
+<div class="callout tip">
+<div class="en">
+<p>This session uses the analysis table of Session I3:
+<code>seaweed &lt;- read.csv("data/checkpoints/I3_seaweed_analysis.csv")</code>.</p>
+</div>
+<div class="fr">
+<p>Cette séance utilise le tableau d’analyse de la séance I3 :
+<code>seaweed &lt;- read.csv("data/checkpoints/I3_seaweed_analysis.csv")</code>.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/checkpoints/I3_seaweed_analysis.csv" download>⇩
+checkpoint: I3_seaweed_analysis.csv</a></p>
+<div id="why" class="section level2">
+<h2><span class="en">Why automate?</span><span class="fr">Pourquoi
+automatiser ?</span></h2>
+<div class="en">
+<p>The cooperative wants, <strong>for each of the 12 villages</strong>,
+a short summary and a CSV file to send to the village representative.
+Copying the same 6 lines of code 12 times is slow and dangerous: one
+forgotten change and a village gets the wrong numbers. Conditions and
+loops let you write the logic <strong>once</strong>.</p>
+</div>
+<div class="fr">
+<p>La coopérative veut, <strong>pour chacun des 12 villages</strong>, un
+petit résumé et un fichier CSV à envoyer au représentant du village.
+Copier les mêmes 6 lignes de code 12 fois est lent et dangereux : un
+changement oublié et un village reçoit de faux chiffres. Les conditions
+et les boucles permettent d’écrire la logique <strong>une seule
+fois</strong>.</p>
+</div>
+</div>
+<div id="if" class="section level2">
+<h2><span class="en">if, else if, else</span><span class="fr">if, else
+if, else</span></h2>
+<div class="en">
+<p><code>if (condition) { ... }</code> runs the block only if the
+condition is <strong>one</strong> <code>TRUE</code>. Add
+<code>else if</code> and <code>else</code> for the other cases.</p>
+</div>
+<div class="fr">
+<p><code>if (condition) { ... }</code> exécute le bloc seulement si la
+condition vaut <strong>un seul</strong> <code>TRUE</code>. Ajoutez
+<code>else if</code> et <code>else</code> pour les autres cas.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>loss_rate <span class="ot">&lt;-</span> <span class="fu">mean</span>(seaweed<span class="sc">$</span>status <span class="sc">!=</span> <span class="st">&quot;harvested&quot;</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>loss_rate</span></code></pre></div>
+<pre><code>#&gt; [1] 10.01942</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="cf">if</span> (loss_rate <span class="sc">&gt;</span> <span class="dv">15</span>) {</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Alert: many lines lost&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (loss_rate <span class="sc">&gt;</span> <span class="dv">5</span>) {</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Losses to watch: &quot;</span>, <span class="fu">round</span>(loss_rate, <span class="dv">1</span>), <span class="st">&quot; %&quot;</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Losses are low&quot;</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>#&gt; Losses to watch: 10 %</code></pre>
+<div class="callout warning">
+<div class="en">
+<p><code>if</code> needs <strong>a single</strong> TRUE/FALSE.
+<code>if (seaweed$sgr &gt; 4)</code> is an error (“the condition has
+length &gt; 1”), because there are 2 575 values. To classify a whole
+column, use <code>ifelse()</code> or <code>case_when()</code> (next
+section). Also, <code>if (NA)</code> is an error: test missing values
+first with <code>is.na()</code>.</p>
+</div>
+<div class="fr">
+<p><code>if</code> demande <strong>un seul</strong> TRUE/FALSE.
+<code>if (seaweed$sgr &gt; 4)</code> est une erreur (« the condition has
+length &gt; 1 »), car il y a 2 575 valeurs. Pour classer une colonne
+entière, utilisez <code>ifelse()</code> ou <code>case_when()</code>
+(section suivante). De plus, <code>if (NA)</code> est une erreur :
+testez d’abord les valeurs manquantes avec <code>is.na()</code>.</p>
+</div>
+</div>
+</div>
+<div id="ifelse" class="section level2">
+<h2><span class="en">Classifying a column: ifelse() and
+case_when()</span><span class="fr">Classer une colonne : ifelse() et
+case_when()</span></h2>
+<div class="en">
+<p><code>ifelse(test, yes, no)</code> works on a whole vector. Nested
+<code>ifelse()</code> becomes hard to read beyond 2–3 classes:
+<code>case_when()</code> (dplyr) lists the cases one per line,
+<code>condition ~ value</code>, checked in order; <code>TRUE ~</code>
+catches everything else.</p>
+</div>
+<div class="fr">
+<p><code>ifelse(test, oui, non)</code> fonctionne sur un vecteur entier.
+Les <code>ifelse()</code> imbriqués deviennent illisibles au-delà de 2–3
+classes : <code>case_when()</code> (dplyr) liste les cas un par ligne,
+<code>condition ~ valeur</code>, testés dans l’ordre ;
+<code>TRUE ~</code> attrape tout le reste.</p>
+</div>
+<div class="compare">
+<div class="col base">
+<p>ifelse()</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>seaweed<span class="sc">$</span>growth_class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(seaweed<span class="sc">$</span>sgr), <span class="st">&quot;lost&quot;</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                        <span class="fu">ifelse</span>(seaweed<span class="sc">$</span>sgr <span class="sc">&gt;=</span> <span class="dv">4</span>, <span class="st">&quot;good&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                        <span class="fu">ifelse</span>(seaweed<span class="sc">$</span>sgr <span class="sc">&gt;=</span> <span class="dv">3</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;poor&quot;</span>)))</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">table</span>(seaweed<span class="sc">$</span>growth_class)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;   good   lost medium   poor 
+#&gt;    473    258   1229    615</code></pre>
+</div>
+<div class="col pkg">
+<p>case_when()</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>seaweed <span class="ot">&lt;-</span> seaweed <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">growth_class =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">is.na</span>(sgr) <span class="sc">~</span> <span class="st">&quot;lost&quot;</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  sgr <span class="sc">&gt;=</span> <span class="dv">4</span>   <span class="sc">~</span> <span class="st">&quot;good&quot;</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  sgr <span class="sc">&gt;=</span> <span class="dv">3</span>   <span class="sc">~</span> <span class="st">&quot;medium&quot;</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="cn">TRUE</span>       <span class="sc">~</span> <span class="st">&quot;poor&quot;</span>))</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">table</span>(seaweed<span class="sc">$</span>growth_class)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;   good   lost medium   poor 
+#&gt;    473    258   1229    615</code></pre>
+</div>
+</div>
+<div class="en">
+<p><code>cut()</code> is another option for numeric classes with fixed
+limits (<code>right = FALSE</code> puts the limit in the upper
+class):</p>
+</div>
+<div class="fr">
+<p><code>cut()</code> est une autre option pour des classes numériques à
+limites fixes (<code>right = FALSE</code> place la limite dans la classe
+supérieure) :</p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">cut</span>(seaweed<span class="sc">$</span>sgr, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="cn">Inf</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;poor&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;good&quot;</span>), <span class="at">right =</span> <span class="cn">FALSE</span>))</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;   poor medium   good 
+#&gt;    615   1229    473</code></pre>
+</div>
+<div id="for" class="section level2">
+<h2><span class="en">for loops</span><span class="fr">Boucles
+for</span></h2>
+<div class="en">
+<p><code>for (v in values) { ... }</code> runs the block once for each
+value, which is stored in <code>v</code>. Three patterns cover most
+needs.</p>
+</div>
+<div class="fr">
+<p><code>for (v in valeurs) { ... }</code> exécute le bloc une fois pour
+chaque valeur, rangée dans <code>v</code>. Trois schémas couvrent la
+plupart des besoins.</p>
+</div>
+<div
+id="print-or-save-something-for-each-group1.-afficher-ou-enregistrer-quelque-chose-pour-chaque-groupe"
+class="section level3">
+<h3><span class="en">1. Print or save something for each
+group</span><span class="fr">1. Afficher ou enregistrer quelque chose
+pour chaque groupe</span></h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>villages <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(seaweed<span class="sc">$</span>village))</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="cf">for</span> (v <span class="cf">in</span> villages[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]) {</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  d <span class="ot">&lt;-</span> seaweed[seaweed<span class="sc">$</span>village <span class="sc">==</span> v, ]</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">cat</span>(v, <span class="st">&quot;: &quot;</span>, <span class="fu">nrow</span>(d), <span class="st">&quot; lines, mean SGR = &quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(d<span class="sc">$</span>sgr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>), <span class="st">&quot; %/day</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>#&gt; Ambalakely: 147 lines, mean SGR = 3.34 %/day
+#&gt; Ambatofotsy: 199 lines, mean SGR = 3.43 %/day
+#&gt; Ampasimena: 240 lines, mean SGR = 3.42 %/day</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;outputs/villages&quot;</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="cf">for</span> (v <span class="cf">in</span> villages) {</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  d <span class="ot">&lt;-</span> seaweed[seaweed<span class="sc">$</span>village <span class="sc">==</span> v, ]</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">write.csv</span>(d, <span class="fu">file.path</span>(<span class="st">&quot;outputs/villages&quot;</span>, <span class="fu">paste0</span>(<span class="st">&quot;lines_&quot;</span>, v, <span class="st">&quot;.csv&quot;</span>)), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="fill-a-vector-of-results2.-remplir-un-vecteur-de-résultats"
+class="section level3">
+<h3><span class="en">2. Fill a vector of results</span><span
+class="fr">2. Remplir un vecteur de résultats</span></h3>
+<div class="en">
+<p>Create an empty container <strong>before</strong> the loop, with the
+right length, then fill one element per turn. <code>seq_along(x)</code>
+gives 1, 2, …, length(x) — safer than <code>1:length(x)</code> when
+<code>x</code> is empty.</p>
+</div>
+<div class="fr">
+<p>Créez un contenant vide <strong>avant</strong> la boucle, de la bonne
+longueur, puis remplissez un élément par tour. <code>seq_along(x)</code>
+donne 1, 2, …, length(x) — plus sûr que <code>1:length(x)</code> quand
+<code>x</code> est vide.</p>
+</div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>loss <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(villages))          <span class="co"># 12 zeros</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">names</span>(loss) <span class="ot">&lt;-</span> villages</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(villages)) {</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  d <span class="ot">&lt;-</span> seaweed[seaweed<span class="sc">$</span>village <span class="sc">==</span> villages[i], ]</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  loss[i] <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(d<span class="sc">$</span>status <span class="sc">!=</span> <span class="st">&quot;harvested&quot;</span>), <span class="dv">1</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>}</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>loss</span></code></pre></div>
+<pre><code>#&gt;  Ambalakely Ambatofotsy  Ampasimena   Andrevobe    Ankarabe   Antsiraka      Befasy      Lovobe    Mahavelo 
+#&gt;         8.2        11.1        12.1         7.7         4.5        10.4        14.2        13.6         8.6 
+#&gt;  Sarondrano Tsiandavaka  Tsimanjaka 
+#&gt;         8.9        13.3         8.8</code></pre>
+</div>
+<div
+id="build-a-table-one-row-per-turn3.-construire-un-tableau-une-ligne-par-tour"
+class="section level3">
+<h3><span class="en">3. Build a table, one row per turn</span><span
+class="fr">3. Construire un tableau, une ligne par tour</span></h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;list&quot;</span>, <span class="fu">length</span>(villages))     <span class="co"># an empty list</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(villages)) {</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  d <span class="ot">&lt;-</span> seaweed[seaweed<span class="sc">$</span>village <span class="sc">==</span> villages[i], ]</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  res[[i]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">village =</span> villages[i], <span class="at">n_lines =</span> <span class="fu">nrow</span>(d),</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>                         <span class="at">mean_sgr =</span> <span class="fu">mean</span>(d<span class="sc">$</span>sgr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>                         <span class="at">harvest_t =</span> <span class="fu">sum</span>(d<span class="sc">$</span>final_weight_kg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="dv">1000</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>}</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>summary_v <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, res)            <span class="co"># stack the 12 one-row tables</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="fu">head</span>(summary_v, <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;       village n_lines mean_sgr harvest_t
+#&gt; 1  Ambalakely     147 3.342884    6.9973
+#&gt; 2 Ambatofotsy     199 3.434218    9.7298
+#&gt; 3  Ampasimena     240 3.415613   11.3207
+#&gt; 4   Andrevobe     182 3.461735    9.2724</code></pre>
+<div class="callout tip">
+<div class="en">
+<p><strong>Do you really need a loop?</strong> Many loops can be
+replaced by vectorised code or grouped summaries, which are shorter and
+faster:</p>
+</div>
+<div class="fr">
+<p><strong>Avez-vous vraiment besoin d’une boucle ?</strong> Beaucoup de
+boucles peuvent être remplacées par du code vectorisé ou des résumés par
+groupe, plus courts et plus rapides :</p>
+</div>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">tapply</span>(seaweed<span class="sc">$</span>status <span class="sc">!=</span> <span class="st">&quot;harvested&quot;</span>, seaweed<span class="sc">$</span>village, mean), <span class="dv">1</span>)   <span class="co"># = loss</span></span></code></pre></div>
+<pre><code>#&gt;  Ambalakely Ambatofotsy  Ampasimena   Andrevobe    Ankarabe   Antsiraka      Befasy      Lovobe    Mahavelo 
+#&gt;         8.2        11.1        12.1         7.7         4.5        10.4        14.2        13.6         8.6 
+#&gt;  Sarondrano Tsiandavaka  Tsimanjaka 
+#&gt;         8.9        13.3         8.8</code></pre>
+<div class="en">
+<p>Use a loop when each turn does something that has no vectorised
+equivalent: <strong>writing files</strong>, drawing <strong>one graph
+per group</strong>, reading <strong>several files</strong>, running a
+long step and printing progress.</p>
+</div>
+<div class="fr">
+<p>Utilisez une boucle quand chaque tour fait quelque chose sans
+équivalent vectorisé : <strong>écrire des fichiers</strong>, tracer
+<strong>un graphique par groupe</strong>, lire <strong>plusieurs
+fichiers</strong>, lancer une étape longue en affichant la
+progression.</p>
+</div>
+</div>
+<div
+id="reading-several-files-with-a-looplire-plusieurs-fichiers-avec-une-boucle"
+class="section level3">
+<h3><span class="en">Reading several files with a loop</span><span
+class="fr">Lire plusieurs fichiers avec une boucle</span></h3>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&quot;outputs/villages&quot;</span>, <span class="at">pattern =</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.csv$&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>all <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;list&quot;</span>, <span class="fu">length</span>(files))</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(files)) all[[i]] <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(files[i])</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>all <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, all)                   <span class="co"># one table again</span></span></code></pre></div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Write a loop over the three zones that
+prints the zone and the number of lines <strong>lost in a
+storm</strong>.</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Écrivez une boucle sur les trois zones qui
+affiche la zone et le nombre de lignes <strong>perdues lors d’une
+tempête</strong>.</p>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p><code>for (z in unique(seaweed$zone)) { cat(z, sum(seaweed$zone == z &amp; seaweed$status == "lost - storm"), "\n") }</code></p>
+</div>
+<div class="fr">
+<p><code>for (z in unique(seaweed$zone)) { cat(z, sum(seaweed$zone == z &amp; seaweed$status == "lost - storm"), "\n") }</code></p>
+</div>
+</div>
+</div>
+</div>
+<div id="while" class="section level2">
+<h2><span class="en">while and break (rarely needed)</span><span
+class="fr">while et break (rarement utiles)</span></h2>
+<div class="en">
+<p><code>while (condition) { ... }</code> repeats as long as the
+condition is true — for example until a target is reached.
+<code>break</code> leaves a loop early; <code>next</code> skips to the
+next turn. Always make sure the condition becomes <code>FALSE</code>,
+otherwise the loop never stops (press <strong>Esc</strong> in
+RStudio).</p>
+</div>
+<div class="fr">
+<p><code>while (condition) { ... }</code> répète tant que la condition
+est vraie — par exemple jusqu’à atteindre un objectif.
+<code>break</code> sort d’une boucle plus tôt ; <code>next</code> passe
+au tour suivant. Assurez-vous que la condition devient
+<code>FALSE</code>, sinon la boucle ne s’arrête jamais (appuyez sur
+<strong>Échap</strong> dans RStudio).</p>
+</div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># How many days for 10 kg of cuttings to reach 30 kg at 3.5 % per day?</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="dv">10</span>; day <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="cf">while</span> (w <span class="sc">&lt;</span> <span class="dv">30</span>) { w <span class="ot">&lt;-</span> w <span class="sc">*</span> <span class="fu">exp</span>(<span class="fl">0.035</span>); day <span class="ot">&lt;-</span> day <span class="sc">+</span> <span class="dv">1</span> }</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>day</span></code></pre></div>
+<pre><code>#&gt; [1] 32</code></pre>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-i5" class="section level3 en">
+<h3>Application work I5</h3>
+<p>Script <code>scripts/i05_loops.R</code>, with the I3 analysis
+table.</p>
+<ol style="list-style-type: decimal">
+<li>Create <code>growth_class</code> with <code>case_when()</code>:
+<code>lost</code> (no SGR), <code>good</code> (≥ 4), <code>medium</code>
+(≥ 3), <code>poor</code> (otherwise). How many <strong>good</strong>
+lines? How many <strong>poor</strong>?</li>
+<li>With a <code>for</code> loop over the villages, compute the % of
+lines not harvested (lost). Which village has the highest loss rate, and
+what is it (1 decimal)?</li>
+<li>With a loop, build the summary table (one row per village) including
+the total harvest in <strong>tonnes</strong>. Total harvest of
+<strong>Mahavelo</strong> (3 decimals)? Which village harvested the
+most?</li>
+<li>How many lines were lost in a storm in the <strong>South</strong>
+zone?</li>
+<li>With <code>while</code>: how many days for 12 kg of cuttings to
+exceed 50 kg at 4 % per day (<code>w * exp(0.04)</code> each day)?</li>
+<li>How many lines were planted in the <strong>wet season of
+2024</strong>?</li>
+<li>Use the loop to write one CSV per village in
+<code>outputs/villages/</code> (not graded, but useful for the practice
+session).</li>
+</ol>
+</div>
+<div id="travail-dapplication-i5" class="section level3 fr">
+<h3>Travail d’application I5</h3>
+<p>Script <code>scripts/i05_loops.R</code>, avec le tableau d’analyse
+I3.</p>
+<ol style="list-style-type: decimal">
+<li>Créez <code>growth_class</code> avec <code>case_when()</code> :
+<code>lost</code> (pas de SGR), <code>good</code> (≥ 4),
+<code>medium</code> (≥ 3), <code>poor</code> (sinon). Combien de lignes
+<strong>good</strong> ? Combien de <strong>poor</strong> ?</li>
+<li>Avec une boucle <code>for</code> sur les villages, calculez le % de
+lignes non récoltées (perdues). Quel village a le taux de perte le plus
+élevé, et combien (1 décimale) ?</li>
+<li>Avec une boucle, construisez le tableau de synthèse (une ligne par
+village) avec la récolte totale en <strong>tonnes</strong>. Récolte
+totale de <strong>Mahavelo</strong> (3 décimales) ? Quel village a le
+plus récolté ?</li>
+<li>Combien de lignes ont été perdues lors d’une tempête dans la zone
+<strong>South</strong> ?</li>
+<li>Avec <code>while</code> : combien de jours pour que 12 kg de
+boutures dépassent 50 kg à 4 % par jour (<code>w * exp(0.04)</code>
+chaque jour) ?</li>
+<li>Combien de lignes ont été semées pendant la <strong>saison des
+pluies 2024</strong> ?</li>
+<li>Utilisez la boucle pour écrire un CSV par village dans
+<code>outputs/villages/</code> (non noté, mais utile pour la séance
+d’exercices).</li>
+</ol>
+</div>
+</div>
+<div id="quiz-i05" class="quiz" data-quiz-id="i05"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMWEuIE51bWJlciBvZiBnb29kIGxpbmVzPyIsImZyIjoiMWEuIE5vbWJyZSBkZSBsaWduZXMgZ29vZCA/IiwiYW5zd2VyIjo0NzMsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjFiLiBOdW1iZXIgb2YgcG9vciBsaW5lcz8iLCJmciI6IjFiLiBOb21icmUgZGUgbGlnbmVzIHBvb3IgPyIsImFuc3dlciI6NjE1LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMmEuIFZpbGxhZ2Ugd2l0aCB0aGUgaGlnaGVzdCBsb3NzIHJhdGU/IiwiZnIiOiIyYS4gVmlsbGFnZSBhdSB0YXV4IGRlIHBlcnRlIGxlIHBsdXMgw6lsZXbDqSA/IiwiYW5zd2VyIjpbIkJlZmFzeSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjJiLiBJdHMgbG9zcyByYXRlIGluICUgKDEgZGVjaW1hbCk/IiwiZnIiOiIyYi4gU29uIHRhdXggZGUgcGVydGUgZW4gJSAoMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjE0LjIsInRvbCI6MC4wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjNhLiBUb3RhbCBoYXJ2ZXN0IG9mIE1haGF2ZWxvIGluIHRvbm5lcyAoMyBkZWNpbWFscyk/IiwiZnIiOiIzYS4gUsOpY29sdGUgdG90YWxlIGRlIE1haGF2ZWxvIGVuIHRvbm5lcyAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoxOS44MDcsInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjNiLiBWaWxsYWdlIHdpdGggdGhlIGxhcmdlc3QgaGFydmVzdD8iLCJmciI6IjNiLiBWaWxsYWdlIGF5YW50IGxlIHBsdXMgcsOpY29sdMOpID8iLCJhbnN3ZXIiOlsiTWFoYXZlbG8iXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBMaW5lcyBsb3N0IGluIGEgc3Rvcm0gaW4gdGhlIFNvdXRoIHpvbmU/IiwiZnIiOiI0LiBMaWduZXMgcGVyZHVlcyBsb3JzIGQndW5lIHRlbXDDqnRlIGRhbnMgbGEgem9uZSBTb3V0aCA/IiwiYW5zd2VyIjo0NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gRGF5cyB0byBleGNlZWQgNTAga2c/IiwiZnIiOiI1LiBKb3VycyBwb3VyIGTDqXBhc3NlciA1MCBrZyA/IiwiYW5zd2VyIjozNiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNi4gTGluZXMgcGxhbnRlZCBpbiB0aGUgMjAyNCB3ZXQgc2Vhc29uPyIsImZyIjoiNi4gTGlnbmVzIHNlbcOpZXMgcGVuZGFudCBsYSBzYWlzb24gZGVzIHBsdWllcyAyMDI0ID8iLCJhbnN3ZXIiOjY5NiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNy4gV2h5IGRvZXMgaWYgKHNlYXdlZWQkc2dyID4gNCkgZmFpbD8iLCJmciI6IjcuIFBvdXJxdW9pIGlmIChzZWF3ZWVkJHNnciA+IDQpIMOpY2hvdWUtdC1pbCA/Iiwib3B0aW9uc19lbiI6WyJzZ3IgaXMgdGV4dCIsImlmIG5lZWRzIGEgc2luZ2xlIFRSVUUvRkFMU0UsIG5vdCBhIHZlY3RvciIsIj4gZG9lcyBub3Qgd29yayB3aXRoIGRlY2ltYWxzIiwidGhlIGJyYWNlcyBhcmUgbWlzc2luZyJdLCJvcHRpb25zX2ZyIjpbInNnciBlc3QgZHUgdGV4dGUiLCJpZiBkZW1hbmRlIHVuIHNldWwgVFJVRS9GQUxTRSwgcGFzIHVuIHZlY3RldXIiLCI+IG5lIG1hcmNoZSBwYXMgYXZlYyBsZXMgZMOpY2ltYWxlcyIsImlsIG1hbnF1ZSBsZXMgYWNjb2xhZGVzIl0sImFuc3dlciI6MX1d">
+
+</div>
+<div class="solution" data-quiz="i05">
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>seaweed <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/checkpoints/I3_seaweed_analysis.csv&quot;</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>seaweed <span class="ot">&lt;-</span> seaweed <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">growth_class =</span> <span class="fu">case_when</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  <span class="fu">is.na</span>(sgr) <span class="sc">~</span> <span class="st">&quot;lost&quot;</span>, sgr <span class="sc">&gt;=</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">&quot;good&quot;</span>, sgr <span class="sc">&gt;=</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">&quot;medium&quot;</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;poor&quot;</span>))</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="fu">table</span>(seaweed<span class="sc">$</span>growth_class)                                       <span class="co"># 1</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>villages <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(seaweed<span class="sc">$</span>village))</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;list&quot;</span>, <span class="fu">length</span>(villages))</span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(villages)) {</span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>  d <span class="ot">&lt;-</span> seaweed[seaweed<span class="sc">$</span>village <span class="sc">==</span> villages[i], ]</span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>  res[[i]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">village =</span> villages[i],</span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>                         <span class="at">loss_pct =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(d<span class="sc">$</span>status <span class="sc">!=</span> <span class="st">&quot;harvested&quot;</span>),</span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>                         <span class="at">harvest_t =</span> <span class="fu">sum</span>(d<span class="sc">$</span>final_weight_kg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="dv">1000</span>)</span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>}</span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>summary_v <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, res)</span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a>summary_v[<span class="fu">which.max</span>(summary_v<span class="sc">$</span>loss_pct), ]                        <span class="co"># 2</span></span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>summary_v[summary_v<span class="sc">$</span>village <span class="sc">==</span> <span class="st">&quot;Mahavelo&quot;</span>, ]                      <span class="co"># 3a</span></span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a>summary_v[<span class="fu">which.max</span>(summary_v<span class="sc">$</span>harvest_t), ]                       <span class="co"># 3b</span></span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a><span class="fu">sum</span>(seaweed<span class="sc">$</span>zone <span class="sc">==</span> <span class="st">&quot;South&quot;</span> <span class="sc">&amp;</span> seaweed<span class="sc">$</span>status <span class="sc">==</span> <span class="st">&quot;lost - storm&quot;</span>)   <span class="co"># 4</span></span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="dv">12</span>; day <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a><span class="cf">while</span> (w <span class="sc">&lt;</span> <span class="dv">50</span>) { w <span class="ot">&lt;-</span> w <span class="sc">*</span> <span class="fu">exp</span>(<span class="fl">0.04</span>); day <span class="ot">&lt;-</span> day <span class="sc">+</span> <span class="dv">1</span> }</span>
+<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a>day                                                               <span class="co"># 5</span></span>
+<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a><span class="fu">sum</span>(seaweed<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2024</span> <span class="sc">&amp;</span> seaweed<span class="sc">$</span>season <span class="sc">==</span> <span class="st">&quot;wet&quot;</span>)               <span class="co"># 6</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

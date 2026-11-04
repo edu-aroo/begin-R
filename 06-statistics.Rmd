@@ -35,6 +35,17 @@ Nouveau script `scripts/s05_statistics.R`, commençant par `sg <- read.csv("data
 :::
 :::
 
+::: {.callout .ecology}
+::: en
+**Seagrass survey** (`seagrass_quadrats.csv`): in March 2026 a team of two snorkellers sampled **4 sites** (Ambalaboy and Fasimena inside a Marine Protected Area, Belitsaky and Tsiandamba outside), **15 quadrats of 50 × 50 cm** per site, placed every 5 m along a tape. For each quadrat they wrote on an underwater slate the depth (dive computer), the dominant species, the % cover (visual estimate), the canopy height (ruler, cm) and the number of shoots, converted to shoots per m². *Type:* one row = one quadrat; numeric (continuous) and categorical variables.
+:::
+::: fr
+**Suivi des herbiers** (`seagrass_quadrats.csv`) : en mars 2026, une équipe de deux plongeurs en apnée a échantillonné **4 sites** (Ambalaboy et Fasimena dans une Aire Marine Protégée, Belitsaky et Tsiandamba à l'extérieur), **15 quadrats de 50 × 50 cm** par site, posés tous les 5 m le long d'un ruban. Pour chaque quadrat ils ont noté sur une ardoise la profondeur (ordinateur de plongée), l'espèce dominante, le % de recouvrement (estimation visuelle), la hauteur de canopée (règle, cm) et le nombre de pousses, converti en pousses par m². *Type :* une ligne = un quadrat ; variables numériques (continues) et catégorielles.
+:::
+:::
+
+`r dl("seagrass_quadrats.csv", "seagrass_quadrats.csv")`
+
 ## [Describing one variable]{.en}[Décrire une variable]{.fr} {#describe}
 
 ```{r}
@@ -140,6 +151,15 @@ The `NA` cells are combinations that do not exist (no quadrat of that species at
 Les cases `NA` sont des combinaisons qui n'existent pas (aucun quadrat de cette espèce sur ce site).
 :::
 
+::: {.callout .try}
+::: en
+**Try it.** With `tapply()`, compute the **median** shoot density per site, then the **maximum** canopy height per MPA status (careful with the `NA`: add `na.rm = TRUE` after the function).
+:::
+::: fr
+**À vous.** Avec `tapply()`, calculez la densité de pousses **médiane** par site, puis la hauteur de canopée **maximale** par statut d'AMP (attention aux `NA` : ajoutez `na.rm = TRUE` après la fonction).
+:::
+:::
+
 ## [Statistics per group with `aggregate()`]{.en}[Statistiques par groupe avec `aggregate()`]{.fr} {#aggregate}
 
 ::: en
@@ -201,6 +221,17 @@ write.csv(summary_site, "outputs/seagrass_summary_by_site.csv", row.names = FALS
 :::
 :::
 
+::: {.callout .tip}
+::: en
+**Checkpoint.** The summary table per site built in this session (n, mean, SD, SE), useful for the graphs of Session 7:
+:::
+::: fr
+**Checkpoint.** Le tableau de synthèse par site construit dans cette séance (n, moyenne, ET, ES), utile pour les graphiques de la séance 7 :
+:::
+:::
+
+`r dl("B06_seagrass_summary_by_site.csv", "B06_seagrass_summary_by_site.csv", dir = "data/checkpoints")`
+
 ## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
 
 ```{r answers06, include=FALSE}
@@ -243,6 +274,15 @@ Avec `seagrass_quadrats.csv`, donnez chaque réponse **arrondie à 2 décimales*
 7. Hauteur de canopée moyenne à Fasimena (attention aux NA !).
 8. Quel site a le recouvrement moyen le **plus faible** ?
 9. Construisez le tableau de synthèse (site, n, mean, sd, se) et enregistrez-le dans `outputs/`.
+:::
+:::
+
+::: hint
+::: en
+SE = SD / √n: `sd(x) / sqrt(length(x))` for one site, after selecting its values with `sg$seagrass_cover[sg$site == "Tsiandamba"]`. Question 7: canopy height has `NA`, so add `na.rm = TRUE`.
+:::
+::: fr
+ES = ET / √n : `sd(x) / sqrt(length(x))` pour un site, après avoir sélectionné ses valeurs avec `sg$seagrass_cover[sg$site == "Tsiandamba"]`. Question 7 : la hauteur de canopée a des `NA`, ajoutez donc `na.rm = TRUE`.
 :::
 :::
 

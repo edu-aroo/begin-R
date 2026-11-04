@@ -1,0 +1,25 @@
+"pen_id","farm","village","area_m2","stocking_date","juveniles_stocked","density_per_m2"
+"P01","Farm A","Ankarabe",400,"14/09/2024",569,1.42
+"P02","Farm A","Ankarabe",625,"05/09/2024",773,1.24
+"P03","Farm A","Ankarabe",625,"21/09/2024",706,1.13
+"P04","Farm A","Ankarabe",400,"19/09/2024",541,1.35
+"P05","Farm A","Ankarabe",400,"03/09/2024",375,0.94
+"P06","Farm A","Ankarabe",500,"07/10/2024",425,0.85
+"P07","Farm A","Ankarabe",500,"10/10/2024",538,1.08
+"P08","Farm A","Ankarabe",400,"15/09/2024",509,1.27
+"P09","Farm B","Ambalakely",625,"03/09/2024",730,1.17
+"P10","Farm B","Ambalakely",625,"01/10/2024",853,1.36
+"P11","Farm B","Ambalakely",625,"07/09/2024",785,1.26
+"P12","Farm B","Ambalakely",400,"17/09/2024",557,1.39
+"P13","Farm B","Ambalakely",500,"20/09/2024",770,1.54
+"P14","Farm B","Ambalakely",500,"24/09/2024",740,1.48
+"P15","Farm B","Ambalakely",400,"25/09/2024",583,1.46
+"P16","Farm B","Ambalakely",625,"19/09/2024",645,1.03
+"P17","Farm C","Sarondrano",625,"21/09/2024",861,1.38
+"P18","Farm C","Sarondrano",500,"23/09/2024",776,1.55
+"P19","Farm C","Sarondrano",500,"04/10/2024",633,1.27
+"P20","Farm C","Sarondrano",500,"01/09/2024",584,1.17
+"P21","Farm C","Sarondrano",500,"08/10/2024",763,1.53
+"P22","Farm C","Sarondrano",400,"14/09/2024",496,1.24
+"P23","Farm C","Sarondrano",500,"10/09/2024",757,1.51
+"P24","Farm C","Sarondrano",500,"08/10/2024",416,0.83

@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · I4</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="advanced.html">Advanced</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I4 · Survey data and
+text</span><span class="fr">I4 · Données d’enquête et texte</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>clean text answers with <strong>stringr</strong> (spaces, case,
+patterns);</li>
+<li>turn answers into <strong>factors</strong>, including
+<strong>ordered</strong> Likert scales;</li>
+<li>split <strong>multiple-choice</strong> answers stored in one cell
+and count each option;</li>
+<li>build household variables from the member table (size, number of
+children);</li>
+<li>produce cross-tables and percentages ready for a report.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>nettoyer des réponses texte avec <strong>stringr</strong> (espaces,
+casse, motifs) ;</li>
+<li>transformer les réponses en <strong>facteurs</strong>, y compris des
+échelles de Likert <strong>ordonnées</strong> ;</li>
+<li>séparer des réponses <strong>à choix multiples</strong> stockées
+dans une cellule et compter chaque option ;</li>
+<li>construire des variables de ménage à partir du tableau des membres
+(taille, nombre d’enfants) ;</li>
+<li>produire des tableaux croisés et des pourcentages prêts pour un
+rapport.</li>
+</ul>
+</div>
+</div>
+<div id="context" class="section level2">
+<h2><span class="en">How the survey was conducted</span><span
+class="fr">Comment l’enquête a été menée</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> In July–August 2025, three
+enumerators (Fara, Tojo, Mamy) interviewed <strong>420
+households</strong> in 6 of the cooperative’s villages, with a
+questionnaire on tablets (KoboToolbox-like). Households were chosen at
+random from the village list. The head of household answered. The export
+gives three linked tables:</p>
+<ul>
+<li><code>survey_households.csv</code> — one row per household: village,
+interview date, enumerator, characteristics of the head, main income,
+<strong>monthly income</strong> (Ariary), distance to the coast,
+<strong>activities</strong> (multiple choice, stored as
+<code>fishing;seaweed</code>), opinion “<em>The MPA brings benefits to
+my household</em>” on a 5-point <strong>Likert scale</strong>,
+satisfaction score 1–5.</li>
+<li><code>survey_members.csv</code> — one row per household member:
+relation to the head, sex, age, schooling, works in seaweed
+farming.</li>
+<li><code>survey_assets.csv</code> — one row per asset owned: pirogue,
+boat, nets, phone…</li>
+</ul>
+<p>Some opinions were typed in lower case or with extra spaces when the
+tablet keyboard was used instead of the choice list, and 5 households
+were synchronised twice.</p>
+<p><strong>Type of data:</strong> socio-economic survey — categorical
+(nominal and ordinal) and quantitative variables, at household and
+individual levels.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> En juillet–août 2025, trois
+enquêteurs (Fara, Tojo, Mamy) ont interrogé <strong>420 ménages</strong>
+dans 6 villages de la coopérative, avec un questionnaire sur tablette
+(type KoboToolbox). Les ménages ont été tirés au sort dans la liste du
+village. Le chef de ménage répondait. L’export donne trois tableaux liés
+:</p>
+<ul>
+<li><code>survey_households.csv</code> — une ligne par ménage : village,
+date d’entretien, enquêteur, caractéristiques du chef, revenu principal,
+<strong>revenu mensuel</strong> (Ariary), distance à la côte,
+<strong>activités</strong> (choix multiples, stockées sous la forme
+<code>fishing;seaweed</code>), avis « <em>L’AMP apporte des bénéfices à
+mon ménage</em> » sur une <strong>échelle de Likert</strong> à 5
+niveaux, satisfaction de 1 à 5.</li>
+<li><code>survey_members.csv</code> — une ligne par membre du ménage :
+lien avec le chef, sexe, âge, scolarisation, travail dans
+l’algoculture.</li>
+<li><code>survey_assets.csv</code> — une ligne par bien possédé :
+pirogue, bateau, filets, téléphone…</li>
+</ul>
+<p>Certains avis ont été saisis en minuscules ou avec des espaces en
+trop quand le clavier de la tablette a remplacé la liste de choix, et 5
+ménages ont été synchronisés deux fois.</p>
+<p><strong>Type de données :</strong> enquête socio-économique —
+variables catégorielles (nominales et ordinales) et quantitatives, aux
+niveaux ménage et individu.</p>
+</div>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>hh <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_households.csv&quot;</span>, <span class="at">na.strings =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>hh <span class="ot">&lt;-</span> hh[<span class="sc">!</span><span class="fu">duplicated</span>(hh), ]          <span class="co"># 5 households synchronised twice</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">dim</span>(hh)</span></code></pre></div>
+<pre><code>#&gt; [1] 420  13</code></pre>
+</div>
+<div id="stringr" class="section level2">
+<h2><span class="en">Cleaning text with stringr</span><span
+class="fr">Nettoyer du texte avec stringr</span></h2>
+<div class="en">
+<p><strong>stringr</strong> gathers text functions with consistent
+names, all starting with <code>str_</code>. Their base R equivalents
+work too:</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>stringr</th>
+<th>base R</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>str_squish(x)</code></td>
+<td><code>trimws(gsub("\\s+", " ", x))</code></td>
+<td>removes extra spaces (start, end, double)</td>
+</tr>
+<tr class="even">
+<td><code>str_to_lower()</code> / <code>str_to_upper()</code> /
+<code>str_to_sentence()</code> / <code>str_to_title()</code></td>
+<td><code>tolower()</code> / <code>toupper()</code></td>
+<td>changes case</td>
+</tr>
+<tr class="odd">
+<td><code>str_detect(x, "seaweed")</code></td>
+<td><code>grepl("seaweed", x)</code></td>
+<td>TRUE if the pattern is present</td>
+</tr>
+<tr class="even">
+<td><code>str_count(x, ";")</code></td>
+<td>—</td>
+<td>counts a pattern</td>
+</tr>
+<tr class="odd">
+<td><code>str_replace_all(x, "a", "b")</code></td>
+<td><code>gsub("a", "b", x)</code></td>
+<td>replaces a pattern</td>
+</tr>
+<tr class="even">
+<td><code>str_split(x, ";")</code></td>
+<td><code>strsplit(x, ";")</code></td>
+<td>splits into pieces</td>
+</tr>
+<tr class="odd">
+<td><code>str_sub(x, 1, 3)</code></td>
+<td><code>substr(x, 1, 3)</code></td>
+<td>extracts characters</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>stringr</strong> rassemble des fonctions de texte aux noms
+cohérents, toutes commençant par <code>str_</code>. Leurs équivalents en
+R de base fonctionnent aussi :</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>stringr</th>
+<th>R de base</th>
+<th>Ce qu’elle fait</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>str_squish(x)</code></td>
+<td><code>trimws(gsub("\\s+", " ", x))</code></td>
+<td>retire les espaces en trop (début, fin, doubles)</td>
+</tr>
+<tr class="even">
+<td><code>str_to_lower()</code> / <code>str_to_upper()</code> /
+<code>str_to_sentence()</code> / <code>str_to_title()</code></td>
+<td><code>tolower()</code> / <code>toupper()</code></td>
+<td>change la casse</td>
+</tr>
+<tr class="odd">
+<td><code>str_detect(x, "seaweed")</code></td>
+<td><code>grepl("seaweed", x)</code></td>
+<td>TRUE si le motif est présent</td>
+</tr>
+<tr class="even">
+<td><code>str_count(x, ";")</code></td>
+<td>—</td>
+<td>compte un motif</td>
+</tr>
+<tr class="odd">
+<td><code>str_replace_all(x, "a", "b")</code></td>
+<td><code>gsub("a", "b", x)</code></td>
+<td>remplace un motif</td>
+</tr>
+<tr class="even">
+<td><code>str_split(x, ";")</code></td>
+<td><code>strsplit(x, ";")</code></td>
+<td>découpe en morceaux</td>
+</tr>
+<tr class="odd">
+<td><code>str_sub(x, 1, 3)</code></td>
+<td><code>substr(x, 1, 3)</code></td>
+<td>extrait des caractères</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">table</span>(hh<span class="sc">$</span>mpa_benefits, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;              Agree     Strongly agree  Strongly disagree              agree              Agree 
+#&gt;                  5                  4                  1                  9                136 
+#&gt;           Disagree            neutral            Neutral     strongly agree     Strongly agree 
+#&gt;                 46                  5                102                  4                 71 
+#&gt;  strongly disagree  Strongly disagree               &lt;NA&gt; 
+#&gt;                  1                 28                  8</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>hh<span class="sc">$</span>mpa_benefits <span class="ot">&lt;-</span> <span class="fu">str_to_sentence</span>(<span class="fu">str_squish</span>(hh<span class="sc">$</span>mpa_benefits))</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">table</span>(hh<span class="sc">$</span>mpa_benefits, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;             Agree          Disagree           Neutral    Strongly agree Strongly disagree              &lt;NA&gt; 
+#&gt;               150                46               107                79                30                 8</code></pre>
+</div>
+<div id="likert" class="section level2">
+<h2><span class="en">Ordered factors for Likert scales</span><span
+class="fr">Facteurs ordonnés pour les échelles de Likert</span></h2>
+<div class="en">
+<p>A Likert answer is <strong>ordinal</strong>: “Agree” is more than
+“Neutral”. Without levels, R sorts answers alphabetically (“Agree”,
+“Disagree”, “Neutral”…), which is meaningless in a table or a graph.
+Give the levels in the right order, and <code>ordered = TRUE</code> to
+allow comparisons.</p>
+</div>
+<div class="fr">
+<p>Une réponse de Likert est <strong>ordinale</strong> : « Agree » est
+plus que « Neutral ». Sans niveaux, R trie les réponses par ordre
+alphabétique (« Agree », « Disagree », « Neutral »…), ce qui n’a pas de
+sens dans un tableau ou un graphique. Donnez les niveaux dans le bon
+ordre, et <code>ordered = TRUE</code> pour permettre les
+comparaisons.</p>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>lik <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Strongly disagree&quot;</span>, <span class="st">&quot;Disagree&quot;</span>, <span class="st">&quot;Neutral&quot;</span>, <span class="st">&quot;Agree&quot;</span>, <span class="st">&quot;Strongly agree&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>hh<span class="sc">$</span>mpa_benefits <span class="ot">&lt;-</span> <span class="fu">factor</span>(hh<span class="sc">$</span>mpa_benefits, <span class="at">levels =</span> lik, <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">table</span>(hh<span class="sc">$</span>mpa_benefits)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt; Strongly disagree          Disagree           Neutral             Agree    Strongly agree 
+#&gt;                30                46               107               150                79</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(hh<span class="sc">$</span>mpa_benefits)), <span class="dv">1</span>)    <span class="co"># percentages (NA excluded)</span></span></code></pre></div>
+<pre><code>#&gt; 
+#&gt; Strongly disagree          Disagree           Neutral             Agree    Strongly agree 
+#&gt;               7.3              11.2              26.0              36.4              19.2</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">sum</span>(hh<span class="sc">$</span>mpa_benefits <span class="sc">&gt;=</span> <span class="st">&quot;Agree&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)          <span class="co"># &quot;agree&quot; or &quot;strongly agree&quot;</span></span></code></pre></div>
+<pre><code>#&gt; [1] 229</code></pre>
+<div class="en">
+<p>Collapse categories when a scale is too detailed for the sample size,
+by renaming levels:</p>
+</div>
+<div class="fr">
+<p>Regroupez des catégories quand une échelle est trop détaillée pour la
+taille de l’échantillon, en renommant les niveaux :</p>
+</div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>b3 <span class="ot">&lt;-</span> hh<span class="sc">$</span>mpa_benefits</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">levels</span>(b3) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Disagree&quot;</span>, <span class="st">&quot;Disagree&quot;</span>, <span class="st">&quot;Neutral&quot;</span>, <span class="st">&quot;Agree&quot;</span>, <span class="st">&quot;Agree&quot;</span>)   <span class="co"># same name = merged</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">table</span>(b3)</span></code></pre></div>
+<pre><code>#&gt; b3
+#&gt; Disagree  Neutral    Agree 
+#&gt;       76      107      229</code></pre>
+</div>
+<div id="multiple" class="section level2">
+<h2><span class="en">Multiple-choice answers</span><span
+class="fr">Réponses à choix multiples</span></h2>
+<div class="en">
+<p><code>activities</code> stores several answers in one cell:
+<code>"fishing;seaweed"</code>. Three useful operations:</p>
+<ol style="list-style-type: decimal">
+<li><strong>count</strong> the answers per household:
+<code>str_count(x, ";") + 1</code>;</li>
+<li>create <strong>one TRUE/FALSE column per option</strong>:
+<code>str_detect(x, "seaweed")</code>;</li>
+<li><strong>split</strong> into one row per answer to count each option
+(long format, Session I2).</li>
+</ol>
+</div>
+<div class="fr">
+<p><code>activities</code> stocke plusieurs réponses dans une cellule :
+<code>"fishing;seaweed"</code>. Trois opérations utiles :</p>
+<ol style="list-style-type: decimal">
+<li><strong>compter</strong> les réponses par ménage :
+<code>str_count(x, ";") + 1</code> ;</li>
+<li>créer <strong>une colonne TRUE/FALSE par option</strong> :
+<code>str_detect(x, "seaweed")</code> ;</li>
+<li><strong>découper</strong> en une ligne par réponse pour compter
+chaque option (format long, séance I2).</li>
+</ol>
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">library</span>(tidyr); <span class="fu">library</span>(dplyr)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>hh<span class="sc">$</span>n_activities <span class="ot">&lt;-</span> <span class="fu">str_count</span>(hh<span class="sc">$</span>activities, <span class="st">&quot;;&quot;</span>) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>hh<span class="sc">$</span>does_seaweed <span class="ot">&lt;-</span> <span class="fu">str_detect</span>(hh<span class="sc">$</span>activities, <span class="st">&quot;seaweed&quot;</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="fu">table</span>(hh<span class="sc">$</span>n_activities)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;   1   2   3 
+#&gt; 132 145 143</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>acts <span class="ot">&lt;-</span> hh <span class="sc">%&gt;%</span> <span class="fu">select</span>(hh_id, village, activities) <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">separate_rows</span>(activities, <span class="at">sep =</span> <span class="st">&quot;;&quot;</span>)            <span class="co"># one row per activity</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="fu">head</span>(acts)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 6 × 3
+#&gt;   hh_id village    activities 
+#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;      
+#&gt; 1 HH001 Tsimanjaka trade      
+#&gt; 2 HH001 Tsimanjaka gleaning   
+#&gt; 3 HH001 Tsimanjaka agriculture
+#&gt; 4 HH002 Ankarabe   fishing    
+#&gt; 5 HH002 Ankarabe   gleaning   
+#&gt; 6 HH002 Ankarabe   trade</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(acts<span class="sc">$</span>activities), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;     fishing     seaweed       trade    gleaning agriculture   livestock 
+#&gt;         156         144         144         142         137         128</code></pre>
+</div>
+<div id="members" class="section level2">
+<h2><span class="en">Household variables from the member
+table</span><span class="fr">Variables de ménage à partir des
+membres</span></h2>
+<div class="en">
+<p>The member table has one row per person. Counting rows per
+<code>hh_id</code> gives the household size; counting with a condition
+gives, for example, the number of children at school. Then join to the
+household table (Session I3).</p>
+</div>
+<div class="fr">
+<p>Le tableau des membres a une ligne par personne. Compter les lignes
+par <code>hh_id</code> donne la taille du ménage ; compter avec une
+condition donne, par exemple, le nombre d’enfants scolarisés. Puis on
+joint au tableau des ménages (séance I3).</p>
+</div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>members <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_members.csv&quot;</span>, <span class="at">na.strings =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>hh_vars <span class="ot">&lt;-</span> members <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="fu">group_by</span>(hh_id) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">hh_size =</span> <span class="fu">n</span>(),</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>            <span class="at">n_children =</span> <span class="fu">sum</span>(age <span class="sc">&lt;</span> <span class="dv">18</span>),</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>            <span class="at">n_seaweed_workers =</span> <span class="fu">sum</span>(works_seaweed <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>))</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>hh <span class="ot">&lt;-</span> <span class="fu">left_join</span>(hh, hh_vars, <span class="at">by =</span> <span class="st">&quot;hh_id&quot;</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="fu">summary</span>(hh<span class="sc">$</span>hh_size)</span></code></pre></div>
+<pre><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;   2.000   3.000   6.000   5.581   8.000   9.000</code></pre>
+</div>
+<div id="crosstab" class="section level2">
+<h2><span class="en">Cross-tables and percentages</span><span
+class="fr">Tableaux croisés et pourcentages</span></h2>
+<div class="en">
+<p><code>table()</code> crosses two variables;
+<code>prop.table(t, margin = 1)</code> gives row percentages (each row
+sums to 100 %). <code>addmargins()</code> adds totals.</p>
+</div>
+<div class="fr">
+<p><code>table()</code> croise deux variables ;
+<code>prop.table(t, margin = 1)</code> donne les pourcentages en ligne
+(chaque ligne fait 100 %). <code>addmargins()</code> ajoute les
+totaux.</p>
+</div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">table</span>(hh<span class="sc">$</span>village, b3)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="fu">addmargins</span>(t1)</span></code></pre></div>
+<pre><code>#&gt;             b3
+#&gt;              Disagree Neutral Agree Sum
+#&gt;   Ambalakely        9      17    30  56
+#&gt;   Ankarabe          9      20    36  65
+#&gt;   Befasy           12      18    49  79
+#&gt;   Mahavelo         15      19    37  71
+#&gt;   Sarondrano       17      21    41  79
+#&gt;   Tsimanjaka       14      12    36  62
+#&gt;   Sum              76     107   229 412</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">prop.table</span>(t1, <span class="at">margin =</span> <span class="dv">1</span>), <span class="dv">1</span>)      <span class="co"># % of each opinion within each village</span></span></code></pre></div>
+<pre><code>#&gt;             b3
+#&gt;              Disagree Neutral Agree
+#&gt;   Ambalakely     16.1    30.4  53.6
+#&gt;   Ankarabe       13.8    30.8  55.4
+#&gt;   Befasy         15.2    22.8  62.0
+#&gt;   Mahavelo       21.1    26.8  52.1
+#&gt;   Sarondrano     21.5    26.6  51.9
+#&gt;   Tsimanjaka     22.6    19.4  58.1</code></pre>
+<div class="compare">
+<div class="col base">
+<p>R base</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(hh<span class="sc">$</span>main_income)), <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;     agriculture         fishing        salaried seaweed farming           trade 
+#&gt;             8.6            36.9             8.8            28.1            17.6</code></pre>
+</div>
+<div class="col pkg">
+<p>dplyr</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>hh <span class="sc">%&gt;%</span> <span class="fu">count</span>(main_income) <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pct =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>#&gt;       main_income   n  pct
+#&gt; 1     agriculture  36  8.6
+#&gt; 2         fishing 155 36.9
+#&gt; 3        salaried  37  8.8
+#&gt; 4 seaweed farming 118 28.1
+#&gt; 5           trade  74 17.6</code></pre>
+</div>
+</div>
+<p><a class="btn-dl" href="data/checkpoints/I4_households_clean.csv" download>⇩
+checkpoint: I4_households_clean.csv</a></p>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-i4" class="section level3 en">
+<h3>Application work I4</h3>
+<p>Script <code>scripts/i04_survey.R</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Remove duplicated households. How many households remain?</li>
+<li>Clean <code>mpa_benefits</code> (<code>str_squish</code>,
+<code>str_to_sentence</code>) and make it an ordered factor. How many
+households answered exactly <strong>“Agree”</strong>?</li>
+<li>Percentage of households that answered “Agree” <strong>or</strong>
+“Strongly agree”, among those who answered (1 decimal)?</li>
+<li>Mean number of activities per household (3 decimals)?</li>
+<li>How many households practise <strong>seaweed</strong> farming (in
+<code>activities</code>)?</li>
+<li>Splitting <code>activities</code> into one row per answer: which is
+the <strong>second</strong> most frequent activity?</li>
+<li>Mean household size computed from the member table (3 decimals; join
+on the cleaned households)?</li>
+<li>How many members are at school
+(<code>in_school == "yes"</code>)?</li>
+<li>Which village has the highest <strong>proportion</strong> of
+households doing seaweed farming?</li>
+<li>Percentage of households headed by a woman (1 decimal)?</li>
+</ol>
+</div>
+<div id="travail-dapplication-i4" class="section level3 fr">
+<h3>Travail d’application I4</h3>
+<p>Script <code>scripts/i04_survey.R</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Retirez les ménages en double. Combien de ménages restent ?</li>
+<li>Nettoyez <code>mpa_benefits</code> (<code>str_squish</code>,
+<code>str_to_sentence</code>) et transformez-le en facteur ordonné.
+Combien de ménages ont répondu exactement <strong>« Agree »</strong>
+?</li>
+<li>Pourcentage de ménages ayant répondu « Agree » <strong>ou</strong> «
+Strongly agree », parmi ceux qui ont répondu (1 décimale) ?</li>
+<li>Nombre moyen d’activités par ménage (3 décimales) ?</li>
+<li>Combien de ménages pratiquent l’<strong>algoculture</strong>
+(<code>seaweed</code> dans <code>activities</code>) ?</li>
+<li>En découpant <code>activities</code> en une ligne par réponse :
+quelle est la <strong>deuxième</strong> activité la plus fréquente
+?</li>
+<li>Taille moyenne des ménages calculée à partir du tableau des membres
+(3 décimales ; jointure sur les ménages nettoyés) ?</li>
+<li>Combien de membres sont scolarisés (<code>in_school == "yes"</code>)
+?</li>
+<li>Quel village a la plus forte <strong>proportion</strong> de ménages
+pratiquant l’algoculture ?</li>
+<li>Pourcentage de ménages dirigés par une femme (1 décimale) ?</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 3: <code>mean(x &gt;= "Agree", na.rm = TRUE)</code> works
+only on an <strong>ordered</strong> factor. Question 9:
+<code>prop.table(table(village, does_seaweed), margin = 1)</code> then
+look at the <code>TRUE</code> column.</p>
+</div>
+<div class="fr">
+<p>Question 3 : <code>mean(x &gt;= "Agree", na.rm = TRUE)</code> ne
+fonctionne que sur un facteur <strong>ordonné</strong>. Question 9 :
+<code>prop.table(table(village, does_seaweed), margin = 1)</code> puis
+regardez la colonne <code>TRUE</code>.</p>
+</div>
+</div>
+<div id="quiz-i04" class="quiz" data-quiz-id="i04"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gSG91c2Vob2xkcyBhZnRlciByZW1vdmluZyBkdXBsaWNhdGVzPyIsImZyIjoiMS4gTcOpbmFnZXMgYXByw6hzIHN1cHByZXNzaW9uIGRlcyBkb3VibG9ucyA/IiwiYW5zd2VyIjo0MjAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIEhvdXNlaG9sZHMgYW5zd2VyaW5nIGV4YWN0bHkgQWdyZWU/IiwiZnIiOiIyLiBNw6luYWdlcyBheWFudCByw6lwb25kdSBleGFjdGVtZW50IEFncmVlID8iLCJhbnN3ZXIiOjE1MCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gJSBBZ3JlZSBvciBTdHJvbmdseSBhZ3JlZSAoMSBkZWNpbWFsKT8iLCJmciI6IjMuICUgQWdyZWUgb3UgU3Ryb25nbHkgYWdyZWUgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo1NS42LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZWFuIG51bWJlciBvZiBhY3Rpdml0aWVzICgzIGRlY2ltYWxzKT8iLCJmciI6IjQuIE5vbWJyZSBtb3llbiBkJ2FjdGl2aXTDqXMgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6Mi4wMjYsInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gSG91c2Vob2xkcyBkb2luZyBzZWF3ZWVkIGZhcm1pbmc/IiwiZnIiOiI1LiBNw6luYWdlcyBwcmF0aXF1YW50IGwnYWxnb2N1bHR1cmUgPyIsImFuc3dlciI6MTQ0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiNi4gU2Vjb25kIG1vc3QgZnJlcXVlbnQgYWN0aXZpdHk/IiwiZnIiOiI2LiBEZXV4acOobWUgYWN0aXZpdMOpIGxhIHBsdXMgZnLDqXF1ZW50ZSA/IiwiYW5zd2VyIjpbInNlYXdlZWQiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI3LiBNZWFuIGhvdXNlaG9sZCBzaXplICgzIGRlY2ltYWxzKT8iLCJmciI6IjcuIFRhaWxsZSBtb3llbm5lIGRlcyBtw6luYWdlcyAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjo1LjU4MSwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI4LiBNZW1iZXJzIGF0IHNjaG9vbD8iLCJmciI6IjguIE1lbWJyZXMgc2NvbGFyaXPDqXMgPyIsImFuc3dlciI6MjU3LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiOS4gVmlsbGFnZSB3aXRoIHRoZSBoaWdoZXN0IHByb3BvcnRpb24gb2Ygc2Vhd2VlZCBob3VzZWhvbGRzPyIsImZyIjoiOS4gVmlsbGFnZSDDoCBsYSBwbHVzIGZvcnRlIHByb3BvcnRpb24gZGUgbcOpbmFnZXMgYWxnb2N1bHRldXJzID8iLCJhbnN3ZXIiOlsiQW5rYXJhYmUiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiIxMC4gJSBvZiBob3VzZWhvbGRzIGhlYWRlZCBieSBhIHdvbWFuICgxIGRlY2ltYWwpPyIsImZyIjoiMTAuICUgZGUgbcOpbmFnZXMgZGlyaWfDqXMgcGFyIHVuZSBmZW1tZSAoMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjM0LjgsInRvbCI6MC4wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifV0=">
+
+</div>
+<div class="solution" data-quiz="i04">
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(tidyr); <span class="fu">library</span>(stringr)</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>hh <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_households.csv&quot;</span>, <span class="at">na.strings =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>hh <span class="ot">&lt;-</span> hh[<span class="sc">!</span><span class="fu">duplicated</span>(hh), ]</span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="fu">nrow</span>(hh)                                                                <span class="co"># 1</span></span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>lik <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Strongly disagree&quot;</span>, <span class="st">&quot;Disagree&quot;</span>, <span class="st">&quot;Neutral&quot;</span>, <span class="st">&quot;Agree&quot;</span>, <span class="st">&quot;Strongly agree&quot;</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>hh<span class="sc">$</span>mpa_benefits <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">str_to_sentence</span>(<span class="fu">str_squish</span>(hh<span class="sc">$</span>mpa_benefits)), <span class="at">levels =</span> lik, <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a><span class="fu">sum</span>(hh<span class="sc">$</span>mpa_benefits <span class="sc">==</span> <span class="st">&quot;Agree&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                           <span class="co"># 2</span></span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(hh<span class="sc">$</span>mpa_benefits <span class="sc">&gt;=</span> <span class="st">&quot;Agree&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">1</span>)          <span class="co"># 3</span></span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a>hh<span class="sc">$</span>n_activities <span class="ot">&lt;-</span> <span class="fu">str_count</span>(hh<span class="sc">$</span>activities, <span class="st">&quot;;&quot;</span>) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(hh<span class="sc">$</span>n_activities), <span class="dv">3</span>)                                         <span class="co"># 4</span></span>
+<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a>hh<span class="sc">$</span>does_seaweed <span class="ot">&lt;-</span> <span class="fu">str_detect</span>(hh<span class="sc">$</span>activities, <span class="st">&quot;seaweed&quot;</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a><span class="fu">sum</span>(hh<span class="sc">$</span>does_seaweed)                                                    <span class="co"># 5</span></span>
+<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a>acts <span class="ot">&lt;-</span> hh <span class="sc">%&gt;%</span> <span class="fu">select</span>(hh_id, activities) <span class="sc">%&gt;%</span> <span class="fu">separate_rows</span>(activities, <span class="at">sep =</span> <span class="st">&quot;;&quot;</span>)</span>
+<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(acts<span class="sc">$</span>activities), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)                         <span class="co"># 6</span></span>
+<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a>members <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/survey_members.csv&quot;</span>, <span class="at">na.strings =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb31-16"><a href="#cb31-16" tabindex="-1"></a>size <span class="ot">&lt;-</span> members <span class="sc">%&gt;%</span> <span class="fu">count</span>(hh_id, <span class="at">name =</span> <span class="st">&quot;hh_size&quot;</span>)</span>
+<span id="cb31-17"><a href="#cb31-17" tabindex="-1"></a>hh <span class="ot">&lt;-</span> <span class="fu">left_join</span>(hh, size, <span class="at">by =</span> <span class="st">&quot;hh_id&quot;</span>)</span>
+<span id="cb31-18"><a href="#cb31-18" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(hh<span class="sc">$</span>hh_size), <span class="dv">3</span>)                                              <span class="co"># 7</span></span>
+<span id="cb31-19"><a href="#cb31-19" tabindex="-1"></a><span class="fu">sum</span>(members<span class="sc">$</span>in_school <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                           <span class="co"># 8</span></span>
+<span id="cb31-20"><a href="#cb31-20" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(hh<span class="sc">$</span>village, hh<span class="sc">$</span>does_seaweed), <span class="at">margin =</span> <span class="dv">1</span>)              <span class="co"># 9</span></span>
+<span id="cb31-21"><a href="#cb31-21" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(hh<span class="sc">$</span>head_sex <span class="sc">==</span> <span class="st">&quot;Female&quot;</span>), <span class="dv">1</span>)                           <span class="co"># 10</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

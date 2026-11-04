@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" role="img" aria-label="Choosing a test" font-family="Source Sans 3, Arial, sans-serif">
+<defs><marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5d6b75"/></marker></defs>
+<g font-size="15">
+<!-- root -->
+<rect x="330" y="10" width="240" height="44" rx="10" fill="#0b3d5c"/>
+<text class="en" x="450" y="38" text-anchor="middle" fill="#fff" font-weight="700">What is your question?</text>
+<text class="fr" x="450" y="38" text-anchor="middle" fill="#fff" font-weight="700">Quelle est votre question ?</text>
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M380 54 L150 96"/><path d="M450 54 L450 96"/><path d="M520 54 L750 96"/></g>
+<!-- three branches -->
+<rect x="40" y="98" width="220" height="56" rx="10" fill="#e9f4f6" stroke="#1b7f8c" stroke-width="2"/>
+<text class="en" x="150" y="122" text-anchor="middle" font-weight="700" fill="#0b3d5c">Compare 2 means</text><text class="en" x="150" y="142" text-anchor="middle" fill="#3c4a52">numeric variable, 2 groups</text>
+<text class="fr" x="150" y="122" text-anchor="middle" font-weight="700" fill="#0b3d5c">Comparer 2 moyennes</text><text class="fr" x="150" y="142" text-anchor="middle" fill="#3c4a52">variable numérique, 2 groupes</text>
+<rect x="340" y="98" width="220" height="56" rx="10" fill="#f6f1e7" stroke="#b08a4a" stroke-width="2"/>
+<text class="en" x="450" y="122" text-anchor="middle" font-weight="700" fill="#0b3d5c">Compare proportions</text><text class="en" x="450" y="142" text-anchor="middle" fill="#3c4a52">2 categorical variables</text>
+<text class="fr" x="450" y="122" text-anchor="middle" font-weight="700" fill="#0b3d5c">Comparer des proportions</text><text class="fr" x="450" y="142" text-anchor="middle" fill="#3c4a52">2 variables catégorielles</text>
+<rect x="640" y="98" width="220" height="56" rx="10" fill="#eef5ea" stroke="#4a7d3a" stroke-width="2"/>
+<text class="en" x="750" y="122" text-anchor="middle" font-weight="700" fill="#0b3d5c">Relationship</text><text class="en" x="750" y="142" text-anchor="middle" fill="#3c4a52">2 numeric variables</text>
+<text class="fr" x="750" y="122" text-anchor="middle" font-weight="700" fill="#0b3d5c">Relation</text><text class="fr" x="750" y="142" text-anchor="middle" fill="#3c4a52">2 variables numériques</text>
+<!-- means -->
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M150 154 L150 186"/></g>
+<rect x="40" y="188" width="220" height="44" rx="8" fill="#fff" stroke="#c9d3d8"/>
+<text class="en" x="150" y="215" text-anchor="middle" fill="#3c4a52">Same units measured twice?</text>
+<text class="fr" x="150" y="215" text-anchor="middle" fill="#3c4a52">Mêmes unités mesurées 2 fois ?</text>
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M100 232 L70 262"/><path d="M200 232 L230 262"/></g>
+<text class="en" x="60" y="252" fill="#5d6b75" font-size="13">no</text><text class="fr" x="60" y="252" fill="#5d6b75" font-size="13">non</text>
+<text class="en" x="220" y="252" fill="#5d6b75" font-size="13">yes (paired)</text><text class="fr" x="220" y="252" fill="#5d6b75" font-size="13">oui (apparié)</text>
+<rect x="10" y="264" width="135" height="44" rx="8" fill="#fff" stroke="#c9d3d8"/>
+<text class="en" x="77" y="291" text-anchor="middle" fill="#3c4a52" font-size="14">roughly normal?</text><text class="fr" x="77" y="291" text-anchor="middle" fill="#3c4a52" font-size="14">à peu près normal ?</text>
+<rect x="160" y="264" width="135" height="44" rx="8" fill="#fff" stroke="#c9d3d8"/>
+<text class="en" x="227" y="284" text-anchor="middle" fill="#3c4a52" font-size="14">differences</text><text class="en" x="227" y="300" text-anchor="middle" fill="#3c4a52" font-size="14">roughly normal?</text>
+<text class="fr" x="227" y="284" text-anchor="middle" fill="#3c4a52" font-size="14">différences à peu</text><text class="fr" x="227" y="300" text-anchor="middle" fill="#3c4a52" font-size="14">près normales ?</text>
+<g font-family="JetBrains Mono, monospace" font-size="13">
+<rect x="10" y="330" width="135" height="58" rx="8" fill="#1b7f8c"/><text x="77" y="352" text-anchor="middle" fill="#fff">yes: t.test()</text><text x="77" y="372" text-anchor="middle" fill="#fff" font-size="11">(Welch)</text>
+<rect x="10" y="396" width="135" height="58" rx="8" fill="#d9694a"/><text x="77" y="418" text-anchor="middle" fill="#fff">no: wilcox.test()</text><text x="77" y="438" text-anchor="middle" fill="#fff" font-size="11">or t on log(x)</text>
+<rect x="160" y="330" width="135" height="58" rx="8" fill="#1b7f8c"/><text x="227" y="352" text-anchor="middle" fill="#fff">yes: t.test(</text><text x="227" y="372" text-anchor="middle" fill="#fff">paired = TRUE)</text>
+<rect x="160" y="396" width="135" height="58" rx="8" fill="#d9694a"/><text x="227" y="418" text-anchor="middle" fill="#fff">no: wilcox.test(</text><text x="227" y="438" text-anchor="middle" fill="#fff">paired = TRUE)</text>
+</g>
+<g stroke="#5d6b75" stroke-width="1.5" fill="none" marker-end="url(#ar5)"><path d="M77 308 L77 328"/><path d="M227 308 L227 328"/></g>
+<!-- proportions -->
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M450 154 L450 186"/></g>
+<rect x="340" y="188" width="220" height="62" rx="8" fill="#fff" stroke="#c9d3d8"/>
+<text class="en" x="450" y="212" text-anchor="middle" fill="#3c4a52">All expected counts ≥ 5?</text><text class="en" x="450" y="232" text-anchor="middle" fill="#5d6b75" font-size="13">chisq.test(t)&#36;expected</text>
+<text class="fr" x="450" y="212" text-anchor="middle" fill="#3c4a52">Effectifs attendus tous ≥ 5 ?</text><text class="fr" x="450" y="232" text-anchor="middle" fill="#5d6b75" font-size="13">chisq.test(t)&#36;expected</text>
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M400 250 L390 328"/><path d="M500 250 L510 328"/></g>
+<g font-family="JetBrains Mono, monospace" font-size="13">
+<rect x="320" y="330" width="135" height="58" rx="8" fill="#1b7f8c"/><text x="387" y="352" text-anchor="middle" fill="#fff">yes: chisq.test()</text><text x="387" y="372" text-anchor="middle" fill="#fff" font-size="11">prop.test()</text>
+<rect x="445" y="396" width="135" height="58" rx="8" fill="#d9694a"/><text x="512" y="430" text-anchor="middle" fill="#fff">no: fisher.test()</text>
+</g>
+<!-- correlation -->
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M750 154 L750 186"/></g>
+<rect x="640" y="188" width="220" height="62" rx="8" fill="#fff" stroke="#c9d3d8"/>
+<text class="en" x="750" y="212" text-anchor="middle" fill="#3c4a52">Plot first! Straight line,</text><text class="en" x="750" y="232" text-anchor="middle" fill="#3c4a52">no strong outliers?</text>
+<text class="fr" x="750" y="212" text-anchor="middle" fill="#3c4a52">Tracer d'abord ! Droite,</text><text class="fr" x="750" y="232" text-anchor="middle" fill="#3c4a52">pas de valeurs extrêmes ?</text>
+<g stroke="#5d6b75" stroke-width="2" fill="none" marker-end="url(#ar5)"><path d="M700 250 L690 328"/><path d="M800 250 L810 328"/></g>
+<g font-family="JetBrains Mono, monospace" font-size="13">
+<rect x="620" y="330" width="135" height="58" rx="8" fill="#1b7f8c"/><text x="687" y="352" text-anchor="middle" fill="#fff">yes: cor.test()</text><text x="687" y="372" text-anchor="middle" fill="#fff" font-size="11">Pearson</text>
+<rect x="745" y="396" width="150" height="58" rx="8" fill="#d9694a"/><text x="820" y="418" text-anchor="middle" fill="#fff">no: cor.test(</text><text x="820" y="438" text-anchor="middle" fill="#fff" font-size="12">method="spearman")</text>
+</g>
+<text class="en" x="620" y="468" fill="#5d6b75" font-size="12">curved (not monotonic)? no correlation fits: describe it with a plot</text>
+<text class="fr" x="580" y="468" fill="#5d6b75" font-size="12">courbe non monotone ? aucune corrélation ne convient : décrivez-la par un graphique</text>
+</g>
+</svg>

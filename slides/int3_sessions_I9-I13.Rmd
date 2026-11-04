@@ -1,0 +1,232 @@
+---
+title: "R pour les sciences marines — niveau intermédiaire"
+subtitle: "Partie 3 · Séances I9 à I13 — Distributions, tests, cartes, exercices, projet final"
+author: "Aroo Falinirina"
+output:
+  html_document:
+    theme: null
+    highlight: tango
+    mathjax: null
+    self_contained: true
+    css: slides.css
+    includes:
+      in_header: slides-engine.html
+---
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+
+```{r, include=FALSE}
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+```{r, include=FALSE}
+source("slides/_setup_int.R")
+seaweed <- cp_seaweed()
+hh <- cp_households()
+farmers <- cp_farmers()
+wq <- cp_wq_clean()
+inc <- hh$monthly_income_mga
+```
+
+## Au programme
+
+- **I9** : distributions, transformations, ce que signifie une p-value
+- **I10** : comparer des moyennes et des pourcentages, corrélations : **choisir le bon test**
+- **I11** : premières cartes avec ggplot2
+- **I12** : séance d'exercices · **I13** : projet final (holothuries)
+
+<div class="notes">
+~20 min I9 · ~25 min I10 · ~10 min I11 · ~5 min I12–I13. Insister : le but est d'apprendre R, pas un cours complet de statistique.
+</div>
+
+## I9 — Distributions et p-values {.segue}
+
+## Regarder la forme d'abord
+
+```{r, fig.height=3, fig.width=9, out.width="78%"}
+p1 <- ggplot(seaweed, aes(sgr)) + geom_histogram(binwidth = 0.1, fill = "#1b7f8c", na.rm = TRUE) +
+  labs(x = "SGR (% / jour)", y = NULL, title = "Symétrique")
+p2 <- ggplot(hh, aes(monthly_income_mga / 1000)) + geom_histogram(binwidth = 50, fill = "#d9694a") +
+  labs(x = "Revenu (milliers MGA)", y = NULL, title = "Asymétrique à droite")
+p1 | p2
+c(moyenne = mean(inc), mediane = median(inc))
+```
+
+## La loi normale et le QQ-plot
+
+- 68 % des valeurs dans moyenne ± 1 ET, **95 % dans ± 1,96 ET**
+- QQ-plot : des données normales **suivent la droite**
+
+```{r, fig.height=3}
+qq <- function(x, t) ggplot(data.frame(x = x), aes(sample = x)) + stat_qq(alpha = .4) +
+  stat_qq_line(colour = "#d9694a") + labs(title = t, x = NULL, y = NULL)
+qq(inc, "revenu") | qq(log(inc), "log(revenu)")
+```
+
+## Shapiro–Wilk : un complément, pas un juge
+
+```{r}
+shapiro.test(inc)$p.value; shapiro.test(log(inc))$p.value
+```
+
+- petit n : ne rejette presque jamais · grand n : rejette pour des écarts minimes
+- avec de **grands groupes**, les moyennes sont presque normales (théorème central limite)
+
+<div class="box tip">Ordre : histogramme + QQ-plot → décision → (test de Shapiro en complément).</div>
+
+## Transformer
+
+| Données | Transformation |
+|---|---|
+| positives, asymétriques (revenu, biomasse) | `log(x)` |
+| idem avec des zéros | `log1p(x)` |
+| comptages | `sqrt(x)` |
+
+```{r}
+geo_mean <- function(x) exp(mean(log(x)))     # re-transformer : moyenne géométrique
+c(arithmetique = mean(inc), geometrique = geo_mean(inc), mediane = median(inc))
+```
+
+## Une p-value, construite à la main
+
+```{r}
+li <- log(inc); g <- hh$does_seaweed
+obs <- mean(li[g]) - mean(li[!g]); exp(obs)      # +7,5 % pour les ménages algoculteurs
+set.seed(42)
+perm <- replicate(5000, { s <- sample(g); mean(li[s]) - mean(li[!s]) })   # H0 : étiquettes au hasard
+mean(abs(perm) >= abs(obs))                      # = la p-value
+```
+
+<div class="box eco">**p-value** = probabilité d'un résultat au moins aussi extrême **si H0 était vraie**.</div>
+
+## Ce qu'une p-value n'est pas
+
+- pas la probabilité que H0 soit vraie
+- **non significatif ≠ pas d'effet** : « pas de preuve d'une différence »
+- **significatif ≠ important** : regarder la taille d'effet et son IC
+- 0,05 est une convention : 0,049 ≈ 0,051
+
+## I10 — Choisir le bon test {.segue}
+
+## Le schéma de décision
+
+`r fig_svg("choose-test", "", "")`
+
+## Paramétrique ou non paramétrique ?
+
+| | Paramétrique | Non paramétrique |
+|---|---|---|
+| utilise | les valeurs (moyenne, ET) | les **rangs** |
+| suppose | ~ normal (ou grands groupes) | formes semblables |
+| exemples | `t.test()`, Pearson | `wilcox.test()`, Spearman |
+| + | plus puissant, effet en unités | robuste aux extrêmes |
+
+<div class="box warn">Choisir **avant** de voir p. Ne pas faire les deux tests pour garder celui qui « marche ».</div>
+
+## Deux moyennes indépendantes
+
+```{r}
+tt <- t.test(sgr ~ season, data = seaweed)       # Welch par défaut
+round(c(tt$estimate, diff = unname(diff(rev(tt$estimate))), tt$conf.int, p = tt$p.value), 3)
+wilcox.test(monthly_income_mga ~ head_sex, data = hh)$p.value   # revenu asymétrique
+```
+
+« Les algues ont poussé plus vite en saison sèche (3,56 vs 3,30 % j⁻¹ ; différence 0,26, IC 95 % 0,21–0,31 ; Welch t = 9,56, p < 0,001). »
+
+## Données appariées
+
+```{r}
+wq$year <- as.integer(format(wq$date, "%Y"))
+sy <- wq %>% filter(year %in% 2024:2025) %>% group_by(station, year) %>%
+  summarise(t = mean(temp_C, na.rm = TRUE), .groups = "drop") %>%
+  pivot_wider(names_from = year, values_from = t, names_prefix = "y")
+tp <- t.test(sy$y2025, sy$y2024, paired = TRUE); round(c(tp$estimate, tp$p.value), 3)
+```
+
+<div class="box warn">−0,1 °C, p = 0,02 : **significatif mais minuscule** face aux variations saisonnières.</div>
+
+## Comparer des pourcentages
+
+```{r}
+tab <- table(farmers$sex, farmers$technique)
+round(prop.table(tab, 1) * 100, 1)
+chisq.test(tab)$expected                 # tous >= 5 ? sinon fisher.test()
+round(c(chi2 = chisq.test(tab)$p.value, fisher = fisher.test(tab)$p.value), 3)
+```
+
+53 % vs 34 % mais n = 96 : **pas de preuve convaincante** — ce n'est pas une preuve d'égalité.
+
+## Corrélation : Pearson ou Spearman
+
+```{r, fig.height=2.9}
+cor(wq$temp_C, wq$DO_mgL, use = "complete.obs")                                   # Pearson
+cor(seaweed$temp_mean, seaweed$sgr, use = "complete.obs", method = "spearman")    # Spearman
+ggplot(seaweed, aes(temp_mean, sgr)) + geom_jitter(width = .05, alpha = .15, na.rm = TRUE) +
+  geom_smooth(method = "loess", formula = y ~ x, colour = "#d9694a", na.rm = TRUE)
+```
+
+## Quand aucun coefficient ne convient
+
+- la croissance **monte** jusqu'à ~25–26 °C puis **descend** : relation forte mais **non monotone**
+- Pearson et Spearman ≈ −0,19 : ils mélangent les deux pentes
+- **tracer avant de calculer** ; décrire une courbe par le graphique
+- corrélation ≠ causalité · une question = un test (20 tests → ~1 faux positif)
+
+## I11 — Cartes avec ggplot2 {.segue}
+
+## Une carte = un nuage de points + un polygone
+
+```{r, fig.height=4.6, out.width="48%"}
+coast <- read.csv("data/coastline.csv"); villages <- read.csv("data/villages.csv")
+growth <- seaweed %>% group_by(village) %>% summarise(m = mean(sgr, na.rm = TRUE))
+gm <- left_join(villages, growth, by = "village")
+ggplot() + geom_polygon(data = coast, aes(lon, lat), fill = "#efe6d2", colour = "grey50") +
+  geom_point(data = gm, aes(lon, lat, fill = m), shape = 21, size = 4) +
+  scale_fill_viridis_c(option = "mako", direction = -1, name = "SGR") +
+  coord_quickmap(xlim = c(43.38, 43.88), ylim = c(-23.35, -22.55)) +
+  theme(panel.background = element_rect(fill = "#d8ecf2", colour = NA))
+```
+
+## Les points clés des cartes
+
+- x = **longitude**, y = **latitude** (sud = négatif), WGS84
+- `coord_quickmap()` : bon rapport d'aspect ; `geom_polygon()` : lignes dans l'**ordre**
+- résumer → **joindre** aux coordonnées → `size` (quantité) / `fill` (intensité)
+- flèche du nord et échelle avec `annotate()` (0,09° de latitude ≈ 10 km)
+- aperçu de **sf** (`st_as_sf()`, `geom_sf()`) → niveau avancé
+
+## I12–I13 — Exercices et projet final {.segue}
+
+## Séance d'exercices (I12)
+
+| Exercice | Séances | Fichier |
+|---|---|---|
+| 1. import, codes manquants, dates | I0–I1 | `water_quality_long.csv` |
+| 2. restructurer, joindre | I2–I3 | `water_quality_wide.csv`, enquête |
+| 3. enquête et texte | I4 | `survey_households.csv` |
+| 4. boucles, fonctions | I5–I6 | checkpoint qualité de l'eau |
+| 5. graphiques | I7–I8 | checkpoint qualité de l'eau |
+| 6. choisir un test | I9–I10 | qualité de l'eau + enquête |
+
+## Projet final : holothuries en enclos (I13)
+
+<div class="box eco">
+3 fermes × 8 enclos de *Holothuria scabra* ; 20 animaux pesés tous les 30 jours pendant 10 mois (4 800 pesées) ; survivants comptés à la récolte.
+</div>
+
+1. importer 3 tables, dates · 2. poids moyen par enclos et visite · 3. **SGR par enclos avec votre fonction**
+4. table d'analyse : survie, biomasse, rendement · 5. figures (patchwork)
+6. comparer Farm B / Farm C · 7. densité vs croissance · 8. carte · 9. interprétation
+
+## Niveau suivant
+
+- quiz : **2 tentatives**, la meilleure compte
+- chaque séance s'ouvre quand la précédente a au moins **75 %** des points
+- **75 %** du total des points du niveau (exercices inclus) → niveau **avancé** débloqué
+- en difficulté ? un message vous propose une séance ensemble
+
+**Niveau avancé** : projets reproductibles (renv, Git, GitHub), rapports R Markdown et Quarto automatiques, cartes avec sf, terra et tmap.
+
+## Merci ! {.segue}

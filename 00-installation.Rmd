@@ -180,6 +180,15 @@ Why? Your results must always come from your **script**, never from objects left
 Pourquoi ? Vos résultats doivent toujours venir de votre **script**, jamais d'objets restés en mémoire depuis la veille. C'est ce qui rend une analyse *reproductible* : n'importe qui (y compris vous dans six mois) peut relancer le script et obtenir les mêmes chiffres.
 :::
 
+::: {.callout .try}
+::: en
+**Try it.** In the **Console**, type `1 + 1` and press **Enter**. Then type `Sys.Date()`. Where does the result appear? Which pane would you use to keep these lines for later?
+:::
+::: fr
+**À vous.** Dans la **Console**, tapez `1 + 1` puis **Entrée**. Tapez ensuite `Sys.Date()`. Où apparaît le résultat ? Quel panneau utiliseriez-vous pour garder ces lignes pour plus tard ?
+:::
+:::
+
 ## [Create the course project]{.en}[Créer le projet du cours]{.fr} {#project}
 
 ::: en
@@ -197,6 +206,15 @@ Un **projet RStudio** est un dossier qui contient tout ce qui concerne une analy
 2. Nom du dossier : `R_course_reef` ; choisissez son emplacement (ex. *Documents*) ; cliquez sur **Create Project**.
 3. Dans le panneau **Files**, cliquez trois fois sur **New Folder** pour créer : `data`, `scripts`, `outputs`.
 4. Téléchargez les données du cours ci-dessous, décompressez-les et placez les 5 fichiers CSV dans le dossier `data`.
+:::
+
+::: {.callout .ecology}
+::: en
+**Data of this session (simulated).** The zip contains the files of the whole Beginner level. They are **simulated**: invented with R to look like real field data from south-west Madagascar, but they describe no real place. Each session explains how its data were "collected" and what type of data they are.
+:::
+::: fr
+**Données du cours (simulées).** Le zip contient les fichiers de tout le niveau débutant. Ils sont **simulés** : inventés avec R pour ressembler à de vraies données de terrain du sud-ouest de Madagascar, mais ils ne décrivent aucun lieu réel. Chaque séance explique comment ses données ont été « collectées » et de quel type elles sont.
+:::
 :::
 
 `r dl("r_course_data.zip", "r_course_data.zip")`
@@ -258,6 +276,15 @@ Si vous obtenez `character(0)`, R ne trouve pas le dossier : soit le projet n'es
 3. Dans le script, écrivez les deux lignes ci-dessous, puis exécutez-les une par une avec **Ctrl + Entrée** :
    `R.version.string` et `list.files("data")`.
 4. Répondez au quiz à partir de ce que vous voyez à l'écran et de ce que vous avez lu dans cette séance.
+:::
+:::
+
+::: hint
+::: en
+If `list.files("data")` returns `character(0)`, the zip was not extracted **inside** the `data` folder of your project, or RStudio is not working in your project (check the project name at the top right of RStudio).
+:::
+::: fr
+Si `list.files("data")` renvoie `character(0)`, le zip n'a pas été décompressé **dans** le dossier `data` de votre projet, ou RStudio ne travaille pas dans votre projet (vérifiez le nom du projet en haut à droite de RStudio).
 :::
 :::
 

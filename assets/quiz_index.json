@@ -1,0 +1,177 @@
+{
+  "i00": {
+    "max": 10,
+    "page": "i00-import",
+    "level": "intermediate"
+  },
+  "i01": {
+    "max": 10,
+    "page": "i01-dates",
+    "level": "intermediate"
+  },
+  "i02": {
+    "max": 9,
+    "page": "i02-reshape",
+    "level": "intermediate"
+  },
+  "i03": {
+    "max": 10,
+    "page": "i03-joins",
+    "level": "intermediate"
+  },
+  "i04": {
+    "max": 10,
+    "page": "i04-survey",
+    "level": "intermediate"
+  },
+  "i05": {
+    "max": 10,
+    "page": "i05-loops",
+    "level": "intermediate"
+  },
+  "i06": {
+    "max": 8,
+    "page": "i06-functions",
+    "level": "intermediate"
+  },
+  "i07": {
+    "max": 9,
+    "page": "i07-ggplot-1",
+    "level": "intermediate"
+  },
+  "i08": {
+    "max": 8,
+    "page": "i08-ggplot-2",
+    "level": "intermediate"
+  },
+  "i09": {
+    "max": 10,
+    "page": "i09-distributions",
+    "level": "intermediate"
+  },
+  "i10": {
+    "max": 12,
+    "page": "i10-tests",
+    "level": "intermediate"
+  },
+  "i11": {
+    "max": 8,
+    "page": "i11-maps",
+    "level": "intermediate"
+  },
+  "i13": {
+    "max": 10,
+    "page": "i13-final-project",
+    "level": "intermediate"
+  },
+  "ip1": {
+    "max": 6,
+    "page": "i12-practice",
+    "level": "intermediate"
+  },
+  "ip2": {
+    "max": 5,
+    "page": "i12-practice",
+    "level": "intermediate"
+  },
+  "ip3": {
+    "max": 5,
+    "page": "i12-practice",
+    "level": "intermediate"
+  },
+  "ip4": {
+    "max": 4,
+    "page": "i12-practice",
+    "level": "intermediate"
+  },
+  "ip5": {
+    "max": 5,
+    "page": "i12-practice",
+    "level": "intermediate"
+  },
+  "ip6": {
+    "max": 6,
+    "page": "i12-practice",
+    "level": "intermediate"
+  },
+  "p1": {
+    "max": 6,
+    "page": "09-practice",
+    "level": "beginner"
+  },
+  "p2": {
+    "max": 6,
+    "page": "09-practice",
+    "level": "beginner"
+  },
+  "p3": {
+    "max": 6,
+    "page": "09-practice",
+    "level": "beginner"
+  },
+  "p4": {
+    "max": 6,
+    "page": "09-practice",
+    "level": "beginner"
+  },
+  "p5": {
+    "max": 6,
+    "page": "09-practice",
+    "level": "beginner"
+  },
+  "p6": {
+    "max": 6,
+    "page": "09-practice",
+    "level": "beginner"
+  },
+  "s00": {
+    "max": 6,
+    "page": "00-installation",
+    "level": "beginner"
+  },
+  "s01": {
+    "max": 7,
+    "page": "01-first-steps",
+    "level": "beginner"
+  },
+  "s02": {
+    "max": 12,
+    "page": "02-vectors",
+    "level": "beginner"
+  },
+  "s03": {
+    "max": 11,
+    "page": "03-data-frames",
+    "level": "beginner"
+  },
+  "s04": {
+    "max": 14,
+    "page": "04-inside-data-frames",
+    "level": "beginner"
+  },
+  "s05": {
+    "max": 11,
+    "page": "05-cleaning",
+    "level": "beginner"
+  },
+  "s06": {
+    "max": 10,
+    "page": "06-statistics",
+    "level": "beginner"
+  },
+  "s07": {
+    "max": 7,
+    "page": "07-graphics",
+    "level": "beginner"
+  },
+  "s08": {
+    "max": 10,
+    "page": "08-packages-tidyverse",
+    "level": "beginner"
+  },
+  "s10": {
+    "max": 15,
+    "page": "10-final-project",
+    "level": "beginner"
+  }
+}
