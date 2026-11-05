@@ -101,3 +101,15 @@ dl <- function(file, label = file, dir = "data") {
   knitr::asis_output(sprintf(
     '<a class="btn-dl" href="%s/%s" download>&#8681; %s</a>', dir, file, label))
 }
+
+# ---- Show a whole file as a code block (Advanced level) -----------------------
+# `r show_file("templates/advanced/mpa_report.Rmd")` on its own line prints the file
+# exactly as it is (chunks and inline code are NOT run): handy to show .Rmd/.qmd/.yml.
+show_file <- function(path, lang = NULL, lines = NULL) {
+  x <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  if (!is.null(lines)) x <- x[lines]
+  if (is.null(lang)) lang <- switch(tolower(tools::file_ext(path)), rmd = "markdown", qmd = "markdown",
+                                    r = "r", yml = "yaml", yaml = "yaml", bib = "bibtex", json = "json", "")
+  fence <- "`````"
+  knitr::asis_output(paste0("\n\n", fence, lang, "\n", paste(x, collapse = "\n"), "\n", fence, "\n\n"))
+}

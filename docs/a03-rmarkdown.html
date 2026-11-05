@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · A3</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A3 · Reports with R
+Markdown</span><span class="fr">A3 · Rapports avec R
+Markdown</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>write a report that mixes <strong>text, code and results</strong> in
+one <code>.Rmd</code> file;</li>
+<li>control what appears with <strong>chunk options</strong>
+(<code>echo</code>, <code>include</code>, <code>message</code>,
+<code>fig.cap</code>…);</li>
+<li>write <strong>numbers computed by R inside sentences</strong>
+(inline code), so the text updates with the data;</li>
+<li>produce clean <strong>tables</strong> (<code>knitr::kable()</code>,
+<code>flextable</code>) and <strong>figures with captions</strong>, and
+<strong>cross-reference</strong> them;</li>
+<li>render to <strong>HTML, Word and PDF</strong>, with a table of
+contents and numbered sections.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>écrire un rapport qui mélange <strong>texte, code et
+résultats</strong> dans un seul fichier <code>.Rmd</code> ;</li>
+<li>contrôler ce qui apparaît avec les <strong>options de chunk</strong>
+(<code>echo</code>, <code>include</code>, <code>message</code>,
+<code>fig.cap</code>…) ;</li>
+<li>écrire des <strong>nombres calculés par R dans les phrases</strong>
+(code en ligne), pour que le texte se mette à jour avec les données
+;</li>
+<li>produire des <strong>tableaux</strong> propres
+(<code>knitr::kable()</code>, <code>flextable</code>) et des
+<strong>figures avec légende</strong>, et y <strong>faire
+référence</strong> ;</li>
+<li>produire du <strong>HTML, Word et PDF</strong>, avec table des
+matières et sections numérotées.</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> The coral reef
+monitoring of the three MPAs, 2019–2025
+(<code>reef_monitoring.csv</code> + <code>reef_sites.csv</code>,
+described in Session A0): 18 sites, three 20 m Point Intercept Transects
+per site and year; % hard coral, % macroalgae and % of colonies
+bleached. The MPA managers want <strong>the same annual report every
+year</strong>: this is exactly what R Markdown is for.</p>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong> Le suivi des
+récifs des trois AMP, 2019–2025 (<code>reef_monitoring.csv</code> +
+<code>reef_sites.csv</code>, décrits à la séance A0) : 18 sites, trois
+Point Intercept Transects de 20 m par site et par an ; % de corail dur,
+% de macroalgues et % de colonies blanchies. Les gestionnaires des AMP
+veulent <strong>le même rapport annuel chaque année</strong> : c’est
+exactement à cela que sert R Markdown.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="templates/advanced/reef_report.Rmd" download>⇩
+reef_report.Rmd (template)</a></p>
+<div id="why" class="section level2">
+<h2><span class="en">Why a report in R?</span><span class="fr">Pourquoi
+un rapport dans R ?</span></h2>
+<div class="en">
+<p>The usual way — analyse in R, copy numbers and paste graphs into Word
+— has two problems: <strong>errors</strong> (a number not updated, a
+graph from an old version) and <strong>time</strong> (everything is
+redone when the data change). In R Markdown the report
+<strong>is</strong> the analysis: when the 2026 data arrive, you click
+<strong>Knit</strong> and every number, table and figure is recomputed.
+This whole course website is written in R Markdown.</p>
+</div>
+<div class="fr">
+<p>La méthode habituelle — analyser dans R, copier les chiffres et
+coller les graphiques dans Word — a deux problèmes : les
+<strong>erreurs</strong> (un chiffre non mis à jour, un graphique d’une
+ancienne version) et le <strong>temps</strong> (tout est à refaire quand
+les données changent). Avec R Markdown, le rapport <strong>est</strong>
+l’analyse : quand les données 2026 arrivent, vous cliquez sur
+<strong>Knit</strong> et chaque chiffre, tableau et figure est
+recalculé. Tout ce site de cours est écrit en R Markdown.</p>
+</div>
+</div>
+<div id="anatomy" class="section level2">
+<h2><span class="en">Anatomy of an .Rmd file</span><span
+class="fr">Anatomie d’un fichier .Rmd</span></h2>
+<div class="en">
+<p>Three ingredients: the <strong>YAML header</strong> between
+<code>---</code> (title, author, output format), <strong>text</strong>
+written in Markdown, and <strong>chunks</strong> of R code between
+<code>```{r}</code> and <code>```</code>. Here is the template of this
+session (download it above and put it in the <code>reports/</code>
+folder of your project):</p>
+</div>
+<div class="fr">
+<p>Trois ingrédients : l’<strong>en-tête YAML</strong> entre
+<code>---</code> (titre, auteur, format de sortie), le
+<strong>texte</strong> écrit en Markdown, et des <strong>chunks</strong>
+de code R entre <code>```{r}</code> et <code>```</code>. Voici le modèle
+de cette séance (téléchargez-le ci-dessus et placez-le dans le dossier
+<code>reports/</code> de votre projet) :</p>
+</div>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Coral reef monitoring — results 2019–2025&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Your name&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;`r format(Sys.Date(), &#39;%d %B %Y&#39;)`&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="an">output:</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">  bookdown::html_document2:</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">    toc_float: true</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">    number_sections: true</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">    code_folding: hide</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">  bookdown::word_document2: default</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="in"># Global options: code hidden, no messages or warnings in the report</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="in">knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="in">                      fig.width = 7, fig.height = 4, dpi = 150)</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="in">library(ggplot2)</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="in">library(here)          # here() = paths from the project root, wherever this file is</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="in">reef  &lt;- read.csv(here(&quot;data&quot;, &quot;raw&quot;, &quot;reef_monitoring.csv&quot;))</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="in">sites &lt;- read.csv(here(&quot;data&quot;, &quot;raw&quot;, &quot;reef_sites.csv&quot;))</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="in">reef  &lt;- left_join(reef, sites, by = &quot;site_id&quot;)</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="in"># Numbers used in the text are computed ONCE, here</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="in">n_transects &lt;- nrow(reef)</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="in">last_year   &lt;- max(reef$year)</span></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="in">cover_last  &lt;- reef %&gt;% filter(year == last_year) %&gt;%</span></span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="in">  group_by(zone) %&gt;% summarise(mean = mean(hard_coral), .groups = &quot;drop&quot;)</span></span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="in">nt_last &lt;- round(cover_last$mean[cover_last$zone == &quot;No-take&quot;], 1)</span></span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="in">fi_last &lt;- round(cover_last$mean[cover_last$zone == &quot;Fishing&quot;], 1)</span></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="fu"># Summary</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>From 2019 to <span class="in">`r last_year`</span>, the monitoring team surveyed **`r n_transects` transects**</span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>in three MPAs. In <span class="in">`r last_year`</span>, mean hard coral cover was **`r nt_last` %** in the</span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a>No-take zones and **`r fi_last` %** in the Fishing zones.</span></code></pre></div>
+<div class="en">
+<p>When you click <strong>Knit</strong>, <code>knitr</code> runs the
+chunks and writes their results into a Markdown file, then
+<strong>pandoc</strong> converts it to HTML, Word or PDF.</p>
+</div>
+<div class="fr">
+<p>Quand vous cliquez sur <strong>Knit</strong>, <code>knitr</code>
+exécute les chunks et écrit leurs résultats dans un fichier Markdown,
+puis <strong>pandoc</strong> le convertit en HTML, Word ou PDF.</p>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Knit runs in a new, empty R session.</strong> Objects in your
+Environment pane do <strong>not</strong> exist for the report:
+everything must be created <strong>inside</strong> the .Rmd (import
+included). This is a feature: it guarantees that the report is
+reproducible.</p>
+</div>
+<div class="fr">
+<p><strong>Knit s’exécute dans une nouvelle session R vide.</strong> Les
+objets de votre panneau Environment n’existent <strong>pas</strong> pour
+le rapport : tout doit être créé <strong>dans</strong> le .Rmd (import
+compris). C’est voulu : cela garantit que le rapport est
+reproductible.</p>
+</div>
+</div>
+</div>
+<div id="markdown" class="section level2">
+<h2><span class="en">Markdown: formatting the text</span><span
+class="fr">Markdown : mettre en forme le texte</span></h2>
+<div class="en">
+<table>
+<thead>
+<tr class="header">
+<th>You write</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code># Title</code>, <code>## Subtitle</code></td>
+<td>headings of level 1, 2</td>
+</tr>
+<tr class="even">
+<td><code>**bold**</code>, <code>*italic*</code></td>
+<td><strong>bold</strong>, <em>italic</em></td>
+</tr>
+<tr class="odd">
+<td><code>- item</code> (blank line before the list!)</td>
+<td>a bulleted list</td>
+</tr>
+<tr class="even">
+<td><code>1. item</code></td>
+<td>a numbered list</td>
+</tr>
+<tr class="odd">
+<td><code>[NOAA](https://www.noaa.gov)</code></td>
+<td>a link</td>
+</tr>
+<tr class="even">
+<td><code>![Caption](photos/reef.jpg)</code></td>
+<td>an image</td>
+</tr>
+<tr class="odd">
+<td><code>H~2~O</code>, <code>m^2^</code></td>
+<td>subscript, superscript: H<sub>2</sub>O, m<sup>2</sup></td>
+</tr>
+<tr class="even">
+<td><code>$\bar{x} \pm SE$</code></td>
+<td>an equation (LaTeX syntax)</td>
+</tr>
+<tr class="odd">
+<td><code>Text^[A footnote.]</code></td>
+<td>a footnote</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<thead>
+<tr class="header">
+<th>Vous écrivez</th>
+<th>Vous obtenez</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code># Titre</code>, <code>## Sous-titre</code></td>
+<td>titres de niveau 1, 2</td>
+</tr>
+<tr class="even">
+<td><code>**gras**</code>, <code>*italique*</code></td>
+<td><strong>gras</strong>, <em>italique</em></td>
+</tr>
+<tr class="odd">
+<td><code>- élément</code> (ligne vide avant la liste !)</td>
+<td>une liste à puces</td>
+</tr>
+<tr class="even">
+<td><code>1. élément</code></td>
+<td>une liste numérotée</td>
+</tr>
+<tr class="odd">
+<td><code>[NOAA](https://www.noaa.gov)</code></td>
+<td>un lien</td>
+</tr>
+<tr class="even">
+<td><code>![Légende](photos/recif.jpg)</code></td>
+<td>une image</td>
+</tr>
+<tr class="odd">
+<td><code>H~2~O</code>, <code>m^2^</code></td>
+<td>indice, exposant : H<sub>2</sub>O, m<sup>2</sup></td>
+</tr>
+<tr class="even">
+<td><code>$\bar{x} \pm ES$</code></td>
+<td>une équation (syntaxe LaTeX)</td>
+</tr>
+<tr class="odd">
+<td><code>Texte^[Une note.]</code></td>
+<td>une note de bas de page</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="chunks" class="section level2">
+<h2><span class="en">Chunk options</span><span class="fr">Options des
+chunks</span></h2>
+<div class="en">
+<p>Options go inside the braces:
+<code>```{r label, echo = FALSE, fig.cap = "..."}</code>. The
+<strong>label</strong> (no spaces, unique) names the chunk, its figure
+files and its cross-reference. Set the options of the whole report once,
+in a <code>setup</code> chunk with
+<code>knitr::opts_chunk$set()</code>.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>Effect</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>echo = FALSE</code></td>
+<td>hides the code, shows the results</td>
+<td>reports for managers</td>
+</tr>
+<tr class="even">
+<td><code>include = FALSE</code></td>
+<td>runs the code, shows <strong>nothing</strong></td>
+<td>setup, imports, calculations</td>
+</tr>
+<tr class="odd">
+<td><code>eval = FALSE</code></td>
+<td>shows the code, does <strong>not</strong> run it</td>
+<td>examples</td>
+</tr>
+<tr class="even">
+<td><code>message = FALSE</code>, <code>warning = FALSE</code></td>
+<td>hides messages / warnings</td>
+<td><code>library()</code> calls</td>
+</tr>
+<tr class="odd">
+<td><code>results = "hide"</code></td>
+<td>hides printed results only</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>fig.cap = "..."</code></td>
+<td>figure caption (needed for numbering)</td>
+<td>every figure</td>
+</tr>
+<tr class="odd">
+<td><code>fig.width</code>, <code>fig.height</code> (inches),
+<code>out.width = "80%"</code>, <code>dpi</code></td>
+<td>size and resolution</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>cache = TRUE</code></td>
+<td>keeps results between knits</td>
+<td>long calculations (use carefully)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p>Les options se placent dans les accolades :
+<code>```{r label, echo = FALSE, fig.cap = "..."}</code>. Le
+<strong>label</strong> (sans espaces, unique) nomme le chunk, ses
+fichiers de figures et sa référence croisée. Fixez les options de tout
+le rapport une seule fois, dans un chunk <code>setup</code> avec
+<code>knitr::opts_chunk$set()</code>.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>Effet</th>
+<th>Usage typique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>echo = FALSE</code></td>
+<td>cache le code, montre les résultats</td>
+<td>rapports pour les gestionnaires</td>
+</tr>
+<tr class="even">
+<td><code>include = FALSE</code></td>
+<td>exécute le code, ne montre <strong>rien</strong></td>
+<td>setup, imports, calculs</td>
+</tr>
+<tr class="odd">
+<td><code>eval = FALSE</code></td>
+<td>montre le code, ne l’exécute <strong>pas</strong></td>
+<td>exemples</td>
+</tr>
+<tr class="even">
+<td><code>message = FALSE</code>, <code>warning = FALSE</code></td>
+<td>cache messages / avertissements</td>
+<td>appels <code>library()</code></td>
+</tr>
+<tr class="odd">
+<td><code>results = "hide"</code></td>
+<td>cache seulement les résultats affichés</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>fig.cap = "..."</code></td>
+<td>légende de figure (nécessaire à la numérotation)</td>
+<td>chaque figure</td>
+</tr>
+<tr class="odd">
+<td><code>fig.width</code>, <code>fig.height</code> (pouces),
+<code>out.width = "80%"</code>, <code>dpi</code></td>
+<td>taille et résolution</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>cache = TRUE</code></td>
+<td>garde les résultats entre deux knits</td>
+<td>calculs longs (avec prudence)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="inline" class="section level2">
+<h2><span class="en">Numbers inside the text</span><span class="fr">Des
+nombres dans le texte</span></h2>
+<div class="en">
+<p>Write <code>`r round(mean(x), 1)`</code> in a sentence and the value
+replaces it when you knit. Compute the numbers in a chunk (with
+<code>include = FALSE</code>), then write only the <strong>object
+name</strong> in the text: sentences stay readable.</p>
+</div>
+<div class="fr">
+<p>Écrivez <code>`r round(mean(x), 1)`</code> dans une phrase et la
+valeur la remplace au moment du knit. Calculez les nombres dans un chunk
+(avec <code>include = FALSE</code>), puis n’écrivez que le <strong>nom
+de l’objet</strong> dans le texte : les phrases restent lisibles.</p>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>last_year <span class="ot">&lt;-</span> <span class="fu">max</span>(reef<span class="sc">$</span>year)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>cover <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">==</span> last_year) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(zone) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(hard_coral), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>nt <span class="ot">&lt;-</span> <span class="fu">round</span>(cover<span class="sc">$</span>m[cover<span class="sc">$</span>zone <span class="sc">==</span> <span class="st">&quot;No-take&quot;</span>], <span class="dv">1</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>fi <span class="ot">&lt;-</span> <span class="fu">round</span>(cover<span class="sc">$</span>m[cover<span class="sc">$</span>zone <span class="sc">==</span> <span class="st">&quot;Fishing&quot;</span>], <span class="dv">1</span>)</span></code></pre></div>
+<div class="en">
+<p>The source line…</p>
+<pre><code>In `r last_year`, mean hard coral cover was `r nt` % in No-take zones and `r fi` % in Fishing zones.</code></pre>
+<p>…becomes: In 2025, mean hard coral cover was 37.6 % in No-take zones
+and 18.8 % in Fishing zones.</p>
+</div>
+<div class="fr">
+<p>La ligne source…</p>
+<pre><code>En `r last_year`, le corail dur moyen était de `r nt` % dans les zones No-take et de `r fi` % dans les zones Fishing.</code></pre>
+<p>…devient : En 2025, le corail dur moyen était de 37,6 % dans les
+zones No-take et de 18,8 % dans les zones Fishing.</p>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><code>format(x, big.mark = " ")</code> writes 12 500 instead of
+12500; <code>format(x, decimal.mark = ",")</code> gives a French decimal
+comma; <code>scales::percent(0.253)</code> gives “25%”. For p-values:
+<code>format.pval(p, digits = 2, eps = 0.001)</code> writes
+“&lt;0.001”.</p>
+</div>
+<div class="fr">
+<p><code>format(x, big.mark = " ")</code> écrit 12 500 au lieu de 12500
+; <code>format(x, decimal.mark = ",")</code> donne une virgule décimale
+; <code>scales::percent(0.253)</code> donne « 25% ». Pour les p-values :
+<code>format.pval(p, digits = 2, eps = 0.001)</code> écrit « &lt;0.001
+».</p>
+</div>
+</div>
+</div>
+<div id="tables" class="section level2">
+<h2><span class="en">Tables</span><span class="fr">Tableaux</span></h2>
+<div class="en">
+<p>Never print a raw data frame in a report: use
+<code>knitr::kable()</code> (HTML, Word, PDF) — or
+<code>flextable</code> when you need a fully formatted Word table
+(merged cells, colours, fonts).</p>
+</div>
+<div class="fr">
+<p>N’affichez jamais un data frame brut dans un rapport : utilisez
+<code>knitr::kable()</code> (HTML, Word, PDF) — ou
+<code>flextable</code> quand il vous faut un tableau Word entièrement
+mis en forme (cellules fusionnées, couleurs, polices).</p>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>tab <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">==</span> last_year) <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">group_by</span>(mpa, zone) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">transects =</span> <span class="fu">n</span>(), <span class="at">mean =</span> <span class="fu">mean</span>(hard_coral), <span class="at">sd =</span> <span class="fu">sd</span>(hard_coral), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(tab, <span class="at">digits =</span> <span class="dv">1</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;MPA&quot;</span>, <span class="st">&quot;Zone&quot;</span>, <span class="st">&quot;Transects&quot;</span>, <span class="st">&quot;Mean (%)&quot;</span>, <span class="st">&quot;SD&quot;</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>             <span class="at">caption =</span> <span class="fu">paste</span>(<span class="st">&quot;Hard coral cover per MPA and zone,&quot;</span>, last_year))</span></code></pre></div>
+<table>
+<caption>Hard coral cover per MPA and zone, 2025</caption>
+<thead>
+<tr class="header">
+<th align="left">MPA</th>
+<th align="left">Zone</th>
+<th align="right">Transects</th>
+<th align="right">Mean (%)</th>
+<th align="right">SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Ankaramena</td>
+<td align="left">Fishing</td>
+<td align="right">9</td>
+<td align="right">26.9</td>
+<td align="right">5.5</td>
+</tr>
+<tr class="even">
+<td align="left">Ankaramena</td>
+<td align="left">No-take</td>
+<td align="right">9</td>
+<td align="right">46.0</td>
+<td align="right">4.4</td>
+</tr>
+<tr class="odd">
+<td align="left">Nosy Fasika</td>
+<td align="left">Fishing</td>
+<td align="right">9</td>
+<td align="right">18.6</td>
+<td align="right">3.5</td>
+</tr>
+<tr class="even">
+<td align="left">Nosy Fasika</td>
+<td align="left">No-take</td>
+<td align="right">9</td>
+<td align="right">35.0</td>
+<td align="right">4.0</td>
+</tr>
+<tr class="odd">
+<td align="left">Tanjona</td>
+<td align="left">Fishing</td>
+<td align="right">9</td>
+<td align="right">10.8</td>
+<td align="right">5.2</td>
+</tr>
+<tr class="even">
+<td align="left">Tanjona</td>
+<td align="left">No-take</td>
+<td align="right">9</td>
+<td align="right">31.8</td>
+<td align="right">4.6</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(flextable)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">flextable</span>(tab) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">colformat_double</span>(<span class="at">digits =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">set_header_labels</span>(<span class="at">mpa =</span> <span class="st">&quot;MPA&quot;</span>, <span class="at">zone =</span> <span class="st">&quot;Zone&quot;</span>, <span class="at">transects =</span> <span class="st">&quot;Transects&quot;</span>, <span class="at">mean =</span> <span class="st">&quot;Mean (%)&quot;</span>, <span class="at">sd =</span> <span class="st">&quot;SD&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">merge_v</span>(<span class="at">j =</span> <span class="st">&quot;mpa&quot;</span>) <span class="sc">|&gt;</span>            <span class="co"># merge the repeated MPA names</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">autofit</span>()</span></code></pre></div>
+</div>
+<div id="figures" class="section level2">
+<h2><span class="en">Figures and cross-references</span><span
+class="fr">Figures et renvois</span></h2>
+<div class="en">
+<p>Give every figure a <code>fig.cap</code>. To <strong>number</strong>
+figures and tables and refer to them in the text (“see Figure 2”), use
+the <strong>bookdown</strong> formats:
+<code>bookdown::html_document2</code>,
+<code>bookdown::word_document2</code> or
+<code>bookdown::pdf_document2</code>. Then write
+<code>\@ref(fig:label)</code> for a figure (label of its chunk) and
+<code>\@ref(tab:label)</code> for a table made by <code>kable()</code>
+with a caption. If the number of a figure changes, every reference
+follows.</p>
+</div>
+<div class="fr">
+<p>Donnez à chaque figure un <code>fig.cap</code>. Pour
+<strong>numéroter</strong> figures et tableaux et y renvoyer dans le
+texte (« voir Figure 2 »), utilisez les formats
+<strong>bookdown</strong> : <code>bookdown::html_document2</code>,
+<code>bookdown::word_document2</code> ou
+<code>bookdown::pdf_document2</code>. Écrivez alors
+<code>\@ref(fig:label)</code> pour une figure (label de son chunk) et
+<code>\@ref(tab:label)</code> pour un tableau fait par
+<code>kable()</code> avec une légende. Si le numéro d’une figure change,
+chaque renvoi suit.</p>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>trend <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(year, zone) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(hard_coral), <span class="at">se =</span> <span class="fu">se</span>(hard_coral), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">ggplot</span>(trend, <span class="fu">aes</span>(year, m, <span class="at">colour =</span> zone)) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> m <span class="sc">-</span> se, <span class="at">ymax =</span> m <span class="sc">+</span> se)) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;No-take&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="st">&quot;Fishing&quot;</span> <span class="ot">=</span> <span class="st">&quot;#d9694a&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">2019</span><span class="sc">:</span><span class="dv">2025</span>) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Hard coral cover (%)&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="a03-rmarkdown_files/figure-html/trend-1.png" alt="Mean hard coral cover (± SE) per year and zone, three MPAs together." width="85%" />
+<p class="caption">
+Mean hard coral cover (± SE) per year and zone, three MPAs together.
+</p>
+</div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Look at the figure: Fishing zones seem to
+<strong>jump</strong> in 2022. Is it real? Count the transects per year
+and zone (<code>count(reef, year, zone)</code>). Which MPA is missing in
+2022, and why does that change the mean? Write one sentence for the
+report that warns the reader.</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Regardez la figure : les zones Fishing
+semblent <strong>sauter</strong> en 2022. Est-ce réel ? Comptez les
+transects par année et par zone (<code>count(reef, year, zone)</code>).
+Quelle AMP manque en 2022, et pourquoi cela change-t-il la moyenne ?
+Écrivez une phrase du rapport qui prévienne le lecteur.</p>
+</div>
+</div>
+</div>
+<div id="formats" class="section level2">
+<h2><span class="en">Output formats</span><span class="fr">Formats de
+sortie</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Format</th>
+<th>YAML</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HTML</td>
+<td><code>html_document</code> (or
+<code>bookdown::html_document2</code>) with <code>toc: true</code>,
+<code>toc_float: true</code>, <code>number_sections: true</code>,
+<code>code_folding: hide</code></td>
+<td>best on screen; one self-contained file to e-mail</td>
+</tr>
+<tr class="even">
+<td>Word</td>
+<td><code>word_document</code> with
+<code>reference_docx: my_styles.docx</code></td>
+<td>your institution’s fonts and styles: make a Word file with the
+styles you want, and point to it</td>
+</tr>
+<tr class="odd">
+<td>PDF</td>
+<td><code>pdf_document</code></td>
+<td>needs LaTeX:
+<code>install.packages("tinytex"); tinytex::install_tinytex()</code>
+(once). Quarto can also use <strong>Typst</strong>, lighter (Session
+A9)</td>
+</tr>
+</tbody>
+</table>
+<p>Several formats in the header? <strong>Knit</strong> uses the first
+one; the small arrow next to Knit lets you choose. From the Console:</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Format</th>
+<th>YAML</th>
+<th>Remarques</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HTML</td>
+<td><code>html_document</code> (ou
+<code>bookdown::html_document2</code>) avec <code>toc: true</code>,
+<code>toc_float: true</code>, <code>number_sections: true</code>,
+<code>code_folding: hide</code></td>
+<td>idéal à l’écran ; un seul fichier autonome à envoyer</td>
+</tr>
+<tr class="even">
+<td>Word</td>
+<td><code>word_document</code> avec
+<code>reference_docx: mes_styles.docx</code></td>
+<td>les polices et styles de votre institution : faites un fichier Word
+avec les styles voulus, et indiquez-le</td>
+</tr>
+<tr class="odd">
+<td>PDF</td>
+<td><code>pdf_document</code></td>
+<td>demande LaTeX :
+<code>install.packages("tinytex"); tinytex::install_tinytex()</code>
+(une fois). Quarto peut aussi utiliser <strong>Typst</strong>, plus
+léger (séance A9)</td>
+</tr>
+</tbody>
+</table>
+<p>Plusieurs formats dans l’en-tête ? <strong>Knit</strong> utilise le
+premier ; la petite flèche à côté de Knit permet de choisir. Depuis la
+Console :</p>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;reports&quot;</span>, <span class="st">&quot;reef_report.Rmd&quot;</span>),</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                  <span class="at">output_format =</span> <span class="st">&quot;bookdown::word_document2&quot;</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>                  <span class="at">output_dir =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>))</span></code></pre></div>
+<div class="en">
+<p><strong>Long reports:</strong> split them into several files and
+assemble them with child documents:
+<code>```{r, child = "methods.Rmd"}</code> <code>```</code>.</p>
+</div>
+<div class="fr">
+<p><strong>Rapports longs :</strong> découpez-les en plusieurs fichiers
+et assemblez-les avec des documents enfants :
+<code>```{r, child = "methods.Rmd"}</code> <code>```</code>.</p>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-a3" class="section level3 en">
+<h3>Application work A3</h3>
+<ol style="list-style-type: decimal">
+<li>Put <code>reef_report.Rmd</code> in <code>reports/</code> of your
+<code>reef-monitoring</code> project (with the two CSV files in
+<code>data/raw/</code>) and <strong>knit</strong> it in HTML, then in
+Word.</li>
+<li>How many transects does the report say were surveyed in total?</li>
+<li>What mean % of bleached colonies does it give for 2024 (1
+decimal)?</li>
+<li>How many rows does the 2025 table (MPA × zone) have?</li>
+<li>Add a sentence warning that one MPA was not surveyed in 2022: how
+many Fishing transects were surveyed that year?</li>
+<li>Add a chunk with the 2025 mean hard coral cover of the
+<strong>No-take zone of Tanjona</strong> written by inline code (1
+decimal).</li>
+<li>Add a figure of macroalgae cover per year, with a caption, and refer
+to it in the text with <code>\@ref(fig:...)</code>.</li>
+</ol>
+</div>
+<div id="travail-dapplication-a3" class="section level3 fr">
+<h3>Travail d’application A3</h3>
+<ol style="list-style-type: decimal">
+<li>Placez <code>reef_report.Rmd</code> dans <code>reports/</code> de
+votre projet <code>reef-monitoring</code> (avec les deux fichiers CSV
+dans <code>data/raw/</code>) et faites un <strong>knit</strong> en HTML,
+puis en Word.</li>
+<li>Combien de transects le rapport indique-t-il au total ?</li>
+<li>Quel % moyen de colonies blanchies donne-t-il pour 2024 (1 décimale)
+?</li>
+<li>Combien de lignes a le tableau 2025 (AMP × zone) ?</li>
+<li>Ajoutez une phrase signalant qu’une AMP n’a pas été suivie en 2022 :
+combien de transects Fishing ont été suivis cette année-là ?</li>
+<li>Ajoutez un chunk avec le corail dur moyen 2025 de la <strong>zone
+No-take de Tanjona</strong> écrit par code en ligne (1 décimale).</li>
+<li>Ajoutez une figure du recouvrement en macroalgues par an, avec une
+légende, et faites-y référence dans le texte avec
+<code>\@ref(fig:...)</code>.</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>If the knit fails with <em>cannot open file ‘data/raw/…’</em>, the
+report looks for the data from the <code>reports/</code> folder: check
+that the template uses <code>here()</code> and that your project has a
+<code>.Rproj</code> file at its root. If <code>\@ref()</code> stays as
+text, the output format is not a <code>bookdown::…2</code> format or the
+chunk has no <code>fig.cap</code>.</p>
+</div>
+<div class="fr">
+<p>Si le knit échoue avec <em>cannot open file ‘data/raw/…’</em>, le
+rapport cherche les données depuis le dossier <code>reports/</code> :
+vérifiez que le modèle utilise <code>here()</code> et que votre projet a
+un fichier <code>.Rproj</code> à sa racine. Si <code>\@ref()</code>
+reste en texte, le format de sortie n’est pas un format
+<code>bookdown::…2</code> ou le chunk n’a pas de
+<code>fig.cap</code>.</p>
+</div>
+</div>
+<div id="quiz-a03" class="quiz" data-quiz-id="a03"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMi4gVG90YWwgbnVtYmVyIG9mIHRyYW5zZWN0cyBpbiB0aGUgcmVwb3J0PyIsImZyIjoiMi4gTm9tYnJlIHRvdGFsIGRlIHRyYW5zZWN0cyBkYW5zIGxlIHJhcHBvcnQgPyIsImFuc3dlciI6MzYwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBNZWFuICUgb2YgYmxlYWNoZWQgY29sb25pZXMgaW4gMjAyNCAoMSBkZWNpbWFsKT8iLCJmciI6IjMuICUgbW95ZW4gZGUgY29sb25pZXMgYmxhbmNoaWVzIGVuIDIwMjQgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjoyNC45LCJ0b2wiOjAuMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBSb3dzIG9mIHRoZSAyMDI1IHRhYmxlPyIsImZyIjoiNC4gTGlnbmVzIGR1IHRhYmxlYXUgMjAyNSA/IiwiYW5zd2VyIjo2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI1LiBGaXNoaW5nIHRyYW5zZWN0cyBzdXJ2ZXllZCBpbiAyMDIyPyIsImZyIjoiNS4gVHJhbnNlY3RzIEZpc2hpbmcgc3VpdmlzIGVuIDIwMjIgPyIsImFuc3dlciI6MTgsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIE1lYW4gaGFyZCBjb3JhbCwgTm8tdGFrZSB6b25lIG9mIFRhbmpvbmEsIDIwMjUgKDEgZGVjaW1hbCk/IiwiZnIiOiI2LiBDb3JhaWwgZHVyIG1veWVuLCB6b25lIE5vLXRha2UgZGUgVGFuam9uYSwgMjAyNSAoMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjMxLjgsInRvbCI6MC4wNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIEEgY2h1bmsgbXVzdCBpbXBvcnQgdGhlIGRhdGEgd2l0aG91dCBzaG93aW5nIGFueXRoaW5nIGluIHRoZSByZXBvcnQuIE9wdGlvbj8iLCJmciI6IjcuIFVuIGNodW5rIGRvaXQgaW1wb3J0ZXIgbGVzIGRvbm7DqWVzIHNhbnMgcmllbiBtb250cmVyIGRhbnMgbGUgcmFwcG9ydC4gT3B0aW9uID8iLCJvcHRpb25zX2VuIjpbImVjaG8gPSBGQUxTRSIsImV2YWwgPSBGQUxTRSIsImluY2x1ZGUgPSBGQUxTRSIsInJlc3VsdHMgPSBcImhpZGVcIiJdLCJvcHRpb25zX2ZyIjpbImVjaG8gPSBGQUxTRSIsImV2YWwgPSBGQUxTRSIsImluY2x1ZGUgPSBGQUxTRSIsInJlc3VsdHMgPSBcImhpZGVcIiJdLCJhbnN3ZXIiOjJ9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gWW91ciBzY3JpcHQgd29ya3MgaW4gdGhlIENvbnNvbGUgYnV0IEtuaXQgc2F5cyBcIm9iamVjdCAncmVlZicgbm90IGZvdW5kXCIuIFdoeT8iLCJmciI6IjguIFZvdHJlIHNjcmlwdCBtYXJjaGUgZGFucyBsYSBDb25zb2xlIG1haXMgS25pdCBkaXQgwqsgb2JqZWN0ICdyZWVmJyBub3QgZm91bmQgwrsuIFBvdXJxdW9pID8iLCJvcHRpb25zX2VuIjpbIktuaXQgcnVucyBpbiBhIG5ldyBlbXB0eSBzZXNzaW9uOiByZWVmIGlzIG5vdCBjcmVhdGVkIGluc2lkZSB0aGUgLlJtZCIsIlRoZSBkYXRhIGZpbGUgaXMgdG9vIGxhcmdlIiwiS25pdCBvbmx5IHdvcmtzIHdpdGggZ2dwbG90MiIsInJlZWYgaXMgYSByZXNlcnZlZCB3b3JkIl0sIm9wdGlvbnNfZnIiOlsiS25pdCBzJ2V4w6ljdXRlIGRhbnMgdW5lIHNlc3Npb24gdmlkZSA6IHJlZWYgbidlc3QgcGFzIGNyw6nDqSBkYW5zIGxlIC5SbWQiLCJMZSBmaWNoaWVyIGRlIGRvbm7DqWVzIGVzdCB0cm9wIGdyb3MiLCJLbml0IG5lIG1hcmNoZSBxdSdhdmVjIGdncGxvdDIiLCJyZWVmIGVzdCB1biBtb3QgcsOpc2VydsOpIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBUbyByZWZlciB0byB0aGUgZmlndXJlIG9mIHRoZSBjaHVuayBsYWJlbGxlZCBcInRyZW5kXCIgeW91IHdyaXRlOiIsImZyIjoiOS4gUG91ciByZW52b3llciDDoCBsYSBmaWd1cmUgZHUgY2h1bmsgbm9tbcOpIMKrIHRyZW5kIMK7IHZvdXMgw6ljcml2ZXogOiIsIm9wdGlvbnNfZW4iOlsiRmlndXJlIHRyZW5kIiwiXFxAcmVmKGZpZzp0cmVuZCkiLCJbdHJlbmRdKCNmaWcpIiwiYHIgdHJlbmRgIl0sIm9wdGlvbnNfZnIiOlsiRmlndXJlIHRyZW5kIiwiXFxAcmVmKGZpZzp0cmVuZCkiLCJbdHJlbmRdKCNmaWcpIiwiYHIgdHJlbmRgIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gWW91ciBpbnN0aXR1dGlvbiB3YW50cyBpdHMgb3duIGZvbnRzIGFuZCBoZWFkaW5nIHN0eWxlcyBpbiBXb3JkLiBZb3UgdXNlOiIsImZyIjoiMTAuIFZvdHJlIGluc3RpdHV0aW9uIHZldXQgc2VzIHBvbGljZXMgZXQgc3R5bGVzIGRlIHRpdHJlcyBkYW5zIFdvcmQuIFZvdXMgdXRpbGlzZXogOiIsIm9wdGlvbnNfZW4iOlsicmVmZXJlbmNlX2RvY3ggaW4gdGhlIFlBTUwiLCJmaWcud2lkdGgiLCJhIENTUyBmaWxlIiwiY2FjaGUgPSBUUlVFIl0sIm9wdGlvbnNfZnIiOlsicmVmZXJlbmNlX2RvY3ggZGFucyBsZSBZQU1MIiwiZmlnLndpZHRoIiwidW4gZmljaGllciBDU1MiLCJjYWNoZSA9IFRSVUUiXSwiYW5zd2VyIjowfV0=">
+
+</div>
+<div class="solution" data-quiz="a03">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># 2-4: the numbers printed by the template (n_transects, b24, table of 2025)</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co"># 5:</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">count</span>(reef, year, zone) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2022</span>)       <span class="co"># Tanjona missing -&gt; fewer Fishing transects</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># 6: in a chunk with include = FALSE</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>tj <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2025</span>, mpa <span class="sc">==</span> <span class="st">&quot;Tanjona&quot;</span>, zone <span class="sc">==</span> <span class="st">&quot;No-take&quot;</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>tj_nt <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">mean</span>(tj<span class="sc">$</span>hard_coral), <span class="dv">1</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co"># ... and in the text:  In 2025, the No-take zone of Tanjona had `r tj_nt` % hard coral.</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co"># 7:</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>Figure \@ref(fig:algae) shows the mean macroalgae cover per year.</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="in">```{r algae, fig.cap = &quot;Mean macroalgae cover per year and zone.&quot;}</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="in">reef %&gt;% group_by(year, zone) %&gt;% summarise(m = mean(macroalgae), .groups = &quot;drop&quot;) %&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="in">  ggplot(aes(year, m, colour = zone)) + geom_line() + geom_point() +</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="in">  labs(x = NULL, y = &quot;Macroalgae cover (%)&quot;) + theme_minimal()</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

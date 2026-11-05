@@ -163,8 +163,9 @@
   //   earned   = sum of the best attempt of each quiz
   //   total    = sum of the number of questions of all quizzes of the level
   //   possible = best score still reachable (full marks where attempts remain)
+  //   Quizzes of SKIPPED sessions are left out (see isSkipped below).
   function levelStats(levelId) {
-    const ids = Object.keys(QIDX).filter(id => QIDX[id].level === levelId);
+    const ids = Object.keys(QIDX).filter(id => QIDX[id].level === levelId && !isSkipped(QIDX[id].page));
     let earned = 0, total = 0, possible = 0, done = 0;
     ids.forEach(id => {
       const max = QIDX[id].max, q = STATE.quizzes[id];
@@ -212,6 +213,21 @@
              passed: n === 0 || (done === n && earned >= PASS * total - 1e-9),
              stuck: n > 0 && possible < PASS * total - 1e-9 };
   }
+  // A session is SKIPPED when the teacher let the student jump over it: it comes
+  // BEFORE a session listed in "open_pages" (same level) and the student has not
+  // started its quiz. Skipped sessions do not count in the level's 75 %.
+  // (Sessions done anyway, even after skipping, count normally.)
+  function isSkipped(pageId) {
+    if (!AUTH || isTeacher()) return false;
+    const f = findPage(pageId);
+    if (!f) return false;
+    if (pageQuizIds(f.page).some(id => STATE.quizzes[id])) return false;
+    return (AUTH.openPages || []).some(op => {
+      const g = findPage(op);
+      return g && g.level.id === f.level.id && g.i > f.i;
+    });
+  }
+
   // Pages the teacher opened by hand (column "open_pages" of the Google Sheet)
   function manuallyOpened(pageId) {
     return (AUTH.openPages || []).indexOf(pageId) !== -1;
@@ -225,7 +241,7 @@
     if (!f) return true;                                 // home page, help, cheatsheets…
     if (!isUnlocked(f.level.id)) return false;
     if (LEVEL_IDS.indexOf(f.level.id) < LEVEL_IDS.indexOf(AUTH.level || "beginner")) return true;
-    if (f.i === 0 || manuallyOpened(pageId)) return true;
+    if (f.i === 0 || manuallyOpened(pageId) || isSkipped(pageId)) return true;   // skipped = open for revision
     if (pageQuizIds(f.page).some(id => STATE.quizzes[id])) return true;   // work already started is never hidden
     return pageStats(f.level.pages[f.i - 1].id).passed;
   }
@@ -261,7 +277,9 @@
     const f = findPage(pageId);
     if (!f) return;
     const ps = pageStats(pageId), levelId = f.level.id;
-    if (ps.stuck && !manuallyOpenedNext(pageId)) {
+    // a level below the one given in the Sheet is optional revision: no "stuck" alert
+    const optional = LEVEL_IDS.indexOf(levelId) < LEVEL_IDS.indexOf(AUTH.level || "beginner");
+    if (ps.stuck && !optional && !manuallyOpenedNext(pageId)) {
       if (!STATE.alerts[pageId]) {
         STATE.alerts[pageId] = new Date().toISOString();
         saveSoon();
@@ -273,7 +291,8 @@
     }
     const st = levelStats(levelId);
     const next = LEVEL_IDS[LEVEL_IDS.indexOf(levelId) + 1];
-    if (st.passed && !STATE.certificates[levelId]) {
+    const inProgress = !!f.level.inProgress;          // level still being written: no certificate yet
+    if (st.passed && !inProgress && !STATE.certificates[levelId]) {
       api("unlock", { user: AUTH.user, pass: AUTH.pass, passed: levelId, level: next,
                       pct: Math.round(100 * st.pct) })
         .then(r => {
@@ -531,6 +550,16 @@
   function toNumber(s) { return parseFloat(String(s).replace(",", ".").replace(/[^0-9.\-eE]/g, "")); }
   function quizFinished(q, max) { return q && (q.attempts >= MAX_ATTEMPTS || q.best === max); }
 
+  function skippedNote() {
+    if (!isSkipped(PAGE_ID)) return;
+    document.querySelectorAll(".quiz").forEach(el => {
+      const n = document.createElement("p");
+      n.className = "rc-quiz-rule rc-skip-note";
+      n.innerHTML = t("<b>You are exempted from this session.</b> Its quiz is optional and does not count in your level score — unless you take it: then it counts like any other quiz.",
+                      "<b>Vous êtes dispensé de cette séance.</b> Son quiz est facultatif et ne compte pas dans votre score du niveau — sauf si vous le faites : il compte alors comme les autres quiz.");
+      el.prepend(n);
+    });
+  }
   function buildQuizzes() {
     document.querySelectorAll(".quiz").forEach(el => {
       const id = el.dataset.quizId;
@@ -812,9 +841,12 @@
       let status;
       if (!l.pages.length) status = `<span class="rc-tag soon">${t("coming soon", "bientôt")}</span>`;
       else if (!open) status = `<span class="rc-tag locked">🔒 ${t("locked", "verrouillé")}</span>`;
+      else if (!st.passed && LEVEL_IDS.indexOf(l.id) < LEVEL_IDS.indexOf(AUTH.level || "beginner") && !isTeacher())
+        status = `<span class="rc-tag soon">${t("skipped — open for revision", "dispensé — ouvert pour révision")}</span>`;
+      else if (l.inProgress && open) status = `<span class="rc-tag open">${t("in preparation", "en préparation")} · ${t("score", "score")} ${Math.round(100 * st.pct)} % · ${st.done}/${st.n} quiz</span>`;
       else if (st.passed) status = `<span class="rc-tag passed">✓ ${t("passed", "validé")} · ${Math.round(100 * st.pct)} %</span>
                                     ${STATE.certificates[l.id] ? `<a href="certificate.html?level=${l.id}">${t("certificate", "certificat")}</a>` : ""}`;
-      else if (levelHasStuckPage(l.id) && !isTeacher()) status = `<span class="rc-tag stuck">${t("needs help", "besoin d'aide")}</span> <a href="help.html">${t("contact me", "me contacter")}</a>`;
+      else if (levelHasStuckPage(l.id) && !isTeacher() && LEVEL_IDS.indexOf(l.id) >= LEVEL_IDS.indexOf(AUTH.level || "beginner")) status = `<span class="rc-tag stuck">${t("needs help", "besoin d'aide")}</span> <a href="help.html">${t("contact me", "me contacter")}</a>`;
       else status = `<span class="rc-tag open">${t("score", "score")} ${Math.round(100 * st.pct)} % · ${st.done}/${st.n} quiz</span>`;
       html += `<div class="rc-level ${open ? "" : "is-locked"}"><h3>${t(l.en, l.fr)} ${status}</h3>`;
       if (l.pages.length && open) {
@@ -827,7 +859,8 @@
           ids.forEach(qid => { const q = STATE.quizzes[qid]; if (q) { sc += q.best; mx += q.max; dn++; } });
           const cell = !dn ? "—" : `<b>${sc}/${mx}</b>` + (ids.length > 1 ? ` <small>(${dn}/${ids.length} quiz)</small>` : "");
           const pOpen = isPageOpen(p.id), pst = pageStats(p.id);
-          const tag = !pOpen ? ` <span class="rc-tag locked">🔒</span>`
+          const tag = isSkipped(p.id) ? ` <span class="rc-tag soon">${t("skipped", "dispensé")}</span>`
+            : !pOpen ? ` <span class="rc-tag locked">🔒</span>`
             : (pst.complete && pst.passed) ? ` <span class="rc-tag passed">✓</span>`
             : (pst.stuck && !isTeacher() && !manuallyOpenedNext(p.id)) ? ` <a class="rc-tag stuck" href="help.html?page=${p.id}">${t("help", "aide")}</a>` : "";
           const link = pOpen ? `<a href="${p.id}.html">${t(p.en, p.fr)}</a>` : `<span class="rc-locked-row">${t(p.en, p.fr)}</span>`;
@@ -892,6 +925,7 @@
       if (PAGE_ID !== "index" && allPageIds().indexOf(PAGE_ID) !== -1) STATE.lastPage = PAGE_ID;
       buildSections();
       buildQuizzes();
+      skippedNote();
       buildHints();
       unlockSolutions();
       addCopyButtons();

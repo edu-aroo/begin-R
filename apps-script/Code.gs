@@ -11,8 +11,12 @@
    Column ORDER does not matter: columns are found by their header name.
    level : empty or "beginner" = beginner; "intermediate" / "advanced" = direct access
    role  : empty or "student"; "teacher" = sees everything, nothing recorded
-   open_pages : sessions you open by hand for a stuck student, separated by commas,
-                e.g. "05-cleaning" or "05-cleaning, i03-joins" (file names without .html)
+   open_pages : sessions you open by hand, separated by commas, e.g. "05-cleaning" or
+                "05-cleaning, i03-joins" (file names without .html). Two uses:
+                - unblock a stuck student (write the NEXT session);
+                - let a student skip lessons they already know (write the session they
+                  start from): the earlier sessions they did not attempt are "skipped"
+                  and do not count in the level's 75 %.
    E-MAILS you receive: a student stuck below 75 % on a session (once per session),
                         and a student who passes a level (with the certificate code).
 
@@ -23,8 +27,8 @@
 // ---- SETTINGS ----------------------------------------------------------------
 // Address of your course site, WITH the final slash. Used to read the list of
 // quizzes (assets/quiz_index.json) to check level scores. Leave "" to skip checks.
-const SITE_URL = "";                         // e.g. "https://edu-aroo.github.io/begin-R/"
-const ALERT_EMAIL = "aroo.madaeducation@gmail.com";   // receives "needs help" and "level passed" e-mails
+const SITE_URL = "https://edu-aroo.github.io/begin-R/";                         // e.g. "https://edu-aroo.github.io/begin-R/"
+const ALERT_EMAIL = "aroofalinirina@gmail.com";   // receives "needs help" and "level passed" e-mails
 const MAX_ATTEMPTS = 2;                      // same value as maxAttempts in config.js
 const PASS = 0.75;                           // same value as passThreshold in config.js
 const LEVELS = ["beginner", "intermediate", "advanced"];
@@ -184,14 +188,25 @@ function quizIndex() {
   } catch (err) { return null; }
 }
 
-// Score of one level for one student, from the "scores" tab (best attempt of each quiz)
-function levelResult(username, level, idx, allScores) {
-  const ids = Object.keys(idx).filter(function (id) { return idx[id].level === level; });
+// Score of one level for one student, from the "scores" tab (best attempt of each quiz).
+// openPages = sessions the teacher opened by hand (column open_pages). A quiz of a
+// session placed BEFORE an opened session of the same level, and never attempted,
+// is "skipped" and left out of the 75 % (page order = order of the file names:
+// 00-, 01-… / i00-, i01-… / a00-, a01-…, as in config.js).
+function levelResult(username, level, idx, allScores, openPages) {
+  const mine = allScores.filter(function (r) { return String(r.username).toLowerCase() === username; });
+  const opened = (openPages || []).filter(function (op) {
+    return Object.keys(idx).some(function (id) { return idx[id].page === op && idx[id].level === level; });
+  });
+  const ids = Object.keys(idx).filter(function (id) {
+    if (idx[id].level !== level) return false;
+    const tried = mine.some(function (r) { return String(r.quiz) === id; });
+    const skipped = !tried && opened.some(function (op) { return String(idx[id].page) < op; });
+    return !skipped;
+  });
   let earned = 0, total = 0, possible = 0, done = 0;
   ids.forEach(function (id) {
-    const att = allScores.filter(function (r) {
-      return String(r.username).toLowerCase() === username && String(r.quiz) === id;
-    });
+    const att = mine.filter(function (r) { return String(r.quiz) === id; });
     const max = idx[id].max;
     const best = att.reduce(function (m, r) { return Math.max(m, Number(r.score) || 0); }, 0);
     total += max;
@@ -209,7 +224,7 @@ function unlockLevel(student, req) {
   const idx = quizIndex();
   let pct = Number(req.pct) || 0;
   if (idx) {
-    const res = levelResult(student.username, req.passed, idx, rows("scores"));
+    const res = levelResult(student.username, req.passed, idx, rows("scores"), student.openPages);
     if (!res.passed) return { ok: false, error: "not_passed" };
     pct = Math.round(100 * res.pct);
   }
@@ -300,7 +315,8 @@ function refreshDashboard() {
     const r = [u, s.full_name, s.level || "beginner", p.updated || "", p.last_page || ""];
     LEVELS.forEach(function (l) {
       if (!idx) { r.push("", "", "set SITE_URL"); return; }
-      const res = levelResult(u, l, idx, sc);
+      const res = levelResult(u, l, idx, sc, String(s.open_pages || "").split(/[,;\s]+/)
+                    .map(function (x) { return x.trim().replace(/\.html$/, ""); }).filter(String));
       r.push(Math.round(100 * res.pct), res.done + "/" + res.n,
              res.n === 0 ? "" : res.passed ? "passed" : res.stuck ? "NEEDS HELP" : res.done ? "in progress" : "");
     });

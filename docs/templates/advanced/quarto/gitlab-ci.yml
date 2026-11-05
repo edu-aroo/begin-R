@@ -1,0 +1,12 @@
+# .gitlab-ci.yml — GitLab Pages: publishes the folder docs/ that you rendered
+# on your computer (quarto render), each time you push to the main branch.
+pages:
+  stage: deploy
+  script:
+    - mkdir -p public
+    - cp -r docs/* public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"

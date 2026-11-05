@@ -1,0 +1,320 @@
+---
+title: "[A4 · Parameterised and automatic reports]{.en}[A4 · Rapports paramétrés et automatiques]{.fr}"
+pagetitle: "R for marine sciences · A4"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+library(dplyr)
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- turn a report into a **template** with `params` in its YAML header;
+- render it with chosen values: **Knit with Parameters** or `rmarkdown::render(params = list(...))`;
+- produce **one report per MPA (or per site, per year…)** with a loop, with clear file names;
+- make the template **robust** (missing years, empty groups) and keep it short with your own functions;
+- organise an automatic reporting workflow that can be re-run every year.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- transformer un rapport en **modèle** avec `params` dans son en-tête YAML ;
+- le produire avec des valeurs choisies : **Knit with Parameters** ou `rmarkdown::render(params = list(...))` ;
+- produire **un rapport par AMP (ou par site, par année…)** avec une boucle, avec des noms de fichiers clairs ;
+- rendre le modèle **robuste** (années manquantes, groupes vides) et le garder court avec vos propres fonctions ;
+- organiser une production automatique de rapports à relancer chaque année.
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Data of this session (simulated).** The same coral monitoring (Session A0). Each **MPA manager** wants a short report about **her or his MPA only**, every year, a few weeks after the field campaign — three reports per year, soon 2026, 2027… Writing them by hand would take days; with one parameterised template it takes one click. Note the gap in the data: **Tanjona was not surveyed in 2022**, so a report on Tanjona 2023 has no "previous year" to compare with — the template must handle it.
+:::
+::: fr
+**Données de cette séance (simulées).** Le même suivi corallien (séance A0). Chaque **gestionnaire d'AMP** veut un court rapport sur **son AMP seulement**, chaque année, quelques semaines après la campagne de terrain — trois rapports par an, bientôt 2026, 2027… Les écrire à la main prendrait des jours ; avec un seul modèle paramétré, un clic suffit. Notez le trou dans les données : **Tanjona n'a pas été suivie en 2022**, donc un rapport Tanjona 2023 n'a pas d'« année précédente » à comparer — le modèle doit le gérer.
+:::
+:::
+
+`r dl("mpa_report.Rmd", "mpa_report.Rmd", dir = "templates/advanced")` `r dl("render_reports.R", "render_reports.R", dir = "templates/advanced")`
+
+## [Parameters in the YAML]{.en}[Des paramètres dans le YAML]{.fr} {#params}
+
+::: en
+Add a `params:` field to the header, with a **default value** for each parameter. Inside the report, `params$mpa` and `params$year` are used like any R value — to filter the data, in titles, in sentences.
+:::
+::: fr
+Ajoutez un champ `params:` à l'en-tête, avec une **valeur par défaut** pour chaque paramètre. Dans le rapport, `params$mpa` et `params$year` s'utilisent comme n'importe quelle valeur R — pour filtrer les données, dans les titres, dans les phrases.
+:::
+
+`r show_file("templates/advanced/mpa_report.Rmd")`
+
+::: en
+Three things to notice: the **title** itself is computed (`paste('Monitoring report —', params$mpa)`); the data are **filtered once**, at the top, so the rest of the report does not need to know which MPA it is about; and the sentence about the previous year uses `if … else` (Intermediate, Session I5) so the report still makes sense when the previous year is missing.
+:::
+::: fr
+Trois choses à remarquer : le **titre** lui-même est calculé (`paste('Monitoring report —', params$mpa)`) ; les données sont **filtrées une seule fois**, en haut, si bien que le reste du rapport n'a pas besoin de savoir de quelle AMP il s'agit ; et la phrase sur l'année précédente utilise `if … else` (intermédiaire, séance I5) pour que le rapport ait encore du sens quand l'année précédente manque.
+:::
+
+::: {.callout .tip}
+::: en
+**Knit with Parameters.** In RStudio, the small arrow next to *Knit* → *Knit with Parameters…* opens a form. To get a drop-down list instead of a text box, describe the parameter:
+
+```yaml
+params:
+  mpa:
+    label: "MPA"
+    value: "Ankaramena"
+    input: select
+    choices: ["Ankaramena", "Nosy Fasika", "Tanjona"]
+  year:
+    label: "Year"
+    value: 2025
+    input: slider
+    min: 2019
+    max: 2025
+    step: 1
+    sep: ""
+```
+:::
+::: fr
+**Knit with Parameters.** Dans RStudio, la petite flèche à côté de *Knit* → *Knit with Parameters…* ouvre un formulaire. Pour avoir une liste déroulante au lieu d'une zone de texte, décrivez le paramètre :
+
+```yaml
+params:
+  mpa:
+    label: "AMP"
+    value: "Ankaramena"
+    input: select
+    choices: ["Ankaramena", "Nosy Fasika", "Tanjona"]
+  year:
+    label: "Année"
+    value: 2025
+    input: slider
+    min: 2019
+    max: 2025
+    step: 1
+    sep: ""
+```
+:::
+:::
+
+## [Rendering from code]{.en}[Produire par le code]{.fr} {#render}
+
+::: en
+`rmarkdown::render()` does what the Knit button does, but you choose the parameters, the name and the folder of the output:
+:::
+::: fr
+`rmarkdown::render()` fait ce que fait le bouton Knit, mais vous choisissez les paramètres, le nom et le dossier de la sortie :
+:::
+
+```{r, eval=FALSE}
+rmarkdown::render(
+  input       = here::here("reports", "mpa_report.Rmd"),
+  params      = list(mpa = "Tanjona", year = 2023),     # replaces the default values
+  output_file = "report_tanjona_2023.html",
+  output_dir  = here::here("outputs", "reports"),
+  envir       = new.env()                               # a clean environment for this report
+)
+```
+
+::: en
+**Why `envir = new.env()`?** By default `render()` runs the report in your current session: objects left by the previous report (or in your Environment) could be used by mistake. A new environment gives each report a clean start — exactly like the Knit button.
+:::
+::: fr
+**Pourquoi `envir = new.env()` ?** Par défaut, `render()` exécute le rapport dans votre session courante : des objets laissés par le rapport précédent (ou dans votre Environment) pourraient être utilisés par erreur. Un nouvel environnement donne à chaque rapport un départ propre — exactement comme le bouton Knit.
+:::
+
+## [One report per MPA, in one click]{.en}[Un rapport par AMP, en un clic]{.fr} {#loop}
+
+`r show_file("templates/advanced/render_reports.R")`
+
+::: en
+This script was run for real when this page was built, in a temporary copy of a project with the structure of Session A0. Here are the files it produced and the first sentences of each report:
+:::
+::: fr
+Ce script a été réellement exécuté à la construction de cette page, dans une copie temporaire d'un projet ayant l'arborescence de la séance A0. Voici les fichiers produits et les premières phrases de chaque rapport :
+:::
+
+```{r demo-render, echo=FALSE, comment=""}
+# Build a temporary project (data/raw, reports, R, .Rproj) and run render_reports.R in a NEW R process,
+# exactly as a student would do in RStudio.
+proj <- file.path(tempdir(), "a04-demo"); unlink(proj, recursive = TRUE)
+for (d in c("data/raw", "reports", "R")) dir.create(file.path(proj, d), recursive = TRUE)
+writeLines(c("Version: 1.0", "", "RestoreWorkspace: No", "SaveWorkspace: No"), file.path(proj, "a04-demo.Rproj"))
+invisible(file.copy(c("data/advanced/reef_monitoring.csv", "data/advanced/reef_sites.csv"), file.path(proj, "data/raw")))
+invisible(file.copy("templates/advanced/mpa_report.Rmd", file.path(proj, "reports")))
+invisible(file.copy("templates/advanced/render_reports.R", file.path(proj, "R")))
+old <- setwd(proj)
+invisible(system2(file.path(R.home("bin"), "Rscript"), c("-e", shQuote('source("R/render_reports.R")')),
+                  stdout = TRUE, stderr = TRUE))
+setwd(old)
+out <- list.files(file.path(proj, "outputs", "reports"), full.names = TRUE)
+cat(basename(out), sep = "\n"); cat("\n")
+for (f in out) {
+  txt <- xml2::xml_text(xml2::read_html(f))
+  s <- regmatches(txt, regexpr("The team surveyed[^)]*\\)\\.", txt))
+  cat(basename(f), ":\n  ", gsub("\\s+", " ", s), "\n", sep = "")
+}
+```
+
+::: {.callout .try}
+::: en
+**Try it.** Change the loop so that it produces the reports of **2023, 2024 and 2025** for the three MPAs (two nested loops, or `expand.grid()` and one loop). How many files do you get? Open the report of Tanjona 2023: what does it say about the previous year?
+:::
+::: fr
+**À vous.** Modifiez la boucle pour produire les rapports **2023, 2024 et 2025** des trois AMP (deux boucles imbriquées, ou `expand.grid()` et une seule boucle). Combien de fichiers obtenez-vous ? Ouvrez le rapport Tanjona 2023 : que dit-il de l'année précédente ?
+:::
+:::
+
+```{r, eval=FALSE}
+jobs <- expand.grid(mpa = c("Ankaramena", "Nosy Fasika", "Tanjona"), year = 2023:2025,
+                    stringsAsFactors = FALSE)        # one row = one report
+for (i in seq_len(nrow(jobs))) {
+  m <- jobs$mpa[i]; y <- jobs$year[i]
+  rmarkdown::render(here::here("reports", "mpa_report.Rmd"),
+                    params = list(mpa = m, year = y),
+                    output_file = sprintf("report_%s_%d.html", gsub(" ", "_", tolower(m)), y),
+                    output_dir = here::here("outputs", "reports"), envir = new.env(), quiet = TRUE)
+}
+```
+
+## [Robust templates]{.en}[Des modèles robustes]{.fr} {#robust}
+
+::: en
+A template is run on data you have not looked at. Protect it:
+
+- **Check the parameters** at the top: `stopifnot(params$mpa %in% unique(reef$mpa))` stops with a clear message if somebody types "Ankaramenna".
+- **Handle empty data**: `if (nrow(now) == 0) { cat("No survey in", params$year); knitr::knit_exit() }` ends the report politely.
+- **Write sentences that work in every case** (`if … else` in inline code, `ifelse()` for "increased" / "decreased").
+- **Put calculations in functions** (`R/functions.R`, sourced by the template with `source(here("R", "functions.R"))`): the template stays short and the same function serves the reports, the scripts and the quizzes of your team.
+- **Never** write a number by hand in the template.
+:::
+::: fr
+Un modèle s'exécute sur des données que vous n'avez pas regardées. Protégez-le :
+
+- **Vérifiez les paramètres** en haut : `stopifnot(params$mpa %in% unique(reef$mpa))` s'arrête avec un message clair si quelqu'un tape « Ankaramenna ».
+- **Gérez les données vides** : `if (nrow(now) == 0) { cat("Pas de suivi en", params$year); knitr::knit_exit() }` termine le rapport proprement.
+- **Écrivez des phrases qui marchent dans tous les cas** (`if … else` dans le code en ligne, `ifelse()` pour « a augmenté » / « a diminué »).
+- **Mettez les calculs dans des fonctions** (`R/functions.R`, chargé par le modèle avec `source(here("R", "functions.R"))`) : le modèle reste court et la même fonction sert aux rapports, aux scripts et aux quiz de votre équipe.
+- **N'écrivez jamais** un nombre à la main dans le modèle.
+:::
+
+```{r}
+# A sentence that adapts to the data (Intermediate, Session I6: functions)
+trend_sentence <- function(now, before) {
+  if (is.na(before)) return("There was no survey the year before.")
+  d <- round(now - before, 1)
+  paste0("Cover ", ifelse(d >= 0, "increased", "decreased"), " by ", abs(d),
+         " points since the previous survey.")
+}
+trend_sentence(26.8, 24.6)
+trend_sentence(27.5, NA)
+```
+
+## [Running it every year]{.en}[Le relancer chaque année]{.fr} {#automation}
+
+::: en
+With the structure of Sessions A0–A2, the yearly routine becomes:
+
+1. add the new field data to `data/raw/` (a new file, or new rows — never overwriting the old ones);
+2. `renv::restore()` if you changed computer; run `R/00_run_all.R`, then `R/render_reports.R` with the new year;
+3. check one report carefully, **commit** (code + `renv.lock`, not the HTML files) and push;
+4. send the reports — or publish them online (Session A9).
+
+Going further (optional): Windows *Task Scheduler* or `cron` (Mac/Linux) can run an R script at a fixed time, and **GitHub Actions** / **GitLab CI** can re-render reports each time you push — useful for a project website.
+:::
+::: fr
+Avec l'organisation des séances A0–A2, la routine annuelle devient :
+
+1. ajouter les nouvelles données de terrain dans `data/raw/` (un nouveau fichier, ou de nouvelles lignes — sans jamais écraser les anciennes) ;
+2. `renv::restore()` si vous avez changé d'ordinateur ; lancer `R/00_run_all.R`, puis `R/render_reports.R` avec la nouvelle année ;
+3. vérifier soigneusement un rapport, **valider** (code + `renv.lock`, pas les fichiers HTML) et pousser ;
+4. envoyer les rapports — ou les publier en ligne (séance A9).
+
+Pour aller plus loin (facultatif) : le *Planificateur de tâches* de Windows ou `cron` (Mac/Linux) peuvent lancer un script R à heure fixe, et **GitHub Actions** / **GitLab CI** peuvent reproduire les rapports à chaque push — utile pour un site de projet.
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+R <- left_join(read.csv("data/advanced/reef_monitoring.csv"), read.csv("data/advanced/reef_sites.csv"), by = "site_id")
+a1 <- round(mean(R$hard_coral[R$mpa == "Nosy Fasika" & R$year == 2024]), 1)
+a2 <- length(unique(R$site_id[R$mpa == "Tanjona" & R$year == 2025]))
+a3 <- 3 * length(2023:2025)
+a4 <- round(mean(R$hard_coral[R$mpa == "Ankaramena" & R$year == 2025]) -
+            mean(R$hard_coral[R$mpa == "Ankaramena" & R$year == 2024]), 1)
+```
+
+::: application
+::: en
+### Application work A4
+
+1. Put `mpa_report.Rmd` in `reports/` and `render_reports.R` in `R/` of your project. Knit the template with its default parameters, then **Knit with Parameters** for *Nosy Fasika* 2024. What mean hard coral cover does the report give (1 decimal)?
+2. Run `render_reports.R`. How many sites does the Tanjona 2025 report mention?
+3. Change the script to produce the reports 2023–2025 for the three MPAs. How many files?
+4. Add `trend_sentence()` (above) to `R/functions.R`, source it in the template and use it in the first paragraph. For Ankaramena 2025, by how many points did cover change since 2024 (1 decimal, negative if it decreased)?
+5. Add a check at the top of the template that stops with a clear message if the MPA does not exist. Try it with `"Ankaramenna"`.
+6. Commit the template, the script and `R/functions.R` (not the HTML reports: add `outputs/` to `.gitignore`).
+:::
+::: fr
+### Travail d'application A4
+
+1. Placez `mpa_report.Rmd` dans `reports/` et `render_reports.R` dans `R/` de votre projet. Faites un knit du modèle avec ses paramètres par défaut, puis **Knit with Parameters** pour *Nosy Fasika* 2024. Quel corail dur moyen le rapport donne-t-il (1 décimale) ?
+2. Lancez `render_reports.R`. Combien de sites le rapport Tanjona 2025 mentionne-t-il ?
+3. Modifiez le script pour produire les rapports 2023–2025 des trois AMP. Combien de fichiers ?
+4. Ajoutez `trend_sentence()` (ci-dessus) à `R/functions.R`, chargez-le dans le modèle et utilisez-le dans le premier paragraphe. Pour Ankaramena 2025, de combien de points le recouvrement a-t-il changé depuis 2024 (1 décimale, négatif s'il a diminué) ?
+5. Ajoutez en haut du modèle une vérification qui s'arrête avec un message clair si l'AMP n'existe pas. Essayez avec `"Ankaramenna"`.
+6. Validez le modèle, le script et `R/functions.R` (pas les rapports HTML : ajoutez `outputs/` au `.gitignore`).
+:::
+:::
+
+::: hint
+::: en
+In the template, the previous year is `params$year - 1`. For question 4 compute `mean(now$hard_coral) - mean(before$hard_coral)` **before** rounding. If the parameters seem ignored, check that you wrote `params$year` (with an **s**) and that `render()` receives `params = list(...)`.
+:::
+::: fr
+Dans le modèle, l'année précédente est `params$year - 1`. Pour la question 4, calculez `mean(now$hard_coral) - mean(before$hard_coral)` **avant** d'arrondir. Si les paramètres semblent ignorés, vérifiez que vous avez écrit `params$year` (avec un **s**) et que `render()` reçoit `params = list(...)`.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("a04", list(
+  q_num("1. Mean hard coral cover, Nosy Fasika 2024 (1 decimal)?", "1. Corail dur moyen, Nosy Fasika 2024 (1 décimale) ?", a1, tol = 0.06),
+  q_num("2. Number of sites in the Tanjona 2025 report?", "2. Nombre de sites dans le rapport Tanjona 2025 ?", a2, tol = 0),
+  q_num("3. Number of reports for 3 MPAs × 2023–2025?", "3. Nombre de rapports pour 3 AMP × 2023–2025 ?", a3, tol = 0),
+  q_num("4. Change in cover at Ankaramena, 2024 → 2025 (points, 1 decimal)?", "4. Variation du recouvrement à Ankaramena, 2024 → 2025 (points, 1 décimale) ?", a4, tol = 0.11),
+  q_mcq("5. Inside the report, the MPA chosen in the parameters is:", "5. Dans le rapport, l'AMP choisie dans les paramètres est :",
+        c("mpa", "params$mpa", "yaml$mpa", "input$mpa"),
+        c("mpa", "params$mpa", "yaml$mpa", "input$mpa"), correct = 2),
+  q_mcq("6. Why use envir = new.env() in render() inside a loop?", "6. Pourquoi utiliser envir = new.env() dans render() à l'intérieur d'une boucle ?",
+        c("So that each report starts clean, without objects left by the previous one", "To render faster", "It is required for HTML", "To save the parameters"),
+        c("Pour que chaque rapport parte propre, sans objets laissés par le précédent", "Pour produire plus vite", "C'est obligatoire pour le HTML", "Pour enregistrer les paramètres"), correct = 1),
+  q_mcq("7. Without output_file, the 3 reports of the loop would:", "7. Sans output_file, les 3 rapports de la boucle :",
+        c("each get a different name automatically", "overwrite each other (same name mpa_report.html)", "not be created", "be saved as Word"),
+        c("auraient chacun un nom différent automatiquement", "s'écraseraient (même nom mpa_report.html)", "ne seraient pas créés", "seraient enregistrés en Word"), correct = 2),
+  q_mcq("8. What should you commit to Git in this workflow?", "8. Que faut-il valider dans Git dans ce déroulé ?",
+        c("The HTML reports only", "Everything, including renv/library/", "Nothing: reports are not code", "The template, the scripts, the functions and renv.lock"),
+        c("Seulement les rapports HTML", "Tout, y compris renv/library/", "Rien : les rapports ne sont pas du code", "Le modèle, les scripts, les fonctions et renv.lock"), correct = 4)
+))
+```
+
+::: {.solution data-quiz="a04"}
+```{r, eval=FALSE}
+# 1: Knit with Parameters -> mpa = "Nosy Fasika", year = 2024 -> "Mean hard coral cover was 24.6 %"
+# 2: the Tanjona 2025 report says "6 sites"
+# 3: 9 reports
+jobs <- expand.grid(mpa = c("Ankaramena", "Nosy Fasika", "Tanjona"), year = 2023:2025, stringsAsFactors = FALSE)
+nrow(jobs)
+# 4: R/functions.R contains trend_sentence(); in the template's setup chunk:
+source(here("R", "functions.R"))
+m_now    <- mean(now$hard_coral)
+m_before <- if (nrow(before) > 0) mean(before$hard_coral) else NA
+round(m_now - m_before, 1)            # Ankaramena 2025: +3.1 (3.2 if you subtract the rounded means)
+# ...and in the text:  `r trend_sentence(m_now, m_before)`
+# 5: at the top of the setup chunk, after reading the data
+if (!params$mpa %in% unique(reef$mpa)) stop("Unknown MPA: ", params$mpa,
+                                            ". Choose one of: ", paste(unique(reef$mpa), collapse = ", "))
+```
+:::

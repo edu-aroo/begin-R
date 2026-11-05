@@ -1,0 +1,164 @@
+---
+title: "R pour les sciences marines — niveau avancé"
+subtitle: "Partie 2 · Séances A5 à A7 — SIG vecteur (sf), rasters (terra), cartes thématiques"
+author: "Aroo Falinirina"
+output:
+  html_document:
+    theme: null
+    highlight: tango
+    mathjax: null
+    self_contained: true
+    css: slides.css
+    includes:
+      in_header: slides-engine.html
+---
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+
+```{r, include=FALSE}
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+```{r, include=FALSE}
+source("R/course_helpers.R")
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE, fig.width = 6, fig.height = 5,
+                      out.width = "45%", fig.align = "center", dpi = 110)
+suppressMessages({library(sf); library(terra); library(dplyr); library(ggplot2)})
+gpkg  <- "data/advanced/monitoring_gis.gpkg"
+land  <- st_read(gpkg, "land", quiet = TRUE); zones <- st_read(gpkg, "mpa_zones", quiet = TRUE)
+sites <- st_read(gpkg, "reef_sites", quiet = TRUE)
+villages <- st_read("data/advanced/villages_shp/villages.shp", quiet = TRUE)
+reef <- read.csv("data/advanced/reef_monitoring.csv")
+bb <- st_bbox(st_buffer(zones, 3000))
+```
+
+## Au programme
+
+- **A5** : données SIG vecteur avec `sf`
+- **A6** : rasters avec `terra`
+- **A7** : cartes thématiques (`ggplot2` + `sf`, `tmap`)
+
+<div class="notes">
+~25 min sf · ~20 min terra · ~15 min cartes. Montrer QGIS en parallèle si possible.
+</div>
+
+## A5 — sf {.segue}
+
+## Une couche = un data frame + une géométrie
+
+```{r}
+st_layers(gpkg)$name
+zones[1:3, c("mpa", "zone")]
+```
+
+- types : `POINT`, `LINESTRING`, `POLYGON` (+ `MULTI…`)
+- formats : **GeoPackage** (1 fichier, plusieurs couches), shapefile (4+ fichiers !), CSV → `st_as_sf(coords = c("lon", "lat"), crs = 4326)`
+
+## Systèmes de coordonnées
+
+| SCR | EPSG | Unités | Usage |
+|---|---|---|---|
+| WGS84 | 4326 | degrés | GPS, web |
+| UTM 38S | 32738 | mètres | surfaces, distances, tampons (SO de Madagascar) |
+
+```{r}
+c(zones = st_crs(zones)$epsg, villages = st_crs(villages)$epsg)
+villages <- st_transform(villages, st_crs(zones))      # toujours le même SCR avant de combiner
+```
+
+## Mesurer et combiner
+
+```{r}
+zones$km2 <- as.numeric(st_area(zones)) / 1e6
+tapply(zones$km2, zones$zone, sum) |> round(1)
+belt <- st_buffer(st_union(filter(zones, zone == "No-take")), 2000)     # 2 km
+villages$village[lengths(st_intersects(villages, belt)) > 0]
+```
+
+`st_buffer`, `st_union`, `st_intersection`, `st_difference`, `st_distance`, `st_join`
+
+## Jointure spatiale
+
+```{r}
+st_join(sites[1:4, "site_id"], zones[, c("mpa", "zone")]) |> st_drop_geometry()
+```
+
+<div class="box tip">`group_by(mpa) |> summarise()` fusionne les polygones (« dissolve »).</div>
+
+## A6 — terra {.segue}
+
+## Un raster : une grille de valeurs
+
+```{r}
+bathy <- rast("data/advanced/bathymetry.tif"); sst <- rast("data/advanced/sst_2024.tif")
+c(res = res(bathy)[1], cellules = ncell(bathy), couches_sst = nlyr(sst))
+```
+
+- étendue, résolution, SCR, couches, `NA`
+- `crop()`, `mask()`, `project()` (bilinear / near), `classify()`
+- algèbre cellule par cellule : `max(sst)`, `sum(sst > 29.5)`
+
+## Extraire aux sites → relier au terrain
+
+```{r, fig.width = 6, fig.height = 3.6, out.width = "55%"}
+sv <- vect(st_transform(sites, crs(sst)))
+heat <- data.frame(site_id = sites$site_id, zone = sites$zone, sst_max = extract(max(sst), sv)[, 2]) |>
+  left_join(reef |> filter(year == 2024) |> group_by(site_id) |> summarise(bl = mean(bleached_pct)), by = "site_id")
+ggplot(heat, aes(sst_max, bl, colour = zone)) + geom_point(size = 3) +
+  labs(x = "SST max 2024 (°C)", y = "Blanchies 2024 (%)", colour = NULL) + theme_minimal()
+```
+
+r = `r round(cor(heat$sst_max, heat$bl), 2)` : un **indice**, pas une preuve (18 sites, grille de 2 km).
+
+## Statistiques zonales
+
+```{r}
+zs <- extract(bathy, vect(st_transform(zones, 4326)), fun = mean, na.rm = TRUE)
+data.frame(mpa = zones$mpa, zone = zones$zone, prof = round(zs$depth_m, 1))[1:4, ]
+```
+
+<div class="box warn">Une cellule de 270 m n'est pas votre point exact : profondeur mesurée ≠ profondeur interpolée.</div>
+
+## A7 — Cartes {.segue}
+
+## geom_sf + coord_sf
+
+```{r, out.width = "38%", fig.height = 6}
+ggplot() + geom_sf(data = land, fill = "#efe6d2") +
+  geom_sf(data = zones, aes(fill = zone), alpha = .6) + geom_sf(data = sites, size = 1) +
+  scale_fill_manual(values = c("No-take" = "#1b7f8c", "Fishing" = "#f2b8a2"), name = NULL) +
+  coord_sf(xlim = bb[c(1, 3)], ylim = bb[c(2, 4)], datum = 4326) +
+  scale_x_continuous(breaks = c(43.4, 43.6)) + theme_minimal()
+```
+
+## Règles d'une bonne carte
+
+- **quoi, où, quand** dans le titre ou la légende
+- légende avec **unités** ; **source** et **SCR** en bas
+- barre d'échelle **en SCR projeté** + flèche du nord
+- palette **séquentielle** (quantité), **divergente** (variation autour de 0), **qualitative** (catégories)
+- 5 à 7 classes au maximum ; fond discret
+
+## Rasters et tmap
+
+- ggplot2 : `as.data.frame(r, xy = TRUE)` + `geom_raster()` (ou `tidyterra`)
+- petits multiples : `facet_wrap(~ year)`
+- **tmap 4** : `tm_shape() + tm_polygons(fill = ...) + tm_dots() + tm_scalebar() + tm_compass()`
+- `tmap_mode("view")` → **carte interactive** avec le même code
+
+```{r, eval=FALSE}
+ggsave("outputs/figures/carte.png", width = 16, height = 20, units = "cm", dpi = 300)
+```
+
+## À retenir — partie 2
+
+- **même SCR** avant de combiner ; UTM pour mesurer en mètres
+- `st_join()` et les prédicats répondent aux questions « où ? »
+- `extract()` relie les rasters (télédétection) aux données de terrain
+- une carte est une figure : titre, légende, échelle, source
+
+<div class="box tip">**À faire** : séances A5 à A7 en ligne. Suite : Quarto, publication, exercices, projet final.</div>
+
+## Merci ! {.segue}

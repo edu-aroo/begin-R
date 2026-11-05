@@ -43,11 +43,25 @@ navbar:
         - { text: "I12 · Practice",               href: i12-practice.html }
         - { text: "I13 · Final project",          href: i13-final-project.html }
     - text: "Advanced"
-      href: advanced.html
+      menu:
+        - { text: "Overview of the level",          href: advanced.html }
+        - { text: "A0 · Reproducible project",      href: a00-project.html }
+        - { text: "A1 · renv",                      href: a01-renv.html }
+        - { text: "A2 · Git, GitHub, GitLab",       href: a02-git.html }
+        - { text: "A3 · R Markdown reports",        href: a03-rmarkdown.html }
+        - { text: "A4 · Automatic reports",         href: a04-params.html }
+        - { text: "A5 · Vector GIS with sf",        href: a05-sf.html }
+        - { text: "A6 · Rasters with terra",        href: a06-terra.html }
+        - { text: "A7 · Thematic maps",             href: a07-maps.html }
+        - { text: "A8 · Quarto (1)",                href: a08-quarto.html }
+        - { text: "A9 · PDF and publishing",        href: a09-publish.html }
+        - { text: "A10 · Practice session",         href: a10-practice.html }
+        - { text: "A11 · Final project",            href: a11-final-project.html }
     - text: "Resources"
       menu:
         - { text: "Cheatsheet · Beginner",        href: cheatsheet.html }
         - { text: "Cheatsheet · Intermediate",    href: cheatsheet-intermediate.html }
+        - { text: "Cheatsheet · Advanced",        href: cheatsheet-advanced.html }
         - { text: "Common errors",                href: common-errors.html }
         - { text: "Need help?",                   href: help.html }
         - { text: "What's new",                   href: whats-new.html }

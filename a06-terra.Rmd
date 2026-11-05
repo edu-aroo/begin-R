@@ -1,0 +1,334 @@
+---
+title: "[A6 · Rasters with terra]{.en}[A6 · Rasters avec terra]{.fr}"
+pagetitle: "R for marine sciences · A6"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+suppressMessages({library(terra); library(sf); library(dplyr); library(ggplot2)})
+knitr::opts_chunk$set(fig.width = 6, fig.height = 6, out.width = "60%")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- describe a **raster** (grid, resolution, extent, CRS, layers, `NA` cells) and read it with `terra::rast()`;
+- summarise and **plot** raster values, and handle a **multi-layer** raster (12 months);
+- **crop**, **mask**, **reproject** and **classify** a raster;
+- do **raster algebra** (maximum per cell, number of months above a threshold);
+- **extract** raster values at points and compute **zonal statistics** per polygon — and join them to your field data.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- décrire un **raster** (grille, résolution, étendue, SCR, couches, cellules `NA`) et le lire avec `terra::rast()` ;
+- résumer et **tracer** les valeurs d'un raster, et manipuler un raster **multi-couches** (12 mois) ;
+- **découper**, **masquer**, **reprojeter** et **reclasser** un raster ;
+- faire de l'**algèbre de rasters** (maximum par cellule, nombre de mois au-dessus d'un seuil) ;
+- **extraire** les valeurs d'un raster à des points et calculer des **statistiques zonales** par polygone — et les joindre à vos données de terrain.
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Data of this session (simulated).** Two rasters in longitude/latitude (WGS84), as you would download them:
+
+- `bathymetry.tif` — water depth (m) on a grid of 0.0025° (≈ 270 m), **interpolated** from echo-sounder transects run by the NGO boat in 2023; land cells are `NA`. An interpolated surface is smooth: it does not see a coral bommie under the boat, so it can differ from the depth measured on the spot at a site.
+- `sst_2024.tif` — monthly mean **sea surface temperature** (°C) for 2024, **12 layers** on a coarser grid of 0.02° (≈ 2 km), like the satellite products of NOAA Coral Reef Watch or Copernicus. In February–April 2024 a **marine heatwave** warmed the centre of the bay.
+
+The question of the MPA managers: **did the reefs that were hottest in 2024 bleach the most?** (bleaching data: `reef_monitoring.csv`). *Type:* raster (continuous values on a regular grid).
+:::
+::: fr
+**Données de cette séance (simulées).** Deux rasters en longitude/latitude (WGS84), tels que vous les téléchargeriez :
+
+- `bathymetry.tif` — profondeur d'eau (m) sur une grille de 0,0025° (≈ 270 m), **interpolée** à partir de transects à l'échosondeur parcourus par le bateau de l'ONG en 2023 ; les cellules de terre sont `NA`. Une surface interpolée est lisse : elle ne voit pas un pâté corallien sous le bateau, elle peut donc différer de la profondeur mesurée sur place à un site.
+- `sst_2024.tif` — **température de surface de la mer** moyenne mensuelle (°C) en 2024, **12 couches** sur une grille plus grossière de 0,02° (≈ 2 km), comme les produits satellite de NOAA Coral Reef Watch ou de Copernicus. En février–avril 2024, une **vague de chaleur marine** a réchauffé le centre de la baie.
+
+La question des gestionnaires d'AMP : **les récifs les plus chauds en 2024 ont-ils le plus blanchi ?** (données de blanchissement : `reef_monitoring.csv`). *Type :* raster (valeurs continues sur une grille régulière).
+:::
+:::
+
+`r dl("r_course_data_advanced.zip", "r_course_data_advanced.zip")`
+
+## [What is a raster?]{.en}[Qu'est-ce qu'un raster ?]{.fr} {#raster}
+
+::: en
+A raster is a **grid of cells** (pixels), each holding one value: depth, temperature, chlorophyll, land cover class… It is described by its **extent** (the rectangle it covers), its **resolution** (cell size), its **CRS**, and its number of **layers** (bands, dates). Vector data describe *objects* (a site, a zone); rasters describe *continuous surfaces*.
+:::
+::: fr
+Un raster est une **grille de cellules** (pixels), chacune contenant une valeur : profondeur, température, chlorophylle, classe d'occupation du sol… Il est décrit par son **étendue** (le rectangle couvert), sa **résolution** (taille des cellules), son **SCR**, et son nombre de **couches** (bandes, dates). Les données vecteur décrivent des *objets* (un site, une zone) ; les rasters décrivent des *surfaces continues*.
+:::
+
+```{r}
+bathy <- rast("data/advanced/bathymetry.tif")
+bathy                      # dimensions, resolution, extent, CRS, name, min/max
+res(bathy)                 # cell size in degrees
+ncell(bathy)
+global(bathy, c("mean", "min", "max"), na.rm = TRUE)   # summary of all cells
+```
+
+```{r}
+plot(bathy, col = rev(hcl.colors(50, "Blues")), main = "Depth (m)")
+```
+
+::: en
+`terra` (Hijmans) replaces the older `raster` package: same ideas, much faster, and functions with similar names. Its vector type is `SpatVector`; `vect(x)` turns an sf object into one, `st_as_sf(v)` goes back.
+:::
+::: fr
+`terra` (Hijmans) remplace l'ancien package `raster` : mêmes idées, bien plus rapide, et des fonctions aux noms proches. Son type vecteur est `SpatVector` ; `vect(x)` transforme un objet sf en SpatVector, `st_as_sf(v)` fait le chemin inverse.
+:::
+
+## [A raster with 12 layers]{.en}[Un raster à 12 couches]{.fr} {#layers}
+
+```{r, fig.width = 9, fig.height = 6, out.width = "90%"}
+sst <- rast("data/advanced/sst_2024.tif")
+nlyr(sst); names(sst)[1:3]; time(sst)[1:3]
+plot(sst[[1:6]], col = hcl.colors(50, "YlOrRd", rev = TRUE), range = c(23, 31.5), nc = 3)
+```
+
+```{r}
+# one value per layer: the monthly mean over the whole bay
+data.frame(month = format(time(sst), "%b"),
+           sst_mean = round(global(sst, "mean", na.rm = TRUE)$mean, 2))
+```
+
+## [Raster algebra]{.en}[Algèbre de rasters]{.fr} {#algebra}
+
+::: en
+Arithmetic on rasters works **cell by cell**, like vector maths in Beginner Session 2. Functions that summarise layers (`max`, `mean`, `sum`…) give one value per cell.
+:::
+::: fr
+L'arithmétique sur les rasters se fait **cellule par cellule**, comme le calcul vectoriel de la séance débutant 2. Les fonctions qui résument les couches (`max`, `mean`, `sum`…) donnent une valeur par cellule.
+:::
+
+```{r, fig.width = 9, fig.height = 5, out.width = "90%"}
+sst_max  <- max(sst)                 # hottest month of 2024, for each cell
+hot_mons <- sum(sst > 29.5)          # TRUE = 1: number of months above 29.5 °C
+par(mfrow = c(1, 2))
+plot(sst_max, col = hcl.colors(50, "YlOrRd", rev = TRUE), main = "Max SST 2024 (°C)")
+plot(hot_mons, col = hcl.colors(4, "Reds", rev = TRUE), main = "Months > 29.5 °C")
+```
+
+::: {.callout .tip}
+::: en
+The idea of **counting the time above a threshold** is the basis of real heat-stress indicators such as the *Degree Heating Weeks* of NOAA Coral Reef Watch (accumulated heat above the usual summer maximum over 12 weeks). Here we use a simple monthly version to learn the method.
+:::
+::: fr
+L'idée de **compter le temps au-dessus d'un seuil** est à la base de vrais indicateurs de stress thermique comme les *Degree Heating Weeks* de NOAA Coral Reef Watch (chaleur accumulée au-dessus du maximum estival habituel sur 12 semaines). Ici nous utilisons une version mensuelle simple pour apprendre la méthode.
+:::
+:::
+
+## [Crop, mask, reproject, classify]{.en}[Découper, masquer, reprojeter, reclasser]{.fr} {#transform}
+
+```{r}
+zones <- st_read("data/advanced/monitoring_gis.gpkg", "mpa_zones", quiet = TRUE)
+zones_ll <- vect(st_transform(zones, crs(bathy)))      # same CRS as the raster, as SpatVector
+tanjona  <- zones_ll[zones_ll$mpa == "Tanjona", ]
+
+b_crop <- crop(bathy, tanjona)                          # keeps the rectangle around Tanjona
+b_mask <- mask(b_crop, tanjona)                         # cells outside the MPA become NA
+plot(b_mask, col = rev(hcl.colors(50, "Blues")), main = "Depth inside Tanjona MPA (m)")
+lines(tanjona)
+```
+
+```{r}
+# Reproject to UTM 38S (metres). "bilinear" for continuous values, "near" for classes.
+bathy_utm <- project(bathy, "EPSG:32738", method = "bilinear")
+res(bathy_utm)                     # now in metres
+
+# Classify depth into 3 classes: 1 = 0-10 m, 2 = 10-30 m, 3 = > 30 m
+rcl <- matrix(c(0, 10, 1,  10, 30, 2,  30, Inf, 3), ncol = 3, byrow = TRUE)
+depth_cl <- classify(bathy, rcl)
+freq(depth_cl)
+```
+
+::: {.callout .warning}
+::: en
+**Reproject vectors rather than rasters** when you can: reprojecting a raster resamples its cells (values are interpolated and slightly changed). To extract values, put your points in the CRS of the raster, as below.
+:::
+::: fr
+**Reprojetez les vecteurs plutôt que les rasters** quand c'est possible : reprojeter un raster rééchantillonne ses cellules (les valeurs sont interpolées et légèrement modifiées). Pour extraire des valeurs, mettez vos points dans le SCR du raster, comme ci-dessous.
+:::
+:::
+
+## [Extract values at sites]{.en}[Extraire les valeurs aux sites]{.fr} {#extract}
+
+```{r}
+sites <- st_read("data/advanced/monitoring_gis.gpkg", "reef_sites", quiet = TRUE)
+sites_ll <- vect(st_transform(sites, crs(sst)))           # points in the raster's CRS
+
+sites$depth_raster <- round(extract(bathy, sites_ll)$depth_m, 1)   # extract() adds an ID column
+sites$sst_max      <- round(extract(sst_max, sites_ll)[, 2], 2)
+sites$hot_months   <- extract(hot_mons, sites_ll)[, 2]
+head(st_drop_geometry(sites)[, c("site_id", "zone", "depth_m", "depth_raster", "sst_max", "hot_months")], 6)
+```
+
+::: en
+Compare `depth_m` (measured on the spot) with `depth_raster` (interpolated surface): they differ, sometimes a lot. A raster value is the value of a **cell of 270 m**, not of your exact spot — keep it in mind when you interpret extracted values.
+:::
+::: fr
+Comparez `depth_m` (mesurée sur place) et `depth_raster` (surface interpolée) : elles diffèrent, parfois beaucoup. Une valeur de raster est celle d'une **cellule de 270 m**, pas de votre point exact — gardez-le en tête pour interpréter les valeurs extraites.
+:::
+
+### [Did the hottest reefs bleach the most?]{.en}[Les récifs les plus chauds ont-ils le plus blanchi ?]{.fr}
+
+```{r, fig.width = 6.5, fig.height = 4, out.width = "75%"}
+reef <- read.csv("data/advanced/reef_monitoring.csv")
+bleach24 <- reef %>% filter(year == 2024) %>% group_by(site_id) %>%
+  summarise(bleached = mean(bleached_pct), .groups = "drop")
+heat <- st_drop_geometry(sites) %>% select(site_id, mpa, zone, sst_max) %>% left_join(bleach24, by = "site_id")
+
+ggplot(heat, aes(sst_max, bleached, colour = zone)) +
+  geom_point(size = 3) +
+  scale_colour_manual(values = c("No-take" = "#1b7f8c", "Fishing" = "#d9694a")) +
+  labs(x = "Maximum monthly SST 2024 (°C)", y = "Colonies bleached in 2024 (%)", colour = NULL) +
+  theme_minimal(base_size = 12)
+cor.test(heat$sst_max, heat$bleached)          # Intermediate, Session I10
+```
+
+::: en
+The hottest sites bleached more (a positive correlation), and at a given temperature the No-take sites tend to bleach less. With 18 sites, and temperature on a 2 km grid, this is a **clue**, not a proof — but it is exactly the kind of result that joins field monitoring and remote sensing.
+:::
+::: fr
+Les sites les plus chauds ont davantage blanchi (corrélation positive), et à température égale les sites No-take ont tendance à moins blanchir. Avec 18 sites, et une température sur une grille de 2 km, c'est un **indice**, pas une preuve — mais c'est exactement le type de résultat qui relie suivi de terrain et télédétection.
+:::
+
+## [Zonal statistics]{.en}[Statistiques zonales]{.fr} {#zonal}
+
+::: en
+`extract()` with **polygons** and a function gives one value per polygon: the mean depth of each MPA zone, the maximum temperature of each MPA…
+:::
+::: fr
+`extract()` avec des **polygones** et une fonction donne une valeur par polygone : la profondeur moyenne de chaque zone d'AMP, la température maximale de chaque AMP…
+:::
+
+```{r}
+zs <- extract(bathy, zones_ll, fun = mean, na.rm = TRUE)          # one row per zone
+zones$depth_mean <- round(zs$depth_m, 1)
+zones$sst_max    <- round(extract(sst_max, zones_ll, fun = max, na.rm = TRUE)[, 2], 2)
+st_drop_geometry(zones)[, c("mpa", "zone", "depth_mean", "sst_max")]
+```
+
+::: {.callout .try}
+::: en
+**Try it.** Compute the **area of shallow water (0–10 m)** in each MPA: classify the depth, keep class 1, then `expanse()` (area of the non-NA cells) inside each MPA with `mask()`. Why is `expanse()` better than counting cells × 0.0025² here?
+:::
+::: fr
+**À vous.** Calculez la **surface d'eau peu profonde (0–10 m)** dans chaque AMP : reclassez la profondeur, gardez la classe 1, puis `expanse()` (surface des cellules non NA) à l'intérieur de chaque AMP avec `mask()`. Pourquoi `expanse()` est-il meilleur ici que compter les cellules × 0,0025² ?
+:::
+:::
+
+## [Writing rasters]{.en}[Écrire des rasters]{.fr} {#write}
+
+```{r, eval=FALSE}
+writeRaster(sst_max, here::here("data", "derived", "sst_max_2024.tif"), overwrite = TRUE)
+writeRaster(depth_cl, here::here("data", "derived", "depth_classes.tif"), datatype = "INT1U", overwrite = TRUE)
+```
+
+::: en
+GeoTIFF (`.tif`) is the standard format; it opens in QGIS. Large rasters do not belong in Git (Session A2): keep them in `data/raw/` listed in `.gitignore`, and write in the README where to download them.
+:::
+::: fr
+Le GeoTIFF (`.tif`) est le format standard ; il s'ouvre dans QGIS. Les gros rasters n'ont pas leur place dans Git (séance A2) : gardez-les dans `data/raw/` listé dans `.gitignore`, et indiquez dans le README où les télécharger.
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+B <- rast("data/advanced/bathymetry.tif"); SST <- rast("data/advanced/sst_2024.tif")
+Z <- st_read("data/advanced/monitoring_gis.gpkg", "mpa_zones", quiet = TRUE)
+S <- st_read("data/advanced/monitoring_gis.gpkg", "reef_sites", quiet = TRUE)
+SV <- vect(st_transform(S, 4326)); ZV <- vect(st_transform(Z, 4326))
+a1 <- ncell(B)
+a2 <- round(mean(extract(B, SV)$depth_m), 2)
+mar <- extract(SST[[3]], SV)[, 2]
+a3 <- S$site_id[which.max(mar)]
+a4 <- as.numeric(global(sum(SST > 29.5), "max", na.rm = TRUE)[1, 1])
+smax <- extract(max(SST), SV)[, 2]
+R <- read.csv("data/advanced/reef_monitoring.csv")
+b24 <- tapply(R$bleached_pct[R$year == 2024], R$site_id[R$year == 2024], mean)[S$site_id]
+a5 <- round(cor(smax, b24), 2)
+zd <- extract(B, ZV, fun = mean, na.rm = TRUE)$depth_m
+a6 <- round(zd[Z$mpa == "Nosy Fasika" & Z$zone == "No-take"], 1)
+```
+
+::: application
+::: en
+### Application work A6
+
+Script `R/06_rasters.R` (copy the two `.tif` files into `data/raw/`).
+
+1. How many cells does `bathymetry.tif` have?
+2. Extract the raster depth at the 18 reef sites: mean of these values (2 decimals)?
+3. Which site had the highest SST in **March** 2024 (layer 3)?
+4. Compute the number of months above 29.5 °C for each cell. What is the maximum over the bay?
+5. Correlation (Pearson) between the maximum SST 2024 at each site and the mean % of bleached colonies in 2024 (2 decimals)?
+6. Mean raster depth of the **No-take zone of Nosy Fasika** (zonal statistic, 1 decimal)?
+7. Save the max SST raster and a CSV table of the sites with their extracted values.
+:::
+::: fr
+### Travail d'application A6
+
+Script `R/06_rasters.R` (copiez les deux fichiers `.tif` dans `data/raw/`).
+
+1. Combien de cellules contient `bathymetry.tif` ?
+2. Extrayez la profondeur du raster aux 18 sites récifaux : moyenne de ces valeurs (2 décimales) ?
+3. Quel site avait la SST la plus élevée en **mars** 2024 (couche 3) ?
+4. Calculez le nombre de mois au-dessus de 29,5 °C pour chaque cellule. Quel est le maximum sur la baie ?
+5. Corrélation (Pearson) entre la SST maximale 2024 à chaque site et le % moyen de colonies blanchies en 2024 (2 décimales) ?
+6. Profondeur moyenne du raster dans la **zone No-take de Nosy Fasika** (statistique zonale, 1 décimale) ?
+7. Enregistrez le raster de SST maximale et un tableau CSV des sites avec leurs valeurs extraites.
+:::
+:::
+
+::: hint
+::: en
+`extract()` returns a data frame whose **first column is an ID**: take the second column (`[, 2]`) or the column named like the layer. Put the sites in the CRS of the raster first: `vect(st_transform(sites, crs(sst)))`. For question 5, make sure both vectors are in the **same site order** (join by `site_id`).
+:::
+::: fr
+`extract()` renvoie un data frame dont la **première colonne est un ID** : prenez la deuxième colonne (`[, 2]`) ou la colonne qui porte le nom de la couche. Mettez d'abord les sites dans le SCR du raster : `vect(st_transform(sites, crs(sst)))`. Pour la question 5, vérifiez que les deux vecteurs sont dans le **même ordre de sites** (jointure par `site_id`).
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("a06", list(
+  q_num("1. Number of cells of bathymetry.tif?", "1. Nombre de cellules de bathymetry.tif ?", a1, tol = 0),
+  q_num("2. Mean raster depth at the 18 sites (2 decimals)?", "2. Profondeur moyenne du raster aux 18 sites (2 décimales) ?", a2, tol = 0.011),
+  q_text("3. Site with the highest SST in March 2024?", "3. Site à la SST la plus élevée en mars 2024 ?", a3),
+  q_num("4. Maximum number of months above 29.5 °C?", "4. Nombre maximal de mois au-dessus de 29,5 °C ?", a4, tol = 0),
+  q_num("5. Pearson r, max SST vs bleaching 2024 (2 decimals)?", "5. r de Pearson, SST max vs blanchissement 2024 (2 décimales) ?", a5, tol = 0.011),
+  q_num("6. Mean depth, No-take zone of Nosy Fasika (1 decimal)?", "6. Profondeur moyenne, zone No-take de Nosy Fasika (1 décimale) ?", a6, tol = 0.11),
+  q_mcq("7. To reproject a raster of habitat CLASSES (1 = seagrass, 2 = coral…), use:", "7. Pour reprojeter un raster de CLASSES d'habitat (1 = herbier, 2 = corail…), utilisez :",
+        c("method = \"bilinear\"", "method = \"near\"", "method = \"mean\"", "no method: it is automatic"),
+        c("method = \"bilinear\"", "method = \"near\"", "method = \"mean\"", "pas de méthode : c'est automatique"), correct = 2),
+  q_mcq("8. mask(r, polygons) does:", "8. mask(r, polygones) fait :",
+        c("set to NA the cells outside the polygons", "cut the raster to the rectangle of the polygons", "compute the mean per polygon", "change the resolution"),
+        c("mettre à NA les cellules hors des polygones", "découper le raster au rectangle des polygones", "calculer la moyenne par polygone", "changer la résolution"), correct = 1),
+  q_mcq("9. A site was measured at 7 m but the raster gives 3 m. Most likely reason?", "9. Un site a été mesuré à 7 m mais le raster donne 3 m. Raison la plus probable ?",
+        c("The raster is wrong and must be deleted", "A raster cell (≈ 270 m) is an interpolated average, not the exact spot", "The CRS is wrong", "extract() rounds values"),
+        c("Le raster est faux et doit être supprimé", "Une cellule (≈ 270 m) est une moyenne interpolée, pas le point exact", "Le SCR est faux", "extract() arrondit les valeurs"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="a06"}
+```{r, eval=FALSE}
+library(terra); library(sf); library(dplyr); library(here)
+bathy <- rast(here("data", "raw", "bathymetry.tif")); sst <- rast(here("data", "raw", "sst_2024.tif"))
+ncell(bathy)                                                         # 1
+sites <- st_read(here("data", "raw", "monitoring_gis.gpkg"), "reef_sites")
+sv <- vect(st_transform(sites, crs(bathy)))
+mean(extract(bathy, sv)$depth_m)                                     # 2
+march <- extract(sst[[3]], sv)[, 2]; sites$site_id[which.max(march)] # 3
+global(sum(sst > 29.5), "max", na.rm = TRUE)                         # 4
+sites$sst_max <- extract(max(sst), sv)[, 2]
+reef <- read.csv(here("data", "raw", "reef_monitoring.csv"))
+b24 <- reef %>% filter(year == 2024) %>% group_by(site_id) %>% summarise(bleached = mean(bleached_pct))
+d <- left_join(st_drop_geometry(sites), b24, by = "site_id")
+cor(d$sst_max, d$bleached)                                           # 5
+zones <- st_read(here("data", "raw", "monitoring_gis.gpkg"), "mpa_zones")
+zones$depth_mean <- extract(bathy, vect(st_transform(zones, crs(bathy))), fun = mean, na.rm = TRUE)$depth_m
+filter(st_drop_geometry(zones), mpa == "Nosy Fasika", zone == "No-take")   # 6
+writeRaster(max(sst), here("data", "derived", "sst_max_2024.tif"), overwrite = TRUE)   # 7
+write.csv(d, here("outputs", "tables", "sites_heat_bleaching_2024.csv"), row.names = FALSE)
+```
+:::

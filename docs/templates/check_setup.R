@@ -32,8 +32,8 @@ cat("\n== Packages for the", LEVEL, "level ==\n")
 pkgs <- list(
   beginner     = c("dplyr", "ggplot2"),
   intermediate = c("dplyr", "ggplot2", "readxl", "tidyr", "lubridate", "stringr", "patchwork"),
-  advanced     = c("dplyr", "ggplot2", "readxl", "tidyr", "rmarkdown", "knitr", "here", "renv",
-                   "sf", "terra", "tmap")
+  advanced     = c("dplyr", "ggplot2", "readxl", "tidyr", "rmarkdown", "knitr", "bookdown", "here", "renv",
+                   "usethis", "gitcreds", "jsonlite", "flextable", "sf", "terra", "tmap")
 )[[LEVEL]]
 missing <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]
 for (p in setdiff(pkgs, missing)) ok(paste(p, packageVersion(p)))
@@ -48,7 +48,9 @@ files <- list(
                    "coral_cover_raw.csv", "fish_uvc.csv"),
   intermediate = c("seaweed_farming.xlsx", "water_quality_wide.csv", "survey_households.csv",
                    "survey_members.csv", "survey_assets.csv", "coastline.csv", "villages.csv"),
-  advanced     = character(0)
+  advanced     = file.path("advanced", c("reef_monitoring.csv", "reef_sites.csv", "mangrove_trees.csv",
+                   "monitoring_gis.gpkg", "bathymetry.tif", "sst_2024.tif", "references.bib",
+                   "reef_monitoring_2026.csv"))
 )[[LEVEL]]
 for (f in files) {
   if (file.exists(file.path("data", f))) ok(f) else

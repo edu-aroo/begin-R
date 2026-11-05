@@ -25,7 +25,7 @@ This course teaches **R** to students and professionals of the marine sciences, 
 
 - **Beginner** (≈ 31 h) — from installing R to a complete analysis of coral reef and seagrass data, with base R first, then dplyr and ggplot2.
 - **Intermediate** (≈ 40 h) — real-world files, dates, reshaping and joining tables, survey data, loops and functions, mastering ggplot2, first maps, and choosing the right test — with aquaculture, socio-economic and water-quality data.
-- **Advanced** (coming soon) — reports with R Markdown and Quarto, reproducible projects with Git, spatial data and maps.
+- **Advanced** — reproducible projects (renv, Git, GitHub/GitLab), automatic reports with R Markdown and Quarto, spatial data (sf, terra) and maps, publishing online.
 
 Each level is designed for **self-study**: every session explains the reasoning, shows the code *and* its result, and ends with an application exercise and a quiz.
 :::
@@ -34,7 +34,7 @@ Ce cours enseigne **R** aux étudiants et professionnels des sciences marines, e
 
 - **Débutant** (≈ 31 h) — de l'installation de R à l'analyse complète de données de récifs coralliens et d'herbiers, d'abord en R de base, puis avec dplyr et ggplot2.
 - **Intermédiaire** (≈ 40 h) — fichiers réels, dates, restructuration et jointure de tableaux, données d'enquête, boucles et fonctions, maîtrise de ggplot2, premières cartes, et choix du bon test — avec des données d'aquaculture, socio-économiques et de qualité de l'eau.
-- **Avancé** (bientôt) — rapports avec R Markdown et Quarto, projets reproductibles avec Git, données spatiales et cartes.
+- **Avancé** — projets reproductibles (renv, Git, GitHub/GitLab), rapports automatiques avec R Markdown et Quarto, données spatiales (sf, terra) et cartes, publication en ligne.
 
 Chaque niveau est conçu pour l'**auto-formation** : chaque séance explique le raisonnement, montre le code *et* son résultat, et se termine par un exercice d'application et un quiz.
 :::

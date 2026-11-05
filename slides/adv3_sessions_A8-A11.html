@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Aroo Falinirina" />
+
+
+<title>R pour les sciences marines — niveau avancé</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<!-- ===========================================================================
+  slides-engine.html — turns a normal R Markdown html_document into slides.
+  Inserted in <head> by the YAML of each deck (includes: in_header).
+  In the .Rmd:  "## Title" = one slide · "## Title {.segue}" = section divider
+                <div class="notes"> ... </div> = speaker notes (press N)
+  Keys: → / Space / PageDown = next · ← / PageUp = previous · Home / End
+        F = full screen · N = show/hide notes · O = overview of all slides
+  Each slide is a 1280 × 720 box scaled to the window, so it looks the same on
+  any screen or projector. Content that is too long is shrunk automatically.
+=========================================================================== -->
+<script>
+(function () {
+  "use strict";
+  let slides = [], cur = 0;
+
+  function build() {
+    document.body.classList.add("deck");
+    const stage = document.createElement("div");
+    stage.id = "stage";
+    // slide 0 = the title block made by R Markdown (#header)
+    // (theme: null puts h1.title / h3.subtitle / h4.author directly in <body>)
+    const header = document.getElementById("header");
+    const titleParts = header ? [header]
+      : Array.from(document.querySelectorAll("h1.title, h3.subtitle, h4.author, h4.date"));
+    if (titleParts.length) { const s = wrap(titleParts); s.classList.add("title-slide"); stage.appendChild(s); }
+    // every "## Title" section = one slide
+    document.querySelectorAll("div.section.level2").forEach(sec => {
+      const s = wrap([sec]);
+      if (sec.classList.contains("segue")) s.classList.add("segue");
+      stage.appendChild(s);
+    });
+    document.body.innerHTML = "";
+    document.body.appendChild(stage);
+    slides = Array.from(stage.children);
+
+    const bar = document.createElement("div");
+    bar.id = "deck-bar";
+    document.body.appendChild(bar);
+    const sig = document.createElement("div");
+    sig.id = "deck-sign"; sig.textContent = "by Aroo Falinirina";
+    document.body.appendChild(sig);
+
+    const n = parseInt(location.hash.replace("#", ""), 10);
+    show(isNaN(n) ? 0 : Math.min(Math.max(n - 1, 0), slides.length - 1));
+    window.addEventListener("resize", scale);
+    scale();
+    slides.forEach(fit);
+  }
+
+  function wrap(nodes) {
+    const s = document.createElement("section");
+    s.className = "slide";
+    const inner = document.createElement("div");
+    inner.className = "slide-inner";
+    nodes.forEach(n => inner.appendChild(n));
+    s.appendChild(inner);
+    return s;
+  }
+
+  // scale the 1280 x 720 slide to the window
+  function scale() {
+    const k = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    document.documentElement.style.setProperty("--k", k);
+  }
+
+  // shrink the font of a slide until its content fits in the box
+  function fit(s) {
+    const inner = s.querySelector(".slide-inner");
+    let size = 100;
+    s.style.display = "block";
+    const base = parseFloat(getComputedStyle(inner).fontSize);   // 27px in slides.css
+    while (inner.scrollHeight > inner.clientHeight + 2 && size > 62) {
+      size -= 4; inner.style.fontSize = (base * size / 100) + "px";
+    }
+    s.style.display = "";
+  }
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    slides[cur].classList.remove("current");
+    cur = i;
+    slides[cur].classList.add("current");
+    history.replaceState(null, "", "#" + (cur + 1));
+    const bar = document.getElementById("deck-bar");
+    bar.textContent = (cur + 1) + " / " + slides.length;
+    bar.style.setProperty("--p", ((cur + 1) / slides.length * 100) + "%");
+  }
+
+  document.addEventListener("keydown", e => {
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+    else if (e.key === "Home") show(0);
+    else if (e.key === "End") show(slides.length - 1);
+    else if (e.key === "f" || e.key === "F") {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen();
+    }
+    else if (e.key === "n" || e.key === "N") document.body.classList.toggle("show-notes");
+    else if (e.key === "o" || e.key === "O") document.body.classList.toggle("overview");
+  });
+  // click on a slide in overview mode jumps to it; otherwise click = next
+  document.addEventListener("click", e => {
+    const s = e.target.closest(".slide");
+    if (document.body.classList.contains("overview") && s) {
+      document.body.classList.remove("overview"); show(slides.indexOf(s)); return;
+    }
+    if (e.target.closest("a, pre, code, button")) return;
+    if (e.clientX > window.innerWidth * 0.5) show(cur + 1); else show(cur - 1);
+  });
+
+  document.addEventListener("DOMContentLoaded", build);
+})();
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #204a87; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #8f5902; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #204a87; font-weight: bold; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #ce5c00; font-weight: bold; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">
+:root { --ocean: #0b3d5c; --lagoon: #1b7f8c; --seagrass: #4a7d3a; --coral: #d9694a;
+--sand: #f6f1e7; --ink: #1f2a33; --muted: #5d6b75; --k: 1; }
+
+.en { display: none !important; }
+html, body { margin: 0; height: 100%; background: #0f1d26; overflow: hidden; }
+body.deck { font-family: "Source Sans 3", "Segoe UI", Calibri, Arial, sans-serif; color: var(--ink); }
+
+.slide { display: none; position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px;
+transform: translate(-50%, -50%) scale(var(--k)); background: #fff;
+box-shadow: 0 10px 40px rgba(0,0,0,.4); overflow: hidden; }
+.slide.current { display: block; }
+.slide-inner { box-sizing: border-box; height: 100%; padding: 46px 70px 56px; font-size: 100%; overflow: hidden; }
+.slide::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 7px;
+background: linear-gradient(90deg, var(--seagrass), var(--lagoon), var(--coral)); }
+
+.slide-inner { font-size: 27px; line-height: 1.4; }
+.slide h2 { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; color: var(--ocean);
+font-size: 1.65em; font-weight: 600; margin: 0 0 .45em; padding-bottom: .2em; border-bottom: 2px solid #e3e9ec; }
+.slide h3 { color: var(--lagoon); font-size: 1.1em; margin: .4em 0 .2em; }
+.slide p { margin: .35em 0; }
+.slide ul, .slide ol { margin: .3em 0; padding-left: 1.3em; }
+.slide li { margin: .22em 0; }
+.slide a { color: var(--lagoon); }
+.slide strong { color: var(--ocean); }
+
+.slide.title-slide { background: linear-gradient(135deg, #0b3d5c 0%, #1b7f8c 70%, #4a7d3a 100%); }
+.slide.title-slide .slide-inner { display: flex; flex-direction: column; justify-content: center; padding: 80px 100px; }
+.slide.title-slide h1 { font-family: "Source Serif 4", Georgia, serif; color: #fff; font-size: 64px; margin: 0 0 20px; line-height: 1.1; }
+.slide.title-slide .subtitle { color: #d8eef1; font-size: 30px; font-weight: 400; margin: 0 0 40px; }
+.slide.title-slide .author { color: #fff; font-family: Georgia, serif; font-style: italic; font-size: 26px; font-weight: 400; margin: 0; }
+
+.slide.segue { background: var(--ocean); }
+.slide.segue .slide-inner { display: flex; align-items: center; }
+.slide.segue h2 { color: #fff; border: 0; font-size: 2.3em; }
+
+pre, code { font-family: "JetBrains Mono", Consolas, "Courier New", monospace; }
+.slide pre { font-size: .66em; line-height: 1.35; background: #f7f9fa; border: 1px solid #dde3e6;
+border-left: 5px solid var(--lagoon); border-radius: 6px; padding: 8px 14px; margin: .35em 0; white-space: pre-wrap; }
+.slide pre:not(.r) { border-left-color: #b9c4ca; background: #fbfcfc; }
+.slide :not(pre) > code { background: #eef4f5; color: #0d4f63; padding: 0 5px; border-radius: 4px; font-size: .9em; }
+.slide img { max-width: 100%; max-height: 420px; display: block; margin: 6px auto; }
+.slide .svg-fig { margin: 0 auto; text-align: center; }
+.slide .svg-fig svg { max-height: 540px; width: auto; max-width: 100%; }
+
+.slide table { border-collapse: collapse; margin: .4em 0; font-size: .8em; }
+.slide th { background: var(--ocean); color: #fff; padding: 6px 12px; text-align: left; }
+.slide td { padding: 5px 12px; border-bottom: 1px solid #dde3e6; }
+
+.box { border-radius: 10px; padding: 8px 18px; margin: 12px 0; background: var(--sand); font-size: .92em; }
+.box.tip { background: #eef5ea; border-left: 6px solid var(--seagrass); }
+.box.warn { background: #fdf0eb; border-left: 6px solid var(--coral); }
+.box.eco { background: #e9f4f6; border-left: 6px solid var(--lagoon); }
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.cols > .c > p:first-child { margin: 0; font-weight: 700; font-size: .7em; letter-spacing: .06em; text-transform: uppercase; }
+.cols > .base > p:first-child { color: #8a6a32; }
+.cols > .pkg > p:first-child { color: var(--lagoon); }
+.cols img { max-height: 330px; }
+
+.notes { display: none; }
+body.show-notes .notes { display: block; position: absolute; left: 0; right: 0; bottom: 0; max-height: 40%; overflow: auto;
+background: #fff7e6; border-top: 3px solid #e3b04b; padding: 10px 70px; font-size: 20px; color: #5a4a20; }
+
+#deck-bar { --p: 0%; position: fixed; left: 0; right: 0; bottom: 0; height: 22px; color: #9fb3bd; font-size: 13px;
+text-align: right; padding-right: 12px; line-height: 22px;
+background: linear-gradient(90deg, var(--lagoon) var(--p), transparent var(--p)) no-repeat bottom / 100% 3px; }
+#deck-sign { position: fixed; left: 14px; bottom: 3px; color: #9fb3bd; font-family: Georgia, serif; font-style: italic; font-size: 13px; }
+
+body.overview { overflow: auto; }
+body.overview #stage { display: grid; grid-template-columns: repeat(auto-fill, 330px); gap: 16px; padding: 16px; }
+body.overview .slide { display: block; position: relative; left: auto; top: auto; transform: scale(.25);
+transform-origin: top left; width: 1280px; height: 720px; margin: 0 -960px -540px 0; cursor: pointer; }
+body.overview .slide.current { outline: 12px solid var(--coral); }
+
+@media print {
+@page { size: 1280px 720px; margin: 0; }
+html, body { overflow: visible; background: #fff; }
+.slide { display: block !important; position: relative; left: 0; top: 0; transform: none; box-shadow: none; page-break-after: always; }
+#deck-bar, #deck-sign { display: none; }
+}
+.slide pre code { white-space: pre-wrap; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">R pour les sciences marines — niveau
+avancé</h1>
+<h3 class="subtitle">Partie 3 · Séances A8 à A11 — Quarto, PDF,
+publication, exercices, projet final</h3>
+<h4 class="author">Aroo Falinirina</h4>
+
+
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+<div id="au-programme" class="section level2">
+<h2>Au programme</h2>
+<ul>
+<li><strong>A8</strong> : Quarto (1) — renvois, citations, table des
+matières</li>
+<li><strong>A9</strong> : Quarto (2) — PDF (Typst / LaTeX), mise en
+page, publication</li>
+<li><strong>A10</strong> : séance d’exercices</li>
+<li><strong>A11</strong> : projet final — les rapports 2026</li>
+</ul>
+<div class="notes">
+<p>~25 min Quarto 1 · ~20 min Quarto 2 et publication · ~15 min
+exercices et projet final.</p>
+</div>
+</div>
+<div id="a8-quarto-1" class="section level2 segue">
+<h2 class="segue">A8 — Quarto (1)</h2>
+</div>
+<div id="quarto-r-markdown-en-mieux" class="section level2">
+<h2>Quarto = R Markdown, en mieux</h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>R Markdown</th>
+<th>Quarto</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>YAML</td>
+<td><code>output: html_document</code></td>
+<td><code>format: html</code></td>
+</tr>
+<tr class="even">
+<td>options</td>
+<td><code>{r label, fig.cap = &quot;…&quot;}</code></td>
+<td><code>#| label: fig-x</code> · <code>#| fig-cap: &quot;…&quot;</code></td>
+</tr>
+<tr class="odd">
+<td>en ligne</td>
+<td><code>`r x`</code></td>
+<td><code>`{r} x`</code></td>
+</tr>
+<tr class="even">
+<td>renvois</td>
+<td><code>\@ref(fig:x)</code> (bookdown)</td>
+<td><code>@fig-x</code>, <code>@tbl-x</code>, <code>@sec-x</code>,
+<code>@eq-x</code></td>
+</tr>
+<tr class="odd">
+<td>produire</td>
+<td>Knit</td>
+<td>Render · <code>quarto render f.qmd</code></td>
+</tr>
+</tbody>
+</table>
+<p>Même moteur (knitr + pandoc) : tout ce qui a été appris reste
+valable.</p>
+</div>
+<div id="les-mangroves-le-rapport-du-modèle" class="section level2">
+<h2>Les mangroves : le rapport du modèle</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">aggregate</span>(<span class="fu">cbind</span>(density_ha, agb_t_ha) <span class="sc">~</span> status, <span class="at">data =</span> P, <span class="at">FUN =</span> <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">mean</span>(x)))</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt;      status density_ha agb_t_ha</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; 1 harvested        927       34</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; 2 reference       1938      265</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt; 3  restored       2037       24</span></span></code></pre></div>
+<p>AGB = 0,251 × ρ × DHP<sup>2,46</sup> (Komiyama et al. 2005) ·
+nettoyage : DHP &gt; 30 cm sur un arbre &lt; 8 m → ÷ 10</p>
+</div>
+<div id="citations-et-bibliographie" class="section level2">
+<h2>Citations et bibliographie</h2>
+<ul>
+<li><code>bibliography: references.bib</code> (Zotero → BibTeX,
+extension Better BibTeX)</li>
+<li><code>[@komiyama2005]</code> → (Komiyama et al. 2005) ·
+<code>@komiyama2005</code> → Komiyama et al. (2005)</li>
+<li><code>[-@komiyama2005]</code> · <code>[@hill2004, p. 25]</code> ·
+<code>csl: apa.csl</code></li>
+<li>la liste se place à <code>::: {#refs}</code></li>
+</ul>
+<div class="box warn">
+Piège : <code>@tbl-x [@cle]</code> avale la citation → mettre une
+virgule ou un mot entre les deux.
+</div>
+</div>
+<div id="table-des-matières-et-listes" class="section level2">
+<h2>Table des matières et listes</h2>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>HTML</th>
+<th>Word</th>
+<th>PDF LaTeX</th>
+<th>PDF Typst</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>toc</code>, <code>number-sections</code></td>
+<td>oui</td>
+<td>oui</td>
+<td>oui</td>
+<td>oui</td>
+</tr>
+<tr class="even">
+<td><code>lof</code>, <code>lot</code></td>
+<td>—</td>
+<td>—</td>
+<td><strong>oui</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><code>lang: fr</code> → « Table des matières », « Figure », « Tableau
+»</p>
+</div>
+<div id="a9-pdf-et-publication" class="section level2 segue">
+<h2 class="segue">A9 — PDF et publication</h2>
+</div>
+<div id="typst-ou-latex" class="section level2">
+<h2>Typst ou LaTeX ?</h2>
+<ul>
+<li><strong>Typst</strong> : rien à installer, très rapide → rapports
+courants (<code>citeproc: true</code>)</li>
+<li><strong>LaTeX</strong> : <code>quarto install tinytex</code> →
+listes des figures/tableaux, modèles officiels</li>
+<li>mise en page : <code>papersize: a4</code>, <code>margin:</code> /
+<code>geometry:</code>, <code>fontsize:</code>,
+<code>{{&lt; pagebreak &gt;}}</code></li>
+<li>Word : <code>reference-doc: styles.docx</code> (modifier les
+<strong>styles</strong>)</li>
+<li>un seul HTML à envoyer : <code>embed-resources: true</code></li>
+</ul>
+</div>
+<div id="un-site-quarto" class="section level2">
+<h2>Un site Quarto</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="at">  </span><span class="fu">output-dir</span><span class="kw">:</span><span class="at"> docs</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">website</span><span class="kw">:</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">index.qmd</span><span class="kw">,</span><span class="at"> coral.qmd</span><span class="kw">,</span><span class="at"> mangroves.qmd</span><span class="kw">,</span><span class="at"> about.qmd</span><span class="kw">]</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="at">  </span><span class="fu">freeze</span><span class="kw">:</span><span class="at"> auto</span></span></code></pre></div>
+<p><code>quarto preview</code> pendant l’écriture ·
+<code>quarto render</code> pour tout construire</p>
+</div>
+<div id="publier" class="section level2">
+<h2>Publier</h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Service</th>
+<th>Comment</th>
+<th>Remarque</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GitHub Pages</td>
+<td><code>docs/</code> + <code>.nojekyll</code>, Settings → Pages → main
+/docs</td>
+<td>gratuit : dépôts <strong>publics</strong></td>
+</tr>
+<tr class="even">
+<td>GitLab Pages</td>
+<td><code>.gitlab-ci.yml</code> copie <code>docs/</code> →
+<code>public/</code></td>
+<td>marche aussi en privé</td>
+</tr>
+<tr class="odd">
+<td>Quarto Pub</td>
+<td><code>quarto publish quarto-pub</code></td>
+<td>tout est public</td>
+</tr>
+</tbody>
+</table>
+<div class="box warn">
+Avant de publier : aucune donnée personnelle, aucune position sensible,
+accord des propriétaires des données. L’historique Git est public aussi
+!
+</div>
+</div>
+<div id="a10a11-exercices-et-projet-final" class="section level2 segue">
+<h2 class="segue">A10–A11 — Exercices et projet final</h2>
+</div>
+<div id="séance-dexercices-a10" class="section level2">
+<h2>Séance d’exercices (A10)</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Exercice</th>
+<th>Séances</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. projet, renv, historique Git</td>
+<td>A0–A2</td>
+</tr>
+<tr class="even">
+<td>2. chiffres de rapport, paramètres</td>
+<td>A3–A4</td>
+</tr>
+<tr class="odd">
+<td>3. SIG vecteur</td>
+<td>A5</td>
+</tr>
+<tr class="even">
+<td>4. rasters</td>
+<td>A6</td>
+</tr>
+<tr class="odd">
+<td>5. indicateurs mangrove</td>
+<td>A0, A8</td>
+</tr>
+<tr class="even">
+<td>6. cartes et publication</td>
+<td>A7, A9</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="projet-final-la-campagne-2026-a11" class="section level2">
+<h2>Projet final : la campagne 2026 (A11)</h2>
+<div class="box eco">
+<p>Nouveau fichier <code>reef_monitoring_2026.csv</code> : dates
+<code>jj/mm/aaaa</code>, codes <code>r12</code>, <code>312</code> au
+lieu de <code>31,2</code>, deux doublons.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>projet propre + renv + Git</li>
+<li><code>02_clean_2026.R</code> : nettoyer et <strong>ajouter
+2026</strong> (414 lignes)</li>
+<li><code>mpa_report_2026.qmd</code> : valeurs en ligne, figure,
+<strong>carte</strong>, mangroves, citations</li>
+<li><code>render_2026.R</code> : 3 rapports HTML + 3 PDF</li>
+<li>publier sur GitHub / GitLab Pages · 6. <strong>cloner et tout
+refaire</strong> : mêmes résultats ?</li>
+</ol>
+</div>
+<div id="fin-du-niveau-avancé" class="section level2">
+<h2>Fin du niveau avancé</h2>
+<ul>
+<li><strong>75 %</strong> des points du niveau →
+<strong>certificat</strong></li>
+<li>vous savez maintenant : projets reproductibles, Git, rapports
+automatiques, SIG, cartes, Quarto, publication</li>
+<li>prochaine étape : <strong>vos propres données</strong> — même
+méthode, même structure</li>
+</ul>
+</div>
+<div id="merci" class="section level2 segue">
+<h2 class="segue">Merci !</h2>
+</div>
+
+
+
+<!-- code folding -->
+
+
+
+</body>
+</html>

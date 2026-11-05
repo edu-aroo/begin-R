@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · A0</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A0 · Organising a
+reproducible project</span><span class="fr">A0 · Organiser un projet
+reproductible</span></h1>
+<h3 class="subtitle">~2.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>explain what makes an analysis <strong>reproducible</strong> (by you
+in 6 months, by a colleague, on another computer);</li>
+<li>organise an RStudio project with a clear <strong>folder
+structure</strong> and <strong>file names</strong>;</li>
+<li>replace <code>setwd()</code> and absolute paths by <strong>relative
+paths</strong> and <code>here::here()</code>;</li>
+<li>keep <strong>raw data read-only</strong> and produce everything else
+with numbered scripts;</li>
+<li>write a <strong>README</strong> and record your R session.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>expliquer ce qui rend une analyse <strong>reproductible</strong>
+(par vous dans 6 mois, par un collègue, sur un autre ordinateur) ;</li>
+<li>organiser un projet RStudio avec une <strong>arborescence</strong>
+et des <strong>noms de fichiers</strong> clairs ;</li>
+<li>remplacer <code>setwd()</code> et les chemins absolus par des
+<strong>chemins relatifs</strong> et <code>here::here()</code> ;</li>
+<li>garder les <strong>données brutes en lecture seule</strong> et
+produire tout le reste avec des scripts numérotés ;</li>
+<li>écrire un <strong>README</strong> et enregistrer votre session
+R.</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of the Advanced level (simulated).</strong> The three
+MPAs of the Beginner final project (<em>Ankaramena</em>, <em>Nosy
+Fasika</em>, <em>Tanjona</em>) now have a <strong>monitoring
+programme</strong> (2019–2025), run by the MPA managers with a local
+NGO:</p>
+<ul>
+<li><strong>Coral reefs</strong> (<code>reef_monitoring.csv</code>,
+<code>reef_sites.csv</code>): 18 fixed sites (3 per zone, No-take and
+Fishing, in each MPA), surveyed every year in April–May on <strong>three
+20 m Point Intercept Transects</strong> (50 points each) by three
+trained observers. For each transect: % hard coral, % macroalgae and %
+of colonies bleached. Tanjona could not be surveyed in 2022 (cyclone
+season, boat damaged). <em>Type:</em> one row = one transect and one
+year; percentages.</li>
+<li><strong>Mangroves</strong> (<code>mangrove_trees.csv</code>,
+<code>mangrove_plots.csv</code>, <code>mangrove_species.csv</code>): 24
+circular plots of 10 m radius in three mangrove patches (reference,
+harvested and restored stands), inventoried in May 2025: species, trunk
+diameter (DBH, cm, measured at 1.3 m with a tape), height (m,
+clinometer) and status (alive, dead, cut). <em>Type:</em> one row = one
+tree.</li>
+<li><strong>GIS layers</strong> (<code>monitoring_gis.gpkg</code>):
+land, MPA zones, reef sites and mangrove plots, drawn by the NGO GIS
+officer; and two <strong>rasters</strong>: bathymetry (from a boat
+echo-sounder survey, interpolated) and monthly sea surface temperature
+2024 (satellite-like grid). <em>Type:</em> vector and raster spatial
+data.</li>
+</ul>
+<p>Places and values are invented; they describe no real place.</p>
+</div>
+<div class="fr">
+<p><strong>Données du niveau avancé (simulées).</strong> Les trois AMP
+du projet final débutant (<em>Ankaramena</em>, <em>Nosy Fasika</em>,
+<em>Tanjona</em>) ont maintenant un <strong>programme de suivi</strong>
+(2019–2025), mené par les gestionnaires des AMP avec une ONG locale
+:</p>
+<ul>
+<li><strong>Récifs coralliens</strong>
+(<code>reef_monitoring.csv</code>, <code>reef_sites.csv</code>) : 18
+sites fixes (3 par zone, No-take et Fishing, dans chaque AMP), suivis
+chaque année en avril–mai sur <strong>trois Point Intercept Transects de
+20 m</strong> (50 points chacun) par trois observateurs formés. Pour
+chaque transect : % de corail dur, % de macroalgues et % de colonies
+blanchies. Tanjona n’a pas pu être suivie en 2022 (saison cyclonique,
+bateau endommagé). <em>Type :</em> une ligne = un transect et une année
+; pourcentages.</li>
+<li><strong>Mangroves</strong> (<code>mangrove_trees.csv</code>,
+<code>mangrove_plots.csv</code>, <code>mangrove_species.csv</code>) : 24
+placettes circulaires de 10 m de rayon dans trois massifs (peuplements
+de référence, exploités et restaurés), inventoriées en mai 2025 :
+espèce, diamètre du tronc (DHP, cm, mesuré à 1,3 m au ruban), hauteur
+(m, clinomètre) et état (vivant, mort, coupé). <em>Type :</em> une ligne
+= un arbre.</li>
+<li><strong>Couches SIG</strong> (<code>monitoring_gis.gpkg</code>) :
+terre, zones des AMP, sites récifaux et placettes de mangrove, dessinés
+par le responsable SIG de l’ONG ; et deux <strong>rasters</strong> :
+bathymétrie (relevé à l’échosondeur depuis un bateau, interpolé) et
+température de surface mensuelle 2024 (grille de type satellite).
+<em>Type :</em> données spatiales vecteur et raster.</li>
+</ul>
+<p>Lieux et valeurs sont inventés ; ils ne décrivent aucun lieu
+réel.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/r_course_data_advanced.zip" download>⇩
+r_course_data_advanced.zip</a>
+<a class="btn-dl" href="data/advanced/messy_project.zip" download>⇩
+messy_project.zip</a></p>
+<div id="why" class="section level2">
+<h2><span class="en">Why reproducibility?</span><span
+class="fr">Pourquoi la reproductibilité ?</span></h2>
+<div class="en">
+<p>An analysis is <strong>reproducible</strong> when somebody else — or
+you, in six months — can take your folder, run it <strong>from start to
+finish</strong> and obtain <strong>the same numbers, tables and
+figures</strong>, without asking you anything. It is not only good
+science: reviewers, donors and MPA managers increasingly ask for it, and
+it saves you time each time the data are updated (a new monitoring year
+arrives every year!).</p>
+<p>Three things break reproducibility:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Paths</strong> that only exist on your computer
+(<code>C:/Users/Rakoto/Desktop/…</code>);</li>
+<li><strong>Manual steps</strong> (copy-pasting in Excel, deleting rows
+by hand, saving a graph with the mouse);</li>
+<li><strong>Changing software</strong> (a package updated, a function
+that behaves differently) — Session A1.</li>
+</ol>
+<p>And one thing makes it hard to <em>understand</em>: a disorganised
+folder.</p>
+</div>
+<div class="fr">
+<p>Une analyse est <strong>reproductible</strong> quand quelqu’un
+d’autre — ou vous, dans six mois — peut prendre votre dossier,
+l’exécuter <strong>du début à la fin</strong> et obtenir <strong>les
+mêmes chiffres, tableaux et figures</strong>, sans rien vous demander.
+Ce n’est pas seulement de la bonne science : relecteurs, bailleurs et
+gestionnaires d’AMP le demandent de plus en plus, et cela vous fait
+gagner du temps à chaque mise à jour des données (une nouvelle année de
+suivi arrive chaque année !).</p>
+<p>Trois choses cassent la reproductibilité :</p>
+<ol style="list-style-type: decimal">
+<li>des <strong>chemins</strong> qui n’existent que sur votre ordinateur
+(<code>C:/Users/Rakoto/Desktop/…</code>) ;</li>
+<li>des <strong>étapes manuelles</strong> (copier-coller dans Excel,
+supprimer des lignes à la main, enregistrer un graphique à la souris)
+;</li>
+<li>des <strong>logiciels qui changent</strong> (un package mis à jour,
+une fonction qui se comporte autrement) — séance A1.</li>
+</ol>
+<p>Et une chose la rend difficile à <em>comprendre</em> : un dossier
+désorganisé.</p>
+</div>
+</div>
+<div id="messy" class="section level2">
+<h2><span class="en">A messy project</span><span class="fr">Un projet
+désordonné</span></h2>
+<div class="en">
+<p>Download <code>messy_project.zip</code> (above) and unzip it. This is
+the folder a student left before travelling. Look at it
+<strong>before</strong> reading on, and list what would stop you from
+re-running the analysis.</p>
+</div>
+<div class="fr">
+<p>Téléchargez <code>messy_project.zip</code> (ci-dessus) et
+décompressez-le. C’est le dossier laissé par un étudiant avant de partir
+en mission. Regardez-le <strong>avant</strong> de lire la suite, et
+listez ce qui vous empêcherait de relancer l’analyse.</p>
+</div>
+<pre><code>my analysis FINAL/
+├── reef 2025 (copy).csv
+├── reef_2025_FINAL_v2.csv
+├── sites.csv
+├── notes.txt
+└── Untitled1.R</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;C:/Users/Rakoto/Desktop/my analysis FINAL&quot;</span>)   <span class="co"># works only on Rakoto&#39;s computer!</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>reef <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;reef_2025_FINAL_v2.csv&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;sites.csv&quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">merge</span>(reef, sites)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">aggregate</span>(hard_coral <span class="sc">~</span> mpa <span class="sc">+</span> zone, <span class="at">data =</span> x, <span class="at">FUN =</span> mean)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">png</span>(<span class="st">&quot;graph1.png&quot;</span>); <span class="fu">boxplot</span>(hard_coral <span class="sc">~</span> zone, <span class="at">data =</span> x); <span class="fu">dev.off</span>()</span></code></pre></div>
+<div class="callout warning">
+<div class="en">
+<p><strong>What is wrong?</strong> <code>setwd()</code> with an absolute
+path (works only on Rakoto’s computer); spaces and parentheses in names;
+two versions of the same file — which one is right?; a script called
+<code>Untitled1.R</code>; the figure is written in the same folder as
+the data; no README; nothing says which R and package versions were
+used.</p>
+</div>
+<div class="fr">
+<p><strong>Qu’est-ce qui ne va pas ?</strong> <code>setwd()</code> avec
+un chemin absolu (ne marche que sur l’ordinateur de Rakoto) ; des
+espaces et des parenthèses dans les noms ; deux versions du même fichier
+— laquelle est la bonne ? ; un script appelé <code>Untitled1.R</code> ;
+la figure est écrite dans le même dossier que les données ; pas de
+README ; rien n’indique quelles versions de R et des packages ont été
+utilisées.</p>
+</div>
+</div>
+</div>
+<div id="structure" class="section level2">
+<h2><span class="en">A clear structure</span><span class="fr">Une
+arborescence claire</span></h2>
+<div class="en">
+<p>There is no single standard, but most R projects look like this. What
+matters is that <strong>anybody can guess where a file is</strong>, and
+that <strong>data, code and results are separated</strong>.</p>
+</div>
+<div class="fr">
+<p>Il n’existe pas de norme unique, mais la plupart des projets R
+ressemblent à ceci. L’important est que <strong>chacun puisse deviner où
+se trouve un fichier</strong>, et que <strong>données, code et résultats
+soient séparés</strong>.</p>
+</div>
+<pre><code>reef-monitoring/                  &lt;- the RStudio project folder
+├── reef-monitoring.Rproj
+├── README.md                     &lt;- what, who, how to run it
+├── data/
+│   ├── raw/                      &lt;- files as received: NEVER modified by hand or by code
+│   └── derived/                  &lt;- tables created by the scripts (can be deleted and rebuilt)
+├── R/
+│   ├── 00_run_all.R              &lt;- runs every script in order
+│   ├── 01_import.R
+│   ├── 02_clean.R
+│   ├── 03_analysis.R
+│   ├── 04_figures.R
+│   └── functions.R               &lt;- your own functions (Intermediate, Session I6)
+├── reports/                      &lt;- .Rmd / .qmd reports (Sessions A3, A4, A8)
+└── outputs/
+    ├── figures/
+    └── tables/</code></pre>
+<div class="compare">
+<div class="col base">
+<p><strong><span class="en">Good names</span><span class="fr">Bons
+noms</span></strong></p>
+<p><code>01_import.R</code> · <code>reef_monitoring.csv</code> ·
+<code>fig_coral_trend_2025.png</code> ·
+<code>2025-05-12_field_notes.md</code></p>
+</div>
+<div class="col pkg">
+<p><strong><span class="en">Names to avoid</span><span class="fr">Noms à
+éviter</span></strong></p>
+<p><code>Untitled1.R</code> · <code>reef 2025 (copy).csv</code> ·
+<code>FINAL_v2_REAL.xlsx</code> · <code>graph1.png</code> ·
+<code>notes 12-5.txt</code></p>
+</div>
+</div>
+<div class="en">
+<p><strong>Rules for names:</strong> lower case, no spaces (use
+<code>_</code> or <code>-</code>), no accents or special characters,
+dates in ISO format <code>yyyy-mm-dd</code> (they sort correctly), and
+<strong>numbers in front of scripts</strong> to show the order. Versions
+are managed by Git (Session A2), not by <code>_v2_FINAL</code> in the
+name.</p>
+</div>
+<div class="fr">
+<p><strong>Règles de nommage :</strong> minuscules, pas d’espaces
+(utilisez <code>_</code> ou <code>-</code>), pas d’accents ni de
+caractères spéciaux, dates au format ISO <code>aaaa-mm-jj</code> (elles
+se trient correctement), et des <strong>numéros devant les
+scripts</strong> pour indiquer l’ordre. Les versions sont gérées par Git
+(séance A2), pas par <code>_v2_FINAL</code> dans le nom.</p>
+</div>
+<div
+id="creating-the-structure-with-codecréer-larborescence-par-le-code"
+class="section level3">
+<h3><span class="en">Creating the structure with code</span><span
+class="fr">Créer l’arborescence par le code</span></h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>proj <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;reef-monitoring&quot;</span>)      <span class="co"># here in a temporary folder, for the demo</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="cf">for</span> (d <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;data/raw&quot;</span>, <span class="st">&quot;data/derived&quot;</span>, <span class="st">&quot;R&quot;</span>, <span class="st">&quot;reports&quot;</span>, <span class="st">&quot;outputs/figures&quot;</span>, <span class="st">&quot;outputs/tables&quot;</span>)) {</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="fu">file.path</span>(proj, d), <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)   <span class="co"># recursive: creates parents too</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>}</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">list.dirs</span>(proj, <span class="at">full.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;&quot;                &quot;data&quot;            &quot;data/derived&quot;    &quot;data/raw&quot;        &quot;outputs&quot;        
+#&gt; [6] &quot;outputs/figures&quot; &quot;outputs/tables&quot;  &quot;R&quot;               &quot;reports&quot;</code></pre>
+<div class="en">
+<p>In real life: <strong>File → New Project → New Directory → New
+Project</strong> in RStudio, then run the loop above in the Console
+(without the <code>tempdir()</code> part: the project folder is already
+the working directory).</p>
+</div>
+<div class="fr">
+<p>En vrai : <strong>File → New Project → New Directory → New
+Project</strong> dans RStudio, puis lancez la boucle ci-dessus dans la
+Console (sans la partie <code>tempdir()</code> : le dossier du projet
+est déjà le répertoire de travail).</p>
+</div>
+</div>
+</div>
+<div id="paths" class="section level2">
+<h2><span class="en">Paths: never <code>setwd()</code></span><span
+class="fr">Chemins : jamais <code>setwd()</code></span></h2>
+<div class="en">
+<p>When you open an <code>.Rproj</code> file, RStudio sets the
+<strong>working directory</strong> to the project folder. All paths can
+then be <strong>relative</strong> to it —
+<code>"data/raw/reef_monitoring.csv"</code> — and they work on every
+computer, Windows, Mac or Linux.</p>
+<p>There is one trap: an R Markdown or Quarto file is run <strong>from
+its own folder</strong>. A report saved in <code>reports/</code> would
+look for <code>reports/data/raw/…</code>, which does not exist. The
+package <strong>here</strong> solves it: <code>here()</code> always
+starts from the project root (it looks for the <code>.Rproj</code>
+file).</p>
+</div>
+<div class="fr">
+<p>Quand vous ouvrez un fichier <code>.Rproj</code>, RStudio fixe le
+<strong>répertoire de travail</strong> au dossier du projet. Tous les
+chemins peuvent alors être <strong>relatifs</strong> à celui-ci —
+<code>"data/raw/reef_monitoring.csv"</code> — et fonctionnent sur tous
+les ordinateurs, Windows, Mac ou Linux.</p>
+<p>Il y a un piège : un fichier R Markdown ou Quarto est exécuté
+<strong>depuis son propre dossier</strong>. Un rapport enregistré dans
+<code>reports/</code> chercherait <code>reports/data/raw/…</code>, qui
+n’existe pas. Le package <strong>here</strong> règle cela :
+<code>here()</code> part toujours de la racine du projet (il cherche le
+fichier <code>.Rproj</code>).</p>
+</div>
+<div class="compare">
+<div class="col base">
+<p><strong><span class="en">Breaks on other computers</span><span
+class="fr">Casse sur un autre ordinateur</span></strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;C:/Users/Rakoto/Desktop/my analysis FINAL&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>reef <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;reef_2025_FINAL_v2.csv&quot;</span>)</span></code></pre></div>
+</div>
+<div class="col pkg">
+<p><strong><span class="en">Works everywhere</span><span
+class="fr">Marche partout</span></strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>reef <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;reef_monitoring.csv&quot;</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co"># here() -&gt; &quot;.../reef-monitoring/data/raw/reef_monitoring.csv&quot;</span></span></code></pre></div>
+</div>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><code>file.path("data", "raw", "x.csv")</code> builds a path with the
+right separator for the computer; <code>here()</code> does the same
+<strong>and</strong> starts from the project root. In scripts run from
+the project root, both work; in reports, use <code>here()</code>.</p>
+</div>
+<div class="fr">
+<p><code>file.path("data", "raw", "x.csv")</code> construit un chemin
+avec le bon séparateur pour l’ordinateur ; <code>here()</code> fait de
+même <strong>et</strong> part de la racine du projet. Dans des scripts
+lancés depuis la racine, les deux marchent ; dans les rapports, utilisez
+<code>here()</code>.</p>
+</div>
+</div>
+</div>
+<div id="raw" class="section level2">
+<h2><span class="en">Raw data are sacred</span><span class="fr">Les
+données brutes sont sacrées</span></h2>
+<div class="en">
+<p>Put the files <strong>as you received them</strong> in
+<code>data/raw/</code> and never change them — not in Excel, not with
+<code>write.csv()</code> on the same name. All corrections are written
+in <code>02_clean.R</code>, which <strong>reads</strong>
+<code>data/raw/</code> and <strong>writes</strong>
+<code>data/derived/</code>. If you find a new error, you add one line to
+the script and re-run: the history of every correction is visible. On
+Windows you can even right-click the files → <em>Properties</em> →
+<em>Read-only</em>.</p>
+</div>
+<div class="fr">
+<p>Placez les fichiers <strong>tels que reçus</strong> dans
+<code>data/raw/</code> et ne les modifiez jamais — ni dans Excel, ni
+avec <code>write.csv()</code> sous le même nom. Toutes les corrections
+s’écrivent dans <code>02_clean.R</code>, qui <strong>lit</strong>
+<code>data/raw/</code> et <strong>écrit</strong>
+<code>data/derived/</code>. Si vous trouvez une nouvelle erreur, vous
+ajoutez une ligne au script et relancez : l’historique de chaque
+correction est visible. Sous Windows, vous pouvez même faire clic droit
+sur les fichiers → <em>Propriétés</em> → <em>Lecture seule</em>.</p>
+</div>
+</div>
+<div id="pipeline" class="section level2">
+<h2><span class="en">A pipeline of numbered scripts</span><span
+class="fr">Une chaîne de scripts numérotés</span></h2>
+<div class="en">
+<p>Each script does <strong>one job</strong>, reads its inputs from
+files and writes its outputs to files. <code>00_run_all.R</code> runs
+them in order: one click rebuilds <strong>everything</strong> from the
+raw data. This is the best test of reproducibility: delete
+<code>data/derived/</code> and <code>outputs/</code>, run
+<code>00_run_all.R</code>, and check that everything comes back.</p>
+</div>
+<div class="fr">
+<p>Chaque script fait <strong>une seule tâche</strong>, lit ses entrées
+dans des fichiers et écrit ses sorties dans des fichiers.
+<code>00_run_all.R</code> les lance dans l’ordre : un clic reconstruit
+<strong>tout</strong> à partir des données brutes. C’est le meilleur
+test de reproductibilité : supprimez <code>data/derived/</code> et
+<code>outputs/</code>, lancez <code>00_run_all.R</code>, et vérifiez que
+tout revient.</p>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># R/00_run_all.R -------------------------------------------------------------</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co"># Rebuilds every result of the project from data/raw/. Run it after a fresh restart.</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;01_import.R&quot;</span>))     <span class="co"># data/raw/     -&gt; objects reef, sites</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;02_clean.R&quot;</span>))      <span class="co"># corrections   -&gt; data/derived/reef_clean.csv</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;03_analysis.R&quot;</span>))   <span class="co"># summaries     -&gt; outputs/tables/*.csv</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;04_figures.R&quot;</span>))    <span class="co"># figures       -&gt; outputs/figures/*.png</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">capture.output</span>(<span class="fu">sessionInfo</span>()), <span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;session_info.txt&quot;</span>))</span></code></pre></div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Restart R often</strong> (<em>Session → Restart R</em>,
+<strong>Ctrl + Shift + F10</strong>) and <strong>never save the
+workspace</strong>: <em>Tools → Global Options → General</em>: untick
+<em>Restore .RData into workspace at startup</em> and set <em>Save
+workspace to .RData on exit</em> to <strong>Never</strong>. Otherwise an
+object created by hand last week can make your script “work” on your
+computer only.</p>
+</div>
+<div class="fr">
+<p><strong>Redémarrez R souvent</strong> (<em>Session → Restart R</em>,
+<strong>Ctrl + Maj + F10</strong>) et <strong>n’enregistrez jamais
+l’espace de travail</strong> : <em>Tools → Global Options → General</em>
+: décochez <em>Restore .RData into workspace at startup</em> et réglez
+<em>Save workspace to .RData on exit</em> sur <strong>Never</strong>.
+Sinon un objet créé à la main la semaine dernière peut faire « marcher »
+votre script sur votre ordinateur seulement.</p>
+</div>
+</div>
+</div>
+<div id="readme" class="section level2">
+<h2><span class="en">README and session information</span><span
+class="fr">README et informations de session</span></h2>
+<div class="en">
+<p>The <code>README.md</code> is the first file a person opens (GitHub
+shows it on the project page, Session A2). It answers: <em>what is this
+project, where do the data come from, how do I run it, who do I
+contact?</em> It is written in <strong>Markdown</strong>, the same
+syntax as the text of an R Markdown report.</p>
+</div>
+<div class="fr">
+<p>Le <code>README.md</code> est le premier fichier qu’on ouvre (GitHub
+l’affiche sur la page du projet, séance A2). Il répond à : <em>de quoi
+s’agit-il, d’où viennent les données, comment l’exécuter, qui contacter
+?</em> Il est écrit en <strong>Markdown</strong>, la même syntaxe que le
+texte d’un rapport R Markdown.</p>
+</div>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu"># Reef monitoring of the Ankaramena, Nosy Fasika and Tanjona MPAs</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>Analysis of the coral transects 2019-2025 (simulated data, R course).</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">## Data</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="ss">- </span><span class="in">`data/raw/reef_monitoring.csv`</span>: one row per transect and year (PIT, 50 points).</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="ss">- </span><span class="in">`data/raw/reef_sites.csv`</span>: position, MPA and zone of the 18 sites.</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="fu">## How to run</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="ss">1. </span>Open <span class="in">`reef-monitoring.Rproj`</span> in RStudio.</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="ss">2. </span><span class="in">`renv::restore()`</span> to install the package versions used (Session A1).</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="ss">3. </span>Run <span class="in">`R/00_run_all.R`</span>. Results go to <span class="in">`outputs/`</span>.</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="fu">## Contact</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>Your name, e-mail - last update 2025-06-01</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>si <span class="ot">&lt;-</span> <span class="fu">sessionInfo</span>()</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>si<span class="sc">$</span>R.version<span class="sc">$</span>version.string          <span class="co"># the R version that produced the results</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;R version 4.6.1 (2026-06-24)&quot;</code></pre>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Run <code>sessionInfo()</code> in your
+Console. Which version of R do you have? Which packages are “attached”?
+Where would you save this information in your project?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Lancez <code>sessionInfo()</code> dans votre
+Console. Quelle version de R avez-vous ? Quels packages sont « attachés
+» (<em>attached</em>) ? Où enregistreriez-vous cette information dans
+votre projet ?</p>
+</div>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-a0" class="section level3 en">
+<h3>Application work A0</h3>
+<p>Rebuild the messy analysis as a <strong>clean project</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>Create a new RStudio project <code>reef-monitoring</code> with the
+structure of this session.</li>
+<li>Copy <code>reef_monitoring.csv</code> and
+<code>reef_sites.csv</code> (from the advanced data zip) into
+<code>data/raw/</code>. Do <strong>not</strong> use the files of the
+messy folder: which of its two reef files is right is unknown.</li>
+<li>Write <code>R/01_import.R</code>, <code>R/02_clean.R</code> (keep
+the year 2025 and join the sites with
+<code>merge(..., by = "site_id")</code>, then save
+<code>data/derived/reef_2025.csv</code>), <code>R/03_analysis.R</code>
+(mean hard coral per zone, saved in <code>outputs/tables/</code>) and
+<code>R/04_figures.R</code> (boxplot by zone, saved in
+<code>outputs/figures/</code>). Use <code>here()</code> everywhere.</li>
+<li>Write <code>R/00_run_all.R</code> and a <code>README.md</code>.</li>
+<li>Delete <code>data/derived/</code> and <code>outputs/</code>, restart
+R, run <code>00_run_all.R</code>: does everything come back?</li>
+</ol>
+</div>
+<div id="travail-dapplication-a0" class="section level3 fr">
+<h3>Travail d’application A0</h3>
+<p>Reconstruisez l’analyse désordonnée en <strong>projet propre</strong>
+:</p>
+<ol style="list-style-type: decimal">
+<li>Créez un nouveau projet RStudio <code>reef-monitoring</code> avec
+l’arborescence de cette séance.</li>
+<li>Copiez <code>reef_monitoring.csv</code> et
+<code>reef_sites.csv</code> (du zip des données avancées) dans
+<code>data/raw/</code>. N’utilisez <strong>pas</strong> les fichiers du
+dossier désordonné : on ne sait pas lequel de ses deux fichiers récifs
+est le bon.</li>
+<li>Écrivez <code>R/01_import.R</code>, <code>R/02_clean.R</code>
+(gardez l’année 2025 et joignez les sites avec
+<code>merge(..., by = "site_id")</code>, puis enregistrez
+<code>data/derived/reef_2025.csv</code>), <code>R/03_analysis.R</code>
+(corail dur moyen par zone, enregistré dans
+<code>outputs/tables/</code>) et <code>R/04_figures.R</code> (boxplot
+par zone, enregistré dans <code>outputs/figures/</code>). Utilisez
+<code>here()</code> partout.</li>
+<li>Écrivez <code>R/00_run_all.R</code> et un
+<code>README.md</code>.</li>
+<li>Supprimez <code>data/derived/</code> et <code>outputs/</code>,
+redémarrez R, lancez <code>00_run_all.R</code> : tout revient-il ?</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>If <code>here()</code> returns a path outside your project, RStudio
+is not running inside the project: open the <code>.Rproj</code> file, or
+check that you have only one <code>.Rproj</code> file at the root.
+<code>here::dr_here()</code> explains how the root was found.</p>
+</div>
+<div class="fr">
+<p>Si <code>here()</code> renvoie un chemin hors de votre projet,
+RStudio ne tourne pas dans le projet : ouvrez le fichier
+<code>.Rproj</code>, ou vérifiez qu’il n’y a qu’un seul fichier
+<code>.Rproj</code> à la racine. <code>here::dr_here()</code> explique
+comment la racine a été trouvée.</p>
+</div>
+</div>
+<div id="quiz-a00" class="quiz" data-quiz-id="a00"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gSG93IG1hbnkgZmlsZXMgKG5vdCBmb2xkZXJzKSBhcmUgaW4gbWVzc3lfcHJvamVjdC56aXA/IiwiZnIiOiIxLiBDb21iaWVuIGRlIGZpY2hpZXJzIChwYXMgZGUgZG9zc2llcnMpIGNvbnRpZW50IG1lc3N5X3Byb2plY3QuemlwID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIFJvd3Mgb2YgZGF0YS9kZXJpdmVkL3JlZWZfMjAyNS5jc3Y/IiwiZnIiOiIyLiBMaWduZXMgZGUgZGF0YS9kZXJpdmVkL3JlZWZfMjAyNS5jc3YgPyIsImFuc3dlciI6NTQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE1lYW4gaGFyZCBjb3JhbCBjb3ZlciBpbiBOby10YWtlIHpvbmVzLCAyMDI1ICgyIGRlY2ltYWxzKT8iLCJmciI6IjMuIENvcmFpbCBkdXIgbW95ZW4gZGFucyBsZXMgem9uZXMgTm8tdGFrZSwgMjAyNSAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjozNy41OSwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIFNhbWUgZm9yIEZpc2hpbmcgem9uZXMgKDIgZGVjaW1hbHMpPyIsImZyIjoiNC4gSWRlbSBwb3VyIGxlcyB6b25lcyBGaXNoaW5nICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjE4LjgxLCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gV2h5IGlzIHNldHdkKFwiQzovVXNlcnMvUmFrb3RvL0Rlc2t0b3AvLi4uXCIpIGEgcHJvYmxlbT8iLCJmciI6IjUuIFBvdXJxdW9pIHNldHdkKFwiQzovVXNlcnMvUmFrb3RvL0Rlc2t0b3AvLi4uXCIpIHBvc2UtdC1pbCBwcm9ibMOobWUgPyIsIm9wdGlvbnNfZW4iOlsiSXQgaXMgc2xvdyIsIlRoZSBwYXRoIGV4aXN0cyBvbmx5IG9uIFJha290bydzIGNvbXB1dGVyIiwic2V0d2QoKSBpcyBkZXByZWNhdGVkIiwiSXQgZGVsZXRlcyBmaWxlcyJdLCJvcHRpb25zX2ZyIjpbIkMnZXN0IGxlbnQiLCJMZSBjaGVtaW4gbidleGlzdGUgcXVlIHN1ciBsJ29yZGluYXRldXIgZGUgUmFrb3RvIiwic2V0d2QoKSBlc3Qgb2Jzb2zDqHRlIiwiSWwgc3VwcHJpbWUgZGVzIGZpY2hpZXJzIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBBIHJlcG9ydCBpbiByZXBvcnRzL3JlcG9ydC5SbWQgbXVzdCByZWFkIGRhdGEvcmF3L3JlZWYuY3N2LiBUaGUgc2FmZXN0IGNvZGUgaXM6IiwiZnIiOiI2LiBVbiByYXBwb3J0IGRhbnMgcmVwb3J0cy9yZXBvcnQuUm1kIGRvaXQgbGlyZSBkYXRhL3Jhdy9yZWVmLmNzdi4gTGUgY29kZSBsZSBwbHVzIHPDu3IgZXN0IDoiLCJvcHRpb25zX2VuIjpbInJlYWQuY3N2KFwiZGF0YS9yYXcvcmVlZi5jc3ZcIikiLCJyZWFkLmNzdihcIi4uL2RhdGEvcmF3L3JlZWYuY3N2XCIpIiwicmVhZC5jc3YoaGVyZShcImRhdGFcIiwgXCJyYXdcIiwgXCJyZWVmLmNzdlwiKSkiLCJzZXR3ZChcIi4uXCIpOyByZWFkLmNzdihcImRhdGEvcmF3L3JlZWYuY3N2XCIpIl0sIm9wdGlvbnNfZnIiOlsicmVhZC5jc3YoXCJkYXRhL3Jhdy9yZWVmLmNzdlwiKSIsInJlYWQuY3N2KFwiLi4vZGF0YS9yYXcvcmVlZi5jc3ZcIikiLCJyZWFkLmNzdihoZXJlKFwiZGF0YVwiLCBcInJhd1wiLCBcInJlZWYuY3N2XCIpKSIsInNldHdkKFwiLi5cIik7IHJlYWQuY3N2KFwiZGF0YS9yYXcvcmVlZi5jc3ZcIikiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFlvdSBmaW5kIGEgdHlwaW5nIGVycm9yIGluIGEgcmF3IGRhdGEgZmlsZS4gV2hhdCBkbyB5b3UgZG8/IiwiZnIiOiI3LiBWb3VzIHRyb3V2ZXogdW5lIGVycmV1ciBkZSBzYWlzaWUgZGFucyB1biBmaWNoaWVyIGRlIGRvbm7DqWVzIGJydXRlcy4gUXVlIGZhaXRlcy12b3VzID8iLCJvcHRpb25zX2VuIjpbIkNvcnJlY3QgaXQgaW4gRXhjZWwgYW5kIHNhdmUiLCJBZGQgYSBsaW5lIGluIDAyX2NsZWFuLlIgdGhhdCBjb3JyZWN0cyBpdCwgYW5kIGtlZXAgdGhlIHJhdyBmaWxlIHVuY2hhbmdlZCIsIkRlbGV0ZSB0aGUgcm93IGluIHRoZSByYXcgZmlsZSIsIlJlbmFtZSB0aGUgZmlsZSBfdjIiXSwib3B0aW9uc19mciI6WyJMYSBjb3JyaWdlciBkYW5zIEV4Y2VsIGV0IGVucmVnaXN0cmVyIiwiQWpvdXRlciB1bmUgbGlnbmUgZGFucyAwMl9jbGVhbi5SIHF1aSBsYSBjb3JyaWdlLCBldCBnYXJkZXIgbGUgZmljaGllciBicnV0IGludGFjdCIsIlN1cHByaW1lciBsYSBsaWduZSBkYW5zIGxlIGZpY2hpZXIgYnJ1dCIsIlJlbm9tbWVyIGxlIGZpY2hpZXIgX3YyIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBXaHkgc2V0IFwiU2F2ZSB3b3Jrc3BhY2UgdG8gLlJEYXRhIG9uIGV4aXRcIiB0byBOZXZlcj8iLCJmciI6IjguIFBvdXJxdW9pIHLDqWdsZXIgwqsgU2F2ZSB3b3Jrc3BhY2UgdG8gLlJEYXRhIG9uIGV4aXQgwrsgc3VyIE5ldmVyID8iLCJvcHRpb25zX2VuIjpbIlRvIHNhdmUgZGlzayBzcGFjZSIsIlNvIHRoYXQgdGhlIHJlc3VsdHMgZGVwZW5kIG9ubHkgb24gdGhlIHNjcmlwdHMsIG5vdCBvbiBvYmplY3RzIGxlZnQgZnJvbSBlYXJsaWVyIHNlc3Npb25zIiwiQmVjYXVzZSAuUkRhdGEgZmlsZXMgYXJlIHZpcnVzZXMiLCJUbyBtYWtlIFIgc3RhcnQgZmFzdGVyIG9ubHkiXSwib3B0aW9uc19mciI6WyJQb3VyIMOpY29ub21pc2VyIGRlIGwnZXNwYWNlIGRpc3F1ZSIsIlBvdXIgcXVlIGxlcyByw6lzdWx0YXRzIG5lIGTDqXBlbmRlbnQgcXVlIGRlcyBzY3JpcHRzLCBwYXMgZCdvYmpldHMgcmVzdMOpcyBkZSBzZXNzaW9ucyBwcsOpY8OpZGVudGVzIiwiUGFyY2UgcXVlIGxlcyBmaWNoaWVycyAuUkRhdGEgc29udCBkZXMgdmlydXMiLCJTZXVsZW1lbnQgcG91ciBxdWUgUiBkw6ltYXJyZSBwbHVzIHZpdGUiXSwiYW5zd2VyIjoxfV0=">
+
+</div>
+<div class="solution" data-quiz="a00">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># R/01_import.R</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>reef  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;reef_monitoring.csv&quot;</span>))</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;reef_sites.csv&quot;</span>))</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co"># R/02_clean.R</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;derived&quot;</span>), <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>reef_2025 <span class="ot">&lt;-</span> <span class="fu">merge</span>(reef[reef<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2025</span>, ], sites, <span class="at">by =</span> <span class="st">&quot;site_id&quot;</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="fu">write.csv</span>(reef_2025, <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;derived&quot;</span>, <span class="st">&quot;reef_2025.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="fu">nrow</span>(reef_2025)                                                    <span class="co"># 2</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co"># R/03_analysis.R</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;tables&quot;</span>), <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>by_zone <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(hard_coral <span class="sc">~</span> zone, <span class="at">data =</span> reef_2025, <span class="at">FUN =</span> mean)</span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>by_zone                                                            <span class="co"># 3, 4</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="fu">write.csv</span>(by_zone, <span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;tables&quot;</span>, <span class="st">&quot;coral_by_zone_2025.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="co"># R/04_figures.R</span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;figures&quot;</span>), <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="fu">png</span>(<span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;figures&quot;</span>, <span class="st">&quot;coral_by_zone_2025.png&quot;</span>), <span class="at">width =</span> <span class="dv">16</span>, <span class="at">height =</span> <span class="dv">10</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>)</span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a><span class="fu">boxplot</span>(hard_coral <span class="sc">~</span> zone, <span class="at">data =</span> reef_2025, <span class="at">ylab =</span> <span class="st">&quot;Hard coral cover (%)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a><span class="co"># R/00_run_all.R</span></span>
+<span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb12-26"><a href="#cb12-26" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;01_import.R&quot;</span>, <span class="st">&quot;02_clean.R&quot;</span>, <span class="st">&quot;03_analysis.R&quot;</span>, <span class="st">&quot;04_figures.R&quot;</span>)) <span class="fu">source</span>(<span class="fu">here</span>(<span class="st">&quot;R&quot;</span>, s))</span>
+<span id="cb12-27"><a href="#cb12-27" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">capture.output</span>(<span class="fu">sessionInfo</span>()), <span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;session_info.txt&quot;</span>))</span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

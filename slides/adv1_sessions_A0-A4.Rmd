@@ -1,0 +1,238 @@
+---
+title: "R pour les sciences marines — niveau avancé"
+subtitle: "Partie 1 · Séances A0 à A4 — Projets reproductibles, renv, Git, rapports R Markdown"
+author: "Aroo Falinirina"
+output:
+  html_document:
+    theme: null
+    highlight: tango
+    mathjax: null
+    self_contained: true
+    css: slides.css
+    includes:
+      in_header: slides-engine.html
+---
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+
+```{r, include=FALSE}
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+```{r, include=FALSE}
+source("R/course_helpers.R")
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE, fig.width = 7, fig.height = 3.6,
+                      out.width = "60%", fig.align = "center", dpi = 110)
+suppressMessages({library(dplyr); library(ggplot2)})
+reef <- left_join(read.csv("data/advanced/reef_monitoring.csv"), read.csv("data/advanced/reef_sites.csv"), by = "site_id")
+```
+
+## Au programme
+
+- **A0** : organiser un projet reproductible
+- **A1** : figer les versions des packages avec `renv`
+- **A2** : Git, GitHub et GitLab
+- **A3** : rapports avec R Markdown
+- **A4** : rapports paramétrés et automatiques
+
+<div class="notes">
+~15 min par séance + questions. Fil rouge : le programme de suivi des trois AMP (récifs 2019–2025).
+</div>
+
+## Le fil rouge du niveau
+
+<div class="box eco">
+Les trois AMP du projet final débutant (Ankaramena, Nosy Fasika, Tanjona) ont un **programme de suivi** 2019–2025 : 18 sites récifaux × 3 transects PIT par an, placettes de mangrove, couches SIG, rasters de bathymétrie et de température. Tout est **simulé**.
+</div>
+
+```{r}
+count(reef, mpa, year) |> tidyr::pivot_wider(names_from = year, values_from = n)
+```
+
+Tanjona : pas de suivi en 2022 (cyclone) → piège pour les moyennes !
+
+## A0 — Projet reproductible {.segue}
+
+## Reproductible = relancer et retrouver les mêmes résultats
+
+Ce qui casse la reproductibilité :
+
+1. des **chemins** propres à un ordinateur : `setwd("C:/Users/Rakoto/...")`
+2. des **étapes manuelles** (Excel, copier-coller, clic droit → enregistrer)
+3. des **logiciels qui changent** (versions des packages)
+
+<div class="box tip">Test ultime : supprimer `outputs/`, redémarrer R, lancer `00_run_all.R`… tout revient ?</div>
+
+## Une arborescence claire
+
+```
+reef-monitoring/
+├── reef-monitoring.Rproj     README.md
+├── data/raw/       <- tels que reçus, JAMAIS modifiés
+├── data/derived/   <- produits par les scripts
+├── R/00_run_all.R  01_import.R  02_clean.R  03_analysis.R  04_figures.R
+├── reports/        <- .Rmd / .qmd
+└── outputs/figures/  outputs/tables/
+```
+
+- noms : minuscules, sans espaces ni accents, dates `aaaa-mm-jj`, scripts numérotés
+- les versions : Git, pas `_v2_FINAL`
+
+## Chemins : `here()` plutôt que `setwd()`
+
+```{r, eval=FALSE}
+library(here)
+reef <- read.csv(here("data", "raw", "reef_monitoring.csv"))
+```
+
+- `here()` part de la **racine du projet** (fichier `.Rproj`), même depuis `reports/`
+- **ne jamais enregistrer `.RData`** ; redémarrer R souvent (Ctrl + Maj + F10)
+- `sessionInfo()` → `outputs/session_info.txt`
+
+## A1 — renv {.segue}
+
+## Une bibliothèque par projet
+
+| Étape | Fonction |
+|---|---|
+| démarrer | `renv::init()` |
+| enregistrer les versions | `renv::snapshot()` → `renv.lock` |
+| vérifier | `renv::status()` |
+| réinstaller (autre ordinateur) | `renv::restore()` |
+
+<div class="box warn">À partager : `renv.lock`, `.Rprofile`, `renv/activate.R`. **Jamais** `renv/library/`.</div>
+
+## Lire un fichier lock
+
+```{r}
+lock <- jsonlite::read_json("data/advanced/renv_example.lock")
+lock$R$Version
+length(lock$Packages)
+sapply(lock$Packages[c("dplyr", "ggplot2", "sf")], function(p) p$Version)
+```
+
+Limites : la version de **R**, les bibliothèques système (GDAL…), → README, rig, Docker.
+
+## A2 — Git, GitHub, GitLab {.segue}
+
+## Le vocabulaire
+
+| Mot | Sens |
+|---|---|
+| dépôt (repo) | dossier suivi par Git (`.git/`) |
+| commit | instantané + message + auteur + date |
+| add / commit | choisir puis enregistrer |
+| push / pull | envoyer / récupérer (GitHub, GitLab) |
+| branche / merge | travail parallèle / fusion |
+
+<div class="box warn">Pas de données personnelles ni de gros fichiers dans un dépôt — surtout public.</div>
+
+## L'historique répond aux questions
+
+```{r, echo=FALSE, comment=""}
+ngo <- file.path(tempdir(), "slides-git"); unlink(ngo, recursive = TRUE); dir.create(ngo)
+utils::unzip("data/advanced/reef_project_git.zip", exdir = ngo)
+cat(system2("git", c("-C", file.path(ngo, "reef-monitoring"), "log", shQuote("--format=%h %ad %<(12)%an %s"), "--date=short"),
+            stdout = TRUE), sep = "\n")
+```
+
+- `git show 8c390f6:R/03_bleaching.R` : le fichier à une date donnée
+- `git restore --source=8c390f6 fichier` : revenir en arrière (rien n'est perdu)
+
+## Se connecter à GitHub / GitLab
+
+- **HTTPS + jeton** : `usethis::create_github_token()` puis `gitcreds::gitcreds_set()`
+- **SSH** : `ssh-keygen -t ed25519`, clé **publique** dans le compte, `ssh -T git@github.com`
+- deux comptes : alias dans `~/.ssh/config` → `git@github-work:org/projet.git`
+
+```bash
+git remote add origin git@github.com:compte/reef-monitoring.git
+git push -u origin main
+```
+
+**Pull avant de travailler, pull avant de pousser.**
+
+## Un conflit, ce n'est pas grave
+
+```
+<<<<<<< HEAD
+threshold <- 25
+=======
+threshold <- 20
+>>>>>>> hery-threshold
+```
+
+Garder la bonne ligne, **supprimer les marqueurs**, `git add`, `git commit`.
+
+## A3 — R Markdown {.segue}
+
+## Le rapport EST l'analyse
+
+- en-tête **YAML** + texte **Markdown** + **chunks** R
+- **Knit** = nouvelle session vide → tout doit être créé dans le `.Rmd`
+- options : `echo`, `include`, `eval`, `message`, `warning`, `fig.cap`, `fig.width`
+
+```{r, include=FALSE}
+nt <- round(mean(reef$hard_coral[reef$year == 2025 & reef$zone == "No-take"]), 1)
+```
+
+Code en ligne : `` `r knitr::inline_expr("nt")` `` → « `r nt` % dans les zones No-take »
+
+## Tableaux et figures numérotés
+
+```{r}
+reef |> filter(year == 2025) |> group_by(zone) |>
+  summarise(transects = n(), moyenne = mean(hard_coral)) |>
+  knitr::kable(digits = 1, caption = "Corail dur 2025")
+```
+
+`bookdown::html_document2` / `word_document2` → `\@ref(fig:trend)`, `\@ref(tab:cover)`
+
+## Formats de sortie
+
+| Format | YAML | Remarque |
+|---|---|---|
+| HTML | `toc`, `toc_float`, `number_sections`, `code_folding` | à l'écran, un seul fichier |
+| Word | `reference_docx: styles.docx` | styles de l'institution |
+| PDF | `pdf_document` | LaTeX : `tinytex::install_tinytex()` |
+
+## A4 — Rapports automatiques {.segue}
+
+## Un modèle, des paramètres
+
+```yaml
+params:
+  mpa: "Ankaramena"
+  year: 2025
+```
+
+- dans le rapport : `params$mpa`, `params$year`
+- *Knit with Parameters* : formulaire (listes déroulantes avec `input: select`)
+- phrases robustes : `if … else` quand l'année précédente manque
+
+## Un rapport par AMP, en un clic
+
+```{r, eval=FALSE}
+for (m in c("Ankaramena", "Nosy Fasika", "Tanjona")) {
+  rmarkdown::render(here::here("reports", "mpa_report.Rmd"),
+                    params = list(mpa = m, year = 2025),
+                    output_file = paste0("report_", gsub(" ", "_", tolower(m)), "_2025.html"),
+                    output_dir = here::here("outputs", "reports"),
+                    envir = new.env())        # départ propre pour chaque rapport
+}
+```
+
+Chaque année : nouvelles données dans `data/raw/` → `00_run_all.R` → `render_reports.R` → commit → envoi.
+
+## À retenir — partie 1
+
+- un projet = **arborescence claire**, `here()`, données brutes intouchables, scripts numérotés
+- `renv.lock` + Git = le **code et ses versions** voyagent ensemble
+- un rapport R Markdown **recalcule tout** : aucun chiffre tapé à la main
+- `params` + boucle `render()` = **les rapports de l'année en un clic**
+
+<div class="box tip">**À faire** : séances A0 à A4 en ligne. Suite : SIG avec `sf` et `terra`, cartes, Quarto, publication.</div>
+
+## Merci ! {.segue}

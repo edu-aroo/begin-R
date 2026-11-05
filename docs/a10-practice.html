@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · A10</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A10 · Practice
+session</span><span class="fr">A10 · Séance d’exercices</span></h1>
+<h3 class="subtitle">~3.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="what-this-session-is-for" class="section level4 en">
+<h4>What this session is for</h4>
+<p>No new concepts: six independent exercises to
+<strong>practise</strong> Sessions A0 to A9 before the final project.
+Each exercise has its own quiz (<strong>two attempts</strong>, the best
+one counts) and its own solution. The final project opens when the six
+exercises together reach 75 % of their points.</p>
+<ul>
+<li>Work in your <code>reef-monitoring</code> project: one script
+<code>R/10_practice.R</code>, one section per exercise.</li>
+<li>All files come from the Advanced data zip
+(<code>data/advanced/</code>): copy what you need into
+<code>data/raw/</code>.</li>
+<li>Hints are free.</li>
+</ul>
+</div>
+<div id="à-quoi-sert-cette-séance" class="section level4 fr">
+<h4>À quoi sert cette séance</h4>
+<p>Pas de nouvelle notion : six exercices indépendants pour
+<strong>pratiquer</strong> les séances A0 à A9 avant le projet final.
+Chaque exercice a son propre quiz (<strong>deux tentatives</strong>, la
+meilleure compte) et sa propre solution. Le projet final s’ouvre quand
+les six exercices réunis atteignent 75 % de leurs points.</p>
+<ul>
+<li>Travaillez dans votre projet <code>reef-monitoring</code> : un
+script <code>R/10_practice.R</code>, une section par exercice.</li>
+<li>Tous les fichiers viennent du zip des données avancées
+(<code>data/advanced/</code>) : copiez ce dont vous avez besoin dans
+<code>data/raw/</code>.</li>
+<li>Les indices sont gratuits.</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data (simulated).</strong> The monitoring programme of the
+three MPAs, described in Session A0: coral transects 2019–2025, the
+mangrove inventory 2025, the GIS layers, the bathymetry and sea
+temperature rasters, the NGO project with its Git history and the
+example lockfile.</p>
+</div>
+<div class="fr">
+<p><strong>Données (simulées).</strong> Le programme de suivi des trois
+AMP, décrit à la séance A0 : transects coralliens 2019–2025, inventaire
+des mangroves 2025, couches SIG, rasters de bathymétrie et de
+température de la mer, projet de l’ONG avec son historique Git et le
+fichier lock d’exemple.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/r_course_data_advanced.zip" download>⇩
+r_course_data_advanced.zip</a></p>
+<div id="ex1" class="section level2">
+<h2><span class="en">Exercise 1 — Project, renv and Git</span><span
+class="fr">Exercice 1 — Projet, renv et Git</span></h2>
+<div class="en">
+<p><em>Sessions A0–A2.</em> Unzip <code>reef_project_git.zip</code>.</p>
+<ol style="list-style-type: decimal">
+<li>How many commits were made by <strong>Fara Rasoa</strong>?</li>
+<li>Which file was changed by commit <code>e0ed893</code>?</li>
+<li>Which version of <code>sf</code> is recorded in
+<code>renv_example.lock</code>?</li>
+<li>Answer the questions on project organisation.</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Séances A0–A2.</em> Décompressez
+<code>reef_project_git.zip</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Combien de commits ont été faits par <strong>Fara Rasoa</strong>
+?</li>
+<li>Quel fichier a été modifié par le commit <code>e0ed893</code> ?</li>
+<li>Quelle version de <code>sf</code> est enregistrée dans
+<code>renv_example.lock</code> ?</li>
+<li>Répondez aux questions sur l’organisation d’un projet.</li>
+</ol>
+</div>
+<div class="hint">
+<div class="en">
+<p><code>git log --format="%an"</code> lists the author of each commit;
+<code>git show --name-only e0ed893</code> lists the files of a
+commit.</p>
+</div>
+<div class="fr">
+<p><code>git log --format="%an"</code> liste l’auteur de chaque commit ;
+<code>git show --name-only e0ed893</code> liste les fichiers d’un
+commit.</p>
+</div>
+</div>
+<div id="quiz-ap1" class="quiz" data-quiz-id="ap1"
+data-title-en="Exercise 1" data-title-fr="Exercice 1"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gQ29tbWl0cyBieSBGYXJhIFJhc29hPyIsImZyIjoiMS4gQ29tbWl0cyBkZSBGYXJhIFJhc29hID8iLCJhbnN3ZXIiOjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyLiBGaWxlIGNoYW5nZWQgYnkgZTBlZDg5MyAod2l0aCBpdHMgZm9sZGVyLCBlLmcuIFIvMDFfaW1wb3J0LlIpPyIsImZyIjoiMi4gRmljaGllciBtb2RpZmnDqSBwYXIgZTBlZDg5MyAoYXZlYyBzb24gZG9zc2llciwgZXguIFIvMDFfaW1wb3J0LlIpID8iLCJhbnN3ZXIiOlsiUi8wNF9maWd1cmVzLlIiXX0seyJ0eXBlIjoidGV4dCIsImVuIjoiMy4gVmVyc2lvbiBvZiBzZiBpbiB0aGUgbG9ja2ZpbGU/IiwiZnIiOiIzLiBWZXJzaW9uIGRlIHNmIGRhbnMgbGUgZmljaGllciBsb2NrID8iLCJhbnN3ZXIiOlsiMS4wLTE2Il19LHsidHlwZSI6Im1jcSIsImVuIjoiNGEuIFdoZXJlIGRvIHRoZSBmaWxlcyB0aGF0IHlvdXIgc2NyaXB0cyBjcmVhdGUgZ28/IiwiZnIiOiI0YS4gT8O5IHZvbnQgbGVzIGZpY2hpZXJzIGNyw6nDqXMgcGFyIHZvcyBzY3JpcHRzID8iLCJvcHRpb25zX2VuIjpbImRhdGEvcmF3LyIsImRhdGEvZGVyaXZlZC8gYW5kIG91dHB1dHMvIiwidGhlIHByb2plY3Qgcm9vdCIsInRoZSBEZXNrdG9wIl0sIm9wdGlvbnNfZnIiOlsiZGF0YS9yYXcvIiwiZGF0YS9kZXJpdmVkLyBldCBvdXRwdXRzLyIsImxhIHJhY2luZSBkdSBwcm9qZXQiLCJsZSBCdXJlYXUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjRiLiBBIGNvbGxlYWd1ZSBjbG9uZXMgeW91ciByZXBvc2l0b3J5LiBXaGljaCB0d28gY29tbWFuZHMgZ2l2ZSBoZXIgeW91ciBleGFjdCBlbnZpcm9ubWVudCBhbmQgcmVzdWx0cz8iLCJmciI6IjRiLiBVbmUgY29sbMOoZ3VlIGNsb25lIHZvdHJlIGTDqXDDtHQuIFF1ZWxsZXMgZGV1eCBjb21tYW5kZXMgbHVpIGRvbm5lbnQgdm90cmUgZW52aXJvbm5lbWVudCBldCB2b3MgcsOpc3VsdGF0cyBleGFjdHMgPyIsIm9wdGlvbnNfZW4iOlsicmVudjo6c25hcHNob3QoKSB0aGVuIHNvdXJjZShcIlIvMDBfcnVuX2FsbC5SXCIpIiwicmVudjo6cmVzdG9yZSgpIHRoZW4gc291cmNlKFwiUi8wMF9ydW5fYWxsLlJcIikiLCJpbnN0YWxsLnBhY2thZ2VzKCkgdGhlbiBzZXR3ZCgpIiwiZ2l0IHB1c2ggdGhlbiByZW52Ojppbml0KCkiXSwib3B0aW9uc19mciI6WyJyZW52OjpzbmFwc2hvdCgpIHB1aXMgc291cmNlKFwiUi8wMF9ydW5fYWxsLlJcIikiLCJyZW52OjpyZXN0b3JlKCkgcHVpcyBzb3VyY2UoXCJSLzAwX3J1bl9hbGwuUlwiKSIsImluc3RhbGwucGFja2FnZXMoKSBwdWlzIHNldHdkKCkiLCJnaXQgcHVzaCBwdWlzIHJlbnY6OmluaXQoKSJdLCJhbnN3ZXIiOjF9XQ==">
+
+</div>
+<div class="solution" data-quiz="ap1">
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="bu">cd</span> reef-monitoring</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--format</span><span class="op">=</span><span class="st">&quot;%an&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span>        <span class="co"># 1: Fara Rasoa 4, Hery Nirina 2</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">git</span> show <span class="at">--name-only</span> <span class="at">--format</span><span class="op">=</span><span class="st">&quot;&quot;</span> e0ed893       <span class="co"># 2: R/04_figures.R</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>jsonlite<span class="sc">::</span><span class="fu">read_json</span>(<span class="st">&quot;data/raw/renv_example.lock&quot;</span>)<span class="sc">$</span>Packages<span class="sc">$</span>sf<span class="sc">$</span>Version   <span class="co"># 3</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex2" class="section level2">
+<h2><span class="en">Exercise 2 — Report numbers and
+parameters</span><span class="fr">Exercice 2 — Chiffres de rapport et
+paramètres</span></h2>
+<div class="en">
+<p><em>Sessions A3–A4.</em> Write a function
+<code>mpa_summary(reef, mpa, year)</code> that returns the number of
+transects, the mean hard coral and the mean macroalgae of one MPA in one
+year — the heart of a parameterised report.</p>
+<ol style="list-style-type: decimal">
+<li>Mean <strong>macroalgae</strong> cover of <strong>Tanjona</strong>
+in <strong>2021</strong> (1 decimal)?</li>
+<li>Number of transects of the <strong>No-take</strong> zone of
+<strong>Ankaramena</strong> in <strong>2020</strong>?</li>
+<li>A report is made for each MPA and each year <strong>with
+data</strong>. How many reports for 2019–2025 (remember 2022 at
+Tanjona)?</li>
+<li>Answer the questions on R Markdown.</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Séances A3–A4.</em> Écrivez une fonction
+<code>mpa_summary(reef, mpa, year)</code> qui renvoie le nombre de
+transects, le corail dur moyen et les macroalgues moyennes d’une AMP
+pour une année — le cœur d’un rapport paramétré.</p>
+<ol style="list-style-type: decimal">
+<li>Recouvrement moyen en <strong>macroalgues</strong> de
+<strong>Tanjona</strong> en <strong>2021</strong> (1 décimale) ?</li>
+<li>Nombre de transects de la zone <strong>No-take</strong>
+d’<strong>Ankaramena</strong> en <strong>2020</strong> ?</li>
+<li>Un rapport est fait pour chaque AMP et chaque année <strong>avec des
+données</strong>. Combien de rapports pour 2019–2025 (pensez à 2022 à
+Tanjona) ?</li>
+<li>Répondez aux questions sur R Markdown.</li>
+</ol>
+</div>
+<div id="quiz-ap2" class="quiz" data-quiz-id="ap2"
+data-title-en="Exercise 2" data-title-fr="Exercice 2"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTWVhbiBtYWNyb2FsZ2FlLCBUYW5qb25hIDIwMjEgKDEgZGVjaW1hbCk/IiwiZnIiOiIxLiBNYWNyb2FsZ3VlcyBtb3llbm5lcywgVGFuam9uYSAyMDIxICgxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6MjAuMSwidG9sIjowLjA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gVHJhbnNlY3RzLCBBbmthcmFtZW5hIE5vLXRha2UgMjAyMD8iLCJmciI6IjIuIFRyYW5zZWN0cywgQW5rYXJhbWVuYSBOby10YWtlIDIwMjAgPyIsImFuc3dlciI6OSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTnVtYmVyIG9mIChNUEEsIHllYXIpIHJlcG9ydHMgd2l0aCBkYXRhPyIsImZyIjoiMy4gTm9tYnJlIGRlIHJhcHBvcnRzIChBTVAsIGFubsOpZSkgYXZlYyBkb25uw6llcyA/IiwiYW5zd2VyIjoyMCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNGEuIEluIGEgcGFyYW1ldGVyaXNlZCByZXBvcnQsIHRoZSB5ZWFyIGNob3NlbiB3aGVuIHJlbmRlcmluZyBpczoiLCJmciI6IjRhLiBEYW5zIHVuIHJhcHBvcnQgcGFyYW3DqXRyw6ksIGwnYW5uw6llIGNob2lzaWUgw6AgbGEgcHJvZHVjdGlvbiBlc3QgOiIsIm9wdGlvbnNfZW4iOlsieWVhciIsInBhcmFtcyR5ZWFyIiwiaW5wdXQkeWVhciIsIlN5cy5EYXRlKCkiXSwib3B0aW9uc19mciI6WyJ5ZWFyIiwicGFyYW1zJHllYXIiLCJpbnB1dCR5ZWFyIiwiU3lzLkRhdGUoKSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNGIuIFdoaWNoIGNodW5rIG9wdGlvbiBydW5zIHRoZSBjb2RlIGJ1dCBzaG93cyBub3RoaW5nPyIsImZyIjoiNGIuIFF1ZWxsZSBvcHRpb24gZGUgY2h1bmsgZXjDqWN1dGUgbGUgY29kZSBzYW5zIHJpZW4gbW9udHJlciA/Iiwib3B0aW9uc19lbiI6WyJpbmNsdWRlOiBmYWxzZSIsImV2YWw6IGZhbHNlIiwiZWNobzogZmFsc2UiLCJvdXRwdXQ6IGFzaXMiXSwib3B0aW9uc19mciI6WyJpbmNsdWRlOiBmYWxzZSIsImV2YWw6IGZhbHNlIiwiZWNobzogZmFsc2UiLCJvdXRwdXQ6IGFzaXMiXSwiYW5zd2VyIjowfV0=">
+
+</div>
+<div class="solution" data-quiz="ap2">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>reef <span class="ot">&lt;-</span> <span class="fu">left_join</span>(<span class="fu">read.csv</span>(<span class="st">&quot;data/raw/reef_monitoring.csv&quot;</span>), <span class="fu">read.csv</span>(<span class="st">&quot;data/raw/reef_sites.csv&quot;</span>), <span class="at">by =</span> <span class="st">&quot;site_id&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>mpa_summary <span class="ot">&lt;-</span> <span class="cf">function</span>(reef, mpa, year) {</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  d <span class="ot">&lt;-</span> reef[reef<span class="sc">$</span>mpa <span class="sc">==</span> mpa <span class="sc">&amp;</span> reef<span class="sc">$</span>year <span class="sc">==</span> year, ]</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">mpa =</span> mpa, <span class="at">year =</span> year, <span class="at">transects =</span> <span class="fu">nrow</span>(d),</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>             <span class="at">hard_coral =</span> <span class="fu">mean</span>(d<span class="sc">$</span>hard_coral), <span class="at">macroalgae =</span> <span class="fu">mean</span>(d<span class="sc">$</span>macroalgae))</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>}</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">mpa_summary</span>(reef, <span class="st">&quot;Tanjona&quot;</span>, <span class="dv">2021</span>)                                       <span class="co"># 1</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">sum</span>(reef<span class="sc">$</span>mpa <span class="sc">==</span> <span class="st">&quot;Ankaramena&quot;</span> <span class="sc">&amp;</span> reef<span class="sc">$</span>zone <span class="sc">==</span> <span class="st">&quot;No-take&quot;</span> <span class="sc">&amp;</span> reef<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2020</span>)  <span class="co"># 2</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">distinct</span>(reef, mpa, year))                                          <span class="co"># 3: 7 + 7 + 6</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex3" class="section level2">
+<h2><span class="en">Exercise 3 — Vector GIS</span><span
+class="fr">Exercice 3 — SIG vecteur</span></h2>
+<div class="en">
+<p><em>Session A5.</em> Layers <code>mpa_zones</code> and
+<code>mangrove_plots</code> of <code>monitoring_gis.gpkg</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Total area of the <strong>Fishing</strong> zones of <strong>Nosy
+Fasika</strong> (km², 1 decimal)?</li>
+<li>How many mangrove plots are <strong>less than 5 km</strong> from a
+No-take zone?</li>
+<li>Dissolve the zones into three MPAs. For how many mangrove plots is
+<strong>Tanjona</strong> the nearest MPA
+(<code>st_nearest_feature()</code>)?</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Séance A5.</em> Couches <code>mpa_zones</code> et
+<code>mangrove_plots</code> de <code>monitoring_gis.gpkg</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Surface totale des zones <strong>Fishing</strong> de <strong>Nosy
+Fasika</strong> (km², 1 décimale) ?</li>
+<li>Combien de placettes de mangrove sont à <strong>moins de 5
+km</strong> d’une zone No-take ?</li>
+<li>Fusionnez les zones en trois AMP. Pour combien de placettes
+<strong>Tanjona</strong> est-elle l’AMP la plus proche
+(<code>st_nearest_feature()</code>) ?</li>
+</ol>
+</div>
+<div class="hint">
+<div class="en">
+<p>Both layers are already in UTM (metres).
+<code>st_nearest_feature(plots, mpas)</code> returns, for each plot, the
+<strong>row number</strong> of the nearest MPA: use it to read
+<code>mpas$mpa[...]</code>.</p>
+</div>
+<div class="fr">
+<p>Les deux couches sont déjà en UTM (mètres).
+<code>st_nearest_feature(placettes, amp)</code> renvoie, pour chaque
+placette, le <strong>numéro de ligne</strong> de l’AMP la plus proche :
+utilisez-le pour lire <code>amp$mpa[...]</code>.</p>
+</div>
+</div>
+<div id="quiz-ap3" class="quiz" data-quiz-id="ap3"
+data-title-en="Exercise 3" data-title-fr="Exercice 3"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gQXJlYSBvZiB0aGUgRmlzaGluZyB6b25lcyBvZiBOb3N5IEZhc2lrYSAoa23CsiwgMSBkZWNpbWFsKT8iLCJmciI6IjEuIFN1cmZhY2UgZGVzIHpvbmVzIEZpc2hpbmcgZGUgTm9zeSBGYXNpa2EgKGttwrIsIDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjoxMzAuOCwidG9sIjowLjExLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gTWFuZ3JvdmUgcGxvdHMgbGVzcyB0aGFuIDUga20gZnJvbSBhIE5vLXRha2Ugem9uZT8iLCJmciI6IjIuIFBsYWNldHRlcyBkZSBtYW5ncm92ZSDDoCBtb2lucyBkZSA1IGttIGQndW5lIHpvbmUgTm8tdGFrZSA/IiwiYW5zd2VyIjo5LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBQbG90cyB3aG9zZSBuZWFyZXN0IE1QQSBpcyBUYW5qb25hPyIsImZyIjoiMy4gUGxhY2V0dGVzIGRvbnQgbCdBTVAgbGEgcGx1cyBwcm9jaGUgZXN0IFRhbmpvbmEgPyIsImFuc3dlciI6OCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9XQ==">
+
+</div>
+<div class="solution" data-quiz="ap3">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(sf); <span class="fu">library</span>(dplyr)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/raw/monitoring_gis.gpkg&quot;</span>, <span class="st">&quot;mpa_zones&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/raw/monitoring_gis.gpkg&quot;</span>, <span class="st">&quot;mangrove_plots&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>nf <span class="ot">&lt;-</span> <span class="fu">filter</span>(zones, mpa <span class="sc">==</span> <span class="st">&quot;Nosy Fasika&quot;</span>, zone <span class="sc">==</span> <span class="st">&quot;Fishing&quot;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">as.numeric</span>(<span class="fu">st_area</span>(nf))) <span class="sc">/</span> <span class="fl">1e6</span>                                       <span class="co"># 1</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>nt <span class="ot">&lt;-</span> <span class="fu">st_union</span>(<span class="fu">filter</span>(zones, zone <span class="sc">==</span> <span class="st">&quot;No-take&quot;</span>))</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">as.numeric</span>(<span class="fu">st_distance</span>(plots, nt)) <span class="sc">&lt;</span> <span class="dv">5000</span>)                           <span class="co"># 2</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>mpas <span class="ot">&lt;-</span> zones <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(mpa) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>()</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="fu">sum</span>(mpas<span class="sc">$</span>mpa[<span class="fu">st_nearest_feature</span>(plots, mpas)] <span class="sc">==</span> <span class="st">&quot;Tanjona&quot;</span>)              <span class="co"># 3</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex4" class="section level2">
+<h2><span class="en">Exercise 4 — Rasters</span><span
+class="fr">Exercice 4 — Rasters</span></h2>
+<div class="en">
+<p><em>Session A6.</em></p>
+<ol style="list-style-type: decimal">
+<li>Mean sea surface temperature of the whole bay in <strong>August
+2024</strong> (layer 8, 2 decimals)?</li>
+<li>How many cells of <code>bathymetry.tif</code> <strong>inside the MPA
+zones</strong> are deeper than <strong>20 m</strong>?
+(<code>crop()</code> then <code>mask()</code> with the zones in
+WGS84)</li>
+<li>At which reef site is the <strong>raster</strong> depth the
+greatest?</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Séance A6.</em></p>
+<ol style="list-style-type: decimal">
+<li>Température de surface moyenne de toute la baie en <strong>août
+2024</strong> (couche 8, 2 décimales) ?</li>
+<li>Combien de cellules de <code>bathymetry.tif</code> <strong>dans les
+zones des AMP</strong> ont plus de <strong>20 m</strong> de profondeur ?
+(<code>crop()</code> puis <code>mask()</code> avec les zones en
+WGS84)</li>
+<li>À quel site récifal la profondeur <strong>du raster</strong>
+est-elle la plus grande ?</li>
+</ol>
+</div>
+<div id="quiz-ap4" class="quiz" data-quiz-id="ap4"
+data-title-en="Exercise 4" data-title-fr="Exercice 4"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTWVhbiBTU1QsIEF1Z3VzdCAyMDI0ICjCsEMsIDIgZGVjaW1hbHMpPyIsImZyIjoiMS4gU1NUIG1veWVubmUsIGFvw7t0IDIwMjQgKMKwQywgMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoyNC4xLCJ0b2wiOjAuMDExLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gQ2VsbHMgZGVlcGVyIHRoYW4gMjAgbSBpbnNpZGUgdGhlIE1QQSB6b25lcz8iLCJmciI6IjIuIENlbGx1bGVzIGRlIHBsdXMgZGUgMjAgbSBkYW5zIGxlcyB6b25lcyBkZXMgQU1QID8iLCJhbnN3ZXIiOjEyNzcsInRvbCI6MTAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMy4gU2l0ZSB3aXRoIHRoZSBncmVhdGVzdCByYXN0ZXIgZGVwdGg/IiwiZnIiOiIzLiBTaXRlIMOgIGxhIHBsdXMgZ3JhbmRlIHByb2ZvbmRldXIgZHUgcmFzdGVyID8iLCJhbnN3ZXIiOlsiUjEwIl19XQ==">
+
+</div>
+<div class="solution" data-quiz="ap4">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(terra); <span class="fu">library</span>(sf)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>sst <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/raw/sst_2024.tif&quot;</span>); bathy <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/raw/bathymetry.tif&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">global</span>(sst[[<span class="dv">8</span>]], <span class="st">&quot;mean&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                                   <span class="co"># 1</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>zv <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="fu">st_transform</span>(<span class="fu">st_read</span>(<span class="st">&quot;data/raw/monitoring_gis.gpkg&quot;</span>, <span class="st">&quot;mpa_zones&quot;</span>), <span class="fu">crs</span>(bathy)))</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>bm <span class="ot">&lt;-</span> <span class="fu">mask</span>(<span class="fu">crop</span>(bathy, zv), zv)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">global</span>(bm <span class="sc">&gt;</span> <span class="dv">20</span>, <span class="st">&quot;sum&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                                     <span class="co"># 2</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/raw/monitoring_gis.gpkg&quot;</span>, <span class="st">&quot;reef_sites&quot;</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">extract</span>(bathy, <span class="fu">vect</span>(<span class="fu">st_transform</span>(sites, <span class="fu">crs</span>(bathy))))<span class="sc">$</span>depth_m</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>sites<span class="sc">$</span>site_id[<span class="fu">which.max</span>(d)]                                              <span class="co"># 3</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex5" class="section level2">
+<h2><span class="en">Exercise 5 — Mangrove indicators</span><span
+class="fr">Exercice 5 — Indicateurs mangrove</span></h2>
+<div class="en">
+<p><em>Sessions A0, A8.</em> Clean the trees as in Session A8
+(upper-case codes; DBH &gt; 30 cm on trees &lt; 8 m divided by 10). Plot
+area = π × 10² m².</p>
+<ol style="list-style-type: decimal">
+<li>Mean <strong>basal area</strong> of living trees in the
+<strong>reference</strong> plots (m²/ha, 1 decimal). Basal area of one
+trunk = π × (DBH / 200)² m².</li>
+<li>In the plots of status <strong>restored</strong>, what percentage of
+the trees are <strong>dead</strong> (1 decimal)?</li>
+<li>Mean <strong>stem density</strong> of living trees in the
+<strong>harvested</strong> plots (stems/ha, no decimal)?</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Séances A0, A8.</em> Nettoyez les arbres comme à la séance A8
+(codes en majuscules ; DHP &gt; 30 cm sur des arbres &lt; 8 m divisés
+par 10). Surface d’une placette = π × 10² m².</p>
+<ol style="list-style-type: decimal">
+<li><strong>Surface terrière</strong> moyenne des arbres vivants dans
+les placettes de <strong>référence</strong> (m²/ha, 1 décimale). Surface
+terrière d’un tronc = π × (DHP / 200)² m².</li>
+<li>Dans les placettes de statut <strong>restored</strong>, quel
+pourcentage des arbres est <strong>mort</strong> (1 décimale) ?</li>
+<li><strong>Densité</strong> moyenne des tiges vivantes dans les
+placettes <strong>harvested</strong> (tiges/ha, sans décimale) ?</li>
+</ol>
+</div>
+<div class="hint">
+<div class="en">
+<p>The tree table has a <code>status</code> (alive, dead, cut) and the
+plot table also has a <code>status</code> (reference, harvested,
+restored): after joining, rename one of them, or use
+<code>suffix =</code> in <code>left_join()</code>. Compute per plot
+first, then average the plots.</p>
+</div>
+<div class="fr">
+<p>Le tableau des arbres a un <code>status</code> (alive, dead, cut) et
+celui des placettes aussi (reference, harvested, restored) : après la
+jointure, renommez l’un des deux, ou utilisez <code>suffix =</code> dans
+<code>left_join()</code>. Calculez d’abord par placette, puis faites la
+moyenne des placettes.</p>
+</div>
+</div>
+<div id="quiz-ap5" class="quiz" data-quiz-id="ap5"
+data-title-en="Exercise 5" data-title-fr="Exercice 5"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTWVhbiBiYXNhbCBhcmVhLCByZWZlcmVuY2UgcGxvdHMgKG3Csi9oYSwgMSBkZWNpbWFsKT8iLCJmciI6IjEuIFN1cmZhY2UgdGVycmnDqHJlIG1veWVubmUsIHBsYWNldHRlcyBkZSByw6lmw6lyZW5jZSAobcKyL2hhLCAxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6MjguNSwidG9sIjowLjExLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gJSBvZiBkZWFkIHRyZWVzIGluIHJlc3RvcmVkIHBsb3RzICgxIGRlY2ltYWwpPyIsImZyIjoiMi4gJSBkJ2FyYnJlcyBtb3J0cyBkYW5zIGxlcyBwbGFjZXR0ZXMgcmVzdGF1csOpZXMgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjoxMC4xLCJ0b2wiOjAuMTEsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBNZWFuIHN0ZW0gZGVuc2l0eSwgaGFydmVzdGVkIHBsb3RzIChzdGVtcy9oYSk/IiwiZnIiOiIzLiBEZW5zaXTDqSBtb3llbm5lIGRlcyB0aWdlcywgcGxhY2V0dGVzIGV4cGxvaXTDqWVzICh0aWdlcy9oYSkgPyIsImFuc3dlciI6OTI3LCJ0b2wiOjEsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn1d">
+
+</div>
+<div class="solution" data-quiz="ap5">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>trees <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/raw/mangrove_trees.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">species_code =</span> <span class="fu">toupper</span>(species_code),</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>         <span class="at">dbh_cm =</span> <span class="fu">ifelse</span>(dbh_cm <span class="sc">&gt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> height_m <span class="sc">&lt;</span> <span class="dv">8</span>, dbh_cm <span class="sc">/</span> <span class="dv">10</span>, dbh_cm),</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>         <span class="at">ba_m2 =</span> pi <span class="sc">*</span> (dbh_cm <span class="sc">/</span> <span class="dv">200</span>)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/raw/mangrove_plots.csv&quot;</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>area_ha <span class="ot">&lt;-</span> pi <span class="sc">*</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fl">1e4</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>trees <span class="ot">&lt;-</span> <span class="fu">left_join</span>(trees, plots[, <span class="fu">c</span>(<span class="st">&quot;plot_id&quot;</span>, <span class="st">&quot;status&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;plot_id&quot;</span>, <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;_plot&quot;</span>))</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>per_plot <span class="ot">&lt;-</span> trees <span class="sc">%&gt;%</span> <span class="fu">filter</span>(status <span class="sc">==</span> <span class="st">&quot;alive&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(plot_id, status_plot) <span class="sc">%&gt;%</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ba_ha =</span> <span class="fu">sum</span>(ba_m2) <span class="sc">/</span> area_ha, <span class="at">stems_ha =</span> <span class="fu">n</span>() <span class="sc">/</span> area_ha, <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>per_plot <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(status_plot) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">ba =</span> <span class="fu">mean</span>(ba_ha), <span class="at">stems =</span> <span class="fu">mean</span>(stems_ha))   <span class="co"># 1, 3</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>trees <span class="sc">%&gt;%</span> <span class="fu">filter</span>(status_plot <span class="sc">==</span> <span class="st">&quot;restored&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">dead =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(status <span class="sc">==</span> <span class="st">&quot;dead&quot;</span>))  <span class="co"># 2</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex6" class="section level2">
+<h2><span class="en">Exercise 6 — Maps and publishing</span><span
+class="fr">Exercice 6 — Cartes et publication</span></h2>
+<div class="en">
+<p><em>Sessions A7, A9.</em></p>
+<ol style="list-style-type: decimal">
+<li>Compute the mean hard coral cover of each site in 2019 and in 2025.
+At how many sites was cover <strong>higher in 2025</strong> than in
+2019? Map them (one colour for “higher”, one for “lower”).</li>
+<li>Answer the questions on maps and publishing.</li>
+</ol>
+</div>
+<div class="fr">
+<p><em>Séances A7, A9.</em></p>
+<ol style="list-style-type: decimal">
+<li>Calculez le corail dur moyen de chaque site en 2019 et en 2025. Dans
+combien de sites le recouvrement était-il <strong>plus élevé en
+2025</strong> qu’en 2019 ? Cartographiez-les (une couleur pour « plus
+élevé », une pour « plus faible »).</li>
+<li>Répondez aux questions sur les cartes et la publication.</li>
+</ol>
+</div>
+<div id="quiz-ap6" class="quiz" data-quiz-id="ap6"
+data-title-en="Exercise 6" data-title-fr="Exercice 6"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gU2l0ZXMgd2l0aCBoaWdoZXIgY292ZXIgaW4gMjAyNSB0aGFuIGluIDIwMTk/IiwiZnIiOiIxLiBTaXRlcyBhdmVjIHVuIHJlY291dnJlbWVudCBwbHVzIMOpbGV2w6kgZW4gMjAyNSBxdSdlbiAyMDE5ID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjJhLiBBIHNjYWxlIGJhciBpcyBvbmx5IGNvcnJlY3Qgb24gYSBtYXAgZHJhd24gaW46IiwiZnIiOiIyYS4gVW5lIGJhcnJlIGQnw6ljaGVsbGUgbidlc3QganVzdGUgcXVlIHN1ciB1bmUgY2FydGUgZGVzc2luw6llIGVuIDoiLCJvcHRpb25zX2VuIjpbImxvbmdpdHVkZS9sYXRpdHVkZSIsImEgcHJvamVjdGVkIENSUyBpbiBtZXRyZXMgKGUuZy4gVVRNKSIsImFueSBDUlMiLCJXZWIgTWVyY2F0b3IiXSwib3B0aW9uc19mciI6WyJsb25naXR1ZGUvbGF0aXR1ZGUiLCJ1biBTQ1IgcHJvamV0w6kgZW4gbcOodHJlcyAoZXguIFVUTSkiLCJuJ2ltcG9ydGUgcXVlbCBTQ1IiLCJXZWIgTWVyY2F0b3IiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjJiLiBUaGUgc2l0ZSBpcyBwdWJsaXNoZWQgZnJvbSB0aGUgZG9jcy8gZm9sZGVyIG9uIEdpdEh1YiBidXQgaGFzIG5vIHN0eWxlLiBNb3N0IGxpa2VseToiLCJmciI6IjJiLiBMZSBzaXRlIGVzdCBwdWJsacOpIGRlcHVpcyBsZSBkb3NzaWVyIGRvY3MvIHN1ciBHaXRIdWIgbWFpcyBuJ2EgcGFzIGRlIG1pc2UgZW4gZm9ybWUuIExlIHBsdXMgcHJvYmFibGUgOiIsIm9wdGlvbnNfZW4iOlsiZG9jcy8ubm9qZWt5bGwgb3IgZG9jcy9zaXRlX2xpYnMvIGlzIG1pc3NpbmciLCJ0aGUgUiB2ZXJzaW9uIGlzIHRvbyBvbGQiLCJ0aGUgcmVwb3NpdG9yeSBpcyBwdWJsaWMiLCJRdWFydG8gbmVlZHMgTGFUZVgiXSwib3B0aW9uc19mciI6WyJkb2NzLy5ub2pla3lsbCBvdSBkb2NzL3NpdGVfbGlicy8gbWFucXVlIiwibGEgdmVyc2lvbiBkZSBSIGVzdCB0cm9wIGFuY2llbm5lIiwibGUgZMOpcMO0dCBlc3QgcHVibGljIiwiUXVhcnRvIGEgYmVzb2luIGRlIExhVGVYIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiIyYy4gVG8gc2hvdyBhIGNoYW5nZSBhcm91bmQgemVybyAoZ2FpbiAvIGxvc3MpIG9uIGEgbWFwLCBjaG9vc2UgYSBwYWxldHRlIHRoYXQgaXM6IiwiZnIiOiIyYy4gUG91ciBtb250cmVyIHVuZSB2YXJpYXRpb24gYXV0b3VyIGRlIHrDqXJvIChnYWluIC8gcGVydGUpIHN1ciB1bmUgY2FydGUsIGNob2lzaXNzZXogdW5lIHBhbGV0dGUgOiIsIm9wdGlvbnNfZW4iOlsic2VxdWVudGlhbCIsInF1YWxpdGF0aXZlIiwiZGl2ZXJnaW5nLCBjZW50cmVkIG9uIDAiLCJyYWluYm93Il0sIm9wdGlvbnNfZnIiOlsic8OpcXVlbnRpZWxsZSIsInF1YWxpdGF0aXZlIiwiZGl2ZXJnZW50ZSwgY2VudHLDqWUgc3VyIDAiLCJhcmMtZW4tY2llbCJdLCJhbnN3ZXIiOjJ9XQ==">
+
+</div>
+<div class="solution" data-quiz="ap6">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(tidyr); <span class="fu">library</span>(sf); <span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>reef  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/raw/reef_monitoring.csv&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/raw/monitoring_gis.gpkg&quot;</span>, <span class="st">&quot;reef_sites&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>ch <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2019</span>, <span class="dv">2025</span>)) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site_id, year) <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(hard_coral), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> year, <span class="at">values_from =</span> m, <span class="at">names_prefix =</span> <span class="st">&quot;y&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trend =</span> <span class="fu">ifelse</span>(y2025 <span class="sc">&gt;</span> y2019, <span class="st">&quot;higher&quot;</span>, <span class="st">&quot;lower&quot;</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">sum</span>(ch<span class="sc">$</span>trend <span class="sc">==</span> <span class="st">&quot;higher&quot;</span>)                                                <span class="co"># 1</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">st_read</span>(<span class="st">&quot;data/raw/monitoring_gis.gpkg&quot;</span>, <span class="st">&quot;land&quot;</span>), <span class="at">fill =</span> <span class="st">&quot;#efe6d2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">left_join</span>(sites, ch, <span class="at">by =</span> <span class="st">&quot;site_id&quot;</span>), <span class="fu">aes</span>(<span class="at">colour =</span> trend), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">st_bbox</span>(sites)[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)] <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5000</span>, <span class="dv">5000</span>), <span class="at">ylim =</span> <span class="fu">st_bbox</span>(sites)[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)] <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5000</span>, <span class="dv">5000</span>))</span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

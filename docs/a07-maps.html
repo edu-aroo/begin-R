@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · A7</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A7 · Thematic maps with
+ggplot2, sf and tmap</span><span class="fr">A7 · Cartes thématiques avec
+ggplot2, sf et tmap</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>draw maps with <strong><code>geom_sf()</code></strong>: several
+layers, colours mapped to attributes, labels;</li>
+<li>control the <strong>map frame</strong> with <code>coord_sf()</code>
+(CRS, zoom, graticule in degrees);</li>
+<li>add a <strong>scale bar</strong> and a <strong>north arrow</strong>,
+a clear legend, the source and the CRS;</li>
+<li>show a <strong>raster</strong> under vector layers, and make
+<strong>small multiples</strong> (one map per year);</li>
+<li>make the same maps with <strong>tmap</strong>, including an
+<strong>interactive</strong> map;</li>
+<li>export maps for a report or a poster.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>dessiner des cartes avec <strong><code>geom_sf()</code></strong> :
+plusieurs couches, couleurs selon des attributs, étiquettes ;</li>
+<li>contrôler le <strong>cadre</strong> de la carte avec
+<code>coord_sf()</code> (SCR, zoom, graticule en degrés) ;</li>
+<li>ajouter une <strong>barre d’échelle</strong> et une <strong>flèche
+du nord</strong>, une légende claire, la source et le SCR ;</li>
+<li>afficher un <strong>raster</strong> sous des couches vecteur, et
+faire des <strong>petits multiples</strong> (une carte par année) ;</li>
+<li>faire les mêmes cartes avec <strong>tmap</strong>, y compris une
+carte <strong>interactive</strong> ;</li>
+<li>exporter des cartes pour un rapport ou un poster.</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> The GIS layers of
+Session A5 (<code>monitoring_gis.gpkg</code>: land, MPA zones, reef
+sites; <code>villages_shp</code>), the bathymetry raster of Session A6,
+and the coral cover of the monitoring (<code>reef_monitoring.csv</code>,
+2019–2025). The MPA managers asked for <strong>three maps</strong> for
+their annual meeting: where the sites are, how coral cover changed
+between 2023 and 2025, and where the water is shallow (for the mooring
+buoys).</p>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong> Les couches SIG
+de la séance A5 (<code>monitoring_gis.gpkg</code> : terre, zones des
+AMP, sites récifaux ; <code>villages_shp</code>), le raster de
+bathymétrie de la séance A6, et le recouvrement corallien du suivi
+(<code>reef_monitoring.csv</code>, 2019–2025). Les gestionnaires des AMP
+ont demandé <strong>trois cartes</strong> pour leur réunion annuelle :
+où sont les sites, comment le corail a changé entre 2023 et 2025, et où
+l’eau est peu profonde (pour les bouées d’amarrage).</p>
+</div>
+</div>
+<div id="geom-sf" class="section level2">
+<h2><span class="en">Maps with geom_sf()</span><span class="fr">Des
+cartes avec geom_sf()</span></h2>
+<div class="en">
+<p><code>geom_sf()</code> draws any sf layer — points, lines or polygons
+— and understands its CRS. Each layer has its own <code>data =</code>,
+as in Intermediate Session I11, but no more
+<code>coord_quickmap()</code> or <code>geom_polygon()</code>: sf handles
+the shapes and the projection.</p>
+</div>
+<div class="fr">
+<p><code>geom_sf()</code> dessine n’importe quelle couche sf — points,
+lignes ou polygones — et comprend son SCR. Chaque couche a son propre
+<code>data =</code>, comme à la séance intermédiaire I11, mais sans
+<code>coord_quickmap()</code> ni <code>geom_polygon()</code> : sf gère
+les formes et la projection.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>bb <span class="ot">&lt;-</span> <span class="fu">st_bbox</span>(<span class="fu">st_buffer</span>(zones, <span class="dv">3000</span>))          <span class="co"># map frame: the zones + 3 km</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> land, <span class="at">fill =</span> <span class="st">&quot;#efe6d2&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;grey60&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> zones, <span class="fu">aes</span>(<span class="at">fill =</span> zone), <span class="at">colour =</span> <span class="st">&quot;grey30&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> sites, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="at">size =</span> <span class="fl">1.8</span>) <span class="sc">+</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> villages, <span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="fl">1.6</span>) <span class="sc">+</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;No-take&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="st">&quot;Fishing&quot;</span> <span class="ot">=</span> <span class="st">&quot;#f2b8a2&quot;</span>), <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> bb[<span class="fu">c</span>(<span class="st">&quot;xmin&quot;</span>, <span class="st">&quot;xmax&quot;</span>)], <span class="at">ylim =</span> bb[<span class="fu">c</span>(<span class="st">&quot;ymin&quot;</span>, <span class="st">&quot;ymax&quot;</span>)],</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>           <span class="at">crs =</span> <span class="fu">st_crs</span>(zones), <span class="at">datum =</span> <span class="dv">4326</span>) <span class="sc">+</span>   <span class="co"># draw in UTM, but graticule labels in degrees</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fl">43.4</span>, <span class="fl">43.7</span>, <span class="at">by =</span> <span class="fl">0.1</span>)) <span class="sc">+</span>   <span class="co"># fewer longitude labels (in degrees)</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">&quot;Reef monitoring sites&quot;</span>, <span class="at">caption =</span> <span class="st">&quot;UTM 38S (EPSG:32738) · simulated data&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;#dceef3&quot;</span>, <span class="at">colour =</span> <span class="cn">NA</span>), <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
+<p><img src="a07-maps_files/figure-html/map1-1.png" alt="" width="62%" style="display: block; margin: auto;" /></p>
+<div class="en">
+<p><code>coord_sf()</code> does three jobs: the <strong>zoom</strong>
+(<code>xlim</code>, <code>ylim</code>, in the units of the CRS used for
+drawing), the <strong>projection</strong> of the map (<code>crs</code>:
+every layer is transformed on the fly), and the
+<strong>graticule</strong> (<code>datum</code>: the lines and labels,
+here in degrees for readers).</p>
+</div>
+<div class="fr">
+<p><code>coord_sf()</code> fait trois choses : le <strong>zoom</strong>
+(<code>xlim</code>, <code>ylim</code>, dans les unités du SCR de
+dessin), la <strong>projection</strong> de la carte (<code>crs</code> :
+chaque couche est transformée à la volée), et le
+<strong>graticule</strong> (<code>datum</code> : les lignes et
+étiquettes, ici en degrés pour les lecteurs).</p>
+</div>
+<div id="labelsétiquettes" class="section level3">
+<h3><span class="en">Labels</span><span
+class="fr">Étiquettes</span></h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>mpa_poly <span class="ot">&lt;-</span> zones <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(mpa) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)      <span class="co"># dissolve (Session A5)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> land, <span class="at">fill =</span> <span class="st">&quot;#efe6d2&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;grey60&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> mpa_poly, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">colour =</span> <span class="st">&quot;#0b3d5c&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="fu">geom_sf_label</span>(<span class="at">data =</span> mpa_poly, <span class="fu">aes</span>(<span class="at">label =</span> mpa), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">nudge_x =</span> <span class="sc">-</span><span class="dv">9000</span>) <span class="sc">+</span>      <span class="co"># one label per MPA</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> villages, <span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="fl">1.4</span>) <span class="sc">+</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  ggrepel<span class="sc">::</span><span class="fu">geom_text_repel</span>(<span class="at">data =</span> villages, <span class="fu">aes</span>(<span class="at">label =</span> village, <span class="at">geometry =</span> geometry),</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>                           <span class="at">stat =</span> <span class="st">&quot;sf_coordinates&quot;</span>, <span class="at">size =</span> <span class="fl">2.6</span>, <span class="at">min.segment.length =</span> <span class="dv">0</span>, <span class="at">seed =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> bb[<span class="fu">c</span>(<span class="st">&quot;xmin&quot;</span>, <span class="st">&quot;xmax&quot;</span>)] <span class="sc">+</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">15000</span>), <span class="at">ylim =</span> bb[<span class="fu">c</span>(<span class="st">&quot;ymin&quot;</span>, <span class="st">&quot;ymax&quot;</span>)], <span class="at">datum =</span> <span class="dv">4326</span>) <span class="sc">+</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p><img src="a07-maps_files/figure-html/unnamed-chunk-1-1.png" alt="" width="62%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="scale" class="section level2">
+<h2><span class="en">Scale bar and north arrow</span><span
+class="fr">Barre d’échelle et flèche du nord</span></h2>
+<div class="en">
+<p>In a projected CRS in metres, a scale bar is just a segment of known
+length. Here is a small <strong>function</strong> (Intermediate, Session
+I6) that draws both in the bottom-left corner of any UTM map:</p>
+</div>
+<div class="fr">
+<p>Dans un SCR projeté en mètres, une barre d’échelle n’est qu’un
+segment de longueur connue. Voici une petite <strong>fonction</strong>
+(intermédiaire, séance I6) qui dessine les deux dans le coin en bas à
+gauche de n’importe quelle carte en UTM :</p>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>scale_north <span class="ot">&lt;-</span> <span class="cf">function</span>(bb, <span class="at">km =</span> <span class="dv">10</span>) {</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  x0 <span class="ot">&lt;-</span> bb[[<span class="st">&quot;xmin&quot;</span>]] <span class="sc">+</span> <span class="fl">0.06</span> <span class="sc">*</span> (bb[[<span class="st">&quot;xmax&quot;</span>]] <span class="sc">-</span> bb[[<span class="st">&quot;xmin&quot;</span>]])</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  y0 <span class="ot">&lt;-</span> bb[[<span class="st">&quot;ymin&quot;</span>]] <span class="sc">+</span> <span class="fl">0.05</span> <span class="sc">*</span> (bb[[<span class="st">&quot;ymax&quot;</span>]] <span class="sc">-</span> bb[[<span class="st">&quot;ymin&quot;</span>]])</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  h  <span class="ot">&lt;-</span> <span class="fl">0.06</span> <span class="sc">*</span> (bb[[<span class="st">&quot;ymax&quot;</span>]] <span class="sc">-</span> bb[[<span class="st">&quot;ymin&quot;</span>]])</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="at">xmin =</span> x0, <span class="at">xmax =</span> x0 <span class="sc">+</span> km <span class="sc">*</span> <span class="dv">1000</span>, <span class="at">ymin =</span> y0, <span class="at">ymax =</span> y0 <span class="sc">+</span> h <span class="sc">/</span> <span class="dv">6</span>, <span class="at">fill =</span> <span class="st">&quot;black&quot;</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> x0 <span class="sc">+</span> km <span class="sc">*</span> <span class="dv">500</span>, <span class="at">y =</span> y0 <span class="sc">+</span> h <span class="sc">/</span> <span class="fl">2.5</span>, <span class="at">label =</span> <span class="fu">paste</span>(km, <span class="st">&quot;km&quot;</span>), <span class="at">size =</span> <span class="dv">3</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;segment&quot;</span>, <span class="at">x =</span> x0, <span class="at">xend =</span> x0, <span class="at">y =</span> y0 <span class="sc">+</span> h, <span class="at">yend =</span> y0 <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> h,</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>             <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;cm&quot;</span>)), <span class="at">linewidth =</span> <span class="fl">0.7</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> x0, <span class="at">y =</span> y0 <span class="sc">+</span> <span class="fl">2.4</span> <span class="sc">*</span> h, <span class="at">label =</span> <span class="st">&quot;N&quot;</span>, <span class="at">fontface =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">size =</span> <span class="fl">3.5</span>))</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># With the package ggspatial (optional: install.packages(&quot;ggspatial&quot;)), the same in two lines:</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">library</span>(ggspatial)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">annotation_scale</span>(<span class="at">location =</span> <span class="st">&quot;bl&quot;</span>, <span class="at">width_hint =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">&quot;tl&quot;</span>, <span class="at">style =</span> north_arrow_fancy_orienteering)</span></code></pre></div>
+<div class="callout warning">
+<div class="en">
+<p>A scale bar drawn on a map in <strong>longitude/latitude</strong> is
+wrong: one degree of longitude is not the same length as one degree of
+latitude. Draw your maps in a <strong>projected</strong> CRS
+(<code>coord_sf(crs = 32738)</code>) when you add a scale.</p>
+</div>
+<div class="fr">
+<p>Une barre d’échelle dessinée sur une carte en
+<strong>longitude/latitude</strong> est fausse : un degré de longitude
+n’a pas la même longueur qu’un degré de latitude. Dessinez vos cartes
+dans un SCR <strong>projeté</strong>
+(<code>coord_sf(crs = 32738)</code>) quand vous ajoutez une échelle.</p>
+</div>
+</div>
+</div>
+<div id="thematic" class="section level2">
+<h2><span class="en">A thematic map: change in coral cover</span><span
+class="fr">Une carte thématique : évolution du corail</span></h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>change <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2023</span>, <span class="dv">2025</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">group_by</span>(site_id, year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">hc =</span> <span class="fu">mean</span>(hard_coral), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> year, <span class="at">values_from =</span> hc, <span class="at">names_prefix =</span> <span class="st">&quot;y&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">change =</span> y2025 <span class="sc">-</span> y2023)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>sites_ch <span class="ot">&lt;-</span> <span class="fu">left_join</span>(sites, change, <span class="at">by =</span> <span class="st">&quot;site_id&quot;</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>map_change <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> land, <span class="at">fill =</span> <span class="st">&quot;#efe6d2&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;grey60&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> zones, <span class="fu">aes</span>(<span class="at">linetype =</span> zone), <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">colour =</span> <span class="st">&quot;grey40&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> sites_ch, <span class="fu">aes</span>(<span class="at">fill =</span> change, <span class="at">size =</span> y2025), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">colour =</span> <span class="st">&quot;grey20&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;#b2182b&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;#2166ac&quot;</span>, <span class="at">midpoint =</span> <span class="dv">0</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>                       <span class="at">name =</span> <span class="st">&quot;Change</span><span class="sc">\n</span><span class="st">2023-2025</span><span class="sc">\n</span><span class="st">(points)&quot;</span>) <span class="sc">+</span>            <span class="co"># diverging: + and -</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">6</span>, <span class="at">name =</span> <span class="st">&quot;Cover 2025 (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;No-take&quot;</span> <span class="ot">=</span> <span class="st">&quot;solid&quot;</span>, <span class="st">&quot;Fishing&quot;</span> <span class="ot">=</span> <span class="st">&quot;dashed&quot;</span>), <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  <span class="fu">scale_north</span>(bb, <span class="at">km =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> bb[<span class="fu">c</span>(<span class="st">&quot;xmin&quot;</span>, <span class="st">&quot;xmax&quot;</span>)], <span class="at">ylim =</span> bb[<span class="fu">c</span>(<span class="st">&quot;ymin&quot;</span>, <span class="st">&quot;ymax&quot;</span>)], <span class="at">datum =</span> <span class="dv">4326</span>) <span class="sc">+</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fl">43.4</span>, <span class="fl">43.7</span>, <span class="at">by =</span> <span class="fl">0.1</span>)) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">&quot;Hard coral cover: change after the 2024 heatwave&quot;</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Mean of 3 PIT transects per site · UTM 38S · simulated data&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;#eef6f8&quot;</span>, <span class="at">colour =</span> <span class="cn">NA</span>))</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>map_change</span></code></pre></div>
+<p><img src="a07-maps_files/figure-html/change-1.png" alt="" width="62%" style="display: block; margin: auto;" /></p>
+<div class="en">
+<p><strong>Choosing colours.</strong> A quantity that goes from low to
+high: a <strong>sequential</strong> palette
+(<code>scale_fill_viridis_c()</code>, <code>"Blues"</code>). A change
+with a meaningful zero: a <strong>diverging</strong> palette centred on
+0 (<code>scale_fill_gradient2()</code>,
+<code>scale_fill_distiller(palette = "RdBu")</code>). Categories: a
+<strong>qualitative</strong> palette with few colours. Avoid red–green
+together (colour-blind readers), and check your map printed in grey.</p>
+</div>
+<div class="fr">
+<p><strong>Choisir les couleurs.</strong> Une quantité qui va de faible
+à forte : une palette <strong>séquentielle</strong>
+(<code>scale_fill_viridis_c()</code>, <code>"Blues"</code>). Une
+variation avec un zéro qui a un sens : une palette
+<strong>divergente</strong> centrée sur 0
+(<code>scale_fill_gradient2()</code>,
+<code>scale_fill_distiller(palette = "RdBu")</code>). Des catégories :
+une palette <strong>qualitative</strong> avec peu de couleurs. Évitez
+rouge et vert ensemble (lecteurs daltoniens), et vérifiez votre carte
+imprimée en gris.</p>
+</div>
+</div>
+<div id="facets" class="section level2">
+<h2><span class="en">Small multiples: one map per year</span><span
+class="fr">Petits multiples : une carte par année</span></h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>by_year <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site_id, year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">hc =</span> <span class="fu">mean</span>(hard_coral), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>sites_y <span class="ot">&lt;-</span> <span class="fu">left_join</span>(sites, by_year, <span class="at">by =</span> <span class="st">&quot;site_id&quot;</span>)          <span class="co"># one point per site AND year</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> land, <span class="at">fill =</span> <span class="st">&quot;#efe6d2&quot;</span>, <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> sites_y, <span class="fu">aes</span>(<span class="at">colour =</span> hc), <span class="at">size =</span> <span class="fl">1.6</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;mako&quot;</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">name =</span> <span class="st">&quot;Hard coral (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> year, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> bb[<span class="fu">c</span>(<span class="st">&quot;xmin&quot;</span>, <span class="st">&quot;xmax&quot;</span>)], <span class="at">ylim =</span> bb[<span class="fu">c</span>(<span class="st">&quot;ymin&quot;</span>, <span class="st">&quot;ymax&quot;</span>)]) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="fu">theme_void</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<p><img src="a07-maps_files/figure-html/facets-1.png" alt="" width="95%" style="display: block; margin: auto;" /></p>
+<div class="en">
+<p><code>facet_wrap()</code> works with <code>geom_sf()</code> exactly
+as with other plots. Note the gaps: Tanjona has no points in 2022.</p>
+</div>
+<div class="fr">
+<p><code>facet_wrap()</code> marche avec <code>geom_sf()</code>
+exactement comme avec les autres graphiques. Notez les trous : Tanjona
+n’a pas de points en 2022.</p>
+</div>
+</div>
+<div id="raster" class="section level2">
+<h2><span class="en">A raster under the vectors</span><span
+class="fr">Un raster sous les vecteurs</span></h2>
+<div class="en">
+<p>ggplot2 needs a <strong>data frame</strong>:
+<code>as.data.frame(r, xy = TRUE)</code> gives one row per cell (x, y,
+value), drawn with <code>geom_raster()</code>. The raster is in
+longitude/latitude, so we draw this map in WGS84 and put the vector
+layers in the same CRS.</p>
+</div>
+<div class="fr">
+<p>ggplot2 a besoin d’un <strong>data frame</strong> :
+<code>as.data.frame(r, xy = TRUE)</code> donne une ligne par cellule (x,
+y, valeur), dessinée avec <code>geom_raster()</code>. Le raster est en
+longitude/latitude : nous dessinons donc cette carte en WGS84 et mettons
+les couches vecteur dans le même SCR.</p>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>bathy <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/advanced/bathymetry.tif&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>nf <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(<span class="fu">filter</span>(mpa_poly, mpa <span class="sc">==</span> <span class="st">&quot;Nosy Fasika&quot;</span>), <span class="dv">4326</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>b_nf <span class="ot">&lt;-</span> <span class="fu">crop</span>(bathy, <span class="fu">vect</span>(<span class="fu">st_buffer</span>(nf, <span class="dv">2000</span>)))                   <span class="co"># Session A6</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>b_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(b_nf, <span class="at">xy =</span> <span class="cn">TRUE</span>)                           <span class="co"># columns x, y, depth_m</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>b_df<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">cut</span>(b_df<span class="sc">$</span>depth_m, <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="cn">Inf</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>                  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;0-5&quot;</span>, <span class="st">&quot;5-10&quot;</span>, <span class="st">&quot;10-20&quot;</span>, <span class="st">&quot;20-40&quot;</span>, <span class="st">&quot;&gt; 40&quot;</span>))</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="fu">geom_raster</span>(<span class="at">data =</span> b_df, <span class="fu">aes</span>(x, y, <span class="at">fill =</span> class)) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">st_transform</span>(land, <span class="dv">4326</span>), <span class="at">fill =</span> <span class="st">&quot;#efe6d2&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;grey50&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> nf, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">st_transform</span>(<span class="fu">filter</span>(sites, mpa <span class="sc">==</span> <span class="st">&quot;Nosy Fasika&quot;</span>), <span class="dv">4326</span>), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Blues&quot;</span>, <span class="at">name =</span> <span class="st">&quot;Depth (m)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">range</span>(b_df<span class="sc">$</span>x), <span class="at">ylim =</span> <span class="fu">range</span>(b_df<span class="sc">$</span>y), <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Nosy Fasika: shallow areas&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Bathymetry interpolated from echo-sounder transects (simulated) · WGS84&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p><img src="a07-maps_files/figure-html/raster-map-1.png" alt="" width="62%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># With the package tidyterra (optional), a SpatRaster goes straight into ggplot:</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">library</span>(tidyterra)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_spatraster</span>(<span class="at">data =</span> b_nf) <span class="sc">+</span> <span class="fu">scale_fill_whitebox_c</span>(<span class="at">palette =</span> <span class="st">&quot;deep&quot;</span>)</span></code></pre></div>
+</div>
+<div id="tmap" class="section level2">
+<h2><span class="en">The same with tmap</span><span class="fr">La même
+chose avec tmap</span></h2>
+<div class="en">
+<p><strong>tmap</strong> is a package made only for thematic maps:
+shorter code, map elements included (scale bar, compass), rasters and
+vectors mixed directly, and the <strong>same code gives an interactive
+web map</strong> with <code>tmap_mode("view")</code>. The code below
+uses <strong>tmap version 4</strong> (the current version on CRAN);
+version 3 used <code>col =</code> where version 4 uses
+<code>fill =</code>.</p>
+<p><em>Note: tmap could not be installed on the computer that built this
+page, so its output is not shown — run the code in RStudio.</em></p>
+</div>
+<div class="fr">
+<p><strong>tmap</strong> est un package fait uniquement pour les cartes
+thématiques : code plus court, éléments de carte inclus (échelle,
+boussole), rasters et vecteurs mélangés directement, et <strong>le même
+code donne une carte web interactive</strong> avec
+<code>tmap_mode("view")</code>. Le code ci-dessous utilise <strong>tmap
+version 4</strong> (la version actuelle sur le CRAN) ; la version 3
+utilisait <code>col =</code> là où la version 4 utilise
+<code>fill =</code>.</p>
+<p><em>Remarque : tmap n’a pas pu être installé sur l’ordinateur qui a
+construit cette page, son résultat n’est donc pas affiché — lancez le
+code dans RStudio.</em></p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">library</span>(tmap)                          <span class="co"># install.packages(&quot;tmap&quot;); version &gt;= 4.0</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;plot&quot;</span>)                      <span class="co"># static map</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">tm_shape</span>(land, <span class="at">bbox =</span> bb) <span class="sc">+</span> <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">&quot;#efe6d2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">tm_shape</span>(zones) <span class="sc">+</span> <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">&quot;zone&quot;</span>, <span class="at">fill_alpha =</span> <span class="fl">0.6</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>                                <span class="at">fill.scale =</span> <span class="fu">tm_scale_categorical</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#f2b8a2&quot;</span>, <span class="st">&quot;#1b7f8c&quot;</span>))) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">tm_shape</span>(sites_ch) <span class="sc">+</span> <span class="fu">tm_dots</span>(<span class="at">fill =</span> <span class="st">&quot;change&quot;</span>, <span class="at">size =</span> <span class="fl">0.6</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>                               <span class="at">fill.scale =</span> <span class="fu">tm_scale_continuous</span>(<span class="at">values =</span> <span class="st">&quot;brewer.rd_bu&quot;</span>, <span class="at">midpoint =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">tm_scalebar</span>(<span class="at">position =</span> <span class="fu">c</span>(<span class="st">&quot;left&quot;</span>, <span class="st">&quot;bottom&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="fu">tm_compass</span>(<span class="at">position =</span> <span class="fu">c</span>(<span class="st">&quot;left&quot;</span>, <span class="st">&quot;top&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">&quot;Change in hard coral cover, 2023-2025&quot;</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;view&quot;</span>)                      <span class="co"># the same map, interactive (zoom, background tiles, pop-ups)</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="fu">tm_shape</span>(sites_ch) <span class="sc">+</span> <span class="fu">tm_dots</span>(<span class="at">fill =</span> <span class="st">&quot;change&quot;</span>, <span class="at">popup.vars =</span> <span class="fu">c</span>(<span class="st">&quot;site_id&quot;</span>, <span class="st">&quot;y2023&quot;</span>, <span class="st">&quot;y2025&quot;</span>))</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;plot&quot;</span>)                      <span class="co"># back to static maps</span></span></code></pre></div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Which one?</strong> Use <strong>ggplot2 + sf</strong> when
+the map sits next to other ggplot figures in a report (same style,
+patchwork) — and it is what this course used so far. Use
+<strong>tmap</strong> for quick, map-only work, and for
+<strong>interactive maps</strong> to explore your data or to put in an
+HTML report.</p>
+</div>
+<div class="fr">
+<p><strong>Lequel choisir ?</strong> Utilisez <strong>ggplot2 +
+sf</strong> quand la carte est à côté d’autres figures ggplot dans un
+rapport (même style, patchwork) — c’est ce que ce cours a utilisé
+jusqu’ici. Utilisez <strong>tmap</strong> pour un travail rapide centré
+sur les cartes, et pour les <strong>cartes interactives</strong>, pour
+explorer vos données ou les mettre dans un rapport HTML.</p>
+</div>
+</div>
+</div>
+<div id="export" class="section level2">
+<h2><span class="en">Map + graph, and export</span><span
+class="fr">Carte + graphique, et export</span></h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>trend <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(<span class="fu">st_drop_geometry</span>(sites)[, <span class="fu">c</span>(<span class="st">&quot;site_id&quot;</span>, <span class="st">&quot;zone&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;site_id&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">group_by</span>(year, zone) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(hard_coral), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>g_trend <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(trend, <span class="fu">aes</span>(year, m, <span class="at">colour =</span> zone)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;No-take&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="st">&quot;Fishing&quot;</span> <span class="ot">=</span> <span class="st">&quot;#d9694a&quot;</span>), <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Hard coral cover (%)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>(map_change <span class="sc">|</span> g_trend) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">widths =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">&quot;A&quot;</span>)</span></code></pre></div>
+<p><img src="a07-maps_files/figure-html/combo-1.png" alt="" width="95%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>fig <span class="ot">&lt;-</span> (map_change <span class="sc">|</span> g_trend) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">widths =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">&quot;A&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">ggsave</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;figures&quot;</span>, <span class="st">&quot;map_coral_change.pdf&quot;</span>), fig, <span class="at">width =</span> <span class="dv">24</span>, <span class="at">height =</span> <span class="dv">14</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">ggsave</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;figures&quot;</span>, <span class="st">&quot;map_coral_change.png&quot;</span>), fig, <span class="at">width =</span> <span class="dv">24</span>, <span class="at">height =</span> <span class="dv">14</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
+<div class="callout try">
+<div class="en">
+<p><strong>Checklist of a good map.</strong> Title or caption saying
+<em>what, where, when</em>; legend with units; scale bar (projected
+CRS!) and north arrow when needed; source of the data and CRS in the
+caption; no more than 5–7 colour classes; the important layer on top and
+the background discreet. Check your three maps against it.</p>
+</div>
+<div class="fr">
+<p><strong>Liste de contrôle d’une bonne carte.</strong> Titre ou
+légende disant <em>quoi, où, quand</em> ; légende avec unités ; barre
+d’échelle (SCR projeté !) et flèche du nord si utile ; source des
+données et SCR dans la légende ; pas plus de 5 à 7 classes de couleurs ;
+la couche importante au-dessus et le fond discret. Vérifiez vos trois
+cartes avec cette liste.</p>
+</div>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-a7" class="section level3 en">
+<h3>Application work A7</h3>
+<p>Script <code>R/07_maps.R</code>. Make the <strong>three maps</strong>
+of the managers and save them in <code>outputs/figures/</code> (PDF and
+PNG 300 dpi):</p>
+<ol style="list-style-type: decimal">
+<li><strong>Sites map</strong>: land, MPA zones (No-take / Fishing),
+reef sites, villages with labels, scale bar, north arrow, caption with
+the CRS.</li>
+<li><strong>Change map</strong> 2023 → 2025: how many sites
+<strong>lost</strong> coral (change &lt; 0)? Which site lost the most,
+and how many points (1 decimal)? How many sites had <strong>less than 20
+%</strong> cover in 2025?</li>
+<li>On average, how much <strong>smaller</strong> was the loss in
+No-take than in Fishing sites (mean change No-take − mean change
+Fishing, 1 decimal)?</li>
+<li><strong>Bathymetry map</strong> of one MPA with depth classes.</li>
+<li><em>(If tmap is installed)</em> make the change map with tmap, then
+switch to <code>tmap_mode("view")</code>.</li>
+</ol>
+</div>
+<div id="travail-dapplication-a7" class="section level3 fr">
+<h3>Travail d’application A7</h3>
+<p>Script <code>R/07_maps.R</code>. Réalisez les <strong>trois
+cartes</strong> des gestionnaires et enregistrez-les dans
+<code>outputs/figures/</code> (PDF et PNG 300 dpi) :</p>
+<ol style="list-style-type: decimal">
+<li><strong>Carte des sites</strong> : terre, zones des AMP (No-take /
+Fishing), sites récifaux, villages avec étiquettes, barre d’échelle,
+flèche du nord, légende avec le SCR.</li>
+<li><strong>Carte de l’évolution</strong> 2023 → 2025 : combien de sites
+ont <strong>perdu</strong> du corail (variation &lt; 0) ? Quel site a le
+plus perdu, et de combien de points (1 décimale) ? Combien de sites
+avaient <strong>moins de 20 %</strong> de recouvrement en 2025 ?</li>
+<li>En moyenne, de combien la perte a-t-elle été <strong>plus
+faible</strong> dans les sites No-take que dans les sites Fishing
+(variation moyenne No-take − variation moyenne Fishing, 1 décimale)
+?</li>
+<li><strong>Carte bathymétrique</strong> d’une AMP avec classes de
+profondeur.</li>
+<li><em>(Si tmap est installé)</em> refaites la carte de l’évolution
+avec tmap, puis passez en <code>tmap_mode("view")</code>.</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Build the change table first (mean per site and year,
+<code>pivot_wider()</code>, <code>y2025 - y2023</code>),
+<strong>then</strong> join it to the sites layer with
+<code>left_join(sites, change, by = "site_id")</code> — sites first, so
+that the result stays an sf object.</p>
+</div>
+<div class="fr">
+<p>Construisez d’abord le tableau des variations (moyenne par site et
+par année, <code>pivot_wider()</code>, <code>y2025 - y2023</code>),
+<strong>puis</strong> joignez-le à la couche des sites avec
+<code>left_join(sites, change, by = "site_id")</code> — les sites en
+premier, pour que le résultat reste un objet sf.</p>
+</div>
+</div>
+<div id="quiz-a07" class="quiz" data-quiz-id="a07"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMmEuIE51bWJlciBvZiBzaXRlcyB0aGF0IGxvc3QgY29yYWwgYmV0d2VlbiAyMDIzIGFuZCAyMDI1PyIsImZyIjoiMmEuIE5vbWJyZSBkZSBzaXRlcyBheWFudCBwZXJkdSBkdSBjb3JhaWwgZW50cmUgMjAyMyBldCAyMDI1ID8iLCJhbnN3ZXIiOjE0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMmIuIFNpdGUgdGhhdCBsb3N0IHRoZSBtb3N0PyIsImZyIjoiMmIuIFNpdGUgcXVpIGEgbGUgcGx1cyBwZXJkdSA/IiwiYW5zd2VyIjpbIlIxMSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjJjLiBJdHMgY2hhbmdlIChwb2ludHMsIDEgZGVjaW1hbCwgbmVnYXRpdmUpPyIsImZyIjoiMmMuIFNhIHZhcmlhdGlvbiAocG9pbnRzLCAxIGTDqWNpbWFsZSwgbsOpZ2F0aXZlKSA/IiwiYW5zd2VyIjotMTMuNSwidG9sIjowLjA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMmQuIFNpdGVzIHdpdGggbGVzcyB0aGFuIDIwICUgY292ZXIgaW4gMjAyNT8iLCJmciI6IjJkLiBTaXRlcyBhdmVjIG1vaW5zIGRlIDIwICUgZGUgcmVjb3V2cmVtZW50IGVuIDIwMjUgPyIsImFuc3dlciI6NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTWVhbiBjaGFuZ2UgTm8tdGFrZSDiiJIgbWVhbiBjaGFuZ2UgRmlzaGluZyAoMSBkZWNpbWFsKT8iLCJmciI6IjMuIFZhcmlhdGlvbiBtb3llbm5lIE5vLXRha2Ug4oiSIHZhcmlhdGlvbiBtb3llbm5lIEZpc2hpbmcgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo2LjYsInRvbCI6MC4wNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIEluIGNvb3JkX3NmKGNycyA9IDMyNzM4LCBkYXR1bSA9IDQzMjYpLCB3aGF0IGRvZXMgZGF0dW0gPSA0MzI2IGRvPyIsImZyIjoiNi4gRGFucyBjb29yZF9zZihjcnMgPSAzMjczOCwgZGF0dW0gPSA0MzI2KSwgcXVlIGZhaXQgZGF0dW0gPSA0MzI2ID8iLCJvcHRpb25zX2VuIjpbIkRyYXdzIHRoZSBtYXAgaW4gbG9uZ2l0dWRlL2xhdGl0dWRlIiwiV3JpdGVzIHRoZSBncmF0aWN1bGUgbGluZXMgYW5kIGxhYmVscyBpbiBkZWdyZWVzLCB3aGlsZSB0aGUgbWFwIGlzIGRyYXduIGluIFVUTSIsIkNvbnZlcnRzIHRoZSBkYXRhIHBlcm1hbmVudGx5IiwiQWRkcyBhIHNjYWxlIGJhciJdLCJvcHRpb25zX2ZyIjpbIkRlc3NpbmUgbGEgY2FydGUgZW4gbG9uZ2l0dWRlL2xhdGl0dWRlIiwiw4ljcml0IGxlcyBsaWduZXMgZXQgw6l0aXF1ZXR0ZXMgZHUgZ3JhdGljdWxlIGVuIGRlZ3LDqXMsIGxhIGNhcnRlIHJlc3RhbnQgZGVzc2luw6llIGVuIFVUTSIsIkNvbnZlcnRpdCBsZXMgZG9ubsOpZXMgZMOpZmluaXRpdmVtZW50IiwiQWpvdXRlIHVuZSBiYXJyZSBkJ8OpY2hlbGxlIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBCZXN0IHBhbGV0dGUgZm9yIHRoZSBjaGFuZ2UgaW4gY292ZXIgKG5lZ2F0aXZlIGFuZCBwb3NpdGl2ZSB2YWx1ZXMpPyIsImZyIjoiNy4gTWVpbGxldXJlIHBhbGV0dGUgcG91ciBsYSB2YXJpYXRpb24gZHUgcmVjb3V2cmVtZW50ICh2YWxldXJzIG7DqWdhdGl2ZXMgZXQgcG9zaXRpdmVzKSA/Iiwib3B0aW9uc19lbiI6WyJTZXF1ZW50aWFsICh2aXJpZGlzKSIsIlF1YWxpdGF0aXZlIChTZXQxKSIsIkRpdmVyZ2luZyBjZW50cmVkIG9uIDAiLCJSYWluYm93Il0sIm9wdGlvbnNfZnIiOlsiU8OpcXVlbnRpZWxsZSAodmlyaWRpcykiLCJRdWFsaXRhdGl2ZSAoU2V0MSkiLCJEaXZlcmdlbnRlIGNlbnRyw6llIHN1ciAwIiwiQXJjLWVuLWNpZWwiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFRvIGRyYXcgYSB0ZXJyYSByYXN0ZXIgd2l0aCBnZ3Bsb3QyICh3aXRob3V0IGV4dHJhIHBhY2thZ2VzKSB5b3UgZmlyc3Q6IiwiZnIiOiI4LiBQb3VyIGRlc3NpbmVyIHVuIHJhc3RlciB0ZXJyYSBhdmVjIGdncGxvdDIgKHNhbnMgcGFja2FnZSBzdXBwbMOpbWVudGFpcmUpIHZvdXMgZGV2ZXogZCdhYm9yZCA6Iiwib3B0aW9uc19lbiI6WyJjb252ZXJ0IGl0IHRvIGEgZGF0YSBmcmFtZSB3aXRoIGFzLmRhdGEuZnJhbWUociwgeHkgPSBUUlVFKSIsImNvbnZlcnQgaXQgdG8gc2Ygd2l0aCBzdF9hc19zZigpIiwidXNlIGdlb21fc2YoZGF0YSA9IHIpIiwic2F2ZSBpdCBhcyBQTkciXSwib3B0aW9uc19mciI6WyJsZSBjb252ZXJ0aXIgZW4gZGF0YSBmcmFtZSBhdmVjIGFzLmRhdGEuZnJhbWUociwgeHkgPSBUUlVFKSIsImxlIGNvbnZlcnRpciBlbiBzZiBhdmVjIHN0X2FzX3NmKCkiLCJ1dGlsaXNlciBnZW9tX3NmKGRhdGEgPSByKSIsImwnZW5yZWdpc3RyZXIgZW4gUE5HIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBXaXRoIHRtYXAsIG9uZSBsaW5lIHN3aXRjaGVzIHRoZSBzYW1lIG1hcCB0byBhbiBpbnRlcmFjdGl2ZSB3ZWIgbWFwOiIsImZyIjoiOS4gQXZlYyB0bWFwLCB1bmUgbGlnbmUgdHJhbnNmb3JtZSBsYSBtw6ptZSBjYXJ0ZSBlbiBjYXJ0ZSB3ZWIgaW50ZXJhY3RpdmUgOiIsIm9wdGlvbnNfZW4iOlsidG1hcF9tb2RlKFwidmlld1wiKSIsInRtX2ludGVyYWN0aXZlKCkiLCJnZ3Bsb3RseSgpIiwidG1hcF9zYXZlKCkiXSwib3B0aW9uc19mciI6WyJ0bWFwX21vZGUoXCJ2aWV3XCIpIiwidG1faW50ZXJhY3RpdmUoKSIsImdncGxvdGx5KCkiLCJ0bWFwX3NhdmUoKSJdLCJhbnN3ZXIiOjB9XQ==">
+
+</div>
+<div class="solution" data-quiz="a07">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">library</span>(sf); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(tidyr); <span class="fu">library</span>(ggplot2); <span class="fu">library</span>(here)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="co"># ... read land, zones, sites, villages, reef as in this session ...</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>change <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2023</span>, <span class="dv">2025</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">group_by</span>(site_id, year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">hc =</span> <span class="fu">mean</span>(hard_coral), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> year, <span class="at">values_from =</span> hc, <span class="at">names_prefix =</span> <span class="st">&quot;y&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">change =</span> y2025 <span class="sc">-</span> y2023)</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>sites_ch <span class="ot">&lt;-</span> <span class="fu">left_join</span>(sites, change, <span class="at">by =</span> <span class="st">&quot;site_id&quot;</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="fu">sum</span>(sites_ch<span class="sc">$</span>change <span class="sc">&lt;</span> <span class="dv">0</span>)                                         <span class="co"># 2a</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>sites_ch[<span class="fu">which.min</span>(sites_ch<span class="sc">$</span>change), <span class="fu">c</span>(<span class="st">&quot;site_id&quot;</span>, <span class="st">&quot;change&quot;</span>)]     <span class="co"># 2b, 2c</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="fu">sum</span>(sites_ch<span class="sc">$</span>y2025 <span class="sc">&lt;</span> <span class="dv">20</span>)                                         <span class="co"># 2d</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="fu">st_drop_geometry</span>(sites_ch) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(zone) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(change))   <span class="co"># 3: No-take minus Fishing</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;figures&quot;</span>, <span class="st">&quot;map_change.png&quot;</span>), map_change, <span class="at">width =</span> <span class="dv">16</span>, <span class="at">height =</span> <span class="dv">20</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

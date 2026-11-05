@@ -1,0 +1,390 @@
+---
+title: "[A0 · Organising a reproducible project]{.en}[A0 · Organiser un projet reproductible]{.fr}"
+pagetitle: "R for marine sciences · A0"
+subtitle: "~2.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- explain what makes an analysis **reproducible** (by you in 6 months, by a colleague, on another computer);
+- organise an RStudio project with a clear **folder structure** and **file names**;
+- replace `setwd()` and absolute paths by **relative paths** and `here::here()`;
+- keep **raw data read-only** and produce everything else with numbered scripts;
+- write a **README** and record your R session.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- expliquer ce qui rend une analyse **reproductible** (par vous dans 6 mois, par un collègue, sur un autre ordinateur) ;
+- organiser un projet RStudio avec une **arborescence** et des **noms de fichiers** clairs ;
+- remplacer `setwd()` et les chemins absolus par des **chemins relatifs** et `here::here()` ;
+- garder les **données brutes en lecture seule** et produire tout le reste avec des scripts numérotés ;
+- écrire un **README** et enregistrer votre session R.
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Data of the Advanced level (simulated).** The three MPAs of the Beginner final project (*Ankaramena*, *Nosy Fasika*, *Tanjona*) now have a **monitoring programme** (2019–2025), run by the MPA managers with a local NGO:
+
+- **Coral reefs** (`reef_monitoring.csv`, `reef_sites.csv`): 18 fixed sites (3 per zone, No-take and Fishing, in each MPA), surveyed every year in April–May on **three 20 m Point Intercept Transects** (50 points each) by three trained observers. For each transect: % hard coral, % macroalgae and % of colonies bleached. Tanjona could not be surveyed in 2022 (cyclone season, boat damaged). *Type:* one row = one transect and one year; percentages.
+- **Mangroves** (`mangrove_trees.csv`, `mangrove_plots.csv`, `mangrove_species.csv`): 24 circular plots of 10 m radius in three mangrove patches (reference, harvested and restored stands), inventoried in May 2025: species, trunk diameter (DBH, cm, measured at 1.3 m with a tape), height (m, clinometer) and status (alive, dead, cut). *Type:* one row = one tree.
+- **GIS layers** (`monitoring_gis.gpkg`): land, MPA zones, reef sites and mangrove plots, drawn by the NGO GIS officer; and two **rasters**: bathymetry (from a boat echo-sounder survey, interpolated) and monthly sea surface temperature 2024 (satellite-like grid). *Type:* vector and raster spatial data.
+
+Places and values are invented; they describe no real place.
+:::
+::: fr
+**Données du niveau avancé (simulées).** Les trois AMP du projet final débutant (*Ankaramena*, *Nosy Fasika*, *Tanjona*) ont maintenant un **programme de suivi** (2019–2025), mené par les gestionnaires des AMP avec une ONG locale :
+
+- **Récifs coralliens** (`reef_monitoring.csv`, `reef_sites.csv`) : 18 sites fixes (3 par zone, No-take et Fishing, dans chaque AMP), suivis chaque année en avril–mai sur **trois Point Intercept Transects de 20 m** (50 points chacun) par trois observateurs formés. Pour chaque transect : % de corail dur, % de macroalgues et % de colonies blanchies. Tanjona n'a pas pu être suivie en 2022 (saison cyclonique, bateau endommagé). *Type :* une ligne = un transect et une année ; pourcentages.
+- **Mangroves** (`mangrove_trees.csv`, `mangrove_plots.csv`, `mangrove_species.csv`) : 24 placettes circulaires de 10 m de rayon dans trois massifs (peuplements de référence, exploités et restaurés), inventoriées en mai 2025 : espèce, diamètre du tronc (DHP, cm, mesuré à 1,3 m au ruban), hauteur (m, clinomètre) et état (vivant, mort, coupé). *Type :* une ligne = un arbre.
+- **Couches SIG** (`monitoring_gis.gpkg`) : terre, zones des AMP, sites récifaux et placettes de mangrove, dessinés par le responsable SIG de l'ONG ; et deux **rasters** : bathymétrie (relevé à l'échosondeur depuis un bateau, interpolé) et température de surface mensuelle 2024 (grille de type satellite). *Type :* données spatiales vecteur et raster.
+
+Lieux et valeurs sont inventés ; ils ne décrivent aucun lieu réel.
+:::
+:::
+
+`r dl("r_course_data_advanced.zip", "r_course_data_advanced.zip")` `r dl("messy_project.zip", "messy_project.zip", dir = "data/advanced")`
+
+## [Why reproducibility?]{.en}[Pourquoi la reproductibilité ?]{.fr} {#why}
+
+::: en
+An analysis is **reproducible** when somebody else — or you, in six months — can take your folder, run it **from start to finish** and obtain **the same numbers, tables and figures**, without asking you anything. It is not only good science: reviewers, donors and MPA managers increasingly ask for it, and it saves you time each time the data are updated (a new monitoring year arrives every year!).
+
+Three things break reproducibility:
+
+1. **Paths** that only exist on your computer (`C:/Users/Rakoto/Desktop/…`);
+2. **Manual steps** (copy-pasting in Excel, deleting rows by hand, saving a graph with the mouse);
+3. **Changing software** (a package updated, a function that behaves differently) — Session A1.
+
+And one thing makes it hard to *understand*: a disorganised folder.
+:::
+::: fr
+Une analyse est **reproductible** quand quelqu'un d'autre — ou vous, dans six mois — peut prendre votre dossier, l'exécuter **du début à la fin** et obtenir **les mêmes chiffres, tableaux et figures**, sans rien vous demander. Ce n'est pas seulement de la bonne science : relecteurs, bailleurs et gestionnaires d'AMP le demandent de plus en plus, et cela vous fait gagner du temps à chaque mise à jour des données (une nouvelle année de suivi arrive chaque année !).
+
+Trois choses cassent la reproductibilité :
+
+1. des **chemins** qui n'existent que sur votre ordinateur (`C:/Users/Rakoto/Desktop/…`) ;
+2. des **étapes manuelles** (copier-coller dans Excel, supprimer des lignes à la main, enregistrer un graphique à la souris) ;
+3. des **logiciels qui changent** (un package mis à jour, une fonction qui se comporte autrement) — séance A1.
+
+Et une chose la rend difficile à *comprendre* : un dossier désorganisé.
+:::
+
+## [A messy project]{.en}[Un projet désordonné]{.fr} {#messy}
+
+::: en
+Download `messy_project.zip` (above) and unzip it. This is the folder a student left before travelling. Look at it **before** reading on, and list what would stop you from re-running the analysis.
+:::
+::: fr
+Téléchargez `messy_project.zip` (ci-dessus) et décompressez-le. C'est le dossier laissé par un étudiant avant de partir en mission. Regardez-le **avant** de lire la suite, et listez ce qui vous empêcherait de relancer l'analyse.
+:::
+
+```
+my analysis FINAL/
+├── reef 2025 (copy).csv
+├── reef_2025_FINAL_v2.csv
+├── sites.csv
+├── notes.txt
+└── Untitled1.R
+```
+
+`r show_file("data/advanced/messy_project_script.R", "r")`
+
+::: {.callout .warning}
+::: en
+**What is wrong?** `setwd()` with an absolute path (works only on Rakoto's computer); spaces and parentheses in names; two versions of the same file — which one is right?; a script called `Untitled1.R`; the figure is written in the same folder as the data; no README; nothing says which R and package versions were used.
+:::
+::: fr
+**Qu'est-ce qui ne va pas ?** `setwd()` avec un chemin absolu (ne marche que sur l'ordinateur de Rakoto) ; des espaces et des parenthèses dans les noms ; deux versions du même fichier — laquelle est la bonne ? ; un script appelé `Untitled1.R` ; la figure est écrite dans le même dossier que les données ; pas de README ; rien n'indique quelles versions de R et des packages ont été utilisées.
+:::
+:::
+
+## [A clear structure]{.en}[Une arborescence claire]{.fr} {#structure}
+
+::: en
+There is no single standard, but most R projects look like this. What matters is that **anybody can guess where a file is**, and that **data, code and results are separated**.
+:::
+::: fr
+Il n'existe pas de norme unique, mais la plupart des projets R ressemblent à ceci. L'important est que **chacun puisse deviner où se trouve un fichier**, et que **données, code et résultats soient séparés**.
+:::
+
+```
+reef-monitoring/                  <- the RStudio project folder
+├── reef-monitoring.Rproj
+├── README.md                     <- what, who, how to run it
+├── data/
+│   ├── raw/                      <- files as received: NEVER modified by hand or by code
+│   └── derived/                  <- tables created by the scripts (can be deleted and rebuilt)
+├── R/
+│   ├── 00_run_all.R              <- runs every script in order
+│   ├── 01_import.R
+│   ├── 02_clean.R
+│   ├── 03_analysis.R
+│   ├── 04_figures.R
+│   └── functions.R               <- your own functions (Intermediate, Session I6)
+├── reports/                      <- .Rmd / .qmd reports (Sessions A3, A4, A8)
+└── outputs/
+    ├── figures/
+    └── tables/
+```
+
+::: compare
+::: {.col .base}
+**[Good names]{.en}[Bons noms]{.fr}**
+
+`01_import.R` · `reef_monitoring.csv` · `fig_coral_trend_2025.png` · `2025-05-12_field_notes.md`
+:::
+::: {.col .pkg}
+**[Names to avoid]{.en}[Noms à éviter]{.fr}**
+
+`Untitled1.R` · `reef 2025 (copy).csv` · `FINAL_v2_REAL.xlsx` · `graph1.png` · `notes 12-5.txt`
+:::
+:::
+
+::: en
+**Rules for names:** lower case, no spaces (use `_` or `-`), no accents or special characters, dates in ISO format `yyyy-mm-dd` (they sort correctly), and **numbers in front of scripts** to show the order. Versions are managed by Git (Session A2), not by `_v2_FINAL` in the name.
+:::
+::: fr
+**Règles de nommage :** minuscules, pas d'espaces (utilisez `_` ou `-`), pas d'accents ni de caractères spéciaux, dates au format ISO `aaaa-mm-jj` (elles se trient correctement), et des **numéros devant les scripts** pour indiquer l'ordre. Les versions sont gérées par Git (séance A2), pas par `_v2_FINAL` dans le nom.
+:::
+
+### [Creating the structure with code]{.en}[Créer l'arborescence par le code]{.fr}
+
+```{r}
+proj <- file.path(tempdir(), "reef-monitoring")      # here in a temporary folder, for the demo
+for (d in c("data/raw", "data/derived", "R", "reports", "outputs/figures", "outputs/tables")) {
+  dir.create(file.path(proj, d), recursive = TRUE, showWarnings = FALSE)   # recursive: creates parents too
+}
+list.dirs(proj, full.names = FALSE)
+```
+
+::: en
+In real life: **File → New Project → New Directory → New Project** in RStudio, then run the loop above in the Console (without the `tempdir()` part: the project folder is already the working directory).
+:::
+::: fr
+En vrai : **File → New Project → New Directory → New Project** dans RStudio, puis lancez la boucle ci-dessus dans la Console (sans la partie `tempdir()` : le dossier du projet est déjà le répertoire de travail).
+:::
+
+## [Paths: never `setwd()`]{.en}[Chemins : jamais `setwd()`]{.fr} {#paths}
+
+::: en
+When you open an `.Rproj` file, RStudio sets the **working directory** to the project folder. All paths can then be **relative** to it — `"data/raw/reef_monitoring.csv"` — and they work on every computer, Windows, Mac or Linux.
+
+There is one trap: an R Markdown or Quarto file is run **from its own folder**. A report saved in `reports/` would look for `reports/data/raw/…`, which does not exist. The package **here** solves it: `here()` always starts from the project root (it looks for the `.Rproj` file).
+:::
+::: fr
+Quand vous ouvrez un fichier `.Rproj`, RStudio fixe le **répertoire de travail** au dossier du projet. Tous les chemins peuvent alors être **relatifs** à celui-ci — `"data/raw/reef_monitoring.csv"` — et fonctionnent sur tous les ordinateurs, Windows, Mac ou Linux.
+
+Il y a un piège : un fichier R Markdown ou Quarto est exécuté **depuis son propre dossier**. Un rapport enregistré dans `reports/` chercherait `reports/data/raw/…`, qui n'existe pas. Le package **here** règle cela : `here()` part toujours de la racine du projet (il cherche le fichier `.Rproj`).
+:::
+
+::: compare
+::: {.col .base}
+**[Breaks on other computers]{.en}[Casse sur un autre ordinateur]{.fr}**
+```{r, eval=FALSE}
+setwd("C:/Users/Rakoto/Desktop/my analysis FINAL")
+reef <- read.csv("reef_2025_FINAL_v2.csv")
+```
+:::
+::: {.col .pkg}
+**[Works everywhere]{.en}[Marche partout]{.fr}**
+```{r, eval=FALSE}
+library(here)
+reef <- read.csv(here("data", "raw", "reef_monitoring.csv"))
+# here() -> ".../reef-monitoring/data/raw/reef_monitoring.csv"
+```
+:::
+:::
+
+::: {.callout .tip}
+::: en
+`file.path("data", "raw", "x.csv")` builds a path with the right separator for the computer; `here()` does the same **and** starts from the project root. In scripts run from the project root, both work; in reports, use `here()`.
+:::
+::: fr
+`file.path("data", "raw", "x.csv")` construit un chemin avec le bon séparateur pour l'ordinateur ; `here()` fait de même **et** part de la racine du projet. Dans des scripts lancés depuis la racine, les deux marchent ; dans les rapports, utilisez `here()`.
+:::
+:::
+
+## [Raw data are sacred]{.en}[Les données brutes sont sacrées]{.fr} {#raw}
+
+::: en
+Put the files **as you received them** in `data/raw/` and never change them — not in Excel, not with `write.csv()` on the same name. All corrections are written in `02_clean.R`, which **reads** `data/raw/` and **writes** `data/derived/`. If you find a new error, you add one line to the script and re-run: the history of every correction is visible. On Windows you can even right-click the files → *Properties* → *Read-only*.
+:::
+::: fr
+Placez les fichiers **tels que reçus** dans `data/raw/` et ne les modifiez jamais — ni dans Excel, ni avec `write.csv()` sous le même nom. Toutes les corrections s'écrivent dans `02_clean.R`, qui **lit** `data/raw/` et **écrit** `data/derived/`. Si vous trouvez une nouvelle erreur, vous ajoutez une ligne au script et relancez : l'historique de chaque correction est visible. Sous Windows, vous pouvez même faire clic droit sur les fichiers → *Propriétés* → *Lecture seule*.
+:::
+
+## [A pipeline of numbered scripts]{.en}[Une chaîne de scripts numérotés]{.fr} {#pipeline}
+
+::: en
+Each script does **one job**, reads its inputs from files and writes its outputs to files. `00_run_all.R` runs them in order: one click rebuilds **everything** from the raw data. This is the best test of reproducibility: delete `data/derived/` and `outputs/`, run `00_run_all.R`, and check that everything comes back.
+:::
+::: fr
+Chaque script fait **une seule tâche**, lit ses entrées dans des fichiers et écrit ses sorties dans des fichiers. `00_run_all.R` les lance dans l'ordre : un clic reconstruit **tout** à partir des données brutes. C'est le meilleur test de reproductibilité : supprimez `data/derived/` et `outputs/`, lancez `00_run_all.R`, et vérifiez que tout revient.
+:::
+
+```{r, eval=FALSE}
+# R/00_run_all.R -------------------------------------------------------------
+# Rebuilds every result of the project from data/raw/. Run it after a fresh restart.
+library(here)
+source(here("R", "01_import.R"))     # data/raw/     -> objects reef, sites
+source(here("R", "02_clean.R"))      # corrections   -> data/derived/reef_clean.csv
+source(here("R", "03_analysis.R"))   # summaries     -> outputs/tables/*.csv
+source(here("R", "04_figures.R"))    # figures       -> outputs/figures/*.png
+writeLines(capture.output(sessionInfo()), here("outputs", "session_info.txt"))
+```
+
+::: {.callout .warning}
+::: en
+**Restart R often** (*Session → Restart R*, **Ctrl + Shift + F10**) and **never save the workspace**: *Tools → Global Options → General*: untick *Restore .RData into workspace at startup* and set *Save workspace to .RData on exit* to **Never**. Otherwise an object created by hand last week can make your script "work" on your computer only.
+:::
+::: fr
+**Redémarrez R souvent** (*Session → Restart R*, **Ctrl + Maj + F10**) et **n'enregistrez jamais l'espace de travail** : *Tools → Global Options → General* : décochez *Restore .RData into workspace at startup* et réglez *Save workspace to .RData on exit* sur **Never**. Sinon un objet créé à la main la semaine dernière peut faire « marcher » votre script sur votre ordinateur seulement.
+:::
+:::
+
+## [README and session information]{.en}[README et informations de session]{.fr} {#readme}
+
+::: en
+The `README.md` is the first file a person opens (GitHub shows it on the project page, Session A2). It answers: *what is this project, where do the data come from, how do I run it, who do I contact?* It is written in **Markdown**, the same syntax as the text of an R Markdown report.
+:::
+::: fr
+Le `README.md` est le premier fichier qu'on ouvre (GitHub l'affiche sur la page du projet, séance A2). Il répond à : *de quoi s'agit-il, d'où viennent les données, comment l'exécuter, qui contacter ?* Il est écrit en **Markdown**, la même syntaxe que le texte d'un rapport R Markdown.
+:::
+
+```markdown
+# Reef monitoring of the Ankaramena, Nosy Fasika and Tanjona MPAs
+
+Analysis of the coral transects 2019-2025 (simulated data, R course).
+
+## Data
+- `data/raw/reef_monitoring.csv`: one row per transect and year (PIT, 50 points).
+- `data/raw/reef_sites.csv`: position, MPA and zone of the 18 sites.
+
+## How to run
+1. Open `reef-monitoring.Rproj` in RStudio.
+2. `renv::restore()` to install the package versions used (Session A1).
+3. Run `R/00_run_all.R`. Results go to `outputs/`.
+
+## Contact
+Your name, e-mail - last update 2025-06-01
+```
+
+```{r}
+si <- sessionInfo()
+si$R.version$version.string          # the R version that produced the results
+```
+
+::: {.callout .try}
+::: en
+**Try it.** Run `sessionInfo()` in your Console. Which version of R do you have? Which packages are "attached"? Where would you save this information in your project?
+:::
+::: fr
+**À vous.** Lancez `sessionInfo()` dans votre Console. Quelle version de R avez-vous ? Quels packages sont « attachés » (*attached*) ? Où enregistreriez-vous cette information dans votre projet ?
+:::
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+a1 <- nrow(utils::unzip("data/advanced/messy_project.zip", list = TRUE)) -
+      sum(grepl("/$", utils::unzip("data/advanced/messy_project.zip", list = TRUE)$Name))   # files, not folders
+reef  <- read.csv("data/advanced/reef_monitoring.csv")
+sites <- read.csv("data/advanced/reef_sites.csv")
+r25 <- merge(reef[reef$year == 2025, ], sites, by = "site_id")
+a2 <- nrow(r25)
+a3 <- round(mean(r25$hard_coral[r25$zone == "No-take"]), 2)
+a4 <- round(mean(r25$hard_coral[r25$zone == "Fishing"]), 2)
+```
+
+::: application
+::: en
+### Application work A0
+
+Rebuild the messy analysis as a **clean project**:
+
+1. Create a new RStudio project `reef-monitoring` with the structure of this session.
+2. Copy `reef_monitoring.csv` and `reef_sites.csv` (from the advanced data zip) into `data/raw/`. Do **not** use the files of the messy folder: which of its two reef files is right is unknown.
+3. Write `R/01_import.R`, `R/02_clean.R` (keep the year 2025 and join the sites with `merge(..., by = "site_id")`, then save `data/derived/reef_2025.csv`), `R/03_analysis.R` (mean hard coral per zone, saved in `outputs/tables/`) and `R/04_figures.R` (boxplot by zone, saved in `outputs/figures/`). Use `here()` everywhere.
+4. Write `R/00_run_all.R` and a `README.md`.
+5. Delete `data/derived/` and `outputs/`, restart R, run `00_run_all.R`: does everything come back?
+:::
+::: fr
+### Travail d'application A0
+
+Reconstruisez l'analyse désordonnée en **projet propre** :
+
+1. Créez un nouveau projet RStudio `reef-monitoring` avec l'arborescence de cette séance.
+2. Copiez `reef_monitoring.csv` et `reef_sites.csv` (du zip des données avancées) dans `data/raw/`. N'utilisez **pas** les fichiers du dossier désordonné : on ne sait pas lequel de ses deux fichiers récifs est le bon.
+3. Écrivez `R/01_import.R`, `R/02_clean.R` (gardez l'année 2025 et joignez les sites avec `merge(..., by = "site_id")`, puis enregistrez `data/derived/reef_2025.csv`), `R/03_analysis.R` (corail dur moyen par zone, enregistré dans `outputs/tables/`) et `R/04_figures.R` (boxplot par zone, enregistré dans `outputs/figures/`). Utilisez `here()` partout.
+4. Écrivez `R/00_run_all.R` et un `README.md`.
+5. Supprimez `data/derived/` et `outputs/`, redémarrez R, lancez `00_run_all.R` : tout revient-il ?
+:::
+:::
+
+::: hint
+::: en
+If `here()` returns a path outside your project, RStudio is not running inside the project: open the `.Rproj` file, or check that you have only one `.Rproj` file at the root. `here::dr_here()` explains how the root was found.
+:::
+::: fr
+Si `here()` renvoie un chemin hors de votre projet, RStudio ne tourne pas dans le projet : ouvrez le fichier `.Rproj`, ou vérifiez qu'il n'y a qu'un seul fichier `.Rproj` à la racine. `here::dr_here()` explique comment la racine a été trouvée.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("a00", list(
+  q_num("1. How many files (not folders) are in messy_project.zip?", "1. Combien de fichiers (pas de dossiers) contient messy_project.zip ?", a1, tol = 0),
+  q_num("2. Rows of data/derived/reef_2025.csv?", "2. Lignes de data/derived/reef_2025.csv ?", a2, tol = 0),
+  q_num("3. Mean hard coral cover in No-take zones, 2025 (2 decimals)?", "3. Corail dur moyen dans les zones No-take, 2025 (2 décimales) ?", a3, tol = 0.006),
+  q_num("4. Same for Fishing zones (2 decimals)?", "4. Idem pour les zones Fishing (2 décimales) ?", a4, tol = 0.006),
+  q_mcq("5. Why is setwd(\"C:/Users/Rakoto/Desktop/...\") a problem?", "5. Pourquoi setwd(\"C:/Users/Rakoto/Desktop/...\") pose-t-il problème ?",
+        c("It is slow", "The path exists only on Rakoto's computer", "setwd() is deprecated", "It deletes files"),
+        c("C'est lent", "Le chemin n'existe que sur l'ordinateur de Rakoto", "setwd() est obsolète", "Il supprime des fichiers"), correct = 2),
+  q_mcq("6. A report in reports/report.Rmd must read data/raw/reef.csv. The safest code is:", "6. Un rapport dans reports/report.Rmd doit lire data/raw/reef.csv. Le code le plus sûr est :",
+        c("read.csv(\"data/raw/reef.csv\")", "read.csv(\"../data/raw/reef.csv\")", "read.csv(here(\"data\", \"raw\", \"reef.csv\"))", "setwd(\"..\"); read.csv(\"data/raw/reef.csv\")"),
+        c("read.csv(\"data/raw/reef.csv\")", "read.csv(\"../data/raw/reef.csv\")", "read.csv(here(\"data\", \"raw\", \"reef.csv\"))", "setwd(\"..\"); read.csv(\"data/raw/reef.csv\")"), correct = 3),
+  q_mcq("7. You find a typing error in a raw data file. What do you do?", "7. Vous trouvez une erreur de saisie dans un fichier de données brutes. Que faites-vous ?",
+        c("Correct it in Excel and save", "Add a line in 02_clean.R that corrects it, and keep the raw file unchanged", "Delete the row in the raw file", "Rename the file _v2"),
+        c("La corriger dans Excel et enregistrer", "Ajouter une ligne dans 02_clean.R qui la corrige, et garder le fichier brut intact", "Supprimer la ligne dans le fichier brut", "Renommer le fichier _v2"), correct = 2),
+  q_mcq("8. Why set \"Save workspace to .RData on exit\" to Never?", "8. Pourquoi régler « Save workspace to .RData on exit » sur Never ?",
+        c("To save disk space", "So that the results depend only on the scripts, not on objects left from earlier sessions", "Because .RData files are viruses", "To make R start faster only"),
+        c("Pour économiser de l'espace disque", "Pour que les résultats ne dépendent que des scripts, pas d'objets restés de sessions précédentes", "Parce que les fichiers .RData sont des virus", "Seulement pour que R démarre plus vite"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="a00"}
+```{r, eval=FALSE}
+# R/01_import.R
+library(here)
+reef  <- read.csv(here("data", "raw", "reef_monitoring.csv"))
+sites <- read.csv(here("data", "raw", "reef_sites.csv"))
+
+# R/02_clean.R
+dir.create(here("data", "derived"), showWarnings = FALSE)
+reef_2025 <- merge(reef[reef$year == 2025, ], sites, by = "site_id")
+write.csv(reef_2025, here("data", "derived", "reef_2025.csv"), row.names = FALSE)
+nrow(reef_2025)                                                    # 2
+
+# R/03_analysis.R
+dir.create(here("outputs", "tables"), recursive = TRUE, showWarnings = FALSE)
+by_zone <- aggregate(hard_coral ~ zone, data = reef_2025, FUN = mean)
+by_zone                                                            # 3, 4
+write.csv(by_zone, here("outputs", "tables", "coral_by_zone_2025.csv"), row.names = FALSE)
+
+# R/04_figures.R
+dir.create(here("outputs", "figures"), recursive = TRUE, showWarnings = FALSE)
+png(here("outputs", "figures", "coral_by_zone_2025.png"), width = 16, height = 10, units = "cm", res = 300)
+boxplot(hard_coral ~ zone, data = reef_2025, ylab = "Hard coral cover (%)", xlab = "")
+dev.off()
+
+# R/00_run_all.R
+library(here)
+for (s in c("01_import.R", "02_clean.R", "03_analysis.R", "04_figures.R")) source(here("R", s))
+writeLines(capture.output(sessionInfo()), here("outputs", "session_info.txt"))
+```
+:::

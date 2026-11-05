@@ -1,4 +1,89 @@
 window.QUIZ_INDEX = {
+  "a00": {
+    "max": 8,
+    "page": "a00-project",
+    "level": "advanced"
+  },
+  "a01": {
+    "max": 8,
+    "page": "a01-renv",
+    "level": "advanced"
+  },
+  "a02": {
+    "max": 9,
+    "page": "a02-git",
+    "level": "advanced"
+  },
+  "a03": {
+    "max": 9,
+    "page": "a03-rmarkdown",
+    "level": "advanced"
+  },
+  "a04": {
+    "max": 8,
+    "page": "a04-params",
+    "level": "advanced"
+  },
+  "a05": {
+    "max": 10,
+    "page": "a05-sf",
+    "level": "advanced"
+  },
+  "a06": {
+    "max": 9,
+    "page": "a06-terra",
+    "level": "advanced"
+  },
+  "a07": {
+    "max": 9,
+    "page": "a07-maps",
+    "level": "advanced"
+  },
+  "a08": {
+    "max": 9,
+    "page": "a08-quarto",
+    "level": "advanced"
+  },
+  "a09": {
+    "max": 8,
+    "page": "a09-publish",
+    "level": "advanced"
+  },
+  "a11": {
+    "max": 10,
+    "page": "a11-final-project",
+    "level": "advanced"
+  },
+  "ap1": {
+    "max": 5,
+    "page": "a10-practice",
+    "level": "advanced"
+  },
+  "ap2": {
+    "max": 5,
+    "page": "a10-practice",
+    "level": "advanced"
+  },
+  "ap3": {
+    "max": 3,
+    "page": "a10-practice",
+    "level": "advanced"
+  },
+  "ap4": {
+    "max": 3,
+    "page": "a10-practice",
+    "level": "advanced"
+  },
+  "ap5": {
+    "max": 3,
+    "page": "a10-practice",
+    "level": "advanced"
+  },
+  "ap6": {
+    "max": 4,
+    "page": "a10-practice",
+    "level": "advanced"
+  },
   "i00": {
     "max": 10,
     "page": "i00-import",

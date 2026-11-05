@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · A9</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A9 · Quarto (2): PDF, page
+layout and publishing online</span><span class="fr">A9 · Quarto (2) :
+PDF, mise en page et publication en ligne</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>choose between <strong>Typst</strong> and <strong>LaTeX</strong> to
+make a PDF, and install what is needed;</li>
+<li>control the <strong>page layout</strong>: paper size, margins,
+fonts, page breaks, figure sizes; and use a Word template;</li>
+<li>build a small <strong>Quarto website</strong> (several pages,
+navigation bar) from your project;</li>
+<li><strong>publish</strong> it on <strong>GitHub Pages</strong>,
+<strong>GitLab Pages</strong> or <strong>Quarto Pub</strong>;</li>
+<li>decide <strong>what may be published</strong> and what must stay
+private.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>choisir entre <strong>Typst</strong> et <strong>LaTeX</strong> pour
+faire un PDF, et installer ce qu’il faut ;</li>
+<li>contrôler la <strong>mise en page</strong> : format du papier,
+marges, polices, sauts de page, taille des figures ; et utiliser un
+modèle Word ;</li>
+<li>construire un petit <strong>site Quarto</strong> (plusieurs pages,
+barre de navigation) à partir de votre projet ;</li>
+<li>le <strong>publier</strong> sur <strong>GitHub Pages</strong>,
+<strong>GitLab Pages</strong> ou <strong>Quarto Pub</strong> ;</li>
+<li>décider <strong>ce qui peut être publié</strong> et ce qui doit
+rester privé.</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> The MPA managers
+want two things: the <strong>mangrove report</strong> as a printable PDF
+for the regional authorities (Session A8 template), and a small
+<strong>public website</strong> where partners and communities can see
+the main results of the monitoring (coral reefs 2019–2025 and mangroves
+2025). <code>mpa-monitoring-site.zip</code> is a ready-made Quarto
+website project with these data (reef and mangrove CSV files,
+references). <em>Type:</em> the same tables as Sessions A0–A8; nothing
+personal — which matters before publishing.</p>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong> Les
+gestionnaires des AMP veulent deux choses : le <strong>rapport
+mangroves</strong> en PDF imprimable pour les autorités régionales
+(modèle de la séance A8), et un petit <strong>site web public</strong>
+où partenaires et communautés peuvent voir les principaux résultats du
+suivi (récifs 2019–2025 et mangroves 2025).
+<code>mpa-monitoring-site.zip</code> est un projet de site Quarto prêt à
+l’emploi avec ces données (fichiers CSV récifs et mangroves,
+références). <em>Type :</em> les mêmes tableaux qu’aux séances A0–A8 ;
+rien de personnel — ce qui compte avant de publier.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="templates/advanced/quarto/mpa-monitoring-site.zip" download>⇩
+mpa-monitoring-site.zip</a>
+<a class="btn-dl" href="templates/advanced/quarto/mangrove_report.qmd" download>⇩
+mangrove_report.qmd</a></p>
+<div id="pdf" class="section level2">
+<h2><span class="en">Two ways to make a PDF</span><span class="fr">Deux
+façons de faire un PDF</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Typst</strong> (<code>format: typst</code>)</th>
+<th><strong>LaTeX</strong> (<code>format: pdf</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>install</td>
+<td>nothing: included in Quarto</td>
+<td>once: <code>quarto install tinytex</code> (Terminal), ≈ 300 MB;
+missing LaTeX packages are then installed automatically</td>
+</tr>
+<tr class="even">
+<td>speed</td>
+<td>very fast</td>
+<td>slower</td>
+</tr>
+<tr class="odd">
+<td>table of contents, numbered sections</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td>lists of figures and tables (<code>lof</code>,
+<code>lot</code>)</td>
+<td>no</td>
+<td><strong>yes</strong></td>
+</tr>
+<tr class="odd">
+<td>journal templates, thesis classes</td>
+<td>few, growing</td>
+<td>many (Elsevier, Springer, university classes…)</td>
+</tr>
+<tr class="even">
+<td>errors</td>
+<td>short, readable</td>
+<td>long logs</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Advice:</strong> start with Typst for everyday reports; use
+LaTeX when you need lists of figures and tables or an official template.
+Add <code>citeproc: true</code> under <code>typst:</code> to get the
+same author–year citations as in HTML.</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Typst</strong> (<code>format: typst</code>)</th>
+<th><strong>LaTeX</strong> (<code>format: pdf</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>installation</td>
+<td>rien : inclus dans Quarto</td>
+<td>une fois : <code>quarto install tinytex</code> (Terminal), ≈ 300 Mo
+; les packages LaTeX manquants s’installent ensuite automatiquement</td>
+</tr>
+<tr class="even">
+<td>vitesse</td>
+<td>très rapide</td>
+<td>plus lent</td>
+</tr>
+<tr class="odd">
+<td>table des matières, sections numérotées</td>
+<td>oui</td>
+<td>oui</td>
+</tr>
+<tr class="even">
+<td>listes des figures et des tableaux (<code>lof</code>,
+<code>lot</code>)</td>
+<td>non</td>
+<td><strong>oui</strong></td>
+</tr>
+<tr class="odd">
+<td>modèles de revues, classes de thèse</td>
+<td>peu, en progression</td>
+<td>nombreux (Elsevier, Springer, classes d’universités…)</td>
+</tr>
+<tr class="even">
+<td>erreurs</td>
+<td>courtes, lisibles</td>
+<td>longs journaux</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conseil :</strong> commencez par Typst pour les rapports
+courants ; utilisez LaTeX quand il vous faut des listes des figures et
+des tableaux ou un modèle officiel. Ajoutez <code>citeproc: true</code>
+sous <code>typst:</code> pour avoir les mêmes citations auteur–date
+qu’en HTML.</p>
+</div>
+</div>
+<div id="layout" class="section level2">
+<h2><span class="en">Page layout</span><span class="fr">Mise en
+page</span></h2>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="at">  </span><span class="fu">typst</span><span class="kw">:</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="at">    </span><span class="fu">papersize</span><span class="kw">:</span><span class="at"> a4</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="at">    </span><span class="fu">margin</span><span class="kw">:</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="at">      </span><span class="fu">x</span><span class="kw">:</span><span class="at"> 2.5cm</span><span class="co">               # left and right</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="at">      </span><span class="fu">y</span><span class="kw">:</span><span class="at"> 2cm</span><span class="co">                 # top and bottom</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="at">    </span><span class="fu">fontsize</span><span class="kw">:</span><span class="at"> 11pt</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="at">    </span><span class="fu">mainfont</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Linux Libertine&quot;</span><span class="co">   # any font installed on the computer</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="at">    </span><span class="fu">number-sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="at">    </span><span class="fu">citeproc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="at">  </span><span class="fu">pdf</span><span class="kw">:</span><span class="co">                        # LaTeX</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="at">    </span><span class="fu">papersize</span><span class="kw">:</span><span class="at"> a4</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="at">    </span><span class="fu">geometry</span><span class="kw">:</span><span class="at"> margin=2.5cm</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="at">    </span><span class="fu">fontsize</span><span class="kw">:</span><span class="at"> 11pt</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="at">    </span><span class="fu">linestretch</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.3</span><span class="co">          # line spacing</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="at">    </span><span class="fu">lof</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="at">    </span><span class="fu">lot</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="at">    </span><span class="fu">number-sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="at">    </span><span class="fu">fig-pos</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;H&quot;</span><span class="co">              # keep each figure where it is written</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="at">  </span><span class="fu">docx</span><span class="kw">:</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="at">    </span><span class="fu">reference-doc</span><span class="kw">:</span><span class="at"> my-styles.docx</span><span class="co">   # fonts, heading styles and margins of your institution</span></span></code></pre></div>
+<div class="en">
+<ul>
+<li><strong>Page break</strong> anywhere:
+<code>{{&lt; pagebreak &gt;}}</code> on its own line (all formats).</li>
+<li><strong>Figure size</strong>: <code>fig-width</code> and
+<code>fig-height</code> are in <strong>inches</strong> (1 in = 2.54 cm):
+an A4 page with 2.5 cm margins leaves about 6.3 in of width. Set them
+once under <code>execute:</code> or <code>format:</code> and change them
+in a chunk when needed.</li>
+<li><strong>Word template</strong>: create the default one with
+<code>quarto pandoc -o my-styles.docx --print-default-data-file reference.docx</code>,
+open it in Word, change the <strong>styles</strong> (not the text!) —
+<em>Heading 1</em>, <em>Normal</em>, <em>Caption</em> — and save. Every
+report rendered with <code>reference-doc: my-styles.docx</code> will use
+them.</li>
+<li><strong>One HTML file</strong> to send by e-mail:
+<code>embed-resources: true</code> under <code>html:</code> puts images,
+styles and scripts inside the file.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li><strong>Saut de page</strong> n’importe où :
+<code>{{&lt; pagebreak &gt;}}</code> seul sur sa ligne (tous
+formats).</li>
+<li><strong>Taille des figures</strong> : <code>fig-width</code> et
+<code>fig-height</code> sont en <strong>pouces</strong> (1 po = 2,54 cm)
+: une page A4 avec 2,5 cm de marges laisse environ 6,3 po de largeur.
+Fixez-les une fois sous <code>execute:</code> ou <code>format:</code> et
+changez-les dans un chunk si besoin.</li>
+<li><strong>Modèle Word</strong> : créez celui par défaut avec
+<code>quarto pandoc -o mes-styles.docx --print-default-data-file reference.docx</code>,
+ouvrez-le dans Word, modifiez les <strong>styles</strong> (pas le texte
+!) — <em>Titre 1</em>, <em>Normal</em>, <em>Légende</em> — et
+enregistrez. Chaque rapport produit avec
+<code>reference-doc: mes-styles.docx</code> les utilisera.</li>
+<li><strong>Un seul fichier HTML</strong> à envoyer par e-mail :
+<code>embed-resources: true</code> sous <code>html:</code> met images,
+styles et scripts dans le fichier.</li>
+</ul>
+</div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Render the mangrove report with
+<code>--to typst</code>, then change the margins to 2 cm, the font size
+to 10pt, and add a page break before the Results. Compare the number of
+pages.</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Produisez le rapport mangroves avec
+<code>--to typst</code>, puis passez les marges à 2 cm, la taille de
+police à 10pt, et ajoutez un saut de page avant les résultats. Comparez
+le nombre de pages.</p>
+</div>
+</div>
+</div>
+<div id="website" class="section level2">
+<h2><span class="en">A Quarto website</span><span class="fr">Un site web
+Quarto</span></h2>
+<div class="en">
+<p>A <strong>Quarto project</strong> is a folder with a
+<code>_quarto.yml</code> file. With <code>type: website</code>, every
+<code>.qmd</code> becomes a page, and <code>quarto render</code> (in the
+Terminal, at the root of the project) builds the whole site into
+<code>output-dir</code>. Unzip <code>mpa-monitoring-site.zip</code>,
+open the <code>.Rproj</code>, and look at the settings:</p>
+</div>
+<div class="fr">
+<p>Un <strong>projet Quarto</strong> est un dossier avec un fichier
+<code>_quarto.yml</code>. Avec <code>type: website</code>, chaque
+<code>.qmd</code> devient une page, et <code>quarto render</code> (dans
+le Terminal, à la racine du projet) construit tout le site dans
+<code>output-dir</code>. Décompressez
+<code>mpa-monitoring-site.zip</code>, ouvrez le <code>.Rproj</code>, et
+regardez les réglages :</p>
+</div>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># _quarto.yml — settings of the whole website (one file for all pages)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="at">  </span><span class="fu">output-dir</span><span class="kw">:</span><span class="at"> docs</span><span class="co">            # GitHub Pages: Settings -&gt; Pages -&gt; branch main, folder /docs</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">website</span><span class="kw">:</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;MPA monitoring&quot;</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Home</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> coral.qmd</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Coral reefs</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> mangroves.qmd</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Mangroves</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> about.qmd</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> About</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="at">  </span><span class="fu">page-footer</span><span class="kw">:</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="at">    </span><span class="fu">center</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Simulated data · R for marine sciences course&quot;</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> cosmo</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="at">  </span><span class="fu">freeze</span><span class="kw">:</span><span class="at"> auto</span><span class="co">                # re-run the R code only when a page changes</span></span></code></pre></div>
+<pre><code>mpa-monitoring-site/
+├── _quarto.yml           &lt;- settings of the whole site
+├── index.qmd             &lt;- home page (index = the first page)
+├── coral.qmd  mangroves.qmd  about.qmd
+├── references.bib
+├── data/raw/             &lt;- the CSV files
+├── .gitignore  .gitlab-ci.yml
+└── docs/                 &lt;- created by quarto render: THE WEBSITE</code></pre>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">quarto</span> preview        <span class="co"># live preview in the browser while you edit (Ctrl + C to stop)</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="ex">quarto</span> render         <span class="co"># builds every page into docs/</span></span></code></pre></div>
+<p><img src="assets/img/quarto/website_coral.png"
+style="width:85.0%" /></p>
+<div class="en">
+<p><code>freeze: auto</code> (in <code>_quarto.yml</code>) stores the
+results of each page in <code>_freeze/</code> and re-runs its R code
+<strong>only when the page changed</strong>: a site with many pages
+renders quickly, and a collaborator can render the site
+<strong>without</strong> your data or packages. Commit
+<code>_freeze/</code> with the rest.</p>
+</div>
+<div class="fr">
+<p><code>freeze: auto</code> (dans <code>_quarto.yml</code>) garde les
+résultats de chaque page dans <code>_freeze/</code> et ne relance son
+code R <strong>que si la page a changé</strong> : un site de nombreuses
+pages se construit vite, et un collaborateur peut produire le site
+<strong>sans</strong> vos données ni vos packages. Versionnez
+<code>_freeze/</code> avec le reste.</p>
+</div>
+</div>
+<div id="publish" class="section level2">
+<h2><span class="en">Publishing</span><span
+class="fr">Publier</span></h2>
+<div id="github-pagesgithub-pages" class="section level3">
+<h3><span class="en">GitHub Pages</span><span class="fr">GitHub
+Pages</span></h3>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>Render the site into <code>docs/</code> and create an empty file
+<code>docs/.nojekyll</code> once
+(<code>file.create("docs/.nojekyll")</code>) — it tells GitHub to serve
+the files as they are.</li>
+<li>Commit <strong>everything</strong> (sources, <code>_freeze/</code>,
+<code>docs/</code>) and push (Session A2).</li>
+<li>On GitHub: <em>Settings → Pages → Build and deployment → Deploy from
+a branch → main / docs → Save</em>.</li>
+<li>After a minute:
+<code>https://&lt;your-account&gt;.github.io/mpa-monitoring-site/</code>.
+This course website is published exactly this way.</li>
+</ol>
+<p>Alternative: <code>quarto publish gh-pages</code> renders the site
+and pushes it to a separate <code>gh-pages</code> branch for you (then
+<code>docs/</code> is not needed).</p>
+<p>On a <strong>free</strong> GitHub account, Pages only works for
+<strong>public</strong> repositories (private ones need a paid
+plan).</p>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Produisez le site dans <code>docs/</code> et créez une fois un
+fichier vide <code>docs/.nojekyll</code>
+(<code>file.create("docs/.nojekyll")</code>) — il dit à GitHub de servir
+les fichiers tels quels.</li>
+<li>Validez <strong>tout</strong> (sources, <code>_freeze/</code>,
+<code>docs/</code>) et poussez (séance A2).</li>
+<li>Sur GitHub : <em>Settings → Pages → Build and deployment → Deploy
+from a branch → main / docs → Save</em>.</li>
+<li>Une minute plus tard :
+<code>https://&lt;votre-compte&gt;.github.io/mpa-monitoring-site/</code>.
+Ce site de cours est publié exactement ainsi.</li>
+</ol>
+<p>Variante : <code>quarto publish gh-pages</code> produit le site et le
+pousse pour vous sur une branche séparée <code>gh-pages</code> (alors
+<code>docs/</code> n’est pas nécessaire).</p>
+<p>Avec un compte GitHub <strong>gratuit</strong>, Pages ne fonctionne
+que pour les dépôts <strong>publics</strong> (les dépôts privés
+demandent un abonnement payant).</p>
+</div>
+</div>
+<div id="gitlab-pagesgitlab-pages" class="section level3">
+<h3><span class="en">GitLab Pages</span><span class="fr">GitLab
+Pages</span></h3>
+<div class="en">
+<p>GitLab publishes what a small <strong>CI job</strong> puts in a
+folder named <code>public/</code>. The template contains this
+<code>.gitlab-ci.yml</code>: at each push on <code>main</code>, it
+copies your rendered <code>docs/</code> into <code>public/</code>. The
+site appears at
+<code>https://&lt;your-account&gt;.gitlab.io/mpa-monitoring-site/</code>
+(see <em>Deploy → Pages</em> in the project). GitLab Pages also works
+for <strong>private</strong> projects, and <em>Settings → General →
+Visibility → Pages</em> can restrict the site to project members.</p>
+</div>
+<div class="fr">
+<p>GitLab publie ce qu’une petite <strong>tâche CI</strong> place dans
+un dossier nommé <code>public/</code>. Le modèle contient ce
+<code>.gitlab-ci.yml</code> : à chaque push sur <code>main</code>, il
+copie votre <code>docs/</code> produit dans <code>public/</code>. Le
+site apparaît à
+<code>https://&lt;votre-compte&gt;.gitlab.io/mpa-monitoring-site/</code>
+(voir <em>Deploy → Pages</em> dans le projet). GitLab Pages fonctionne
+aussi pour les projets <strong>privés</strong>, et <em>Settings →
+General → Visibility → Pages</em> peut réserver le site aux membres du
+projet.</p>
+</div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># .gitlab-ci.yml — GitLab Pages: publishes the folder docs/ that you rendered</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># on your computer (quarto render), each time you push to the main branch.</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">pages</span><span class="kw">:</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="at">  </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> deploy</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="at">  </span><span class="fu">script</span><span class="kw">:</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> mkdir -p public</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> cp -r docs/* public/</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="at">  </span><span class="fu">artifacts</span><span class="kw">:</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="at">    </span><span class="fu">paths</span><span class="kw">:</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> public</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="at">  </span><span class="fu">rules</span><span class="kw">:</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> $CI_COMMIT_BRANCH == &quot;main&quot;</span></span></code></pre></div>
+</div>
+<div id="quarto-pubquarto-pub" class="section level3">
+<h3><span class="en">Quarto Pub</span><span class="fr">Quarto
+Pub</span></h3>
+<div class="en">
+<p>The quickest way for a single report or a small site:
+<code>quarto publish quarto-pub</code> (free account at <a
+href="https://quartopub.com" class="uri">https://quartopub.com</a>).
+Everything published there is <strong>public</strong>.</p>
+</div>
+<div class="fr">
+<p>Le plus rapide pour un rapport seul ou un petit site :
+<code>quarto publish quarto-pub</code> (compte gratuit sur <a
+href="https://quartopub.com" class="uri">https://quartopub.com</a>).
+Tout ce qui y est publié est <strong>public</strong>.</p>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Before you publish, check:</strong> no names, phone numbers
+or GPS positions of people or households (survey data!); no exact
+positions of sensitive resources (spawning aggregations, sea cucumber
+stocks, nesting beaches) if poachers could use them; the agreement of
+the data owners (communities, MPA managers, the NGO). A public
+repository shows <strong>all its history</strong>: a file deleted today
+is still visible in old commits.</p>
+</div>
+<div class="fr">
+<p><strong>Avant de publier, vérifiez :</strong> pas de noms, téléphones
+ou positions GPS de personnes ou de ménages (données d’enquête !) ; pas
+de positions exactes de ressources sensibles (agrégations de
+reproduction, stocks d’holothuries, plages de ponte) si des braconniers
+pouvaient s’en servir ; l’accord des propriétaires des données
+(communautés, gestionnaires d’AMP, ONG). Un dépôt public montre
+<strong>tout son historique</strong> : un fichier supprimé aujourd’hui
+reste visible dans les anciens commits.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-a9" class="section level3 en">
+<h3>Application work A9</h3>
+<ol style="list-style-type: decimal">
+<li>Render the mangrove report to PDF with <strong>Typst</strong>; then,
+if you can, with <strong>LaTeX</strong>
+(<code>quarto install tinytex</code> first). Which one has a list of
+figures?</li>
+<li>Make a Word style file, change the font and the colour of
+<em>Heading 1</em>, and render the report to Word with
+<code>reference-doc</code>.</li>
+<li>Unzip <code>mpa-monitoring-site.zip</code>. How many pages
+(<code>.qmd</code> files) does the site have? How many output formats
+does the YAML of <code>mangrove_report.qmd</code> define?</li>
+<li>Add a page <code>methods.qmd</code> to the site (link it in the
+navbar) and run <code>quarto preview</code>.</li>
+<li>Make the site a Git repository, push it to <strong>GitHub or
+GitLab</strong>, and publish it (Pages). Send the address to your
+teacher.</li>
+</ol>
+</div>
+<div id="travail-dapplication-a9" class="section level3 fr">
+<h3>Travail d’application A9</h3>
+<ol style="list-style-type: decimal">
+<li>Produisez le rapport mangroves en PDF avec <strong>Typst</strong> ;
+puis, si vous pouvez, avec <strong>LaTeX</strong>
+(<code>quarto install tinytex</code> d’abord). Lequel a une liste des
+figures ?</li>
+<li>Faites un fichier de styles Word, changez la police et la couleur du
+<em>Titre 1</em>, et produisez le rapport en Word avec
+<code>reference-doc</code>.</li>
+<li>Décompressez <code>mpa-monitoring-site.zip</code>. Combien de pages
+(fichiers <code>.qmd</code>) le site contient-il ? Combien de formats de
+sortie le YAML de <code>mangrove_report.qmd</code> définit-il ?</li>
+<li>Ajoutez une page <code>methods.qmd</code> au site (avec un lien dans
+la barre de navigation) et lancez <code>quarto preview</code>.</li>
+<li>Faites du site un dépôt Git, poussez-le sur <strong>GitHub ou
+GitLab</strong>, et publiez-le (Pages). Envoyez l’adresse à votre
+enseignante.</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>If GitHub Pages shows a 404 page: check the folder
+(<code>/docs</code>) in <em>Settings → Pages</em>, that
+<code>docs/index.html</code> exists in the repository, and wait one or
+two minutes. If the pages have no style, <code>docs/.nojekyll</code> is
+missing or the <code>site_libs/</code> folder was not committed.</p>
+</div>
+<div class="fr">
+<p>Si GitHub Pages affiche une page 404 : vérifiez le dossier
+(<code>/docs</code>) dans <em>Settings → Pages</em>, que
+<code>docs/index.html</code> existe dans le dépôt, et attendez une ou
+deux minutes. Si les pages n’ont pas de mise en forme,
+<code>docs/.nojekyll</code> manque ou le dossier <code>site_libs/</code>
+n’a pas été validé.</p>
+</div>
+</div>
+<div id="quiz-a09" class="quiz" data-quiz-id="a09"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiM2EuIE51bWJlciBvZiAucW1kIHBhZ2VzIGluIHRoZSB3ZWJzaXRlIHRlbXBsYXRlPyIsImZyIjoiM2EuIE5vbWJyZSBkZSBwYWdlcyAucW1kIGRhbnMgbGUgbW9kw6hsZSBkZSBzaXRlID8iLCJhbnN3ZXIiOjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjNiLiBOdW1iZXIgb2Ygb3V0cHV0IGZvcm1hdHMgaW4gdGhlIFlBTUwgb2YgbWFuZ3JvdmVfcmVwb3J0LnFtZD8iLCJmciI6IjNiLiBOb21icmUgZGUgZm9ybWF0cyBkZSBzb3J0aWUgZGFucyBsZSBZQU1MIGRlIG1hbmdyb3ZlX3JlcG9ydC5xbWQgPyIsImFuc3dlciI6NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiMS4gV2hpY2ggUERGIGVuZ2luZSBuZWVkcyBub3RoaW5nIG1vcmUgdGhhbiBRdWFydG8/IiwiZnIiOiIxLiBRdWVsIG1vdGV1ciBQREYgbmUgZGVtYW5kZSByaWVuIGRlIHBsdXMgcXVlIFF1YXJ0byA/Iiwib3B0aW9uc19lbiI6WyJMYVRlWCIsIlR5cHN0IiwiV29yZCIsInBhbmRvYy1jaXRlcHJvYyJdLCJvcHRpb25zX2ZyIjpbIkxhVGVYIiwiVHlwc3QiLCJXb3JkIiwicGFuZG9jLWNpdGVwcm9jIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI0LiBZb3UgbmVlZCBhIExpc3Qgb2YgRmlndXJlcyBhbmQgYSBMaXN0IG9mIFRhYmxlcyBpbiBhIFBERi4gWW91IHVzZToiLCJmciI6IjQuIElsIHZvdXMgZmF1dCB1bmUgbGlzdGUgZGVzIGZpZ3VyZXMgZXQgdW5lIGxpc3RlIGRlcyB0YWJsZWF1eCBkYW5zIHVuIFBERi4gVm91cyB1dGlsaXNleiA6Iiwib3B0aW9uc19lbiI6WyJmb3JtYXQ6IHR5cHN0IHdpdGggdG9jOiB0cnVlIiwiZm9ybWF0OiBwZGYgKExhVGVYKSB3aXRoIGxvZjogdHJ1ZSBhbmQgbG90OiB0cnVlIiwiZm9ybWF0OiBodG1sIiwie3s8IHBhZ2VicmVhayA+fX0iXSwib3B0aW9uc19mciI6WyJmb3JtYXQ6IHR5cHN0IGF2ZWMgdG9jOiB0cnVlIiwiZm9ybWF0OiBwZGYgKExhVGVYKSBhdmVjIGxvZjogdHJ1ZSBldCBsb3Q6IHRydWUiLCJmb3JtYXQ6IGh0bWwiLCJ7ezwgcGFnZWJyZWFrID59fSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gZmlnLXdpZHRoOiA2IG1lYW5zIGEgZmlndXJlOiIsImZyIjoiNS4gZmlnLXdpZHRoOiA2IHNpZ25pZmllIHVuZSBmaWd1cmUgOiIsIm9wdGlvbnNfZW4iOlsiNiBjbSB3aWRlIiwiNiBpbmNoZXMgKOKJiCAxNSBjbSkgd2lkZSIsIjYgJSBvZiB0aGUgcGFnZSIsIndpdGggNiBwYW5lbHMiXSwib3B0aW9uc19mciI6WyJkZSA2IGNtIGRlIGxhcmdlIiwiZGUgNiBwb3VjZXMgKOKJiCAxNSBjbSkgZGUgbGFyZ2UiLCJkZSA2ICUgZGUgbGEgcGFnZSIsImF2ZWMgNiBwYW5uZWF1eCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gT24gYSBmcmVlIEdpdEh1YiBhY2NvdW50LCBHaXRIdWIgUGFnZXMgY2FuIHB1Ymxpc2g6IiwiZnIiOiI2LiBBdmVjIHVuIGNvbXB0ZSBHaXRIdWIgZ3JhdHVpdCwgR2l0SHViIFBhZ2VzIHBldXQgcHVibGllciA6Iiwib3B0aW9uc19lbiI6WyJvbmx5IHB1YmxpYyByZXBvc2l0b3JpZXMiLCJwcml2YXRlIHJlcG9zaXRvcmllcyB0b28iLCJvbmx5IHJlcG9zaXRvcmllcyB3aXRoIFF1YXJ0byIsIm5vdGhpbmciXSwib3B0aW9uc19mciI6WyJzZXVsZW1lbnQgZGVzIGTDqXDDtHRzIHB1YmxpY3MiLCJhdXNzaSBkZXMgZMOpcMO0dHMgcHJpdsOpcyIsInNldWxlbWVudCBkZXMgZMOpcMO0dHMgYXZlYyBRdWFydG8iLCJyaWVuIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBXaGF0IGRvZXMgZnJlZXplOiBhdXRvIGRvIGluIGEgUXVhcnRvIHdlYnNpdGU/IiwiZnIiOiI3LiBRdWUgZmFpdCBmcmVlemU6IGF1dG8gZGFucyB1biBzaXRlIFF1YXJ0byA/Iiwib3B0aW9uc19lbiI6WyJCbG9ja3MgdGhlIHNpdGUgZnJvbSBiZWluZyBlZGl0ZWQiLCJSZS1ydW5zIHRoZSBSIGNvZGUgb2YgYSBwYWdlIG9ubHkgd2hlbiB0aGF0IHBhZ2UgY2hhbmdlZCIsIkZyZWV6ZXMgcGFja2FnZSB2ZXJzaW9ucyBsaWtlIHJlbnYiLCJQcmV2ZW50cyBwdWJsaXNoaW5nIl0sIm9wdGlvbnNfZnIiOlsiRW1ww6pjaGUgZGUgbW9kaWZpZXIgbGUgc2l0ZSIsIk5lIHJlbGFuY2UgbGUgY29kZSBSIGQndW5lIHBhZ2UgcXVlIHNpIGNldHRlIHBhZ2UgYSBjaGFuZ8OpIiwiRmlnZSBsZXMgdmVyc2lvbnMgZGVzIHBhY2thZ2VzIGNvbW1lIHJlbnYiLCJFbXDDqmNoZSBsYSBwdWJsaWNhdGlvbiJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gWW91IGRlbGV0ZWQgYSBmaWxlIHdpdGggcGhvbmUgbnVtYmVycyBhbmQgcHVzaGVkIGFnYWluIHRvIGEgcHVibGljIHJlcG9zaXRvcnkuIFRoZSBmaWxlOiIsImZyIjoiOC4gVm91cyBhdmV6IHN1cHByaW3DqSB1biBmaWNoaWVyIGNvbnRlbmFudCBkZXMgdMOpbMOpcGhvbmVzIGV0IHBvdXNzw6kgw6Agbm91dmVhdSBzdXIgdW4gZMOpcMO0dCBwdWJsaWMuIExlIGZpY2hpZXIgOiIsIm9wdGlvbnNfZW4iOlsiaXMgZ29uZSBmb3IgZ29vZCIsImlzIHN0aWxsIHZpc2libGUgaW4gdGhlIGhpc3Rvcnkgb2Ygb2xkIGNvbW1pdHMiLCJpcyBoaWRkZW4gYXV0b21hdGljYWxseSBieSBHaXRIdWIiLCJpcyBtb3ZlZCB0byBhIHByaXZhdGUgYnJhbmNoIl0sIm9wdGlvbnNfZnIiOlsiYSBkaXNwYXJ1IHBvdXIgZGUgYm9uIiwicmVzdGUgdmlzaWJsZSBkYW5zIGwnaGlzdG9yaXF1ZSBkZXMgYW5jaWVucyBjb21taXRzIiwiZXN0IGNhY2jDqSBhdXRvbWF0aXF1ZW1lbnQgcGFyIEdpdEh1YiIsImVzdCBkw6lwbGFjw6kgc3VyIHVuZSBicmFuY2hlIHByaXbDqWUiXSwiYW5zd2VyIjoxfV0=">
+
+</div>
+<div class="solution" data-quiz="a09">
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># 1</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">quarto</span> render reports/mangrove_report.qmd <span class="at">--to</span> typst</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="ex">quarto</span> install tinytex</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="ex">quarto</span> render reports/mangrove_report.qmd <span class="at">--to</span> pdf     <span class="co"># this one has the List of Figures / Tables</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co"># 2</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="ex">quarto</span> pandoc <span class="at">-o</span> my-styles.docx <span class="at">--print-default-data-file</span> reference.docx</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#   ...edit the styles in Word, then in the YAML:  docx: reference-doc: my-styles.docx</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co"># 3: index, coral, mangroves, about = 4 pages; html, typst, pdf, docx = 4 formats</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co"># 4: methods.qmd + in _quarto.yml, under navbar: left:   - href: methods.qmd</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="ex">quarto</span> preview</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co"># 5</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="fu">git</span> init <span class="at">-b</span> main <span class="kw">&amp;&amp;</span> <span class="fu">git</span> add . <span class="kw">&amp;&amp;</span> <span class="fu">git</span> commit <span class="at">-m</span> <span class="st">&quot;First version of the monitoring website&quot;</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="fu">git</span> remote add origin git@github.com:your-account/mpa-monitoring-site.git</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="ex">quarto</span> render <span class="kw">&amp;&amp;</span> <span class="fu">touch</span> docs/.nojekyll <span class="kw">&amp;&amp;</span> <span class="fu">git</span> add . <span class="kw">&amp;&amp;</span> <span class="fu">git</span> commit <span class="at">-m</span> <span class="st">&quot;Render the site&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">git</span> push <span class="at">-u</span> origin main</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#   then Settings -&gt; Pages -&gt; main /docs</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

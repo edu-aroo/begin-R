@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · A1</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A1 · Package versions with
+renv</span><span class="fr">A1 · Versions des packages avec
+renv</span></h1>
+<h3 class="subtitle">~2 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>explain why the <strong>version</strong> of a package can change
+your results;</li>
+<li>give a project its <strong>own library</strong> of packages with
+<code>renv::init()</code>;</li>
+<li>record the versions in <code>renv.lock</code> with
+<code>renv::snapshot()</code>, and reinstall them with
+<code>renv::restore()</code>;</li>
+<li>read a lockfile and know which renv files to share (and which
+not);</li>
+<li>know the limits of renv (R version, system libraries).</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>expliquer pourquoi la <strong>version</strong> d’un package peut
+changer vos résultats ;</li>
+<li>donner à un projet sa <strong>propre bibliothèque</strong> de
+packages avec <code>renv::init()</code> ;</li>
+<li>enregistrer les versions dans <code>renv.lock</code> avec
+<code>renv::snapshot()</code>, et les réinstaller avec
+<code>renv::restore()</code> ;</li>
+<li>lire un fichier lock et savoir quels fichiers renv partager (et
+lesquels non) ;</li>
+<li>connaître les limites de renv (version de R, bibliothèques
+système).</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> We continue with
+the <code>reef-monitoring</code> project of Session A0 (coral transects
+2019–2025 of the three MPAs). The file <code>renv_example.lock</code> is
+the lockfile that the NGO’s analyst sent with her project: a text file
+(JSON format) that lists the R version and the exact version of every
+package she used. <em>Type:</em> a structured text file, read with
+<code>jsonlite</code>.</p>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong> Nous continuons
+avec le projet <code>reef-monitoring</code> de la séance A0 (transects
+coralliens 2019–2025 des trois AMP). Le fichier
+<code>renv_example.lock</code> est le fichier lock que l’analyste de
+l’ONG a envoyé avec son projet : un fichier texte (format JSON) qui
+liste la version de R et la version exacte de chaque package utilisé.
+<em>Type :</em> un fichier texte structuré, lu avec
+<code>jsonlite</code>.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/advanced/renv_example.lock" download>⇩
+renv_example.lock</a></p>
+<div id="problem" class="section level2">
+<h2><span class="en">The problem: packages change</span><span
+class="fr">Le problème : les packages changent</span></h2>
+<div class="en">
+<p>Packages are updated several times a year. Usually it is harmless,
+but sometimes a default changes, an argument is renamed or a function
+disappears. Real examples you may meet: in <code>dplyr</code> 1.1.0,
+<code>summarise()</code> started warning when it returns several rows
+per group (<code>reframe()</code> was added for that); in
+<code>ggplot2</code> 3.4.0, <code>size</code> for lines was replaced by
+<code>linewidth</code>; the spatial packages <code>rgdal</code>,
+<code>rgeos</code> and <code>maptools</code> were retired from CRAN in
+2023 — old scripts using them no longer run.</p>
+<p>All your installed packages live in <strong>one library</strong>
+shared by all your projects. If you update <code>ggplot2</code> for a
+new project, an old project may break. <strong>renv</strong> gives each
+project its <strong>own library</strong> and a record of the exact
+versions.</p>
+</div>
+<div class="fr">
+<p>Les packages sont mis à jour plusieurs fois par an. En général c’est
+sans conséquence, mais parfois une valeur par défaut change, un argument
+est renommé ou une fonction disparaît. Exemples réels que vous pourriez
+rencontrer : avec <code>dplyr</code> 1.1.0, <code>summarise()</code> a
+commencé à avertir quand il renvoie plusieurs lignes par groupe
+(<code>reframe()</code> a été ajouté pour cela) ; avec
+<code>ggplot2</code> 3.4.0, <code>size</code> pour les lignes a été
+remplacé par <code>linewidth</code> ; les packages spatiaux
+<code>rgdal</code>, <code>rgeos</code> et <code>maptools</code> ont été
+retirés du CRAN en 2023 — les anciens scripts qui les utilisent ne
+marchent plus.</p>
+<p>Tous vos packages installés vivent dans <strong>une seule
+bibliothèque</strong> partagée par tous vos projets. Si vous mettez à
+jour <code>ggplot2</code> pour un nouveau projet, un ancien projet peut
+casser. <strong>renv</strong> donne à chaque projet sa <strong>propre
+bibliothèque</strong> et un relevé des versions exactes.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;ggplot2&quot;</span>)          <span class="co"># the version installed on THIS computer</span></span></code></pre></div>
+<pre><code>#&gt; [1] &#39;4.0.3&#39;</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">.libPaths</span>()[<span class="dv">1</span>]                     <span class="co"># where your packages are installed (renv changes this)</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;/home/aroo/R/x86_64-pc-linux-gnu-library/4.6&quot;</code></pre>
+</div>
+<div id="workflow" class="section level2">
+<h2><span class="en">The renv workflow</span><span class="fr">Le déroulé
+renv</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Function</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Start</td>
+<td><code>renv::init()</code></td>
+<td>creates a private library for the project, installs in it the
+packages your scripts use, writes <code>renv.lock</code></td>
+</tr>
+<tr class="even">
+<td>2. Work</td>
+<td><code>install.packages("x")</code></td>
+<td>installs <strong>in the project library</strong> (not in the
+others)</td>
+</tr>
+<tr class="odd">
+<td>3. Record</td>
+<td><code>renv::snapshot()</code></td>
+<td>writes the current versions in <code>renv.lock</code></td>
+</tr>
+<tr class="even">
+<td>4. Check</td>
+<td><code>renv::status()</code></td>
+<td>says if the library and the lockfile disagree</td>
+</tr>
+<tr class="odd">
+<td>5. Share / reinstall</td>
+<td><code>renv::restore()</code></td>
+<td>installs exactly the versions of <code>renv.lock</code> (on a new
+computer, or after a problem)</td>
+</tr>
+<tr class="even">
+<td>Update</td>
+<td><code>renv::update()</code> then test, then
+<code>snapshot()</code></td>
+<td>upgrades on purpose, not by accident</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Étape</th>
+<th>Fonction</th>
+<th>Ce qu’elle fait</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Démarrer</td>
+<td><code>renv::init()</code></td>
+<td>crée une bibliothèque privée pour le projet, y installe les packages
+utilisés par vos scripts, écrit <code>renv.lock</code></td>
+</tr>
+<tr class="even">
+<td>2. Travailler</td>
+<td><code>install.packages("x")</code></td>
+<td>installe <strong>dans la bibliothèque du projet</strong> (pas dans
+les autres)</td>
+</tr>
+<tr class="odd">
+<td>3. Enregistrer</td>
+<td><code>renv::snapshot()</code></td>
+<td>écrit les versions actuelles dans <code>renv.lock</code></td>
+</tr>
+<tr class="even">
+<td>4. Vérifier</td>
+<td><code>renv::status()</code></td>
+<td>indique si la bibliothèque et le fichier lock divergent</td>
+</tr>
+<tr class="odd">
+<td>5. Partager / réinstaller</td>
+<td><code>renv::restore()</code></td>
+<td>installe exactement les versions de <code>renv.lock</code> (sur un
+nouvel ordinateur, ou après un problème)</td>
+</tr>
+<tr class="even">
+<td>Mettre à jour</td>
+<td><code>renv::update()</code> puis tester, puis
+<code>snapshot()</code></td>
+<td>mettre à jour volontairement, pas par accident</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;renv&quot;</span>)      <span class="co"># once per computer</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>()                  <span class="co"># once per project, in the project (RStudio restarts R)</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># ... you work, and install a new package:</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;sf&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()              <span class="co"># record it: renv.lock now contains sf and its version</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">status</span>()                <span class="co"># &quot;No issues found -- the project is in a consistent state.&quot;</span></span></code></pre></div>
+<div class="en">
+<p><code>renv::init()</code> scans your scripts for
+<code>library()</code> and <code>pkg::</code> calls to know which
+packages the project needs. It does not download everything again: renv
+keeps a <strong>global cache</strong>, so a package version already on
+your computer is simply linked, not re-installed.</p>
+</div>
+<div class="fr">
+<p><code>renv::init()</code> analyse vos scripts à la recherche de
+<code>library()</code> et de <code>pkg::</code> pour savoir de quels
+packages le projet a besoin. Il ne retélécharge pas tout : renv garde un
+<strong>cache global</strong>, si bien qu’une version de package déjà
+présente sur votre ordinateur est simplement liée, pas réinstallée.</p>
+</div>
+</div>
+<div id="files" class="section level2">
+<h2><span class="en">What renv adds to your project</span><span
+class="fr">Ce que renv ajoute à votre projet</span></h2>
+<pre><code>reef-monitoring/
+├── .Rprofile              &lt;- runs renv/activate.R when the project opens   -&gt; SHARE
+├── renv.lock              &lt;- R version + version of every package          -&gt; SHARE
+└── renv/
+    ├── activate.R         &lt;- small script that switches on the project library -&gt; SHARE
+    ├── settings.json      &lt;- renv settings                                  -&gt; SHARE
+    ├── .gitignore         &lt;- written by renv: already excludes library/
+    └── library/           &lt;- the installed packages (large, computer-specific) -&gt; DO NOT SHARE</code></pre>
+<div class="callout warning">
+<div class="en">
+<p>Never send or commit <code>renv/library/</code>: it is big and
+compiled for <strong>your</strong> operating system. Your colleague runs
+<code>renv::restore()</code> instead, which rebuilds it from
+<code>renv.lock</code>.</p>
+</div>
+<div class="fr">
+<p>N’envoyez et ne versionnez jamais <code>renv/library/</code> : c’est
+volumineux et compilé pour <strong>votre</strong> système
+d’exploitation. Votre collègue lance plutôt
+<code>renv::restore()</code>, qui la reconstruit à partir de
+<code>renv.lock</code>.</p>
+</div>
+</div>
+</div>
+<div id="lockfile" class="section level2">
+<h2><span class="en">Reading a lockfile</span><span class="fr">Lire un
+fichier lock</span></h2>
+<div class="en">
+<p><code>renv.lock</code> is a text file in <strong>JSON</strong>
+format: nested <code>{ }</code> lists of names and values, which
+<code>jsonlite</code> turns into R lists.</p>
+</div>
+<div class="fr">
+<p><code>renv.lock</code> est un fichier texte au format
+<strong>JSON</strong> : des listes imbriquées <code>{ }</code> de noms
+et de valeurs, que <code>jsonlite</code> transforme en listes R.</p>
+</div>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="dt">&quot;R&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    <span class="dt">&quot;Version&quot;</span><span class="fu">:</span> <span class="st">&quot;4.4.1&quot;</span><span class="fu">,</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    <span class="dt">&quot;Repositories&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>      <span class="fu">{</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>        <span class="dt">&quot;Name&quot;</span><span class="fu">:</span> <span class="st">&quot;CRAN&quot;</span><span class="fu">,</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>        <span class="dt">&quot;URL&quot;</span><span class="fu">:</span> <span class="st">&quot;https://cloud.r-project.org&quot;</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  <span class="dt">&quot;Packages&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>    <span class="dt">&quot;cli&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>      <span class="dt">&quot;Package&quot;</span><span class="fu">:</span> <span class="st">&quot;cli&quot;</span><span class="fu">,</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>      <span class="dt">&quot;Version&quot;</span><span class="fu">:</span> <span class="st">&quot;3.6.3&quot;</span><span class="fu">,</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>      <span class="dt">&quot;Source&quot;</span><span class="fu">:</span> <span class="st">&quot;Repository&quot;</span><span class="fu">,</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>      <span class="dt">&quot;Repository&quot;</span><span class="fu">:</span> <span class="st">&quot;CRAN&quot;</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>    <span class="dt">&quot;dplyr&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>      <span class="dt">&quot;Package&quot;</span><span class="fu">:</span> <span class="st">&quot;dplyr&quot;</span><span class="fu">,</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>      <span class="dt">&quot;Version&quot;</span><span class="fu">:</span> <span class="st">&quot;1.1.4&quot;</span><span class="fu">,</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>      <span class="dt">&quot;Source&quot;</span><span class="fu">:</span> <span class="st">&quot;Repository&quot;</span><span class="fu">,</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>      <span class="dt">&quot;Repository&quot;</span><span class="fu">:</span> <span class="st">&quot;CRAN&quot;</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>    <span class="dt">&quot;ggplot2&quot;</span><span class="fu">:</span> <span class="fu">{</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>lock <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">read_json</span>(<span class="st">&quot;data/advanced/renv_example.lock&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">names</span>(lock)                              <span class="co"># two parts: R and Packages</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;R&quot;        &quot;Packages&quot;</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>lock<span class="sc">$</span>R<span class="sc">$</span>Version                           <span class="co"># R version used by the analyst</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;4.4.1&quot;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>pk <span class="ot">&lt;-</span> lock<span class="sc">$</span>Packages</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">length</span>(pk)                               <span class="co"># number of packages recorded</span></span></code></pre></div>
+<pre><code>#&gt; [1] 14</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>pk<span class="sc">$</span>dplyr<span class="sc">$</span>Version</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;1.1.4&quot;</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># one row per package, with sapply() (Intermediate, Session I5)</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>versions <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">package =</span> <span class="fu">names</span>(pk), <span class="at">version =</span> <span class="fu">sapply</span>(pk, <span class="cf">function</span>(p) p<span class="sc">$</span>Version))</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="fu">head</span>(versions, <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;         package version
+#&gt; cli         cli   3.6.3
+#&gt; dplyr     dplyr   1.1.4
+#&gt; ggplot2 ggplot2   3.5.1
+#&gt; glue       glue   1.7.0</code></pre>
+<div class="en">
+<p>To compare with <strong>your</strong> computer, use
+<code>packageVersion()</code> — or simply <code>renv::restore()</code>
+and let renv do the work.</p>
+</div>
+<div class="fr">
+<p>Pour comparer avec <strong>votre</strong> ordinateur, utilisez
+<code>packageVersion()</code> — ou simplement
+<code>renv::restore()</code> et laissez renv faire le travail.</p>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>mine <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">c</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;knitr&quot;</span>), <span class="cf">function</span>(p) <span class="fu">as.character</span>(<span class="fu">packageVersion</span>(p)))</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">package =</span> <span class="fu">names</span>(mine), <span class="at">lockfile =</span> versions[<span class="fu">names</span>(mine), <span class="st">&quot;version&quot;</span>], <span class="at">this_computer =</span> mine)</span></code></pre></div>
+<pre><code>#&gt;         package lockfile this_computer
+#&gt; dplyr     dplyr    1.1.4         1.2.1
+#&gt; ggplot2 ggplot2    3.5.1         4.0.3
+#&gt; knitr     knitr     1.47          1.52</code></pre>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Read the lockfile and list the packages
+whose version on your computer is <strong>different</strong> from the
+lockfile (careful: some may not be installed —
+<code>requireNamespace(p, quietly = TRUE)</code> tells you).</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Lisez le fichier lock et listez les packages
+dont la version sur votre ordinateur est <strong>différente</strong> de
+celle du fichier lock (attention : certains peuvent ne pas être
+installés — <code>requireNamespace(p, quietly = TRUE)</code> vous le
+dit).</p>
+</div>
+</div>
+</div>
+<div id="limits" class="section level2">
+<h2><span class="en">Limits, and what to do</span><span
+class="fr">Limites, et que faire</span></h2>
+<div class="en">
+<ul>
+<li>renv records the <strong>R version</strong> but does not install it.
+Note it in the README; on Windows the tool <strong>rig</strong> helps to
+install several R versions side by side.</li>
+<li>Some packages need <strong>system libraries</strong> (GDAL, GEOS,
+PROJ for <code>sf</code> and <code>terra</code>). On Windows and Mac
+they come with the CRAN binaries; on Linux they must be installed
+separately.</li>
+<li><code>renv::restore()</code> needs <strong>internet</strong> the
+first time, and old versions may have to be <strong>compiled</strong>
+(Windows: Rtools, which you installed in Session 0).</li>
+<li>For complete freezing (operating system included), professionals use
+<strong>Docker</strong> — beyond this course.</li>
+</ul>
+<p><strong>Good habit:</strong> <code>renv::snapshot()</code> after each
+new package, then commit <code>renv.lock</code> with Git (Session A2) so
+that the lockfile and the code always go together.</p>
+</div>
+<div class="fr">
+<ul>
+<li>renv enregistre la <strong>version de R</strong> mais ne l’installe
+pas. Notez-la dans le README ; sous Windows, l’outil
+<strong>rig</strong> aide à installer plusieurs versions de R côte à
+côte.</li>
+<li>Certains packages ont besoin de <strong>bibliothèques
+système</strong> (GDAL, GEOS, PROJ pour <code>sf</code> et
+<code>terra</code>). Sous Windows et Mac, elles viennent avec les
+binaires du CRAN ; sous Linux, il faut les installer à part.</li>
+<li><code>renv::restore()</code> a besoin d’<strong>internet</strong> la
+première fois, et les anciennes versions peuvent devoir être
+<strong>compilées</strong> (Windows : Rtools, installé à la séance
+0).</li>
+<li>Pour un gel complet (système d’exploitation compris), les
+professionnels utilisent <strong>Docker</strong> — au-delà de ce
+cours.</li>
+</ul>
+<p><strong>Bonne habitude :</strong> <code>renv::snapshot()</code> après
+chaque nouveau package, puis versionner <code>renv.lock</code> avec Git
+(séance A2) pour que le fichier lock et le code aillent toujours
+ensemble.</p>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-a1" class="section level3 en">
+<h3>Application work A1</h3>
+<ol style="list-style-type: decimal">
+<li>In your <code>reef-monitoring</code> project (Session A0), run
+<code>renv::init()</code>. Look at the new files.</li>
+<li>Install <code>here</code> if it is not yet in the project library,
+then <code>renv::status()</code> and <code>renv::snapshot()</code>. Open
+<code>renv.lock</code> in RStudio: is <code>here</code> there?</li>
+<li>Read <code>renv_example.lock</code> with
+<code>jsonlite::read_json()</code>. How many packages does it list?
+Which R version? Which <code>ggplot2</code> version?</li>
+<li>How many package names in that lockfile <strong>start with the
+letter “r”</strong> (<code>startsWith()</code>)?</li>
+<li>Copy your project to another folder (without
+<code>renv/library/</code>), open it and run
+<code>renv::restore()</code>. What happens?</li>
+</ol>
+</div>
+<div id="travail-dapplication-a1" class="section level3 fr">
+<h3>Travail d’application A1</h3>
+<ol style="list-style-type: decimal">
+<li>Dans votre projet <code>reef-monitoring</code> (séance A0), lancez
+<code>renv::init()</code>. Regardez les nouveaux fichiers.</li>
+<li>Installez <code>here</code> s’il n’est pas encore dans la
+bibliothèque du projet, puis <code>renv::status()</code> et
+<code>renv::snapshot()</code>. Ouvrez <code>renv.lock</code> dans
+RStudio : <code>here</code> y est-il ?</li>
+<li>Lisez <code>renv_example.lock</code> avec
+<code>jsonlite::read_json()</code>. Combien de packages liste-t-il ?
+Quelle version de R ? Quelle version de <code>ggplot2</code> ?</li>
+<li>Combien de noms de packages de ce fichier lock <strong>commencent
+par la lettre « r »</strong> (<code>startsWith()</code>) ?</li>
+<li>Copiez votre projet dans un autre dossier (sans
+<code>renv/library/</code>), ouvrez-le et lancez
+<code>renv::restore()</code>. Que se passe-t-il ?</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p><code>lock$Packages</code> is a <strong>list</strong>:
+<code>length()</code> counts its elements and <code>names()</code> gives
+the package names.
+<code>sum(startsWith(names(lock$Packages), "r"))</code> counts the names
+starting with “r”.</p>
+</div>
+<div class="fr">
+<p><code>lock$Packages</code> est une <strong>liste</strong> :
+<code>length()</code> compte ses éléments et <code>names()</code> donne
+les noms des packages.
+<code>sum(startsWith(names(lock$Packages), "r"))</code> compte les noms
+commençant par « r ».</p>
+</div>
+</div>
+<div id="quiz-a01" class="quiz" data-quiz-id="a01"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gSG93IG1hbnkgcGFja2FnZXMgYXJlIGxpc3RlZCBpbiByZW52X2V4YW1wbGUubG9jaz8iLCJmciI6IjEuIENvbWJpZW4gZGUgcGFja2FnZXMgc29udCBsaXN0w6lzIGRhbnMgcmVudl9leGFtcGxlLmxvY2sgPyIsImFuc3dlciI6MTQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyLiBXaGljaCBSIHZlcnNpb24gaXMgcmVjb3JkZWQgKGUuZy4gNC4zLjIpPyIsImZyIjoiMi4gUXVlbGxlIHZlcnNpb24gZGUgUiBlc3QgZW5yZWdpc3Ryw6llIChleC4gNC4zLjIpID8iLCJhbnN3ZXIiOlsiNC40LjEiXX0seyJ0eXBlIjoidGV4dCIsImVuIjoiMy4gV2hpY2ggZ2dwbG90MiB2ZXJzaW9uIGlzIHJlY29yZGVkPyIsImZyIjoiMy4gUXVlbGxlIHZlcnNpb24gZGUgZ2dwbG90MiBlc3QgZW5yZWdpc3Ryw6llID8iLCJhbnN3ZXIiOlsiMy41LjEiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBIb3cgbWFueSBwYWNrYWdlIG5hbWVzIHN0YXJ0IHdpdGggXCJyXCI/IiwiZnIiOiI0LiBDb21iaWVuIGRlIG5vbXMgZGUgcGFja2FnZXMgY29tbWVuY2VudCBwYXIgwqsgciDCuyA/IiwiYW5zd2VyIjo0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI1LiBXaGljaCBmaWxlIG11c3QgTk9UIGJlIHNoYXJlZCBvciBjb21taXR0ZWQ/IiwiZnIiOiI1LiBRdWVsIGZpY2hpZXIgbmUgZmF1dC1pbCBQQVMgcGFydGFnZXIgbmkgdmVyc2lvbm5lciA/Iiwib3B0aW9uc19lbiI6WyJyZW52LmxvY2siLCIuUnByb2ZpbGUiLCJyZW52L2FjdGl2YXRlLlIiLCJyZW52L2xpYnJhcnkvIl0sIm9wdGlvbnNfZnIiOlsicmVudi5sb2NrIiwiLlJwcm9maWxlIiwicmVudi9hY3RpdmF0ZS5SIiwicmVudi9saWJyYXJ5LyJdLCJhbnN3ZXIiOjN9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gQSBjb2xsZWFndWUgcmVjZWl2ZXMgeW91ciBwcm9qZWN0IHdpdGggcmVudi5sb2NrLiBXaGF0IGRvZXMgc2hlIHJ1biBmaXJzdD8iLCJmciI6IjYuIFVuZSBjb2xsw6hndWUgcmXDp29pdCB2b3RyZSBwcm9qZXQgYXZlYyByZW52LmxvY2suIFF1ZSBsYW5jZS10LWVsbGUgZCdhYm9yZCA/Iiwib3B0aW9uc19lbiI6WyJyZW52OjpzbmFwc2hvdCgpIiwicmVudjo6cmVzdG9yZSgpIiwiaW5zdGFsbC5wYWNrYWdlcyhcInRpZHl2ZXJzZVwiKSIsInJlbnY6OmluaXQoKSJdLCJvcHRpb25zX2ZyIjpbInJlbnY6OnNuYXBzaG90KCkiLCJyZW52OjpyZXN0b3JlKCkiLCJpbnN0YWxsLnBhY2thZ2VzKFwidGlkeXZlcnNlXCIpIiwicmVudjo6aW5pdCgpIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBZb3UgaW5zdGFsbGVkIGEgbmV3IHBhY2thZ2UgaW4gdGhlIHByb2plY3QuIFRvIHJlY29yZCBpdCB5b3UgcnVuOiIsImZyIjoiNy4gVm91cyBhdmV6IGluc3RhbGzDqSB1biBub3V2ZWF1IHBhY2thZ2UgZGFucyBsZSBwcm9qZXQuIFBvdXIgbCdlbnJlZ2lzdHJlciB2b3VzIGxhbmNleiA6Iiwib3B0aW9uc19lbiI6WyJyZW52OjpzbmFwc2hvdCgpIiwicmVudjo6cmVzdG9yZSgpIiwicmVudjo6c3RhdHVzKCkgb25seSIsIm5vdGhpbmc6IGl0IGlzIGF1dG9tYXRpYyJdLCJvcHRpb25zX2ZyIjpbInJlbnY6OnNuYXBzaG90KCkiLCJyZW52OjpyZXN0b3JlKCkiLCJyZW52OjpzdGF0dXMoKSBzZXVsZW1lbnQiLCJyaWVuIDogYydlc3QgYXV0b21hdGlxdWUiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFdoaWNoIG9mIHRoZXNlIGRvZXMgcmVudiBOT1QgaW5zdGFsbCBmb3IgeW91PyIsImZyIjoiOC4gTGVxdWVsIGRlIGNlcyDDqWzDqW1lbnRzIHJlbnYgbidpbnN0YWxsZS10LWlsIFBBUyBwb3VyIHZvdXMgPyIsIm9wdGlvbnNfZW4iOlsiVGhlIHBhY2thZ2UgdmVyc2lvbnMgb2YgcmVudi5sb2NrIiwiVGhlIFIgdmVyc2lvbiBpdHNlbGYiLCJEZXBlbmRlbmNpZXMgb2YgeW91ciBwYWNrYWdlcyIsIlBhY2thZ2VzIGZyb20gQ1JBTiJdLCJvcHRpb25zX2ZyIjpbIkxlcyB2ZXJzaW9ucyBkZXMgcGFja2FnZXMgZGUgcmVudi5sb2NrIiwiTGEgdmVyc2lvbiBkZSBSIGVsbGUtbcOqbWUiLCJMZXMgZMOpcGVuZGFuY2VzIGRlIHZvcyBwYWNrYWdlcyIsIkxlcyBwYWNrYWdlcyBkdSBDUkFOIl0sImFuc3dlciI6MX1d">
+
+</div>
+<div class="solution" data-quiz="a01">
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>()                       <span class="co"># 1: creates .Rprofile, renv.lock, renv/</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;here&quot;</span>)           <span class="co"># 2</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">status</span>(); renv<span class="sc">::</span><span class="fu">snapshot</span>()</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>lock <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">read_json</span>(<span class="st">&quot;data/advanced/renv_example.lock&quot;</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="fu">length</span>(lock<span class="sc">$</span>Packages)              <span class="co"># 3</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>lock<span class="sc">$</span>R<span class="sc">$</span>Version</span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>lock<span class="sc">$</span>Packages<span class="sc">$</span>ggplot2<span class="sc">$</span>Version</span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">startsWith</span>(<span class="fu">names</span>(lock<span class="sc">$</span>Packages), <span class="st">&quot;r&quot;</span>))   <span class="co"># 4: readxl, renv, rlang, rmarkdown</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="co"># 5: renv::restore() reinstalls (or links from the cache) every version of renv.lock</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -24,7 +24,7 @@ make_pdf_kit <- function(level = c("beginner", "intermediate", "advanced"),
     intermediate = rmd[grepl("^i[0-9]", rmd)],
     advanced     = rmd[grepl("^a[0-9]", rmd)])
   rmd <- c(rmd, switch(level, beginner = "cheatsheet.Rmd",
-                       intermediate = "cheatsheet-intermediate.Rmd", advanced = character(0)))
+                       intermediate = "cheatsheet-intermediate.Rmd", advanced = "cheatsheet-advanced.Rmd"))
   rmd <- rmd[file.exists(rmd)]
 
   # 2. a small header: hides the other language, the solutions (optional),

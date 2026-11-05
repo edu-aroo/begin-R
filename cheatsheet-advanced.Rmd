@@ -1,0 +1,127 @@
+---
+title: "[Cheatsheet — Advanced level]{.en}[Aide-mémoire — Niveau avancé]{.fr}"
+pagetitle: "R for marine sciences · Advanced cheatsheet"
+subtitle: "[Print it (Ctrl + P) and keep it next to your keyboard]{.en}[Imprimez-le (Ctrl + P) et gardez-le près du clavier]{.fr}"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+<!-- Same structure as the other cheatsheets: [English]{.en}[Français]{.fr} in each cell;
+     {.no-track} keeps these sections out of the progress bar. -->
+
+::: cheat
+
+## [Packages and tools of this level]{.en}[Packages et outils de ce niveau]{.fr} {.no-track}
+
+```{r, eval=FALSE}
+install.packages(c("here", "renv", "usethis", "gitcreds", "jsonlite", "rmarkdown", "bookdown",
+                   "flextable", "quarto", "sf", "terra", "tmap"))
+# Tools: Git (git-scm.com), Quarto (included in RStudio), LaTeX for PDF:  quarto install tinytex
+```
+
+## [A0 — Reproducible project]{.en}[A0 — Projet reproductible]{.fr} {.no-track}
+
+::: keypoints
+- [`data/raw/` never modified · `data/derived/` and `outputs/` rebuilt by the scripts · `R/00_run_all.R` runs everything · `README.md` says how.]{.en}[`data/raw/` jamais modifié · `data/derived/` et `outputs/` reconstruits par les scripts · `R/00_run_all.R` lance tout · `README.md` explique comment.]{.fr}
+- [Names: lower case, no spaces, ISO dates, numbered scripts. Never `setwd()`; never save `.RData`; restart R often (Ctrl + Shift + F10).]{.en}[Noms : minuscules, sans espaces, dates ISO, scripts numérotés. Jamais `setwd()` ; jamais enregistrer `.RData` ; redémarrer R souvent (Ctrl + Maj + F10).]{.fr}
+:::
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} |
+|---|---|
+| `here::here("data", "raw", "x.csv")` | [Path from the project root, works in reports too]{.en}[Chemin depuis la racine du projet, marche aussi dans les rapports]{.fr} |
+| `dir.create(p, recursive = TRUE)` | [Create folders]{.en}[Créer des dossiers]{.fr} |
+| `source(here("R", "01_import.R"))` | [Run a script from another one]{.en}[Lancer un script depuis un autre]{.fr} |
+| `writeLines(capture.output(sessionInfo()), f)` | [Record R and package versions]{.en}[Enregistrer les versions de R et des packages]{.fr} |
+
+## [A1 — renv]{.en}[A1 — renv]{.fr} {.no-track}
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} |
+|---|---|
+| `renv::init()` | [Private library + `renv.lock` (once per project)]{.en}[Bibliothèque privée + `renv.lock` (une fois par projet)]{.fr} |
+| `renv::snapshot()` | [Record the versions after installing a package]{.en}[Enregistrer les versions après avoir installé un package]{.fr} |
+| `renv::status()` | [Library and lockfile in agreement?]{.en}[Bibliothèque et fichier lock d'accord ?]{.fr} |
+| `renv::restore()` | [Install the versions of `renv.lock` (new computer)]{.en}[Installer les versions de `renv.lock` (nouvel ordinateur)]{.fr} |
+| `jsonlite::read_json("renv.lock")` | [Read a lockfile in R]{.en}[Lire un fichier lock dans R]{.fr} |
+
+## [A2 — Git, GitHub, GitLab]{.en}[A2 — Git, GitHub, GitLab]{.fr} {.no-track}
+
+| [Command]{.en}[Commande]{.fr} | [Use]{.en}[Usage]{.fr} |
+|---|---|
+| `git init -b main` · `git status` | [Start a repository · what changed?]{.en}[Créer un dépôt · qu'est-ce qui a changé ?]{.fr} |
+| `git add file` · `git commit -m "Why"` | [Stage · save a snapshot with a message]{.en}[Indexer · enregistrer un instantané avec un message]{.fr} |
+| `git log --oneline` · `git diff` · `git show <hash>:file` | [History · differences · a file in the past]{.en}[Historique · différences · un fichier dans le passé]{.fr} |
+| `git restore --source=<hash> file` | [Go back to an old version of a file]{.en}[Revenir à une ancienne version d'un fichier]{.fr} |
+| `git remote add origin <url>` · `git push -u origin main` | [Connect to GitHub / GitLab · first push]{.en}[Relier à GitHub / GitLab · premier push]{.fr} |
+| `git pull` · `git push` | [Get · send commits (pull first!)]{.en}[Récupérer · envoyer des commits (pull d'abord !)]{.fr} |
+| `git switch -c branch` · `git merge branch` | [New branch · merge it]{.en}[Nouvelle branche · la fusionner]{.fr} |
+| `usethis::create_github_token()`, `gitcreds::gitcreds_set()` | [HTTPS token]{.en}[Jeton HTTPS]{.fr} |
+| `ssh-keygen -t ed25519` · `ssh -T git@github.com` | [SSH key · test (aliases in `~/.ssh/config`)]{.en}[Clé SSH · test (alias dans `~/.ssh/config`)]{.fr} |
+
+## [A3–A4 — R Markdown reports]{.en}[A3–A4 — Rapports R Markdown]{.fr} {.no-track}
+
+| [Item]{.en}[Élément]{.fr} | [Syntax]{.en}[Syntaxe]{.fr} |
+|---|---|
+| [Chunk options]{.en}[Options de chunk]{.fr} | `echo`, `include`, `eval`, `message`, `warning`, `fig.cap`, `fig.width`, `out.width`, `cache` |
+| [Global options]{.en}[Options globales]{.fr} | `knitr::opts_chunk$set(echo = FALSE)` |
+| [Inline value]{.en}[Valeur en ligne]{.fr} | `` `r knitr::inline_expr("round(x, 1)")` `` |
+| [Table]{.en}[Tableau]{.fr} | `knitr::kable(df, digits = 1, caption = "…")`, `flextable::flextable(df)` |
+| [Cross-reference (bookdown)]{.en}[Renvoi (bookdown)]{.fr} | `bookdown::html_document2` + `\@ref(fig:label)`, `\@ref(tab:label)` |
+| [Word styles]{.en}[Styles Word]{.fr} | `word_document: reference_docx: styles.docx` |
+| [Parameters]{.en}[Paramètres]{.fr} | `params: mpa: "Tanjona"` → `params$mpa` |
+| [Render from code]{.en}[Produire par le code]{.fr} | `rmarkdown::render(f, params = list(...), output_file, output_dir, envir = new.env())` |
+
+## [A5 — sf]{.en}[A5 — sf]{.fr} {.no-track}
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} |
+|---|---|
+| `st_layers()`, `st_read(f, layer)`, `st_write()` | [List · read · write GeoPackage / shapefile layers]{.en}[Lister · lire · écrire des couches GeoPackage / shapefile]{.fr} |
+| `st_as_sf(df, coords = c("lon", "lat"), crs = 4326)` | [CSV → points]{.en}[CSV → points]{.fr} |
+| `st_crs()`, `st_transform(x, 32738)`, `st_set_crs()` | [Read · convert · declare the CRS]{.en}[Lire · convertir · déclarer le SCR]{.fr} |
+| `st_area()`, `st_distance()`, `st_length()` | [Measures (units: `as.numeric()`)]{.en}[Mesures (unités : `as.numeric()`)]{.fr} |
+| `st_buffer()`, `st_union()`, `st_intersection()`, `st_difference()`, `st_centroid()` | [Geometric operations]{.en}[Opérations géométriques]{.fr} |
+| `st_intersects()`, `st_within()`, `st_is_within_distance()`, `st_nearest_feature()` | [Spatial predicates]{.en}[Prédicats spatiaux]{.fr} |
+| `st_join(x, y)` | [Attributes of `y` where `x` falls]{.en}[Attributs de `y` là où tombe `x`]{.fr} |
+| <code>group_by(g) &#124;&gt; summarise()</code> · `st_drop_geometry()` | [Dissolve · back to a data frame]{.en}[Fusionner · retour au data frame]{.fr} |
+
+## [A6 — terra]{.en}[A6 — terra]{.fr} {.no-track}
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} |
+|---|---|
+| `rast(f)`, `res()`, `ext()`, `crs()`, `nlyr()`, `time()` | [Read and describe a raster]{.en}[Lire et décrire un raster]{.fr} |
+| `global(r, "mean", na.rm = TRUE)` | [Summary of all cells]{.en}[Résumé de toutes les cellules]{.fr} |
+| `crop()`, `mask()`, `project(r, "EPSG:32738", method = "bilinear")` | [Cut · keep inside polygons · reproject ("near" for classes)]{.en}[Découper · garder dans des polygones · reprojeter ("near" pour des classes)]{.fr} |
+| `classify(r, matrix)`, `max(r)`, `sum(r > 29.5)` | [Classes · raster algebra]{.en}[Classes · algèbre de rasters]{.fr} |
+| `extract(r, vect(points))` · `extract(r, vect(polygons), fun = mean)` | [Values at sites · zonal statistics]{.en}[Valeurs aux sites · statistiques zonales]{.fr} |
+| `vect(sf)`, `st_as_sf(v)`, `writeRaster()` | [sf ↔ terra · save GeoTIFF]{.en}[sf ↔ terra · enregistrer en GeoTIFF]{.fr} |
+
+## [A7 — Maps]{.en}[A7 — Cartes]{.fr} {.no-track}
+
+| [Function]{.en}[Fonction]{.fr} | [Use]{.en}[Usage]{.fr} |
+|---|---|
+| `geom_sf(data = x, aes(fill = v))` | [Any sf layer]{.en}[Toute couche sf]{.fr} |
+| `coord_sf(xlim, ylim, crs, datum = 4326)` | [Zoom · projection · graticule in degrees]{.en}[Zoom · projection · graticule en degrés]{.fr} |
+| `geom_sf_label()`, `ggrepel::geom_text_repel(stat = "sf_coordinates")` | [Labels]{.en}[Étiquettes]{.fr} |
+| `as.data.frame(r, xy = TRUE)` + `geom_raster()` | [Raster in ggplot2]{.en}[Raster dans ggplot2]{.fr} |
+| `scale_fill_gradient2(midpoint = 0)`, `scale_*_viridis_c()`, `scale_size_area()` | [Diverging · sequential · proportional symbols]{.en}[Divergente · séquentielle · symboles proportionnels]{.fr} |
+| `tm_shape() + tm_polygons(fill =) + tm_dots() + tm_scalebar() + tm_compass()` | [tmap 4]{.en}[tmap 4]{.fr} |
+| `tmap_mode("view")` | [Interactive map]{.en}[Carte interactive]{.fr} |
+
+## [A8–A9 — Quarto]{.en}[A8–A9 — Quarto]{.fr} {.no-track}
+
+| [Item]{.en}[Élément]{.fr} | [Syntax]{.en}[Syntaxe]{.fr} |
+|---|---|
+| [Chunk options]{.en}[Options de chunk]{.fr} | `#| label: fig-agb` · `#| fig-cap: "…"` · `#| tbl-cap: "…"` |
+| [Document options]{.en}[Options du document]{.fr} | `execute: echo: false` · `lang: fr` · `date: today` |
+| [Inline value]{.en}[Valeur en ligne]{.fr} | `` `{r} x` `` |
+| [Cross-references]{.en}[Renvois]{.fr} | `@fig-agb` · `@tbl-status` · `@sec-methods` · `@eq-agb` |
+| [Citations]{.en}[Citations]{.fr} | `bibliography: references.bib` · `[@key]` · `@key` · `[-@key]` · `csl: apa.csl` |
+| [Lists, TOC]{.en}[Listes, table des matières]{.fr} | `toc: true` · `number-sections: true` · `lof: true` · `lot: true` (pdf / LaTeX) |
+| [PDF]{.en}[PDF]{.fr} | `format: typst` (+ `citeproc: true`) · `format: pdf` (`quarto install tinytex`) |
+| [Layout]{.en}[Mise en page]{.fr} | `papersize: a4` · `margin:` / `geometry:` · `fontsize:` · `{{< pagebreak >}}` · `docx: reference-doc:` |
+| [Render]{.en}[Produire]{.fr} | `quarto render f.qmd --to html` · `quarto preview` · `quarto::quarto_render(f, execute_params = list())` |
+| [Website]{.en}[Site web]{.fr} | `_quarto.yml`: `project: type: website`, `output-dir: docs`, `freeze: auto` |
+| [Publish]{.en}[Publier]{.fr} | GitHub Pages (main /docs + `.nojekyll`) · `quarto publish gh-pages` · GitLab Pages (`.gitlab-ci.yml` → `public/`) · `quarto publish quarto-pub` |
+
+:::

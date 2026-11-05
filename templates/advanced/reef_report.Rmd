@@ -1,0 +1,85 @@
+---
+title: "Coral reef monitoring — results 2019–2025"
+author: "Your name"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: hide
+  bookdown::word_document2: default
+---
+
+```{r setup, include=FALSE}
+# Global options: code hidden, no messages or warnings in the report
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.width = 7, fig.height = 4, dpi = 150)
+library(dplyr)
+library(ggplot2)
+library(here)          # here() = paths from the project root, wherever this file is
+
+reef  <- read.csv(here("data", "raw", "reef_monitoring.csv"))
+sites <- read.csv(here("data", "raw", "reef_sites.csv"))
+reef  <- left_join(reef, sites, by = "site_id")
+
+# Numbers used in the text are computed ONCE, here
+n_transects <- nrow(reef)
+last_year   <- max(reef$year)
+cover_last  <- reef %>% filter(year == last_year) %>%
+  group_by(zone) %>% summarise(mean = mean(hard_coral), .groups = "drop")
+nt_last <- round(cover_last$mean[cover_last$zone == "No-take"], 1)
+fi_last <- round(cover_last$mean[cover_last$zone == "Fishing"], 1)
+```
+
+# Summary
+
+From 2019 to `r last_year`, the monitoring team surveyed **`r n_transects` transects**
+in three MPAs. In `r last_year`, mean hard coral cover was **`r nt_last` %** in the
+No-take zones and **`r fi_last` %** in the Fishing zones.
+
+# Methods
+
+Each site was surveyed once a year on three 20 m Point Intercept Transects
+(50 points per transect). Cover is the percentage of points on live hard coral.
+
+# Results
+
+## Hard coral cover
+
+Figure \@ref(fig:trend) shows the mean cover per year and zone, and
+Table \@ref(tab:cover) gives the values for `r last_year`.
+
+```{r trend, fig.cap = "Mean hard coral cover (± SE) per year and zone, all MPAs together."}
+se <- function(x) sd(x) / sqrt(length(x))
+trend <- reef %>% group_by(year, zone) %>%
+  summarise(m = mean(hard_coral), se = se(hard_coral), .groups = "drop")
+ggplot(trend, aes(year, m, colour = zone)) +
+  geom_line() + geom_pointrange(aes(ymin = m - se, ymax = m + se)) +
+  scale_colour_manual(values = c("No-take" = "#1b7f8c", "Fishing" = "#d9694a")) +
+  labs(x = NULL, y = "Hard coral cover (%)", colour = NULL) +
+  theme_minimal(base_size = 12)
+```
+
+```{r cover}
+reef %>% filter(year == last_year) %>%
+  group_by(mpa, zone) %>%
+  summarise(transects = n(), mean = round(mean(hard_coral), 1),
+            sd = round(sd(hard_coral), 1), .groups = "drop") %>%
+  knitr::kable(caption = paste("Hard coral cover (%) per MPA and zone in", last_year),
+               col.names = c("MPA", "Zone", "Transects", "Mean", "SD"))
+```
+
+## Bleaching
+
+```{r bleach-text}
+b24 <- reef %>% filter(year == 2024) %>% summarise(m = mean(bleached_pct)) %>% pull(m)
+```
+
+In 2024, on average **`r round(b24, 1)` %** of the colonies were bleached.
+
+# Session information
+
+```{r session, echo = TRUE}
+sessionInfo()
+```

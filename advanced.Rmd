@@ -1,24 +1,70 @@
 ---
-title: "[Advanced level]{.en}[Niveau avancé]{.fr}"
+title: "[Advanced level — reproducible projects, reports and maps]{.en}[Niveau avancé — projets reproductibles, rapports et cartes]{.fr}"
 pagetitle: "R for marine sciences · Advanced"
-subtitle: "[Coming soon]{.en}[Bientôt disponible]{.fr}"
+subtitle: "[≈ 40 h · 12 sessions]{.en}[≈ 40 h · 12 séances]{.fr}"
 ---
 
-::: en
-The advanced level is in preparation. It will cover:
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
 
-- reproducible, professional projects (`renv`, Git, GitHub / GitLab);
-- reports with R Markdown, and automatic reports (one report per site);
-- spatial data (`sf`, `terra`) and maps (`tmap`, `ggplot2`);
-- Quarto: every number written by code, cross-references, table of contents, lists of figures and tables, references, HTML and PDF output;
-- publishing on GitHub Pages / GitLab Pages.
+## [What this level is about]{.en}[De quoi parle ce niveau]{.fr} {.no-track}
+
+::: en
+At the Advanced level you learn to work **like a professional analyst**: a project that anybody can re-run (folder structure, `renv`, Git, GitHub / GitLab), **reports written by R** (R Markdown, then Quarto) that update themselves when the data change, one **automatic report per MPA**, real **GIS data** (`sf`, `terra`) and **maps**, and finally **publishing** your work online. Every session uses the **monitoring programme** of the three MPAs of the Beginner final project (coral reefs 2019–2025, mangrove plots, GIS layers, bathymetry and sea temperature rasters — all simulated).
 :::
 ::: fr
-Le niveau avancé est en préparation. Il abordera :
-
-- les projets professionnels et reproductibles (`renv`, Git, GitHub / GitLab) ;
-- les rapports avec R Markdown, et les rapports automatiques (un rapport par site) ;
-- les données spatiales (`sf`, `terra`) et les cartes (`tmap`, `ggplot2`) ;
-- Quarto : chaque chiffre écrit par le code, renvois, table des matières, listes des figures et tableaux, références, sortie HTML et PDF ;
-- la publication sur GitHub Pages / GitLab Pages.
+Au niveau avancé, vous apprenez à travailler **comme un analyste professionnel** : un projet que n'importe qui peut relancer (arborescence, `renv`, Git, GitHub / GitLab), des **rapports écrits par R** (R Markdown, puis Quarto) qui se mettent à jour quand les données changent, un **rapport automatique par AMP**, de vraies **données SIG** (`sf`, `terra`) et des **cartes**, et enfin la **publication** de votre travail en ligne. Chaque séance utilise le **programme de suivi** des trois AMP du projet final débutant (récifs coralliens 2019–2025, placettes de mangrove, couches SIG, rasters de bathymétrie et de température de la mer — tout est simulé).
 :::
+
+## [Sessions]{.en}[Séances]{.fr} {.no-track}
+
+::: en
+| Session | Content | Time | Status |
+|---|---|---|---|
+| [A0](a00-project.html) | Organising a reproducible project: structure, names, `here()`, raw data, pipeline, README | 2.5 h | available |
+| [A1](a01-renv.html) | Package versions with `renv`: init, snapshot, restore, lockfile | 2 h | available |
+| [A2](a02-git.html) | Git, GitHub and GitLab: commits, history, `.gitignore`, tokens and SSH, branches, conflicts | 3.5 h | available |
+| [A3](a03-rmarkdown.html) | Reports with R Markdown: chunks, inline values, tables, figures, cross-references, HTML/Word/PDF | 3 h | available |
+| [A4](a04-params.html) | Parameterised and automatic reports: one report per MPA in one click | 3 h | available |
+| [A5](a05-sf.html) | Vector GIS data with `sf`: GeoPackage, projections, buffers, intersections, spatial joins, areas | 3.5 h | available |
+| [A6](a06-terra.html) | Rasters with `terra`: bathymetry and sea temperature, crop, mask, extract values at sites, zonal statistics | 3 h | available |
+| [A7](a07-maps.html) | Thematic maps with `ggplot2` + `sf` and `tmap` (static and interactive), layout and export | 3 h | available |
+| [A8](a08-quarto.html) | Quarto (1): from R Markdown to Quarto, inline values, cross-references, table of contents, lists of figures and tables, citations and bibliography | 3.5 h | available |
+| [A9](a09-publish.html) | Quarto (2): PDF with Typst or LaTeX, page layout, publishing on GitHub Pages / GitLab Pages | 3 h | available |
+| [A10](a10-practice.html) | Practice session (6 exercises) | 3.5 h | available |
+| [A11](a11-final-project.html) | Final project: a reproducible, versioned and published monitoring report with maps | 5 h | available |
+:::
+::: fr
+| Séance | Contenu | Durée | État |
+|---|---|---|---|
+| [A0](a00-project.html) | Organiser un projet reproductible : arborescence, noms, `here()`, données brutes, chaîne de scripts, README | 2,5 h | disponible |
+| [A1](a01-renv.html) | Versions des packages avec `renv` : init, snapshot, restore, fichier lock | 2 h | disponible |
+| [A2](a02-git.html) | Git, GitHub et GitLab : commits, historique, `.gitignore`, jetons et SSH, branches, conflits | 3,5 h | disponible |
+| [A3](a03-rmarkdown.html) | Rapports avec R Markdown : chunks, valeurs en ligne, tableaux, figures, renvois, HTML/Word/PDF | 3 h | disponible |
+| [A4](a04-params.html) | Rapports paramétrés et automatiques : un rapport par AMP en un clic | 3 h | disponible |
+| [A5](a05-sf.html) | Données SIG vecteur avec `sf` : GeoPackage, projections, zones tampons, intersections, jointures spatiales, surfaces | 3,5 h | disponible |
+| [A6](a06-terra.html) | Rasters avec `terra` : bathymétrie et température de la mer, découper, masquer, extraire des valeurs aux sites, statistiques zonales | 3 h | disponible |
+| [A7](a07-maps.html) | Cartes thématiques avec `ggplot2` + `sf` et `tmap` (statiques et interactives), mise en page et export | 3 h | disponible |
+| [A8](a08-quarto.html) | Quarto (1) : de R Markdown à Quarto, valeurs en ligne, renvois, table des matières, listes des figures et tableaux, citations et bibliographie | 3,5 h | disponible |
+| [A9](a09-publish.html) | Quarto (2) : PDF avec Typst ou LaTeX, mise en page, publication sur GitHub Pages / GitLab Pages | 3 h | disponible |
+| [A10](a10-practice.html) | Séance d'exercices (6 exercices) | 3,5 h | disponible |
+| [A11](a11-final-project.html) | Projet final : un rapport de suivi reproductible, versionné et publié, avec cartes | 5 h | disponible |
+:::
+
+## [Before you start]{.en}[Avant de commencer]{.fr} {.no-track}
+
+::: en
+1. Download the data of the level and unzip it in the `data/` folder of your course project (you get `data/advanced/`).
+2. Install the packages: `install.packages(c("rmarkdown", "bookdown", "here", "renv", "usethis", "gitcreds", "jsonlite", "flextable", "sf", "terra", "tmap"))`.
+3. Install **Git** (Session A2) and, for Sessions A8–A9, **Quarto** (<https://quarto.org>; recent versions of RStudio already include it).
+4. Run `check_setup.R` with `LEVEL <- "advanced"`.
+:::
+::: fr
+1. Téléchargez les données du niveau et décompressez-les dans le dossier `data/` de votre projet de cours (vous obtenez `data/advanced/`).
+2. Installez les packages : `install.packages(c("rmarkdown", "bookdown", "here", "renv", "usethis", "gitcreds", "jsonlite", "flextable", "sf", "terra", "tmap"))`.
+3. Installez **Git** (séance A2) et, pour les séances A8–A9, **Quarto** (<https://quarto.org> ; les versions récentes de RStudio l'incluent déjà).
+4. Lancez `check_setup.R` avec `LEVEL <- "advanced"`.
+:::
+
+`r dl("r_course_data_advanced.zip", "r_course_data_advanced.zip")` `r dl("check_setup.R", "check_setup.R", dir = "templates")`

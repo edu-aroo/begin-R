@@ -1,0 +1,366 @@
+---
+title: "[A3 · Reports with R Markdown]{.en}[A3 · Rapports avec R Markdown]{.fr}"
+pagetitle: "R for marine sciences · A3"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+library(dplyr); library(ggplot2)
+reef  <- read.csv("data/advanced/reef_monitoring.csv")
+sites <- read.csv("data/advanced/reef_sites.csv")
+reef  <- left_join(reef, sites, by = "site_id")
+knitr::opts_chunk$set(fig.width = 7, fig.height = 3.8, out.width = "85%")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- write a report that mixes **text, code and results** in one `.Rmd` file;
+- control what appears with **chunk options** (`echo`, `include`, `message`, `fig.cap`…);
+- write **numbers computed by R inside sentences** (inline code), so the text updates with the data;
+- produce clean **tables** (`knitr::kable()`, `flextable`) and **figures with captions**, and **cross-reference** them;
+- render to **HTML, Word and PDF**, with a table of contents and numbered sections.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- écrire un rapport qui mélange **texte, code et résultats** dans un seul fichier `.Rmd` ;
+- contrôler ce qui apparaît avec les **options de chunk** (`echo`, `include`, `message`, `fig.cap`…) ;
+- écrire des **nombres calculés par R dans les phrases** (code en ligne), pour que le texte se mette à jour avec les données ;
+- produire des **tableaux** propres (`knitr::kable()`, `flextable`) et des **figures avec légende**, et y **faire référence** ;
+- produire du **HTML, Word et PDF**, avec table des matières et sections numérotées.
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Data of this session (simulated).** The coral reef monitoring of the three MPAs, 2019–2025 (`reef_monitoring.csv` + `reef_sites.csv`, described in Session A0): 18 sites, three 20 m Point Intercept Transects per site and year; % hard coral, % macroalgae and % of colonies bleached. The MPA managers want **the same annual report every year**: this is exactly what R Markdown is for.
+:::
+::: fr
+**Données de cette séance (simulées).** Le suivi des récifs des trois AMP, 2019–2025 (`reef_monitoring.csv` + `reef_sites.csv`, décrits à la séance A0) : 18 sites, trois Point Intercept Transects de 20 m par site et par an ; % de corail dur, % de macroalgues et % de colonies blanchies. Les gestionnaires des AMP veulent **le même rapport annuel chaque année** : c'est exactement à cela que sert R Markdown.
+:::
+:::
+
+`r dl("reef_report.Rmd", "reef_report.Rmd (template)", dir = "templates/advanced")`
+
+## [Why a report in R?]{.en}[Pourquoi un rapport dans R ?]{.fr} {#why}
+
+::: en
+The usual way — analyse in R, copy numbers and paste graphs into Word — has two problems: **errors** (a number not updated, a graph from an old version) and **time** (everything is redone when the data change). In R Markdown the report **is** the analysis: when the 2026 data arrive, you click **Knit** and every number, table and figure is recomputed. This whole course website is written in R Markdown.
+:::
+::: fr
+La méthode habituelle — analyser dans R, copier les chiffres et coller les graphiques dans Word — a deux problèmes : les **erreurs** (un chiffre non mis à jour, un graphique d'une ancienne version) et le **temps** (tout est à refaire quand les données changent). Avec R Markdown, le rapport **est** l'analyse : quand les données 2026 arrivent, vous cliquez sur **Knit** et chaque chiffre, tableau et figure est recalculé. Tout ce site de cours est écrit en R Markdown.
+:::
+
+## [Anatomy of an .Rmd file]{.en}[Anatomie d'un fichier .Rmd]{.fr} {#anatomy}
+
+::: en
+Three ingredients: the **YAML header** between `---` (title, author, output format), **text** written in Markdown, and **chunks** of R code between ```` ```{r} ```` and ```` ``` ````. Here is the template of this session (download it above and put it in the `reports/` folder of your project):
+:::
+::: fr
+Trois ingrédients : l'**en-tête YAML** entre `---` (titre, auteur, format de sortie), le **texte** écrit en Markdown, et des **chunks** de code R entre ```` ```{r} ```` et ```` ``` ````. Voici le modèle de cette séance (téléchargez-le ci-dessus et placez-le dans le dossier `reports/` de votre projet) :
+:::
+
+`r show_file("templates/advanced/reef_report.Rmd", lines = 1:40)`
+
+::: en
+When you click **Knit**, `knitr` runs the chunks and writes their results into a Markdown file, then **pandoc** converts it to HTML, Word or PDF.
+:::
+::: fr
+Quand vous cliquez sur **Knit**, `knitr` exécute les chunks et écrit leurs résultats dans un fichier Markdown, puis **pandoc** le convertit en HTML, Word ou PDF.
+:::
+
+::: {.callout .warning}
+::: en
+**Knit runs in a new, empty R session.** Objects in your Environment pane do **not** exist for the report: everything must be created **inside** the .Rmd (import included). This is a feature: it guarantees that the report is reproducible.
+:::
+::: fr
+**Knit s'exécute dans une nouvelle session R vide.** Les objets de votre panneau Environment n'existent **pas** pour le rapport : tout doit être créé **dans** le .Rmd (import compris). C'est voulu : cela garantit que le rapport est reproductible.
+:::
+:::
+
+## [Markdown: formatting the text]{.en}[Markdown : mettre en forme le texte]{.fr} {#markdown}
+
+::: en
+| You write | You get |
+|---|---|
+| `# Title`, `## Subtitle` | headings of level 1, 2 |
+| `**bold**`, `*italic*` | **bold**, *italic* |
+| `- item` (blank line before the list!) | a bulleted list |
+| `1. item` | a numbered list |
+| `[NOAA](https://www.noaa.gov)` | a link |
+| `![Caption](photos/reef.jpg)` | an image |
+| `H~2~O`, `m^2^` | subscript, superscript: H~2~O, m^2^ |
+| `$\bar{x} \pm SE$` | an equation (LaTeX syntax) |
+| `Text^[A footnote.]` | a footnote |
+:::
+::: fr
+| Vous écrivez | Vous obtenez |
+|---|---|
+| `# Titre`, `## Sous-titre` | titres de niveau 1, 2 |
+| `**gras**`, `*italique*` | **gras**, *italique* |
+| `- élément` (ligne vide avant la liste !) | une liste à puces |
+| `1. élément` | une liste numérotée |
+| `[NOAA](https://www.noaa.gov)` | un lien |
+| `![Légende](photos/recif.jpg)` | une image |
+| `H~2~O`, `m^2^` | indice, exposant : H~2~O, m^2^ |
+| `$\bar{x} \pm ES$` | une équation (syntaxe LaTeX) |
+| `Texte^[Une note.]` | une note de bas de page |
+:::
+
+## [Chunk options]{.en}[Options des chunks]{.fr} {#chunks}
+
+::: en
+Options go inside the braces: ```` ```{r label, echo = FALSE, fig.cap = "..."} ````. The **label** (no spaces, unique) names the chunk, its figure files and its cross-reference. Set the options of the whole report once, in a `setup` chunk with `knitr::opts_chunk$set()`.
+
+| Option | Effect | Typical use |
+|---|---|---|
+| `echo = FALSE` | hides the code, shows the results | reports for managers |
+| `include = FALSE` | runs the code, shows **nothing** | setup, imports, calculations |
+| `eval = FALSE` | shows the code, does **not** run it | examples |
+| `message = FALSE`, `warning = FALSE` | hides messages / warnings | `library()` calls |
+| `results = "hide"` | hides printed results only | |
+| `fig.cap = "..."` | figure caption (needed for numbering) | every figure |
+| `fig.width`, `fig.height` (inches), `out.width = "80%"`, `dpi` | size and resolution | |
+| `cache = TRUE` | keeps results between knits | long calculations (use carefully) |
+:::
+::: fr
+Les options se placent dans les accolades : ```` ```{r label, echo = FALSE, fig.cap = "..."} ````. Le **label** (sans espaces, unique) nomme le chunk, ses fichiers de figures et sa référence croisée. Fixez les options de tout le rapport une seule fois, dans un chunk `setup` avec `knitr::opts_chunk$set()`.
+
+| Option | Effet | Usage typique |
+|---|---|---|
+| `echo = FALSE` | cache le code, montre les résultats | rapports pour les gestionnaires |
+| `include = FALSE` | exécute le code, ne montre **rien** | setup, imports, calculs |
+| `eval = FALSE` | montre le code, ne l'exécute **pas** | exemples |
+| `message = FALSE`, `warning = FALSE` | cache messages / avertissements | appels `library()` |
+| `results = "hide"` | cache seulement les résultats affichés | |
+| `fig.cap = "..."` | légende de figure (nécessaire à la numérotation) | chaque figure |
+| `fig.width`, `fig.height` (pouces), `out.width = "80%"`, `dpi` | taille et résolution | |
+| `cache = TRUE` | garde les résultats entre deux knits | calculs longs (avec prudence) |
+:::
+
+## [Numbers inside the text]{.en}[Des nombres dans le texte]{.fr} {#inline}
+
+::: en
+Write `` `r knitr::inline_expr("round(mean(x), 1)")` `` in a sentence and the value replaces it when you knit. Compute the numbers in a chunk (with `include = FALSE`), then write only the **object name** in the text: sentences stay readable.
+:::
+::: fr
+Écrivez `` `r knitr::inline_expr("round(mean(x), 1)")` `` dans une phrase et la valeur la remplace au moment du knit. Calculez les nombres dans un chunk (avec `include = FALSE`), puis n'écrivez que le **nom de l'objet** dans le texte : les phrases restent lisibles.
+:::
+
+```{r numbers}
+last_year <- max(reef$year)
+cover <- reef %>% filter(year == last_year) %>% group_by(zone) %>%
+  summarise(m = mean(hard_coral), .groups = "drop")
+nt <- round(cover$m[cover$zone == "No-take"], 1)
+fi <- round(cover$m[cover$zone == "Fishing"], 1)
+```
+
+::: en
+The source line…
+
+```
+In `r knitr::inline_expr("last_year")`, mean hard coral cover was `r knitr::inline_expr("nt")` % in No-take zones and `r knitr::inline_expr("fi")` % in Fishing zones.
+```
+
+…becomes: In `r last_year`, mean hard coral cover was `r nt` % in No-take zones and `r fi` % in Fishing zones.
+:::
+::: fr
+La ligne source…
+
+```
+En `r knitr::inline_expr("last_year")`, le corail dur moyen était de `r knitr::inline_expr("nt")` % dans les zones No-take et de `r knitr::inline_expr("fi")` % dans les zones Fishing.
+```
+
+…devient : En `r last_year`, le corail dur moyen était de `r format(nt, decimal.mark = ",")` % dans les zones No-take et de `r format(fi, decimal.mark = ",")` % dans les zones Fishing.
+:::
+
+::: {.callout .tip}
+::: en
+`format(x, big.mark = " ")` writes 12 500 instead of 12500; `format(x, decimal.mark = ",")` gives a French decimal comma; `scales::percent(0.253)` gives "25%". For p-values: `format.pval(p, digits = 2, eps = 0.001)` writes "<0.001".
+:::
+::: fr
+`format(x, big.mark = " ")` écrit 12 500 au lieu de 12500 ; `format(x, decimal.mark = ",")` donne une virgule décimale ; `scales::percent(0.253)` donne « 25% ». Pour les p-values : `format.pval(p, digits = 2, eps = 0.001)` écrit « <0.001 ».
+:::
+:::
+
+## [Tables]{.en}[Tableaux]{.fr} {#tables}
+
+::: en
+Never print a raw data frame in a report: use `knitr::kable()` (HTML, Word, PDF) — or `flextable` when you need a fully formatted Word table (merged cells, colours, fonts).
+:::
+::: fr
+N'affichez jamais un data frame brut dans un rapport : utilisez `knitr::kable()` (HTML, Word, PDF) — ou `flextable` quand il vous faut un tableau Word entièrement mis en forme (cellules fusionnées, couleurs, polices).
+:::
+
+```{r cover-table}
+tab <- reef %>% filter(year == last_year) %>%
+  group_by(mpa, zone) %>%
+  summarise(transects = n(), mean = mean(hard_coral), sd = sd(hard_coral), .groups = "drop")
+knitr::kable(tab, digits = 1,
+             col.names = c("MPA", "Zone", "Transects", "Mean (%)", "SD"),
+             caption = paste("Hard coral cover per MPA and zone,", last_year))
+```
+
+```{r flextable, eval=FALSE}
+library(flextable)
+flextable(tab) |>
+  colformat_double(digits = 1) |>
+  set_header_labels(mpa = "MPA", zone = "Zone", transects = "Transects", mean = "Mean (%)", sd = "SD") |>
+  merge_v(j = "mpa") |>            # merge the repeated MPA names
+  autofit()
+```
+
+## [Figures and cross-references]{.en}[Figures et renvois]{.fr} {#figures}
+
+::: en
+Give every figure a `fig.cap`. To **number** figures and tables and refer to them in the text ("see Figure 2"), use the **bookdown** formats: `bookdown::html_document2`, `bookdown::word_document2` or `bookdown::pdf_document2`. Then write `\@ref(fig:label)` for a figure (label of its chunk) and `\@ref(tab:label)` for a table made by `kable()` with a caption. If the number of a figure changes, every reference follows.
+:::
+::: fr
+Donnez à chaque figure un `fig.cap`. Pour **numéroter** figures et tableaux et y renvoyer dans le texte (« voir Figure 2 »), utilisez les formats **bookdown** : `bookdown::html_document2`, `bookdown::word_document2` ou `bookdown::pdf_document2`. Écrivez alors `\@ref(fig:label)` pour une figure (label de son chunk) et `\@ref(tab:label)` pour un tableau fait par `kable()` avec une légende. Si le numéro d'une figure change, chaque renvoi suit.
+:::
+
+```{r trend, fig.cap = "Mean hard coral cover (± SE) per year and zone, three MPAs together."}
+se <- function(x) sd(x) / sqrt(length(x))
+trend <- reef %>% group_by(year, zone) %>%
+  summarise(m = mean(hard_coral), se = se(hard_coral), .groups = "drop")
+ggplot(trend, aes(year, m, colour = zone)) +
+  geom_line() + geom_pointrange(aes(ymin = m - se, ymax = m + se)) +
+  scale_colour_manual(values = c("No-take" = "#1b7f8c", "Fishing" = "#d9694a")) +
+  scale_x_continuous(breaks = 2019:2025) +
+  labs(x = NULL, y = "Hard coral cover (%)", colour = NULL) + theme_minimal(base_size = 12)
+```
+
+::: {.callout .try}
+::: en
+**Try it.** Look at the figure: Fishing zones seem to **jump** in 2022. Is it real? Count the transects per year and zone (`count(reef, year, zone)`). Which MPA is missing in 2022, and why does that change the mean? Write one sentence for the report that warns the reader.
+:::
+::: fr
+**À vous.** Regardez la figure : les zones Fishing semblent **sauter** en 2022. Est-ce réel ? Comptez les transects par année et par zone (`count(reef, year, zone)`). Quelle AMP manque en 2022, et pourquoi cela change-t-il la moyenne ? Écrivez une phrase du rapport qui prévienne le lecteur.
+:::
+:::
+
+## [Output formats]{.en}[Formats de sortie]{.fr} {#formats}
+
+::: en
+| Format | YAML | Notes |
+|---|---|---|
+| HTML | `html_document` (or `bookdown::html_document2`) with `toc: true`, `toc_float: true`, `number_sections: true`, `code_folding: hide` | best on screen; one self-contained file to e-mail |
+| Word | `word_document` with `reference_docx: my_styles.docx` | your institution's fonts and styles: make a Word file with the styles you want, and point to it |
+| PDF | `pdf_document` | needs LaTeX: `install.packages("tinytex"); tinytex::install_tinytex()` (once). Quarto can also use **Typst**, lighter (Session A9) |
+
+Several formats in the header? **Knit** uses the first one; the small arrow next to Knit lets you choose. From the Console:
+:::
+::: fr
+| Format | YAML | Remarques |
+|---|---|---|
+| HTML | `html_document` (ou `bookdown::html_document2`) avec `toc: true`, `toc_float: true`, `number_sections: true`, `code_folding: hide` | idéal à l'écran ; un seul fichier autonome à envoyer |
+| Word | `word_document` avec `reference_docx: mes_styles.docx` | les polices et styles de votre institution : faites un fichier Word avec les styles voulus, et indiquez-le |
+| PDF | `pdf_document` | demande LaTeX : `install.packages("tinytex"); tinytex::install_tinytex()` (une fois). Quarto peut aussi utiliser **Typst**, plus léger (séance A9) |
+
+Plusieurs formats dans l'en-tête ? **Knit** utilise le premier ; la petite flèche à côté de Knit permet de choisir. Depuis la Console :
+:::
+
+```{r, eval=FALSE}
+rmarkdown::render(here::here("reports", "reef_report.Rmd"),
+                  output_format = "bookdown::word_document2",
+                  output_dir = here::here("outputs"))
+```
+
+::: en
+**Long reports:** split them into several files and assemble them with child documents: ```` ```{r, child = "methods.Rmd"} ```` ```` ``` ````.
+:::
+::: fr
+**Rapports longs :** découpez-les en plusieurs fichiers et assemblez-les avec des documents enfants : ```` ```{r, child = "methods.Rmd"} ```` ```` ``` ````.
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+R <- left_join(read.csv("data/advanced/reef_monitoring.csv"), read.csv("data/advanced/reef_sites.csv"), by = "site_id")
+a1 <- nrow(R)
+a2 <- round(mean(R$bleached_pct[R$year == 2024]), 1)
+a3 <- R %>% filter(year == 2025) %>% distinct(mpa, zone) %>% nrow()
+cnt <- R %>% count(year, zone)
+a4 <- cnt$n[cnt$year == 2022 & cnt$zone == "Fishing"]
+tj <- R %>% filter(year == 2025, mpa == "Tanjona", zone == "No-take")
+a5 <- round(mean(tj$hard_coral), 1)
+```
+
+::: application
+::: en
+### Application work A3
+
+1. Put `reef_report.Rmd` in `reports/` of your `reef-monitoring` project (with the two CSV files in `data/raw/`) and **knit** it in HTML, then in Word.
+2. How many transects does the report say were surveyed in total?
+3. What mean % of bleached colonies does it give for 2024 (1 decimal)?
+4. How many rows does the 2025 table (MPA × zone) have?
+5. Add a sentence warning that one MPA was not surveyed in 2022: how many Fishing transects were surveyed that year?
+6. Add a chunk with the 2025 mean hard coral cover of the **No-take zone of Tanjona** written by inline code (1 decimal).
+7. Add a figure of macroalgae cover per year, with a caption, and refer to it in the text with `\@ref(fig:...)`.
+:::
+::: fr
+### Travail d'application A3
+
+1. Placez `reef_report.Rmd` dans `reports/` de votre projet `reef-monitoring` (avec les deux fichiers CSV dans `data/raw/`) et faites un **knit** en HTML, puis en Word.
+2. Combien de transects le rapport indique-t-il au total ?
+3. Quel % moyen de colonies blanchies donne-t-il pour 2024 (1 décimale) ?
+4. Combien de lignes a le tableau 2025 (AMP × zone) ?
+5. Ajoutez une phrase signalant qu'une AMP n'a pas été suivie en 2022 : combien de transects Fishing ont été suivis cette année-là ?
+6. Ajoutez un chunk avec le corail dur moyen 2025 de la **zone No-take de Tanjona** écrit par code en ligne (1 décimale).
+7. Ajoutez une figure du recouvrement en macroalgues par an, avec une légende, et faites-y référence dans le texte avec `\@ref(fig:...)`.
+:::
+:::
+
+::: hint
+::: en
+If the knit fails with *cannot open file 'data/raw/…'*, the report looks for the data from the `reports/` folder: check that the template uses `here()` and that your project has a `.Rproj` file at its root. If `\@ref()` stays as text, the output format is not a `bookdown::…2` format or the chunk has no `fig.cap`.
+:::
+::: fr
+Si le knit échoue avec *cannot open file 'data/raw/…'*, le rapport cherche les données depuis le dossier `reports/` : vérifiez que le modèle utilise `here()` et que votre projet a un fichier `.Rproj` à sa racine. Si `\@ref()` reste en texte, le format de sortie n'est pas un format `bookdown::…2` ou le chunk n'a pas de `fig.cap`.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("a03", list(
+  q_num("2. Total number of transects in the report?", "2. Nombre total de transects dans le rapport ?", a1, tol = 0),
+  q_num("3. Mean % of bleached colonies in 2024 (1 decimal)?", "3. % moyen de colonies blanchies en 2024 (1 décimale) ?", a2, tol = 0.06),
+  q_num("4. Rows of the 2025 table?", "4. Lignes du tableau 2025 ?", a3, tol = 0),
+  q_num("5. Fishing transects surveyed in 2022?", "5. Transects Fishing suivis en 2022 ?", a4, tol = 0),
+  q_num("6. Mean hard coral, No-take zone of Tanjona, 2025 (1 decimal)?", "6. Corail dur moyen, zone No-take de Tanjona, 2025 (1 décimale) ?", a5, tol = 0.06),
+  q_mcq("7. A chunk must import the data without showing anything in the report. Option?", "7. Un chunk doit importer les données sans rien montrer dans le rapport. Option ?",
+        c("echo = FALSE", "eval = FALSE", "include = FALSE", "results = \"hide\""),
+        c("echo = FALSE", "eval = FALSE", "include = FALSE", "results = \"hide\""), correct = 3),
+  q_mcq("8. Your script works in the Console but Knit says \"object 'reef' not found\". Why?", "8. Votre script marche dans la Console mais Knit dit « object 'reef' not found ». Pourquoi ?",
+        c("Knit runs in a new empty session: reef is not created inside the .Rmd", "The data file is too large", "Knit only works with ggplot2", "reef is a reserved word"),
+        c("Knit s'exécute dans une session vide : reef n'est pas créé dans le .Rmd", "Le fichier de données est trop gros", "Knit ne marche qu'avec ggplot2", "reef est un mot réservé"), correct = 1),
+  q_mcq("9. To refer to the figure of the chunk labelled \"trend\" you write:", "9. Pour renvoyer à la figure du chunk nommé « trend » vous écrivez :",
+        c("Figure trend", "\\@ref(fig:trend)", "[trend](#fig)", "`r trend`"),
+        c("Figure trend", "\\@ref(fig:trend)", "[trend](#fig)", "`r trend`"), correct = 2),
+  q_mcq("10. Your institution wants its own fonts and heading styles in Word. You use:", "10. Votre institution veut ses polices et styles de titres dans Word. Vous utilisez :",
+        c("reference_docx in the YAML", "fig.width", "a CSS file", "cache = TRUE"),
+        c("reference_docx dans le YAML", "fig.width", "un fichier CSS", "cache = TRUE"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="a03"}
+```{r, eval=FALSE}
+# 2-4: the numbers printed by the template (n_transects, b24, table of 2025)
+# 5:
+count(reef, year, zone) %>% filter(year == 2022)       # Tanjona missing -> fewer Fishing transects
+# 6: in a chunk with include = FALSE
+tj <- reef %>% filter(year == 2025, mpa == "Tanjona", zone == "No-take")
+tj_nt <- round(mean(tj$hard_coral), 1)
+# ... and in the text:  In 2025, the No-take zone of Tanjona had `r tj_nt` % hard coral.
+# 7:
+```
+````markdown
+Figure \@ref(fig:algae) shows the mean macroalgae cover per year.
+
+`r ''````{r algae, fig.cap = "Mean macroalgae cover per year and zone."}
+reef %>% group_by(year, zone) %>% summarise(m = mean(macroalgae), .groups = "drop") %>%
+  ggplot(aes(year, m, colour = zone)) + geom_line() + geom_point() +
+  labs(x = NULL, y = "Macroalgae cover (%)") + theme_minimal()
+```
+````
+:::

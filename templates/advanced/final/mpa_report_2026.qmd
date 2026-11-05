@@ -1,0 +1,97 @@
+---
+title: "`{r} params$mpa` — monitoring report `{r} params$year`"
+author: "Your Name"
+date: today
+lang: en
+params:
+  mpa: "Tanjona"
+  year: 2026
+format:
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+  typst:
+    toc: true
+    number-sections: true
+    papersize: a4
+    citeproc: true
+bibliography: references.bib
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+library(dplyr); library(tidyr); library(ggplot2); library(sf); library(terra); library(here)
+
+reef  <- read.csv(here("data", "derived", "reef_2019_2026.csv"))          # made by R/02_clean_2026.R
+sites <- st_read(here("data", "raw", "monitoring_gis.gpkg"), "reef_sites", quiet = TRUE)
+land  <- st_read(here("data", "raw", "monitoring_gis.gpkg"), "land", quiet = TRUE)
+zones <- st_read(here("data", "raw", "monitoring_gis.gpkg"), "mpa_zones", quiet = TRUE)
+stopifnot(params$mpa %in% sites$mpa)
+
+reef <- left_join(reef, st_drop_geometry(sites)[, c("site_id", "mpa", "zone")], by = "site_id")
+mine <- filter(reef, mpa == params$mpa)
+now  <- filter(mine, year == params$year)
+m_now  <- round(mean(now$hard_coral), 1)
+m_prev <- round(mean(mine$hard_coral[mine$year == params$year - 1]), 1)
+```
+
+# Summary
+
+In `{r} params$year` the team surveyed `{r} nrow(now)` transects at
+`{r} n_distinct(now$site_id)` sites of `{r} params$mpa`. Mean hard coral cover
+was **`{r} m_now` %** (`{r} m_prev` % the year before).
+<!-- TO DO: a sentence comparing No-take and Fishing zones, with inline values -->
+
+# Methods
+
+Sites were surveyed on three 20 m Point Intercept Transects per year, following
+@hill2004.
+<!-- TO DO: one sentence on the mangrove inventory, citing @komiyama2005 -->
+
+# Results
+
+## Coral cover since 2019
+
+```{r}
+#| label: fig-trend
+#| fig-cap: "Mean hard coral cover (± SE) per year and zone."
+se <- function(x) sd(x) / sqrt(length(x))
+mine %>% group_by(year, zone) %>% summarise(m = mean(hard_coral), se = se(hard_coral), .groups = "drop") %>%
+  ggplot(aes(year, m, colour = zone)) + geom_line() +
+  geom_pointrange(aes(ymin = m - se, ymax = m + se)) +
+  scale_colour_manual(values = c("No-take" = "#1b7f8c", "Fishing" = "#d9694a"), name = NULL) +
+  labs(x = NULL, y = "Hard coral cover (%)") + theme_minimal()
+```
+
+@fig-trend shows the drop of 2024 and the recovery since.
+
+## Map
+
+```{r}
+#| label: fig-map
+#| fig-cap: "Change in hard coral cover since the year before, per site."
+#| fig-height: 6
+# TO DO: compute the change per site (pivot_wider), join it to `sites`,
+#        and draw it with geom_sf() (diverging palette, scale bar, CRS in the caption)
+ggplot() + geom_sf(data = land, fill = "#efe6d2") +
+  geom_sf(data = filter(zones, mpa == params$mpa), aes(fill = zone), alpha = 0.4) +
+  geom_sf(data = filter(sites, mpa == params$mpa)) +
+  coord_sf(xlim = st_bbox(filter(zones, mpa == params$mpa))[c(1, 3)],
+           ylim = st_bbox(filter(zones, mpa == params$mpa))[c(2, 4)]) +
+  theme_minimal()
+```
+
+## Mangroves
+
+<!-- TO DO: the table of above-ground biomass of the mangrove patch of this MPA
+     (reference / harvested / restored), with  #| label: tbl-mangrove  and a reference to it -->
+
+# References {.unnumbered}
+
+::: {#refs}
+:::

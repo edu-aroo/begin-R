@@ -334,8 +334,53 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
-<li>
-  <a href="advanced.html">Advanced</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -349,6 +394,9 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
     </li>
     <li>
       <a href="common-errors.html">Common errors</a>
@@ -373,43 +421,299 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore"><span class="en">Advanced level</span><span
-class="fr">Niveau avancé</span></h1>
-<h3 class="subtitle"><span class="en">Coming soon</span><span
-class="fr">Bientôt disponible</span></h3>
+<h1 class="title toc-ignore"><span class="en">Advanced level —
+reproducible projects, reports and maps</span><span class="fr">Niveau
+avancé — projets reproductibles, rapports et cartes</span></h1>
+<h3 class="subtitle"><span class="en">≈ 40 h · 12 sessions</span><span
+class="fr">≈ 40 h · 12 séances</span></h3>
 
 </div>
 
 
+<div id="what-this-level-is-aboutde-quoi-parle-ce-niveau"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">What this level is
+about</span><span class="fr">De quoi parle ce niveau</span></h2>
 <div class="en">
-<p>The advanced level is in preparation. It will cover:</p>
-<ul>
-<li>reproducible, professional projects (<code>renv</code>, Git, GitHub
-/ GitLab);</li>
-<li>reports with R Markdown, and automatic reports (one report per
-site);</li>
-<li>spatial data (<code>sf</code>, <code>terra</code>) and maps
-(<code>tmap</code>, <code>ggplot2</code>);</li>
-<li>Quarto: every number written by code, cross-references, table of
-contents, lists of figures and tables, references, HTML and PDF
-output;</li>
-<li>publishing on GitHub Pages / GitLab Pages.</li>
-</ul>
+<p>At the Advanced level you learn to work <strong>like a professional
+analyst</strong>: a project that anybody can re-run (folder structure,
+<code>renv</code>, Git, GitHub / GitLab), <strong>reports written by
+R</strong> (R Markdown, then Quarto) that update themselves when the
+data change, one <strong>automatic report per MPA</strong>, real
+<strong>GIS data</strong> (<code>sf</code>, <code>terra</code>) and
+<strong>maps</strong>, and finally <strong>publishing</strong> your work
+online. Every session uses the <strong>monitoring programme</strong> of
+the three MPAs of the Beginner final project (coral reefs 2019–2025,
+mangrove plots, GIS layers, bathymetry and sea temperature rasters — all
+simulated).</p>
 </div>
 <div class="fr">
-<p>Le niveau avancé est en préparation. Il abordera :</p>
-<ul>
-<li>les projets professionnels et reproductibles (<code>renv</code>,
-Git, GitHub / GitLab) ;</li>
-<li>les rapports avec R Markdown, et les rapports automatiques (un
-rapport par site) ;</li>
-<li>les données spatiales (<code>sf</code>, <code>terra</code>) et les
-cartes (<code>tmap</code>, <code>ggplot2</code>) ;</li>
-<li>Quarto : chaque chiffre écrit par le code, renvois, table des
-matières, listes des figures et tableaux, références, sortie HTML et PDF
-;</li>
-<li>la publication sur GitHub Pages / GitLab Pages.</li>
-</ul>
+<p>Au niveau avancé, vous apprenez à travailler <strong>comme un
+analyste professionnel</strong> : un projet que n’importe qui peut
+relancer (arborescence, <code>renv</code>, Git, GitHub / GitLab), des
+<strong>rapports écrits par R</strong> (R Markdown, puis Quarto) qui se
+mettent à jour quand les données changent, un <strong>rapport
+automatique par AMP</strong>, de vraies <strong>données SIG</strong>
+(<code>sf</code>, <code>terra</code>) et des <strong>cartes</strong>, et
+enfin la <strong>publication</strong> de votre travail en ligne. Chaque
+séance utilise le <strong>programme de suivi</strong> des trois AMP du
+projet final débutant (récifs coralliens 2019–2025, placettes de
+mangrove, couches SIG, rasters de bathymétrie et de température de la
+mer — tout est simulé).</p>
+</div>
+</div>
+<div id="sessionsséances" class="section level2 no-track">
+<h2 class="no-track"><span class="en">Sessions</span><span
+class="fr">Séances</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Session</th>
+<th>Content</th>
+<th>Time</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="a00-project.html">A0</a></td>
+<td>Organising a reproducible project: structure, names,
+<code>here()</code>, raw data, pipeline, README</td>
+<td>2.5 h</td>
+<td>available</td>
+</tr>
+<tr class="even">
+<td><a href="a01-renv.html">A1</a></td>
+<td>Package versions with <code>renv</code>: init, snapshot, restore,
+lockfile</td>
+<td>2 h</td>
+<td>available</td>
+</tr>
+<tr class="odd">
+<td><a href="a02-git.html">A2</a></td>
+<td>Git, GitHub and GitLab: commits, history, <code>.gitignore</code>,
+tokens and SSH, branches, conflicts</td>
+<td>3.5 h</td>
+<td>available</td>
+</tr>
+<tr class="even">
+<td><a href="a03-rmarkdown.html">A3</a></td>
+<td>Reports with R Markdown: chunks, inline values, tables, figures,
+cross-references, HTML/Word/PDF</td>
+<td>3 h</td>
+<td>available</td>
+</tr>
+<tr class="odd">
+<td><a href="a04-params.html">A4</a></td>
+<td>Parameterised and automatic reports: one report per MPA in one
+click</td>
+<td>3 h</td>
+<td>available</td>
+</tr>
+<tr class="even">
+<td><a href="a05-sf.html">A5</a></td>
+<td>Vector GIS data with <code>sf</code>: GeoPackage, projections,
+buffers, intersections, spatial joins, areas</td>
+<td>3.5 h</td>
+<td>available</td>
+</tr>
+<tr class="odd">
+<td><a href="a06-terra.html">A6</a></td>
+<td>Rasters with <code>terra</code>: bathymetry and sea temperature,
+crop, mask, extract values at sites, zonal statistics</td>
+<td>3 h</td>
+<td>available</td>
+</tr>
+<tr class="even">
+<td><a href="a07-maps.html">A7</a></td>
+<td>Thematic maps with <code>ggplot2</code> + <code>sf</code> and
+<code>tmap</code> (static and interactive), layout and export</td>
+<td>3 h</td>
+<td>available</td>
+</tr>
+<tr class="odd">
+<td><a href="a08-quarto.html">A8</a></td>
+<td>Quarto (1): from R Markdown to Quarto, inline values,
+cross-references, table of contents, lists of figures and tables,
+citations and bibliography</td>
+<td>3.5 h</td>
+<td>available</td>
+</tr>
+<tr class="even">
+<td><a href="a09-publish.html">A9</a></td>
+<td>Quarto (2): PDF with Typst or LaTeX, page layout, publishing on
+GitHub Pages / GitLab Pages</td>
+<td>3 h</td>
+<td>available</td>
+</tr>
+<tr class="odd">
+<td><a href="a10-practice.html">A10</a></td>
+<td>Practice session (6 exercises)</td>
+<td>3.5 h</td>
+<td>available</td>
+</tr>
+<tr class="even">
+<td><a href="a11-final-project.html">A11</a></td>
+<td>Final project: a reproducible, versioned and published monitoring
+report with maps</td>
+<td>5 h</td>
+<td>available</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Séance</th>
+<th>Contenu</th>
+<th>Durée</th>
+<th>État</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="a00-project.html">A0</a></td>
+<td>Organiser un projet reproductible : arborescence, noms,
+<code>here()</code>, données brutes, chaîne de scripts, README</td>
+<td>2,5 h</td>
+<td>disponible</td>
+</tr>
+<tr class="even">
+<td><a href="a01-renv.html">A1</a></td>
+<td>Versions des packages avec <code>renv</code> : init, snapshot,
+restore, fichier lock</td>
+<td>2 h</td>
+<td>disponible</td>
+</tr>
+<tr class="odd">
+<td><a href="a02-git.html">A2</a></td>
+<td>Git, GitHub et GitLab : commits, historique,
+<code>.gitignore</code>, jetons et SSH, branches, conflits</td>
+<td>3,5 h</td>
+<td>disponible</td>
+</tr>
+<tr class="even">
+<td><a href="a03-rmarkdown.html">A3</a></td>
+<td>Rapports avec R Markdown : chunks, valeurs en ligne, tableaux,
+figures, renvois, HTML/Word/PDF</td>
+<td>3 h</td>
+<td>disponible</td>
+</tr>
+<tr class="odd">
+<td><a href="a04-params.html">A4</a></td>
+<td>Rapports paramétrés et automatiques : un rapport par AMP en un
+clic</td>
+<td>3 h</td>
+<td>disponible</td>
+</tr>
+<tr class="even">
+<td><a href="a05-sf.html">A5</a></td>
+<td>Données SIG vecteur avec <code>sf</code> : GeoPackage, projections,
+zones tampons, intersections, jointures spatiales, surfaces</td>
+<td>3,5 h</td>
+<td>disponible</td>
+</tr>
+<tr class="odd">
+<td><a href="a06-terra.html">A6</a></td>
+<td>Rasters avec <code>terra</code> : bathymétrie et température de la
+mer, découper, masquer, extraire des valeurs aux sites, statistiques
+zonales</td>
+<td>3 h</td>
+<td>disponible</td>
+</tr>
+<tr class="even">
+<td><a href="a07-maps.html">A7</a></td>
+<td>Cartes thématiques avec <code>ggplot2</code> + <code>sf</code> et
+<code>tmap</code> (statiques et interactives), mise en page et
+export</td>
+<td>3 h</td>
+<td>disponible</td>
+</tr>
+<tr class="odd">
+<td><a href="a08-quarto.html">A8</a></td>
+<td>Quarto (1) : de R Markdown à Quarto, valeurs en ligne, renvois,
+table des matières, listes des figures et tableaux, citations et
+bibliographie</td>
+<td>3,5 h</td>
+<td>disponible</td>
+</tr>
+<tr class="even">
+<td><a href="a09-publish.html">A9</a></td>
+<td>Quarto (2) : PDF avec Typst ou LaTeX, mise en page, publication sur
+GitHub Pages / GitLab Pages</td>
+<td>3 h</td>
+<td>disponible</td>
+</tr>
+<tr class="odd">
+<td><a href="a10-practice.html">A10</a></td>
+<td>Séance d’exercices (6 exercices)</td>
+<td>3,5 h</td>
+<td>disponible</td>
+</tr>
+<tr class="even">
+<td><a href="a11-final-project.html">A11</a></td>
+<td>Projet final : un rapport de suivi reproductible, versionné et
+publié, avec cartes</td>
+<td>5 h</td>
+<td>disponible</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="before-you-startavant-de-commencer"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Before you start</span><span
+class="fr">Avant de commencer</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>Download the data of the level and unzip it in the
+<code>data/</code> folder of your course project (you get
+<code>data/advanced/</code>).</li>
+<li>Install the packages:
+<code>install.packages(c("rmarkdown", "bookdown", "here", "renv", "usethis", "gitcreds", "jsonlite", "flextable", "sf", "terra", "tmap"))</code>.</li>
+<li>Install <strong>Git</strong> (Session A2) and, for Sessions A8–A9,
+<strong>Quarto</strong> (<a href="https://quarto.org"
+class="uri">https://quarto.org</a>; recent versions of RStudio already
+include it).</li>
+<li>Run <code>check_setup.R</code> with
+<code>LEVEL &lt;- "advanced"</code>.</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Téléchargez les données du niveau et décompressez-les dans le
+dossier <code>data/</code> de votre projet de cours (vous obtenez
+<code>data/advanced/</code>).</li>
+<li>Installez les packages :
+<code>install.packages(c("rmarkdown", "bookdown", "here", "renv", "usethis", "gitcreds", "jsonlite", "flextable", "sf", "terra", "tmap"))</code>.</li>
+<li>Installez <strong>Git</strong> (séance A2) et, pour les séances
+A8–A9, <strong>Quarto</strong> (<a href="https://quarto.org"
+class="uri">https://quarto.org</a> ; les versions récentes de RStudio
+l’incluent déjà).</li>
+<li>Lancez <code>check_setup.R</code> avec
+<code>LEVEL &lt;- "advanced"</code>.</li>
+</ol>
+</div>
+<p><a class="btn-dl" href="data/r_course_data_advanced.zip" download>⇩
+r_course_data_advanced.zip</a>
+<a class="btn-dl" href="templates/check_setup.R" download>⇩
+check_setup.R</a></p>
 </div>
 
 

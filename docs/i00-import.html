@@ -435,8 +435,53 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
-<li>
-  <a href="advanced.html">Advanced</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -450,6 +495,9 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
     </li>
     <li>
       <a href="common-errors.html">Common errors</a>
@@ -803,7 +851,7 @@ types, valeurs manquantes, étendues, catégories.</p>
 #&gt;  $ line_id          : chr [1:2575] &quot;L0001&quot; &quot;L0002&quot; &quot;L0003&quot; &quot;L0004&quot; ...
 #&gt;  $ farmer_id        : chr [1:2575] &quot;F013&quot; &quot;F013&quot; &quot;F013&quot; &quot;F013&quot; ...
 #&gt;  $ cycle            : num [1:2575] 1 1 1 1 1 1 1 1 1 1 ...
-#&gt;  $ planting_date    : POSIXct[1:2575], format: &quot;2024-01-08&quot; &quot;2024-01-08&quot; &quot;2024-01-08&quot; &quot;2024-01-08&quot; ...
+#&gt;  $ planting_date    : POSIXct[1:2575], format: &quot;2024-01-08&quot; &quot;2024-01-08&quot; &quot;2024-01-08&quot; ...
 #&gt;  $ harvest_date     : chr [1:2575] &quot;22/02/2024&quot; &quot;20/02/2024&quot; &quot;26/02/2024&quot; &quot;18/02/2024&quot; ...
 #&gt;  $ line_length_m    : num [1:2575] 15 15 15 15 20 20 20 20 20 20 ...
 #&gt;  $ initial_weight_kg: num [1:2575] 8.4 10.2 8.2 10.2 11.2 10.4 12.5 13.5 10.2 8.2 ...

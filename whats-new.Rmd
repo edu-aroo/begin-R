@@ -6,6 +6,37 @@ pagetitle: "R for marine sciences · What's new"
 <!-- Add a section at the TOP each time you publish a new version, and change
      "version" and "versionDate" in assets/config.js -->
 
+## v4.0 — 2026-11 {.no-track}
+
+::: en
+- **The Advanced level is complete**: A8 (Quarto: cross-references, citations, table of contents), A9 (PDF with Typst or LaTeX, page layout, publishing on GitHub / GitLab Pages), A10 (practice session) and A11 (final project: the 2026 monitoring reports, reproducible and published). An Advanced cheatsheet and three slide decks.
+- Passing the Advanced level (75 %) now gives a certificate.
+:::
+::: fr
+- **Le niveau avancé est complet** : A8 (Quarto : renvois, citations, table des matières), A9 (PDF avec Typst ou LaTeX, mise en page, publication sur GitHub / GitLab Pages), A10 (séance d'exercices) et A11 (projet final : les rapports de suivi 2026, reproductibles et publiés). Un aide-mémoire avancé et trois jeux de diapositives.
+- Valider le niveau avancé (75 %) donne maintenant un certificat.
+:::
+
+## v3.3 — 2026-11 {.no-track}
+
+::: en
+- Advanced level: new Sessions **A5** (vector GIS with sf), **A6** (rasters with terra) and **A7** (thematic maps with ggplot2, sf and tmap).
+:::
+::: fr
+- Niveau avancé : nouvelles séances **A5** (SIG vecteur avec sf), **A6** (rasters avec terra) et **A7** (cartes thématiques avec ggplot2, sf et tmap).
+:::
+
+## v3.2 — 2026-11 {.no-track}
+
+::: en
+- **Advanced level opened**: Sessions A0 (reproducible project), A1 (renv), A2 (Git, GitHub and GitLab), A3 (R Markdown reports) and A4 (automatic reports). Sessions A5–A11 (GIS, maps, Quarto, publishing, practice, final project) are in preparation.
+- The teacher can **exempt** you from sessions you already know: they stay open for revision and do not count in your level score.
+:::
+::: fr
+- **Niveau avancé ouvert** : séances A0 (projet reproductible), A1 (renv), A2 (Git, GitHub et GitLab), A3 (rapports R Markdown) et A4 (rapports automatiques). Les séances A5–A11 (SIG, cartes, Quarto, publication, exercices, projet final) sont en préparation.
+- L'enseignante peut vous **dispenser** de séances que vous connaissez déjà : elles restent ouvertes pour révision et ne comptent pas dans votre score du niveau.
+:::
+
 ## v3.1 — 2026-11 {.no-track}
 
 ::: en

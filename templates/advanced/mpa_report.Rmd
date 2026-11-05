@@ -1,0 +1,45 @@
+---
+title: "`r paste('Monitoring report —', params$mpa)`"
+author: "MPA monitoring team"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+params:
+  mpa: "Ankaramena"
+  year: 2025
+output:
+  html_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4)
+library(dplyr); library(ggplot2); library(here)
+reef  <- read.csv(here("data", "raw", "reef_monitoring.csv"))
+sites <- read.csv(here("data", "raw", "reef_sites.csv"))
+reef  <- left_join(reef, sites, by = "site_id")
+
+# keep ONLY the MPA asked for in params
+mine <- filter(reef, mpa == params$mpa)
+now  <- filter(mine, year == params$year)
+before <- filter(mine, year == params$year - 1)
+m_now <- round(mean(now$hard_coral), 1)
+m_before <- round(mean(before$hard_coral), 1)
+```
+
+# `r params$mpa` in `r params$year`
+
+The team surveyed **`r length(unique(now$site_id))` sites** and **`r nrow(now)` transects**.
+Mean hard coral cover was **`r m_now` %**
+(`r if (nrow(before) > 0) paste0(m_before, " % in ", params$year - 1) else "no survey the year before"`).
+
+```{r fig, fig.cap = paste("Hard coral cover per site in", params$mpa, ",", params$year)}
+ggplot(now, aes(reorder(site_id, hard_coral), hard_coral, fill = zone)) +
+  geom_boxplot() + coord_flip() +
+  scale_fill_manual(values = c("No-take" = "#1b7f8c", "Fishing" = "#d9694a")) +
+  labs(x = "Site", y = "Hard coral cover (%)", fill = NULL) + theme_minimal()
+```
+
+```{r table}
+now %>% group_by(zone) %>%
+  summarise(transects = n(), mean = round(mean(hard_coral), 1), bleached = round(mean(bleached_pct), 1)) %>%
+  knitr::kable(caption = "Mean cover and bleaching per zone (%)")
+```

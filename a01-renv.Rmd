@@ -1,0 +1,256 @@
+---
+title: "[A1 · Package versions with renv]{.en}[A1 · Versions des packages avec renv]{.fr}"
+pagetitle: "R for marine sciences · A1"
+subtitle: "~2 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- explain why the **version** of a package can change your results;
+- give a project its **own library** of packages with `renv::init()`;
+- record the versions in `renv.lock` with `renv::snapshot()`, and reinstall them with `renv::restore()`;
+- read a lockfile and know which renv files to share (and which not);
+- know the limits of renv (R version, system libraries).
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- expliquer pourquoi la **version** d'un package peut changer vos résultats ;
+- donner à un projet sa **propre bibliothèque** de packages avec `renv::init()` ;
+- enregistrer les versions dans `renv.lock` avec `renv::snapshot()`, et les réinstaller avec `renv::restore()` ;
+- lire un fichier lock et savoir quels fichiers renv partager (et lesquels non) ;
+- connaître les limites de renv (version de R, bibliothèques système).
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Data of this session (simulated).** We continue with the `reef-monitoring` project of Session A0 (coral transects 2019–2025 of the three MPAs). The file `renv_example.lock` is the lockfile that the NGO's analyst sent with her project: a text file (JSON format) that lists the R version and the exact version of every package she used. *Type:* a structured text file, read with `jsonlite`.
+:::
+::: fr
+**Données de cette séance (simulées).** Nous continuons avec le projet `reef-monitoring` de la séance A0 (transects coralliens 2019–2025 des trois AMP). Le fichier `renv_example.lock` est le fichier lock que l'analyste de l'ONG a envoyé avec son projet : un fichier texte (format JSON) qui liste la version de R et la version exacte de chaque package utilisé. *Type :* un fichier texte structuré, lu avec `jsonlite`.
+:::
+:::
+
+`r dl("renv_example.lock", "renv_example.lock", dir = "data/advanced")`
+
+## [The problem: packages change]{.en}[Le problème : les packages changent]{.fr} {#problem}
+
+::: en
+Packages are updated several times a year. Usually it is harmless, but sometimes a default changes, an argument is renamed or a function disappears. Real examples you may meet: in `dplyr` 1.1.0, `summarise()` started warning when it returns several rows per group (`reframe()` was added for that); in `ggplot2` 3.4.0, `size` for lines was replaced by `linewidth`; the spatial packages `rgdal`, `rgeos` and `maptools` were retired from CRAN in 2023 — old scripts using them no longer run.
+
+All your installed packages live in **one library** shared by all your projects. If you update `ggplot2` for a new project, an old project may break. **renv** gives each project its **own library** and a record of the exact versions.
+:::
+::: fr
+Les packages sont mis à jour plusieurs fois par an. En général c'est sans conséquence, mais parfois une valeur par défaut change, un argument est renommé ou une fonction disparaît. Exemples réels que vous pourriez rencontrer : avec `dplyr` 1.1.0, `summarise()` a commencé à avertir quand il renvoie plusieurs lignes par groupe (`reframe()` a été ajouté pour cela) ; avec `ggplot2` 3.4.0, `size` pour les lignes a été remplacé par `linewidth` ; les packages spatiaux `rgdal`, `rgeos` et `maptools` ont été retirés du CRAN en 2023 — les anciens scripts qui les utilisent ne marchent plus.
+
+Tous vos packages installés vivent dans **une seule bibliothèque** partagée par tous vos projets. Si vous mettez à jour `ggplot2` pour un nouveau projet, un ancien projet peut casser. **renv** donne à chaque projet sa **propre bibliothèque** et un relevé des versions exactes.
+:::
+
+```{r}
+packageVersion("ggplot2")          # the version installed on THIS computer
+.libPaths()[1]                     # where your packages are installed (renv changes this)
+```
+
+## [The renv workflow]{.en}[Le déroulé renv]{.fr} {#workflow}
+
+::: en
+| Step | Function | What it does |
+|---|---|---|
+| 1. Start | `renv::init()` | creates a private library for the project, installs in it the packages your scripts use, writes `renv.lock` |
+| 2. Work | `install.packages("x")` | installs **in the project library** (not in the others) |
+| 3. Record | `renv::snapshot()` | writes the current versions in `renv.lock` |
+| 4. Check | `renv::status()` | says if the library and the lockfile disagree |
+| 5. Share / reinstall | `renv::restore()` | installs exactly the versions of `renv.lock` (on a new computer, or after a problem) |
+| Update | `renv::update()` then test, then `snapshot()` | upgrades on purpose, not by accident |
+:::
+::: fr
+| Étape | Fonction | Ce qu'elle fait |
+|---|---|---|
+| 1. Démarrer | `renv::init()` | crée une bibliothèque privée pour le projet, y installe les packages utilisés par vos scripts, écrit `renv.lock` |
+| 2. Travailler | `install.packages("x")` | installe **dans la bibliothèque du projet** (pas dans les autres) |
+| 3. Enregistrer | `renv::snapshot()` | écrit les versions actuelles dans `renv.lock` |
+| 4. Vérifier | `renv::status()` | indique si la bibliothèque et le fichier lock divergent |
+| 5. Partager / réinstaller | `renv::restore()` | installe exactement les versions de `renv.lock` (sur un nouvel ordinateur, ou après un problème) |
+| Mettre à jour | `renv::update()` puis tester, puis `snapshot()` | mettre à jour volontairement, pas par accident |
+:::
+
+```{r, eval=FALSE}
+install.packages("renv")      # once per computer
+renv::init()                  # once per project, in the project (RStudio restarts R)
+# ... you work, and install a new package:
+install.packages("sf")
+renv::snapshot()              # record it: renv.lock now contains sf and its version
+renv::status()                # "No issues found -- the project is in a consistent state."
+```
+
+::: en
+`renv::init()` scans your scripts for `library()` and `pkg::` calls to know which packages the project needs. It does not download everything again: renv keeps a **global cache**, so a package version already on your computer is simply linked, not re-installed.
+:::
+::: fr
+`renv::init()` analyse vos scripts à la recherche de `library()` et de `pkg::` pour savoir de quels packages le projet a besoin. Il ne retélécharge pas tout : renv garde un **cache global**, si bien qu'une version de package déjà présente sur votre ordinateur est simplement liée, pas réinstallée.
+:::
+
+## [What renv adds to your project]{.en}[Ce que renv ajoute à votre projet]{.fr} {#files}
+
+```
+reef-monitoring/
+├── .Rprofile              <- runs renv/activate.R when the project opens   -> SHARE
+├── renv.lock              <- R version + version of every package          -> SHARE
+└── renv/
+    ├── activate.R         <- small script that switches on the project library -> SHARE
+    ├── settings.json      <- renv settings                                  -> SHARE
+    ├── .gitignore         <- written by renv: already excludes library/
+    └── library/           <- the installed packages (large, computer-specific) -> DO NOT SHARE
+```
+
+::: {.callout .warning}
+::: en
+Never send or commit `renv/library/`: it is big and compiled for **your** operating system. Your colleague runs `renv::restore()` instead, which rebuilds it from `renv.lock`.
+:::
+::: fr
+N'envoyez et ne versionnez jamais `renv/library/` : c'est volumineux et compilé pour **votre** système d'exploitation. Votre collègue lance plutôt `renv::restore()`, qui la reconstruit à partir de `renv.lock`.
+:::
+:::
+
+## [Reading a lockfile]{.en}[Lire un fichier lock]{.fr} {#lockfile}
+
+::: en
+`renv.lock` is a text file in **JSON** format: nested `{ }` lists of names and values, which `jsonlite` turns into R lists.
+:::
+::: fr
+`renv.lock` est un fichier texte au format **JSON** : des listes imbriquées `{ }` de noms et de valeurs, que `jsonlite` transforme en listes R.
+:::
+
+`r show_file("data/advanced/renv_example.lock", "json", lines = 1:24)`
+
+```{r}
+lock <- jsonlite::read_json("data/advanced/renv_example.lock")
+names(lock)                              # two parts: R and Packages
+lock$R$Version                           # R version used by the analyst
+pk <- lock$Packages
+length(pk)                               # number of packages recorded
+pk$dplyr$Version
+# one row per package, with sapply() (Intermediate, Session I5)
+versions <- data.frame(package = names(pk), version = sapply(pk, function(p) p$Version))
+head(versions, 4)
+```
+
+::: en
+To compare with **your** computer, use `packageVersion()` — or simply `renv::restore()` and let renv do the work.
+:::
+::: fr
+Pour comparer avec **votre** ordinateur, utilisez `packageVersion()` — ou simplement `renv::restore()` et laissez renv faire le travail.
+:::
+
+```{r}
+mine <- sapply(c("dplyr", "ggplot2", "knitr"), function(p) as.character(packageVersion(p)))
+data.frame(package = names(mine), lockfile = versions[names(mine), "version"], this_computer = mine)
+```
+
+::: {.callout .try}
+::: en
+**Try it.** Read the lockfile and list the packages whose version on your computer is **different** from the lockfile (careful: some may not be installed — `requireNamespace(p, quietly = TRUE)` tells you).
+:::
+::: fr
+**À vous.** Lisez le fichier lock et listez les packages dont la version sur votre ordinateur est **différente** de celle du fichier lock (attention : certains peuvent ne pas être installés — `requireNamespace(p, quietly = TRUE)` vous le dit).
+:::
+:::
+
+## [Limits, and what to do]{.en}[Limites, et que faire]{.fr} {#limits}
+
+::: en
+- renv records the **R version** but does not install it. Note it in the README; on Windows the tool **rig** helps to install several R versions side by side.
+- Some packages need **system libraries** (GDAL, GEOS, PROJ for `sf` and `terra`). On Windows and Mac they come with the CRAN binaries; on Linux they must be installed separately.
+- `renv::restore()` needs **internet** the first time, and old versions may have to be **compiled** (Windows: Rtools, which you installed in Session 0).
+- For complete freezing (operating system included), professionals use **Docker** — beyond this course.
+
+**Good habit:** `renv::snapshot()` after each new package, then commit `renv.lock` with Git (Session A2) so that the lockfile and the code always go together.
+:::
+::: fr
+- renv enregistre la **version de R** mais ne l'installe pas. Notez-la dans le README ; sous Windows, l'outil **rig** aide à installer plusieurs versions de R côte à côte.
+- Certains packages ont besoin de **bibliothèques système** (GDAL, GEOS, PROJ pour `sf` et `terra`). Sous Windows et Mac, elles viennent avec les binaires du CRAN ; sous Linux, il faut les installer à part.
+- `renv::restore()` a besoin d'**internet** la première fois, et les anciennes versions peuvent devoir être **compilées** (Windows : Rtools, installé à la séance 0).
+- Pour un gel complet (système d'exploitation compris), les professionnels utilisent **Docker** — au-delà de ce cours.
+
+**Bonne habitude :** `renv::snapshot()` après chaque nouveau package, puis versionner `renv.lock` avec Git (séance A2) pour que le fichier lock et le code aillent toujours ensemble.
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+L <- jsonlite::read_json("data/advanced/renv_example.lock")
+a1 <- length(L$Packages)
+a2 <- L$R$Version
+a3 <- L$Packages$ggplot2$Version
+a4 <- sum(sapply(L$Packages, function(p) startsWith(p$Package, "r")))
+```
+
+::: application
+::: en
+### Application work A1
+
+1. In your `reef-monitoring` project (Session A0), run `renv::init()`. Look at the new files.
+2. Install `here` if it is not yet in the project library, then `renv::status()` and `renv::snapshot()`. Open `renv.lock` in RStudio: is `here` there?
+3. Read `renv_example.lock` with `jsonlite::read_json()`. How many packages does it list? Which R version? Which `ggplot2` version?
+4. How many package names in that lockfile **start with the letter "r"** (`startsWith()`)?
+5. Copy your project to another folder (without `renv/library/`), open it and run `renv::restore()`. What happens?
+:::
+::: fr
+### Travail d'application A1
+
+1. Dans votre projet `reef-monitoring` (séance A0), lancez `renv::init()`. Regardez les nouveaux fichiers.
+2. Installez `here` s'il n'est pas encore dans la bibliothèque du projet, puis `renv::status()` et `renv::snapshot()`. Ouvrez `renv.lock` dans RStudio : `here` y est-il ?
+3. Lisez `renv_example.lock` avec `jsonlite::read_json()`. Combien de packages liste-t-il ? Quelle version de R ? Quelle version de `ggplot2` ?
+4. Combien de noms de packages de ce fichier lock **commencent par la lettre « r »** (`startsWith()`) ?
+5. Copiez votre projet dans un autre dossier (sans `renv/library/`), ouvrez-le et lancez `renv::restore()`. Que se passe-t-il ?
+:::
+:::
+
+::: hint
+::: en
+`lock$Packages` is a **list**: `length()` counts its elements and `names()` gives the package names. `sum(startsWith(names(lock$Packages), "r"))` counts the names starting with "r".
+:::
+::: fr
+`lock$Packages` est une **liste** : `length()` compte ses éléments et `names()` donne les noms des packages. `sum(startsWith(names(lock$Packages), "r"))` compte les noms commençant par « r ».
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("a01", list(
+  q_num("1. How many packages are listed in renv_example.lock?", "1. Combien de packages sont listés dans renv_example.lock ?", a1, tol = 0),
+  q_text("2. Which R version is recorded (e.g. 4.3.2)?", "2. Quelle version de R est enregistrée (ex. 4.3.2) ?", a2),
+  q_text("3. Which ggplot2 version is recorded?", "3. Quelle version de ggplot2 est enregistrée ?", a3),
+  q_num("4. How many package names start with \"r\"?", "4. Combien de noms de packages commencent par « r » ?", a4, tol = 0),
+  q_mcq("5. Which file must NOT be shared or committed?", "5. Quel fichier ne faut-il PAS partager ni versionner ?",
+        c("renv.lock", ".Rprofile", "renv/activate.R", "renv/library/"),
+        c("renv.lock", ".Rprofile", "renv/activate.R", "renv/library/"), correct = 4),
+  q_mcq("6. A colleague receives your project with renv.lock. What does she run first?", "6. Une collègue reçoit votre projet avec renv.lock. Que lance-t-elle d'abord ?",
+        c("renv::snapshot()", "renv::restore()", "install.packages(\"tidyverse\")", "renv::init()"),
+        c("renv::snapshot()", "renv::restore()", "install.packages(\"tidyverse\")", "renv::init()"), correct = 2),
+  q_mcq("7. You installed a new package in the project. To record it you run:", "7. Vous avez installé un nouveau package dans le projet. Pour l'enregistrer vous lancez :",
+        c("renv::snapshot()", "renv::restore()", "renv::status() only", "nothing: it is automatic"),
+        c("renv::snapshot()", "renv::restore()", "renv::status() seulement", "rien : c'est automatique"), correct = 1),
+  q_mcq("8. Which of these does renv NOT install for you?", "8. Lequel de ces éléments renv n'installe-t-il PAS pour vous ?",
+        c("The package versions of renv.lock", "The R version itself", "Dependencies of your packages", "Packages from CRAN"),
+        c("Les versions des packages de renv.lock", "La version de R elle-même", "Les dépendances de vos packages", "Les packages du CRAN"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="a01"}
+```{r, eval=FALSE}
+renv::init()                       # 1: creates .Rprofile, renv.lock, renv/
+install.packages("here")           # 2
+renv::status(); renv::snapshot()
+lock <- jsonlite::read_json("data/advanced/renv_example.lock")
+length(lock$Packages)              # 3
+lock$R$Version
+lock$Packages$ggplot2$Version
+sum(startsWith(names(lock$Packages), "r"))   # 4: readxl, renv, rlang, rmarkdown
+# 5: renv::restore() reinstalls (or links from the cache) every version of renv.lock
+```
+:::

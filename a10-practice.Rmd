@@ -1,0 +1,325 @@
+---
+title: "[A10 · Practice session]{.en}[A10 · Séance d'exercices]{.fr}"
+pagetitle: "R for marine sciences · A10"
+subtitle: "~3.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/answers_a10.R")     # expected answers (hidden)
+```
+
+::: objectives
+::: en
+#### What this session is for
+No new concepts: six independent exercises to **practise** Sessions A0 to A9 before the final project. Each exercise has its own quiz (**two attempts**, the best one counts) and its own solution. The final project opens when the six exercises together reach 75 % of their points.
+
+- Work in your `reef-monitoring` project: one script `R/10_practice.R`, one section per exercise.
+- All files come from the Advanced data zip (`data/advanced/`): copy what you need into `data/raw/`.
+- Hints are free.
+:::
+::: fr
+#### À quoi sert cette séance
+Pas de nouvelle notion : six exercices indépendants pour **pratiquer** les séances A0 à A9 avant le projet final. Chaque exercice a son propre quiz (**deux tentatives**, la meilleure compte) et sa propre solution. Le projet final s'ouvre quand les six exercices réunis atteignent 75 % de leurs points.
+
+- Travaillez dans votre projet `reef-monitoring` : un script `R/10_practice.R`, une section par exercice.
+- Tous les fichiers viennent du zip des données avancées (`data/advanced/`) : copiez ce dont vous avez besoin dans `data/raw/`.
+- Les indices sont gratuits.
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Data (simulated).** The monitoring programme of the three MPAs, described in Session A0: coral transects 2019–2025, the mangrove inventory 2025, the GIS layers, the bathymetry and sea temperature rasters, the NGO project with its Git history and the example lockfile.
+:::
+::: fr
+**Données (simulées).** Le programme de suivi des trois AMP, décrit à la séance A0 : transects coralliens 2019–2025, inventaire des mangroves 2025, couches SIG, rasters de bathymétrie et de température de la mer, projet de l'ONG avec son historique Git et le fichier lock d'exemple.
+:::
+:::
+
+`r dl("r_course_data_advanced.zip", "r_course_data_advanced.zip")`
+
+## [Exercise 1 — Project, renv and Git]{.en}[Exercice 1 — Projet, renv et Git]{.fr} {#ex1}
+
+::: en
+*Sessions A0–A2.* Unzip `reef_project_git.zip`.
+
+1. How many commits were made by **Fara Rasoa**?
+2. Which file was changed by commit `e0ed893`?
+3. Which version of `sf` is recorded in `renv_example.lock`?
+4. Answer the questions on project organisation.
+:::
+::: fr
+*Séances A0–A2.* Décompressez `reef_project_git.zip`.
+
+1. Combien de commits ont été faits par **Fara Rasoa** ?
+2. Quel fichier a été modifié par le commit `e0ed893` ?
+3. Quelle version de `sf` est enregistrée dans `renv_example.lock` ?
+4. Répondez aux questions sur l'organisation d'un projet.
+:::
+
+::: hint
+::: en
+`git log --format="%an"` lists the author of each commit; `git show --name-only e0ed893` lists the files of a commit.
+:::
+::: fr
+`git log --format="%an"` liste l'auteur de chaque commit ; `git show --name-only e0ed893` liste les fichiers d'un commit.
+:::
+:::
+
+```{r q1, echo=FALSE}
+quiz("ap1", list(
+  q_num("1. Commits by Fara Rasoa?", "1. Commits de Fara Rasoa ?", ap1a, tol = 0),
+  q_text("2. File changed by e0ed893 (with its folder, e.g. R/01_import.R)?", "2. Fichier modifié par e0ed893 (avec son dossier, ex. R/01_import.R) ?", ap1b),
+  q_text("3. Version of sf in the lockfile?", "3. Version de sf dans le fichier lock ?", ap1c),
+  q_mcq("4a. Where do the files that your scripts create go?", "4a. Où vont les fichiers créés par vos scripts ?",
+        c("data/raw/", "data/derived/ and outputs/", "the project root", "the Desktop"),
+        c("data/raw/", "data/derived/ et outputs/", "la racine du projet", "le Bureau"), correct = 2),
+  q_mcq("4b. A colleague clones your repository. Which two commands give her your exact environment and results?", "4b. Une collègue clone votre dépôt. Quelles deux commandes lui donnent votre environnement et vos résultats exacts ?",
+        c("renv::snapshot() then source(\"R/00_run_all.R\")", "renv::restore() then source(\"R/00_run_all.R\")", "install.packages() then setwd()", "git push then renv::init()"),
+        c("renv::snapshot() puis source(\"R/00_run_all.R\")", "renv::restore() puis source(\"R/00_run_all.R\")", "install.packages() puis setwd()", "git push puis renv::init()"), correct = 2)
+), title_en = "Exercise 1", title_fr = "Exercice 1")
+```
+
+::: {.solution data-quiz="ap1"}
+```bash
+cd reef-monitoring
+git log --format="%an" | sort | uniq -c        # 1: Fara Rasoa 4, Hery Nirina 2
+git show --name-only --format="" e0ed893       # 2: R/04_figures.R
+```
+```{r, eval=FALSE}
+jsonlite::read_json("data/raw/renv_example.lock")$Packages$sf$Version   # 3
+```
+:::
+
+## [Exercise 2 — Report numbers and parameters]{.en}[Exercice 2 — Chiffres de rapport et paramètres]{.fr} {#ex2}
+
+::: en
+*Sessions A3–A4.* Write a function `mpa_summary(reef, mpa, year)` that returns the number of transects, the mean hard coral and the mean macroalgae of one MPA in one year — the heart of a parameterised report.
+
+1. Mean **macroalgae** cover of **Tanjona** in **2021** (1 decimal)?
+2. Number of transects of the **No-take** zone of **Ankaramena** in **2020**?
+3. A report is made for each MPA and each year **with data**. How many reports for 2019–2025 (remember 2022 at Tanjona)?
+4. Answer the questions on R Markdown.
+:::
+::: fr
+*Séances A3–A4.* Écrivez une fonction `mpa_summary(reef, mpa, year)` qui renvoie le nombre de transects, le corail dur moyen et les macroalgues moyennes d'une AMP pour une année — le cœur d'un rapport paramétré.
+
+1. Recouvrement moyen en **macroalgues** de **Tanjona** en **2021** (1 décimale) ?
+2. Nombre de transects de la zone **No-take** d'**Ankaramena** en **2020** ?
+3. Un rapport est fait pour chaque AMP et chaque année **avec des données**. Combien de rapports pour 2019–2025 (pensez à 2022 à Tanjona) ?
+4. Répondez aux questions sur R Markdown.
+:::
+
+```{r q2, echo=FALSE}
+quiz("ap2", list(
+  q_num("1. Mean macroalgae, Tanjona 2021 (1 decimal)?", "1. Macroalgues moyennes, Tanjona 2021 (1 décimale) ?", ap2a, tol = 0.06),
+  q_num("2. Transects, Ankaramena No-take 2020?", "2. Transects, Ankaramena No-take 2020 ?", ap2b, tol = 0),
+  q_num("3. Number of (MPA, year) reports with data?", "3. Nombre de rapports (AMP, année) avec données ?", ap2c, tol = 0),
+  q_mcq("4a. In a parameterised report, the year chosen when rendering is:", "4a. Dans un rapport paramétré, l'année choisie à la production est :",
+        c("year", "params$year", "input$year", "Sys.Date()"),
+        c("year", "params$year", "input$year", "Sys.Date()"), correct = 2),
+  q_mcq("4b. Which chunk option runs the code but shows nothing?", "4b. Quelle option de chunk exécute le code sans rien montrer ?",
+        c("include: false", "eval: false", "echo: false", "output: asis"),
+        c("include: false", "eval: false", "echo: false", "output: asis"), correct = 1)
+), title_en = "Exercise 2", title_fr = "Exercice 2")
+```
+
+::: {.solution data-quiz="ap2"}
+```{r, eval=FALSE}
+library(dplyr)
+reef <- left_join(read.csv("data/raw/reef_monitoring.csv"), read.csv("data/raw/reef_sites.csv"), by = "site_id")
+mpa_summary <- function(reef, mpa, year) {
+  d <- reef[reef$mpa == mpa & reef$year == year, ]
+  data.frame(mpa = mpa, year = year, transects = nrow(d),
+             hard_coral = mean(d$hard_coral), macroalgae = mean(d$macroalgae))
+}
+mpa_summary(reef, "Tanjona", 2021)                                       # 1
+sum(reef$mpa == "Ankaramena" & reef$zone == "No-take" & reef$year == 2020)  # 2
+nrow(distinct(reef, mpa, year))                                          # 3: 7 + 7 + 6
+```
+:::
+
+## [Exercise 3 — Vector GIS]{.en}[Exercice 3 — SIG vecteur]{.fr} {#ex3}
+
+::: en
+*Session A5.* Layers `mpa_zones` and `mangrove_plots` of `monitoring_gis.gpkg`.
+
+1. Total area of the **Fishing** zones of **Nosy Fasika** (km², 1 decimal)?
+2. How many mangrove plots are **less than 5 km** from a No-take zone?
+3. Dissolve the zones into three MPAs. For how many mangrove plots is **Tanjona** the nearest MPA (`st_nearest_feature()`)?
+:::
+::: fr
+*Séance A5.* Couches `mpa_zones` et `mangrove_plots` de `monitoring_gis.gpkg`.
+
+1. Surface totale des zones **Fishing** de **Nosy Fasika** (km², 1 décimale) ?
+2. Combien de placettes de mangrove sont à **moins de 5 km** d'une zone No-take ?
+3. Fusionnez les zones en trois AMP. Pour combien de placettes **Tanjona** est-elle l'AMP la plus proche (`st_nearest_feature()`) ?
+:::
+
+::: hint
+::: en
+Both layers are already in UTM (metres). `st_nearest_feature(plots, mpas)` returns, for each plot, the **row number** of the nearest MPA: use it to read `mpas$mpa[...]`.
+:::
+::: fr
+Les deux couches sont déjà en UTM (mètres). `st_nearest_feature(placettes, amp)` renvoie, pour chaque placette, le **numéro de ligne** de l'AMP la plus proche : utilisez-le pour lire `amp$mpa[...]`.
+:::
+:::
+
+```{r q3, echo=FALSE}
+quiz("ap3", list(
+  q_num("1. Area of the Fishing zones of Nosy Fasika (km², 1 decimal)?", "1. Surface des zones Fishing de Nosy Fasika (km², 1 décimale) ?", ap3a, tol = 0.11),
+  q_num("2. Mangrove plots less than 5 km from a No-take zone?", "2. Placettes de mangrove à moins de 5 km d'une zone No-take ?", ap3b, tol = 0),
+  q_num("3. Plots whose nearest MPA is Tanjona?", "3. Placettes dont l'AMP la plus proche est Tanjona ?", ap3c, tol = 0)
+), title_en = "Exercise 3", title_fr = "Exercice 3")
+```
+
+::: {.solution data-quiz="ap3"}
+```{r, eval=FALSE}
+library(sf); library(dplyr)
+zones <- st_read("data/raw/monitoring_gis.gpkg", "mpa_zones")
+plots <- st_read("data/raw/monitoring_gis.gpkg", "mangrove_plots")
+nf <- filter(zones, mpa == "Nosy Fasika", zone == "Fishing")
+sum(as.numeric(st_area(nf))) / 1e6                                       # 1
+nt <- st_union(filter(zones, zone == "No-take"))
+sum(as.numeric(st_distance(plots, nt)) < 5000)                           # 2
+mpas <- zones %>% group_by(mpa) %>% summarise()
+sum(mpas$mpa[st_nearest_feature(plots, mpas)] == "Tanjona")              # 3
+```
+:::
+
+## [Exercise 4 — Rasters]{.en}[Exercice 4 — Rasters]{.fr} {#ex4}
+
+::: en
+*Session A6.*
+
+1. Mean sea surface temperature of the whole bay in **August 2024** (layer 8, 2 decimals)?
+2. How many cells of `bathymetry.tif` **inside the MPA zones** are deeper than **20 m**? (`crop()` then `mask()` with the zones in WGS84)
+3. At which reef site is the **raster** depth the greatest?
+:::
+::: fr
+*Séance A6.*
+
+1. Température de surface moyenne de toute la baie en **août 2024** (couche 8, 2 décimales) ?
+2. Combien de cellules de `bathymetry.tif` **dans les zones des AMP** ont plus de **20 m** de profondeur ? (`crop()` puis `mask()` avec les zones en WGS84)
+3. À quel site récifal la profondeur **du raster** est-elle la plus grande ?
+:::
+
+```{r q4, echo=FALSE}
+quiz("ap4", list(
+  q_num("1. Mean SST, August 2024 (°C, 2 decimals)?", "1. SST moyenne, août 2024 (°C, 2 décimales) ?", ap4a, tol = 0.011),
+  q_num("2. Cells deeper than 20 m inside the MPA zones?", "2. Cellules de plus de 20 m dans les zones des AMP ?", ap4b, tol = 10),
+  q_text("3. Site with the greatest raster depth?", "3. Site à la plus grande profondeur du raster ?", ap4c)
+), title_en = "Exercise 4", title_fr = "Exercice 4")
+```
+
+::: {.solution data-quiz="ap4"}
+```{r, eval=FALSE}
+library(terra); library(sf)
+sst <- rast("data/raw/sst_2024.tif"); bathy <- rast("data/raw/bathymetry.tif")
+global(sst[[8]], "mean", na.rm = TRUE)                                   # 1
+zv <- vect(st_transform(st_read("data/raw/monitoring_gis.gpkg", "mpa_zones"), crs(bathy)))
+bm <- mask(crop(bathy, zv), zv)
+global(bm > 20, "sum", na.rm = TRUE)                                     # 2
+sites <- st_read("data/raw/monitoring_gis.gpkg", "reef_sites")
+d <- extract(bathy, vect(st_transform(sites, crs(bathy))))$depth_m
+sites$site_id[which.max(d)]                                              # 3
+```
+:::
+
+## [Exercise 5 — Mangrove indicators]{.en}[Exercice 5 — Indicateurs mangrove]{.fr} {#ex5}
+
+::: en
+*Sessions A0, A8.* Clean the trees as in Session A8 (upper-case codes; DBH > 30 cm on trees < 8 m divided by 10). Plot area = π × 10² m².
+
+1. Mean **basal area** of living trees in the **reference** plots (m²/ha, 1 decimal). Basal area of one trunk = π × (DBH / 200)² m².
+2. In the plots of status **restored**, what percentage of the trees are **dead** (1 decimal)?
+3. Mean **stem density** of living trees in the **harvested** plots (stems/ha, no decimal)?
+:::
+::: fr
+*Séances A0, A8.* Nettoyez les arbres comme à la séance A8 (codes en majuscules ; DHP > 30 cm sur des arbres < 8 m divisés par 10). Surface d'une placette = π × 10² m².
+
+1. **Surface terrière** moyenne des arbres vivants dans les placettes de **référence** (m²/ha, 1 décimale). Surface terrière d'un tronc = π × (DHP / 200)² m².
+2. Dans les placettes de statut **restored**, quel pourcentage des arbres est **mort** (1 décimale) ?
+3. **Densité** moyenne des tiges vivantes dans les placettes **harvested** (tiges/ha, sans décimale) ?
+:::
+
+::: hint
+::: en
+The tree table has a `status` (alive, dead, cut) and the plot table also has a `status` (reference, harvested, restored): after joining, rename one of them, or use `suffix =` in `left_join()`. Compute per plot first, then average the plots.
+:::
+::: fr
+Le tableau des arbres a un `status` (alive, dead, cut) et celui des placettes aussi (reference, harvested, restored) : après la jointure, renommez l'un des deux, ou utilisez `suffix =` dans `left_join()`. Calculez d'abord par placette, puis faites la moyenne des placettes.
+:::
+:::
+
+```{r q5, echo=FALSE}
+quiz("ap5", list(
+  q_num("1. Mean basal area, reference plots (m²/ha, 1 decimal)?", "1. Surface terrière moyenne, placettes de référence (m²/ha, 1 décimale) ?", ap5a, tol = 0.11),
+  q_num("2. % of dead trees in restored plots (1 decimal)?", "2. % d'arbres morts dans les placettes restaurées (1 décimale) ?", ap5b, tol = 0.11),
+  q_num("3. Mean stem density, harvested plots (stems/ha)?", "3. Densité moyenne des tiges, placettes exploitées (tiges/ha) ?", ap5c, tol = 1)
+), title_en = "Exercise 5", title_fr = "Exercice 5")
+```
+
+::: {.solution data-quiz="ap5"}
+```{r, eval=FALSE}
+library(dplyr)
+trees <- read.csv("data/raw/mangrove_trees.csv") %>%
+  mutate(species_code = toupper(species_code),
+         dbh_cm = ifelse(dbh_cm > 30 & height_m < 8, dbh_cm / 10, dbh_cm),
+         ba_m2 = pi * (dbh_cm / 200)^2)
+plots <- read.csv("data/raw/mangrove_plots.csv")
+area_ha <- pi * 10^2 / 1e4
+trees <- left_join(trees, plots[, c("plot_id", "status")], by = "plot_id", suffix = c("", "_plot"))
+per_plot <- trees %>% filter(status == "alive") %>% group_by(plot_id, status_plot) %>%
+  summarise(ba_ha = sum(ba_m2) / area_ha, stems_ha = n() / area_ha, .groups = "drop")
+per_plot %>% group_by(status_plot) %>% summarise(ba = mean(ba_ha), stems = mean(stems_ha))   # 1, 3
+trees %>% filter(status_plot == "restored") %>% summarise(dead = 100 * mean(status == "dead"))  # 2
+```
+:::
+
+## [Exercise 6 — Maps and publishing]{.en}[Exercice 6 — Cartes et publication]{.fr} {#ex6}
+
+::: en
+*Sessions A7, A9.*
+
+1. Compute the mean hard coral cover of each site in 2019 and in 2025. At how many sites was cover **higher in 2025** than in 2019? Map them (one colour for "higher", one for "lower").
+2. Answer the questions on maps and publishing.
+:::
+::: fr
+*Séances A7, A9.*
+
+1. Calculez le corail dur moyen de chaque site en 2019 et en 2025. Dans combien de sites le recouvrement était-il **plus élevé en 2025** qu'en 2019 ? Cartographiez-les (une couleur pour « plus élevé », une pour « plus faible »).
+2. Répondez aux questions sur les cartes et la publication.
+:::
+
+```{r q6, echo=FALSE}
+quiz("ap6", list(
+  q_num("1. Sites with higher cover in 2025 than in 2019?", "1. Sites avec un recouvrement plus élevé en 2025 qu'en 2019 ?", ap6a, tol = 0),
+  q_mcq("2a. A scale bar is only correct on a map drawn in:", "2a. Une barre d'échelle n'est juste que sur une carte dessinée en :",
+        c("longitude/latitude", "a projected CRS in metres (e.g. UTM)", "any CRS", "Web Mercator"),
+        c("longitude/latitude", "un SCR projeté en mètres (ex. UTM)", "n'importe quel SCR", "Web Mercator"), correct = 2),
+  q_mcq("2b. The site is published from the docs/ folder on GitHub but has no style. Most likely:", "2b. Le site est publié depuis le dossier docs/ sur GitHub mais n'a pas de mise en forme. Le plus probable :",
+        c("docs/.nojekyll or docs/site_libs/ is missing", "the R version is too old", "the repository is public", "Quarto needs LaTeX"),
+        c("docs/.nojekyll ou docs/site_libs/ manque", "la version de R est trop ancienne", "le dépôt est public", "Quarto a besoin de LaTeX"), correct = 1),
+  q_mcq("2c. To show a change around zero (gain / loss) on a map, choose a palette that is:", "2c. Pour montrer une variation autour de zéro (gain / perte) sur une carte, choisissez une palette :",
+        c("sequential", "qualitative", "diverging, centred on 0", "rainbow"),
+        c("séquentielle", "qualitative", "divergente, centrée sur 0", "arc-en-ciel"), correct = 3)
+), title_en = "Exercise 6", title_fr = "Exercice 6")
+```
+
+::: {.solution data-quiz="ap6"}
+```{r, eval=FALSE}
+library(dplyr); library(tidyr); library(sf); library(ggplot2)
+reef  <- read.csv("data/raw/reef_monitoring.csv")
+sites <- st_read("data/raw/monitoring_gis.gpkg", "reef_sites")
+ch <- reef %>% filter(year %in% c(2019, 2025)) %>% group_by(site_id, year) %>%
+  summarise(m = mean(hard_coral), .groups = "drop") %>%
+  pivot_wider(names_from = year, values_from = m, names_prefix = "y") %>%
+  mutate(trend = ifelse(y2025 > y2019, "higher", "lower"))
+sum(ch$trend == "higher")                                                # 1
+ggplot() + geom_sf(data = st_read("data/raw/monitoring_gis.gpkg", "land"), fill = "#efe6d2") +
+  geom_sf(data = left_join(sites, ch, by = "site_id"), aes(colour = trend), size = 2) +
+  coord_sf(xlim = st_bbox(sites)[c(1, 3)] + c(-5000, 5000), ylim = st_bbox(sites)[c(2, 4)] + c(-5000, 5000))
+```
+:::

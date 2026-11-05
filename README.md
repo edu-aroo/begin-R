@@ -1,6 +1,6 @@
 # R for marine sciences
 
-*by Aroo Falinirina* — version 3.1 (2026-11)
+*by Aroo Falinirina* — version 4.0 (2026-11)
 
 A bilingual (EN/FR), self-study R course built as an **R Markdown website**, with
 student login, saved progress, scored quizzes, levels that unlock, certificates
@@ -11,7 +11,7 @@ was "collected".
 |---|---|---|---|
 | Beginner | 0–10 (≈ 31 h) | install R, vectors, data frames, cleaning, descriptive statistics, base R graphs, dplyr/ggplot2; coral & seagrass data | done |
 | Intermediate | I0–I13 (≈ 41 h) | real files (Excel), dates, reshaping, joins, survey data, loops, functions, ggplot2, distributions & p-values, tests (t, Wilcoxon, χ², Fisher, Pearson, Spearman), maps; seaweed and sea-cucumber farming, water quality, household survey | done |
-| Advanced | — | reproducible projects (renv, Git), R Markdown/Quarto reports, sf/terra/tmap | coming soon |
+| Advanced | A0–A11 (≈ 40 h) | reproducible projects (structure, renv, Git/GitHub/GitLab), R Markdown and automatic reports, sf/terra/tmap maps, Quarto, publishing; coral, mangrove and GIS monitoring data | done |
 
 Each level has a practice session, a final project, a cheatsheet page, three slide
 decks (≈ 3 h, in French) and a printable PDF kit (kept in the project, not published).
@@ -27,8 +27,9 @@ r-course-beginner/
 ├── index.Rmd                 <- home page: one dashboard per level
 ├── 00-installation.Rmd … 10-final-project.Rmd     <- Beginner (09 = practice)
 ├── i00-import.Rmd … i13-final-project.Rmd         <- Intermediate (i12 = practice)
-├── advanced.Rmd              <- "coming soon" page
-├── cheatsheet.Rmd, cheatsheet-intermediate.Rmd    <- one cheatsheet per level
+├── a00-project.Rmd … a11-final-project.Rmd        <- Advanced (a10 = practice)
+├── advanced.Rmd              <- overview of the Advanced level
+├── cheatsheet.Rmd, cheatsheet-intermediate.Rmd, cheatsheet-advanced.Rmd  <- one cheatsheet per level
 ├── help.Rmd, certificate.Rmd, common-errors.Rmd, whats-new.Rmd
 ├── assets/
 │   ├── config.js             <- THE file to edit: title, author, Google Script URL, levels, pages
@@ -41,13 +42,16 @@ r-course-beginner/
 │   ├── course_helpers.R      <- quiz(), q_num(), q_mcq(), q_text(), fig_svg(), dl()
 │   ├── simulate_data.R       <- Beginner datasets
 │   ├── simulate_intermediate.R  <- Intermediate datasets
+│   ├── simulate_advanced.R   <- Advanced datasets (GIS, rasters, monitoring, lockfile, Git demo)
+│   ├── make_git_demo.R       <- the small project with its Git history (Session A2)
 │   ├── beginner_pipeline.R   <- checkpoint tables of Sessions 3–6 (B03…B06)
 │   ├── intermediate_pipeline.R  <- cleaning steps of I0–I4 + write_checkpoints()
-│   ├── answers_i12.R, answers_i13.R  <- hidden quiz answers of the practice / project
+│   ├── answers_i12.R, answers_i13.R, answers_a10.R, answers_a11.R  <- hidden quiz answers of practice / projects
+│   ├── advanced_pipeline.R   <- mangrove cleaning and indicators (A8-A11)
 │   ├── make_accounts.R       <- usernames + passwords for your students
 │   └── make_pdf_kit.R        <- printable PDF kit, with watermark
 ├── data/                     <- CSV/XLSX files + zips; data/checkpoints/ = clean tables per session
-├── templates/                <- check_setup.R, final project templates (downloadable)
+├── templates/                <- check_setup.R, final project templates, advanced/ report templates (downloadable)
 ├── slides/                   <- 6 slide decks (3 per level), see section 8
 ├── pdf_kit/                  <- pdf.css + the PDFs you generate (never published)
 ├── apps-script/Code.gs       <- the Google Apps Script "backend"
@@ -118,7 +122,14 @@ r-course-beginner/
 - **`level`**: empty or `beginner` = normal path. Write `intermediate` (or `advanced`) to **give direct access** to a level.
 - **`role`**: `teacher` sees all levels and solutions; teacher answers are never recorded.
 - **`email`, `facebook`, `phone`**: copied into the e-mails you receive.
-- **`open_pages`**: sessions you open by hand, separated by commas (file names without `.html`), e.g. `02-vectors` or `06-statistics, i04-survey`.
+- **`open_pages`**: sessions you open by hand, separated by commas (file names without `.html`), e.g. `02-vectors` or `06-statistics, i04-survey`. Two uses:
+  - **unblock** a stuck student: write the session that follows the one where they are stuck;
+  - let a student **skip lessons they already know**: write the session they start from (e.g. `05-cleaning`).
+    The earlier sessions of that level that they never attempted are **"exempted"**: they stay open for revision,
+    are shown as *dispensé / skipped* on the dashboard, and are **left out of the level's 75 %**, so the next level,
+    the certificate and your e-mail still work automatically. If the student takes an exempted quiz anyway, it counts.
+- **`level`**: also used to skip whole levels: `intermediate` means the Beginner level is optional revision
+  (no "needs help" alerts there, no certificate required).
 
 ### Rules of the sessions and levels
 
@@ -208,10 +219,19 @@ Several quizzes on one page: different ids + `title_en` / `title_fr`, and list t
 `config.js` (`quizzes: ["ap1", "ap2"]`). Base R and package side by side: `::: compare`
 with `::: {.col .base}` and `::: {.col .pkg}`. Figures: `` `r fig_svg("name", "caption EN", "légende FR")` ``.
 
+### Advanced level: tools needed to build the site
+
+Data: `source("R/simulate_advanced.R")` (needs `sf`, `terra` and Git) writes `data/advanced/` and its zip.
+The pages render with R Markdown only (no Quarto needed to build the site): the Quarto outputs shown in
+A8–A9 are screenshots in `assets/img/quarto/`, and the Quarto templates are in `templates/advanced/`.
+To add a level that is still being written, put `inProgress: true` in its entry of `assets/config.js`
+(students can study it, but no certificate is issued until you remove the line).
+
 ## 8. Slides
 
-`slides/` contains six decks in French (≈ 1 h each): `part1_sessions0-3`, `part2_sessions4-6`,
-`part3_sessions7-10` (Beginner) and `int1_sessions_I0-I4`, `int2_sessions_I5-I8`, `int3_sessions_I9-I13` (Intermediate).
+`slides/` contains nine decks in French (≈ 1 h each): `part1_sessions0-3`, `part2_sessions4-6`,
+`part3_sessions7-10` (Beginner), `int1_sessions_I0-I4`, `int2_sessions_I5-I8`, `int3_sessions_I9-I13` (Intermediate)
+and `adv1_sessions_A0-A4`, `adv2_sessions_A5-A7`, `adv3_sessions_A8-A11` (Advanced).
 
 - Build: `source("slides/render_slides.R")`. Each deck is **one self-contained .html** (works offline).
 - Keys: **→ / Space** next, **←** previous, **F** full screen, **O** overview, **N** speaker notes, **Ctrl + P** → PDF.

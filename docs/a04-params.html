@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · A4</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A4 · Parameterised and
+automatic reports</span><span class="fr">A4 · Rapports paramétrés et
+automatiques</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>turn a report into a <strong>template</strong> with
+<code>params</code> in its YAML header;</li>
+<li>render it with chosen values: <strong>Knit with Parameters</strong>
+or <code>rmarkdown::render(params = list(...))</code>;</li>
+<li>produce <strong>one report per MPA (or per site, per year…)</strong>
+with a loop, with clear file names;</li>
+<li>make the template <strong>robust</strong> (missing years, empty
+groups) and keep it short with your own functions;</li>
+<li>organise an automatic reporting workflow that can be re-run every
+year.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>transformer un rapport en <strong>modèle</strong> avec
+<code>params</code> dans son en-tête YAML ;</li>
+<li>le produire avec des valeurs choisies : <strong>Knit with
+Parameters</strong> ou
+<code>rmarkdown::render(params = list(...))</code> ;</li>
+<li>produire <strong>un rapport par AMP (ou par site, par
+année…)</strong> avec une boucle, avec des noms de fichiers clairs
+;</li>
+<li>rendre le modèle <strong>robuste</strong> (années manquantes,
+groupes vides) et le garder court avec vos propres fonctions ;</li>
+<li>organiser une production automatique de rapports à relancer chaque
+année.</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> The same coral
+monitoring (Session A0). Each <strong>MPA manager</strong> wants a short
+report about <strong>her or his MPA only</strong>, every year, a few
+weeks after the field campaign — three reports per year, soon 2026,
+2027… Writing them by hand would take days; with one parameterised
+template it takes one click. Note the gap in the data: <strong>Tanjona
+was not surveyed in 2022</strong>, so a report on Tanjona 2023 has no
+“previous year” to compare with — the template must handle it.</p>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong> Le même suivi
+corallien (séance A0). Chaque <strong>gestionnaire d’AMP</strong> veut
+un court rapport sur <strong>son AMP seulement</strong>, chaque année,
+quelques semaines après la campagne de terrain — trois rapports par an,
+bientôt 2026, 2027… Les écrire à la main prendrait des jours ; avec un
+seul modèle paramétré, un clic suffit. Notez le trou dans les données :
+<strong>Tanjona n’a pas été suivie en 2022</strong>, donc un rapport
+Tanjona 2023 n’a pas d’« année précédente » à comparer — le modèle doit
+le gérer.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="templates/advanced/mpa_report.Rmd" download>⇩
+mpa_report.Rmd</a>
+<a class="btn-dl" href="templates/advanced/render_reports.R" download>⇩
+render_reports.R</a></p>
+<div id="params" class="section level2">
+<h2><span class="en">Parameters in the YAML</span><span class="fr">Des
+paramètres dans le YAML</span></h2>
+<div class="en">
+<p>Add a <code>params:</code> field to the header, with a
+<strong>default value</strong> for each parameter. Inside the report,
+<code>params$mpa</code> and <code>params$year</code> are used like any R
+value — to filter the data, in titles, in sentences.</p>
+</div>
+<div class="fr">
+<p>Ajoutez un champ <code>params:</code> à l’en-tête, avec une
+<strong>valeur par défaut</strong> pour chaque paramètre. Dans le
+rapport, <code>params$mpa</code> et <code>params$year</code> s’utilisent
+comme n’importe quelle valeur R — pour filtrer les données, dans les
+titres, dans les phrases.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;`r paste(&#39;Monitoring report —&#39;, params$mpa)`&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;MPA monitoring team&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;`r format(Sys.Date(), &#39;%d %B %Y&#39;)`&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="an">params:</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">  mpa: &quot;Ankaramena&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">  year: 2025</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="an">output:</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">  html_document:</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="in">knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4)</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="in">library(dplyr); library(ggplot2); library(here)</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="in">reef  &lt;- read.csv(here(&quot;data&quot;, &quot;raw&quot;, &quot;reef_monitoring.csv&quot;))</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="in">sites &lt;- read.csv(here(&quot;data&quot;, &quot;raw&quot;, &quot;reef_sites.csv&quot;))</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="in">reef  &lt;- left_join(reef, sites, by = &quot;site_id&quot;)</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="in"># keep ONLY the MPA asked for in params</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="in">mine &lt;- filter(reef, mpa == params$mpa)</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="in">now  &lt;- filter(mine, year == params$year)</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="in">before &lt;- filter(mine, year == params$year - 1)</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="in">m_now &lt;- round(mean(now$hard_coral), 1)</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="in">m_before &lt;- round(mean(before$hard_coral), 1)</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="fu"># `r params$mpa` in `r params$year`</span></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>The team surveyed **`r length(unique(now$site_id))` sites** and **`r nrow(now)` transects**.</span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>Mean hard coral cover was **`r m_now` %**</span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>(<span class="in">`r if (nrow(before) &gt; 0) paste0(m_before, &quot; % in &quot;, params$year - 1) else &quot;no survey the year before&quot;`</span>).</span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="in">```{r fig, fig.cap = paste(&quot;Hard coral cover per site in&quot;, params$mpa, &quot;,&quot;, params$year)}</span></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="in">ggplot(now, aes(reorder(site_id, hard_coral), hard_coral, fill = zone)) +</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="in">  geom_boxplot() + coord_flip() +</span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="in">  scale_fill_manual(values = c(&quot;No-take&quot; = &quot;#1b7f8c&quot;, &quot;Fishing&quot; = &quot;#d9694a&quot;)) +</span></span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="in">  labs(x = &quot;Site&quot;, y = &quot;Hard coral cover (%)&quot;, fill = NULL) + theme_minimal()</span></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="in">```{r table}</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="in">now %&gt;% group_by(zone) %&gt;%</span></span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="in">  summarise(transects = n(), mean = round(mean(hard_coral), 1), bleached = round(mean(bleached_pct), 1)) %&gt;%</span></span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="in">  knitr::kable(caption = &quot;Mean cover and bleaching per zone (%)&quot;)</span></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="en">
+<p>Three things to notice: the <strong>title</strong> itself is computed
+(<code>paste('Monitoring report —', params$mpa)</code>); the data are
+<strong>filtered once</strong>, at the top, so the rest of the report
+does not need to know which MPA it is about; and the sentence about the
+previous year uses <code>if … else</code> (Intermediate, Session I5) so
+the report still makes sense when the previous year is missing.</p>
+</div>
+<div class="fr">
+<p>Trois choses à remarquer : le <strong>titre</strong> lui-même est
+calculé (<code>paste('Monitoring report —', params$mpa)</code>) ; les
+données sont <strong>filtrées une seule fois</strong>, en haut, si bien
+que le reste du rapport n’a pas besoin de savoir de quelle AMP il s’agit
+; et la phrase sur l’année précédente utilise <code>if … else</code>
+(intermédiaire, séance I5) pour que le rapport ait encore du sens quand
+l’année précédente manque.</p>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Knit with Parameters.</strong> In RStudio, the small arrow
+next to <em>Knit</em> → <em>Knit with Parameters…</em> opens a form. To
+get a drop-down list instead of a text box, describe the parameter:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="at">  </span><span class="fu">mpa</span><span class="kw">:</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="at">    </span><span class="fu">label</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;MPA&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="at">    </span><span class="fu">value</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Ankaramena&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="at">    </span><span class="fu">input</span><span class="kw">:</span><span class="at"> select</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="at">    </span><span class="fu">choices</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">&quot;Ankaramena&quot;</span><span class="kw">,</span><span class="at"> </span><span class="st">&quot;Nosy Fasika&quot;</span><span class="kw">,</span><span class="at"> </span><span class="st">&quot;Tanjona&quot;</span><span class="kw">]</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="at">  </span><span class="fu">year</span><span class="kw">:</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="at">    </span><span class="fu">label</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Year&quot;</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="at">    </span><span class="fu">value</span><span class="kw">:</span><span class="at"> </span><span class="dv">2025</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="at">    </span><span class="fu">input</span><span class="kw">:</span><span class="at"> slider</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="at">    </span><span class="fu">min</span><span class="kw">:</span><span class="at"> </span><span class="dv">2019</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="at">    </span><span class="fu">max</span><span class="kw">:</span><span class="at"> </span><span class="dv">2025</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="at">    </span><span class="fu">step</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="at">    </span><span class="fu">sep</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span></code></pre></div>
+</div>
+<div class="fr">
+<p><strong>Knit with Parameters.</strong> Dans RStudio, la petite flèche
+à côté de <em>Knit</em> → <em>Knit with Parameters…</em> ouvre un
+formulaire. Pour avoir une liste déroulante au lieu d’une zone de texte,
+décrivez le paramètre :</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="at">  </span><span class="fu">mpa</span><span class="kw">:</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="at">    </span><span class="fu">label</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;AMP&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="at">    </span><span class="fu">value</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Ankaramena&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="at">    </span><span class="fu">input</span><span class="kw">:</span><span class="at"> select</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="at">    </span><span class="fu">choices</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">&quot;Ankaramena&quot;</span><span class="kw">,</span><span class="at"> </span><span class="st">&quot;Nosy Fasika&quot;</span><span class="kw">,</span><span class="at"> </span><span class="st">&quot;Tanjona&quot;</span><span class="kw">]</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="at">  </span><span class="fu">year</span><span class="kw">:</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="at">    </span><span class="fu">label</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Année&quot;</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="at">    </span><span class="fu">value</span><span class="kw">:</span><span class="at"> </span><span class="dv">2025</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="at">    </span><span class="fu">input</span><span class="kw">:</span><span class="at"> slider</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="at">    </span><span class="fu">min</span><span class="kw">:</span><span class="at"> </span><span class="dv">2019</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="at">    </span><span class="fu">max</span><span class="kw">:</span><span class="at"> </span><span class="dv">2025</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="at">    </span><span class="fu">step</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="at">    </span><span class="fu">sep</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="render" class="section level2">
+<h2><span class="en">Rendering from code</span><span class="fr">Produire
+par le code</span></h2>
+<div class="en">
+<p><code>rmarkdown::render()</code> does what the Knit button does, but
+you choose the parameters, the name and the folder of the output:</p>
+</div>
+<div class="fr">
+<p><code>rmarkdown::render()</code> fait ce que fait le bouton Knit,
+mais vous choisissez les paramètres, le nom et le dossier de la sortie
+:</p>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="at">input       =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;reports&quot;</span>, <span class="st">&quot;mpa_report.Rmd&quot;</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">params      =</span> <span class="fu">list</span>(<span class="at">mpa =</span> <span class="st">&quot;Tanjona&quot;</span>, <span class="at">year =</span> <span class="dv">2023</span>),     <span class="co"># replaces the default values</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">output_file =</span> <span class="st">&quot;report_tanjona_2023.html&quot;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">output_dir  =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;reports&quot;</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">envir       =</span> <span class="fu">new.env</span>()                               <span class="co"># a clean environment for this report</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>)</span></code></pre></div>
+<div class="en">
+<p><strong>Why <code>envir = new.env()</code>?</strong> By default
+<code>render()</code> runs the report in your current session: objects
+left by the previous report (or in your Environment) could be used by
+mistake. A new environment gives each report a clean start — exactly
+like the Knit button.</p>
+</div>
+<div class="fr">
+<p><strong>Pourquoi <code>envir = new.env()</code> ?</strong> Par
+défaut, <code>render()</code> exécute le rapport dans votre session
+courante : des objets laissés par le rapport précédent (ou dans votre
+Environment) pourraient être utilisés par erreur. Un nouvel
+environnement donne à chaque rapport un départ propre — exactement comme
+le bouton Knit.</p>
+</div>
+</div>
+<div id="loop" class="section level2">
+<h2><span class="en">One report per MPA, in one click</span><span
+class="fr">Un rapport par AMP, en un clic</span></h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># render_reports.R — one report per MPA, in one click (Session A4)</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># Run from the project root: source(&quot;R/render_reports.R&quot;)</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">library</span>(rmarkdown)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>mpas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Ankaramena&quot;</span>, <span class="st">&quot;Nosy Fasika&quot;</span>, <span class="st">&quot;Tanjona&quot;</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;reports&quot;</span>), <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> mpas) {</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  file_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;report_&quot;</span>, <span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;_&quot;</span>, <span class="fu">tolower</span>(m)), <span class="st">&quot;_2025.html&quot;</span>)   <span class="co"># no spaces in file names</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="fu">render</span>(<span class="at">input       =</span> <span class="fu">here</span>(<span class="st">&quot;reports&quot;</span>, <span class="st">&quot;mpa_report.Rmd&quot;</span>),</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>         <span class="at">params      =</span> <span class="fu">list</span>(<span class="at">mpa =</span> m, <span class="at">year =</span> <span class="dv">2025</span>),</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>         <span class="at">output_file =</span> file_name,</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>         <span class="at">output_dir  =</span> <span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;reports&quot;</span>),</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>         <span class="at">envir       =</span> <span class="fu">new.env</span>(),        <span class="co"># a clean environment for each report</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>         <span class="at">quiet       =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Done: &quot;</span>, file_name)</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>}</span></code></pre></div>
+<div class="en">
+<p>This script was run for real when this page was built, in a temporary
+copy of a project with the structure of Session A0. Here are the files
+it produced and the first sentences of each report:</p>
+</div>
+<div class="fr">
+<p>Ce script a été réellement exécuté à la construction de cette page,
+dans une copie temporaire d’un projet ayant l’arborescence de la séance
+A0. Voici les fichiers produits et les premières phrases de chaque
+rapport :</p>
+</div>
+<pre><code>report_ankaramena_2025.html
+report_nosy_fasika_2025.html
+report_tanjona_2025.html</code></pre>
+<pre><code>report_ankaramena_2025.html:
+  The team surveyed 6 sites and 18 transects. Mean hard coral cover was 36.5 % (33.3 % in 2024).
+report_nosy_fasika_2025.html:
+  The team surveyed 6 sites and 18 transects. Mean hard coral cover was 26.8 % (24.6 % in 2024).
+report_tanjona_2025.html:
+  The team surveyed 6 sites and 18 transects. Mean hard coral cover was 21.3 % (19.6 % in 2024).</code></pre>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Change the loop so that it produces the
+reports of <strong>2023, 2024 and 2025</strong> for the three MPAs (two
+nested loops, or <code>expand.grid()</code> and one loop). How many
+files do you get? Open the report of Tanjona 2023: what does it say
+about the previous year?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Modifiez la boucle pour produire les
+rapports <strong>2023, 2024 et 2025</strong> des trois AMP (deux boucles
+imbriquées, ou <code>expand.grid()</code> et une seule boucle). Combien
+de fichiers obtenez-vous ? Ouvrez le rapport Tanjona 2023 : que dit-il
+de l’année précédente ?</p>
+</div>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>jobs <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mpa =</span> <span class="fu">c</span>(<span class="st">&quot;Ankaramena&quot;</span>, <span class="st">&quot;Nosy Fasika&quot;</span>, <span class="st">&quot;Tanjona&quot;</span>), <span class="at">year =</span> <span class="dv">2023</span><span class="sc">:</span><span class="dv">2025</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                    <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)        <span class="co"># one row = one report</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(jobs))) {</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  m <span class="ot">&lt;-</span> jobs<span class="sc">$</span>mpa[i]; y <span class="ot">&lt;-</span> jobs<span class="sc">$</span>year[i]</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  rmarkdown<span class="sc">::</span><span class="fu">render</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;reports&quot;</span>, <span class="st">&quot;mpa_report.Rmd&quot;</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>                    <span class="at">params =</span> <span class="fu">list</span>(<span class="at">mpa =</span> m, <span class="at">year =</span> y),</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>                    <span class="at">output_file =</span> <span class="fu">sprintf</span>(<span class="st">&quot;report_%s_%d.html&quot;</span>, <span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;_&quot;</span>, <span class="fu">tolower</span>(m)), y),</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>                    <span class="at">output_dir =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;reports&quot;</span>), <span class="at">envir =</span> <span class="fu">new.env</span>(), <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="robust" class="section level2">
+<h2><span class="en">Robust templates</span><span class="fr">Des modèles
+robustes</span></h2>
+<div class="en">
+<p>A template is run on data you have not looked at. Protect it:</p>
+<ul>
+<li><strong>Check the parameters</strong> at the top:
+<code>stopifnot(params$mpa %in% unique(reef$mpa))</code> stops with a
+clear message if somebody types “Ankaramenna”.</li>
+<li><strong>Handle empty data</strong>:
+<code>if (nrow(now) == 0) { cat("No survey in", params$year); knitr::knit_exit() }</code>
+ends the report politely.</li>
+<li><strong>Write sentences that work in every case</strong>
+(<code>if … else</code> in inline code, <code>ifelse()</code> for
+“increased” / “decreased”).</li>
+<li><strong>Put calculations in functions</strong>
+(<code>R/functions.R</code>, sourced by the template with
+<code>source(here("R", "functions.R"))</code>): the template stays short
+and the same function serves the reports, the scripts and the quizzes of
+your team.</li>
+<li><strong>Never</strong> write a number by hand in the template.</li>
+</ul>
+</div>
+<div class="fr">
+<p>Un modèle s’exécute sur des données que vous n’avez pas regardées.
+Protégez-le :</p>
+<ul>
+<li><strong>Vérifiez les paramètres</strong> en haut :
+<code>stopifnot(params$mpa %in% unique(reef$mpa))</code> s’arrête avec
+un message clair si quelqu’un tape « Ankaramenna ».</li>
+<li><strong>Gérez les données vides</strong> :
+<code>if (nrow(now) == 0) { cat("Pas de suivi en", params$year); knitr::knit_exit() }</code>
+termine le rapport proprement.</li>
+<li><strong>Écrivez des phrases qui marchent dans tous les cas</strong>
+(<code>if … else</code> dans le code en ligne, <code>ifelse()</code>
+pour « a augmenté » / « a diminué »).</li>
+<li><strong>Mettez les calculs dans des fonctions</strong>
+(<code>R/functions.R</code>, chargé par le modèle avec
+<code>source(here("R", "functions.R"))</code>) : le modèle reste court
+et la même fonction sert aux rapports, aux scripts et aux quiz de votre
+équipe.</li>
+<li><strong>N’écrivez jamais</strong> un nombre à la main dans le
+modèle.</li>
+</ul>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># A sentence that adapts to the data (Intermediate, Session I6: functions)</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>trend_sentence <span class="ot">&lt;-</span> <span class="cf">function</span>(now, before) {</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(before)) <span class="fu">return</span>(<span class="st">&quot;There was no survey the year before.&quot;</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">round</span>(now <span class="sc">-</span> before, <span class="dv">1</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">&quot;Cover &quot;</span>, <span class="fu">ifelse</span>(d <span class="sc">&gt;=</span> <span class="dv">0</span>, <span class="st">&quot;increased&quot;</span>, <span class="st">&quot;decreased&quot;</span>), <span class="st">&quot; by &quot;</span>, <span class="fu">abs</span>(d),</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>         <span class="st">&quot; points since the previous survey.&quot;</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>}</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="fu">trend_sentence</span>(<span class="fl">26.8</span>, <span class="fl">24.6</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Cover increased by 2.2 points since the previous survey.&quot;</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">trend_sentence</span>(<span class="fl">27.5</span>, <span class="cn">NA</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;There was no survey the year before.&quot;</code></pre>
+</div>
+<div id="automation" class="section level2">
+<h2><span class="en">Running it every year</span><span class="fr">Le
+relancer chaque année</span></h2>
+<div class="en">
+<p>With the structure of Sessions A0–A2, the yearly routine becomes:</p>
+<ol style="list-style-type: decimal">
+<li>add the new field data to <code>data/raw/</code> (a new file, or new
+rows — never overwriting the old ones);</li>
+<li><code>renv::restore()</code> if you changed computer; run
+<code>R/00_run_all.R</code>, then <code>R/render_reports.R</code> with
+the new year;</li>
+<li>check one report carefully, <strong>commit</strong> (code +
+<code>renv.lock</code>, not the HTML files) and push;</li>
+<li>send the reports — or publish them online (Session A9).</li>
+</ol>
+<p>Going further (optional): Windows <em>Task Scheduler</em> or
+<code>cron</code> (Mac/Linux) can run an R script at a fixed time, and
+<strong>GitHub Actions</strong> / <strong>GitLab CI</strong> can
+re-render reports each time you push — useful for a project website.</p>
+</div>
+<div class="fr">
+<p>Avec l’organisation des séances A0–A2, la routine annuelle devient
+:</p>
+<ol style="list-style-type: decimal">
+<li>ajouter les nouvelles données de terrain dans <code>data/raw/</code>
+(un nouveau fichier, ou de nouvelles lignes — sans jamais écraser les
+anciennes) ;</li>
+<li><code>renv::restore()</code> si vous avez changé d’ordinateur ;
+lancer <code>R/00_run_all.R</code>, puis <code>R/render_reports.R</code>
+avec la nouvelle année ;</li>
+<li>vérifier soigneusement un rapport, <strong>valider</strong> (code +
+<code>renv.lock</code>, pas les fichiers HTML) et pousser ;</li>
+<li>envoyer les rapports — ou les publier en ligne (séance A9).</li>
+</ol>
+<p>Pour aller plus loin (facultatif) : le <em>Planificateur de
+tâches</em> de Windows ou <code>cron</code> (Mac/Linux) peuvent lancer
+un script R à heure fixe, et <strong>GitHub Actions</strong> /
+<strong>GitLab CI</strong> peuvent reproduire les rapports à chaque push
+— utile pour un site de projet.</p>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-a4" class="section level3 en">
+<h3>Application work A4</h3>
+<ol style="list-style-type: decimal">
+<li>Put <code>mpa_report.Rmd</code> in <code>reports/</code> and
+<code>render_reports.R</code> in <code>R/</code> of your project. Knit
+the template with its default parameters, then <strong>Knit with
+Parameters</strong> for <em>Nosy Fasika</em> 2024. What mean hard coral
+cover does the report give (1 decimal)?</li>
+<li>Run <code>render_reports.R</code>. How many sites does the Tanjona
+2025 report mention?</li>
+<li>Change the script to produce the reports 2023–2025 for the three
+MPAs. How many files?</li>
+<li>Add <code>trend_sentence()</code> (above) to
+<code>R/functions.R</code>, source it in the template and use it in the
+first paragraph. For Ankaramena 2025, by how many points did cover
+change since 2024 (1 decimal, negative if it decreased)?</li>
+<li>Add a check at the top of the template that stops with a clear
+message if the MPA does not exist. Try it with
+<code>"Ankaramenna"</code>.</li>
+<li>Commit the template, the script and <code>R/functions.R</code> (not
+the HTML reports: add <code>outputs/</code> to
+<code>.gitignore</code>).</li>
+</ol>
+</div>
+<div id="travail-dapplication-a4" class="section level3 fr">
+<h3>Travail d’application A4</h3>
+<ol style="list-style-type: decimal">
+<li>Placez <code>mpa_report.Rmd</code> dans <code>reports/</code> et
+<code>render_reports.R</code> dans <code>R/</code> de votre projet.
+Faites un knit du modèle avec ses paramètres par défaut, puis
+<strong>Knit with Parameters</strong> pour <em>Nosy Fasika</em> 2024.
+Quel corail dur moyen le rapport donne-t-il (1 décimale) ?</li>
+<li>Lancez <code>render_reports.R</code>. Combien de sites le rapport
+Tanjona 2025 mentionne-t-il ?</li>
+<li>Modifiez le script pour produire les rapports 2023–2025 des trois
+AMP. Combien de fichiers ?</li>
+<li>Ajoutez <code>trend_sentence()</code> (ci-dessus) à
+<code>R/functions.R</code>, chargez-le dans le modèle et utilisez-le
+dans le premier paragraphe. Pour Ankaramena 2025, de combien de points
+le recouvrement a-t-il changé depuis 2024 (1 décimale, négatif s’il a
+diminué) ?</li>
+<li>Ajoutez en haut du modèle une vérification qui s’arrête avec un
+message clair si l’AMP n’existe pas. Essayez avec
+<code>"Ankaramenna"</code>.</li>
+<li>Validez le modèle, le script et <code>R/functions.R</code> (pas les
+rapports HTML : ajoutez <code>outputs/</code> au
+<code>.gitignore</code>).</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>In the template, the previous year is <code>params$year - 1</code>.
+For question 4 compute
+<code>mean(now$hard_coral) - mean(before$hard_coral)</code>
+<strong>before</strong> rounding. If the parameters seem ignored, check
+that you wrote <code>params$year</code> (with an <strong>s</strong>) and
+that <code>render()</code> receives <code>params = list(...)</code>.</p>
+</div>
+<div class="fr">
+<p>Dans le modèle, l’année précédente est <code>params$year - 1</code>.
+Pour la question 4, calculez
+<code>mean(now$hard_coral) - mean(before$hard_coral)</code>
+<strong>avant</strong> d’arrondir. Si les paramètres semblent ignorés,
+vérifiez que vous avez écrit <code>params$year</code> (avec un
+<strong>s</strong>) et que <code>render()</code> reçoit
+<code>params = list(...)</code>.</p>
+</div>
+</div>
+<div id="quiz-a04" class="quiz" data-quiz-id="a04"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTWVhbiBoYXJkIGNvcmFsIGNvdmVyLCBOb3N5IEZhc2lrYSAyMDI0ICgxIGRlY2ltYWwpPyIsImZyIjoiMS4gQ29yYWlsIGR1ciBtb3llbiwgTm9zeSBGYXNpa2EgMjAyNCAoMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjI0LjYsInRvbCI6MC4wNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIE51bWJlciBvZiBzaXRlcyBpbiB0aGUgVGFuam9uYSAyMDI1IHJlcG9ydD8iLCJmciI6IjIuIE5vbWJyZSBkZSBzaXRlcyBkYW5zIGxlIHJhcHBvcnQgVGFuam9uYSAyMDI1ID8iLCJhbnN3ZXIiOjYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE51bWJlciBvZiByZXBvcnRzIGZvciAzIE1QQXMgw5cgMjAyM+KAkzIwMjU/IiwiZnIiOiIzLiBOb21icmUgZGUgcmFwcG9ydHMgcG91ciAzIEFNUCDDlyAyMDIz4oCTMjAyNSA/IiwiYW5zd2VyIjo5LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBDaGFuZ2UgaW4gY292ZXIgYXQgQW5rYXJhbWVuYSwgMjAyNCDihpIgMjAyNSAocG9pbnRzLCAxIGRlY2ltYWwpPyIsImZyIjoiNC4gVmFyaWF0aW9uIGR1IHJlY291dnJlbWVudCDDoCBBbmthcmFtZW5hLCAyMDI0IOKGkiAyMDI1IChwb2ludHMsIDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjozLjEsInRvbCI6MC4xMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIEluc2lkZSB0aGUgcmVwb3J0LCB0aGUgTVBBIGNob3NlbiBpbiB0aGUgcGFyYW1ldGVycyBpczoiLCJmciI6IjUuIERhbnMgbGUgcmFwcG9ydCwgbCdBTVAgY2hvaXNpZSBkYW5zIGxlcyBwYXJhbcOodHJlcyBlc3QgOiIsIm9wdGlvbnNfZW4iOlsibXBhIiwicGFyYW1zJG1wYSIsInlhbWwkbXBhIiwiaW5wdXQkbXBhIl0sIm9wdGlvbnNfZnIiOlsibXBhIiwicGFyYW1zJG1wYSIsInlhbWwkbXBhIiwiaW5wdXQkbXBhIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBXaHkgdXNlIGVudmlyID0gbmV3LmVudigpIGluIHJlbmRlcigpIGluc2lkZSBhIGxvb3A/IiwiZnIiOiI2LiBQb3VycXVvaSB1dGlsaXNlciBlbnZpciA9IG5ldy5lbnYoKSBkYW5zIHJlbmRlcigpIMOgIGwnaW50w6lyaWV1ciBkJ3VuZSBib3VjbGUgPyIsIm9wdGlvbnNfZW4iOlsiU28gdGhhdCBlYWNoIHJlcG9ydCBzdGFydHMgY2xlYW4sIHdpdGhvdXQgb2JqZWN0cyBsZWZ0IGJ5IHRoZSBwcmV2aW91cyBvbmUiLCJUbyByZW5kZXIgZmFzdGVyIiwiSXQgaXMgcmVxdWlyZWQgZm9yIEhUTUwiLCJUbyBzYXZlIHRoZSBwYXJhbWV0ZXJzIl0sIm9wdGlvbnNfZnIiOlsiUG91ciBxdWUgY2hhcXVlIHJhcHBvcnQgcGFydGUgcHJvcHJlLCBzYW5zIG9iamV0cyBsYWlzc8OpcyBwYXIgbGUgcHLDqWPDqWRlbnQiLCJQb3VyIHByb2R1aXJlIHBsdXMgdml0ZSIsIkMnZXN0IG9ibGlnYXRvaXJlIHBvdXIgbGUgSFRNTCIsIlBvdXIgZW5yZWdpc3RyZXIgbGVzIHBhcmFtw6h0cmVzIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBXaXRob3V0IG91dHB1dF9maWxlLCB0aGUgMyByZXBvcnRzIG9mIHRoZSBsb29wIHdvdWxkOiIsImZyIjoiNy4gU2FucyBvdXRwdXRfZmlsZSwgbGVzIDMgcmFwcG9ydHMgZGUgbGEgYm91Y2xlIDoiLCJvcHRpb25zX2VuIjpbImVhY2ggZ2V0IGEgZGlmZmVyZW50IG5hbWUgYXV0b21hdGljYWxseSIsIm92ZXJ3cml0ZSBlYWNoIG90aGVyIChzYW1lIG5hbWUgbXBhX3JlcG9ydC5odG1sKSIsIm5vdCBiZSBjcmVhdGVkIiwiYmUgc2F2ZWQgYXMgV29yZCJdLCJvcHRpb25zX2ZyIjpbImF1cmFpZW50IGNoYWN1biB1biBub20gZGlmZsOpcmVudCBhdXRvbWF0aXF1ZW1lbnQiLCJzJ8OpY3Jhc2VyYWllbnQgKG3Dqm1lIG5vbSBtcGFfcmVwb3J0Lmh0bWwpIiwibmUgc2VyYWllbnQgcGFzIGNyw6nDqXMiLCJzZXJhaWVudCBlbnJlZ2lzdHLDqXMgZW4gV29yZCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gV2hhdCBzaG91bGQgeW91IGNvbW1pdCB0byBHaXQgaW4gdGhpcyB3b3JrZmxvdz8iLCJmciI6IjguIFF1ZSBmYXV0LWlsIHZhbGlkZXIgZGFucyBHaXQgZGFucyBjZSBkw6lyb3Vsw6kgPyIsIm9wdGlvbnNfZW4iOlsiVGhlIEhUTUwgcmVwb3J0cyBvbmx5IiwiRXZlcnl0aGluZywgaW5jbHVkaW5nIHJlbnYvbGlicmFyeS8iLCJOb3RoaW5nOiByZXBvcnRzIGFyZSBub3QgY29kZSIsIlRoZSB0ZW1wbGF0ZSwgdGhlIHNjcmlwdHMsIHRoZSBmdW5jdGlvbnMgYW5kIHJlbnYubG9jayJdLCJvcHRpb25zX2ZyIjpbIlNldWxlbWVudCBsZXMgcmFwcG9ydHMgSFRNTCIsIlRvdXQsIHkgY29tcHJpcyByZW52L2xpYnJhcnkvIiwiUmllbiA6IGxlcyByYXBwb3J0cyBuZSBzb250IHBhcyBkdSBjb2RlIiwiTGUgbW9kw6hsZSwgbGVzIHNjcmlwdHMsIGxlcyBmb25jdGlvbnMgZXQgcmVudi5sb2NrIl0sImFuc3dlciI6M31d">
+
+</div>
+<div class="solution" data-quiz="a04">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># 1: Knit with Parameters -&gt; mpa = &quot;Nosy Fasika&quot;, year = 2024 -&gt; &quot;Mean hard coral cover was 24.6 %&quot;</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co"># 2: the Tanjona 2025 report says &quot;6 sites&quot;</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co"># 3: 9 reports</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>jobs <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mpa =</span> <span class="fu">c</span>(<span class="st">&quot;Ankaramena&quot;</span>, <span class="st">&quot;Nosy Fasika&quot;</span>, <span class="st">&quot;Tanjona&quot;</span>), <span class="at">year =</span> <span class="dv">2023</span><span class="sc">:</span><span class="dv">2025</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="fu">nrow</span>(jobs)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co"># 4: R/functions.R contains trend_sentence(); in the template&#39;s setup chunk:</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;functions.R&quot;</span>))</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>m_now    <span class="ot">&lt;-</span> <span class="fu">mean</span>(now<span class="sc">$</span>hard_coral)</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>m_before <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">nrow</span>(before) <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="fu">mean</span>(before<span class="sc">$</span>hard_coral) <span class="cf">else</span> <span class="cn">NA</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="fu">round</span>(m_now <span class="sc">-</span> m_before, <span class="dv">1</span>)            <span class="co"># Ankaramena 2025: +3.1 (3.2 if you subtract the rounded means)</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co"># ...and in the text:  `r trend_sentence(m_now, m_before)`</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co"># 5: at the top of the setup chunk, after reading the data</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span>params<span class="sc">$</span>mpa <span class="sc">%in%</span> <span class="fu">unique</span>(reef<span class="sc">$</span>mpa)) <span class="fu">stop</span>(<span class="st">&quot;Unknown MPA: &quot;</span>, params<span class="sc">$</span>mpa,</span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>                                            <span class="st">&quot;. Choose one of: &quot;</span>, <span class="fu">paste</span>(<span class="fu">unique</span>(reef<span class="sc">$</span>mpa), <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>))</span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -16,7 +16,7 @@ window.COURSE_CONFIG = {
   author: "Aroo Falinirina",
 
   // Course version shown in the footer (describe changes in whats-new.Rmd)
-  version: "3.1", versionDate: "2026-11",
+  version: "4.0", versionDate: "2026-11",
 
   // Default language for a first visit: "en" or "fr"
   defaultLang: "fr",
@@ -27,7 +27,7 @@ window.COURSE_CONFIG = {
 
   // Google Apps Script web-app URL. Empty "" = DEMO MODE (accounts below,
   // progress saved only in the browser).
-  scriptUrl: "https://script.google.com/macros/s/AKfycbztElIpQALbZ3ui5ilpfrkvn8xM_FRDD2vbwuYRFDacyhrbiAQ7TmqizWkQIwkPiWGH/exec",
+  scriptUrl: "https://script.google.com/macros/s/AKfycbx8SoconujJoMp6-6jlo33EUmO6VdGNnSV9oQL_PWsFpqRir3jUbSxzZB4eKgKYCayh/exec",
 
   // DEMO MODE only (real accounts are in the Google Sheet, never here: this file is public)
   demoUsers: [
@@ -45,7 +45,7 @@ window.COURSE_CONFIG = {
 
   // Pages that do not belong to a level (never locked)
   extraPages: ["index", "help", "certificate", "common-errors", "whats-new",
-               "cheatsheet", "cheatsheet-intermediate", "advanced"],
+               "cheatsheet", "cheatsheet-intermediate", "cheatsheet-advanced", "advanced"],
 
   // The levels, in order. Each page: id = file name without ".html";
   // quiz / quizzes = quiz id(s) of the page; hours = suggested duration.
@@ -81,6 +81,22 @@ window.COURSE_CONFIG = {
                                                          en: "I12. Practice session",                   fr: "I12. Séance d'exercices" },
       { id: "i13-final-project", quiz: "i13", hours: 4.5, en: "I13. Final project: sea cucumber farming", fr: "I13. Projet final : élevage d'holothuries" }
     ]},
-    { id: "advanced", en: "Advanced", fr: "Avancé", pages: [] }   // coming soon
+    // Add  inProgress: true  to a level that is still being written: it can be studied,
+    // but gives no certificate / "level passed" until the line is removed.
+    { id: "advanced", en: "Advanced", fr: "Avancé", pages: [
+      { id: "a00-project",  quiz: "a00", hours: 2.5, en: "A0. Organising a reproducible project", fr: "A0. Organiser un projet reproductible" },
+      { id: "a01-renv",     quiz: "a01", hours: 2,   en: "A1. Package versions with renv",        fr: "A1. Versions des packages avec renv" },
+      { id: "a02-git",      quiz: "a02", hours: 3.5, en: "A2. Git, GitHub and GitLab",            fr: "A2. Git, GitHub et GitLab" },
+      { id: "a03-rmarkdown", quiz: "a03", hours: 3,  en: "A3. Reports with R Markdown",           fr: "A3. Rapports avec R Markdown" },
+      { id: "a04-params",   quiz: "a04", hours: 3,   en: "A4. Parameterised and automatic reports", fr: "A4. Rapports paramétrés et automatiques" },
+      { id: "a05-sf",       quiz: "a05", hours: 3.5, en: "A5. Vector GIS data with sf",           fr: "A5. Données SIG vecteur avec sf" },
+      { id: "a06-terra",    quiz: "a06", hours: 3,   en: "A6. Rasters with terra",                fr: "A6. Rasters avec terra" },
+      { id: "a07-maps",     quiz: "a07", hours: 3,   en: "A7. Thematic maps (ggplot2, sf, tmap)", fr: "A7. Cartes thématiques (ggplot2, sf, tmap)" },
+      { id: "a08-quarto",   quiz: "a08", hours: 3.5, en: "A8. Quarto (1): cross-references and citations", fr: "A8. Quarto (1) : renvois et citations" },
+      { id: "a09-publish",  quiz: "a09", hours: 3,   en: "A9. Quarto (2): PDF and publishing",    fr: "A9. Quarto (2) : PDF et publication" },
+      { id: "a10-practice", quizzes: ["ap1", "ap2", "ap3", "ap4", "ap5", "ap6"], hours: 3.5,
+                                                     en: "A10. Practice session",                  fr: "A10. Séance d'exercices" },
+      { id: "a11-final-project", quiz: "a11", hours: 5, en: "A11. Final project: the 2026 reports", fr: "A11. Projet final : les rapports 2026" }
+    ]}
   ]
 };

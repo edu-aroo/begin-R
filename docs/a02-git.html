@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · A2</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A2 · Version control with
+Git, GitHub and GitLab</span><span class="fr">A2 · Gestion de versions
+avec Git, GitHub et GitLab</span></h1>
+<h3 class="subtitle">~3.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>explain what Git does (a <strong>history</strong> of your project)
+and what GitHub / GitLab add (a <strong>shared copy
+online</strong>);</li>
+<li>configure Git, and <strong>commit</strong> changes from RStudio or
+the terminal;</li>
+<li>read the <strong>history</strong>, compare versions and go back to
+an old version of a file;</li>
+<li>write a good <code>.gitignore</code> for an R project (and keep
+personal or large data out);</li>
+<li>connect a project to <strong>GitHub or GitLab</strong> (HTTPS token
+or SSH key, several accounts), <strong>push</strong> and
+<strong>pull</strong>;</li>
+<li>use a <strong>branch</strong>, and solve a simple <strong>merge
+conflict</strong>.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>expliquer ce que fait Git (un <strong>historique</strong> de votre
+projet) et ce qu’ajoutent GitHub / GitLab (une <strong>copie partagée en
+ligne</strong>) ;</li>
+<li>configurer Git, et <strong>valider</strong> (<em>commit</em>) des
+modifications depuis RStudio ou le terminal ;</li>
+<li>lire l’<strong>historique</strong>, comparer des versions et revenir
+à une ancienne version d’un fichier ;</li>
+<li>écrire un bon <code>.gitignore</code> pour un projet R (et garder
+hors du dépôt les données personnelles ou volumineuses) ;</li>
+<li>relier un projet à <strong>GitHub ou GitLab</strong> (jeton HTTPS ou
+clé SSH, plusieurs comptes), <strong>pousser</strong> (<em>push</em>) et
+<strong>récupérer</strong> (<em>pull</em>) ;</li>
+<li>utiliser une <strong>branche</strong>, et résoudre un
+<strong>conflit de fusion</strong> simple.</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong>
+<code>reef_project_git.zip</code> contains the
+<code>reef-monitoring</code> project of the NGO <strong>with its Git
+history</strong>: six commits made in May 2025 by the two analysts, Fara
+and Hery, while they prepared the coral analysis (import, cleaning, a
+bleaching indicator whose threshold was changed after a meeting with the
+MPA managers, figures). <em>Type:</em> an R project + the hidden
+<code>.git/</code> folder that stores every version. The commands below
+are run on a copy made for this page.</p>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong>
+<code>reef_project_git.zip</code> contient le projet
+<code>reef-monitoring</code> de l’ONG <strong>avec son historique
+Git</strong> : six <em>commits</em> faits en mai 2025 par les deux
+analystes, Fara et Hery, pendant la préparation de l’analyse corallienne
+(import, nettoyage, un indicateur de blanchissement dont le seuil a été
+changé après une réunion avec les gestionnaires des AMP, figures).
+<em>Type :</em> un projet R + le dossier caché <code>.git/</code> qui
+garde chaque version. Les commandes ci-dessous sont lancées sur une
+copie faite pour cette page.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/advanced/reef_project_git.zip" download>⇩
+reef_project_git.zip</a></p>
+<div id="concepts" class="section level2">
+<h2><span class="en">Git in one picture</span><span class="fr">Git en
+une image</span></h2>
+<div class="en">
+<p>Without Git, versions live in file names
+(<code>analysis_v3_FINAL.R</code>) and nobody knows what changed. With
+Git, the folder contains <strong>one</strong> version of each file, and
+a hidden <code>.git/</code> folder keeps <strong>every saved
+state</strong> (a <em>commit</em>) with its date, author and a message
+explaining why.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Word</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>repository</strong> (repo)</td>
+<td>a project folder followed by Git (it contains
+<code>.git/</code>)</td>
+</tr>
+<tr class="even">
+<td><strong>commit</strong></td>
+<td>a saved snapshot of the project, with a message; identified by a
+code (<em>hash</em>), e.g. <code>4a5c8d0</code></td>
+</tr>
+<tr class="odd">
+<td><strong>staging</strong> (<code>git add</code>)</td>
+<td>choosing which changes go into the next commit</td>
+</tr>
+<tr class="even">
+<td><strong>remote</strong></td>
+<td>a copy of the repository on a server: <strong>GitHub</strong>,
+<strong>GitLab</strong> (or Bitbucket)</td>
+</tr>
+<tr class="odd">
+<td><strong>push</strong> / <strong>pull</strong></td>
+<td>send your commits to the remote / get the commits of others</td>
+</tr>
+<tr class="even">
+<td><strong>clone</strong></td>
+<td>download a whole repository (with its history)</td>
+</tr>
+<tr class="odd">
+<td><strong>branch</strong></td>
+<td>a parallel line of work, merged back later</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p>Sans Git, les versions vivent dans les noms de fichiers
+(<code>analyse_v3_FINAL.R</code>) et personne ne sait ce qui a changé.
+Avec Git, le dossier contient <strong>une seule</strong> version de
+chaque fichier, et un dossier caché <code>.git/</code> garde
+<strong>chaque état enregistré</strong> (un <em>commit</em>) avec sa
+date, son auteur et un message expliquant pourquoi.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Mot</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>dépôt</strong> (<em>repository</em>, repo)</td>
+<td>un dossier de projet suivi par Git (il contient
+<code>.git/</code>)</td>
+</tr>
+<tr class="even">
+<td><strong>commit</strong></td>
+<td>un instantané enregistré du projet, avec un message ; identifié par
+un code (<em>hash</em>), ex. <code>4a5c8d0</code></td>
+</tr>
+<tr class="odd">
+<td><strong>indexation</strong> (<code>git add</code>,
+<em>staging</em>)</td>
+<td>choisir quelles modifications vont dans le prochain commit</td>
+</tr>
+<tr class="even">
+<td><strong>dépôt distant</strong> (<em>remote</em>)</td>
+<td>une copie du dépôt sur un serveur : <strong>GitHub</strong>,
+<strong>GitLab</strong> (ou Bitbucket)</td>
+</tr>
+<tr class="odd">
+<td><strong>push</strong> / <strong>pull</strong></td>
+<td>envoyer vos commits vers le distant / récupérer les commits des
+autres</td>
+</tr>
+<tr class="even">
+<td><strong>clone</strong></td>
+<td>télécharger un dépôt entier (avec son historique)</td>
+</tr>
+<tr class="odd">
+<td><strong>branche</strong></td>
+<td>une ligne de travail parallèle, fusionnée plus tard</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Git is not a backup of your data.</strong> It is made for
+<strong>text files</strong> (scripts, Rmd, Quarto, README, small CSV).
+Large files (rasters, photos, big Excel files) and <strong>personal
+data</strong> (names and phone numbers of interviewed households!) do
+not belong in a repository — especially a public one.</p>
+</div>
+<div class="fr">
+<p><strong>Git n’est pas une sauvegarde de vos données.</strong> Il est
+fait pour les <strong>fichiers texte</strong> (scripts, Rmd, Quarto,
+README, petits CSV). Les gros fichiers (rasters, photos, gros fichiers
+Excel) et les <strong>données personnelles</strong> (noms et téléphones
+des ménages enquêtés !) n’ont pas leur place dans un dépôt — surtout
+public.</p>
+</div>
+</div>
+</div>
+<div id="install" class="section level2">
+<h2><span class="en">Install and configure</span><span
+class="fr">Installer et configurer</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>Install Git: <strong>Windows</strong> — <em>Git for Windows</em>
+from <a href="https://git-scm.com" class="uri">https://git-scm.com</a>
+(keep the default options; it also installs <strong>Git Bash</strong>, a
+terminal); <strong>Mac</strong> — type <code>git --version</code> in the
+Terminal and accept the installation of the developer tools;
+<strong>Linux</strong> — <code>sudo apt install git</code>.</li>
+<li>Restart RStudio. <em>Tools → Global Options → Git/SVN</em> must show
+the path of <code>git.exe</code>.</li>
+<li>Tell Git who you are (once per computer). The e-mail should be the
+one of your GitHub / GitLab account:</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Installez Git : <strong>Windows</strong> — <em>Git for Windows</em>
+depuis <a href="https://git-scm.com" class="uri">https://git-scm.com</a>
+(gardez les options par défaut ; il installe aussi <strong>Git
+Bash</strong>, un terminal) ; <strong>Mac</strong> — tapez
+<code>git --version</code> dans le Terminal et acceptez l’installation
+des outils de développement ; <strong>Linux</strong> —
+<code>sudo apt install git</code>.</li>
+<li>Redémarrez RStudio. <em>Tools → Global Options → Git/SVN</em> doit
+afficher le chemin de <code>git.exe</code>.</li>
+<li>Dites à Git qui vous êtes (une fois par ordinateur). L’e-mail doit
+être celui de votre compte GitHub / GitLab :</li>
+</ol>
+</div>
+<div class="compare">
+<div class="col base">
+<p><strong><span class="en">Terminal (RStudio: Tools →
+Terminal)</span><span class="fr">Terminal (RStudio : Tools →
+Terminal)</span></strong></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">&quot;Your Name&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">&quot;you@example.org&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> init.defaultBranch main</span></code></pre></div>
+</div>
+<div class="col pkg">
+<p><strong><span class="en">From R, with usethis</span><span
+class="fr">Depuis R, avec usethis</span></strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_git_config</span>(<span class="at">user.name =</span> <span class="st">&quot;Your Name&quot;</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>                        <span class="at">user.email =</span> <span class="st">&quot;you@example.org&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">git_default_branch_configure</span>()</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="cycle" class="section level2">
+<h2><span class="en">The daily cycle: change, add, commit</span><span
+class="fr">Le cycle quotidien : modifier, indexer, valider</span></h2>
+<div class="en">
+<p>The commands below are really run on this page (in a temporary
+folder). In RStudio you do the same with the <strong>Git</strong> pane:
+tick <em>Staged</em>, click <em>Commit</em>, write the message.</p>
+</div>
+<div class="fr">
+<p>Les commandes ci-dessous sont réellement exécutées sur cette page
+(dans un dossier temporaire). Dans RStudio, vous faites la même chose
+avec le panneau <strong>Git</strong> : cochez <em>Staged</em>, cliquez
+sur <em>Commit</em>, écrivez le message.</p>
+</div>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">git</span> init <span class="at">-q</span> <span class="at">-b</span> main                       <span class="co"># 1. turn the folder into a repository (once)</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> R data/raw</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;reef &lt;- read.csv(&quot;data/raw/reef_monitoring.csv&quot;)&#39;</span> <span class="op">&gt;</span> R/01_import.R</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;# Reef monitoring&#39;</span> <span class="op">&gt;</span> README.md</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">git</span> status <span class="at">--short</span>                        <span class="co"># ?? = new files, not followed yet</span></span></code></pre></div>
+<pre><code>?? R/
+?? README.md</code></pre>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">git</span> add README.md R/01_import.R           <span class="co"># 2. stage: choose what goes in the commit</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-q</span> <span class="at">-m</span> <span class="st">&quot;Start the project: README and import script&quot;</span>   <span class="co"># 3. commit with a message</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span>                         <span class="co"># the history: one line per commit</span></span></code></pre></div>
+<pre><code>246537b Start the project: README and import script</code></pre>
+<div class="en">
+<p>Now we change a file. <code>git diff</code> shows exactly what
+changed (<code>-</code> removed, <code>+</code> added) before we
+commit:</p>
+</div>
+<div class="fr">
+<p>Modifions maintenant un fichier. <code>git diff</code> montre
+exactement ce qui a changé (<code>-</code> supprimé, <code>+</code>
+ajouté) avant de valider :</p>
+</div>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;sites &lt;- read.csv(&quot;data/raw/reef_sites.csv&quot;)&#39;</span> <span class="op">&gt;&gt;</span> R/01_import.R</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">git</span> diff</span></code></pre></div>
+<pre><code>diff --git a/R/01_import.R b/R/01_import.R
+index 17ee4f4..cef9078 100644
+--- a/R/01_import.R
++++ b/R/01_import.R
+@@ -1 +1,2 @@
+ reef &lt;- read.csv(&quot;data/raw/reef_monitoring.csv&quot;)
++sites &lt;- read.csv(&quot;data/raw/reef_sites.csv&quot;)</code></pre>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">GIT_AUTHOR_DATE</span><span class="op">=</span><span class="st">&quot;2025-06-03T10:00:00+0300&quot;</span> <span class="va">GIT_COMMITTER_DATE</span><span class="op">=</span><span class="st">&quot;2025-06-03T10:00:00+0300&quot;</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-q</span> <span class="at">-am</span> <span class="st">&quot;Import the sites table&quot;</span>   <span class="co"># -a: stage every modified (already followed) file</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--format</span><span class="op">=</span><span class="st">&quot;%h  %ad  %an  %s&quot;</span> <span class="at">--date</span><span class="op">=</span>short</span></code></pre></div>
+<pre><code>90ecbee  2025-06-03  Fara Rasoa  Import the sites table
+246537b  2025-06-02  Fara Rasoa  Start the project: README and import script</code></pre>
+<div class="callout tip">
+<div class="en">
+<p><strong>Good commit messages</strong> say <em>why</em> in a short
+sentence, in the imperative: “Lower the bleaching threshold to 20 %”,
+“Fix the site names of Tanjona”. Bad: “update”, “changes”, “final”.
+<strong>Commit often</strong>: one commit = one logical change.</p>
+</div>
+<div class="fr">
+<p><strong>Les bons messages de commit</strong> disent <em>pourquoi</em>
+en une courte phrase, à l’impératif : « Lower the bleaching threshold to
+20 % », « Corrige les noms de sites de Tanjona ». Mauvais : « update »,
+« modifs », « final ». <strong>Validez souvent</strong> : un commit =
+une modification logique.</p>
+</div>
+</div>
+</div>
+<div id="history" class="section level2">
+<h2><span class="en">Travelling in the history</span><span
+class="fr">Voyager dans l’historique</span></h2>
+<div class="en">
+<p>Let us open the NGO project (<code>reef_project_git.zip</code>).
+These commands answer the classic questions: <em>who changed this, when,
+and what was the value before?</em></p>
+</div>
+<div class="fr">
+<p>Ouvrons le projet de l’ONG (<code>reef_project_git.zip</code>). Ces
+commandes répondent aux questions classiques : <em>qui a changé ceci,
+quand, et quelle était la valeur avant ?</em></p>
+</div>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$NGO</span><span class="st">&quot;</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--format</span><span class="op">=</span><span class="st">&quot;%h  %ad  %&lt;(12)%an %s&quot;</span> <span class="at">--date</span><span class="op">=</span>short    <span class="co"># who did what, when</span></span></code></pre></div>
+<pre><code>cb39eea  2025-05-12  Fara Rasoa   Explain the order of the scripts in the README
+e0ed893  2025-05-12  Fara Rasoa   Boxplots of coral cover per year
+4a5c8d0  2025-05-09  Hery Nirina  Lower the bleaching threshold to 20 %
+8c390f6  2025-05-05  Hery Nirina  Flag severe bleaching
+06d0e2b  2025-05-02  Fara Rasoa   Add the cleaning script
+ed72085  2025-05-01  Fara Rasoa   Start the project: README, gitignore, import script</code></pre>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$NGO</span><span class="st">&quot;</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">--</span> R/03_bleaching.R        <span class="co"># only the commits that touched this file</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">git</span> show 4a5c8d0 <span class="at">--stat</span> <span class="at">--format</span><span class="op">=</span><span class="st">&quot;%h %an: %s&quot;</span>  <span class="co"># what one commit changed</span></span></code></pre></div>
+<pre><code>4a5c8d0 Lower the bleaching threshold to 20 %
+8c390f6 Flag severe bleaching
+4a5c8d0 Hery Nirina: Lower the bleaching threshold to 20 %
+
+ R/03_bleaching.R | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)</code></pre>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$NGO</span><span class="st">&quot;</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">git</span> show 8c390f6:R/03_bleaching.R            <span class="co"># the file as it was in an older commit</span></span></code></pre></div>
+<pre><code>bleach_threshold &lt;- 30   # % of colonies bleached = severe
+reef$severe &lt;- reef$bleached_pct &gt;= bleach_threshold
+table(reef$year, reef$severe)</code></pre>
+<div class="en">
+<p>To <strong>go back</strong> to an old version of one file:
+<code>git restore --source=8c390f6 R/03_bleaching.R</code>, then commit.
+Nothing is ever lost: the newer version is still in the history. In
+RStudio: Git pane → <em>History</em> (clock icon) lets you browse every
+commit and every file.</p>
+</div>
+<div class="fr">
+<p>Pour <strong>revenir</strong> à une ancienne version d’un fichier :
+<code>git restore --source=8c390f6 R/03_bleaching.R</code>, puis
+validez. Rien n’est jamais perdu : la version plus récente reste dans
+l’historique. Dans RStudio : panneau Git → <em>History</em> (icône
+horloge) permet de parcourir chaque commit et chaque fichier.</p>
+</div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Unzip <code>reef_project_git.zip</code>,
+open <code>reef-monitoring</code> in RStudio (<em>File → New Project →
+Existing Directory</em>) and open the <strong>History</strong> of the
+Git pane. Who wrote the figures script? When was the README last
+changed?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Décompressez
+<code>reef_project_git.zip</code>, ouvrez <code>reef-monitoring</code>
+dans RStudio (<em>File → New Project → Existing Directory</em>) et
+ouvrez l’<strong>History</strong> du panneau Git. Qui a écrit le script
+des figures ? Quand le README a-t-il été modifié pour la dernière fois
+?</p>
+</div>
+</div>
+</div>
+<div id="gitignore" class="section level2">
+<h2><span class="en">What Git must ignore</span><span class="fr">Ce que
+Git doit ignorer</span></h2>
+<div class="en">
+<p>The file <code>.gitignore</code> lists the files Git never follows. A
+good start for an R project with renv:</p>
+</div>
+<div class="fr">
+<p>Le fichier <code>.gitignore</code> liste les fichiers que Git ne suit
+jamais. Un bon début pour un projet R avec renv :</p>
+</div>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># R and RStudio</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="ex">.Rhistory</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="ex">.RData</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="ex">.Rproj.user/</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co"># renv: the library is rebuilt by renv::restore() (renv/.gitignore already does it)</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="ex">renv/library/</span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="co"># results that the scripts can rebuild</span></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="ex">outputs/</span></span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="ex">data/derived/</span></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="co"># rendered reports</span></span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="ex">*.html</span></span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="ex">*.docx</span></span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co"># large or confidential data: share them another way (drive, data repository)</span></span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="ex">data/raw/household_survey_names.csv</span></span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="ex">*.tif</span></span></code></pre></div>
+<div class="en">
+<p><code>usethis::use_git_ignore(c("outputs/", "*.tif"))</code> adds
+lines from R. Ignoring a file <strong>after</strong> it was committed is
+not enough: also run <code>git rm --cached file</code> to stop following
+it (it stays on your disk).</p>
+</div>
+<div class="fr">
+<p><code>usethis::use_git_ignore(c("outputs/", "*.tif"))</code> ajoute
+des lignes depuis R. Ignorer un fichier <strong>après</strong> l’avoir
+validé ne suffit pas : lancez aussi <code>git rm --cached fichier</code>
+pour qu’il ne soit plus suivi (il reste sur votre disque).</p>
+</div>
+</div>
+<div id="remote" class="section level2">
+<h2><span class="en">GitHub or GitLab: your project online</span><span
+class="fr">GitHub ou GitLab : votre projet en ligne</span></h2>
+<div class="en">
+<p><strong>GitHub</strong> (github.com) and <strong>GitLab</strong>
+(gitlab.com, or a server of your institution) are both free for public
+and private repositories. They work the same way for what we do here;
+the main difference is the vocabulary (GitHub <em>pull request</em> =
+GitLab <em>merge request</em>) and the publishing service (Session
+A9).</p>
+<p><strong>1. Create the empty repository online</strong> (<em>New
+repository</em> / <em>New project</em>), without README (your project
+already has one).</p>
+<p><strong>2. Prove who you are.</strong> Two methods:</p>
+</div>
+<div class="fr">
+<p><strong>GitHub</strong> (github.com) et <strong>GitLab</strong>
+(gitlab.com, ou un serveur de votre institution) sont tous deux gratuits
+pour les dépôts publics et privés. Ils fonctionnent de la même façon
+pour ce que nous faisons ici ; la principale différence est le
+vocabulaire (GitHub <em>pull request</em> = GitLab <em>merge
+request</em>) et le service de publication (séance A9).</p>
+<p><strong>1. Créez le dépôt vide en ligne</strong> (<em>New
+repository</em> / <em>New project</em>), sans README (votre projet en a
+déjà un).</p>
+<p><strong>2. Prouvez qui vous êtes.</strong> Deux méthodes :</p>
+</div>
+<div class="compare">
+<div class="col base">
+<p><strong><span class="en">HTTPS + personal token (easiest)</span><span
+class="fr">HTTPS + jeton personnel (le plus simple)</span></strong></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">create_github_token</span>()   <span class="co"># opens GitHub: create a token, copy it</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>gitcreds<span class="sc">::</span><span class="fu">gitcreds_set</span>()         <span class="co"># paste it: stored safely</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co"># GitLab: Preferences -&gt; Access tokens (scopes</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co"># read_repository + write_repository), then the same</span></span></code></pre></div>
+</div>
+<div class="col pkg">
+<p><strong><span class="en">SSH key (no token to renew)</span><span
+class="fr">Clé SSH (pas de jeton à renouveler)</span></strong></p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">ssh-keygen</span> <span class="at">-t</span> ed25519 <span class="at">-C</span> <span class="st">&quot;you@example.org&quot;</span>   <span class="co"># Enter x3</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">cat</span> ~/.ssh/id_ed25519.pub   <span class="co"># copy this PUBLIC key into</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="co"># GitHub: Settings -&gt; SSH and GPG keys -&gt; New SSH key</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co"># GitLab: Preferences -&gt; SSH Keys</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-T</span> git@github.com       <span class="co"># test: &quot;Hi &lt;name&gt;! ...&quot;</span></span></code></pre></div>
+</div>
+</div>
+<div class="en">
+<p><strong>3. Connect and push</strong> (in the Terminal of your
+project):</p>
+</div>
+<div class="fr">
+<p><strong>3. Reliez et poussez</strong> (dans le Terminal de votre
+projet) :</p>
+</div>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">git</span> remote add origin git@github.com:your-account/reef-monitoring.git      <span class="co"># SSH</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="co"># or: https://github.com/your-account/reef-monitoring.git                  # HTTPS</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="co"># GitLab: git@gitlab.com:your-account/reef-monitoring.git</span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main        <span class="co"># first time; afterwards: git push</span></span></code></pre></div>
+<div class="en">
+<p>From R, <code>usethis::use_git()</code> then
+<code>usethis::use_github()</code> do steps 1 and 3 for GitHub in one go
+(with a token).</p>
+</div>
+<div class="fr">
+<p>Depuis R, <code>usethis::use_git()</code> puis
+<code>usethis::use_github()</code> font les étapes 1 et 3 pour GitHub
+d’un coup (avec un jeton).</p>
+</div>
+<div
+id="two-accounts-on-one-computer-sshdeux-comptes-sur-un-même-ordinateur-ssh"
+class="section level3">
+<h3><span class="en">Two accounts on one computer (SSH)</span><span
+class="fr">Deux comptes sur un même ordinateur (SSH)</span></h3>
+<div class="en">
+<p>With a personal and a work account, give each its own key and an
+<strong>alias</strong> in <code>~/.ssh/config</code>. The alias then
+replaces <code>github.com</code> in the address of the remote — and it
+must be <strong>exactly</strong> the alias written in the config file,
+or the push fails with <em>Could not resolve hostname</em>.</p>
+</div>
+<div class="fr">
+<p>Avec un compte personnel et un compte professionnel, donnez à chacun
+sa propre clé et un <strong>alias</strong> dans
+<code>~/.ssh/config</code>. L’alias remplace alors
+<code>github.com</code> dans l’adresse du dépôt distant — et il doit
+être <strong>exactement</strong> l’alias écrit dans le fichier config,
+sinon le push échoue avec <em>Could not resolve hostname</em>.</p>
+</div>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># ~/.ssh/config</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="ex">Host</span> github-work</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>    <span class="ex">HostName</span> github.com</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>    <span class="ex">User</span> git</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>    <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519_work</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="ex">Host</span> github-perso</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>    <span class="ex">HostName</span> github.com</span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>    <span class="ex">User</span> git</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>    <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519_perso</span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a><span class="co"># test each alias, then use it in the remote address:</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-T</span> git@github-work</span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a><span class="fu">git</span> remote set-url origin git@github-work:organisation/reef-monitoring.git</span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a><span class="fu">git</span> remote <span class="at">-v</span>                       <span class="co"># check which address is used</span></span></code></pre></div>
+</div>
+<div
+id="working-with-others-pull-before-you-pushtravailler-à-plusieurs-pull-avant-push"
+class="section level3">
+<h3><span class="en">Working with others: pull before you
+push</span><span class="fr">Travailler à plusieurs : pull avant
+push</span></h3>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li><strong>Pull</strong> (blue arrow in RStudio) before starting to
+work: you get your colleagues’ commits.</li>
+<li>Work, commit.</li>
+<li><strong>Pull</strong> again, then <strong>push</strong> (green
+arrow). If Git refuses the push (<em>rejected — fetch first</em>),
+somebody pushed in the meantime: pull, then push.</li>
+</ol>
+<p>To start from somebody else’s project:
+<code>git clone &lt;address&gt;</code> or, in RStudio, <em>File → New
+Project → Version Control → Git</em>.</p>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li><strong>Pull</strong> (flèche bleue dans RStudio) avant de commencer
+à travailler : vous récupérez les commits de vos collègues.</li>
+<li>Travaillez, validez.</li>
+<li><strong>Pull</strong> à nouveau, puis <strong>push</strong> (flèche
+verte). Si Git refuse le push (<em>rejected — fetch first</em>),
+quelqu’un a poussé entre-temps : pull, puis push.</li>
+</ol>
+<p>Pour partir du projet de quelqu’un d’autre :
+<code>git clone &lt;adresse&gt;</code> ou, dans RStudio, <em>File → New
+Project → Version Control → Git</em>.</p>
+</div>
+</div>
+</div>
+<div id="branches" class="section level2">
+<h2><span class="en">Branches and conflicts</span><span
+class="fr">Branches et conflits</span></h2>
+<div class="en">
+<p>A <strong>branch</strong> lets you try something (a new indicator, a
+new figure) without disturbing the main version. If it works, you
+<strong>merge</strong> it; if not, you delete it. Here Hery changes the
+threshold on a branch while Fara changes the same line on
+<code>main</code>:</p>
+</div>
+<div class="fr">
+<p>Une <strong>branche</strong> permet d’essayer quelque chose (un
+nouvel indicateur, une nouvelle figure) sans perturber la version
+principale. Si ça marche, on la <strong>fusionne</strong>
+(<em>merge</em>) ; sinon on la supprime. Ici Hery change le seuil sur
+une branche pendant que Fara change la même ligne sur <code>main</code>
+:</p>
+</div>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;threshold &lt;- 30&#39;</span> <span class="op">&gt;</span> R/02_indicator.R <span class="kw">&amp;&amp;</span> <span class="fu">git</span> add . <span class="kw">&amp;&amp;</span> <span class="fu">git</span> commit <span class="at">-q</span> <span class="at">-m</span> <span class="st">&quot;Add the bleaching indicator&quot;</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-q</span> <span class="at">-c</span> hery-threshold                 <span class="co"># new branch, and go on it</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;threshold &lt;- 20&#39;</span> <span class="op">&gt;</span> R/02_indicator.R <span class="kw">&amp;&amp;</span> <span class="fu">git</span> commit <span class="at">-q</span> <span class="at">-am</span> <span class="st">&quot;Threshold 20 % (managers&#39; request)&quot;</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-q</span> main                              <span class="co"># back on main</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;threshold &lt;- 25&#39;</span> <span class="op">&gt;</span> R/02_indicator.R <span class="kw">&amp;&amp;</span> <span class="fu">git</span> commit <span class="at">-q</span> <span class="at">-am</span> <span class="st">&quot;Threshold 25 % (literature)&quot;</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a><span class="fu">git</span> merge hery-threshold <span class="kw">||</span> <span class="fu">true</span>                <span class="co"># same line changed on both sides -&gt; conflict</span></span></code></pre></div>
+<pre><code>Auto-merging R/02_indicator.R
+CONFLICT (content): Merge conflict in R/02_indicator.R
+Automatic merge failed; fix conflicts and then commit the result.</code></pre>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="fu">cat</span> R/02_indicator.R</span></code></pre></div>
+<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+threshold &lt;- 25
+=======
+threshold &lt;- 20
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; hery-threshold</code></pre>
+<div class="en">
+<p>Git cannot choose between 25 and 20: it writes <strong>both</strong>
+versions between markers. You decide (talk to Hery!), edit the file to
+keep the right line and <strong>delete the markers</strong>, then add
+and commit:</p>
+</div>
+<div class="fr">
+<p>Git ne peut pas choisir entre 25 et 20 : il écrit <strong>les
+deux</strong> versions entre des marqueurs. C’est vous qui décidez
+(parlez avec Hery !), modifiez le fichier pour garder la bonne ligne et
+<strong>supprimez les marqueurs</strong>, puis indexez et validez :</p>
+</div>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;threshold &lt;- 20   # agreed with the MPA managers, 2025-06-04&#39;</span> <span class="op">&gt;</span> R/02_indicator.R</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a><span class="fu">git</span> add R/02_indicator.R <span class="kw">&amp;&amp;</span> <span class="fu">git</span> commit <span class="at">-q</span> <span class="at">-m</span> <span class="st">&quot;Merge hery-threshold: keep 20 %&quot;</span></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">--graph</span></span></code></pre></div>
+<pre><code>*   fde48cf Merge hery-threshold: keep 20 %
+|\  
+| * c862be0 Threshold 20 % (managers&#39; request)
+* | b73c1f8 Threshold 25 % (literature)
+|/  
+* 0264722 Add the bleaching indicator
+* 90ecbee Import the sites table
+* 246537b Start the project: README and import script</code></pre>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-a2" class="section level3 en">
+<h3>Application work A2</h3>
+<p><strong>Part A — explore</strong> (unzip
+<code>reef_project_git.zip</code>; Terminal or RStudio History):</p>
+<ol style="list-style-type: decimal">
+<li>How many commits does the project have?</li>
+<li>Who made the <strong>last</strong> change to
+<code>R/03_bleaching.R</code>?</li>
+<li>What was the value of <code>bleach_threshold</code> when the file
+was <strong>first</strong> committed?</li>
+<li>Short hash (7 characters) of the commit that <strong>added</strong>
+<code>R/02_clean.R</code>.</li>
+<li>How many files does Git follow (<code>git ls-files</code>)?</li>
+</ol>
+<p><strong>Part B — your project:</strong> in your
+<code>reef-monitoring</code> project (Sessions A0–A1), add a
+<code>.gitignore</code>, make your first commit, create a
+<strong>private</strong> repository on GitHub <strong>or</strong>
+GitLab, connect it and push. Then change the README online (pencil
+icon), and <strong>pull</strong> it into RStudio.</p>
+</div>
+<div id="travail-dapplication-a2" class="section level3 fr">
+<h3>Travail d’application A2</h3>
+<p><strong>Partie A — explorer</strong> (décompressez
+<code>reef_project_git.zip</code> ; Terminal ou History de RStudio)
+:</p>
+<ol style="list-style-type: decimal">
+<li>Combien de commits compte le projet ?</li>
+<li>Qui a fait la <strong>dernière</strong> modification de
+<code>R/03_bleaching.R</code> ?</li>
+<li>Quelle était la valeur de <code>bleach_threshold</code> lors du
+<strong>premier</strong> commit de ce fichier ?</li>
+<li>Hash court (7 caractères) du commit qui a <strong>ajouté</strong>
+<code>R/02_clean.R</code>.</li>
+<li>Combien de fichiers Git suit-il (<code>git ls-files</code>) ?</li>
+</ol>
+<p><strong>Partie B — votre projet :</strong> dans votre projet
+<code>reef-monitoring</code> (séances A0–A1), ajoutez un
+<code>.gitignore</code>, faites votre premier commit, créez un dépôt
+<strong>privé</strong> sur GitHub <strong>ou</strong> GitLab, reliez-le
+et poussez. Modifiez ensuite le README en ligne (icône crayon), et
+récupérez-le (<strong>pull</strong>) dans RStudio.</p>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p><code>git log --oneline -- R/03_bleaching.R</code> lists the commits
+of one file, newest first: the <strong>last</strong> line is the first
+commit. <code>git show &lt;hash&gt;:R/03_bleaching.R</code> prints the
+file at that commit.
+<code>git log --diff-filter=A -- R/02_clean.R</code> shows the commit
+that <strong>A</strong>dded the file.</p>
+</div>
+<div class="fr">
+<p><code>git log --oneline -- R/03_bleaching.R</code> liste les commits
+d’un fichier, du plus récent au plus ancien : la
+<strong>dernière</strong> ligne est le premier commit.
+<code>git show &lt;hash&gt;:R/03_bleaching.R</code> affiche le fichier à
+ce commit. <code>git log --diff-filter=A -- R/02_clean.R</code> montre
+le commit qui a <strong>A</strong>jouté le fichier.</p>
+</div>
+</div>
+<div id="quiz-a02" class="quiz" data-quiz-id="a02"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIGNvbW1pdHM/IiwiZnIiOiIxLiBOb21icmUgZGUgY29tbWl0cyA/IiwiYW5zd2VyIjo2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMi4gQXV0aG9yIG9mIHRoZSBsYXN0IGNoYW5nZSB0byBSLzAzX2JsZWFjaGluZy5SIChmaXJzdCBhbmQgbGFzdCBuYW1lKT8iLCJmciI6IjIuIEF1dGV1ciBkZSBsYSBkZXJuacOocmUgbW9kaWZpY2F0aW9uIGRlIFIvMDNfYmxlYWNoaW5nLlIgKHByw6lub20gZXQgbm9tKSA/IiwiYW5zd2VyIjpbIkhlcnkgTmlyaW5hIl19LHsidHlwZSI6Im51bSIsImVuIjoiMy4gRmlyc3QgdmFsdWUgb2YgYmxlYWNoX3RocmVzaG9sZD8iLCJmciI6IjMuIFByZW1pw6hyZSB2YWxldXIgZGUgYmxlYWNoX3RocmVzaG9sZCA/IiwiYW5zd2VyIjozMCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjQuIFNob3J0IGhhc2ggb2YgdGhlIGNvbW1pdCB0aGF0IGFkZGVkIFIvMDJfY2xlYW4uUj8iLCJmciI6IjQuIEhhc2ggY291cnQgZHUgY29tbWl0IHF1aSBhIGFqb3V0w6kgUi8wMl9jbGVhbi5SID8iLCJhbnN3ZXIiOlsiMDZkMGUyYiJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIE51bWJlciBvZiBmaWxlcyBmb2xsb3dlZCBieSBHaXQ/IiwiZnIiOiI1LiBOb21icmUgZGUgZmljaGllcnMgc3VpdmlzIHBhciBHaXQgPyIsImFuc3dlciI6NiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gV2hpY2ggZmlsZSBzaG91bGQgYmUgaW4gLmdpdGlnbm9yZT8iLCJmciI6IjYuIFF1ZWwgZmljaGllciBkb2l0IMOqdHJlIGRhbnMgLmdpdGlnbm9yZSA/Iiwib3B0aW9uc19lbiI6WyJSLzAxX2ltcG9ydC5SIiwiUkVBRE1FLm1kIiwicmVudi9saWJyYXJ5LyIsInJlbnYubG9jayJdLCJvcHRpb25zX2ZyIjpbIlIvMDFfaW1wb3J0LlIiLCJSRUFETUUubWQiLCJyZW52L2xpYnJhcnkvIiwicmVudi5sb2NrIl0sImFuc3dlciI6Mn0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBnaXQgcHVzaCBpcyByZWplY3RlZCB3aXRoIFwiZmV0Y2ggZmlyc3RcIi4gV2hhdCBkbyB5b3UgZG8/IiwiZnIiOiI3LiBnaXQgcHVzaCBlc3QgcmVmdXPDqSBhdmVjIMKrIGZldGNoIGZpcnN0IMK7LiBRdWUgZmFpdGVzLXZvdXMgPyIsIm9wdGlvbnNfZW4iOlsiRGVsZXRlIHRoZSByZW1vdGUgcmVwb3NpdG9yeSIsIlB1bGwgZmlyc3QsIHRoZW4gcHVzaCIsIlVzZSBnaXQgcHVzaCAtLWZvcmNlIiwiQ29tbWl0IGFnYWluIl0sIm9wdGlvbnNfZnIiOlsiU3VwcHJpbWVyIGxlIGTDqXDDtHQgZGlzdGFudCIsIkZhaXJlIHVuIHB1bGwgZCdhYm9yZCwgcHVpcyBwdXNoIiwiVXRpbGlzZXIgZ2l0IHB1c2ggLS1mb3JjZSIsIlJlZmFpcmUgdW4gY29tbWl0Il0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBBIHN1cnZleSBmaWxlIGNvbnRhaW5zIHRoZSBuYW1lcyBhbmQgcGhvbmUgbnVtYmVycyBvZiBob3VzZWhvbGRzLiBPbiBhIHB1YmxpYyBHaXRIdWIgcmVwb3NpdG9yeSB5b3U6IiwiZnIiOiI4LiBVbiBmaWNoaWVyIGQnZW5xdcOqdGUgY29udGllbnQgbGVzIG5vbXMgZXQgdMOpbMOpcGhvbmVzIGRlcyBtw6luYWdlcy4gU3VyIHVuIGTDqXDDtHQgR2l0SHViIHB1YmxpYyB2b3VzIDoiLCJvcHRpb25zX2VuIjpbImtlZXAgaXQgb3V0IG9mIHRoZSByZXBvc2l0b3J5ICguZ2l0aWdub3JlKSBhbmQgc2hhcmUgYW4gYW5vbnltaXNlZCB2ZXJzaW9uIiwiY29tbWl0IGl0OiBHaXQgaXMgYSBiYWNrdXAiLCJjb21taXQgaXQgaW4gYSBwcml2YXRlIGJyYW5jaCIsInppcCBpdCBiZWZvcmUgY29tbWl0dGluZyJdLCJvcHRpb25zX2ZyIjpbImxlIGdhcmRleiBob3JzIGR1IGTDqXDDtHQgKC5naXRpZ25vcmUpIGV0IHBhcnRhZ2V6IHVuZSB2ZXJzaW9uIGFub255bWlzw6llIiwibGUgdmFsaWRleiA6IEdpdCBlc3QgdW5lIHNhdXZlZ2FyZGUiLCJsZSB2YWxpZGV6IHN1ciB1bmUgYnJhbmNoZSBwcml2w6llIiwibGUgemlwcGV6IGF2YW50IGRlIGxlIHZhbGlkZXIiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIEFmdGVyIGEgbWVyZ2UgY29uZmxpY3QsIHRoZSBmaWxlIGNvbnRhaW5zIDw8PDw8PDwsID09PT09PT0gYW5kID4+Pj4+Pj4uIFlvdSBtdXN0OiIsImZyIjoiOS4gQXByw6hzIHVuIGNvbmZsaXQgZGUgZnVzaW9uLCBsZSBmaWNoaWVyIGNvbnRpZW50IDw8PDw8PDwsID09PT09PT0gZXQgPj4+Pj4+Pi4gVm91cyBkZXZleiA6Iiwib3B0aW9uc19lbiI6WyJydW4gZ2l0IG1lcmdlIGFnYWluIiwiZGVsZXRlIHRoZSBmaWxlIiwia2VlcCB0aGUgcmlnaHQgbGluZXMsIGRlbGV0ZSB0aGUgbWFya2VycywgdGhlbiBhZGQgYW5kIGNvbW1pdCIsInB1c2ggaW1tZWRpYXRlbHkiXSwib3B0aW9uc19mciI6WyJyZWxhbmNlciBnaXQgbWVyZ2UiLCJzdXBwcmltZXIgbGUgZmljaGllciIsImdhcmRlciBsZXMgYm9ubmVzIGxpZ25lcywgc3VwcHJpbWVyIGxlcyBtYXJxdWV1cnMsIHB1aXMgYWRkIGV0IGNvbW1pdCIsInBvdXNzZXIgaW1tw6lkaWF0ZW1lbnQiXSwiYW5zd2VyIjoyfV0=">
+
+</div>
+<div class="solution" data-quiz="a02">
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="bu">cd</span> reef-monitoring</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>                               <span class="co"># 1: 6 commits</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a><span class="fu">git</span> log <span class="at">-1</span> <span class="at">--format</span><span class="op">=</span><span class="st">&quot;%an&quot;</span> <span class="at">--</span> R/03_bleaching.R           <span class="co"># 2: Hery Nirina</span></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">--</span> R/03_bleaching.R                   <span class="co"># the last line = first commit (8c390f6)</span></span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a><span class="fu">git</span> show 8c390f6:R/03_bleaching.R                       <span class="co"># 3: bleach_threshold &lt;- 30</span></span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">--diff-filter</span><span class="op">=</span>A <span class="at">--</span> R/02_clean.R       <span class="co"># 4: 06d0e2b</span></span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>                                    <span class="co"># 5: 6 files</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

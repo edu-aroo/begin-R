@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · A6</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A6 · Rasters with
+terra</span><span class="fr">A6 · Rasters avec terra</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>describe a <strong>raster</strong> (grid, resolution, extent, CRS,
+layers, <code>NA</code> cells) and read it with
+<code>terra::rast()</code>;</li>
+<li>summarise and <strong>plot</strong> raster values, and handle a
+<strong>multi-layer</strong> raster (12 months);</li>
+<li><strong>crop</strong>, <strong>mask</strong>,
+<strong>reproject</strong> and <strong>classify</strong> a raster;</li>
+<li>do <strong>raster algebra</strong> (maximum per cell, number of
+months above a threshold);</li>
+<li><strong>extract</strong> raster values at points and compute
+<strong>zonal statistics</strong> per polygon — and join them to your
+field data.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>décrire un <strong>raster</strong> (grille, résolution, étendue,
+SCR, couches, cellules <code>NA</code>) et le lire avec
+<code>terra::rast()</code> ;</li>
+<li>résumer et <strong>tracer</strong> les valeurs d’un raster, et
+manipuler un raster <strong>multi-couches</strong> (12 mois) ;</li>
+<li><strong>découper</strong>, <strong>masquer</strong>,
+<strong>reprojeter</strong> et <strong>reclasser</strong> un raster
+;</li>
+<li>faire de l’<strong>algèbre de rasters</strong> (maximum par cellule,
+nombre de mois au-dessus d’un seuil) ;</li>
+<li><strong>extraire</strong> les valeurs d’un raster à des points et
+calculer des <strong>statistiques zonales</strong> par polygone — et les
+joindre à vos données de terrain.</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> Two rasters in
+longitude/latitude (WGS84), as you would download them:</p>
+<ul>
+<li><code>bathymetry.tif</code> — water depth (m) on a grid of 0.0025°
+(≈ 270 m), <strong>interpolated</strong> from echo-sounder transects run
+by the NGO boat in 2023; land cells are <code>NA</code>. An interpolated
+surface is smooth: it does not see a coral bommie under the boat, so it
+can differ from the depth measured on the spot at a site.</li>
+<li><code>sst_2024.tif</code> — monthly mean <strong>sea surface
+temperature</strong> (°C) for 2024, <strong>12 layers</strong> on a
+coarser grid of 0.02° (≈ 2 km), like the satellite products of NOAA
+Coral Reef Watch or Copernicus. In February–April 2024 a <strong>marine
+heatwave</strong> warmed the centre of the bay.</li>
+</ul>
+<p>The question of the MPA managers: <strong>did the reefs that were
+hottest in 2024 bleach the most?</strong> (bleaching data:
+<code>reef_monitoring.csv</code>). <em>Type:</em> raster (continuous
+values on a regular grid).</p>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong> Deux rasters en
+longitude/latitude (WGS84), tels que vous les téléchargeriez :</p>
+<ul>
+<li><code>bathymetry.tif</code> — profondeur d’eau (m) sur une grille de
+0,0025° (≈ 270 m), <strong>interpolée</strong> à partir de transects à
+l’échosondeur parcourus par le bateau de l’ONG en 2023 ; les cellules de
+terre sont <code>NA</code>. Une surface interpolée est lisse : elle ne
+voit pas un pâté corallien sous le bateau, elle peut donc différer de la
+profondeur mesurée sur place à un site.</li>
+<li><code>sst_2024.tif</code> — <strong>température de surface de la
+mer</strong> moyenne mensuelle (°C) en 2024, <strong>12 couches</strong>
+sur une grille plus grossière de 0,02° (≈ 2 km), comme les produits
+satellite de NOAA Coral Reef Watch ou de Copernicus. En février–avril
+2024, une <strong>vague de chaleur marine</strong> a réchauffé le centre
+de la baie.</li>
+</ul>
+<p>La question des gestionnaires d’AMP : <strong>les récifs les plus
+chauds en 2024 ont-ils le plus blanchi ?</strong> (données de
+blanchissement : <code>reef_monitoring.csv</code>). <em>Type :</em>
+raster (valeurs continues sur une grille régulière).</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/r_course_data_advanced.zip" download>⇩
+r_course_data_advanced.zip</a></p>
+<div id="raster" class="section level2">
+<h2><span class="en">What is a raster?</span><span class="fr">Qu’est-ce
+qu’un raster ?</span></h2>
+<div class="en">
+<p>A raster is a <strong>grid of cells</strong> (pixels), each holding
+one value: depth, temperature, chlorophyll, land cover class… It is
+described by its <strong>extent</strong> (the rectangle it covers), its
+<strong>resolution</strong> (cell size), its <strong>CRS</strong>, and
+its number of <strong>layers</strong> (bands, dates). Vector data
+describe <em>objects</em> (a site, a zone); rasters describe
+<em>continuous surfaces</em>.</p>
+</div>
+<div class="fr">
+<p>Un raster est une <strong>grille de cellules</strong> (pixels),
+chacune contenant une valeur : profondeur, température, chlorophylle,
+classe d’occupation du sol… Il est décrit par son
+<strong>étendue</strong> (le rectangle couvert), sa
+<strong>résolution</strong> (taille des cellules), son
+<strong>SCR</strong>, et son nombre de <strong>couches</strong> (bandes,
+dates). Les données vecteur décrivent des <em>objets</em> (un site, une
+zone) ; les rasters décrivent des <em>surfaces continues</em>.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>bathy <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/advanced/bathymetry.tif&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>bathy                      <span class="co"># dimensions, resolution, extent, CRS, name, min/max</span></span></code></pre></div>
+<pre><code>#&gt; class       : SpatRaster
+#&gt; size        : 360, 200, 1  (nrow, ncol, nlyr)
+#&gt; resolution  : 0.0025, 0.0025  (x, y)
+#&gt; extent      : 43.35, 43.85, -23.4, -22.5  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : lon/lat WGS 84 (EPSG:4326)
+#&gt; source      : bathymetry.tif
+#&gt; name        :   depth_m
+#&gt; min value   :         1
+#&gt; max value   : 61.400002</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">res</span>(bathy)                 <span class="co"># cell size in degrees</span></span></code></pre></div>
+<pre><code>#&gt; [1] 0.0025 0.0025</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">ncell</span>(bathy)</span></code></pre></div>
+<pre><code>#&gt; [1] 72000</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">global</span>(bathy, <span class="fu">c</span>(<span class="st">&quot;mean&quot;</span>, <span class="st">&quot;min&quot;</span>, <span class="st">&quot;max&quot;</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># summary of all cells</span></span></code></pre></div>
+<pre><code>#&gt;            mean min  max
+#&gt; depth_m 23.4882   1 61.4</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">plot</span>(bathy, <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;Blues&quot;</span>)), <span class="at">main =</span> <span class="st">&quot;Depth (m)&quot;</span>)</span></code></pre></div>
+<p><img src="a06-terra_files/figure-html/unnamed-chunk-2-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+<div class="en">
+<p><code>terra</code> (Hijmans) replaces the older <code>raster</code>
+package: same ideas, much faster, and functions with similar names. Its
+vector type is <code>SpatVector</code>; <code>vect(x)</code> turns an sf
+object into one, <code>st_as_sf(v)</code> goes back.</p>
+</div>
+<div class="fr">
+<p><code>terra</code> (Hijmans) remplace l’ancien package
+<code>raster</code> : mêmes idées, bien plus rapide, et des fonctions
+aux noms proches. Son type vecteur est <code>SpatVector</code> ;
+<code>vect(x)</code> transforme un objet sf en SpatVector,
+<code>st_as_sf(v)</code> fait le chemin inverse.</p>
+</div>
+</div>
+<div id="layers" class="section level2">
+<h2><span class="en">A raster with 12 layers</span><span class="fr">Un
+raster à 12 couches</span></h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>sst <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/advanced/sst_2024.tif&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">nlyr</span>(sst); <span class="fu">names</span>(sst)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]; <span class="fu">time</span>(sst)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
+<pre><code>#&gt; [1] 12</code></pre>
+<pre><code>#&gt; [1] &quot;sst_2024_01&quot; &quot;sst_2024_02&quot; &quot;sst_2024_03&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;2024-01-15&quot; &quot;2024-02-15&quot; &quot;2024-03-15&quot;</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">plot</span>(sst[[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]], <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;YlOrRd&quot;</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>), <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="fl">31.5</span>), <span class="at">nc =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p><img src="a06-terra_files/figure-html/unnamed-chunk-3-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># one value per layer: the monthly mean over the whole bay</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">month =</span> <span class="fu">format</span>(<span class="fu">time</span>(sst), <span class="st">&quot;%b&quot;</span>),</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>           <span class="at">sst_mean =</span> <span class="fu">round</span>(<span class="fu">global</span>(sst, <span class="st">&quot;mean&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>mean, <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>#&gt;    month sst_mean
+#&gt; 1    Jan    28.80
+#&gt; 2    Feb    29.71
+#&gt; 3    Mar    29.41
+#&gt; 4    Apr    28.31
+#&gt; 5    May    26.20
+#&gt; 6    Jun    24.80
+#&gt; 7    Jul    24.01
+#&gt; 8    Aug    24.10
+#&gt; 9    Sep    24.90
+#&gt; 10   Oct    26.10
+#&gt; 11   Nov    27.20
+#&gt; 12   Dec    28.21</code></pre>
+</div>
+<div id="algebra" class="section level2">
+<h2><span class="en">Raster algebra</span><span class="fr">Algèbre de
+rasters</span></h2>
+<div class="en">
+<p>Arithmetic on rasters works <strong>cell by cell</strong>, like
+vector maths in Beginner Session 2. Functions that summarise layers
+(<code>max</code>, <code>mean</code>, <code>sum</code>…) give one value
+per cell.</p>
+</div>
+<div class="fr">
+<p>L’arithmétique sur les rasters se fait <strong>cellule par
+cellule</strong>, comme le calcul vectoriel de la séance débutant 2. Les
+fonctions qui résument les couches (<code>max</code>, <code>mean</code>,
+<code>sum</code>…) donnent une valeur par cellule.</p>
+</div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>sst_max  <span class="ot">&lt;-</span> <span class="fu">max</span>(sst)                 <span class="co"># hottest month of 2024, for each cell</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>hot_mons <span class="ot">&lt;-</span> <span class="fu">sum</span>(sst <span class="sc">&gt;</span> <span class="fl">29.5</span>)          <span class="co"># TRUE = 1: number of months above 29.5 °C</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="fu">plot</span>(sst_max, <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;YlOrRd&quot;</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>), <span class="at">main =</span> <span class="st">&quot;Max SST 2024 (°C)&quot;</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="fu">plot</span>(hot_mons, <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">4</span>, <span class="st">&quot;Reds&quot;</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>), <span class="at">main =</span> <span class="st">&quot;Months &gt; 29.5 °C&quot;</span>)</span></code></pre></div>
+<p><img src="a06-terra_files/figure-html/unnamed-chunk-5-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="callout tip">
+<div class="en">
+<p>The idea of <strong>counting the time above a threshold</strong> is
+the basis of real heat-stress indicators such as the <em>Degree Heating
+Weeks</em> of NOAA Coral Reef Watch (accumulated heat above the usual
+summer maximum over 12 weeks). Here we use a simple monthly version to
+learn the method.</p>
+</div>
+<div class="fr">
+<p>L’idée de <strong>compter le temps au-dessus d’un seuil</strong> est
+à la base de vrais indicateurs de stress thermique comme les <em>Degree
+Heating Weeks</em> de NOAA Coral Reef Watch (chaleur accumulée au-dessus
+du maximum estival habituel sur 12 semaines). Ici nous utilisons une
+version mensuelle simple pour apprendre la méthode.</p>
+</div>
+</div>
+</div>
+<div id="transform" class="section level2">
+<h2><span class="en">Crop, mask, reproject, classify</span><span
+class="fr">Découper, masquer, reprojeter, reclasser</span></h2>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/advanced/monitoring_gis.gpkg&quot;</span>, <span class="st">&quot;mpa_zones&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>zones_ll <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="fu">st_transform</span>(zones, <span class="fu">crs</span>(bathy)))      <span class="co"># same CRS as the raster, as SpatVector</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>tanjona  <span class="ot">&lt;-</span> zones_ll[zones_ll<span class="sc">$</span>mpa <span class="sc">==</span> <span class="st">&quot;Tanjona&quot;</span>, ]</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>b_crop <span class="ot">&lt;-</span> <span class="fu">crop</span>(bathy, tanjona)                          <span class="co"># keeps the rectangle around Tanjona</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>b_mask <span class="ot">&lt;-</span> <span class="fu">mask</span>(b_crop, tanjona)                         <span class="co"># cells outside the MPA become NA</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="fu">plot</span>(b_mask, <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;Blues&quot;</span>)), <span class="at">main =</span> <span class="st">&quot;Depth inside Tanjona MPA (m)&quot;</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="fu">lines</span>(tanjona)</span></code></pre></div>
+<p><img src="a06-terra_files/figure-html/unnamed-chunk-6-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># Reproject to UTM 38S (metres). &quot;bilinear&quot; for continuous values, &quot;near&quot; for classes.</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>bathy_utm <span class="ot">&lt;-</span> <span class="fu">project</span>(bathy, <span class="st">&quot;EPSG:32738&quot;</span>, <span class="at">method =</span> <span class="st">&quot;bilinear&quot;</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="fu">res</span>(bathy_utm)                     <span class="co"># now in metres</span></span></code></pre></div>
+<pre><code>#&gt; [1] 272.1323 272.1323</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># Classify depth into 3 classes: 1 = 0-10 m, 2 = 10-30 m, 3 = &gt; 30 m</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>rcl <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">1</span>,  <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">2</span>,  <span class="dv">30</span>, <span class="cn">Inf</span>, <span class="dv">3</span>), <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>depth_cl <span class="ot">&lt;-</span> <span class="fu">classify</span>(bathy, rcl)</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="fu">freq</span>(depth_cl)</span></code></pre></div>
+<pre><code>#&gt;   layer value count
+#&gt; 1     1     1  7323
+#&gt; 2     1     2 17768
+#&gt; 3     1     3 12465</code></pre>
+<div class="callout warning">
+<div class="en">
+<p><strong>Reproject vectors rather than rasters</strong> when you can:
+reprojecting a raster resamples its cells (values are interpolated and
+slightly changed). To extract values, put your points in the CRS of the
+raster, as below.</p>
+</div>
+<div class="fr">
+<p><strong>Reprojetez les vecteurs plutôt que les rasters</strong> quand
+c’est possible : reprojeter un raster rééchantillonne ses cellules (les
+valeurs sont interpolées et légèrement modifiées). Pour extraire des
+valeurs, mettez vos points dans le SCR du raster, comme ci-dessous.</p>
+</div>
+</div>
+</div>
+<div id="extract" class="section level2">
+<h2><span class="en">Extract values at sites</span><span
+class="fr">Extraire les valeurs aux sites</span></h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/advanced/monitoring_gis.gpkg&quot;</span>, <span class="st">&quot;reef_sites&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>sites_ll <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="fu">st_transform</span>(sites, <span class="fu">crs</span>(sst)))           <span class="co"># points in the raster&#39;s CRS</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>sites<span class="sc">$</span>depth_raster <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">extract</span>(bathy, sites_ll)<span class="sc">$</span>depth_m, <span class="dv">1</span>)   <span class="co"># extract() adds an ID column</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>sites<span class="sc">$</span>sst_max      <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">extract</span>(sst_max, sites_ll)[, <span class="dv">2</span>], <span class="dv">2</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>sites<span class="sc">$</span>hot_months   <span class="ot">&lt;-</span> <span class="fu">extract</span>(hot_mons, sites_ll)[, <span class="dv">2</span>]</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">st_drop_geometry</span>(sites)[, <span class="fu">c</span>(<span class="st">&quot;site_id&quot;</span>, <span class="st">&quot;zone&quot;</span>, <span class="st">&quot;depth_m&quot;</span>, <span class="st">&quot;depth_raster&quot;</span>, <span class="st">&quot;sst_max&quot;</span>, <span class="st">&quot;hot_months&quot;</span>)], <span class="dv">6</span>)</span></code></pre></div>
+<pre><code>#&gt;   site_id    zone depth_m depth_raster sst_max hot_months
+#&gt; 1     R01 No-take     7.1          3.1   29.68          1
+#&gt; 2     R02 No-take     6.6         10.0   29.68          1
+#&gt; 3     R03 No-take     3.5         12.4   29.58          1
+#&gt; 4     R04 Fishing     7.2         12.0   29.40          0
+#&gt; 5     R05 Fishing    10.9          1.0   29.68          1
+#&gt; 6     R06 Fishing    11.7         12.1   29.73          1</code></pre>
+<div class="en">
+<p>Compare <code>depth_m</code> (measured on the spot) with
+<code>depth_raster</code> (interpolated surface): they differ, sometimes
+a lot. A raster value is the value of a <strong>cell of 270 m</strong>,
+not of your exact spot — keep it in mind when you interpret extracted
+values.</p>
+</div>
+<div class="fr">
+<p>Comparez <code>depth_m</code> (mesurée sur place) et
+<code>depth_raster</code> (surface interpolée) : elles diffèrent,
+parfois beaucoup. Une valeur de raster est celle d’une <strong>cellule
+de 270 m</strong>, pas de votre point exact — gardez-le en tête pour
+interpréter les valeurs extraites.</p>
+</div>
+<div
+id="did-the-hottest-reefs-bleach-the-mostles-récifs-les-plus-chauds-ont-ils-le-plus-blanchi"
+class="section level3">
+<h3><span class="en">Did the hottest reefs bleach the most?</span><span
+class="fr">Les récifs les plus chauds ont-ils le plus blanchi
+?</span></h3>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>reef <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/advanced/reef_monitoring.csv&quot;</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>bleach24 <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2024</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site_id) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">bleached =</span> <span class="fu">mean</span>(bleached_pct), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>heat <span class="ot">&lt;-</span> <span class="fu">st_drop_geometry</span>(sites) <span class="sc">%&gt;%</span> <span class="fu">select</span>(site_id, mpa, zone, sst_max) <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(bleach24, <span class="at">by =</span> <span class="st">&quot;site_id&quot;</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="fu">ggplot</span>(heat, <span class="fu">aes</span>(sst_max, bleached, <span class="at">colour =</span> zone)) <span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;No-take&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="st">&quot;Fishing&quot;</span> <span class="ot">=</span> <span class="st">&quot;#d9694a&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Maximum monthly SST 2024 (°C)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Colonies bleached in 2024 (%)&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div>
+<p><img src="a06-terra_files/figure-html/unnamed-chunk-9-1.png" alt="" width="75%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">cor.test</span>(heat<span class="sc">$</span>sst_max, heat<span class="sc">$</span>bleached)          <span class="co"># Intermediate, Session I10</span></span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Pearson&#39;s product-moment correlation
+#&gt; 
+#&gt; data:  heat$sst_max and heat$bleached
+#&gt; t = 3.4559, df = 16, p-value = 0.003253
+#&gt; alternative hypothesis: true correlation is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  0.2690020 0.8585778
+#&gt; sample estimates:
+#&gt;       cor 
+#&gt; 0.6537662</code></pre>
+<div class="en">
+<p>The hottest sites bleached more (a positive correlation), and at a
+given temperature the No-take sites tend to bleach less. With 18 sites,
+and temperature on a 2 km grid, this is a <strong>clue</strong>, not a
+proof — but it is exactly the kind of result that joins field monitoring
+and remote sensing.</p>
+</div>
+<div class="fr">
+<p>Les sites les plus chauds ont davantage blanchi (corrélation
+positive), et à température égale les sites No-take ont tendance à moins
+blanchir. Avec 18 sites, et une température sur une grille de 2 km,
+c’est un <strong>indice</strong>, pas une preuve — mais c’est exactement
+le type de résultat qui relie suivi de terrain et télédétection.</p>
+</div>
+</div>
+</div>
+<div id="zonal" class="section level2">
+<h2><span class="en">Zonal statistics</span><span
+class="fr">Statistiques zonales</span></h2>
+<div class="en">
+<p><code>extract()</code> with <strong>polygons</strong> and a function
+gives one value per polygon: the mean depth of each MPA zone, the
+maximum temperature of each MPA…</p>
+</div>
+<div class="fr">
+<p><code>extract()</code> avec des <strong>polygones</strong> et une
+fonction donne une valeur par polygone : la profondeur moyenne de chaque
+zone d’AMP, la température maximale de chaque AMP…</p>
+</div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>zs <span class="ot">&lt;-</span> <span class="fu">extract</span>(bathy, zones_ll, <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)          <span class="co"># one row per zone</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>zones<span class="sc">$</span>depth_mean <span class="ot">&lt;-</span> <span class="fu">round</span>(zs<span class="sc">$</span>depth_m, <span class="dv">1</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>zones<span class="sc">$</span>sst_max    <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">extract</span>(sst_max, zones_ll, <span class="at">fun =</span> max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)[, <span class="dv">2</span>], <span class="dv">2</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="fu">st_drop_geometry</span>(zones)[, <span class="fu">c</span>(<span class="st">&quot;mpa&quot;</span>, <span class="st">&quot;zone&quot;</span>, <span class="st">&quot;depth_mean&quot;</span>, <span class="st">&quot;sst_max&quot;</span>)]</span></code></pre></div>
+<pre><code>#&gt;           mpa    zone depth_mean sst_max
+#&gt; 1  Ankaramena Fishing        9.7   29.80
+#&gt; 2  Ankaramena No-take       10.0   29.92
+#&gt; 3  Ankaramena Fishing       15.3   29.99
+#&gt; 4 Nosy Fasika Fishing       15.9   31.04
+#&gt; 5 Nosy Fasika No-take        7.6   31.27
+#&gt; 6 Nosy Fasika Fishing       12.2   31.10
+#&gt; 7     Tanjona Fishing        8.4   29.94
+#&gt; 8     Tanjona No-take       14.5   29.56
+#&gt; 9     Tanjona Fishing        7.3   29.57</code></pre>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Compute the <strong>area of shallow water
+(0–10 m)</strong> in each MPA: classify the depth, keep class 1, then
+<code>expanse()</code> (area of the non-NA cells) inside each MPA with
+<code>mask()</code>. Why is <code>expanse()</code> better than counting
+cells × 0.0025² here?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Calculez la <strong>surface d’eau peu
+profonde (0–10 m)</strong> dans chaque AMP : reclassez la profondeur,
+gardez la classe 1, puis <code>expanse()</code> (surface des cellules
+non NA) à l’intérieur de chaque AMP avec <code>mask()</code>. Pourquoi
+<code>expanse()</code> est-il meilleur ici que compter les cellules ×
+0,0025² ?</p>
+</div>
+</div>
+</div>
+<div id="write" class="section level2">
+<h2><span class="en">Writing rasters</span><span class="fr">Écrire des
+rasters</span></h2>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">writeRaster</span>(sst_max, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;derived&quot;</span>, <span class="st">&quot;sst_max_2024.tif&quot;</span>), <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="fu">writeRaster</span>(depth_cl, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;derived&quot;</span>, <span class="st">&quot;depth_classes.tif&quot;</span>), <span class="at">datatype =</span> <span class="st">&quot;INT1U&quot;</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="en">
+<p>GeoTIFF (<code>.tif</code>) is the standard format; it opens in QGIS.
+Large rasters do not belong in Git (Session A2): keep them in
+<code>data/raw/</code> listed in <code>.gitignore</code>, and write in
+the README where to download them.</p>
+</div>
+<div class="fr">
+<p>Le GeoTIFF (<code>.tif</code>) est le format standard ; il s’ouvre
+dans QGIS. Les gros rasters n’ont pas leur place dans Git (séance A2) :
+gardez-les dans <code>data/raw/</code> listé dans
+<code>.gitignore</code>, et indiquez dans le README où les
+télécharger.</p>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-a6" class="section level3 en">
+<h3>Application work A6</h3>
+<p>Script <code>R/06_rasters.R</code> (copy the two <code>.tif</code>
+files into <code>data/raw/</code>).</p>
+<ol style="list-style-type: decimal">
+<li>How many cells does <code>bathymetry.tif</code> have?</li>
+<li>Extract the raster depth at the 18 reef sites: mean of these values
+(2 decimals)?</li>
+<li>Which site had the highest SST in <strong>March</strong> 2024 (layer
+3)?</li>
+<li>Compute the number of months above 29.5 °C for each cell. What is
+the maximum over the bay?</li>
+<li>Correlation (Pearson) between the maximum SST 2024 at each site and
+the mean % of bleached colonies in 2024 (2 decimals)?</li>
+<li>Mean raster depth of the <strong>No-take zone of Nosy
+Fasika</strong> (zonal statistic, 1 decimal)?</li>
+<li>Save the max SST raster and a CSV table of the sites with their
+extracted values.</li>
+</ol>
+</div>
+<div id="travail-dapplication-a6" class="section level3 fr">
+<h3>Travail d’application A6</h3>
+<p>Script <code>R/06_rasters.R</code> (copiez les deux fichiers
+<code>.tif</code> dans <code>data/raw/</code>).</p>
+<ol style="list-style-type: decimal">
+<li>Combien de cellules contient <code>bathymetry.tif</code> ?</li>
+<li>Extrayez la profondeur du raster aux 18 sites récifaux : moyenne de
+ces valeurs (2 décimales) ?</li>
+<li>Quel site avait la SST la plus élevée en <strong>mars</strong> 2024
+(couche 3) ?</li>
+<li>Calculez le nombre de mois au-dessus de 29,5 °C pour chaque cellule.
+Quel est le maximum sur la baie ?</li>
+<li>Corrélation (Pearson) entre la SST maximale 2024 à chaque site et le
+% moyen de colonies blanchies en 2024 (2 décimales) ?</li>
+<li>Profondeur moyenne du raster dans la <strong>zone No-take de Nosy
+Fasika</strong> (statistique zonale, 1 décimale) ?</li>
+<li>Enregistrez le raster de SST maximale et un tableau CSV des sites
+avec leurs valeurs extraites.</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p><code>extract()</code> returns a data frame whose <strong>first
+column is an ID</strong>: take the second column (<code>[, 2]</code>) or
+the column named like the layer. Put the sites in the CRS of the raster
+first: <code>vect(st_transform(sites, crs(sst)))</code>. For question 5,
+make sure both vectors are in the <strong>same site order</strong> (join
+by <code>site_id</code>).</p>
+</div>
+<div class="fr">
+<p><code>extract()</code> renvoie un data frame dont la <strong>première
+colonne est un ID</strong> : prenez la deuxième colonne
+(<code>[, 2]</code>) ou la colonne qui porte le nom de la couche. Mettez
+d’abord les sites dans le SCR du raster :
+<code>vect(st_transform(sites, crs(sst)))</code>. Pour la question 5,
+vérifiez que les deux vecteurs sont dans le <strong>même ordre de
+sites</strong> (jointure par <code>site_id</code>).</p>
+</div>
+</div>
+<div id="quiz-a06" class="quiz" data-quiz-id="a06"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIGNlbGxzIG9mIGJhdGh5bWV0cnkudGlmPyIsImZyIjoiMS4gTm9tYnJlIGRlIGNlbGx1bGVzIGRlIGJhdGh5bWV0cnkudGlmID8iLCJhbnN3ZXIiOjcyMDAwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBNZWFuIHJhc3RlciBkZXB0aCBhdCB0aGUgMTggc2l0ZXMgKDIgZGVjaW1hbHMpPyIsImZyIjoiMi4gUHJvZm9uZGV1ciBtb3llbm5lIGR1IHJhc3RlciBhdXggMTggc2l0ZXMgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6OC4yNywidG9sIjowLjAxMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIzLiBTaXRlIHdpdGggdGhlIGhpZ2hlc3QgU1NUIGluIE1hcmNoIDIwMjQ/IiwiZnIiOiIzLiBTaXRlIMOgIGxhIFNTVCBsYSBwbHVzIMOpbGV2w6llIGVuIG1hcnMgMjAyNCA/IiwiYW5zd2VyIjpbIlIwOCJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE1heGltdW0gbnVtYmVyIG9mIG1vbnRocyBhYm92ZSAyOS41IMKwQz8iLCJmciI6IjQuIE5vbWJyZSBtYXhpbWFsIGRlIG1vaXMgYXUtZGVzc3VzIGRlIDI5LDUgwrBDID8iLCJhbnN3ZXIiOjMsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIFBlYXJzb24gciwgbWF4IFNTVCB2cyBibGVhY2hpbmcgMjAyNCAoMiBkZWNpbWFscyk/IiwiZnIiOiI1LiByIGRlIFBlYXJzb24sIFNTVCBtYXggdnMgYmxhbmNoaXNzZW1lbnQgMjAyNCAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjowLjY1LCJ0b2wiOjAuMDExLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNi4gTWVhbiBkZXB0aCwgTm8tdGFrZSB6b25lIG9mIE5vc3kgRmFzaWthICgxIGRlY2ltYWwpPyIsImZyIjoiNi4gUHJvZm9uZGV1ciBtb3llbm5lLCB6b25lIE5vLXRha2UgZGUgTm9zeSBGYXNpa2EgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo3LjYsInRvbCI6MC4xMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFRvIHJlcHJvamVjdCBhIHJhc3RlciBvZiBoYWJpdGF0IENMQVNTRVMgKDEgPSBzZWFncmFzcywgMiA9IGNvcmFs4oCmKSwgdXNlOiIsImZyIjoiNy4gUG91ciByZXByb2pldGVyIHVuIHJhc3RlciBkZSBDTEFTU0VTIGQnaGFiaXRhdCAoMSA9IGhlcmJpZXIsIDIgPSBjb3JhaWzigKYpLCB1dGlsaXNleiA6Iiwib3B0aW9uc19lbiI6WyJtZXRob2QgPSBcImJpbGluZWFyXCIiLCJtZXRob2QgPSBcIm5lYXJcIiIsIm1ldGhvZCA9IFwibWVhblwiIiwibm8gbWV0aG9kOiBpdCBpcyBhdXRvbWF0aWMiXSwib3B0aW9uc19mciI6WyJtZXRob2QgPSBcImJpbGluZWFyXCIiLCJtZXRob2QgPSBcIm5lYXJcIiIsIm1ldGhvZCA9IFwibWVhblwiIiwicGFzIGRlIG3DqXRob2RlIDogYydlc3QgYXV0b21hdGlxdWUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIG1hc2sociwgcG9seWdvbnMpIGRvZXM6IiwiZnIiOiI4LiBtYXNrKHIsIHBvbHlnb25lcykgZmFpdCA6Iiwib3B0aW9uc19lbiI6WyJzZXQgdG8gTkEgdGhlIGNlbGxzIG91dHNpZGUgdGhlIHBvbHlnb25zIiwiY3V0IHRoZSByYXN0ZXIgdG8gdGhlIHJlY3RhbmdsZSBvZiB0aGUgcG9seWdvbnMiLCJjb21wdXRlIHRoZSBtZWFuIHBlciBwb2x5Z29uIiwiY2hhbmdlIHRoZSByZXNvbHV0aW9uIl0sIm9wdGlvbnNfZnIiOlsibWV0dHJlIMOgIE5BIGxlcyBjZWxsdWxlcyBob3JzIGRlcyBwb2x5Z29uZXMiLCJkw6ljb3VwZXIgbGUgcmFzdGVyIGF1IHJlY3RhbmdsZSBkZXMgcG9seWdvbmVzIiwiY2FsY3VsZXIgbGEgbW95ZW5uZSBwYXIgcG9seWdvbmUiLCJjaGFuZ2VyIGxhIHLDqXNvbHV0aW9uIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBBIHNpdGUgd2FzIG1lYXN1cmVkIGF0IDcgbSBidXQgdGhlIHJhc3RlciBnaXZlcyAzIG0uIE1vc3QgbGlrZWx5IHJlYXNvbj8iLCJmciI6IjkuIFVuIHNpdGUgYSDDqXTDqSBtZXN1csOpIMOgIDcgbSBtYWlzIGxlIHJhc3RlciBkb25uZSAzIG0uIFJhaXNvbiBsYSBwbHVzIHByb2JhYmxlID8iLCJvcHRpb25zX2VuIjpbIlRoZSByYXN0ZXIgaXMgd3JvbmcgYW5kIG11c3QgYmUgZGVsZXRlZCIsIkEgcmFzdGVyIGNlbGwgKOKJiCAyNzAgbSkgaXMgYW4gaW50ZXJwb2xhdGVkIGF2ZXJhZ2UsIG5vdCB0aGUgZXhhY3Qgc3BvdCIsIlRoZSBDUlMgaXMgd3JvbmciLCJleHRyYWN0KCkgcm91bmRzIHZhbHVlcyJdLCJvcHRpb25zX2ZyIjpbIkxlIHJhc3RlciBlc3QgZmF1eCBldCBkb2l0IMOqdHJlIHN1cHByaW3DqSIsIlVuZSBjZWxsdWxlICjiiYggMjcwIG0pIGVzdCB1bmUgbW95ZW5uZSBpbnRlcnBvbMOpZSwgcGFzIGxlIHBvaW50IGV4YWN0IiwiTGUgU0NSIGVzdCBmYXV4IiwiZXh0cmFjdCgpIGFycm9uZGl0IGxlcyB2YWxldXJzIl0sImFuc3dlciI6MX1d">
+
+</div>
+<div class="solution" data-quiz="a06">
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">library</span>(terra); <span class="fu">library</span>(sf); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(here)</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>bathy <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;bathymetry.tif&quot;</span>)); sst <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;sst_2024.tif&quot;</span>))</span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="fu">ncell</span>(bathy)                                                         <span class="co"># 1</span></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;monitoring_gis.gpkg&quot;</span>), <span class="st">&quot;reef_sites&quot;</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>sv <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="fu">st_transform</span>(sites, <span class="fu">crs</span>(bathy)))</span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">extract</span>(bathy, sv)<span class="sc">$</span>depth_m)                                     <span class="co"># 2</span></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a>march <span class="ot">&lt;-</span> <span class="fu">extract</span>(sst[[<span class="dv">3</span>]], sv)[, <span class="dv">2</span>]; sites<span class="sc">$</span>site_id[<span class="fu">which.max</span>(march)] <span class="co"># 3</span></span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="fu">global</span>(<span class="fu">sum</span>(sst <span class="sc">&gt;</span> <span class="fl">29.5</span>), <span class="st">&quot;max&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                         <span class="co"># 4</span></span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a>sites<span class="sc">$</span>sst_max <span class="ot">&lt;-</span> <span class="fu">extract</span>(<span class="fu">max</span>(sst), sv)[, <span class="dv">2</span>]</span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a>reef <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;reef_monitoring.csv&quot;</span>))</span>
+<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a>b24 <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2024</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site_id) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">bleached =</span> <span class="fu">mean</span>(bleached_pct))</span>
+<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">left_join</span>(<span class="fu">st_drop_geometry</span>(sites), b24, <span class="at">by =</span> <span class="st">&quot;site_id&quot;</span>)</span>
+<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a><span class="fu">cor</span>(d<span class="sc">$</span>sst_max, d<span class="sc">$</span>bleached)                                           <span class="co"># 5</span></span>
+<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;monitoring_gis.gpkg&quot;</span>), <span class="st">&quot;mpa_zones&quot;</span>)</span>
+<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a>zones<span class="sc">$</span>depth_mean <span class="ot">&lt;-</span> <span class="fu">extract</span>(bathy, <span class="fu">vect</span>(<span class="fu">st_transform</span>(zones, <span class="fu">crs</span>(bathy))), <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>depth_m</span>
+<span id="cb31-16"><a href="#cb31-16" tabindex="-1"></a><span class="fu">filter</span>(<span class="fu">st_drop_geometry</span>(zones), mpa <span class="sc">==</span> <span class="st">&quot;Nosy Fasika&quot;</span>, zone <span class="sc">==</span> <span class="st">&quot;No-take&quot;</span>)   <span class="co"># 6</span></span>
+<span id="cb31-17"><a href="#cb31-17" tabindex="-1"></a><span class="fu">writeRaster</span>(<span class="fu">max</span>(sst), <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;derived&quot;</span>, <span class="st">&quot;sst_max_2024.tif&quot;</span>), <span class="at">overwrite =</span> <span class="cn">TRUE</span>)   <span class="co"># 7</span></span>
+<span id="cb31-18"><a href="#cb31-18" tabindex="-1"></a><span class="fu">write.csv</span>(d, <span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;tables&quot;</span>, <span class="st">&quot;sites_heat_bleaching_2024.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

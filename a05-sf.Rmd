@@ -1,0 +1,389 @@
+---
+title: "[A5 · Vector GIS data with sf]{.en}[A5 · Données SIG vecteur avec sf]{.fr}"
+pagetitle: "R for marine sciences · A5"
+subtitle: "~3.5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+suppressMessages({library(sf); library(dplyr); library(ggplot2)})
+knitr::opts_chunk$set(fig.width = 6, fig.height = 6, out.width = "60%")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- explain what a **simple feature** is (a data frame with a geometry column) and the three main geometry types;
+- read and write **GeoPackage** and **shapefile** layers, and turn a CSV of coordinates into a spatial object;
+- understand **coordinate reference systems** (CRS) and **transform** between longitude/latitude and UTM;
+- compute **areas, distances and buffers**, and combine layers (**union, intersection, difference**);
+- use **spatial predicates and spatial joins** to answer questions such as "which villages are within 2 km of a No-take zone?".
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- expliquer ce qu'est une **entité simple** (*simple feature* : un data frame avec une colonne géométrie) et les trois grands types de géométrie ;
+- lire et écrire des couches **GeoPackage** et **shapefile**, et transformer un CSV de coordonnées en objet spatial ;
+- comprendre les **systèmes de coordonnées de référence** (SCR / CRS) et **transformer** entre longitude/latitude et UTM ;
+- calculer des **surfaces, distances et zones tampons**, et combiner des couches (**union, intersection, différence**) ;
+- utiliser des **prédicats et jointures spatiales** pour répondre à des questions comme « quels villages sont à moins de 2 km d'une zone No-take ? ».
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Data of this session (simulated).** The GIS of the monitoring programme, prepared by the NGO GIS officer:
+
+- `monitoring_gis.gpkg`, a **GeoPackage** (one file, several layers), in **UTM zone 38S** (metres): `land` (the mainland, digitised from a satellite image), `mpa_zones` (the 9 zones of the three MPAs as described in their management plans: a central No-take zone between two Fishing zones), `reef_sites` (the 18 monitoring sites, positions taken with a GPS on the boat) and `mangrove_plots` (the 24 forest plots, GPS at the plot centre).
+- `villages_shp/villages.shp`, a **shapefile** in **longitude/latitude (WGS84)**: the 12 villages of the Intermediate level, digitised by another team — with another coordinate system, as often in real life.
+
+*Type:* vector data — points (sites, plots, villages) and polygons (land, zones) with their attributes.
+:::
+::: fr
+**Données de cette séance (simulées).** Le SIG du programme de suivi, préparé par le responsable SIG de l'ONG :
+
+- `monitoring_gis.gpkg`, un **GeoPackage** (un seul fichier, plusieurs couches), en **UTM zone 38S** (mètres) : `land` (la terre ferme, numérisée sur une image satellite), `mpa_zones` (les 9 zones des trois AMP telles que décrites dans leurs plans d'aménagement : une zone centrale No-take entre deux zones Fishing), `reef_sites` (les 18 sites de suivi, positions prises au GPS sur le bateau) et `mangrove_plots` (les 24 placettes forestières, GPS au centre de la placette).
+- `villages_shp/villages.shp`, un **shapefile** en **longitude/latitude (WGS84)** : les 12 villages du niveau intermédiaire, numérisés par une autre équipe — avec un autre système de coordonnées, comme souvent dans la réalité.
+
+*Type :* données vecteur — points (sites, placettes, villages) et polygones (terre, zones) avec leurs attributs.
+:::
+:::
+
+`r dl("r_course_data_advanced.zip", "r_course_data_advanced.zip")`
+
+## [Simple features]{.en}[Les entités simples (*simple features*)]{.fr} {#sf}
+
+::: en
+In **sf** (Pebesma 2018), a spatial layer is an ordinary **data frame** with one extra column, `geometry`, that holds the shape of each row: a `POINT`, a `LINESTRING` or a `POLYGON` (and their `MULTI…` versions). Everything you know about data frames and dplyr still works.
+:::
+::: fr
+Dans **sf** (Pebesma 2018), une couche spatiale est un **data frame** ordinaire avec une colonne en plus, `geometry`, qui contient la forme de chaque ligne : un `POINT`, une `LINESTRING` (ligne) ou un `POLYGON` (et leurs versions `MULTI…`). Tout ce que vous savez des data frames et de dplyr fonctionne encore.
+:::
+
+```{r}
+gpkg <- "data/advanced/monitoring_gis.gpkg"
+st_layers(gpkg)                                    # what is inside the GeoPackage?
+zones <- st_read(gpkg, layer = "mpa_zones", quiet = TRUE)
+zones                                              # header + a data frame with "geom"
+class(zones)
+st_geometry_type(zones, by_geometry = FALSE)
+```
+
+```{r}
+land  <- st_read(gpkg, layer = "land", quiet = TRUE)
+sites <- st_read(gpkg, layer = "reef_sites", quiet = TRUE)
+plot(st_geometry(land), col = "#efe6d2", border = "grey60", axes = TRUE,
+     xlim = st_bbox(zones)[c(1, 3)], ylim = st_bbox(zones)[c(2, 4)])
+plot(st_geometry(zones), col = ifelse(zones$zone == "No-take", "#1b7f8c55", "#d9694a33"), add = TRUE)
+plot(st_geometry(sites), pch = 19, cex = 0.7, add = TRUE)
+```
+
+::: en
+`plot(st_geometry(x))` is the quickest look. Without `st_geometry()`, `plot(zones)` draws one small map per column. Nice maps come in Session A7.
+:::
+::: fr
+`plot(st_geometry(x))` est le coup d'œil le plus rapide. Sans `st_geometry()`, `plot(zones)` dessine une petite carte par colonne. Les belles cartes viennent à la séance A7.
+:::
+
+## [File formats]{.en}[Formats de fichiers]{.fr} {#formats}
+
+::: en
+| Format | Files | Notes |
+|---|---|---|
+| **GeoPackage** `.gpkg` | **one** file, several layers | modern, recommended; long column names, any encoding |
+| **Shapefile** `.shp` | **4+ files** that must stay together: `.shp` (shapes), `.shx` (index), `.dbf` (attributes), `.prj` (CRS) | very common but old: names cut to 10 characters, one layer per file. Never send the `.shp` alone! |
+| GeoJSON `.geojson` | one text file | web maps; always longitude/latitude |
+| CSV with coordinates | one table | GPS exports, field sheets: use `st_as_sf()` |
+:::
+::: fr
+| Format | Fichiers | Remarques |
+|---|---|---|
+| **GeoPackage** `.gpkg` | **un** fichier, plusieurs couches | moderne, recommandé ; noms de colonnes longs, tout encodage |
+| **Shapefile** `.shp` | **4+ fichiers** qui doivent rester ensemble : `.shp` (formes), `.shx` (index), `.dbf` (attributs), `.prj` (SCR) | très courant mais ancien : noms tronqués à 10 caractères, une couche par fichier. N'envoyez jamais le `.shp` seul ! |
+| GeoJSON `.geojson` | un fichier texte | cartes web ; toujours en longitude/latitude |
+| CSV avec coordonnées | un tableau | exports GPS, fiches de terrain : utilisez `st_as_sf()` |
+:::
+
+```{r}
+villages <- st_read("data/advanced/villages_shp/villages.shp", quiet = TRUE)   # read the .shp: sf finds the others
+head(villages, 3)
+
+# A CSV with longitude / latitude -> spatial points
+plots_csv <- read.csv("data/advanced/mangrove_plots.csv")
+plots <- st_as_sf(plots_csv, coords = c("lon", "lat"), crs = 4326)   # 4326 = WGS84 lon/lat
+plots
+```
+
+## [Coordinate reference systems]{.en}[Systèmes de coordonnées de référence]{.fr} {#crs}
+
+::: en
+A **CRS** says what the numbers of the coordinates mean. Two families:
+
+- **geographic** (longitude/latitude, degrees), e.g. **WGS84 = EPSG:4326** — what a GPS gives. One degree of longitude is not the same distance everywhere (Intermediate, Session I11);
+- **projected** (metres), e.g. **UTM zone 38S = EPSG:32738**, which covers south-west Madagascar (UTM 38S runs from 42° to 48° E; the east of the island is in 39S, EPSG:32739). Areas, distances and buffers are computed in metres.
+
+Each CRS has an **EPSG code**. Two layers must be in the **same CRS** before you combine them: `st_transform()` converts.
+:::
+::: fr
+Un **SCR** dit ce que signifient les nombres des coordonnées. Deux familles :
+
+- **géographique** (longitude/latitude, degrés), ex. **WGS84 = EPSG:4326** — ce que donne un GPS. Un degré de longitude ne fait pas la même distance partout (intermédiaire, séance I11) ;
+- **projeté** (mètres), ex. **UTM zone 38S = EPSG:32738**, qui couvre le sud-ouest de Madagascar (l'UTM 38S va de 42° à 48° E ; l'est de l'île est en 39S, EPSG:32739). Surfaces, distances et zones tampons se calculent en mètres.
+
+Chaque SCR a un **code EPSG**. Deux couches doivent être dans le **même SCR** avant d'être combinées : `st_transform()` convertit.
+:::
+
+```{r}
+st_crs(zones)$epsg        # the GeoPackage: UTM 38S
+st_crs(villages)$epsg     # the shapefile: WGS84
+st_crs(zones)$units       # metres
+villages_utm <- st_transform(villages, st_crs(zones))   # same CRS as the zones
+plots_utm    <- st_transform(plots, st_crs(zones))
+st_coordinates(villages_utm)[1:2, ]                      # now in metres (Easting, Northing)
+```
+
+::: {.callout .warning}
+::: en
+`st_crs()` returning `NA` means the CRS is **unknown** (e.g. a shapefile without its `.prj`). Do not guess with `st_transform()`: **set** the CRS you know is right with `st_set_crs(x, 4326)` (it changes the label, not the numbers), then transform if needed. A classic error is mixing them up: coordinates in degrees declared as metres put all your points a few metres from the origin of the projection — far from Madagascar.
+:::
+::: fr
+`st_crs()` qui renvoie `NA` signifie que le SCR est **inconnu** (par ex. un shapefile sans son `.prj`). Ne devinez pas avec `st_transform()` : **déclarez** le SCR que vous savez juste avec `st_set_crs(x, 4326)` (cela change l'étiquette, pas les nombres), puis transformez si besoin. Une erreur classique est de les confondre : des coordonnées en degrés déclarées en mètres placent tous vos points à quelques mètres de l'origine de la projection — loin de Madagascar.
+:::
+:::
+
+## [Attributes with dplyr]{.en}[Attributs avec dplyr]{.fr} {#dplyr}
+
+```{r}
+zones %>% filter(zone == "No-take") %>% select(mpa, zone)       # the geometry follows automatically
+# summarise() on groups MERGES the geometries ("dissolve"): one polygon per MPA
+mpas <- zones %>% group_by(mpa) %>% summarise(n_zones = n(), .groups = "drop")
+mpas
+zones_table <- st_drop_geometry(zones)                          # back to a plain data frame
+class(zones_table)
+```
+
+::: en
+To add field results to the sites, join a normal table by its key — the spatial object must come **first** to stay spatial (Intermediate, Session I3):
+:::
+::: fr
+Pour ajouter des résultats de terrain aux sites, joignez un tableau normal par sa clé — l'objet spatial doit venir **en premier** pour rester spatial (intermédiaire, séance I3) :
+:::
+
+```{r}
+reef <- read.csv("data/advanced/reef_monitoring.csv")
+cover25 <- reef %>% filter(year == 2025) %>% group_by(site_id) %>%
+  summarise(hard_coral = mean(hard_coral), .groups = "drop")
+sites25 <- left_join(sites, cover25, by = "site_id")
+head(sites25, 3)
+```
+
+## [Measuring: areas and distances]{.en}[Mesurer : surfaces et distances]{.fr} {#measure}
+
+```{r}
+zones$area <- st_area(zones)                          # with units: m^2
+head(zones$area, 3)
+zones$area_km2 <- as.numeric(st_area(zones)) / 1e6    # plain number in km^2
+zones %>% st_drop_geometry() %>% group_by(zone) %>% summarise(total_km2 = round(sum(area_km2), 1))
+```
+
+```{r}
+d <- st_distance(sites, villages_utm)     # matrix: 18 sites x 12 villages, in metres
+dim(d)
+sites$nearest_village   <- villages_utm$village[apply(d, 1, which.min)]
+sites$dist_village_km   <- round(apply(d, 1, min) / 1000, 2)
+sites$dist_land_km      <- round(as.numeric(st_distance(sites, land)) / 1000, 2)   # distance to the coast
+head(st_drop_geometry(sites)[, c("site_id", "nearest_village", "dist_village_km", "dist_land_km")], 4)
+```
+
+::: {.callout .tip}
+::: en
+Areas and distances are only correct in a **projected** CRS — or with longitude/latitude, where sf uses the **s2** spherical library automatically. In practice: transform to UTM, measure, and you get metres you can trust.
+:::
+::: fr
+Surfaces et distances ne sont justes que dans un SCR **projeté** — ou en longitude/latitude, où sf utilise automatiquement la bibliothèque sphérique **s2**. En pratique : transformez en UTM, mesurez, et vous obtenez des mètres fiables.
+:::
+:::
+
+## [Geometric operations]{.en}[Opérations géométriques]{.fr} {#geometry}
+
+::: en
+| Function | Result |
+|---|---|
+| `st_buffer(x, 2000)` | a zone of 2 km around each feature |
+| `st_union(x)` | all features merged into one |
+| `st_intersection(x, y)` | the parts of `x` inside `y` (with attributes of both) |
+| `st_difference(x, y)` | the parts of `x` outside `y` |
+| `st_centroid(x)` | the centre of each polygon |
+| `st_crop(x, bbox)` | cut to a rectangle |
+:::
+::: fr
+| Fonction | Résultat |
+|---|---|
+| `st_buffer(x, 2000)` | une zone de 2 km autour de chaque entité |
+| `st_union(x)` | toutes les entités fusionnées en une |
+| `st_intersection(x, y)` | les parties de `x` à l'intérieur de `y` (avec les attributs des deux) |
+| `st_difference(x, y)` | les parties de `x` hors de `y` |
+| `st_centroid(x)` | le centre de chaque polygone |
+| `st_crop(x, bbox)` | découper selon un rectangle |
+:::
+
+```{r buffer}
+no_take <- zones %>% filter(zone == "No-take") %>% st_union()   # one geometry: all No-take zones
+belt <- st_buffer(no_take, 2000)                                 # 2 km around them (m: UTM)
+belt_land <- st_intersection(belt, st_union(land))               # the part of the belt on land
+round(as.numeric(st_area(belt_land)) / 1e6, 1)                   # km2 of land within 2 km of a No-take zone
+
+plot(st_geometry(land), col = "#efe6d2", border = "grey60",
+     xlim = st_bbox(zones)[c(1, 3)], ylim = st_bbox(zones)[c(2, 4)])
+plot(belt, col = "#f3c3b255", border = "#d9694a", add = TRUE)
+plot(no_take, col = "#1b7f8c88", add = TRUE)
+plot(st_geometry(villages_utm), pch = 15, col = "black", add = TRUE)
+```
+
+## [Spatial questions: predicates and joins]{.en}[Questions spatiales : prédicats et jointures]{.fr} {#join}
+
+::: en
+A **predicate** answers a yes/no question between two layers: `st_intersects()`, `st_within()`, `st_contains()`, `st_is_within_distance()`. A **spatial join** `st_join(x, y)` adds to each feature of `x` the attributes of the features of `y` it touches — like `left_join()`, but the key is the **position**.
+:::
+::: fr
+Un **prédicat** répond par oui/non à une question entre deux couches : `st_intersects()`, `st_within()`, `st_contains()`, `st_is_within_distance()`. Une **jointure spatiale** `st_join(x, y)` ajoute à chaque entité de `x` les attributs des entités de `y` qu'elle touche — comme `left_join()`, mais la clé est la **position**.
+:::
+
+```{r}
+# Which villages are within 2 km of a No-take zone?
+near <- lengths(st_intersects(villages_utm, belt)) > 0     # TRUE/FALSE for each village
+villages_utm$village[near]
+
+# In which MPA zone is each mangrove plot? (plots are on land: none!)
+table(lengths(st_intersects(plots_utm, zones)))
+
+# Spatial join: zone and MPA of each reef site, read from the polygons
+sites_j <- st_join(select(sites, site_id), select(zones, mpa_poly = mpa, zone_poly = zone))
+head(st_drop_geometry(sites_j), 4)
+
+# Count points per polygon
+zones$n_sites <- lengths(st_intersects(zones, sites))
+st_drop_geometry(zones)[, c("mpa", "zone", "n_sites")]
+```
+
+::: {.callout .try}
+::: en
+**Try it.** With `st_join(villages_utm, select(zones, mpa), join = st_is_within_distance, dist = 3000)`, find for each village the MPA that is less than 3 km away. Which village has **no** MPA within 3 km? Why can a village appear twice?
+:::
+::: fr
+**À vous.** Avec `st_join(villages_utm, select(zones, mpa), join = st_is_within_distance, dist = 3000)`, trouvez pour chaque village l'AMP qui est à moins de 3 km. Quel village n'a **aucune** AMP à moins de 3 km ? Pourquoi un village peut-il apparaître deux fois ?
+:::
+:::
+
+## [Writing layers]{.en}[Écrire des couches]{.fr} {#write}
+
+```{r, eval=FALSE}
+st_write(sites25, here::here("data", "derived", "reef_sites_2025.gpkg"), delete_dsn = TRUE)   # overwrite
+st_write(belt, here::here("data", "derived", "analysis.gpkg"), layer = "no_take_2km", append = FALSE)
+# for a colleague who only uses Excel: coordinates as columns
+out <- cbind(st_drop_geometry(sites25), st_coordinates(st_transform(sites25, 4326)))
+write.csv(out, here::here("outputs", "tables", "reef_sites_2025_lonlat.csv"), row.names = FALSE)
+```
+
+::: en
+All these files open in **QGIS** (free GIS software): R does the analysis reproducibly, QGIS is handy to look, check and draw by hand.
+:::
+::: fr
+Tous ces fichiers s'ouvrent dans **QGIS** (logiciel SIG libre) : R fait l'analyse de façon reproductible, QGIS est pratique pour regarder, vérifier et dessiner à la main.
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+Z <- st_read(gpkg, "mpa_zones", quiet = TRUE); L <- st_read(gpkg, "land", quiet = TRUE)
+S <- st_read(gpkg, "reef_sites", quiet = TRUE)
+V <- st_transform(st_read("data/advanced/villages_shp/villages.shp", quiet = TRUE), st_crs(Z))
+a1 <- length(st_layers(gpkg)$name)
+a2 <- st_crs(Z)$epsg
+ar <- as.numeric(st_area(Z)) / 1e6
+a3 <- round(sum(ar[Z$zone == "No-take"]), 1)
+a4 <- round(sum(ar[Z$mpa == "Tanjona"]), 1)
+B <- st_buffer(st_union(Z[Z$zone == "No-take", ]), 2000)
+a5 <- sum(lengths(st_intersects(V, B)) > 0)
+a6 <- round(min(st_distance(S[S$site_id == "R07", ], V)) / 1000, 2); a6 <- as.numeric(a6)
+a7 <- sum(as.numeric(st_distance(S, L)) > 5000)
+```
+
+::: application
+::: en
+### Application work A5
+
+Script `R/05_gis.R` in your `reef-monitoring` project (copy `monitoring_gis.gpkg` and `villages_shp/` into `data/raw/`).
+
+1. How many layers does the GeoPackage contain? What is the EPSG code of its CRS?
+2. Total area of the **No-take** zones, in km² (1 decimal).
+3. Total area of the **Tanjona** MPA (all zones), in km² (1 decimal).
+4. Transform the villages to the CRS of the zones. How many villages are within **2 km** of a No-take zone?
+5. Distance from site **R07** to the nearest village, in km (2 decimals).
+6. How many reef sites are more than **5 km** from the coast?
+7. Join the mean 2025 hard coral cover to the sites and save `data/derived/reef_sites_2025.gpkg`. Open it in QGIS if you have it.
+:::
+::: fr
+### Travail d'application A5
+
+Script `R/05_gis.R` dans votre projet `reef-monitoring` (copiez `monitoring_gis.gpkg` et `villages_shp/` dans `data/raw/`).
+
+1. Combien de couches contient le GeoPackage ? Quel est le code EPSG de son SCR ?
+2. Surface totale des zones **No-take**, en km² (1 décimale).
+3. Surface totale de l'AMP **Tanjona** (toutes zones), en km² (1 décimale).
+4. Transformez les villages dans le SCR des zones. Combien de villages sont à moins de **2 km** d'une zone No-take ?
+5. Distance du site **R07** au village le plus proche, en km (2 décimales).
+6. Combien de sites récifaux sont à plus de **5 km** de la côte ?
+7. Joignez le corail dur moyen 2025 aux sites et enregistrez `data/derived/reef_sites_2025.gpkg`. Ouvrez-le dans QGIS si vous l'avez.
+:::
+:::
+
+::: hint
+::: en
+`st_area()` returns values **with units**: use `as.numeric()` before dividing by 1e6. For question 4, merge the No-take zones with `st_union()` before `st_buffer()`, then `lengths(st_intersects(villages, buffer)) > 0`. For question 5, `min(st_distance(site, villages))`.
+:::
+::: fr
+`st_area()` renvoie des valeurs **avec unités** : utilisez `as.numeric()` avant de diviser par 1e6. Pour la question 4, fusionnez les zones No-take avec `st_union()` avant `st_buffer()`, puis `lengths(st_intersects(villages, tampon)) > 0`. Pour la question 5, `min(st_distance(site, villages))`.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("a05", list(
+  q_num("1a. Number of layers in the GeoPackage?", "1a. Nombre de couches du GeoPackage ?", a1, tol = 0),
+  q_num("1b. EPSG code of its CRS?", "1b. Code EPSG de son SCR ?", a2, tol = 0),
+  q_num("2. Total area of the No-take zones (km², 1 decimal)?", "2. Surface totale des zones No-take (km², 1 décimale) ?", a3, tol = 0.11),
+  q_num("3. Total area of Tanjona (km², 1 decimal)?", "3. Surface totale de Tanjona (km², 1 décimale) ?", a4, tol = 0.11),
+  q_num("4. Villages within 2 km of a No-take zone?", "4. Villages à moins de 2 km d'une zone No-take ?", a5, tol = 0),
+  q_num("5. Distance R07 – nearest village (km, 2 decimals)?", "5. Distance R07 – village le plus proche (km, 2 décimales) ?", a6, tol = 0.011),
+  q_num("6. Reef sites more than 5 km from the coast?", "6. Sites récifaux à plus de 5 km de la côte ?", a7, tol = 0),
+  q_mcq("7. Why transform layers to UTM before st_buffer(x, 2000)?", "7. Pourquoi transformer les couches en UTM avant st_buffer(x, 2000) ?",
+        c("UTM is faster", "So that 2000 means 2000 metres, not 2000 degrees", "Buffers only work on polygons", "It is not needed"),
+        c("L'UTM est plus rapide", "Pour que 2000 signifie 2000 mètres, et non 2000 degrés", "Les tampons ne marchent que sur les polygones", "Ce n'est pas nécessaire"), correct = 2),
+  q_mcq("8. A shapefile arrives without its .prj file. You:", "8. Un shapefile arrive sans son fichier .prj. Vous :",
+        c("use st_transform(x, 4326)", "ask which CRS was used, then st_set_crs()", "delete the layer", "rename it .gpkg"),
+        c("utilisez st_transform(x, 4326)", "demandez quel SCR a été utilisé, puis st_set_crs()", "supprimez la couche", "la renommez en .gpkg"), correct = 2),
+  q_mcq("9. st_join(sites, zones) gives each site:", "9. st_join(sites, zones) donne à chaque site :",
+        c("the attributes of the zone it falls in", "the distance to the nearest zone", "a new geometry", "nothing, it needs a key column"),
+        c("les attributs de la zone où il se trouve", "la distance à la zone la plus proche", "une nouvelle géométrie", "rien, il faut une colonne clé"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="a05"}
+```{r, eval=FALSE}
+library(sf); library(dplyr); library(here)
+gpkg  <- here("data", "raw", "monitoring_gis.gpkg")
+st_layers(gpkg)                                                     # 1: 4 layers
+zones <- st_read(gpkg, "mpa_zones"); land <- st_read(gpkg, "land"); sites <- st_read(gpkg, "reef_sites")
+st_crs(zones)$epsg                                                  # 1: 32738
+zones$area_km2 <- as.numeric(st_area(zones)) / 1e6
+zones %>% st_drop_geometry() %>% group_by(zone) %>% summarise(sum(area_km2))   # 2
+zones %>% st_drop_geometry() %>% group_by(mpa)  %>% summarise(sum(area_km2))   # 3
+villages <- st_transform(st_read(here("data", "raw", "villages_shp", "villages.shp")), st_crs(zones))
+belt <- st_buffer(st_union(filter(zones, zone == "No-take")), 2000)
+sum(lengths(st_intersects(villages, belt)) > 0)                     # 4
+min(st_distance(filter(sites, site_id == "R07"), villages)) / 1000  # 5 (in m -> km)
+sum(as.numeric(st_distance(sites, land)) > 5000)                    # 6
+reef <- read.csv(here("data", "raw", "reef_monitoring.csv"))        # 7
+cover25 <- reef %>% filter(year == 2025) %>% group_by(site_id) %>% summarise(hard_coral = mean(hard_coral))
+st_write(left_join(sites, cover25, by = "site_id"), here("data", "derived", "reef_sites_2025.gpkg"), delete_dsn = TRUE)
+```
+:::

@@ -1,0 +1,30 @@
+# _quarto.yml — settings of the whole website (one file for all pages)
+project:
+  type: website
+  output-dir: docs            # GitHub Pages: Settings -> Pages -> branch main, folder /docs
+
+website:
+  title: "MPA monitoring"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: coral.qmd
+        text: Coral reefs
+      - href: mangroves.qmd
+        text: Mangroves
+      - href: about.qmd
+        text: About
+  page-footer:
+    center: "Simulated data · R for marine sciences course"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+
+execute:
+  echo: false
+  warning: false
+  message: false
+  freeze: auto                # re-run the R code only when a page changes

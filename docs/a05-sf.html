@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · A5</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A5 · Vector GIS data with
+sf</span><span class="fr">A5 · Données SIG vecteur avec sf</span></h1>
+<h3 class="subtitle">~3.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>explain what a <strong>simple feature</strong> is (a data frame with
+a geometry column) and the three main geometry types;</li>
+<li>read and write <strong>GeoPackage</strong> and
+<strong>shapefile</strong> layers, and turn a CSV of coordinates into a
+spatial object;</li>
+<li>understand <strong>coordinate reference systems</strong> (CRS) and
+<strong>transform</strong> between longitude/latitude and UTM;</li>
+<li>compute <strong>areas, distances and buffers</strong>, and combine
+layers (<strong>union, intersection, difference</strong>);</li>
+<li>use <strong>spatial predicates and spatial joins</strong> to answer
+questions such as “which villages are within 2 km of a No-take
+zone?”.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>expliquer ce qu’est une <strong>entité simple</strong> (<em>simple
+feature</em> : un data frame avec une colonne géométrie) et les trois
+grands types de géométrie ;</li>
+<li>lire et écrire des couches <strong>GeoPackage</strong> et
+<strong>shapefile</strong>, et transformer un CSV de coordonnées en
+objet spatial ;</li>
+<li>comprendre les <strong>systèmes de coordonnées de référence</strong>
+(SCR / CRS) et <strong>transformer</strong> entre longitude/latitude et
+UTM ;</li>
+<li>calculer des <strong>surfaces, distances et zones tampons</strong>,
+et combiner des couches (<strong>union, intersection,
+différence</strong>) ;</li>
+<li>utiliser des <strong>prédicats et jointures spatiales</strong> pour
+répondre à des questions comme « quels villages sont à moins de 2 km
+d’une zone No-take ? ».</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> The GIS of the
+monitoring programme, prepared by the NGO GIS officer:</p>
+<ul>
+<li><code>monitoring_gis.gpkg</code>, a <strong>GeoPackage</strong> (one
+file, several layers), in <strong>UTM zone 38S</strong> (metres):
+<code>land</code> (the mainland, digitised from a satellite image),
+<code>mpa_zones</code> (the 9 zones of the three MPAs as described in
+their management plans: a central No-take zone between two Fishing
+zones), <code>reef_sites</code> (the 18 monitoring sites, positions
+taken with a GPS on the boat) and <code>mangrove_plots</code> (the 24
+forest plots, GPS at the plot centre).</li>
+<li><code>villages_shp/villages.shp</code>, a <strong>shapefile</strong>
+in <strong>longitude/latitude (WGS84)</strong>: the 12 villages of the
+Intermediate level, digitised by another team — with another coordinate
+system, as often in real life.</li>
+</ul>
+<p><em>Type:</em> vector data — points (sites, plots, villages) and
+polygons (land, zones) with their attributes.</p>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong> Le SIG du
+programme de suivi, préparé par le responsable SIG de l’ONG :</p>
+<ul>
+<li><code>monitoring_gis.gpkg</code>, un <strong>GeoPackage</strong> (un
+seul fichier, plusieurs couches), en <strong>UTM zone 38S</strong>
+(mètres) : <code>land</code> (la terre ferme, numérisée sur une image
+satellite), <code>mpa_zones</code> (les 9 zones des trois AMP telles que
+décrites dans leurs plans d’aménagement : une zone centrale No-take
+entre deux zones Fishing), <code>reef_sites</code> (les 18 sites de
+suivi, positions prises au GPS sur le bateau) et
+<code>mangrove_plots</code> (les 24 placettes forestières, GPS au centre
+de la placette).</li>
+<li><code>villages_shp/villages.shp</code>, un
+<strong>shapefile</strong> en <strong>longitude/latitude
+(WGS84)</strong> : les 12 villages du niveau intermédiaire, numérisés
+par une autre équipe — avec un autre système de coordonnées, comme
+souvent dans la réalité.</li>
+</ul>
+<p><em>Type :</em> données vecteur — points (sites, placettes, villages)
+et polygones (terre, zones) avec leurs attributs.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="data/r_course_data_advanced.zip" download>⇩
+r_course_data_advanced.zip</a></p>
+<div id="sf" class="section level2">
+<h2><span class="en">Simple features</span><span class="fr">Les entités
+simples (<em>simple features</em>)</span></h2>
+<div class="en">
+<p>In <strong>sf</strong> (Pebesma 2018), a spatial layer is an ordinary
+<strong>data frame</strong> with one extra column,
+<code>geometry</code>, that holds the shape of each row: a
+<code>POINT</code>, a <code>LINESTRING</code> or a <code>POLYGON</code>
+(and their <code>MULTI…</code> versions). Everything you know about data
+frames and dplyr still works.</p>
+</div>
+<div class="fr">
+<p>Dans <strong>sf</strong> (Pebesma 2018), une couche spatiale est un
+<strong>data frame</strong> ordinaire avec une colonne en plus,
+<code>geometry</code>, qui contient la forme de chaque ligne : un
+<code>POINT</code>, une <code>LINESTRING</code> (ligne) ou un
+<code>POLYGON</code> (et leurs versions <code>MULTI…</code>). Tout ce
+que vous savez des data frames et de dplyr fonctionne encore.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>gpkg <span class="ot">&lt;-</span> <span class="st">&quot;data/advanced/monitoring_gis.gpkg&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">st_layers</span>(gpkg)                                    <span class="co"># what is inside the GeoPackage?</span></span></code></pre></div>
+<pre><code>#&gt; Driver: GPKG 
+#&gt; Available layers:
+#&gt;       layer_name geometry_type features fields              crs_name
+#&gt; 1           land       Polygon        1      1 WGS 84 / UTM zone 38S
+#&gt; 2      mpa_zones Multi Polygon        9      4 WGS 84 / UTM zone 38S
+#&gt; 3     reef_sites         Point       18      6 WGS 84 / UTM zone 38S
+#&gt; 4 mangrove_plots         Point       24      7 WGS 84 / UTM zone 38S</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">st_read</span>(gpkg, <span class="at">layer =</span> <span class="st">&quot;mpa_zones&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>zones                                              <span class="co"># header + a data frame with &quot;geom&quot;</span></span></code></pre></div>
+<pre><code>#&gt; Simple feature collection with 9 features and 4 fields
+#&gt; Geometry type: MULTIPOLYGON
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: 340891.7 ymin: 7420209 xmax: 365568 ymax: 7500064
+#&gt; Projected CRS: WGS 84 / UTM zone 38S
+#&gt;           mpa    zone  part created                           geom
+#&gt; 1  Ankaramena Fishing north    2015 MULTIPOLYGON (((359067.1 74...
+#&gt; 2  Ankaramena No-take  core    2015 MULTIPOLYGON (((361171.4 74...
+#&gt; 3  Ankaramena Fishing south    2015 MULTIPOLYGON (((359734 7480...
+#&gt; 4 Nosy Fasika Fishing north    2017 MULTIPOLYGON (((365472.4 74...
+#&gt; 5 Nosy Fasika No-take  core    2017 MULTIPOLYGON (((365546.8 74...
+#&gt; 6 Nosy Fasika Fishing south    2017 MULTIPOLYGON (((357982.3 74...
+#&gt; 7     Tanjona Fishing north    2019 MULTIPOLYGON (((355302.6 74...
+#&gt; 8     Tanjona No-take  core    2019 MULTIPOLYGON (((356660.5 74...
+#&gt; 9     Tanjona Fishing south    2019 MULTIPOLYGON (((353962.5 74...</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">class</span>(zones)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">st_geometry_type</span>(zones, <span class="at">by_geometry =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] MULTIPOLYGON
+#&gt; 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT MULTILINESTRING MULTIPOLYGON ... TRIANGLE</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>land  <span class="ot">&lt;-</span> <span class="fu">st_read</span>(gpkg, <span class="at">layer =</span> <span class="st">&quot;land&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">st_read</span>(gpkg, <span class="at">layer =</span> <span class="st">&quot;reef_sites&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(land), <span class="at">col =</span> <span class="st">&quot;#efe6d2&quot;</span>, <span class="at">border =</span> <span class="st">&quot;grey60&quot;</span>, <span class="at">axes =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">st_bbox</span>(zones)[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)], <span class="at">ylim =</span> <span class="fu">st_bbox</span>(zones)[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)])</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(zones), <span class="at">col =</span> <span class="fu">ifelse</span>(zones<span class="sc">$</span>zone <span class="sc">==</span> <span class="st">&quot;No-take&quot;</span>, <span class="st">&quot;#1b7f8c55&quot;</span>, <span class="st">&quot;#d9694a33&quot;</span>), <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(sites), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.7</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="a05-sf_files/figure-html/unnamed-chunk-2-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+<div class="en">
+<p><code>plot(st_geometry(x))</code> is the quickest look. Without
+<code>st_geometry()</code>, <code>plot(zones)</code> draws one small map
+per column. Nice maps come in Session A7.</p>
+</div>
+<div class="fr">
+<p><code>plot(st_geometry(x))</code> est le coup d’œil le plus rapide.
+Sans <code>st_geometry()</code>, <code>plot(zones)</code> dessine une
+petite carte par colonne. Les belles cartes viennent à la séance A7.</p>
+</div>
+</div>
+<div id="formats" class="section level2">
+<h2><span class="en">File formats</span><span class="fr">Formats de
+fichiers</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Format</th>
+<th>Files</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>GeoPackage</strong> <code>.gpkg</code></td>
+<td><strong>one</strong> file, several layers</td>
+<td>modern, recommended; long column names, any encoding</td>
+</tr>
+<tr class="even">
+<td><strong>Shapefile</strong> <code>.shp</code></td>
+<td><strong>4+ files</strong> that must stay together: <code>.shp</code>
+(shapes), <code>.shx</code> (index), <code>.dbf</code> (attributes),
+<code>.prj</code> (CRS)</td>
+<td>very common but old: names cut to 10 characters, one layer per file.
+Never send the <code>.shp</code> alone!</td>
+</tr>
+<tr class="odd">
+<td>GeoJSON <code>.geojson</code></td>
+<td>one text file</td>
+<td>web maps; always longitude/latitude</td>
+</tr>
+<tr class="even">
+<td>CSV with coordinates</td>
+<td>one table</td>
+<td>GPS exports, field sheets: use <code>st_as_sf()</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Format</th>
+<th>Fichiers</th>
+<th>Remarques</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>GeoPackage</strong> <code>.gpkg</code></td>
+<td><strong>un</strong> fichier, plusieurs couches</td>
+<td>moderne, recommandé ; noms de colonnes longs, tout encodage</td>
+</tr>
+<tr class="even">
+<td><strong>Shapefile</strong> <code>.shp</code></td>
+<td><strong>4+ fichiers</strong> qui doivent rester ensemble :
+<code>.shp</code> (formes), <code>.shx</code> (index), <code>.dbf</code>
+(attributs), <code>.prj</code> (SCR)</td>
+<td>très courant mais ancien : noms tronqués à 10 caractères, une couche
+par fichier. N’envoyez jamais le <code>.shp</code> seul !</td>
+</tr>
+<tr class="odd">
+<td>GeoJSON <code>.geojson</code></td>
+<td>un fichier texte</td>
+<td>cartes web ; toujours en longitude/latitude</td>
+</tr>
+<tr class="even">
+<td>CSV avec coordonnées</td>
+<td>un tableau</td>
+<td>exports GPS, fiches de terrain : utilisez
+<code>st_as_sf()</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>villages <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/advanced/villages_shp/villages.shp&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)   <span class="co"># read the .shp: sf finds the others</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">head</span>(villages, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt; Simple feature collection with 3 features and 3 fields
+#&gt; Geometry type: POINT
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: 43.6177 ymin: -22.7455 xmax: 43.6555 ymax: -22.6293
+#&gt; Geodetic CRS:  WGS 84
+#&gt;     village  zone n_farmers                 geometry
+#&gt; 1  Ankarabe North         7 POINT (43.6177 -22.6293)
+#&gt; 2 Antsiraka North         9 POINT (43.6555 -22.6869)
+#&gt; 3  Mahavelo North        14 POINT (43.6501 -22.7455)</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># A CSV with longitude / latitude -&gt; spatial points</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>plots_csv <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/advanced/mangrove_plots.csv&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(plots_csv, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>), <span class="at">crs =</span> <span class="dv">4326</span>)   <span class="co"># 4326 = WGS84 lon/lat</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>plots</span></code></pre></div>
+<pre><code>#&gt; Simple feature collection with 24 features and 5 fields
+#&gt; Geometry type: POINT
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: 43.56959 ymin: -23.13706 xmax: 43.659 ymax: -22.6223
+#&gt; Geodetic CRS:  WGS 84
+#&gt; First 10 features:
+#&gt;    plot_id      patch         mpa    status survey_date                   geometry
+#&gt; 1     M101   Ankarabe  Ankaramena reference  2025-05-11 POINT (43.63852 -22.65646)
+#&gt; 2     M102   Ankarabe  Ankaramena reference  2025-05-19 POINT (43.62766 -22.64417)
+#&gt; 3     M103   Ankarabe  Ankaramena harvested  2025-05-26 POINT (43.61049 -22.62406)
+#&gt; 4     M104   Ankarabe  Ankaramena harvested  2025-05-28 POINT (43.61166 -22.62538)
+#&gt; 5     M105   Ankarabe  Ankaramena  restored  2025-05-05 POINT (43.61687 -22.63417)
+#&gt; 6     M106   Ankarabe  Ankaramena  restored  2025-05-05   POINT (43.6097 -22.6223)
+#&gt; 7     M107   Ankarabe  Ankaramena reference  2025-05-26 POINT (43.63394 -22.64892)
+#&gt; 8     M108   Ankarabe  Ankaramena harvested  2025-05-12 POINT (43.61879 -22.63657)
+#&gt; 9     M201 Ambalakely Nosy Fasika reference  2025-05-11 POINT (43.64482 -22.83314)
+#&gt; 10    M202 Ambalakely Nosy Fasika reference  2025-05-22  POINT (43.64791 -22.8404)</code></pre>
+</div>
+<div id="crs" class="section level2">
+<h2><span class="en">Coordinate reference systems</span><span
+class="fr">Systèmes de coordonnées de référence</span></h2>
+<div class="en">
+<p>A <strong>CRS</strong> says what the numbers of the coordinates mean.
+Two families:</p>
+<ul>
+<li><strong>geographic</strong> (longitude/latitude, degrees),
+e.g. <strong>WGS84 = EPSG:4326</strong> — what a GPS gives. One degree
+of longitude is not the same distance everywhere (Intermediate, Session
+I11);</li>
+<li><strong>projected</strong> (metres), e.g. <strong>UTM zone 38S =
+EPSG:32738</strong>, which covers south-west Madagascar (UTM 38S runs
+from 42° to 48° E; the east of the island is in 39S, EPSG:32739). Areas,
+distances and buffers are computed in metres.</li>
+</ul>
+<p>Each CRS has an <strong>EPSG code</strong>. Two layers must be in the
+<strong>same CRS</strong> before you combine them:
+<code>st_transform()</code> converts.</p>
+</div>
+<div class="fr">
+<p>Un <strong>SCR</strong> dit ce que signifient les nombres des
+coordonnées. Deux familles :</p>
+<ul>
+<li><strong>géographique</strong> (longitude/latitude, degrés), ex.
+<strong>WGS84 = EPSG:4326</strong> — ce que donne un GPS. Un degré de
+longitude ne fait pas la même distance partout (intermédiaire, séance
+I11) ;</li>
+<li><strong>projeté</strong> (mètres), ex. <strong>UTM zone 38S =
+EPSG:32738</strong>, qui couvre le sud-ouest de Madagascar (l’UTM 38S va
+de 42° à 48° E ; l’est de l’île est en 39S, EPSG:32739). Surfaces,
+distances et zones tampons se calculent en mètres.</li>
+</ul>
+<p>Chaque SCR a un <strong>code EPSG</strong>. Deux couches doivent être
+dans le <strong>même SCR</strong> avant d’être combinées :
+<code>st_transform()</code> convertit.</p>
+</div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">st_crs</span>(zones)<span class="sc">$</span>epsg        <span class="co"># the GeoPackage: UTM 38S</span></span></code></pre></div>
+<pre><code>#&gt; [1] 32738</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">st_crs</span>(villages)<span class="sc">$</span>epsg     <span class="co"># the shapefile: WGS84</span></span></code></pre></div>
+<pre><code>#&gt; [1] 4326</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">st_crs</span>(zones)<span class="sc">$</span>units       <span class="co"># metres</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;m&quot;</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>villages_utm <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(villages, <span class="fu">st_crs</span>(zones))   <span class="co"># same CRS as the zones</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>plots_utm    <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(plots, <span class="fu">st_crs</span>(zones))</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="fu">st_coordinates</span>(villages_utm)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, ]                      <span class="co"># now in metres (Easting, Northing)</span></span></code></pre></div>
+<pre><code>#&gt;             X       Y
+#&gt; [1,] 357946.1 7496856
+#&gt; [2,] 361888.9 7490515</code></pre>
+<div class="callout warning">
+<div class="en">
+<p><code>st_crs()</code> returning <code>NA</code> means the CRS is
+<strong>unknown</strong> (e.g. a shapefile without its
+<code>.prj</code>). Do not guess with <code>st_transform()</code>:
+<strong>set</strong> the CRS you know is right with
+<code>st_set_crs(x, 4326)</code> (it changes the label, not the
+numbers), then transform if needed. A classic error is mixing them up:
+coordinates in degrees declared as metres put all your points a few
+metres from the origin of the projection — far from Madagascar.</p>
+</div>
+<div class="fr">
+<p><code>st_crs()</code> qui renvoie <code>NA</code> signifie que le SCR
+est <strong>inconnu</strong> (par ex. un shapefile sans son
+<code>.prj</code>). Ne devinez pas avec <code>st_transform()</code> :
+<strong>déclarez</strong> le SCR que vous savez juste avec
+<code>st_set_crs(x, 4326)</code> (cela change l’étiquette, pas les
+nombres), puis transformez si besoin. Une erreur classique est de les
+confondre : des coordonnées en degrés déclarées en mètres placent tous
+vos points à quelques mètres de l’origine de la projection — loin de
+Madagascar.</p>
+</div>
+</div>
+</div>
+<div id="dplyr" class="section level2">
+<h2><span class="en">Attributes with dplyr</span><span
+class="fr">Attributs avec dplyr</span></h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>zones <span class="sc">%&gt;%</span> <span class="fu">filter</span>(zone <span class="sc">==</span> <span class="st">&quot;No-take&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(mpa, zone)       <span class="co"># the geometry follows automatically</span></span></code></pre></div>
+<pre><code>#&gt; Simple feature collection with 3 features and 2 fields
+#&gt; Geometry type: MULTIPOLYGON
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: 343409.2 ymin: 7426876 xmax: 365568 ymax: 7494134
+#&gt; Projected CRS: WGS 84 / UTM zone 38S
+#&gt;           mpa    zone                           geom
+#&gt; 1  Ankaramena No-take MULTIPOLYGON (((361171.4 74...
+#&gt; 2 Nosy Fasika No-take MULTIPOLYGON (((365546.8 74...
+#&gt; 3     Tanjona No-take MULTIPOLYGON (((356660.5 74...</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># summarise() on groups MERGES the geometries (&quot;dissolve&quot;): one polygon per MPA</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>mpas <span class="ot">&lt;-</span> zones <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(mpa) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">n_zones =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>mpas</span></code></pre></div>
+<pre><code>#&gt; Simple feature collection with 3 features and 2 fields
+#&gt; Geometry type: POLYGON
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: 340891.7 ymin: 7420209 xmax: 365568 ymax: 7500064
+#&gt; Projected CRS: WGS 84 / UTM zone 38S
+#&gt; # A tibble: 3 × 3
+#&gt;   mpa         n_zones                                                                                     geom
+#&gt;   &lt;chr&gt;         &lt;int&gt;                                                                            &lt;POLYGON [m]&gt;
+#&gt; 1 Ankaramena        3 ((361039.3 7485971, 361002.9 7485765, 360955.1 7485558, 360905.4 7485351, 360855.6 7485…
+#&gt; 2 Nosy Fasika       3 ((362037.9 7456549, 361864.8 7456365, 361691.8 7456180, 361518.7 7455995, 361343.9 7455…
+#&gt; 3 Tanjona           3 ((355985.6 7426770, 355905.2 7426540, 355824.9 7426310, 355744.6 7426080, 355663.6 7425…</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>zones_table <span class="ot">&lt;-</span> <span class="fu">st_drop_geometry</span>(zones)                          <span class="co"># back to a plain data frame</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">class</span>(zones_table)</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;data.frame&quot;</code></pre>
+<div class="en">
+<p>To add field results to the sites, join a normal table by its key —
+the spatial object must come <strong>first</strong> to stay spatial
+(Intermediate, Session I3):</p>
+</div>
+<div class="fr">
+<p>Pour ajouter des résultats de terrain aux sites, joignez un tableau
+normal par sa clé — l’objet spatial doit venir <strong>en
+premier</strong> pour rester spatial (intermédiaire, séance I3) :</p>
+</div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>reef <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/advanced/reef_monitoring.csv&quot;</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>cover25 <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2025</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site_id) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">hard_coral =</span> <span class="fu">mean</span>(hard_coral), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>sites25 <span class="ot">&lt;-</span> <span class="fu">left_join</span>(sites, cover25, <span class="at">by =</span> <span class="st">&quot;site_id&quot;</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a><span class="fu">head</span>(sites25, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt; Simple feature collection with 3 features and 7 fields
+#&gt; Geometry type: POINT
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: 352712.6 ymin: 7487710 xmax: 354416.2 ymax: 7492489
+#&gt; Projected CRS: WGS 84 / UTM zone 38S
+#&gt;   site_id        mpa    zone      lon      lat depth_m hard_coral                     geom
+#&gt; 1     R01 Ankaramena No-take 43.57797 -22.6684     7.1   42.90000   POINT (353904 7492489)
+#&gt; 2     R02 Ankaramena No-take 43.56615 -22.6900     6.6   44.66667 POINT (352712.6 7490085)
+#&gt; 3     R03 Ankaramena No-take 43.58251 -22.7116     3.5   50.43333 POINT (354416.2 7487710)</code></pre>
+</div>
+<div id="measure" class="section level2">
+<h2><span class="en">Measuring: areas and distances</span><span
+class="fr">Mesurer : surfaces et distances</span></h2>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>zones<span class="sc">$</span>area <span class="ot">&lt;-</span> <span class="fu">st_area</span>(zones)                          <span class="co"># with units: m^2</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="fu">head</span>(zones<span class="sc">$</span>area, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt; Units: [m^2]
+#&gt; [1] 73751080 98287894 73682546</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>zones<span class="sc">$</span>area_km2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">st_area</span>(zones)) <span class="sc">/</span> <span class="fl">1e6</span>    <span class="co"># plain number in km^2</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>zones <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(zone) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">total_km2 =</span> <span class="fu">round</span>(<span class="fu">sum</span>(area_km2), <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 2 × 2
+#&gt;   zone    total_km2
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 Fishing      441.
+#&gt; 2 No-take      294.</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">st_distance</span>(sites, villages_utm)     <span class="co"># matrix: 18 sites x 12 villages, in metres</span></span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a><span class="fu">dim</span>(d)</span></code></pre></div>
+<pre><code>#&gt; [1] 18 12</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>sites<span class="sc">$</span>nearest_village   <span class="ot">&lt;-</span> villages_utm<span class="sc">$</span>village[<span class="fu">apply</span>(d, <span class="dv">1</span>, which.min)]</span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>sites<span class="sc">$</span>dist_village_km   <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">apply</span>(d, <span class="dv">1</span>, min) <span class="sc">/</span> <span class="dv">1000</span>, <span class="dv">2</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>sites<span class="sc">$</span>dist_land_km      <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(<span class="fu">st_distance</span>(sites, land)) <span class="sc">/</span> <span class="dv">1000</span>, <span class="dv">2</span>)   <span class="co"># distance to the coast</span></span>
+<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">st_drop_geometry</span>(sites)[, <span class="fu">c</span>(<span class="st">&quot;site_id&quot;</span>, <span class="st">&quot;nearest_village&quot;</span>, <span class="st">&quot;dist_village_km&quot;</span>, <span class="st">&quot;dist_land_km&quot;</span>)], <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;   site_id nearest_village dist_village_km dist_land_km
+#&gt; 1     R01        Ankarabe            5.95         5.31
+#&gt; 2     R02        Ankarabe            8.56         7.75
+#&gt; 3     R03        Mahavelo            7.89         6.82
+#&gt; 4     R04        Ankarabe            9.66         5.90</code></pre>
+<div class="callout tip">
+<div class="en">
+<p>Areas and distances are only correct in a <strong>projected</strong>
+CRS — or with longitude/latitude, where sf uses the <strong>s2</strong>
+spherical library automatically. In practice: transform to UTM, measure,
+and you get metres you can trust.</p>
+</div>
+<div class="fr">
+<p>Surfaces et distances ne sont justes que dans un SCR
+<strong>projeté</strong> — ou en longitude/latitude, où sf utilise
+automatiquement la bibliothèque sphérique <strong>s2</strong>. En
+pratique : transformez en UTM, mesurez, et vous obtenez des mètres
+fiables.</p>
+</div>
+</div>
+</div>
+<div id="geometry" class="section level2">
+<h2><span class="en">Geometric operations</span><span
+class="fr">Opérations géométriques</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_buffer(x, 2000)</code></td>
+<td>a zone of 2 km around each feature</td>
+</tr>
+<tr class="even">
+<td><code>st_union(x)</code></td>
+<td>all features merged into one</td>
+</tr>
+<tr class="odd">
+<td><code>st_intersection(x, y)</code></td>
+<td>the parts of <code>x</code> inside <code>y</code> (with attributes
+of both)</td>
+</tr>
+<tr class="even">
+<td><code>st_difference(x, y)</code></td>
+<td>the parts of <code>x</code> outside <code>y</code></td>
+</tr>
+<tr class="odd">
+<td><code>st_centroid(x)</code></td>
+<td>the centre of each polygon</td>
+</tr>
+<tr class="even">
+<td><code>st_crop(x, bbox)</code></td>
+<td>cut to a rectangle</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction</th>
+<th>Résultat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_buffer(x, 2000)</code></td>
+<td>une zone de 2 km autour de chaque entité</td>
+</tr>
+<tr class="even">
+<td><code>st_union(x)</code></td>
+<td>toutes les entités fusionnées en une</td>
+</tr>
+<tr class="odd">
+<td><code>st_intersection(x, y)</code></td>
+<td>les parties de <code>x</code> à l’intérieur de <code>y</code> (avec
+les attributs des deux)</td>
+</tr>
+<tr class="even">
+<td><code>st_difference(x, y)</code></td>
+<td>les parties de <code>x</code> hors de <code>y</code></td>
+</tr>
+<tr class="odd">
+<td><code>st_centroid(x)</code></td>
+<td>le centre de chaque polygone</td>
+</tr>
+<tr class="even">
+<td><code>st_crop(x, bbox)</code></td>
+<td>découper selon un rectangle</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>no_take <span class="ot">&lt;-</span> zones <span class="sc">%&gt;%</span> <span class="fu">filter</span>(zone <span class="sc">==</span> <span class="st">&quot;No-take&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">st_union</span>()   <span class="co"># one geometry: all No-take zones</span></span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a>belt <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(no_take, <span class="dv">2000</span>)                                 <span class="co"># 2 km around them (m: UTM)</span></span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a>belt_land <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(belt, <span class="fu">st_union</span>(land))               <span class="co"># the part of the belt on land</span></span>
+<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">as.numeric</span>(<span class="fu">st_area</span>(belt_land)) <span class="sc">/</span> <span class="fl">1e6</span>, <span class="dv">1</span>)                   <span class="co"># km2 of land within 2 km of a No-take zone</span></span></code></pre></div>
+<pre><code>#&gt; [1] 75.7</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(land), <span class="at">col =</span> <span class="st">&quot;#efe6d2&quot;</span>, <span class="at">border =</span> <span class="st">&quot;grey60&quot;</span>,</span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">st_bbox</span>(zones)[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)], <span class="at">ylim =</span> <span class="fu">st_bbox</span>(zones)[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)])</span>
+<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a><span class="fu">plot</span>(belt, <span class="at">col =</span> <span class="st">&quot;#f3c3b255&quot;</span>, <span class="at">border =</span> <span class="st">&quot;#d9694a&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a><span class="fu">plot</span>(no_take, <span class="at">col =</span> <span class="st">&quot;#1b7f8c88&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(villages_utm), <span class="at">pch =</span> <span class="dv">15</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="a05-sf_files/figure-html/buffer-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="join" class="section level2">
+<h2><span class="en">Spatial questions: predicates and joins</span><span
+class="fr">Questions spatiales : prédicats et jointures</span></h2>
+<div class="en">
+<p>A <strong>predicate</strong> answers a yes/no question between two
+layers: <code>st_intersects()</code>, <code>st_within()</code>,
+<code>st_contains()</code>, <code>st_is_within_distance()</code>. A
+<strong>spatial join</strong> <code>st_join(x, y)</code> adds to each
+feature of <code>x</code> the attributes of the features of
+<code>y</code> it touches — like <code>left_join()</code>, but the key
+is the <strong>position</strong>.</p>
+</div>
+<div class="fr">
+<p>Un <strong>prédicat</strong> répond par oui/non à une question entre
+deux couches : <code>st_intersects()</code>, <code>st_within()</code>,
+<code>st_contains()</code>, <code>st_is_within_distance()</code>. Une
+<strong>jointure spatiale</strong> <code>st_join(x, y)</code> ajoute à
+chaque entité de <code>x</code> les attributs des entités de
+<code>y</code> qu’elle touche — comme <code>left_join()</code>, mais la
+clé est la <strong>position</strong>.</p>
+</div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="co"># Which villages are within 2 km of a No-take zone?</span></span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>near <span class="ot">&lt;-</span> <span class="fu">lengths</span>(<span class="fu">st_intersects</span>(villages_utm, belt)) <span class="sc">&gt;</span> <span class="dv">0</span>     <span class="co"># TRUE/FALSE for each village</span></span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>villages_utm<span class="sc">$</span>village[near]</span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Antsiraka&quot;  &quot;Ampasimena&quot; &quot;Befasy&quot;     &quot;Andrevobe&quot;  &quot;Tsimanjaka&quot;</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="co"># In which MPA zone is each mangrove plot? (plots are on land: none!)</span></span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">lengths</span>(<span class="fu">st_intersects</span>(plots_utm, zones)))</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  0 
+#&gt; 24</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="co"># Spatial join: zone and MPA of each reef site, read from the polygons</span></span>
+<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a>sites_j <span class="ot">&lt;-</span> <span class="fu">st_join</span>(<span class="fu">select</span>(sites, site_id), <span class="fu">select</span>(zones, <span class="at">mpa_poly =</span> mpa, <span class="at">zone_poly =</span> zone))</span>
+<span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">st_drop_geometry</span>(sites_j), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;   site_id   mpa_poly zone_poly
+#&gt; 1     R01 Ankaramena   No-take
+#&gt; 2     R02 Ankaramena   No-take
+#&gt; 3     R03 Ankaramena   No-take
+#&gt; 4     R04 Ankaramena   Fishing</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="co"># Count points per polygon</span></span>
+<span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a>zones<span class="sc">$</span>n_sites <span class="ot">&lt;-</span> <span class="fu">lengths</span>(<span class="fu">st_intersects</span>(zones, sites))</span>
+<span id="cb47-3"><a href="#cb47-3" tabindex="-1"></a><span class="fu">st_drop_geometry</span>(zones)[, <span class="fu">c</span>(<span class="st">&quot;mpa&quot;</span>, <span class="st">&quot;zone&quot;</span>, <span class="st">&quot;n_sites&quot;</span>)]</span></code></pre></div>
+<pre><code>#&gt;           mpa    zone n_sites
+#&gt; 1  Ankaramena Fishing       2
+#&gt; 2  Ankaramena No-take       3
+#&gt; 3  Ankaramena Fishing       1
+#&gt; 4 Nosy Fasika Fishing       2
+#&gt; 5 Nosy Fasika No-take       3
+#&gt; 6 Nosy Fasika Fishing       1
+#&gt; 7     Tanjona Fishing       2
+#&gt; 8     Tanjona No-take       3
+#&gt; 9     Tanjona Fishing       1</code></pre>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> With
+<code>st_join(villages_utm, select(zones, mpa), join = st_is_within_distance, dist = 3000)</code>,
+find for each village the MPA that is less than 3 km away. Which village
+has <strong>no</strong> MPA within 3 km? Why can a village appear
+twice?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Avec
+<code>st_join(villages_utm, select(zones, mpa), join = st_is_within_distance, dist = 3000)</code>,
+trouvez pour chaque village l’AMP qui est à moins de 3 km. Quel village
+n’a <strong>aucune</strong> AMP à moins de 3 km ? Pourquoi un village
+peut-il apparaître deux fois ?</p>
+</div>
+</div>
+</div>
+<div id="write" class="section level2">
+<h2><span class="en">Writing layers</span><span class="fr">Écrire des
+couches</span></h2>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="fu">st_write</span>(sites25, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;derived&quot;</span>, <span class="st">&quot;reef_sites_2025.gpkg&quot;</span>), <span class="at">delete_dsn =</span> <span class="cn">TRUE</span>)   <span class="co"># overwrite</span></span>
+<span id="cb49-2"><a href="#cb49-2" tabindex="-1"></a><span class="fu">st_write</span>(belt, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;derived&quot;</span>, <span class="st">&quot;analysis.gpkg&quot;</span>), <span class="at">layer =</span> <span class="st">&quot;no_take_2km&quot;</span>, <span class="at">append =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb49-3"><a href="#cb49-3" tabindex="-1"></a><span class="co"># for a colleague who only uses Excel: coordinates as columns</span></span>
+<span id="cb49-4"><a href="#cb49-4" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">st_drop_geometry</span>(sites25), <span class="fu">st_coordinates</span>(<span class="fu">st_transform</span>(sites25, <span class="dv">4326</span>)))</span>
+<span id="cb49-5"><a href="#cb49-5" tabindex="-1"></a><span class="fu">write.csv</span>(out, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;tables&quot;</span>, <span class="st">&quot;reef_sites_2025_lonlat.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="en">
+<p>All these files open in <strong>QGIS</strong> (free GIS software): R
+does the analysis reproducibly, QGIS is handy to look, check and draw by
+hand.</p>
+</div>
+<div class="fr">
+<p>Tous ces fichiers s’ouvrent dans <strong>QGIS</strong> (logiciel SIG
+libre) : R fait l’analyse de façon reproductible, QGIS est pratique pour
+regarder, vérifier et dessiner à la main.</p>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-a5" class="section level3 en">
+<h3>Application work A5</h3>
+<p>Script <code>R/05_gis.R</code> in your <code>reef-monitoring</code>
+project (copy <code>monitoring_gis.gpkg</code> and
+<code>villages_shp/</code> into <code>data/raw/</code>).</p>
+<ol style="list-style-type: decimal">
+<li>How many layers does the GeoPackage contain? What is the EPSG code
+of its CRS?</li>
+<li>Total area of the <strong>No-take</strong> zones, in km² (1
+decimal).</li>
+<li>Total area of the <strong>Tanjona</strong> MPA (all zones), in km²
+(1 decimal).</li>
+<li>Transform the villages to the CRS of the zones. How many villages
+are within <strong>2 km</strong> of a No-take zone?</li>
+<li>Distance from site <strong>R07</strong> to the nearest village, in
+km (2 decimals).</li>
+<li>How many reef sites are more than <strong>5 km</strong> from the
+coast?</li>
+<li>Join the mean 2025 hard coral cover to the sites and save
+<code>data/derived/reef_sites_2025.gpkg</code>. Open it in QGIS if you
+have it.</li>
+</ol>
+</div>
+<div id="travail-dapplication-a5" class="section level3 fr">
+<h3>Travail d’application A5</h3>
+<p>Script <code>R/05_gis.R</code> dans votre projet
+<code>reef-monitoring</code> (copiez <code>monitoring_gis.gpkg</code> et
+<code>villages_shp/</code> dans <code>data/raw/</code>).</p>
+<ol style="list-style-type: decimal">
+<li>Combien de couches contient le GeoPackage ? Quel est le code EPSG de
+son SCR ?</li>
+<li>Surface totale des zones <strong>No-take</strong>, en km² (1
+décimale).</li>
+<li>Surface totale de l’AMP <strong>Tanjona</strong> (toutes zones), en
+km² (1 décimale).</li>
+<li>Transformez les villages dans le SCR des zones. Combien de villages
+sont à moins de <strong>2 km</strong> d’une zone No-take ?</li>
+<li>Distance du site <strong>R07</strong> au village le plus proche, en
+km (2 décimales).</li>
+<li>Combien de sites récifaux sont à plus de <strong>5 km</strong> de la
+côte ?</li>
+<li>Joignez le corail dur moyen 2025 aux sites et enregistrez
+<code>data/derived/reef_sites_2025.gpkg</code>. Ouvrez-le dans QGIS si
+vous l’avez.</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p><code>st_area()</code> returns values <strong>with units</strong>:
+use <code>as.numeric()</code> before dividing by 1e6. For question 4,
+merge the No-take zones with <code>st_union()</code> before
+<code>st_buffer()</code>, then
+<code>lengths(st_intersects(villages, buffer)) &gt; 0</code>. For
+question 5, <code>min(st_distance(site, villages))</code>.</p>
+</div>
+<div class="fr">
+<p><code>st_area()</code> renvoie des valeurs <strong>avec
+unités</strong> : utilisez <code>as.numeric()</code> avant de diviser
+par 1e6. Pour la question 4, fusionnez les zones No-take avec
+<code>st_union()</code> avant <code>st_buffer()</code>, puis
+<code>lengths(st_intersects(villages, tampon)) &gt; 0</code>. Pour la
+question 5, <code>min(st_distance(site, villages))</code>.</p>
+</div>
+</div>
+<div id="quiz-a05" class="quiz" data-quiz-id="a05"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMWEuIE51bWJlciBvZiBsYXllcnMgaW4gdGhlIEdlb1BhY2thZ2U/IiwiZnIiOiIxYS4gTm9tYnJlIGRlIGNvdWNoZXMgZHUgR2VvUGFja2FnZSA/IiwiYW5zd2VyIjo0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIxYi4gRVBTRyBjb2RlIG9mIGl0cyBDUlM/IiwiZnIiOiIxYi4gQ29kZSBFUFNHIGRlIHNvbiBTQ1IgPyIsImFuc3dlciI6MzI3MzgsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIFRvdGFsIGFyZWEgb2YgdGhlIE5vLXRha2Ugem9uZXMgKGttwrIsIDEgZGVjaW1hbCk/IiwiZnIiOiIyLiBTdXJmYWNlIHRvdGFsZSBkZXMgem9uZXMgTm8tdGFrZSAoa23CsiwgMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjI5NC4zLCJ0b2wiOjAuMTEsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBUb3RhbCBhcmVhIG9mIFRhbmpvbmEgKGttwrIsIDEgZGVjaW1hbCk/IiwiZnIiOiIzLiBTdXJmYWNlIHRvdGFsZSBkZSBUYW5qb25hIChrbcKyLCAxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6MjcyLCJ0b2wiOjAuMTEsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBWaWxsYWdlcyB3aXRoaW4gMiBrbSBvZiBhIE5vLXRha2Ugem9uZT8iLCJmciI6IjQuIFZpbGxhZ2VzIMOgIG1vaW5zIGRlIDIga20gZCd1bmUgem9uZSBOby10YWtlID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIERpc3RhbmNlIFIwNyDigJMgbmVhcmVzdCB2aWxsYWdlIChrbSwgMiBkZWNpbWFscyk/IiwiZnIiOiI1LiBEaXN0YW5jZSBSMDcg4oCTIHZpbGxhZ2UgbGUgcGx1cyBwcm9jaGUgKGttLCAyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjguNjcsInRvbCI6MC4wMTEsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI2LiBSZWVmIHNpdGVzIG1vcmUgdGhhbiA1IGttIGZyb20gdGhlIGNvYXN0PyIsImZyIjoiNi4gU2l0ZXMgcsOpY2lmYXV4IMOgIHBsdXMgZGUgNSBrbSBkZSBsYSBjw7R0ZSA/IiwiYW5zd2VyIjoxMSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNy4gV2h5IHRyYW5zZm9ybSBsYXllcnMgdG8gVVRNIGJlZm9yZSBzdF9idWZmZXIoeCwgMjAwMCk/IiwiZnIiOiI3LiBQb3VycXVvaSB0cmFuc2Zvcm1lciBsZXMgY291Y2hlcyBlbiBVVE0gYXZhbnQgc3RfYnVmZmVyKHgsIDIwMDApID8iLCJvcHRpb25zX2VuIjpbIlVUTSBpcyBmYXN0ZXIiLCJTbyB0aGF0IDIwMDAgbWVhbnMgMjAwMCBtZXRyZXMsIG5vdCAyMDAwIGRlZ3JlZXMiLCJCdWZmZXJzIG9ubHkgd29yayBvbiBwb2x5Z29ucyIsIkl0IGlzIG5vdCBuZWVkZWQiXSwib3B0aW9uc19mciI6WyJMJ1VUTSBlc3QgcGx1cyByYXBpZGUiLCJQb3VyIHF1ZSAyMDAwIHNpZ25pZmllIDIwMDAgbcOodHJlcywgZXQgbm9uIDIwMDAgZGVncsOpcyIsIkxlcyB0YW1wb25zIG5lIG1hcmNoZW50IHF1ZSBzdXIgbGVzIHBvbHlnb25lcyIsIkNlIG4nZXN0IHBhcyBuw6ljZXNzYWlyZSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gQSBzaGFwZWZpbGUgYXJyaXZlcyB3aXRob3V0IGl0cyAucHJqIGZpbGUuIFlvdToiLCJmciI6IjguIFVuIHNoYXBlZmlsZSBhcnJpdmUgc2FucyBzb24gZmljaGllciAucHJqLiBWb3VzIDoiLCJvcHRpb25zX2VuIjpbInVzZSBzdF90cmFuc2Zvcm0oeCwgNDMyNikiLCJhc2sgd2hpY2ggQ1JTIHdhcyB1c2VkLCB0aGVuIHN0X3NldF9jcnMoKSIsImRlbGV0ZSB0aGUgbGF5ZXIiLCJyZW5hbWUgaXQgLmdwa2ciXSwib3B0aW9uc19mciI6WyJ1dGlsaXNleiBzdF90cmFuc2Zvcm0oeCwgNDMyNikiLCJkZW1hbmRleiBxdWVsIFNDUiBhIMOpdMOpIHV0aWxpc8OpLCBwdWlzIHN0X3NldF9jcnMoKSIsInN1cHByaW1leiBsYSBjb3VjaGUiLCJsYSByZW5vbW1leiBlbiAuZ3BrZyJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOS4gc3Rfam9pbihzaXRlcywgem9uZXMpIGdpdmVzIGVhY2ggc2l0ZToiLCJmciI6IjkuIHN0X2pvaW4oc2l0ZXMsIHpvbmVzKSBkb25uZSDDoCBjaGFxdWUgc2l0ZSA6Iiwib3B0aW9uc19lbiI6WyJ0aGUgYXR0cmlidXRlcyBvZiB0aGUgem9uZSBpdCBmYWxscyBpbiIsInRoZSBkaXN0YW5jZSB0byB0aGUgbmVhcmVzdCB6b25lIiwiYSBuZXcgZ2VvbWV0cnkiLCJub3RoaW5nLCBpdCBuZWVkcyBhIGtleSBjb2x1bW4iXSwib3B0aW9uc19mciI6WyJsZXMgYXR0cmlidXRzIGRlIGxhIHpvbmUgb8O5IGlsIHNlIHRyb3V2ZSIsImxhIGRpc3RhbmNlIMOgIGxhIHpvbmUgbGEgcGx1cyBwcm9jaGUiLCJ1bmUgbm91dmVsbGUgZ8Opb23DqXRyaWUiLCJyaWVuLCBpbCBmYXV0IHVuZSBjb2xvbm5lIGNsw6kiXSwiYW5zd2VyIjowfV0=">
+
+</div>
+<div class="solution" data-quiz="a05">
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="fu">library</span>(sf); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(here)</span>
+<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a>gpkg  <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;monitoring_gis.gpkg&quot;</span>)</span>
+<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a><span class="fu">st_layers</span>(gpkg)                                                     <span class="co"># 1: 4 layers</span></span>
+<span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">st_read</span>(gpkg, <span class="st">&quot;mpa_zones&quot;</span>); land <span class="ot">&lt;-</span> <span class="fu">st_read</span>(gpkg, <span class="st">&quot;land&quot;</span>); sites <span class="ot">&lt;-</span> <span class="fu">st_read</span>(gpkg, <span class="st">&quot;reef_sites&quot;</span>)</span>
+<span id="cb50-5"><a href="#cb50-5" tabindex="-1"></a><span class="fu">st_crs</span>(zones)<span class="sc">$</span>epsg                                                  <span class="co"># 1: 32738</span></span>
+<span id="cb50-6"><a href="#cb50-6" tabindex="-1"></a>zones<span class="sc">$</span>area_km2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">st_area</span>(zones)) <span class="sc">/</span> <span class="fl">1e6</span></span>
+<span id="cb50-7"><a href="#cb50-7" tabindex="-1"></a>zones <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(zone) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="fu">sum</span>(area_km2))   <span class="co"># 2</span></span>
+<span id="cb50-8"><a href="#cb50-8" tabindex="-1"></a>zones <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(mpa)  <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="fu">sum</span>(area_km2))   <span class="co"># 3</span></span>
+<span id="cb50-9"><a href="#cb50-9" tabindex="-1"></a>villages <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(<span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;villages_shp&quot;</span>, <span class="st">&quot;villages.shp&quot;</span>)), <span class="fu">st_crs</span>(zones))</span>
+<span id="cb50-10"><a href="#cb50-10" tabindex="-1"></a>belt <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(<span class="fu">st_union</span>(<span class="fu">filter</span>(zones, zone <span class="sc">==</span> <span class="st">&quot;No-take&quot;</span>)), <span class="dv">2000</span>)</span>
+<span id="cb50-11"><a href="#cb50-11" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">lengths</span>(<span class="fu">st_intersects</span>(villages, belt)) <span class="sc">&gt;</span> <span class="dv">0</span>)                     <span class="co"># 4</span></span>
+<span id="cb50-12"><a href="#cb50-12" tabindex="-1"></a><span class="fu">min</span>(<span class="fu">st_distance</span>(<span class="fu">filter</span>(sites, site_id <span class="sc">==</span> <span class="st">&quot;R07&quot;</span>), villages)) <span class="sc">/</span> <span class="dv">1000</span>  <span class="co"># 5 (in m -&gt; km)</span></span>
+<span id="cb50-13"><a href="#cb50-13" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">as.numeric</span>(<span class="fu">st_distance</span>(sites, land)) <span class="sc">&gt;</span> <span class="dv">5000</span>)                    <span class="co"># 6</span></span>
+<span id="cb50-14"><a href="#cb50-14" tabindex="-1"></a>reef <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;reef_monitoring.csv&quot;</span>))        <span class="co"># 7</span></span>
+<span id="cb50-15"><a href="#cb50-15" tabindex="-1"></a>cover25 <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2025</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site_id) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">hard_coral =</span> <span class="fu">mean</span>(hard_coral))</span>
+<span id="cb50-16"><a href="#cb50-16" tabindex="-1"></a><span class="fu">st_write</span>(<span class="fu">left_join</span>(sites, cover25, <span class="at">by =</span> <span class="st">&quot;site_id&quot;</span>), <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;derived&quot;</span>, <span class="st">&quot;reef_sites_2025.gpkg&quot;</span>), <span class="at">delete_dsn =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

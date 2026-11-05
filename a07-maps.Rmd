@@ -1,0 +1,370 @@
+---
+title: "[A7 · Thematic maps with ggplot2, sf and tmap]{.en}[A7 · Cartes thématiques avec ggplot2, sf et tmap]{.fr}"
+pagetitle: "R for marine sciences · A7"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+suppressMessages({library(sf); library(terra); library(dplyr); library(ggplot2); library(patchwork)})
+knitr::opts_chunk$set(fig.width = 6, fig.height = 7, out.width = "62%", dpi = 110)
+gpkg  <- "data/advanced/monitoring_gis.gpkg"
+land  <- st_read(gpkg, "land", quiet = TRUE)
+zones <- st_read(gpkg, "mpa_zones", quiet = TRUE)
+sites <- st_read(gpkg, "reef_sites", quiet = TRUE)
+villages <- st_transform(st_read("data/advanced/villages_shp/villages.shp", quiet = TRUE), st_crs(zones))
+reef <- read.csv("data/advanced/reef_monitoring.csv")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- draw maps with **`geom_sf()`**: several layers, colours mapped to attributes, labels;
+- control the **map frame** with `coord_sf()` (CRS, zoom, graticule in degrees);
+- add a **scale bar** and a **north arrow**, a clear legend, the source and the CRS;
+- show a **raster** under vector layers, and make **small multiples** (one map per year);
+- make the same maps with **tmap**, including an **interactive** map;
+- export maps for a report or a poster.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- dessiner des cartes avec **`geom_sf()`** : plusieurs couches, couleurs selon des attributs, étiquettes ;
+- contrôler le **cadre** de la carte avec `coord_sf()` (SCR, zoom, graticule en degrés) ;
+- ajouter une **barre d'échelle** et une **flèche du nord**, une légende claire, la source et le SCR ;
+- afficher un **raster** sous des couches vecteur, et faire des **petits multiples** (une carte par année) ;
+- faire les mêmes cartes avec **tmap**, y compris une carte **interactive** ;
+- exporter des cartes pour un rapport ou un poster.
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Data of this session (simulated).** The GIS layers of Session A5 (`monitoring_gis.gpkg`: land, MPA zones, reef sites; `villages_shp`), the bathymetry raster of Session A6, and the coral cover of the monitoring (`reef_monitoring.csv`, 2019–2025). The MPA managers asked for **three maps** for their annual meeting: where the sites are, how coral cover changed between 2023 and 2025, and where the water is shallow (for the mooring buoys).
+:::
+::: fr
+**Données de cette séance (simulées).** Les couches SIG de la séance A5 (`monitoring_gis.gpkg` : terre, zones des AMP, sites récifaux ; `villages_shp`), le raster de bathymétrie de la séance A6, et le recouvrement corallien du suivi (`reef_monitoring.csv`, 2019–2025). Les gestionnaires des AMP ont demandé **trois cartes** pour leur réunion annuelle : où sont les sites, comment le corail a changé entre 2023 et 2025, et où l'eau est peu profonde (pour les bouées d'amarrage).
+:::
+:::
+
+## [Maps with geom_sf()]{.en}[Des cartes avec geom_sf()]{.fr} {#geom-sf}
+
+::: en
+`geom_sf()` draws any sf layer — points, lines or polygons — and understands its CRS. Each layer has its own `data =`, as in Intermediate Session I11, but no more `coord_quickmap()` or `geom_polygon()`: sf handles the shapes and the projection.
+:::
+::: fr
+`geom_sf()` dessine n'importe quelle couche sf — points, lignes ou polygones — et comprend son SCR. Chaque couche a son propre `data =`, comme à la séance intermédiaire I11, mais sans `coord_quickmap()` ni `geom_polygon()` : sf gère les formes et la projection.
+:::
+
+```{r map1}
+bb <- st_bbox(st_buffer(zones, 3000))          # map frame: the zones + 3 km
+
+ggplot() +
+  geom_sf(data = land, fill = "#efe6d2", colour = "grey60", linewidth = 0.3) +
+  geom_sf(data = zones, aes(fill = zone), colour = "grey30", linewidth = 0.2, alpha = 0.6) +
+  geom_sf(data = sites, shape = 21, fill = "white", size = 1.8) +
+  geom_sf(data = villages, shape = 15, size = 1.6) +
+  scale_fill_manual(values = c("No-take" = "#1b7f8c", "Fishing" = "#f2b8a2"), name = NULL) +
+  coord_sf(xlim = bb[c("xmin", "xmax")], ylim = bb[c("ymin", "ymax")],
+           crs = st_crs(zones), datum = 4326) +   # draw in UTM, but graticule labels in degrees
+  scale_x_continuous(breaks = seq(43.4, 43.7, by = 0.1)) +   # fewer longitude labels (in degrees)
+  labs(x = NULL, y = NULL, title = "Reef monitoring sites", caption = "UTM 38S (EPSG:32738) · simulated data") +
+  theme_minimal(base_size = 11) +
+  theme(panel.background = element_rect(fill = "#dceef3", colour = NA), legend.position = "top")
+```
+
+::: en
+`coord_sf()` does three jobs: the **zoom** (`xlim`, `ylim`, in the units of the CRS used for drawing), the **projection** of the map (`crs`: every layer is transformed on the fly), and the **graticule** (`datum`: the lines and labels, here in degrees for readers).
+:::
+::: fr
+`coord_sf()` fait trois choses : le **zoom** (`xlim`, `ylim`, dans les unités du SCR de dessin), la **projection** de la carte (`crs` : chaque couche est transformée à la volée), et le **graticule** (`datum` : les lignes et étiquettes, ici en degrés pour les lecteurs).
+:::
+
+### [Labels]{.en}[Étiquettes]{.fr}
+
+```{r, fig.height = 6.5}
+mpa_poly <- zones %>% group_by(mpa) %>% summarise(.groups = "drop")      # dissolve (Session A5)
+ggplot() +
+  geom_sf(data = land, fill = "#efe6d2", colour = "grey60") +
+  geom_sf(data = mpa_poly, fill = NA, colour = "#0b3d5c", linewidth = 0.6) +
+  geom_sf_label(data = mpa_poly, aes(label = mpa), size = 3, nudge_x = -9000) +      # one label per MPA
+  geom_sf(data = villages, shape = 15, size = 1.4) +
+  ggrepel::geom_text_repel(data = villages, aes(label = village, geometry = geometry),
+                           stat = "sf_coordinates", size = 2.6, min.segment.length = 0, seed = 1) +
+  coord_sf(xlim = bb[c("xmin", "xmax")] + c(0, 15000), ylim = bb[c("ymin", "ymax")], datum = 4326) +
+  labs(x = NULL, y = NULL) + theme_minimal(base_size = 10)
+```
+
+## [Scale bar and north arrow]{.en}[Barre d'échelle et flèche du nord]{.fr} {#scale}
+
+::: en
+In a projected CRS in metres, a scale bar is just a segment of known length. Here is a small **function** (Intermediate, Session I6) that draws both in the bottom-left corner of any UTM map:
+:::
+::: fr
+Dans un SCR projeté en mètres, une barre d'échelle n'est qu'un segment de longueur connue. Voici une petite **fonction** (intermédiaire, séance I6) qui dessine les deux dans le coin en bas à gauche de n'importe quelle carte en UTM :
+:::
+
+```{r}
+scale_north <- function(bb, km = 10) {
+  x0 <- bb[["xmin"]] + 0.06 * (bb[["xmax"]] - bb[["xmin"]])
+  y0 <- bb[["ymin"]] + 0.05 * (bb[["ymax"]] - bb[["ymin"]])
+  h  <- 0.06 * (bb[["ymax"]] - bb[["ymin"]])
+  list(
+    annotate("rect", xmin = x0, xmax = x0 + km * 1000, ymin = y0, ymax = y0 + h / 6, fill = "black"),
+    annotate("text", x = x0 + km * 500, y = y0 + h / 2.5, label = paste(km, "km"), size = 3),
+    annotate("segment", x = x0, xend = x0, y = y0 + h, yend = y0 + 2 * h,
+             arrow = arrow(length = unit(0.2, "cm")), linewidth = 0.7),
+    annotate("text", x = x0, y = y0 + 2.4 * h, label = "N", fontface = "bold", size = 3.5))
+}
+```
+
+```{r, eval=FALSE}
+# With the package ggspatial (optional: install.packages("ggspatial")), the same in two lines:
+library(ggspatial)
+annotation_scale(location = "bl", width_hint = 0.3) +
+annotation_north_arrow(location = "tl", style = north_arrow_fancy_orienteering)
+```
+
+::: {.callout .warning}
+::: en
+A scale bar drawn on a map in **longitude/latitude** is wrong: one degree of longitude is not the same length as one degree of latitude. Draw your maps in a **projected** CRS (`coord_sf(crs = 32738)`) when you add a scale.
+:::
+::: fr
+Une barre d'échelle dessinée sur une carte en **longitude/latitude** est fausse : un degré de longitude n'a pas la même longueur qu'un degré de latitude. Dessinez vos cartes dans un SCR **projeté** (`coord_sf(crs = 32738)`) quand vous ajoutez une échelle.
+:::
+:::
+
+## [A thematic map: change in coral cover]{.en}[Une carte thématique : évolution du corail]{.fr} {#thematic}
+
+```{r change}
+change <- reef %>% filter(year %in% c(2023, 2025)) %>%
+  group_by(site_id, year) %>% summarise(hc = mean(hard_coral), .groups = "drop") %>%
+  tidyr::pivot_wider(names_from = year, values_from = hc, names_prefix = "y") %>%
+  mutate(change = y2025 - y2023)
+sites_ch <- left_join(sites, change, by = "site_id")
+
+map_change <- ggplot() +
+  geom_sf(data = land, fill = "#efe6d2", colour = "grey60", linewidth = 0.3) +
+  geom_sf(data = zones, aes(linetype = zone), fill = NA, colour = "grey40", linewidth = 0.3) +
+  geom_sf(data = sites_ch, aes(fill = change, size = y2025), shape = 21, colour = "grey20") +
+  scale_fill_gradient2(low = "#b2182b", mid = "white", high = "#2166ac", midpoint = 0,
+                       name = "Change\n2023-2025\n(points)") +            # diverging: + and -
+  scale_size_area(max_size = 6, name = "Cover 2025 (%)") +
+  scale_linetype_manual(values = c("No-take" = "solid", "Fishing" = "dashed"), name = NULL) +
+  scale_north(bb, km = 10) +
+  coord_sf(xlim = bb[c("xmin", "xmax")], ylim = bb[c("ymin", "ymax")], datum = 4326) +
+  scale_x_continuous(breaks = seq(43.4, 43.7, by = 0.1)) +
+  labs(x = NULL, y = NULL, title = "Hard coral cover: change after the 2024 heatwave",
+       caption = "Mean of 3 PIT transects per site · UTM 38S · simulated data") +
+  theme_minimal(base_size = 10) + theme(panel.background = element_rect(fill = "#eef6f8", colour = NA))
+map_change
+```
+
+::: en
+**Choosing colours.** A quantity that goes from low to high: a **sequential** palette (`scale_fill_viridis_c()`, `"Blues"`). A change with a meaningful zero: a **diverging** palette centred on 0 (`scale_fill_gradient2()`, `scale_fill_distiller(palette = "RdBu")`). Categories: a **qualitative** palette with few colours. Avoid red–green together (colour-blind readers), and check your map printed in grey.
+:::
+::: fr
+**Choisir les couleurs.** Une quantité qui va de faible à forte : une palette **séquentielle** (`scale_fill_viridis_c()`, `"Blues"`). Une variation avec un zéro qui a un sens : une palette **divergente** centrée sur 0 (`scale_fill_gradient2()`, `scale_fill_distiller(palette = "RdBu")`). Des catégories : une palette **qualitative** avec peu de couleurs. Évitez rouge et vert ensemble (lecteurs daltoniens), et vérifiez votre carte imprimée en gris.
+:::
+
+## [Small multiples: one map per year]{.en}[Petits multiples : une carte par année]{.fr} {#facets}
+
+```{r facets, fig.width = 9, fig.height = 5.5, out.width = "95%"}
+by_year <- reef %>% group_by(site_id, year) %>% summarise(hc = mean(hard_coral), .groups = "drop")
+sites_y <- left_join(sites, by_year, by = "site_id")          # one point per site AND year
+ggplot() +
+  geom_sf(data = land, fill = "#efe6d2", colour = NA) +
+  geom_sf(data = sites_y, aes(colour = hc), size = 1.6) +
+  scale_colour_viridis_c(option = "mako", direction = -1, name = "Hard coral (%)") +
+  facet_wrap(~ year, nrow = 1) +
+  coord_sf(xlim = bb[c("xmin", "xmax")], ylim = bb[c("ymin", "ymax")]) +
+  theme_void(base_size = 10) + theme(legend.position = "bottom")
+```
+
+::: en
+`facet_wrap()` works with `geom_sf()` exactly as with other plots. Note the gaps: Tanjona has no points in 2022.
+:::
+::: fr
+`facet_wrap()` marche avec `geom_sf()` exactement comme avec les autres graphiques. Notez les trous : Tanjona n'a pas de points en 2022.
+:::
+
+## [A raster under the vectors]{.en}[Un raster sous les vecteurs]{.fr} {#raster}
+
+::: en
+ggplot2 needs a **data frame**: `as.data.frame(r, xy = TRUE)` gives one row per cell (x, y, value), drawn with `geom_raster()`. The raster is in longitude/latitude, so we draw this map in WGS84 and put the vector layers in the same CRS.
+:::
+::: fr
+ggplot2 a besoin d'un **data frame** : `as.data.frame(r, xy = TRUE)` donne une ligne par cellule (x, y, valeur), dessinée avec `geom_raster()`. Le raster est en longitude/latitude : nous dessinons donc cette carte en WGS84 et mettons les couches vecteur dans le même SCR.
+:::
+
+```{r raster-map}
+bathy <- rast("data/advanced/bathymetry.tif")
+nf <- st_transform(filter(mpa_poly, mpa == "Nosy Fasika"), 4326)
+b_nf <- crop(bathy, vect(st_buffer(nf, 2000)))                   # Session A6
+b_df <- as.data.frame(b_nf, xy = TRUE)                           # columns x, y, depth_m
+b_df$class <- cut(b_df$depth_m, c(0, 5, 10, 20, 40, Inf),
+                  labels = c("0-5", "5-10", "10-20", "20-40", "> 40"))
+ggplot() +
+  geom_raster(data = b_df, aes(x, y, fill = class)) +
+  geom_sf(data = st_transform(land, 4326), fill = "#efe6d2", colour = "grey50") +
+  geom_sf(data = nf, fill = NA, colour = "black", linewidth = 0.6) +
+  geom_sf(data = st_transform(filter(sites, mpa == "Nosy Fasika"), 4326), shape = 21, fill = "white") +
+  scale_fill_brewer(palette = "Blues", name = "Depth (m)") +
+  coord_sf(xlim = range(b_df$x), ylim = range(b_df$y), expand = FALSE) +
+  labs(title = "Nosy Fasika: shallow areas", x = NULL, y = NULL,
+       caption = "Bathymetry interpolated from echo-sounder transects (simulated) · WGS84") +
+  theme_minimal(base_size = 10)
+```
+
+```{r, eval=FALSE}
+# With the package tidyterra (optional), a SpatRaster goes straight into ggplot:
+library(tidyterra)
+ggplot() + geom_spatraster(data = b_nf) + scale_fill_whitebox_c(palette = "deep")
+```
+
+## [The same with tmap]{.en}[La même chose avec tmap]{.fr} {#tmap}
+
+::: en
+**tmap** is a package made only for thematic maps: shorter code, map elements included (scale bar, compass), rasters and vectors mixed directly, and the **same code gives an interactive web map** with `tmap_mode("view")`. The code below uses **tmap version 4** (the current version on CRAN); version 3 used `col =` where version 4 uses `fill =`.
+
+*Note: tmap could not be installed on the computer that built this page, so its output is not shown — run the code in RStudio.*
+:::
+::: fr
+**tmap** est un package fait uniquement pour les cartes thématiques : code plus court, éléments de carte inclus (échelle, boussole), rasters et vecteurs mélangés directement, et **le même code donne une carte web interactive** avec `tmap_mode("view")`. Le code ci-dessous utilise **tmap version 4** (la version actuelle sur le CRAN) ; la version 3 utilisait `col =` là où la version 4 utilise `fill =`.
+
+*Remarque : tmap n'a pas pu être installé sur l'ordinateur qui a construit cette page, son résultat n'est donc pas affiché — lancez le code dans RStudio.*
+:::
+
+```{r, eval=FALSE}
+library(tmap)                          # install.packages("tmap"); version >= 4.0
+tmap_mode("plot")                      # static map
+tm_shape(land, bbox = bb) + tm_polygons(fill = "#efe6d2") +
+  tm_shape(zones) + tm_polygons(fill = "zone", fill_alpha = 0.6,
+                                fill.scale = tm_scale_categorical(values = c("#f2b8a2", "#1b7f8c"))) +
+  tm_shape(sites_ch) + tm_dots(fill = "change", size = 0.6,
+                               fill.scale = tm_scale_continuous(values = "brewer.rd_bu", midpoint = 0)) +
+  tm_scalebar(position = c("left", "bottom")) +
+  tm_compass(position = c("left", "top")) +
+  tm_title("Change in hard coral cover, 2023-2025")
+
+tmap_mode("view")                      # the same map, interactive (zoom, background tiles, pop-ups)
+tm_shape(sites_ch) + tm_dots(fill = "change", popup.vars = c("site_id", "y2023", "y2025"))
+tmap_mode("plot")                      # back to static maps
+```
+
+::: {.callout .tip}
+::: en
+**Which one?** Use **ggplot2 + sf** when the map sits next to other ggplot figures in a report (same style, patchwork) — and it is what this course used so far. Use **tmap** for quick, map-only work, and for **interactive maps** to explore your data or to put in an HTML report.
+:::
+::: fr
+**Lequel choisir ?** Utilisez **ggplot2 + sf** quand la carte est à côté d'autres figures ggplot dans un rapport (même style, patchwork) — c'est ce que ce cours a utilisé jusqu'ici. Utilisez **tmap** pour un travail rapide centré sur les cartes, et pour les **cartes interactives**, pour explorer vos données ou les mettre dans un rapport HTML.
+:::
+:::
+
+## [Map + graph, and export]{.en}[Carte + graphique, et export]{.fr} {#export}
+
+```{r combo, fig.width = 10, fig.height = 6, out.width = "95%"}
+trend <- reef %>% left_join(st_drop_geometry(sites)[, c("site_id", "zone")], by = "site_id") %>%
+  group_by(year, zone) %>% summarise(m = mean(hard_coral), .groups = "drop")
+g_trend <- ggplot(trend, aes(year, m, colour = zone)) + geom_line() + geom_point() +
+  scale_colour_manual(values = c("No-take" = "#1b7f8c", "Fishing" = "#d9694a"), name = NULL) +
+  labs(x = NULL, y = "Hard coral cover (%)") + theme_minimal(base_size = 10)
+(map_change | g_trend) + plot_layout(widths = c(1.2, 1)) + plot_annotation(tag_levels = "A")
+```
+
+```{r, eval=FALSE}
+fig <- (map_change | g_trend) + plot_layout(widths = c(1.2, 1)) + plot_annotation(tag_levels = "A")
+ggsave(here::here("outputs", "figures", "map_coral_change.pdf"), fig, width = 24, height = 14, units = "cm")
+ggsave(here::here("outputs", "figures", "map_coral_change.png"), fig, width = 24, height = 14, units = "cm", dpi = 300)
+```
+
+::: {.callout .try}
+::: en
+**Checklist of a good map.** Title or caption saying *what, where, when*; legend with units; scale bar (projected CRS!) and north arrow when needed; source of the data and CRS in the caption; no more than 5–7 colour classes; the important layer on top and the background discreet. Check your three maps against it.
+:::
+::: fr
+**Liste de contrôle d'une bonne carte.** Titre ou légende disant *quoi, où, quand* ; légende avec unités ; barre d'échelle (SCR projeté !) et flèche du nord si utile ; source des données et SCR dans la légende ; pas plus de 5 à 7 classes de couleurs ; la couche importante au-dessus et le fond discret. Vérifiez vos trois cartes avec cette liste.
+:::
+:::
+
+## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
+
+```{r answers, include=FALSE}
+a1 <- sum(sites_ch$change < 0)
+a2 <- sites_ch$site_id[which.min(sites_ch$change)]
+a3 <- round(min(sites_ch$change), 1)
+a4 <- sum(sites_ch$y2025 < 20)
+a5 <- round(mean(sites_ch$change[sites_ch$zone == "No-take"]) - mean(sites_ch$change[sites_ch$zone == "Fishing"]), 1)
+```
+
+::: application
+::: en
+### Application work A7
+
+Script `R/07_maps.R`. Make the **three maps** of the managers and save them in `outputs/figures/` (PDF and PNG 300 dpi):
+
+1. **Sites map**: land, MPA zones (No-take / Fishing), reef sites, villages with labels, scale bar, north arrow, caption with the CRS.
+2. **Change map** 2023 → 2025: how many sites **lost** coral (change < 0)? Which site lost the most, and how many points (1 decimal)? How many sites had **less than 20 %** cover in 2025?
+3. On average, how much **smaller** was the loss in No-take than in Fishing sites (mean change No-take − mean change Fishing, 1 decimal)?
+4. **Bathymetry map** of one MPA with depth classes.
+5. *(If tmap is installed)* make the change map with tmap, then switch to `tmap_mode("view")`.
+:::
+::: fr
+### Travail d'application A7
+
+Script `R/07_maps.R`. Réalisez les **trois cartes** des gestionnaires et enregistrez-les dans `outputs/figures/` (PDF et PNG 300 dpi) :
+
+1. **Carte des sites** : terre, zones des AMP (No-take / Fishing), sites récifaux, villages avec étiquettes, barre d'échelle, flèche du nord, légende avec le SCR.
+2. **Carte de l'évolution** 2023 → 2025 : combien de sites ont **perdu** du corail (variation < 0) ? Quel site a le plus perdu, et de combien de points (1 décimale) ? Combien de sites avaient **moins de 20 %** de recouvrement en 2025 ?
+3. En moyenne, de combien la perte a-t-elle été **plus faible** dans les sites No-take que dans les sites Fishing (variation moyenne No-take − variation moyenne Fishing, 1 décimale) ?
+4. **Carte bathymétrique** d'une AMP avec classes de profondeur.
+5. *(Si tmap est installé)* refaites la carte de l'évolution avec tmap, puis passez en `tmap_mode("view")`.
+:::
+:::
+
+::: hint
+::: en
+Build the change table first (mean per site and year, `pivot_wider()`, `y2025 - y2023`), **then** join it to the sites layer with `left_join(sites, change, by = "site_id")` — sites first, so that the result stays an sf object.
+:::
+::: fr
+Construisez d'abord le tableau des variations (moyenne par site et par année, `pivot_wider()`, `y2025 - y2023`), **puis** joignez-le à la couche des sites avec `left_join(sites, change, by = "site_id")` — les sites en premier, pour que le résultat reste un objet sf.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("a07", list(
+  q_num("2a. Number of sites that lost coral between 2023 and 2025?", "2a. Nombre de sites ayant perdu du corail entre 2023 et 2025 ?", a1, tol = 0),
+  q_text("2b. Site that lost the most?", "2b. Site qui a le plus perdu ?", a2),
+  q_num("2c. Its change (points, 1 decimal, negative)?", "2c. Sa variation (points, 1 décimale, négative) ?", a3, tol = 0.06),
+  q_num("2d. Sites with less than 20 % cover in 2025?", "2d. Sites avec moins de 20 % de recouvrement en 2025 ?", a4, tol = 0),
+  q_num("3. Mean change No-take − mean change Fishing (1 decimal)?", "3. Variation moyenne No-take − variation moyenne Fishing (1 décimale) ?", a5, tol = 0.06),
+  q_mcq("6. In coord_sf(crs = 32738, datum = 4326), what does datum = 4326 do?", "6. Dans coord_sf(crs = 32738, datum = 4326), que fait datum = 4326 ?",
+        c("Draws the map in longitude/latitude", "Writes the graticule lines and labels in degrees, while the map is drawn in UTM", "Converts the data permanently", "Adds a scale bar"),
+        c("Dessine la carte en longitude/latitude", "Écrit les lignes et étiquettes du graticule en degrés, la carte restant dessinée en UTM", "Convertit les données définitivement", "Ajoute une barre d'échelle"), correct = 2),
+  q_mcq("7. Best palette for the change in cover (negative and positive values)?", "7. Meilleure palette pour la variation du recouvrement (valeurs négatives et positives) ?",
+        c("Sequential (viridis)", "Qualitative (Set1)", "Diverging centred on 0", "Rainbow"),
+        c("Séquentielle (viridis)", "Qualitative (Set1)", "Divergente centrée sur 0", "Arc-en-ciel"), correct = 3),
+  q_mcq("8. To draw a terra raster with ggplot2 (without extra packages) you first:", "8. Pour dessiner un raster terra avec ggplot2 (sans package supplémentaire) vous devez d'abord :",
+        c("convert it to a data frame with as.data.frame(r, xy = TRUE)", "convert it to sf with st_as_sf()", "use geom_sf(data = r)", "save it as PNG"),
+        c("le convertir en data frame avec as.data.frame(r, xy = TRUE)", "le convertir en sf avec st_as_sf()", "utiliser geom_sf(data = r)", "l'enregistrer en PNG"), correct = 1),
+  q_mcq("9. With tmap, one line switches the same map to an interactive web map:", "9. Avec tmap, une ligne transforme la même carte en carte web interactive :",
+        c("tmap_mode(\"view\")", "tm_interactive()", "ggplotly()", "tmap_save()"),
+        c("tmap_mode(\"view\")", "tm_interactive()", "ggplotly()", "tmap_save()"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="a07"}
+```{r, eval=FALSE}
+library(sf); library(dplyr); library(tidyr); library(ggplot2); library(here)
+# ... read land, zones, sites, villages, reef as in this session ...
+change <- reef %>% filter(year %in% c(2023, 2025)) %>%
+  group_by(site_id, year) %>% summarise(hc = mean(hard_coral), .groups = "drop") %>%
+  pivot_wider(names_from = year, values_from = hc, names_prefix = "y") %>%
+  mutate(change = y2025 - y2023)
+sites_ch <- left_join(sites, change, by = "site_id")
+sum(sites_ch$change < 0)                                         # 2a
+sites_ch[which.min(sites_ch$change), c("site_id", "change")]     # 2b, 2c
+sum(sites_ch$y2025 < 20)                                         # 2d
+st_drop_geometry(sites_ch) %>% group_by(zone) %>% summarise(m = mean(change))   # 3: No-take minus Fishing
+ggsave(here("outputs", "figures", "map_change.png"), map_change, width = 16, height = 20, units = "cm", dpi = 300)
+```
+:::

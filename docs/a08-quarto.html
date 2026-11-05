@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for marine sciences · A8</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-installation.html">0 · Installation</a>
+    </li>
+    <li>
+      <a href="01-first-steps.html">1 · First steps</a>
+    </li>
+    <li>
+      <a href="02-vectors.html">2 · Vectors</a>
+    </li>
+    <li>
+      <a href="03-data-frames.html">3 · Data frames</a>
+    </li>
+    <li>
+      <a href="04-inside-data-frames.html">4 · Inside a data frame</a>
+    </li>
+    <li>
+      <a href="05-cleaning.html">5 · Filtering &amp; cleaning</a>
+    </li>
+    <li>
+      <a href="06-statistics.html">6 · Statistics</a>
+    </li>
+    <li>
+      <a href="07-graphics.html">7 · Base R graphs</a>
+    </li>
+    <li>
+      <a href="08-packages-tidyverse.html">8 · Packages, dplyr, ggplot2</a>
+    </li>
+    <li>
+      <a href="09-practice.html">9 · Practice</a>
+    </li>
+    <li>
+      <a href="10-final-project.html">10 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-import.html">I0 · Importing real files</a>
+    </li>
+    <li>
+      <a href="i01-dates.html">I1 · Dates</a>
+    </li>
+    <li>
+      <a href="i02-reshape.html">I2 · Reshaping tables</a>
+    </li>
+    <li>
+      <a href="i03-joins.html">I3 · Joining tables</a>
+    </li>
+    <li>
+      <a href="i04-survey.html">I4 · Survey data &amp; text</a>
+    </li>
+    <li>
+      <a href="i05-loops.html">I5 · Conditions &amp; loops</a>
+    </li>
+    <li>
+      <a href="i06-functions.html">I6 · Functions</a>
+    </li>
+    <li>
+      <a href="i07-ggplot-1.html">I7 · ggplot2 (1)</a>
+    </li>
+    <li>
+      <a href="i08-ggplot-2.html">I8 · ggplot2 (2)</a>
+    </li>
+    <li>
+      <a href="i09-distributions.html">I9 · Distributions &amp; p-values</a>
+    </li>
+    <li>
+      <a href="i10-tests.html">I10 · Choosing a test</a>
+    </li>
+    <li>
+      <a href="i11-maps.html">I11 · Maps</a>
+    </li>
+    <li>
+      <a href="i12-practice.html">I12 · Practice</a>
+    </li>
+    <li>
+      <a href="i13-final-project.html">I13 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="advanced.html">Overview of the level</a>
+    </li>
+    <li>
+      <a href="a00-project.html">A0 · Reproducible project</a>
+    </li>
+    <li>
+      <a href="a01-renv.html">A1 · renv</a>
+    </li>
+    <li>
+      <a href="a02-git.html">A2 · Git, GitHub, GitLab</a>
+    </li>
+    <li>
+      <a href="a03-rmarkdown.html">A3 · R Markdown reports</a>
+    </li>
+    <li>
+      <a href="a04-params.html">A4 · Automatic reports</a>
+    </li>
+    <li>
+      <a href="a05-sf.html">A5 · Vector GIS with sf</a>
+    </li>
+    <li>
+      <a href="a06-terra.html">A6 · Rasters with terra</a>
+    </li>
+    <li>
+      <a href="a07-maps.html">A7 · Thematic maps</a>
+    </li>
+    <li>
+      <a href="a08-quarto.html">A8 · Quarto (1)</a>
+    </li>
+    <li>
+      <a href="a09-publish.html">A9 · PDF and publishing</a>
+    </li>
+    <li>
+      <a href="a10-practice.html">A10 · Practice session</a>
+    </li>
+    <li>
+      <a href="a11-final-project.html">A11 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Common errors</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A8 · Quarto (1): reports
+with cross-references and citations</span><span class="fr">A8 · Quarto
+(1) : rapports avec renvois et citations</span></h1>
+<h3 class="subtitle">~3.5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>explain what <strong>Quarto</strong> is and how it differs from R
+Markdown;</li>
+<li>convert an <code>.Rmd</code> report to a <code>.qmd</code> report
+(YAML, chunk options with <code>#|</code>, inline code);</li>
+<li>number and <strong>cross-reference</strong> figures, tables,
+sections and equations (<code>@fig-…</code>, <code>@tbl-…</code>);</li>
+<li>add a <strong>table of contents</strong>, numbered sections,
+<strong>lists of figures and tables</strong>;</li>
+<li>cite publications from a <strong>BibTeX</strong> file and produce
+the reference list automatically, in the style you need (CSL);</li>
+<li>render one source to <strong>HTML, Word and PDF</strong>.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>expliquer ce qu’est <strong>Quarto</strong> et ce qui le distingue
+de R Markdown ;</li>
+<li>convertir un rapport <code>.Rmd</code> en rapport <code>.qmd</code>
+(YAML, options de chunk avec <code>#|</code>, code en ligne) ;</li>
+<li>numéroter figures, tableaux, sections et équations et y
+<strong>renvoyer</strong> (<code>@fig-…</code>, <code>@tbl-…</code>)
+;</li>
+<li>ajouter une <strong>table des matières</strong>, des sections
+numérotées, des <strong>listes des figures et des tableaux</strong>
+;</li>
+<li>citer des publications depuis un fichier <strong>BibTeX</strong> et
+produire automatiquement la liste des références, dans le style voulu
+(CSL) ;</li>
+<li>produire, à partir d’une seule source, du <strong>HTML, du Word et
+du PDF</strong>.</li>
+</ul>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Data of this session (simulated).</strong> The
+<strong>mangrove inventory</strong> of May 2025: 24 circular plots of 10
+m radius in three patches (Ankarabe, Ambalakely, Sarondrano), each patch
+with reference, harvested and restored stands. In each plot the team
+measured every tree: species, <strong>DBH</strong> (diameter at breast
+height, 1.3 m, with a diameter tape), height (clinometer) and status
+(alive, dead, cut). <code>mangrove_species.csv</code> gives a wood
+density per species (approximate values for the exercise; for real work
+use the Global Wood Density Database). Two field errors remain: a few
+species codes in lower case, and four DBH typed without the decimal
+point (33 instead of 3.3). <em>Type:</em> one row = one tree; continuous
+measurements and categories. <code>references.bib</code> contains real
+publications cited in the report.</p>
+</div>
+<div class="fr">
+<p><strong>Données de cette séance (simulées).</strong>
+L’<strong>inventaire des mangroves</strong> de mai 2025 : 24 placettes
+circulaires de 10 m de rayon dans trois massifs (Ankarabe, Ambalakely,
+Sarondrano), chaque massif avec des peuplements de référence, exploités
+et restaurés. Dans chaque placette, l’équipe a mesuré chaque arbre :
+espèce, <strong>DHP</strong> (diamètre à hauteur de poitrine, 1,3 m, au
+ruban diamétrique), hauteur (clinomètre) et état (vivant, mort, coupé).
+<code>mangrove_species.csv</code> donne une densité du bois par espèce
+(valeurs approximatives pour l’exercice ; pour un vrai travail, utilisez
+la Global Wood Density Database). Deux erreurs de terrain restent :
+quelques codes d’espèces en minuscules, et quatre DHP saisis sans la
+virgule (33 au lieu de 3,3). <em>Type :</em> une ligne = un arbre ;
+mesures continues et catégories. <code>references.bib</code> contient de
+vraies publications citées dans le rapport.</p>
+</div>
+</div>
+<p><a class="btn-dl" href="templates/advanced/quarto/mangrove_report.qmd" download>⇩
+mangrove_report.qmd (template)</a>
+<a class="btn-dl" href="templates/advanced/quarto/references.bib" download>⇩
+references.bib</a></p>
+<div id="what" class="section level2">
+<h2><span class="en">What is Quarto?</span><span class="fr">Qu’est-ce
+que Quarto ?</span></h2>
+<div class="en">
+<p><strong>Quarto</strong> is the successor of R Markdown, made by the
+same team (Posit). It uses the same engine for R code
+(<strong>knitr</strong>) and the same converter
+(<strong>pandoc</strong>), so everything you learned in Sessions A3–A4
+is still valid. What it adds:</p>
+<ul>
+<li>one tool for R, Python and Julia, with the same syntax for all
+outputs (reports, slides, websites, books);</li>
+<li>cross-references, callouts, figure layouts, PDF through
+<strong>Typst</strong> built in — no extra packages such as
+bookdown;</li>
+<li>chunk options written <strong>inside</strong> the chunk, as YAML
+lines starting with <code>#|</code>.</li>
+</ul>
+<p>Quarto is <strong>included in RStudio</strong> (recent versions). You
+can also install it separately from <a href="https://quarto.org"
+class="uri">https://quarto.org</a>. In RStudio: <em>File → New File →
+Quarto Document</em>; the <strong>Render</strong> button replaces
+Knit.</p>
+</div>
+<div class="fr">
+<p><strong>Quarto</strong> est le successeur de R Markdown, fait par la
+même équipe (Posit). Il utilise le même moteur pour le code R
+(<strong>knitr</strong>) et le même convertisseur
+(<strong>pandoc</strong>) : tout ce que vous avez appris aux séances
+A3–A4 reste valable. Ce qu’il apporte :</p>
+<ul>
+<li>un seul outil pour R, Python et Julia, avec la même syntaxe pour
+toutes les sorties (rapports, diapositives, sites web, livres) ;</li>
+<li>renvois, encadrés (<em>callouts</em>), mises en page de figures, PDF
+via <strong>Typst</strong> intégrés — sans package supplémentaire comme
+bookdown ;</li>
+<li>les options de chunk écrites <strong>dans</strong> le chunk, en
+lignes YAML commençant par <code>#|</code>.</li>
+</ul>
+<p>Quarto est <strong>inclus dans RStudio</strong> (versions récentes).
+Vous pouvez aussi l’installer séparément depuis <a
+href="https://quarto.org" class="uri">https://quarto.org</a>. Dans
+RStudio : <em>File → New File → Quarto Document</em> ; le bouton
+<strong>Render</strong> remplace Knit.</p>
+</div>
+</div>
+<div id="convert" class="section level2">
+<h2><span class="en">From .Rmd to .qmd</span><span class="fr">De .Rmd à
+.qmd</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>R Markdown (<code>.Rmd</code>)</th>
+<th>Quarto (<code>.qmd</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>output in YAML</td>
+<td><code>output: html_document</code></td>
+<td><code>format: html</code></td>
+</tr>
+<tr class="even">
+<td>options of the whole document</td>
+<td><code>knitr::opts_chunk$set(echo = FALSE)</code></td>
+<td><code>execute: echo: false</code> in the YAML</td>
+</tr>
+<tr class="odd">
+<td>chunk options</td>
+<td><code>```{r trend, fig.cap = "…"}</code></td>
+<td><code>#| label: fig-trend</code> and <code>#| fig-cap: "…"</code>
+inside the chunk</td>
+</tr>
+<tr class="even">
+<td>inline code</td>
+<td><code>`r x`</code></td>
+<td><code>`{r} x`</code> (and the old form still works)</td>
+</tr>
+<tr class="odd">
+<td>figure cross-reference</td>
+<td><code>\@ref(fig:trend)</code> with bookdown</td>
+<td><code>@fig-trend</code></td>
+</tr>
+<tr class="even">
+<td>table cross-reference</td>
+<td><code>\@ref(tab:cover)</code></td>
+<td><code>@tbl-cover</code></td>
+</tr>
+<tr class="odd">
+<td>page break</td>
+<td><code>\newpage</code> (PDF only)</td>
+<td><code>{{&lt; pagebreak &gt;}}</code> (all formats)</td>
+</tr>
+<tr class="even">
+<td>render</td>
+<td>Knit, <code>rmarkdown::render()</code></td>
+<td>Render, <code>quarto render file.qmd</code> (Terminal) or
+<code>quarto::quarto_render()</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>R Markdown (<code>.Rmd</code>)</th>
+<th>Quarto (<code>.qmd</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>sortie dans le YAML</td>
+<td><code>output: html_document</code></td>
+<td><code>format: html</code></td>
+</tr>
+<tr class="even">
+<td>options du document entier</td>
+<td><code>knitr::opts_chunk$set(echo = FALSE)</code></td>
+<td><code>execute: echo: false</code> dans le YAML</td>
+</tr>
+<tr class="odd">
+<td>options de chunk</td>
+<td><code>```{r trend, fig.cap = "…"}</code></td>
+<td><code>#| label: fig-trend</code> et <code>#| fig-cap: "…"</code>
+dans le chunk</td>
+</tr>
+<tr class="even">
+<td>code en ligne</td>
+<td><code>`r x`</code></td>
+<td><code>`{r} x`</code> (l’ancienne forme marche encore)</td>
+</tr>
+<tr class="odd">
+<td>renvoi à une figure</td>
+<td><code>\@ref(fig:trend)</code> avec bookdown</td>
+<td><code>@fig-trend</code></td>
+</tr>
+<tr class="even">
+<td>renvoi à un tableau</td>
+<td><code>\@ref(tab:cover)</code></td>
+<td><code>@tbl-cover</code></td>
+</tr>
+<tr class="odd">
+<td>saut de page</td>
+<td><code>\newpage</code> (PDF seulement)</td>
+<td><code>{{&lt; pagebreak &gt;}}</code> (tous formats)</td>
+</tr>
+<tr class="even">
+<td>produire</td>
+<td>Knit, <code>rmarkdown::render()</code></td>
+<td>Render, <code>quarto render fichier.qmd</code> (Terminal) ou
+<code>quarto::quarto_render()</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout tip">
+<div class="en">
+<p>Option names use a <strong>dash</strong> in Quarto
+(<code>fig-cap</code>, <code>fig-width</code>, <code>code-fold</code>)
+where R Markdown used a dot (<code>fig.cap</code>). The dotted names are
+still accepted in <code>#|</code> lines, but use the dashes in new
+documents.</p>
+</div>
+<div class="fr">
+<p>Les noms d’options prennent un <strong>tiret</strong> dans Quarto
+(<code>fig-cap</code>, <code>fig-width</code>, <code>code-fold</code>)
+là où R Markdown utilisait un point (<code>fig.cap</code>). Les noms à
+point sont encore acceptés dans les lignes <code>#|</code>, mais
+utilisez les tirets dans les nouveaux documents.</p>
+</div>
+</div>
+</div>
+<div id="template" class="section level2">
+<h2><span class="en">The template of this session</span><span
+class="fr">Le modèle de cette séance</span></h2>
+<div class="en">
+<p>Download <code>mangrove_report.qmd</code> and
+<code>references.bib</code> (above), put them in <code>reports/</code>
+of your project, and the mangrove CSV files in <code>data/raw/</code>.
+Read it calmly: every feature of this session is in it.</p>
+</div>
+<div class="fr">
+<p>Téléchargez <code>mangrove_report.qmd</code> et
+<code>references.bib</code> (ci-dessus), placez-les dans
+<code>reports/</code> de votre projet, et les fichiers CSV des mangroves
+dans <code>data/raw/</code>. Lisez-le tranquillement : toutes les
+notions de cette séance s’y trouvent.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Mangrove inventory 2025&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> &quot;Above-ground biomass of the reference, harvested and restored stands&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">  - name: &quot;Your Name&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">    affiliation: &quot;MPA monitoring programme&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="an">date-format:</span><span class="co"> &quot;D MMMM YYYY&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="an">lang:</span><span class="co"> en</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">    embed-resources: true        # one single .html file to send by e-mail</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">  typst:</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">    papersize: a4</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">    margin:</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">      x: 2.5cm</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">      y: 2cm</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">    citeproc: true               # author-year citations, as in HTML</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">  pdf:</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">    lof: true                    # list of figures</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co">    lot: true                    # list of tables</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="co">    papersize: a4</span></span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="co">    geometry: margin=2.5cm</span></span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="co">  docx:</span></span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="co">  echo: false</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="in">#| label: setup</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="in">#| include: false</span></span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="in">library(ggplot2)</span></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="in">library(here)</span></span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="in">trees   &lt;- read.csv(here(&quot;data&quot;, &quot;raw&quot;, &quot;mangrove_trees.csv&quot;))</span></span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="in">species &lt;- read.csv(here(&quot;data&quot;, &quot;raw&quot;, &quot;mangrove_species.csv&quot;))</span></span>
+<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a><span class="in">plots   &lt;- read.csv(here(&quot;data&quot;, &quot;raw&quot;, &quot;mangrove_plots.csv&quot;))</span></span>
+<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a><span class="in"># Cleaning (see the field notes): codes in capitals; a DBH &gt; 30 cm on a tree</span></span>
+<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a><span class="in"># shorter than 8 m is a typing error (decimal point forgotten)</span></span>
+<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a><span class="in">trees &lt;- trees %&gt;%</span></span>
+<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a><span class="in">  mutate(species_code = toupper(species_code),</span></span>
+<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a><span class="in">         dbh_cm = ifelse(dbh_cm &gt; 30 &amp; height_m &lt; 8, dbh_cm / 10, dbh_cm)) %&gt;%</span></span>
+<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a><span class="in">  left_join(species, by = c(&quot;species_code&quot; = &quot;code&quot;)) %&gt;%</span></span>
+<span id="cb1-57"><a href="#cb1-57" tabindex="-1"></a><span class="in">  mutate(agb_kg = 0.251 * wood_density * dbh_cm^2.46)        # Komiyama et al. (2005)</span></span>
+<span id="cb1-58"><a href="#cb1-58" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" tabindex="-1"></a><span class="in">area_ha &lt;- pi * 10^2 / 1e4                                   # one plot = circle of 10 m radius</span></span>
+<span id="cb1-60"><a href="#cb1-60" tabindex="-1"></a><span class="in">per_plot &lt;- trees %&gt;% filter(status == &quot;alive&quot;) %&gt;%</span></span>
+<span id="cb1-61"><a href="#cb1-61" tabindex="-1"></a><span class="in">  group_by(plot_id) %&gt;%</span></span>
+<span id="cb1-62"><a href="#cb1-62" tabindex="-1"></a><span class="in">  summarise(stems_ha = n() / area_ha, agb_t_ha = sum(agb_kg) / 1000 / area_ha, .groups = &quot;drop&quot;) %&gt;%</span></span>
+<span id="cb1-63"><a href="#cb1-63" tabindex="-1"></a><span class="in">  left_join(plots, by = &quot;plot_id&quot;)</span></span>
+<span id="cb1-64"><a href="#cb1-64" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" tabindex="-1"></a><span class="in"># numbers used in the text</span></span>
+<span id="cb1-66"><a href="#cb1-66" tabindex="-1"></a><span class="in">n_trees  &lt;- nrow(trees)</span></span>
+<span id="cb1-67"><a href="#cb1-67" tabindex="-1"></a><span class="in">n_plots  &lt;- nrow(plots)</span></span>
+<span id="cb1-68"><a href="#cb1-68" tabindex="-1"></a><span class="in">by_status &lt;- per_plot %&gt;% group_by(status) %&gt;%</span></span>
+<span id="cb1-69"><a href="#cb1-69" tabindex="-1"></a><span class="in">  summarise(plots = n(), stems_ha = mean(stems_ha), agb = mean(agb_t_ha), sd = sd(agb_t_ha), .groups = &quot;drop&quot;)</span></span>
+<span id="cb1-70"><a href="#cb1-70" tabindex="-1"></a><span class="in">agb_ref &lt;- round(by_status$agb[by_status$status == &quot;reference&quot;])</span></span>
+<span id="cb1-71"><a href="#cb1-71" tabindex="-1"></a><span class="in">agb_har &lt;- round(by_status$agb[by_status$status == &quot;harvested&quot;])</span></span>
+<span id="cb1-72"><a href="#cb1-72" tabindex="-1"></a><span class="in">agb_res &lt;- round(by_status$agb[by_status$status == &quot;restored&quot;])</span></span>
+<span id="cb1-73"><a href="#cb1-73" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-74"><a href="#cb1-74" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" tabindex="-1"></a><span class="fu"># Summary</span></span>
+<span id="cb1-76"><a href="#cb1-76" tabindex="-1"></a></span>
+<span id="cb1-77"><a href="#cb1-77" tabindex="-1"></a>In May 2025 the team measured **`{r} n_trees` trees** in **`{r} n_plots` plots**.</span>
+<span id="cb1-78"><a href="#cb1-78" tabindex="-1"></a>Living above-ground biomass averaged **`{r} agb_ref` t/ha** in the reference stands,</span>
+<span id="cb1-79"><a href="#cb1-79" tabindex="-1"></a><span class="in">`{r} agb_har`</span> t/ha in the harvested stands and <span class="in">`{r} agb_res`</span> t/ha in the young</span>
+<span id="cb1-80"><a href="#cb1-80" tabindex="-1"></a>restored stands (@tbl-status).</span>
+<span id="cb1-81"><a href="#cb1-81" tabindex="-1"></a></span>
+<span id="cb1-82"><a href="#cb1-82" tabindex="-1"></a><span class="fu"># Methods</span></span>
+<span id="cb1-83"><a href="#cb1-83" tabindex="-1"></a></span>
+<span id="cb1-84"><a href="#cb1-84" tabindex="-1"></a>Three mangrove patches were sampled with eight circular plots of 10 m radius each.</span>
+<span id="cb1-85"><a href="#cb1-85" tabindex="-1"></a>In every plot, the diameter at breast height (DBH, 1.3 m) and the height of all trees</span>
+<span id="cb1-86"><a href="#cb1-86" tabindex="-1"></a>were measured. Above-ground biomass was estimated with the common allometric equation</span>
+<span id="cb1-87"><a href="#cb1-87" tabindex="-1"></a>of @komiyama2005:</span>
+<span id="cb1-88"><a href="#cb1-88" tabindex="-1"></a></span>
+<span id="cb1-89"><a href="#cb1-89" tabindex="-1"></a>$$</span>
+<span id="cb1-90"><a href="#cb1-90" tabindex="-1"></a>AGB = 0.251 \, \rho \, D^{2.46}</span>
+<span id="cb1-91"><a href="#cb1-91" tabindex="-1"></a>$$</span>
+<span id="cb1-92"><a href="#cb1-92" tabindex="-1"></a></span>
+<span id="cb1-93"><a href="#cb1-93" tabindex="-1"></a>where $AGB$ is in kg, $\rho$ is the wood density (g cm^-3^) and $D$ the DBH (cm).</span>
+<span id="cb1-94"><a href="#cb1-94" tabindex="-1"></a></span>
+<span id="cb1-95"><a href="#cb1-95" tabindex="-1"></a><span class="fu"># Results</span></span>
+<span id="cb1-96"><a href="#cb1-96" tabindex="-1"></a></span>
+<span id="cb1-97"><a href="#cb1-97" tabindex="-1"></a><span class="fu">## Biomass per stand type</span></span>
+<span id="cb1-98"><a href="#cb1-98" tabindex="-1"></a></span>
+<span id="cb1-99"><a href="#cb1-99" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-100"><a href="#cb1-100" tabindex="-1"></a><span class="in">#| label: fig-agb</span></span>
+<span id="cb1-101"><a href="#cb1-101" tabindex="-1"></a><span class="in">#| fig-cap: &quot;Above-ground biomass of living trees per plot, by stand type.&quot;</span></span>
+<span id="cb1-102"><a href="#cb1-102" tabindex="-1"></a><span class="in">#| fig-width: 6</span></span>
+<span id="cb1-103"><a href="#cb1-103" tabindex="-1"></a><span class="in">#| fig-height: 3.5</span></span>
+<span id="cb1-104"><a href="#cb1-104" tabindex="-1"></a><span class="in">ggplot(per_plot, aes(status, agb_t_ha, fill = status)) +</span></span>
+<span id="cb1-105"><a href="#cb1-105" tabindex="-1"></a><span class="in">  geom_boxplot(show.legend = FALSE) +</span></span>
+<span id="cb1-106"><a href="#cb1-106" tabindex="-1"></a><span class="in">  geom_jitter(width = 0.1, size = 1.5, show.legend = FALSE) +</span></span>
+<span id="cb1-107"><a href="#cb1-107" tabindex="-1"></a><span class="in">  scale_fill_manual(values = c(reference = &quot;#1b7f8c&quot;, harvested = &quot;#d9694a&quot;, restored = &quot;#e8c27a&quot;)) +</span></span>
+<span id="cb1-108"><a href="#cb1-108" tabindex="-1"></a><span class="in">  labs(x = NULL, y = &quot;Biomass (t/ha)&quot;) +</span></span>
+<span id="cb1-109"><a href="#cb1-109" tabindex="-1"></a><span class="in">  theme_minimal(base_size = 11)</span></span>
+<span id="cb1-110"><a href="#cb1-110" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-111"><a href="#cb1-111" tabindex="-1"></a></span>
+<span id="cb1-112"><a href="#cb1-112" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-113"><a href="#cb1-113" tabindex="-1"></a><span class="in">#| label: tbl-status</span></span>
+<span id="cb1-114"><a href="#cb1-114" tabindex="-1"></a><span class="in">#| tbl-cap: &quot;Mean stem density and above-ground biomass per stand type (living trees).&quot;</span></span>
+<span id="cb1-115"><a href="#cb1-115" tabindex="-1"></a><span class="in">by_status %&gt;%</span></span>
+<span id="cb1-116"><a href="#cb1-116" tabindex="-1"></a><span class="in">  mutate(across(c(stems_ha, agb, sd), \(x) round(x, 0))) %&gt;%</span></span>
+<span id="cb1-117"><a href="#cb1-117" tabindex="-1"></a><span class="in">  knitr::kable(col.names = c(&quot;Stand&quot;, &quot;Plots&quot;, &quot;Stems/ha&quot;, &quot;Biomass (t/ha)&quot;, &quot;SD&quot;))</span></span>
+<span id="cb1-118"><a href="#cb1-118" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-119"><a href="#cb1-119" tabindex="-1"></a></span>
+<span id="cb1-120"><a href="#cb1-120" tabindex="-1"></a>@fig-agb shows that harvesting removed most of the biomass, while the restored</span>
+<span id="cb1-121"><a href="#cb1-121" tabindex="-1"></a>stands are dense but still made of small trees.</span>
+<span id="cb1-122"><a href="#cb1-122" tabindex="-1"></a></span>
+<span id="cb1-123"><a href="#cb1-123" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb1-124"><a href="#cb1-124" tabindex="-1"></a><span class="fu">## Caution</span></span>
+<span id="cb1-125"><a href="#cb1-125" tabindex="-1"></a>Biomass is estimated, not weighed: the equation and the wood densities carry an</span>
+<span id="cb1-126"><a href="#cb1-126" tabindex="-1"></a>uncertainty that is not shown here.</span>
+<span id="cb1-127"><a href="#cb1-127" tabindex="-1"></a>:::</span>
+<span id="cb1-128"><a href="#cb1-128" tabindex="-1"></a></span>
+<span id="cb1-129"><a href="#cb1-129" tabindex="-1"></a><span class="fu">## Species</span></span>
+<span id="cb1-130"><a href="#cb1-130" tabindex="-1"></a></span>
+<span id="cb1-131"><a href="#cb1-131" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-132"><a href="#cb1-132" tabindex="-1"></a><span class="in">#| label: fig-species</span></span>
+<span id="cb1-133"><a href="#cb1-133" tabindex="-1"></a><span class="in">#| fig-cap: &quot;Share of the living biomass per species, all plots together.&quot;</span></span>
+<span id="cb1-134"><a href="#cb1-134" tabindex="-1"></a><span class="in">#| fig-width: 6</span></span>
+<span id="cb1-135"><a href="#cb1-135" tabindex="-1"></a><span class="in">#| fig-height: 3</span></span>
+<span id="cb1-136"><a href="#cb1-136" tabindex="-1"></a><span class="in">trees %&gt;% filter(status == &quot;alive&quot;) %&gt;%</span></span>
+<span id="cb1-137"><a href="#cb1-137" tabindex="-1"></a><span class="in">  group_by(species) %&gt;% summarise(agb = sum(agb_kg), .groups = &quot;drop&quot;) %&gt;%</span></span>
+<span id="cb1-138"><a href="#cb1-138" tabindex="-1"></a><span class="in">  mutate(share = 100 * agb / sum(agb)) %&gt;%</span></span>
+<span id="cb1-139"><a href="#cb1-139" tabindex="-1"></a><span class="in">  ggplot(aes(share, reorder(species, share))) + geom_col(fill = &quot;#1b7f8c&quot;) +</span></span>
+<span id="cb1-140"><a href="#cb1-140" tabindex="-1"></a><span class="in">  labs(x = &quot;% of living biomass&quot;, y = NULL) + theme_minimal(base_size = 11) +</span></span>
+<span id="cb1-141"><a href="#cb1-141" tabindex="-1"></a><span class="in">  theme(axis.text.y = element_text(face = &quot;italic&quot;))</span></span>
+<span id="cb1-142"><a href="#cb1-142" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-143"><a href="#cb1-143" tabindex="-1"></a></span>
+<span id="cb1-144"><a href="#cb1-144" tabindex="-1"></a>{{&lt; pagebreak &gt;}}</span>
+<span id="cb1-145"><a href="#cb1-145" tabindex="-1"></a></span>
+<span id="cb1-146"><a href="#cb1-146" tabindex="-1"></a><span class="fu"># References {.unnumbered}</span></span>
+<span id="cb1-147"><a href="#cb1-147" tabindex="-1"></a></span>
+<span id="cb1-148"><a href="#cb1-148" tabindex="-1"></a>::: {#refs}</span>
+<span id="cb1-149"><a href="#cb1-149" tabindex="-1"></a>:::</span></code></pre></div>
+<div class="en">
+<p>Here is the top of the HTML output (with the links to the other
+formats, top right), and the three pages of the PDF made with Typst:</p>
+</div>
+<div class="fr">
+<p>Voici le haut de la sortie HTML (avec les liens vers les autres
+formats, en haut à droite), et les trois pages du PDF fait avec Typst
+:</p>
+</div>
+<p><img src="assets/img/quarto/mangrove_html.png"
+style="width:85.0%" /></p>
+<p><img src="assets/img/quarto/mangrove_typst.png"
+style="width:100.0%" /></p>
+</div>
+<div id="yaml" class="section level2">
+<h2><span class="en">The YAML header</span><span class="fr">L’en-tête
+YAML</span></h2>
+<div class="en">
+<ul>
+<li><code>author:</code> can be a list with <code>name</code>,
+<code>affiliation</code>, <code>email</code>, <code>orcid</code>.</li>
+<li><code>date: today</code> is replaced by the date of rendering;
+<code>date-format</code> chooses how it is written;
+<code>lang: fr</code> translates “Table of contents”, “Figure”, “Table”
+into French.</li>
+<li>Under <code>format:</code>, each output has its own options. Options
+common to all (bibliography, <code>execute</code>) stay at the top
+level.</li>
+<li><code>execute:</code> sets the default chunk options of the whole
+document (<code>echo</code>, <code>warning</code>, <code>message</code>,
+<code>cache</code>…). A chunk can still change them with its own
+<code>#|</code> lines.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li><code>author:</code> peut être une liste avec <code>name</code>,
+<code>affiliation</code>, <code>email</code>, <code>orcid</code>.</li>
+<li><code>date: today</code> est remplacé par la date de production ;
+<code>date-format</code> choisit sa forme ; <code>lang: fr</code>
+traduit « Table des matières », « Figure », « Tableau » en
+français.</li>
+<li>Sous <code>format:</code>, chaque sortie a ses propres options. Les
+options communes (bibliographie, <code>execute</code>) restent au
+premier niveau.</li>
+<li><code>execute:</code> fixe les options de chunk par défaut de tout
+le document (<code>echo</code>, <code>warning</code>,
+<code>message</code>, <code>cache</code>…). Un chunk peut encore les
+changer avec ses propres lignes <code>#|</code>.</li>
+</ul>
+</div>
+</div>
+<div id="xref" class="section level2">
+<h2><span class="en">Cross-references</span><span
+class="fr">Renvois</span></h2>
+<div class="en">
+<p>A label with the right <strong>prefix</strong> makes an element
+numbered and referable:</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Element</th>
+<th>Label</th>
+<th>Caption</th>
+<th>In the text</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>figure (chunk)</td>
+<td><code>#| label: fig-agb</code></td>
+<td><code>#| fig-cap: "…"</code></td>
+<td><code>@fig-agb</code> → “Figure 1”</td>
+</tr>
+<tr class="even">
+<td>table (chunk)</td>
+<td><code>#| label: tbl-status</code></td>
+<td><code>#| tbl-cap: "…"</code></td>
+<td><code>@tbl-status</code> → “Table 1”</td>
+</tr>
+<tr class="odd">
+<td>section</td>
+<td><code># Results {#sec-results}</code></td>
+<td></td>
+<td><code>@sec-results</code> → “Section 3” (needs
+<code>number-sections: true</code>)</td>
+</tr>
+<tr class="even">
+<td>equation</td>
+<td><code>$$ … $$ {#eq-agb}</code></td>
+<td></td>
+<td><code>@eq-agb</code> → “Equation 1”</td>
+</tr>
+<tr class="odd">
+<td>image file</td>
+<td><code>![Map of the plots](map.png){#fig-map}</code></td>
+<td>the text in brackets</td>
+<td><code>@fig-map</code></td>
+</tr>
+</tbody>
+</table>
+<p>Several figures side by side: <code>#| layout-ncol: 2</code> in a
+chunk that makes two plots, with
+<code>#| fig-subcap: ["Reference", "Harvested"]</code>.</p>
+</div>
+<div class="fr">
+<p>Un label avec le bon <strong>préfixe</strong> rend un élément
+numéroté et citable :</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Élément</th>
+<th>Label</th>
+<th>Légende</th>
+<th>Dans le texte</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>figure (chunk)</td>
+<td><code>#| label: fig-agb</code></td>
+<td><code>#| fig-cap: "…"</code></td>
+<td><code>@fig-agb</code> → « Figure 1 »</td>
+</tr>
+<tr class="even">
+<td>tableau (chunk)</td>
+<td><code>#| label: tbl-status</code></td>
+<td><code>#| tbl-cap: "…"</code></td>
+<td><code>@tbl-status</code> → « Tableau 1 »</td>
+</tr>
+<tr class="odd">
+<td>section</td>
+<td><code># Résultats {#sec-results}</code></td>
+<td></td>
+<td><code>@sec-results</code> → « Section 3 » (demande
+<code>number-sections: true</code>)</td>
+</tr>
+<tr class="even">
+<td>équation</td>
+<td><code>$$ … $$ {#eq-agb}</code></td>
+<td></td>
+<td><code>@eq-agb</code> → « Équation 1 »</td>
+</tr>
+<tr class="odd">
+<td>fichier image</td>
+<td><code>![Carte des placettes](carte.png){#fig-map}</code></td>
+<td>le texte entre crochets</td>
+<td><code>@fig-map</code></td>
+</tr>
+</tbody>
+</table>
+<p>Plusieurs figures côte à côte : <code>#| layout-ncol: 2</code> dans
+un chunk qui fait deux graphiques, avec
+<code>#| fig-subcap: ["Référence", "Exploité"]</code>.</p>
+</div>
+</div>
+<div id="citations" class="section level2">
+<h2><span class="en">Citations and references</span><span
+class="fr">Citations et références</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>Keep your references in a <strong>BibTeX</strong> file
+(<code>references.bib</code>). Zotero exports it (<em>File → Export
+library → BibTeX</em>), and the <strong>Better BibTeX</strong> extension
+keeps it up to date automatically; Google Scholar and journal websites
+also give BibTeX entries.</li>
+<li>Declare it in the YAML:
+<code>bibliography: references.bib</code>.</li>
+<li>Cite with the <strong>key</strong> of the entry:</li>
+</ol>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>You write</th>
+<th>You get (default style, author–year)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>[@komiyama2005]</code></td>
+<td>(Komiyama, Poungparn, and Kato 2005)</td>
+</tr>
+<tr class="even">
+<td><code>@komiyama2005</code></td>
+<td>Komiyama, Poungparn, and Kato (2005)</td>
+</tr>
+<tr class="odd">
+<td><code>[@hill2004; @komiyama2005]</code></td>
+<td>(Hill and Wilkinson 2004; Komiyama, Poungparn, and Kato 2005)</td>
+</tr>
+<tr class="even">
+<td><code>[-@komiyama2005]</code></td>
+<td>(2005) — when the authors are already named</td>
+</tr>
+<tr class="odd">
+<td><code>[@hill2004, p. 25]</code></td>
+<td>(Hill and Wilkinson 2004, 25)</td>
+</tr>
+</tbody>
+</table>
+<ol start="4" style="list-style-type: decimal">
+<li>The reference list is written at the end, or where you put
+<code>::: {#refs}</code> <code>:::</code>.</li>
+<li>Another style (APA, a journal style…): download its
+<code>.csl</code> file from the Zotero Style Repository (<a
+href="https://www.zotero.org/styles"
+class="uri">https://www.zotero.org/styles</a>) and add
+<code>csl: apa.csl</code> to the YAML.</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Gardez vos références dans un fichier <strong>BibTeX</strong>
+(<code>references.bib</code>). Zotero l’exporte (<em>Fichier → Exporter
+la bibliothèque → BibTeX</em>), et l’extension <strong>Better
+BibTeX</strong> le tient à jour automatiquement ; Google Scholar et les
+sites des revues donnent aussi des entrées BibTeX.</li>
+<li>Déclarez-le dans le YAML :
+<code>bibliography: references.bib</code>.</li>
+<li>Citez avec la <strong>clé</strong> de l’entrée :</li>
+</ol>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Vous écrivez</th>
+<th>Vous obtenez (style par défaut, auteur–date)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>[@komiyama2005]</code></td>
+<td>(Komiyama, Poungparn, and Kato 2005)</td>
+</tr>
+<tr class="even">
+<td><code>@komiyama2005</code></td>
+<td>Komiyama, Poungparn, and Kato (2005)</td>
+</tr>
+<tr class="odd">
+<td><code>[@hill2004; @komiyama2005]</code></td>
+<td>(Hill and Wilkinson 2004; Komiyama, Poungparn, and Kato 2005)</td>
+</tr>
+<tr class="even">
+<td><code>[-@komiyama2005]</code></td>
+<td>(2005) — quand les auteurs sont déjà nommés</td>
+</tr>
+<tr class="odd">
+<td><code>[@hill2004, p. 25]</code></td>
+<td>(Hill and Wilkinson 2004, 25)</td>
+</tr>
+</tbody>
+</table>
+<ol start="4" style="list-style-type: decimal">
+<li>La liste des références s’écrit à la fin, ou là où vous placez
+<code>::: {#refs}</code> <code>:::</code>.</li>
+<li>Un autre style (APA, le style d’une revue…) : téléchargez son
+fichier <code>.csl</code> sur le Zotero Style Repository (<a
+href="https://www.zotero.org/styles"
+class="uri">https://www.zotero.org/styles</a>) et ajoutez
+<code>csl: apa.csl</code> au YAML. Avec <code>lang: fr</code>, « and »
+devient « et ».</li>
+</ol>
+</div>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">komiyama2005</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="dt">author</span>  = {Komiyama, Akira and Poungparn, Sasitorn and Kato, Shogo},</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="dt">title</span>   = {Common allometric equations for estimating the tree weight of mangroves},</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="dt">journal</span> = {Journal of Tropical Ecology}, <span class="st">year</span> = {2005}, <span class="st">volume</span> = {21}, <span class="st">number</span> = {4}, <span class="st">pages</span> = {471--477},</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1017/S0266467405002476}}</span></code></pre></div>
+<div class="callout warning">
+<div class="en">
+<p><strong>A trap that hides citations.</strong> Pandoc reads
+<code>@key [text]</code> as “citation + comment”. So
+<code>as shown in @tbl-status [@komiyama2005]</code> silently swallows
+the citation into the table reference. Put a word or a comma between
+them: <code>(@tbl-status), following @komiyama2005</code>. When a
+citation disappears or shows <code>?@key</code>, check the key
+(case-sensitive) and the spelling of <code>bibliography:</code>.</p>
+</div>
+<div class="fr">
+<p><strong>Un piège qui cache des citations.</strong> Pandoc lit
+<code>@clé [texte]</code> comme « citation + commentaire ». Ainsi
+<code>comme le montre @tbl-status [@komiyama2005]</code> avale
+silencieusement la citation dans le renvoi au tableau. Mettez un mot ou
+une virgule entre les deux :
+<code>(@tbl-status), d'après @komiyama2005</code>. Quand une citation
+disparaît ou affiche <code>?@clé</code>, vérifiez la clé (sensible à la
+casse) et l’orthographe de <code>bibliography:</code>.</p>
+</div>
+</div>
+</div>
+<div id="toc" class="section level2">
+<h2><span class="en">Table of contents, lists of figures and
+tables</span><span class="fr">Table des matières, listes des figures et
+des tableaux</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option (under <code>format:</code>)</th>
+<th>HTML</th>
+<th>Word</th>
+<th>PDF (LaTeX)</th>
+<th>PDF (Typst)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>toc: true</code>, <code>toc-depth: 2</code></td>
+<td>yes (side bar)</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td><code>number-sections: true</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr class="odd">
+<td><code>lof: true</code>, <code>lot: true</code> (lists of figures /
+tables)</td>
+<td>—</td>
+<td>—</td>
+<td><strong>yes</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>When a report needs lists of figures and tables (a thesis chapter, a
+report for a ministry), use <code>format: pdf</code> (LaTeX). The
+template does it; the second page of its LaTeX PDF holds the table of
+contents, then the <em>List of Figures</em> and <em>List of Tables</em>.
+LaTeX must be installed once: <code>quarto install tinytex</code> in the
+Terminal.</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option (sous <code>format:</code>)</th>
+<th>HTML</th>
+<th>Word</th>
+<th>PDF (LaTeX)</th>
+<th>PDF (Typst)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>toc: true</code>, <code>toc-depth: 2</code></td>
+<td>oui (barre latérale)</td>
+<td>oui</td>
+<td>oui</td>
+<td>oui</td>
+</tr>
+<tr class="even">
+<td><code>number-sections: true</code></td>
+<td>oui</td>
+<td>oui</td>
+<td>oui</td>
+<td>oui</td>
+</tr>
+<tr class="odd">
+<td><code>lof: true</code>, <code>lot: true</code> (listes des figures /
+tableaux)</td>
+<td>—</td>
+<td>—</td>
+<td><strong>oui</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Quand un rapport a besoin de listes des figures et des tableaux (un
+chapitre de thèse, un rapport pour un ministère), utilisez
+<code>format: pdf</code> (LaTeX). Le modèle le fait ; la deuxième page
+de son PDF LaTeX contient la table des matières, puis la <em>List of
+Figures</em> et la <em>List of Tables</em> (<em>Liste des figures</em>,
+<em>Liste des tableaux</em> avec <code>lang: fr</code>). LaTeX
+s’installe une fois : <code>quarto install tinytex</code> dans le
+Terminal.</p>
+</div>
+</div>
+<div id="render" class="section level2">
+<h2><span class="en">Rendering</span><span
+class="fr">Produire</span></h2>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">quarto</span> render reports/mangrove_report.qmd                 <span class="co"># every format of the YAML</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="ex">quarto</span> render reports/mangrove_report.qmd <span class="at">--to</span> html       <span class="co"># one format</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="ex">quarto</span> render reports/mangrove_report.qmd <span class="at">--to</span> docx</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="ex">quarto</span> preview reports/mangrove_report.qmd                <span class="co"># live preview while you write</span></span></code></pre></div>
+<div class="en">
+<p>From R, the package <strong>quarto</strong> does the same:
+<code>quarto::quarto_render("reports/mangrove_report.qmd", output_format = "html")</code>.
+Parameters work as in Session A4: a <code>params:</code> field in the
+YAML, and <code>quarto render report.qmd -P mpa:Tanjona</code> or
+<code>quarto::quarto_render(..., execute_params = list(mpa = "Tanjona"))</code>.</p>
+</div>
+<div class="fr">
+<p>Depuis R, le package <strong>quarto</strong> fait la même chose :
+<code>quarto::quarto_render("reports/mangrove_report.qmd", output_format = "html")</code>.
+Les paramètres marchent comme à la séance A4 : un champ
+<code>params:</code> dans le YAML, et
+<code>quarto render rapport.qmd -P mpa:Tanjona</code> ou
+<code>quarto::quarto_render(..., execute_params = list(mpa = "Tanjona"))</code>.</p>
+</div>
+<div class="callout try">
+<div class="en">
+<p><strong>Try it.</strong> Add a section label
+<code>{#sec-methods}</code> and refer to it from the Summary; give the
+equation the label <code>{#eq-agb}</code> and refer to it in the
+Methods; add <code>lang: fr</code> and render again: what changed?</p>
+</div>
+<div class="fr">
+<p><strong>À vous.</strong> Ajoutez un label de section
+<code>{#sec-methods}</code> et renvoyez-y depuis le résumé ; donnez à
+l’équation le label <code>{#eq-agb}</code> et renvoyez-y dans les
+méthodes ; ajoutez <code>lang: fr</code> et produisez à nouveau :
+qu’est-ce qui a changé ?</p>
+</div>
+</div>
+</div>
+<div id="application" class="section level2">
+<h2><span class="en">Application work &amp; quiz</span><span
+class="fr">Travail d’application et quiz</span></h2>
+<div class="application">
+<div id="application-work-a8" class="section level3 en">
+<h3>Application work A8</h3>
+<ol style="list-style-type: decimal">
+<li>Render <code>mangrove_report.qmd</code> to <strong>HTML</strong> and
+<strong>Word</strong> (and to PDF if you installed TinyTeX or want to
+try Typst). How many trees does the Summary report?</li>
+<li>How many DBH values does the cleaning rule correct
+(<code>dbh_cm &gt; 30 &amp; height_m &lt; 8</code>)?</li>
+<li>Mean living above-ground biomass of the <strong>reference</strong>
+stands (t/ha, no decimal)? Of the <strong>harvested</strong>
+stands?</li>
+<li>Share of <em>Rhizophora mucronata</em> in the living biomass (%, 1
+decimal): write it in the text with inline code.</li>
+<li>Add a citation of <code>@hill2004</code> in the Methods (a sentence
+about permanent monitoring plots) and check that it appears in the
+References.</li>
+<li>Add a table of the biomass <strong>per patch</strong>
+(<code>tbl-patch</code>) and refer to it in the text.</li>
+<li>Convert your <code>reef_report.Rmd</code> of Session A3 to a
+<code>.qmd</code> (labels <code>fig-</code>/<code>tbl-</code>,
+<code>@fig-…</code> references, <code>execute:</code> in the YAML).</li>
+</ol>
+</div>
+<div id="travail-dapplication-a8" class="section level3 fr">
+<h3>Travail d’application A8</h3>
+<ol style="list-style-type: decimal">
+<li>Produisez <code>mangrove_report.qmd</code> en <strong>HTML</strong>
+et en <strong>Word</strong> (et en PDF si vous avez installé TinyTeX ou
+voulez essayer Typst). Combien d’arbres le résumé indique-t-il ?</li>
+<li>Combien de valeurs de DHP la règle de nettoyage corrige-t-elle
+(<code>dbh_cm &gt; 30 &amp; height_m &lt; 8</code>) ?</li>
+<li>Biomasse aérienne vivante moyenne des peuplements de
+<strong>référence</strong> (t/ha, sans décimale) ? Des peuplements
+<strong>exploités</strong> ?</li>
+<li>Part de <em>Rhizophora mucronata</em> dans la biomasse vivante (%, 1
+décimale) : écrivez-la dans le texte avec du code en ligne.</li>
+<li>Ajoutez une citation de <code>@hill2004</code> dans les méthodes
+(une phrase sur les placettes permanentes de suivi) et vérifiez qu’elle
+apparaît dans les références.</li>
+<li>Ajoutez un tableau de la biomasse <strong>par massif</strong>
+(<code>tbl-patch</code>) et renvoyez-y dans le texte.</li>
+<li>Convertissez votre <code>reef_report.Rmd</code> de la séance A3 en
+<code>.qmd</code> (labels <code>fig-</code>/<code>tbl-</code>, renvois
+<code>@fig-…</code>, <code>execute:</code> dans le YAML).</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>If Render says <em>“could not find function”</em> or <em>“object not
+found”</em>, remember that Quarto, like Knit, starts a <strong>new
+session</strong>: every <code>library()</code> and every object must be
+created in the <code>.qmd</code>. If a cross-reference shows
+<code>?@fig-agb</code>, the label does not start with <code>fig-</code>
+or the chunk has no <code>fig-cap</code>.</p>
+</div>
+<div class="fr">
+<p>Si Render dit <em>« could not find function »</em> ou <em>« object
+not found »</em>, souvenez-vous que Quarto, comme Knit, démarre une
+<strong>nouvelle session</strong> : chaque <code>library()</code> et
+chaque objet doit être créé dans le <code>.qmd</code>. Si un renvoi
+affiche <code>?@fig-agb</code>, le label ne commence pas par
+<code>fig-</code> ou le chunk n’a pas de <code>fig-cap</code>.</p>
+</div>
+</div>
+<div id="quiz-a08" class="quiz" data-quiz-id="a08"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHRyZWVzIGluIHRoZSBTdW1tYXJ5PyIsImZyIjoiMS4gTm9tYnJlIGQnYXJicmVzIGRhbnMgbGUgcsOpc3Vtw6kgPyIsImFuc3dlciI6MTM1MywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gTnVtYmVyIG9mIERCSCB2YWx1ZXMgY29ycmVjdGVkPyIsImZyIjoiMi4gTm9tYnJlIGRlIERIUCBjb3JyaWfDqXMgPyIsImFuc3dlciI6NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiM2EuIE1lYW4gYmlvbWFzcyBvZiB0aGUgcmVmZXJlbmNlIHN0YW5kcyAodC9oYSk/IiwiZnIiOiIzYS4gQmlvbWFzc2UgbW95ZW5uZSBkZXMgcGV1cGxlbWVudHMgZGUgcsOpZsOpcmVuY2UgKHQvaGEpID8iLCJhbnN3ZXIiOjI2NSwidG9sIjoxLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiM2IuIE1lYW4gYmlvbWFzcyBvZiB0aGUgaGFydmVzdGVkIHN0YW5kcyAodC9oYSk/IiwiZnIiOiIzYi4gQmlvbWFzc2UgbW95ZW5uZSBkZXMgcGV1cGxlbWVudHMgZXhwbG9pdMOpcyAodC9oYSkgPyIsImFuc3dlciI6MzQsInRvbCI6MSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIFNoYXJlIG9mIFJoaXpvcGhvcmEgbXVjcm9uYXRhIGluIHRoZSBsaXZpbmcgYmlvbWFzcyAoJSwgMSBkZWNpbWFsKT8iLCJmciI6IjQuIFBhcnQgZGUgUmhpem9waG9yYSBtdWNyb25hdGEgZGFucyBsYSBiaW9tYXNzZSB2aXZhbnRlICglLCAxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6NDEsInRvbCI6MC4xMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFRvIHJlZmVyIHRvIHRoZSBmaWd1cmUgbWFkZSBieSBhIGNodW5rLCBpdHMgbGFiZWwgbXVzdCBiZToiLCJmciI6IjUuIFBvdXIgcmVudm95ZXIgw6AgbGEgZmlndXJlIGQndW4gY2h1bmssIHNvbiBsYWJlbCBkb2l0IMOqdHJlIDoiLCJvcHRpb25zX2VuIjpbIiN8IGxhYmVsOiBhZ2IiLCIjfCBsYWJlbDogZmlnLWFnYiIsIntyIGZpZzphZ2J9IiwiI3wgZmlnLWxhYmVsOiBhZ2IiXSwib3B0aW9uc19mciI6WyIjfCBsYWJlbDogYWdiIiwiI3wgbGFiZWw6IGZpZy1hZ2IiLCJ7ciBmaWc6YWdifSIsIiN8IGZpZy1sYWJlbDogYWdiIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBJbiB0aGUgdGV4dCB5b3Ugd3JpdGUgXCJzZWUgQHRibC1zdGF0dXMgW0Brb21peWFtYTIwMDVdXCIuIFdoYXQgaGFwcGVucz8iLCJmciI6IjYuIERhbnMgbGUgdGV4dGUgdm91cyDDqWNyaXZleiDCqyB2b2lyIEB0Ymwtc3RhdHVzIFtAa29taXlhbWEyMDA1XSDCuy4gUXVlIHNlIHBhc3NlLXQtaWwgPyIsIm9wdGlvbnNfZW4iOlsiQm90aCBhcHBlYXIgbm9ybWFsbHkiLCJUaGUgY2l0YXRpb24gaXMgc3dhbGxvd2VkIGFzIGEgY29tbWVudCBvZiB0aGUgdGFibGUgcmVmZXJlbmNlIiwiUXVhcnRvIHN0b3BzIHdpdGggYW4gZXJyb3IiLCJUaGUgdGFibGUgaXMgcmVudW1iZXJlZCJdLCJvcHRpb25zX2ZyIjpbIkxlcyBkZXV4IGFwcGFyYWlzc2VudCBub3JtYWxlbWVudCIsIkxhIGNpdGF0aW9uIGVzdCBhdmFsw6llIGNvbW1lIGNvbW1lbnRhaXJlIGR1IHJlbnZvaSBhdSB0YWJsZWF1IiwiUXVhcnRvIHMnYXJyw6p0ZSBhdmVjIHVuZSBlcnJldXIiLCJMZSB0YWJsZWF1IGVzdCByZW51bcOpcm90w6kiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFdoaWNoIG91dHB1dCBnaXZlcyBhIGxpc3Qgb2YgZmlndXJlcyBhbmQgYSBsaXN0IG9mIHRhYmxlcyB3aXRoIGxvZjogdHJ1ZSBhbmQgbG90OiB0cnVlPyIsImZyIjoiNy4gUXVlbGxlIHNvcnRpZSBkb25uZSB1bmUgbGlzdGUgZGVzIGZpZ3VyZXMgZXQgdW5lIGxpc3RlIGRlcyB0YWJsZWF1eCBhdmVjIGxvZjogdHJ1ZSBldCBsb3Q6IHRydWUgPyIsIm9wdGlvbnNfZW4iOlsiaHRtbCIsImRvY3giLCJwZGYgKExhVGVYKSIsImFsbCBvZiB0aGVtIl0sIm9wdGlvbnNfZnIiOlsiaHRtbCIsImRvY3giLCJwZGYgKExhVGVYKSIsInRvdXRlcyJdLCJhbnN3ZXIiOjJ9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gVG8gY2l0ZSBpbiBBUEEgc3R5bGUgaW5zdGVhZCBvZiB0aGUgZGVmYXVsdCBzdHlsZSB5b3U6IiwiZnIiOiI4LiBQb3VyIGNpdGVyIGVuIHN0eWxlIEFQQSBhdSBsaWV1IGR1IHN0eWxlIHBhciBkw6lmYXV0IHZvdXMgOiIsIm9wdGlvbnNfZW4iOlsiYWRkIGNzbDogYXBhLmNzbCB0byB0aGUgWUFNTCAod2l0aCB0aGUgLmNzbCBmaWxlKSIsInJlbmFtZSByZWZlcmVuY2VzLmJpYiB0byBhcGEuYmliIiwid3JpdGUgdGhlIHJlZmVyZW5jZXMgYnkgaGFuZCIsInVzZSBmb3JtYXQ6IGFwYSJdLCJvcHRpb25zX2ZyIjpbImFqb3V0ZXogY3NsOiBhcGEuY3NsIGF1IFlBTUwgKGF2ZWMgbGUgZmljaGllciAuY3NsKSIsInJlbm9tbWV6IHJlZmVyZW5jZXMuYmliIGVuIGFwYS5iaWIiLCLDqWNyaXZleiBsZXMgcsOpZsOpcmVuY2VzIMOgIGxhIG1haW4iLCJ1dGlsaXNleiBmb3JtYXQ6IGFwYSJdLCJhbnN3ZXIiOjB9XQ==">
+
+</div>
+<div class="solution" data-quiz="a08">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># 1-3: the numbers printed by the template (n_trees, agb_ref, agb_har); 2:</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>raw <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;mangrove_trees.csv&quot;</span>))</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">sum</span>(raw<span class="sc">$</span>dbh_cm <span class="sc">&gt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> raw<span class="sc">$</span>height_m <span class="sc">&lt;</span> <span class="dv">8</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># 4: in the setup chunk</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>share <span class="ot">&lt;-</span> trees <span class="sc">%&gt;%</span> <span class="fu">filter</span>(status <span class="sc">==</span> <span class="st">&quot;alive&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">agb =</span> <span class="fu">sum</span>(agb_kg)) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">p =</span> <span class="dv">100</span> <span class="sc">*</span> agb <span class="sc">/</span> <span class="fu">sum</span>(agb))</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>p_rm <span class="ot">&lt;-</span> <span class="fu">round</span>(share<span class="sc">$</span>p[share<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Rhizophora mucronata&quot;</span>], <span class="dv">1</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co"># ... and in the text:  Rhizophora mucronata holds `{r} p_rm` % of the living biomass.</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co"># 5: &quot;Plots were permanent and re-measured following @hill2004.&quot;</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co"># 6: a chunk with  #| label: tbl-patch  and  #| tbl-cap: &quot;Biomass per patch (t/ha).&quot;</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>per_plot <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(patch) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">agb =</span> <span class="fu">round</span>(<span class="fu">mean</span>(agb_t_ha))) <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co"># ... and in the text: &quot;The three patches hold similar biomass (@tbl-patch).&quot;</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+---
+title: "R pour les sciences marines — niveau avancé"
+subtitle: "Partie 3 · Séances A8 à A11 — Quarto, PDF, publication, exercices, projet final"
+author: "Aroo Falinirina"
+output:
+  html_document:
+    theme: null
+    highlight: tango
+    mathjax: null
+    self_contained: true
+    css: slides.css
+    includes:
+      in_header: slides-engine.html
+---
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+
+```{r, include=FALSE}
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+```{r, include=FALSE}
+source("R/course_helpers.R")
+source("R/advanced_pipeline.R")
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE, fig.width = 6, fig.height = 3.5,
+                      out.width = "55%", fig.align = "center", dpi = 110)
+P <- ca_plots()
+```
+
+## Au programme
+
+- **A8** : Quarto (1) — renvois, citations, table des matières
+- **A9** : Quarto (2) — PDF (Typst / LaTeX), mise en page, publication
+- **A10** : séance d'exercices
+- **A11** : projet final — les rapports 2026
+
+<div class="notes">
+~25 min Quarto 1 · ~20 min Quarto 2 et publication · ~15 min exercices et projet final.
+</div>
+
+## A8 — Quarto (1) {.segue}
+
+## Quarto = R Markdown, en mieux
+
+| | R Markdown | Quarto |
+|---|---|---|
+| YAML | `output: html_document` | `format: html` |
+| options | `{r label, fig.cap = "…"}` | `#| label: fig-x` · `#| fig-cap: "…"` |
+| en ligne | `` `r knitr::inline_expr("x")` `` | `` `{r} x` `` |
+| renvois | `\@ref(fig:x)` (bookdown) | `@fig-x`, `@tbl-x`, `@sec-x`, `@eq-x` |
+| produire | Knit | Render · `quarto render f.qmd` |
+
+Même moteur (knitr + pandoc) : tout ce qui a été appris reste valable.
+
+## Les mangroves : le rapport du modèle
+
+```{r}
+aggregate(cbind(density_ha, agb_t_ha) ~ status, data = P, FUN = function(x) round(mean(x)))
+```
+
+AGB = 0,251 × ρ × DHP^2,46^ (Komiyama et al. 2005) · nettoyage : DHP > 30 cm sur un arbre < 8 m → ÷ 10
+
+## Citations et bibliographie
+
+- `bibliography: references.bib` (Zotero → BibTeX, extension Better BibTeX)
+- `[@komiyama2005]` → (Komiyama et al. 2005) · `@komiyama2005` → Komiyama et al. (2005)
+- `[-@komiyama2005]` · `[@hill2004, p. 25]` · `csl: apa.csl`
+- la liste se place à `::: {#refs}`
+
+<div class="box warn">Piège : `@tbl-x [@cle]` avale la citation → mettre une virgule ou un mot entre les deux.</div>
+
+## Table des matières et listes
+
+| | HTML | Word | PDF LaTeX | PDF Typst |
+|---|---|---|---|---|
+| `toc`, `number-sections` | oui | oui | oui | oui |
+| `lof`, `lot` | — | — | **oui** | — |
+
+`lang: fr` → « Table des matières », « Figure », « Tableau »
+
+## A9 — PDF et publication {.segue}
+
+## Typst ou LaTeX ?
+
+- **Typst** : rien à installer, très rapide → rapports courants (`citeproc: true`)
+- **LaTeX** : `quarto install tinytex` → listes des figures/tableaux, modèles officiels
+- mise en page : `papersize: a4`, `margin:` / `geometry:`, `fontsize:`, `{{< pagebreak >}}`
+- Word : `reference-doc: styles.docx` (modifier les **styles**)
+- un seul HTML à envoyer : `embed-resources: true`
+
+## Un site Quarto
+
+```yaml
+project:
+  type: website
+  output-dir: docs
+website:
+  navbar:
+    left: [index.qmd, coral.qmd, mangroves.qmd, about.qmd]
+execute:
+  freeze: auto
+```
+
+`quarto preview` pendant l'écriture · `quarto render` pour tout construire
+
+## Publier
+
+| Service | Comment | Remarque |
+|---|---|---|
+| GitHub Pages | `docs/` + `.nojekyll`, Settings → Pages → main /docs | gratuit : dépôts **publics** |
+| GitLab Pages | `.gitlab-ci.yml` copie `docs/` → `public/` | marche aussi en privé |
+| Quarto Pub | `quarto publish quarto-pub` | tout est public |
+
+<div class="box warn">Avant de publier : aucune donnée personnelle, aucune position sensible, accord des propriétaires des données. L'historique Git est public aussi !</div>
+
+## A10–A11 — Exercices et projet final {.segue}
+
+## Séance d'exercices (A10)
+
+| Exercice | Séances |
+|---|---|
+| 1. projet, renv, historique Git | A0–A2 |
+| 2. chiffres de rapport, paramètres | A3–A4 |
+| 3. SIG vecteur | A5 |
+| 4. rasters | A6 |
+| 5. indicateurs mangrove | A0, A8 |
+| 6. cartes et publication | A7, A9 |
+
+## Projet final : la campagne 2026 (A11)
+
+<div class="box eco">
+Nouveau fichier `reef_monitoring_2026.csv` : dates `jj/mm/aaaa`, codes `r12`, `312` au lieu de `31,2`, deux doublons.
+</div>
+
+1. projet propre + renv + Git
+2. `02_clean_2026.R` : nettoyer et **ajouter 2026** (414 lignes)
+3. `mpa_report_2026.qmd` : valeurs en ligne, figure, **carte**, mangroves, citations
+4. `render_2026.R` : 3 rapports HTML + 3 PDF
+5. publier sur GitHub / GitLab Pages · 6. **cloner et tout refaire** : mêmes résultats ?
+
+## Fin du niveau avancé
+
+- **75 %** des points du niveau → **certificat**
+- vous savez maintenant : projets reproductibles, Git, rapports automatiques, SIG, cartes, Quarto, publication
+- prochaine étape : **vos propres données** — même méthode, même structure
+
+## Merci ! {.segue}

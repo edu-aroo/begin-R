@@ -1,0 +1,151 @@
+---
+title: "[A11 · Final project: the 2026 monitoring reports, reproducible and published]{.en}[A11 · Projet final : les rapports de suivi 2026, reproductibles et publiés]{.fr}"
+pagetitle: "R for marine sciences · A11"
+subtitle: "~5 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+source("R/answers_a11.R")      # expected answers (hidden)
+```
+
+::: objectives
+::: en
+#### In this project you will, on your own
+- set up a **reproducible project** (structure, `here`, `renv`, Git) from the start;
+- **add a new year** of raw field data to the monitoring table, with every correction written in a script;
+- produce **one Quarto report per MPA** (HTML and PDF) with values in the text, cross-referenced figures and tables, a **map**, the **mangrove** results and **citations**;
+- **version** the project and **publish** the reports online.
+
+This is the last quiz of the Advanced level (two attempts, the best one counts).
+:::
+::: fr
+#### Dans ce projet, vous allez, en autonomie
+- mettre en place dès le départ un **projet reproductible** (arborescence, `here`, `renv`, Git) ;
+- **ajouter une nouvelle année** de données brutes de terrain au tableau du suivi, chaque correction étant écrite dans un script ;
+- produire **un rapport Quarto par AMP** (HTML et PDF) avec des valeurs dans le texte, des figures et tableaux avec renvois, une **carte**, les résultats **mangroves** et des **citations** ;
+- **versionner** le projet et **publier** les rapports en ligne.
+
+C'est le dernier quiz du niveau avancé (deux tentatives, la meilleure compte).
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** The 2026 field campaign has just ended (April–May 2026). Three observers surveyed the same 18 reef sites with the same method (three 20 m Point Intercept Transects per site), and a fourth observer (TS) joined the team. The data were typed by the observers in a shared sheet and sent as `reef_monitoring_2026.csv`. As every year, the file is not perfect: the dates were typed `dd/mm/yyyy` instead of `yyyy-mm-dd`, a few site codes are in lower case (`r12`), two values of hard coral were typed without the decimal point (`312` instead of `31.2`), and two rows were entered twice. The MPA managers expect **the three 2026 reports** before their June meeting, and the NGO wants them **online**.
+
+*Type:* the same as `reef_monitoring.csv` (one row = one transect and one year; percentages), plus the GIS layers, rasters and mangrove inventory of the previous sessions.
+:::
+::: fr
+**Contexte simulé.** La campagne de terrain 2026 vient de se terminer (avril–mai 2026). Trois observateurs ont suivi les mêmes 18 sites récifaux avec la même méthode (trois Point Intercept Transects de 20 m par site), et un quatrième observateur (TS) a rejoint l'équipe. Les données ont été saisies par les observateurs dans un tableur partagé et envoyées sous le nom `reef_monitoring_2026.csv`. Comme chaque année, le fichier n'est pas parfait : les dates ont été saisies `jj/mm/aaaa` au lieu de `aaaa-mm-jj`, quelques codes de sites sont en minuscules (`r12`), deux valeurs de corail dur ont été saisies sans la virgule (`312` au lieu de `31,2`), et deux lignes ont été saisies deux fois. Les gestionnaires des AMP attendent **les trois rapports 2026** avant leur réunion de juin, et l'ONG les veut **en ligne**.
+
+*Type :* le même que `reef_monitoring.csv` (une ligne = un transect et une année ; pourcentages), plus les couches SIG, rasters et l'inventaire des mangroves des séances précédentes.
+:::
+:::
+
+`r dl("reef_monitoring_2026.csv", "reef_monitoring_2026.csv", dir = "data/advanced")` `r dl("02_clean_2026.R", "02_clean_2026.R", dir = "templates/advanced/final")` `r dl("mpa_report_2026.qmd", "mpa_report_2026.qmd", dir = "templates/advanced/final")` `r dl("render_2026.R", "render_2026.R", dir = "templates/advanced/final")`
+
+## [Your tasks]{.en}[Vos tâches]{.fr} {#tasks}
+
+::: application
+::: en
+1. **Project** (A0–A2). Create a new RStudio project `mpa-reports-2026` with the structure of Session A0. Copy into `data/raw/`: `reef_monitoring.csv`, `reef_monitoring_2026.csv`, `reef_sites.csv`, `monitoring_gis.gpkg`, the three mangrove files and `references.bib` (also into `reports/`). Run `renv::init()`, write a README and a `.gitignore`, make your **first commit**.
+2. **Clean and add 2026** (A0, Beginner 5). Start from `02_clean_2026.R` (in `R/`). How many rows does the raw 2026 file have? How many are exact duplicates? How many hard coral values are above 100 %? How many rows has the table 2019–2026 after cleaning? **Commit.**
+3. **The report** (A3, A4, A8). Start from `mpa_report_2026.qmd` (in `reports/`), which already renders. Complete every `TO DO`:
+   - a sentence comparing No-take and Fishing zones in 2026, with inline values;
+   - the **map** of the change since 2025 per site (A7: diverging palette, scale bar, CRS in the caption);
+   - the **mangrove** table of the patch of this MPA (A8: Ankaramena → Ankarabe, Nosy Fasika → Ambalakely, Tanjona → Sarondrano), with a cross-reference and the citation of Komiyama et al. (2005).
+4. **Three reports** (A4, A9). Run `render_2026.R` (needs `install.packages("quarto")`): three HTML and three PDF reports in `outputs/reports/`.
+5. **Publish** (A2, A9). Push the project to GitHub or GitLab. Publish the HTML reports (copy them into `docs/` with an `index.html` or a small `index.qmd` that links to them) on GitHub Pages or GitLab Pages, without any personal data. **Commit** with clear messages: your history is part of the evaluation.
+6. **Check reproducibility.** Clone your repository into another folder, `renv::restore()`, run the cleaning and rendering scripts: do you get the same reports?
+:::
+::: fr
+1. **Projet** (A0–A2). Créez un nouveau projet RStudio `mpa-reports-2026` avec l'arborescence de la séance A0. Copiez dans `data/raw/` : `reef_monitoring.csv`, `reef_monitoring_2026.csv`, `reef_sites.csv`, `monitoring_gis.gpkg`, les trois fichiers mangroves et `references.bib` (aussi dans `reports/`). Lancez `renv::init()`, écrivez un README et un `.gitignore`, faites votre **premier commit**.
+2. **Nettoyer et ajouter 2026** (A0, débutant 5). Partez de `02_clean_2026.R` (dans `R/`). Combien de lignes contient le fichier 2026 brut ? Combien sont des doublons exacts ? Combien de valeurs de corail dur dépassent 100 % ? Combien de lignes contient le tableau 2019–2026 après nettoyage ? **Commit.**
+3. **Le rapport** (A3, A4, A8). Partez de `mpa_report_2026.qmd` (dans `reports/`), qui se produit déjà. Complétez chaque `TO DO` :
+   - une phrase comparant les zones No-take et Fishing en 2026, avec des valeurs en ligne ;
+   - la **carte** de la variation depuis 2025 par site (A7 : palette divergente, barre d'échelle, SCR dans la légende) ;
+   - le tableau **mangroves** du massif de cette AMP (A8 : Ankaramena → Ankarabe, Nosy Fasika → Ambalakely, Tanjona → Sarondrano), avec un renvoi et la citation de Komiyama et al. (2005).
+4. **Trois rapports** (A4, A9). Lancez `render_2026.R` (demande `install.packages("quarto")`) : trois rapports HTML et trois PDF dans `outputs/reports/`.
+5. **Publier** (A2, A9). Poussez le projet sur GitHub ou GitLab. Publiez les rapports HTML (copiez-les dans `docs/` avec un `index.html` ou un petit `index.qmd` qui y renvoie) sur GitHub Pages ou GitLab Pages, sans aucune donnée personnelle. **Validez** avec des messages clairs : votre historique fait partie de l'évaluation.
+6. **Vérifier la reproductibilité.** Clonez votre dépôt dans un autre dossier, `renv::restore()`, lancez les scripts de nettoyage et de production : obtenez-vous les mêmes rapports ?
+:::
+:::
+
+`r show_file("templates/advanced/final/02_clean_2026.R")`
+
+::: hint
+::: en
+Order matters: remove the **exact duplicates first** (`distinct()`), then fix the codes and values — otherwise a row typed twice is counted twice in your means. If `bind_rows()` complains, the two tables do not have the same column types: compare `str(old)` and `str(new)` (the date!).
+:::
+::: fr
+L'ordre compte : supprimez **d'abord les doublons exacts** (`distinct()`), puis corrigez les codes et les valeurs — sinon une ligne saisie deux fois serait comptée deux fois dans vos moyennes. Si `bind_rows()` proteste, les deux tableaux n'ont pas les mêmes types de colonnes : comparez `str(old)` et `str(new)` (la date !).
+:::
+:::
+
+::: hint
+::: en
+For the map of change, compute the mean cover per site and year, keep 2025 and 2026, `pivot_wider()`, compute `y2026 - y2025`, and join to `sites` (sites **first**). For the mangrove table, the plot table has a `patch` column: filter the patch of the MPA, then summarise per `status`.
+:::
+::: fr
+Pour la carte de variation, calculez le recouvrement moyen par site et par année, gardez 2025 et 2026, `pivot_wider()`, calculez `y2026 - y2025`, et joignez à `sites` (les sites **en premier**). Pour le tableau mangroves, le tableau des placettes a une colonne `patch` : filtrez le massif de l'AMP, puis résumez par `status`.
+:::
+:::
+
+## [Quiz]{.en}[Quiz]{.fr} {#quiz}
+
+```{r quiz, echo=FALSE}
+quiz("a11", list(
+  q_num("2a. Rows of the raw 2026 file?", "2a. Lignes du fichier 2026 brut ?", f11a, tol = 0),
+  q_num("2b. Exact duplicate rows?", "2b. Lignes en double exact ?", f11b, tol = 0),
+  q_num("2c. Hard coral values above 100 %?", "2c. Valeurs de corail dur supérieures à 100 % ?", f11c, tol = 0),
+  q_num("2d. Rows of the cleaned table 2019–2026?", "2d. Lignes du tableau nettoyé 2019–2026 ?", f11d, tol = 0),
+  q_num("3a. Mean hard coral cover 2026, No-take zones (all MPAs, 1 decimal)?", "3a. Corail dur moyen 2026, zones No-take (toutes AMP, 1 décimale) ?", f11e, tol = 0.06),
+  q_num("3b. Same for Fishing zones (1 decimal)?", "3b. Idem pour les zones Fishing (1 décimale) ?", f11f, tol = 0.06),
+  q_text("3c. Which MPA gained the most cover between 2025 and 2026 (MPA mean)?", "3c. Quelle AMP a le plus gagné en recouvrement entre 2025 et 2026 (moyenne de l'AMP) ?", f11g),
+  q_num("3d. Number of sites whose 2026 cover is higher than before the heatwave (2023)?", "3d. Nombre de sites dont le recouvrement 2026 dépasse celui d'avant la vague de chaleur (2023) ?", f11h, tol = 0),
+  q_num("3e. Mean above-ground biomass of the reference plots of the Sarondrano patch (t/ha)?", "3e. Biomasse aérienne moyenne des placettes de référence du massif de Sarondrano (t/ha) ?", f11i, tol = 1),
+  q_mcq("6. What proves that your project is reproducible?", "6. Qu'est-ce qui prouve que votre projet est reproductible ?",
+        c("The reports look nice", "A fresh clone + renv::restore() + the scripts give the same reports", "The data are on GitHub", "You used Quarto"),
+        c("Les rapports sont jolis", "Un nouveau clone + renv::restore() + les scripts donnent les mêmes rapports", "Les données sont sur GitHub", "Vous avez utilisé Quarto"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="a11"}
+```{r, eval=FALSE}
+# 2: source("R/02_clean_2026.R") prints the checks:
+new <- read.csv(here("data", "raw", "reef_monitoring_2026.csv"))
+nrow(new); sum(duplicated(new)); sum(new$hard_coral > 100)      # 56, 2, 2
+nrow(read.csv(here("data", "derived", "reef_2019_2026.csv")))    # 360 + 54 = 414
+
+# 3a-3d
+library(dplyr); library(tidyr)
+all <- read.csv(here("data", "derived", "reef_2019_2026.csv")) %>%
+  left_join(read.csv(here("data", "raw", "reef_sites.csv")), by = "site_id")
+all %>% filter(year == 2026) %>% group_by(zone) %>% summarise(m = mean(hard_coral))       # 3a, 3b
+all %>% filter(year %in% 2025:2026) %>% group_by(mpa, year) %>% summarise(m = mean(hard_coral)) %>%
+  pivot_wider(names_from = year, values_from = m, names_prefix = "y") %>% mutate(gain = y2026 - y2025)   # 3c
+ch <- all %>% filter(year %in% c(2023, 2026)) %>% group_by(site_id, year) %>%
+  summarise(m = mean(hard_coral), .groups = "drop") %>% pivot_wider(names_from = year, values_from = m, names_prefix = "y")
+sum(ch$y2026 > ch$y2023)                                                                  # 3d
+
+# 3e: mangroves of the patch (code of Session A8)
+trees <- read.csv(here("data", "raw", "mangrove_trees.csv")) %>%
+  mutate(species_code = toupper(species_code),
+         dbh_cm = ifelse(dbh_cm > 30 & height_m < 8, dbh_cm / 10, dbh_cm)) %>%
+  left_join(read.csv(here("data", "raw", "mangrove_species.csv")), by = c("species_code" = "code")) %>%
+  mutate(agb_kg = 0.251 * wood_density * dbh_cm^2.46)
+per_plot <- trees %>% filter(status == "alive") %>% group_by(plot_id) %>%
+  summarise(agb_t_ha = sum(agb_kg) / 1000 / (pi * 100 / 1e4), .groups = "drop") %>%
+  left_join(read.csv(here("data", "raw", "mangrove_plots.csv")), by = "plot_id")
+per_plot %>% filter(patch == "Sarondrano") %>% group_by(status) %>% summarise(agb = mean(agb_t_ha))
+
+# In the report, the map of change (TO DO of fig-map):
+ch <- mine %>% filter(year %in% (params$year - 1):params$year) %>% group_by(site_id, year) %>%
+  summarise(m = mean(hard_coral), .groups = "drop") %>%
+  pivot_wider(names_from = year, values_from = m, names_prefix = "y")
+names(ch)[2:3] <- c("before", "now")
+s_ch <- left_join(filter(sites, mpa == params$mpa), ch, by = "site_id") %>% mutate(change = now - before)
+# ... geom_sf(data = s_ch, aes(fill = change), shape = 21, size = 4) + scale_fill_gradient2(midpoint = 0)
+```
+:::
