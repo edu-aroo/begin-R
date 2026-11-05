@@ -913,7 +913,7 @@
       <p>${t(`has completed the <b>${l.en}</b> level with a score of <b>${c.pct} %</b>.`,
              `a validé le niveau <b>${l.fr}</b> avec un score de <b>${c.pct} %</b>.`)}</p>
       <div class="rc-cert-foot">
-        <div><span class="rc-cert-sign">${CFG.author}</span><br><small>${t("Instructor", "Formatrice")}</small></div>
+        <div><span class="rc-cert-sign">${CFG.author}</span><br><small>${t("Instructor", "Formateur")}</small></div>
         <div><b>${c.date}</b><br><small>${t("Date", "Date")}</small></div>
         <div><code>${c.code}</code><br><small>${t("Verification code", "Code de vérification")}</small></div>
       </div></div>
