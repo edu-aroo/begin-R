@@ -682,6 +682,70 @@ bien organisé.</p>
 #&gt; 1  Ambalaboy       1    69
 #&gt; 2  Ambalaboy       2    47
 #&gt; 3 Tsiandamba       1    30</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>data.frame(...)</code></td>
+<td>builds a table from vectors of the same length</td>
+<td><code>column_name = vector</code>, separated by commas</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>data.frame(...)</code></td>
+<td>construit un tableau à partir de vecteurs de même longueur</td>
+<td><code>nom_colonne = vecteur</code>, séparés par des virgules</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>Here <code>site = c(...)</code> is not an argument of
+<code>data.frame()</code> with a fixed name: <strong>you</strong> choose
+the column names. Writing a long call over several lines, one argument
+per line, makes it easier to read; R waits for the closing
+<code>)</code>.</p>
+</div>
+<div class="fr">
+<p>Ici <code>site = c(...)</code> n’est pas un argument de
+<code>data.frame()</code> au nom imposé : c’est <strong>vous</strong>
+qui choisissez les noms des colonnes. Écrire un appel long sur plusieurs
+lignes, un argument par ligne, le rend plus lisible ; R attend la
+<code>)</code> finale.</p>
+</div>
 <div class="callout tip">
 <div class="en">
 <p><strong>Tidy data rule:</strong> one row = one observation, one
@@ -716,6 +780,113 @@ Enregistrer sous → CSV</em>). Comme votre projet RStudio est ouvert, le
 chemin est simplement relatif au dossier du projet.</p>
 </div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>sg <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/seagrass_quadrats.csv&quot;</span>)   <span class="co"># sg = seagrass</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>read.csv(file, header = TRUE, sep = ",", dec = ".")</code></td>
+<td>reads a CSV file and returns a data frame; store it with
+<code>&lt;-</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>file</code></td>
+<td>path of the file, from the project folder</td>
+<td>text in quotes, with the extension <code>.csv</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>header</code></td>
+<td><code>TRUE</code>: the first line contains the column names</td>
+<td><code>TRUE</code> (default) / <code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td>  <code>sep</code></td>
+<td>the character that separates the values</td>
+<td><code>","</code> (default), <code>";"</code>, <code>"\t"</code>
+(tab)</td>
+</tr>
+<tr class="odd">
+<td>  <code>dec</code></td>
+<td>the decimal separator</td>
+<td><code>"."</code> (default) or <code>","</code></td>
+</tr>
+<tr class="even">
+<td><code>read.csv2(file)</code></td>
+<td>the same with <code>sep = ";"</code> and <code>dec = ","</code>
+already set (French-style CSV)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>read.csv(file, header = TRUE, sep = ",", dec = ".")</code></td>
+<td>lit un fichier CSV et renvoie un data frame ; rangez-le avec
+<code>&lt;-</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>file</code></td>
+<td>chemin du fichier, depuis le dossier du projet</td>
+<td>texte entre guillemets, avec l’extension <code>.csv</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>header</code></td>
+<td><code>TRUE</code> : la première ligne contient les noms des
+colonnes</td>
+<td><code>TRUE</code> (défaut) / <code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td>  <code>sep</code></td>
+<td>le caractère qui sépare les valeurs</td>
+<td><code>","</code> (défaut), <code>";"</code>, <code>"\t"</code>
+(tabulation)</td>
+</tr>
+<tr class="odd">
+<td>  <code>dec</code></td>
+<td>le séparateur décimal</td>
+<td><code>"."</code> (défaut) ou <code>","</code></td>
+</tr>
+<tr class="even">
+<td><code>read.csv2(file)</code></td>
+<td>la même chose avec <code>sep = ";"</code> et <code>dec = ","</code>
+déjà réglés (CSV à la française)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><strong>French-style CSV.</strong> If your Excel uses a comma as
@@ -755,28 +926,111 @@ colonnes, quel type pour chaque colonne, les valeurs semblent-elles
 plausibles ?</p>
 </div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">head</span>(sg)          <span class="co"># first 6 rows (tail() for the last ones)</span></span></code></pre></div>
-<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species seagrass_cover canopy_height_cm
-#&gt; 1 Ambalaboy     Inside       1 2026-03-10     2.8     Thalassia hemprichii             69             18.8
-#&gt; 2 Ambalaboy     Inside       2 2026-03-10     0.9 Syringodium isoetifolium             47             17.0
-#&gt; 3 Ambalaboy     Inside       3 2026-03-10     2.3     Thalassia hemprichii             64             18.8
-#&gt; 4 Ambalaboy     Inside       4 2026-03-10     0.4      Cymodocea serrulata             61             20.0
-#&gt; 5 Ambalaboy     Inside       5 2026-03-10     1.9     Thalassia hemprichii             53             18.1
-#&gt; 6 Ambalaboy     Inside       6 2026-03-10     1.5 Syringodium isoetifolium             27             16.4
-#&gt;   shoot_density
-#&gt; 1           648
-#&gt; 2           464
-#&gt; 3           504
-#&gt; 4           560
-#&gt; 5           484
-#&gt; 6           224</code></pre>
+<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species seagrass_cover
+#&gt; 1 Ambalaboy     Inside       1 2026-03-10     2.8     Thalassia hemprichii             69
+#&gt; 2 Ambalaboy     Inside       2 2026-03-10     0.9 Syringodium isoetifolium             47
+#&gt; 3 Ambalaboy     Inside       3 2026-03-10     2.3     Thalassia hemprichii             64
+#&gt; 4 Ambalaboy     Inside       4 2026-03-10     0.4      Cymodocea serrulata             61
+#&gt; 5 Ambalaboy     Inside       5 2026-03-10     1.9     Thalassia hemprichii             53
+#&gt; 6 Ambalaboy     Inside       6 2026-03-10     1.5 Syringodium isoetifolium             27
+#&gt;   canopy_height_cm shoot_density
+#&gt; 1             18.8           648
+#&gt; 2             17.0           464
+#&gt; 3             18.8           504
+#&gt; 4             20.0           560
+#&gt; 5             18.1           484
+#&gt; 6             16.4           224</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">dim</span>(sg)           <span class="co"># number of rows and columns</span></span></code></pre></div>
 <pre><code>#&gt; [1] 60  9</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">nrow</span>(sg); <span class="fu">ncol</span>(sg)</span></code></pre></div>
 <pre><code>#&gt; [1] 60</code></pre>
 <pre><code>#&gt; [1] 9</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">names</span>(sg)         <span class="co"># column names</span></span></code></pre></div>
-<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;             &quot;depth_m&quot;         
-#&gt; [6] &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;            
+#&gt; [5] &quot;depth_m&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot;
+#&gt; [9] &quot;shoot_density&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>head(x, n = 6)</code>, <code>tail(x, n = 6)</code></td>
+<td>the first / last <code>n</code> <strong>rows</strong> of a data
+frame (Session 2: of a vector)</td>
+<td>a data frame; a whole number</td>
+</tr>
+<tr class="even">
+<td><code>dim(x)</code></td>
+<td>number of rows <strong>and</strong> columns</td>
+<td>a data frame</td>
+</tr>
+<tr class="odd">
+<td><code>nrow(x)</code>, <code>ncol(x)</code></td>
+<td>number of rows / of columns</td>
+<td>a data frame</td>
+</tr>
+<tr class="even">
+<td><code>names(x)</code></td>
+<td>the column names</td>
+<td>a data frame</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>head(x, n = 6)</code>, <code>tail(x, n = 6)</code></td>
+<td>les <code>n</code> premières / dernières <strong>lignes</strong>
+d’un data frame (séance 2 : d’un vecteur)</td>
+<td>un data frame ; un entier</td>
+</tr>
+<tr class="even">
+<td><code>dim(x)</code></td>
+<td>nombre de lignes <strong>et</strong> de colonnes</td>
+<td>un data frame</td>
+</tr>
+<tr class="odd">
+<td><code>nrow(x)</code>, <code>ncol(x)</code></td>
+<td>nombre de lignes / de colonnes</td>
+<td>un data frame</td>
+</tr>
+<tr class="even">
+<td><code>names(x)</code></td>
+<td>les noms des colonnes</td>
+<td>un data frame</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">str</span>(sg)           <span class="co"># STRucture: type and first values of each column</span></span></code></pre></div>
 <pre><code>#&gt; &#39;data.frame&#39;:    60 obs. of  9 variables:
 #&gt;  $ site            : chr  &quot;Ambalaboy&quot; &quot;Ambalaboy&quot; &quot;Ambalaboy&quot; &quot;Ambalaboy&quot; ...
@@ -803,23 +1057,97 @@ distribution de chaque colonne numérique, y compris le nombre de
 <code>NA</code> :</p>
 </div>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">summary</span>(sg)</span></code></pre></div>
-<pre><code>#&gt;         site        mpa_status    quadrat          date       depth_m           species   seagrass_cover 
-#&gt;  Length   :60   Length   :60   Min.   : 1   Length   :60   Min.   :0.400   Length   :60   Min.   :10.00  
-#&gt;  N.unique : 4   N.unique : 2   1st Qu.: 4   N.unique : 4   1st Qu.:0.875   N.unique : 4   1st Qu.:40.75  
-#&gt;  N.blank  : 0   N.blank  : 0   Median : 8   N.blank  : 0   Median :1.600   N.blank  : 0   Median :50.00  
-#&gt;  Min.nchar: 8   Min.nchar: 6   Mean   : 8   Min.nchar:10   Mean   :1.630   Min.nchar:19   Mean   :48.50  
-#&gt;  Max.nchar:10   Max.nchar: 7   3rd Qu.:12   Max.nchar:10   3rd Qu.:2.225   Max.nchar:24   3rd Qu.:59.00  
-#&gt;                                Max.   :15                  Max.   :3.000                  Max.   :74.00  
-#&gt;                                                                                                          
-#&gt;  canopy_height_cm shoot_density  
-#&gt;  Min.   : 6.70    Min.   :168.0  
-#&gt;  1st Qu.:14.07    1st Qu.:375.0  
-#&gt;  Median :17.30    Median :438.0  
-#&gt;  Mean   :16.64    Mean   :425.7  
-#&gt;  3rd Qu.:19.48    3rd Qu.:493.0  
-#&gt;  Max.   :22.80    Max.   :664.0  
-#&gt;  NAs    :2</code></pre>
+<pre><code>#&gt;         site        mpa_status    quadrat          date       depth_m           species  
+#&gt;  Length   :60   Length   :60   Min.   : 1   Length   :60   Min.   :0.400   Length   :60  
+#&gt;  N.unique : 4   N.unique : 2   1st Qu.: 4   N.unique : 4   1st Qu.:0.875   N.unique : 4  
+#&gt;  N.blank  : 0   N.blank  : 0   Median : 8   N.blank  : 0   Median :1.600   N.blank  : 0  
+#&gt;  Min.nchar: 8   Min.nchar: 6   Mean   : 8   Min.nchar:10   Mean   :1.630   Min.nchar:19  
+#&gt;  Max.nchar:10   Max.nchar: 7   3rd Qu.:12   Max.nchar:10   3rd Qu.:2.225   Max.nchar:24  
+#&gt;                                Max.   :15                  Max.   :3.000                 
+#&gt;                                                                                          
+#&gt;  seagrass_cover  canopy_height_cm shoot_density  
+#&gt;  Min.   :10.00   Min.   : 6.70    Min.   :168.0  
+#&gt;  1st Qu.:40.75   1st Qu.:14.07    1st Qu.:375.0  
+#&gt;  Median :50.00   Median :17.30    Median :438.0  
+#&gt;  Mean   :48.50   Mean   :16.64    Mean   :425.7  
+#&gt;  3rd Qu.:59.00   3rd Qu.:19.48    3rd Qu.:493.0  
+#&gt;  Max.   :74.00   Max.   :22.80    Max.   :664.0  
+#&gt;                  NAs    :2</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">View</span>(sg)          <span class="co"># opens the table in a spreadsheet-like tab (capital V!)</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>str(object)</code></td>
+<td><strong>str</strong>ucture: size, then the type and first values of
+each column</td>
+<td>any object</td>
+</tr>
+<tr class="even">
+<td><code>summary(object)</code></td>
+<td>a summary of each column: min, quartiles, mean, max and number of
+<code>NA</code> (numbers); length and type (text)</td>
+<td>a data frame or a vector</td>
+</tr>
+<tr class="odd">
+<td><code>View(x)</code></td>
+<td>opens the table in a tab of RStudio (look only, no editing)</td>
+<td>a data frame</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>str(object)</code></td>
+<td><strong>str</strong>ucture : taille, puis type et premières valeurs
+de chaque colonne</td>
+<td>n’importe quel objet</td>
+</tr>
+<tr class="even">
+<td><code>summary(object)</code></td>
+<td>un résumé de chaque colonne : min, quartiles, moyenne, max et nombre
+de <code>NA</code> (nombres) ; longueur et type (texte)</td>
+<td>un data frame ou un vecteur</td>
+</tr>
+<tr class="odd">
+<td><code>View(x)</code></td>
+<td>ouvre le tableau dans un onglet de RStudio (lecture seule)</td>
+<td>un data frame</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="access" class="section level2">
 <h2><span class="en">Accessing columns, rows and cells</span><span
@@ -844,8 +1172,10 @@ forme de vecteur. RStudio propose les noms de colonnes après avoir tapé
 <pre><code>#&gt; [1] &quot;Ambalaboy&quot;  &quot;Fasimena&quot;   &quot;Tsiandamba&quot; &quot;Belitsaky&quot;</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">table</span>(sg<span class="sc">$</span>species)                 <span class="co"># number of quadrats per dominant species</span></span></code></pre></div>
 <pre><code>#&gt; 
-#&gt;      Cymodocea serrulata Syringodium isoetifolium     Thalassia hemprichii Thalassodendron ciliatum 
-#&gt;                       17                       13                       21                        9</code></pre>
+#&gt;      Cymodocea serrulata Syringodium isoetifolium     Thalassia hemprichii 
+#&gt;                       17                       13                       21 
+#&gt; Thalassodendron ciliatum 
+#&gt;                        9</code></pre>
 <div class="en">
 <p>Square brackets on a data frame take <strong>two</strong> positions:
 <code>[rows, columns]</code>. Leave one empty to mean “all”.</p>
@@ -856,10 +1186,10 @@ positions : <code>[lignes, colonnes]</code>. Laisser vide signifie «
 tout ».</p>
 </div>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>sg[<span class="dv">1</span>, ]                                   <span class="co"># row 1, all columns</span></span></code></pre></div>
-<pre><code>#&gt;        site mpa_status quadrat       date depth_m              species seagrass_cover canopy_height_cm
-#&gt; 1 Ambalaboy     Inside       1 2026-03-10     2.8 Thalassia hemprichii             69             18.8
-#&gt;   shoot_density
-#&gt; 1           648</code></pre>
+<pre><code>#&gt;        site mpa_status quadrat       date depth_m              species seagrass_cover
+#&gt; 1 Ambalaboy     Inside       1 2026-03-10     2.8 Thalassia hemprichii             69
+#&gt;   canopy_height_cm shoot_density
+#&gt; 1             18.8           648</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>sg[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]      <span class="co"># rows 1-3, two columns</span></span></code></pre></div>
 <pre><code>#&gt;        site seagrass_cover
 #&gt; 1 Ambalaboy             69
@@ -867,6 +1197,67 @@ tout ».</p>
 #&gt; 3 Ambalaboy             64</code></pre>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>sg[<span class="dv">5</span>, <span class="st">&quot;species&quot;</span>]                          <span class="co"># one cell</span></span></code></pre></div>
 <pre><code>#&gt; [1] &quot;Thalassia hemprichii&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df$column</code></td>
+<td>one column, as a vector</td>
+<td>a column name, without quotes</td>
+</tr>
+<tr class="even">
+<td><code>df[rows, columns]</code></td>
+<td>a part of the table; empty = all</td>
+<td>positions, conditions, or column names in quotes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df$column</code></td>
+<td>une colonne, sous forme de vecteur</td>
+<td>un nom de colonne, sans guillemets</td>
+</tr>
+<tr class="even">
+<td><code>df[rows, columns]</code></td>
+<td>une partie du tableau ; vide = tout</td>
+<td>des positions, des conditions, ou des noms de colonnes entre
+guillemets</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>To find the row with the highest (or lowest) value, use
 <code>which.max()</code> (or <code>which.min()</code>), which return a
@@ -923,6 +1314,114 @@ m².</p>
 #&gt; 3 Ambalaboy             64       0.64           504            126</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">write.csv</span>(sg, <span class="st">&quot;outputs/seagrass_with_new_columns.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a><span class="co"># row.names = FALSE avoids an extra unnamed column of row numbers</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df$new &lt;- ...</code></td>
+<td>creates the column <code>new</code> (or replaces it if it
+exists)</td>
+<td>a vector of length 1 or <code>nrow(df)</code></td>
+</tr>
+<tr class="even">
+<td><code>write.csv(x, file, row.names = TRUE)</code></td>
+<td>saves a data frame as a CSV file</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>x</code></td>
+<td>the data frame to save</td>
+<td>a data frame</td>
+</tr>
+<tr class="even">
+<td>  <code>file</code></td>
+<td>path and name of the new file (the folder must exist)</td>
+<td>text in quotes</td>
+</tr>
+<tr class="odd">
+<td>  <code>row.names</code></td>
+<td><code>TRUE</code> adds a first column of row numbers;
+<code>FALSE</code> avoids it</td>
+<td><code>TRUE</code> (default) / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df$new &lt;- ...</code></td>
+<td>crée la colonne <code>new</code> (ou la remplace si elle
+existe)</td>
+<td>un vecteur de longueur 1 ou <code>nrow(df)</code></td>
+</tr>
+<tr class="even">
+<td><code>write.csv(x, file, row.names = TRUE)</code></td>
+<td>enregistre un data frame en fichier CSV</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>x</code></td>
+<td>le data frame à enregistrer</td>
+<td>un data frame</td>
+</tr>
+<tr class="even">
+<td>  <code>file</code></td>
+<td>chemin et nom du nouveau fichier (le dossier doit exister)</td>
+<td>texte entre guillemets</td>
+</tr>
+<tr class="odd">
+<td>  <code>row.names</code></td>
+<td><code>TRUE</code> ajoute une première colonne de numéros de lignes ;
+<code>FALSE</code> l’évite</td>
+<td><code>TRUE</code> (défaut) / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>Notice: <code>read.csv()</code> takes the file name as its
+<strong>first</strong> argument, <code>write.csv()</code> takes the
+<strong>data</strong> first and the file name second. Same argument name
+(<code>file</code>), different position — another reason to name
+arguments.</p>
+</div>
+<div class="fr">
+<p>Remarquez : <code>read.csv()</code> prend le nom du fichier en
+<strong>premier</strong> argument, <code>write.csv()</code> prend
+d’abord les <strong>données</strong> puis le nom du fichier. Même nom
+d’argument (<code>file</code>), position différente — encore une raison
+de nommer les arguments.</p>
+</div>
 <div class="callout tip">
 <div class="en">
 <p>This was a first look at <code>$</code>, <code>[row, column]</code>
@@ -1021,7 +1520,7 @@ tableau dans <code>outputs/</code> avec <code>write.csv()</code>.</li>
 </div>
 </div>
 <div id="quiz-s03" class="quiz" data-quiz-id="s03"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMmEuIE51bWJlciBvZiByb3dzPyIsImZyIjoiMmEuIE5vbWJyZSBkZSBsaWduZXMgPyIsImFuc3dlciI6NjAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjJiLiBOdW1iZXIgb2YgY29sdW1ucz8iLCJmciI6IjJiLiBOb21icmUgZGUgY29sb25uZXMgPyIsImFuc3dlciI6OSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiMy4gQ2xhc3Mgb2YgdGhlIGNvbHVtbiBzaXRlPyIsImZyIjoiMy4gQ2xhc3NlIGRlIGxhIGNvbG9ubmUgc2l0ZSA/Iiwib3B0aW9uc19lbiI6WyJudW1lcmljIiwiY2hhcmFjdGVyIiwibG9naWNhbCIsImRhdGEuZnJhbWUiXSwib3B0aW9uc19mciI6WyJudW1lcmljIiwiY2hhcmFjdGVyIiwibG9naWNhbCIsImRhdGEuZnJhbWUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE1lYW4gY2Fub3B5IGhlaWdodCAoY20sIDIgZGVjaW1hbHMpPyIsImZyIjoiNC4gSGF1dGV1ciBkZSBjYW5vcMOpZSBtb3llbm5lIChjbSwgMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoxNi42NCwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjVhLiBNYXhpbXVtIHNob290IGRlbnNpdHkgKHNob290cy9twrIpPyIsImZyIjoiNWEuIERlbnNpdMOpIGRlIHBvdXNzZXMgbWF4aW1hbGUgKHBvdXNzZXMvbcKyKSA/IiwiYW5zd2VyIjo2NjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI1Yi4gU2l0ZSBvZiB0aGUgbWF4aW11bSBzaG9vdCBkZW5zaXR5PyIsImZyIjoiNWIuIFNpdGUgZGUgbGEgZGVuc2l0w6kgbWF4aW1hbGUgPyIsImFuc3dlciI6WyJGYXNpbWVuYSJdfSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI2YS4gU2l0ZSBvZiB0aGUgcXVhZHJhdCB3aXRoIHRoZSBsb3dlc3QgY292ZXI/IiwiZnIiOiI2YS4gU2l0ZSBkdSBxdWFkcmF0IGF1IHJlY291dnJlbWVudCBsZSBwbHVzIGZhaWJsZSA/IiwiYW5zd2VyIjpbIlRzaWFuZGFtYmEiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI2Yi4gUXVhZHJhdCBudW1iZXIgb2YgdGhlIGxvd2VzdCBjb3Zlcj8iLCJmciI6IjZiLiBOdW3DqXJvIGR1IHF1YWRyYXQgYXUgcmVjb3V2cmVtZW50IGxlIHBsdXMgZmFpYmxlID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjcuIE51bWJlciBvZiBxdWFkcmF0cyBkb21pbmF0ZWQgYnkgVGhhbGFzc2lhIGhlbXByaWNoaWk/IiwiZnIiOiI3LiBOb21icmUgZGUgcXVhZHJhdHMgZG9taW7DqXMgcGFyIFRoYWxhc3NpYSBoZW1wcmljaGlpID8iLCJhbnN3ZXIiOjIxLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI4LiBNZWFuIGRlcHRoIChtLCAyIGRlY2ltYWxzKT8iLCJmciI6IjguIFByb2ZvbmRldXIgbW95ZW5uZSAobSwgMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoxLjYzLCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiOS4gU2VhZ3Jhc3MgY292ZXIgaW4gcm93IDIwPyIsImZyIjoiOS4gUmVjb3V2cmVtZW50IGRlIGxhIGxpZ25lIDIwID8iLCJhbnN3ZXIiOjMxLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn1d">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMi4gTnVtYmVyIG9mIHJvd3M/IiwiZnIiOiIyLiBOb21icmUgZGUgbGlnbmVzID8iLCJhbnN3ZXIiOjYwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiIzLiBDbGFzcyBvZiB0aGUgY29sdW1uIHNpdGU/IiwiZnIiOiIzLiBDbGFzc2UgZGUgbGEgY29sb25uZSBzaXRlID8iLCJvcHRpb25zX2VuIjpbIm51bWVyaWMiLCJjaGFyYWN0ZXIiLCJsb2dpY2FsIiwiZGF0YS5mcmFtZSJdLCJvcHRpb25zX2ZyIjpbIm51bWVyaWMiLCJjaGFyYWN0ZXIiLCJsb2dpY2FsIiwiZGF0YS5mcmFtZSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im51bSIsImVuIjoiNC4gTWVhbiBjYW5vcHkgaGVpZ2h0IChjbSwgMiBkZWNpbWFscyk/IiwiZnIiOiI0LiBIYXV0ZXVyIGRlIGNhbm9ww6llIG1veWVubmUgKGNtLCAyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjE2LjY0LCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNWEuIE1heGltdW0gc2hvb3QgZGVuc2l0eSAoc2hvb3RzL23Csik/IiwiZnIiOiI1YS4gRGVuc2l0w6kgZGUgcG91c3NlcyBtYXhpbWFsZSAocG91c3Nlcy9twrIpID8iLCJhbnN3ZXIiOjY2NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjViLiBTaXRlIG9mIHRoZSBtYXhpbXVtIHNob290IGRlbnNpdHk/IiwiZnIiOiI1Yi4gU2l0ZSBkZSBsYSBkZW5zaXTDqSBtYXhpbWFsZSA/IiwiYW5zd2VyIjpbIkZhc2ltZW5hIl19LHsidHlwZSI6InRleHQiLCJlbiI6IjZhLiBTaXRlIG9mIHRoZSBxdWFkcmF0IHdpdGggdGhlIGxvd2VzdCBjb3Zlcj8iLCJmciI6IjZhLiBTaXRlIGR1IHF1YWRyYXQgYXUgcmVjb3V2cmVtZW50IGxlIHBsdXMgZmFpYmxlID8iLCJhbnN3ZXIiOlsiVHNpYW5kYW1iYSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjZiLiBRdWFkcmF0IG51bWJlciBvZiB0aGUgbG93ZXN0IGNvdmVyPyIsImZyIjoiNmIuIE51bcOpcm8gZHUgcXVhZHJhdCBhdSByZWNvdXZyZW1lbnQgbGUgcGx1cyBmYWlibGUgPyIsImFuc3dlciI6NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNy4gTnVtYmVyIG9mIHF1YWRyYXRzIGRvbWluYXRlZCBieSBUaGFsYXNzaWEgaGVtcHJpY2hpaT8iLCJmciI6IjcuIE5vbWJyZSBkZSBxdWFkcmF0cyBkb21pbsOpcyBwYXIgVGhhbGFzc2lhIGhlbXByaWNoaWkgPyIsImFuc3dlciI6MjEsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjguIE1lYW4gZGVwdGggKG0sIDIgZGVjaW1hbHMpPyIsImZyIjoiOC4gUHJvZm9uZGV1ciBtb3llbm5lIChtLCAyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjEuNjMsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI5LiBTZWFncmFzcyBjb3ZlciBpbiByb3cgMjA/IiwiZnIiOiI5LiBSZWNvdXZyZW1lbnQgZGUgbGEgbGlnbmUgMjAgPyIsImFuc3dlciI6MzEsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifV0=">
 
 </div>
 <div class="solution" data-quiz="s03">

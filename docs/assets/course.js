@@ -139,6 +139,13 @@
     }
     st.certificates = st.certificates || {};
     st.alerts = st.alerts || {};
+    // A quiz that changed size keeps the student's percentage: 9/12 -> 7.5/10.
+    Object.keys(st.quizzes || {}).forEach(id => {
+      const q = st.quizzes[id], m = QIDX[id] && QIDX[id].max;
+      if (!q || !m || !q.max || q.max === m) return;
+      const r = v => Math.round(10 * (v || 0) * m / q.max) / 10;
+      q.best = r(q.best); q.score = r(q.score); q.max = m;
+    });
     // never send a student to a page that does not exist
     if (st.lastPage && allPageIds().indexOf(st.lastPage) === -1) { st.lastPage = null; st.lastSection = null; }
     st.version = COURSE_VERSION;

@@ -633,6 +633,94 @@ overlap: essential with 2 000+ points.</p>
 <p><code>alpha</code> (0 = transparent, 1 = opaque) révèle où les points
 se superposent : indispensable avec plus de 2 000 points.</p>
 </div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(..., colour = column)</code></td>
+<td><strong>mapping</strong>: the colour depends on a column, and a
+legend is made</td>
+<td>a column name, without quotes</td>
+</tr>
+<tr class="even">
+<td><code>geom_point(colour = "#1b7f8c")</code></td>
+<td><strong>setting</strong>: one fixed colour for all points,
+<strong>outside</strong> <code>aes()</code>, no legend</td>
+<td>a colour in quotes</td>
+</tr>
+<tr class="odd">
+<td>  <code>alpha</code></td>
+<td>transparency: 0 = invisible, 1 = opaque; useful when points
+overlap</td>
+<td>a number between 0 and 1</td>
+</tr>
+<tr class="even">
+<td>  <code>na.rm</code></td>
+<td><code>TRUE</code> removes the rows with <code>NA</code> silently
+(otherwise a warning)</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(..., colour = column)</code></td>
+<td><strong>association</strong> : la couleur dépend d’une colonne, et
+une légende est créée</td>
+<td>un nom de colonne, sans guillemets</td>
+</tr>
+<tr class="even">
+<td><code>geom_point(colour = "#1b7f8c")</code></td>
+<td><strong>réglage fixe</strong> : une seule couleur pour tous les
+points, <strong>hors de</strong> <code>aes()</code>, pas de légende</td>
+<td>une couleur entre guillemets</td>
+</tr>
+<tr class="odd">
+<td>  <code>alpha</code></td>
+<td>transparence : 0 = invisible, 1 = opaque ; utile quand les points se
+superposent</td>
+<td>un nombre entre 0 et 1</td>
+</tr>
+<tr class="even">
+<td>  <code>na.rm</code></td>
+<td><code>TRUE</code> retire les lignes avec <code>NA</code> sans rien
+dire (sinon un avertissement)</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="axes" class="section level2">
 <h2><span class="en">Axes: limits, breaks, labels</span><span
@@ -658,7 +746,93 @@ arguments principaux : <code>breaks</code> (position des graduations),
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">23</span>, <span class="dv">30</span>, <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">6</span>, <span class="at">by =</span> <span class="fl">0.5</span>),</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="cf">function</span>(v) <span class="fu">paste0</span>(v, <span class="st">&quot; %/d&quot;</span>))   <span class="co"># custom labels</span></span></code></pre></div>
-<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-3-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-4-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>scale_x_continuous(breaks, labels, limits)</code></td>
+<td>controls a numeric x axis (<code>scale_y_continuous()</code> for
+y)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>breaks</code></td>
+<td>positions of the ticks</td>
+<td>a vector of numbers, e.g. <code>seq(23, 30, by = 1)</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>labels</code></td>
+<td>text written at each tick; can be a function that receives the
+values (<code>v</code>) and returns texts</td>
+<td>a text vector, or a function</td>
+</tr>
+<tr class="even">
+<td>  <code>limits</code></td>
+<td>range of the axis — <strong>removes</strong> data outside (see the
+warning below)</td>
+<td><code>c(min, max)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>scale_x_continuous(breaks, labels, limits)</code></td>
+<td>contrôle un axe x numérique (<code>scale_y_continuous()</code> pour
+y)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>breaks</code></td>
+<td>positions des graduations</td>
+<td>un vecteur de nombres, ex. <code>seq(23, 30, by = 1)</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>labels</code></td>
+<td>texte écrit à chaque graduation ; peut être une fonction qui reçoit
+les valeurs (<code>v</code>) et renvoie des textes</td>
+<td>un vecteur de texte, ou une fonction</td>
+</tr>
+<tr class="even">
+<td>  <code>limits</code></td>
+<td>étendue de l’axe — <strong>retire</strong> les données en dehors
+(voir l’avertissement ci-dessous)</td>
+<td><code>c(min, max)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><strong>Zoom or cut?</strong>
@@ -694,7 +868,78 @@ représentent des <em>rapports</em> égaux.</p>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">&quot;#a8d5da&quot;</span>) <span class="sc">+</span></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Turbidity (NTU, log scale)&quot;</span>)</span></code></pre></div>
-<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-4-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-6-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>subset(data, condition)</code></td>
+<td>keeps the rows of one parameter (Beginner Session 5)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>scale_y_log10(breaks)</code></td>
+<td>logarithmic y axis; the labels still show the real values</td>
+<td><code>breaks</code> as above</td>
+</tr>
+<tr class="odd">
+<td><code>coord_cartesian(xlim, ylim)</code></td>
+<td>zooms on a range without removing data</td>
+<td><code>c(min, max)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>subset(data, condition)</code></td>
+<td>garde les lignes d’un paramètre (séance 5 du niveau débutant)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>scale_y_log10(breaks)</code></td>
+<td>axe y logarithmique ; les étiquettes affichent toujours les vraies
+valeurs</td>
+<td><code>breaks</code> comme ci-dessus</td>
+</tr>
+<tr class="odd">
+<td><code>coord_cartesian(xlim, ylim)</code></td>
+<td>zoome sur une étendue sans retirer de données</td>
+<td><code>c(min, max)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="colours" class="section level2">
 <h2><span class="en">Colours that work for everyone</span><span
@@ -782,11 +1027,197 @@ polygones) et <code>colour</code> pour les points et les lignes.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">ggplot</span>(seaweed, <span class="fu">aes</span>(zone, sgr, <span class="at">fill =</span> technique)) <span class="sc">+</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>)</span></code></pre></div>
-<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-5-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-8-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(..., fill = technique)</code></td>
+<td>the <strong>fill</strong> of the boxes depends on the technique
+(<code>fill</code> for areas, <code>colour</code> for outlines, points,
+lines)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>scale_fill_brewer(palette)</code></td>
+<td>fill colours taken from a ready-made <strong>ColorBrewer</strong>
+palette, for categories</td>
+<td>a palette name: <code>"Dark2"</code>, <code>"Set2"</code>,
+<code>"Paired"</code>… (<code>RColorBrewer::display.brewer.all()</code>
+shows them)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(..., fill = technique)</code></td>
+<td>le <strong>remplissage</strong> des boîtes dépend de la technique
+(<code>fill</code> pour les surfaces, <code>colour</code> pour les
+contours, points, lignes)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>scale_fill_brewer(palette)</code></td>
+<td>couleurs de remplissage prises dans une palette
+<strong>ColorBrewer</strong> toute faite, pour des catégories</td>
+<td>un nom de palette : <code>"Dark2"</code>, <code>"Set2"</code>,
+<code>"Paired"</code>… (<code>RColorBrewer::display.brewer.all()</code>
+les montre)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">ggplot</span>(seaweed, <span class="fu">aes</span>(planting_date, sgr, <span class="at">colour =</span> temp_mean)) <span class="sc">+</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">1.2</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>, <span class="at">name =</span> <span class="st">&quot;Temp. (°C)&quot;</span>)</span></code></pre></div>
-<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-6-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-10-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>scale_colour_viridis_c(option, direction, name)</code></td>
+<td>colour scale for a <strong>c</strong>ontinuous variable (the final
+<code>_c</code>), readable by colour-blind people and in grey;
+<code>scale_fill_viridis_c()</code> is the same for <code>fill</code>;
+<code>_d</code> for categories</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>option</code></td>
+<td>which of the viridis palettes</td>
+<td><code>"viridis"</code> (default), <code>"magma"</code>,
+<code>"plasma"</code>, <code>"inferno"</code>, <code>"cividis"</code>,
+<code>"mako"</code>, <code>"rocket"</code>, <code>"turbo"</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>direction</code></td>
+<td><code>1</code>: low values dark, high values light; <code>-1</code>
+reverses the order</td>
+<td><code>1</code> (default) or <code>-1</code></td>
+</tr>
+<tr class="even">
+<td>  <code>name</code></td>
+<td>title of the legend; <code>"\n"</code> inside it starts a new
+line</td>
+<td>text</td>
+</tr>
+<tr class="odd">
+<td>  <code>size</code> (in <code>geom_point()</code>)</td>
+<td>size of the points (default 1.5)</td>
+<td>a number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>scale_colour_viridis_c(option, direction, name)</code></td>
+<td>échelle de couleur pour une variable <strong>c</strong>ontinue (le
+<code>_c</code> final), lisible par les daltoniens et en gris ;
+<code>scale_fill_viridis_c()</code> est la même pour <code>fill</code> ;
+<code>_d</code> pour des catégories</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>option</code></td>
+<td>laquelle des palettes viridis</td>
+<td><code>"viridis"</code> (défaut), <code>"magma"</code>,
+<code>"plasma"</code>, <code>"inferno"</code>, <code>"cividis"</code>,
+<code>"mako"</code>, <code>"rocket"</code>, <code>"turbo"</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>direction</code></td>
+<td><code>1</code> : valeurs basses foncées, hautes claires ;
+<code>-1</code> inverse l’ordre</td>
+<td><code>1</code> (défaut) ou <code>-1</code></td>
+</tr>
+<tr class="even">
+<td>  <code>name</code></td>
+<td>titre de la légende ; <code>"\n"</code> à l’intérieur passe à la
+ligne</td>
+<td>texte</td>
+</tr>
+<tr class="odd">
+<td>  <code>size</code> (in <code>geom_point()</code>)</td>
+<td>taille des points (1,5 par défaut)</td>
+<td>un nombre</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>The legend title can be given in two places: <code>name =</code> in
+the <code>scale_*()</code> function, or
+<code>labs(colour = "...")</code>. Both do the same; if you use both,
+the last one added wins.</p>
+</div>
+<div class="fr">
+<p>Le titre de la légende peut être donné à deux endroits :
+<code>name =</code> dans la fonction <code>scale_*()</code>, ou
+<code>labs(colour = "...")</code>. Les deux font la même chose ; si vous
+utilisez les deux, le dernier ajouté l’emporte.</p>
+</div>
 <div class="en">
 <p>To force the order of categories (e.g. North → South), set factor
 levels before plotting:
@@ -827,7 +1258,133 @@ général ; <code>theme()</code> ajuste n’importe quel détail.</p>
 <span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>,</span>
 <span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>        <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
-<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-7-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-12-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>outlier.alpha</code> (in <code>geom_boxplot()</code>)</td>
+<td>transparency of the outlier points only</td>
+<td>0 to 1</td>
+</tr>
+<tr class="even">
+<td><code>scale_fill_manual(values)</code></td>
+<td>your own colours, one per category, by name</td>
+<td>a named vector <code>c("long-line" = "#1b7f8c", ...)</code></td>
+</tr>
+<tr class="odd">
+<td><code>labs(title, subtitle, caption, x, y, fill)</code></td>
+<td>all the texts of the plot: title, subtitle under it, caption at the
+bottom right (source of the data), axis titles, legend title (named
+after its aesthetic: <code>fill</code>, <code>colour</code>…)</td>
+<td>text; <code>NULL</code> = none</td>
+</tr>
+<tr class="even">
+<td><code>theme_minimal(base_size)</code></td>
+<td>a ready-made look; <code>base_size</code> = size of all texts, in
+points</td>
+<td>a number (default 11)</td>
+</tr>
+<tr class="odd">
+<td><code>theme(...)</code></td>
+<td>changes <strong>one element</strong> at a time (table below); add it
+<strong>after</strong> <code>theme_minimal()</code>, otherwise it is
+overwritten</td>
+<td><code>element = value</code></td>
+</tr>
+<tr class="even">
+<td><code>element_text(size, face, angle, hjust)</code></td>
+<td>settings of a text element: size; <code>face</code> =
+<code>"bold"</code>, <code>"italic"</code>; angle in degrees;
+<code>hjust</code> = horizontal alignment (0 left, 0.5 centre, 1
+right)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>element_blank()</code></td>
+<td>removes the element</td>
+<td>nothing</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>outlier.alpha</code> (in <code>geom_boxplot()</code>)</td>
+<td>transparence des points extrêmes seulement</td>
+<td>0 à 1</td>
+</tr>
+<tr class="even">
+<td><code>scale_fill_manual(values)</code></td>
+<td>vos propres couleurs, une par catégorie, par nom</td>
+<td>un vecteur nommé <code>c("long-line" = "#1b7f8c", ...)</code></td>
+</tr>
+<tr class="odd">
+<td><code>labs(title, subtitle, caption, x, y, fill)</code></td>
+<td>tous les textes du graphique : titre, sous-titre, note en bas à
+droite (source des données), titres des axes, titre de légende (nommé
+d’après son esthétique : <code>fill</code>, <code>colour</code>…)</td>
+<td>texte ; <code>NULL</code> = aucun</td>
+</tr>
+<tr class="even">
+<td><code>theme_minimal(base_size)</code></td>
+<td>un aspect prêt à l’emploi ; <code>base_size</code> = taille de tous
+les textes, en points</td>
+<td>un nombre (11 par défaut)</td>
+</tr>
+<tr class="odd">
+<td><code>theme(...)</code></td>
+<td>modifie <strong>un élément</strong> à la fois (tableau ci-dessous) ;
+ajoutez-le <strong>après</strong> <code>theme_minimal()</code>, sinon il
+est écrasé</td>
+<td><code>élément = valeur</code></td>
+</tr>
+<tr class="even">
+<td><code>element_text(size, face, angle, hjust)</code></td>
+<td>réglages d’un élément de texte : taille ; <code>face</code> =
+<code>"bold"</code>, <code>"italic"</code> ; angle en degrés ;
+<code>hjust</code> = alignement horizontal (0 gauche, 0,5 centre, 1
+droite)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>element_blank()</code></td>
+<td>supprime l’élément</td>
+<td>rien</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <table>
 <colgroup>
@@ -937,7 +1494,82 @@ y grâce à <code>scales = "free_y"</code>.</p>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> parameter, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">&quot;Water quality at 10 stations, 2023–2025&quot;</span>) <span class="sc">+</span></span>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-8-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-14-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>facet_wrap(~ var, scales, ncol)</code></td>
+<td>one panel per value of <code>var</code>, placed in rows</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>scales</code></td>
+<td><code>"fixed"</code> (default): same axes everywhere;
+<code>"free_y"</code>: each panel has its own y axis (needed when the
+units differ); <code>"free_x"</code>, <code>"free"</code></td>
+<td>text</td>
+</tr>
+<tr class="odd">
+<td>  <code>ncol</code>, <code>nrow</code></td>
+<td>number of columns / rows of panels</td>
+<td>a whole number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>facet_wrap(~ var, scales, ncol)</code></td>
+<td>un panneau par valeur de <code>var</code>, placés en lignes</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>scales</code></td>
+<td><code>"fixed"</code> (défaut) : mêmes axes partout ;
+<code>"free_y"</code> : chaque panneau a son propre axe y (nécessaire
+quand les unités diffèrent) ; <code>"free_x"</code>,
+<code>"free"</code></td>
+<td>texte</td>
+</tr>
+<tr class="odd">
+<td>  <code>ncol</code>, <code>nrow</code></td>
+<td>nombre de colonnes / de lignes de panneaux</td>
+<td>un nombre entier</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p><code>facet_grid(rows ~ cols)</code> crosses two variables:</p>
 </div>
@@ -949,7 +1581,60 @@ y grâce à <code>scales = "free_y"</code>.</p>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.25</span>, <span class="at">fill =</span> <span class="st">&quot;#4a7d3a&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">facet_grid</span>(season <span class="sc">~</span> technique) <span class="sc">+</span></span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;SGR (% per day)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Number of lines&quot;</span>)</span></code></pre></div>
-<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-9-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i07-ggplot-1_files/figure-html/unnamed-chunk-16-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>facet_grid(rows ~ cols)</code></td>
+<td>a grid of panels: one row per value of the variable on the left of
+<code>~</code>, one column per value of the variable on the right</td>
+<td>a formula</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>facet_grid(rows ~ cols)</code></td>
+<td>une grille de panneaux : une ligne par valeur de la variable à
+gauche de <code>~</code>, une colonne par valeur de la variable à
+droite</td>
+<td>une formule</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="application" class="section level2">
 <h2><span class="en">Application work &amp; quiz</span><span
@@ -1019,7 +1704,7 @@ donne un tableau zone × technique.</p>
 </div>
 </div>
 <div id="quiz-i07" class="quiz" data-quiz-id="i07"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTGluZXMgd2l0aG91dCBTR1I/IiwiZnIiOiIxLiBMaWduZXMgc2FucyBTR1IgPyIsImFuc3dlciI6MjU4LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBNZWRpYW4gU0dSLCBsb25nLWxpbmUsIFNvdXRoICgzIGRlY2ltYWxzKT8iLCJmciI6IjIuIE3DqWRpYW5lIGR1IFNHUiwgbG9uZy1saW5lLCBTb3V0aCAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjozLjc2LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIzLiBTdGF0aW9uIHdpdGggdGhlIGhpZ2hlc3QgbWVkaWFuIHR1cmJpZGl0eT8iLCJmciI6IjMuIFN0YXRpb24gw6AgbGEgdHVyYmlkaXTDqSBtw6lkaWFuZSBsYSBwbHVzIMOpbGV2w6llID8iLCJhbnN3ZXIiOlsiV1EwOCJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE51bWJlciBvZiBwYW5lbHM/IiwiZnIiOiI0LiBOb21icmUgZGUgcGFubmVhdXggPyIsImFuc3dlciI6NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gTGluZXMgd2l0aCBTR1IgaW4gdGhlIHdldCDDlyBvZmYtYm90dG9tIHBhbmVsPyIsImZyIjoiNS4gTGlnbmVzIGF2ZWMgU0dSIGRhbnMgbGUgcGFubmVhdSB3ZXQgw5cgb2ZmLWJvdHRvbSA/IiwiYW5zd2VyIjo2MjMsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIExpbmVzIHdpdGggU0dSIGFib3ZlIDU/IiwiZnIiOiI2LiBMaWduZXMgYXZlYyB1biBTR1Igc3Vww6lyaWV1ciDDoCA1ID8iLCJhbnN3ZXIiOjE4LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBXaGljaCBjb2RlIHpvb21zIG9uIHkgYmV0d2VlbiAyIGFuZCA1IFdJVEhPVVQgcmVtb3ZpbmcgZGF0YT8iLCJmciI6IjcuIFF1ZWwgY29kZSB6b29tZSBzdXIgeSBlbnRyZSAyIGV0IDUgU0FOUyByZXRpcmVyIGRlIGRvbm7DqWVzID8iLCJvcHRpb25zX2VuIjpbInNjYWxlX3lfY29udGludW91cyhsaW1pdHMgPSBjKDIsIDUpKSIsInlsaW0oMiwgNSkiLCJjb29yZF9jYXJ0ZXNpYW4oeWxpbSA9IGMoMiwgNSkpIiwiZmlsdGVyKHNnciA+IDIsIHNnciA8IDUpIl0sIm9wdGlvbnNfZnIiOlsic2NhbGVfeV9jb250aW51b3VzKGxpbWl0cyA9IGMoMiwgNSkpIiwieWxpbSgyLCA1KSIsImNvb3JkX2NhcnRlc2lhbih5bGltID0gYygyLCA1KSkiLCJmaWx0ZXIoc2dyID4gMiwgc2dyIDwgNSkiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIGdncGxvdChkLCBhZXMoeCwgeSwgY29sb3VyID0gXCJibHVlXCIpKSArIGdlb21fcG9pbnQoKSBnaXZlczoiLCJmciI6IjguIGdncGxvdChkLCBhZXMoeCwgeSwgY29sb3VyID0gXCJibHVlXCIpKSArIGdlb21fcG9pbnQoKSBkb25uZSA6Iiwib3B0aW9uc19lbiI6WyJibHVlIHBvaW50cyIsInJlZCBwb2ludHMgd2l0aCBhIGxlZ2VuZCBcImJsdWVcIiIsImFuIGVycm9yIiwiYmxhY2sgcG9pbnRzIl0sIm9wdGlvbnNfZnIiOlsiZGVzIHBvaW50cyBibGV1cyIsImRlcyBwb2ludHMgcm91Z2VzIGF2ZWMgdW5lIGzDqWdlbmRlIMKrIGJsdWUgwrsiLCJ1bmUgZXJyZXVyIiwiZGVzIHBvaW50cyBub2lycyJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOS4gV2hpY2ggcGFsZXR0ZSBzdWl0cyBhIGNvbnRpbnVvdXMgdmFyaWFibGUgYW5kIGNvbG91ci1ibGluZCByZWFkZXJzPyIsImZyIjoiOS4gUXVlbGxlIHBhbGV0dGUgY29udmllbnQgw6AgdW5lIHZhcmlhYmxlIGNvbnRpbnVlIGV0IGF1eCBkYWx0b25pZW5zID8iLCJvcHRpb25zX2VuIjpbInNjYWxlX2NvbG91cl92aXJpZGlzX2MoKSIsInNjYWxlX2NvbG91cl9icmV3ZXIocGFsZXR0ZSA9IFwiU2V0MVwiKSIsInJlZCB0byBncmVlbiBncmFkaWVudCIsInJhaW5ib3coKSJdLCJvcHRpb25zX2ZyIjpbInNjYWxlX2NvbG91cl92aXJpZGlzX2MoKSIsInNjYWxlX2NvbG91cl9icmV3ZXIocGFsZXR0ZSA9IFwiU2V0MVwiKSIsInJlZCB0byBncmVlbiBncmFkaWVudCIsInJhaW5ib3coKSJdLCJhbnN3ZXIiOjB9XQ==">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTGluZXMgd2l0aG91dCBTR1I/IiwiZnIiOiIxLiBMaWduZXMgc2FucyBTR1IgPyIsImFuc3dlciI6MjU4LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBNZWRpYW4gU0dSLCBsb25nLWxpbmUsIFNvdXRoICgzIGRlY2ltYWxzKT8iLCJmciI6IjIuIE3DqWRpYW5lIGR1IFNHUiwgbG9uZy1saW5lLCBTb3V0aCAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjozLjc2LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIzLiBTdGF0aW9uIHdpdGggdGhlIGhpZ2hlc3QgbWVkaWFuIHR1cmJpZGl0eT8iLCJmciI6IjMuIFN0YXRpb24gw6AgbGEgdHVyYmlkaXTDqSBtw6lkaWFuZSBsYSBwbHVzIMOpbGV2w6llID8iLCJhbnN3ZXIiOlsiV1EwOCJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE51bWJlciBvZiBwYW5lbHM/IiwiZnIiOiI0LiBOb21icmUgZGUgcGFubmVhdXggPyIsImFuc3dlciI6NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gTGluZXMgd2l0aCBTR1IgaW4gdGhlIHdldCDDlyBvZmYtYm90dG9tIHBhbmVsPyIsImZyIjoiNS4gTGlnbmVzIGF2ZWMgU0dSIGRhbnMgbGUgcGFubmVhdSB3ZXQgw5cgb2ZmLWJvdHRvbSA/IiwiYW5zd2VyIjo2MjMsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIExpbmVzIHdpdGggU0dSIGFib3ZlIDU/IiwiZnIiOiI2LiBMaWduZXMgYXZlYyB1biBTR1Igc3Vww6lyaWV1ciDDoCA1ID8iLCJhbnN3ZXIiOjE4LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBXaGljaCBjb2RlIHpvb21zIG9uIHkgYmV0d2VlbiAyIGFuZCA1IFdJVEhPVVQgcmVtb3ZpbmcgZGF0YT8iLCJmciI6IjcuIFF1ZWwgY29kZSB6b29tZSBzdXIgeSBlbnRyZSAyIGV0IDUgU0FOUyByZXRpcmVyIGRlIGRvbm7DqWVzID8iLCJvcHRpb25zX2VuIjpbInNjYWxlX3lfY29udGludW91cyhsaW1pdHMgPSBjKDIsIDUpKSIsInlsaW0oMiwgNSkiLCJjb29yZF9jYXJ0ZXNpYW4oeWxpbSA9IGMoMiwgNSkpIiwiZmlsdGVyKHNnciA+IDIsIHNnciA8IDUpIl0sIm9wdGlvbnNfZnIiOlsic2NhbGVfeV9jb250aW51b3VzKGxpbWl0cyA9IGMoMiwgNSkpIiwieWxpbSgyLCA1KSIsImNvb3JkX2NhcnRlc2lhbih5bGltID0gYygyLCA1KSkiLCJmaWx0ZXIoc2dyID4gMiwgc2dyIDwgNSkiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIGdncGxvdChkLCBhZXMoeCwgeSwgY29sb3VyID0gXCJibHVlXCIpKSArIGdlb21fcG9pbnQoKSBnaXZlczoiLCJmciI6IjguIGdncGxvdChkLCBhZXMoeCwgeSwgY29sb3VyID0gXCJibHVlXCIpKSArIGdlb21fcG9pbnQoKSBkb25uZSA6Iiwib3B0aW9uc19lbiI6WyJibHVlIHBvaW50cyIsInJlZCBwb2ludHMgd2l0aCBhIGxlZ2VuZCBcImJsdWVcIiIsImFuIGVycm9yIiwiYmxhY2sgcG9pbnRzIl0sIm9wdGlvbnNfZnIiOlsiZGVzIHBvaW50cyBibGV1cyIsImRlcyBwb2ludHMgcm91Z2VzIGF2ZWMgdW5lIGzDqWdlbmRlIMKrIGJsdWUgwrsiLCJ1bmUgZXJyZXVyIiwiZGVzIHBvaW50cyBub2lycyJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOS4gV2hpY2ggcGFsZXR0ZSBzdWl0cyBhIGNvbnRpbnVvdXMgdmFyaWFibGUgYW5kIGNvbG91ci1ibGluZCByZWFkZXJzPyIsImZyIjoiOS4gUXVlbGxlIHBhbGV0dGUgY29udmllbnQgw6AgdW5lIHZhcmlhYmxlIGNvbnRpbnVlIGV0IGF1eCBkYWx0b25pZW5zID8iLCJvcHRpb25zX2VuIjpbInNjYWxlX2NvbG91cl92aXJpZGlzX2MoKSIsInNjYWxlX2NvbG91cl9icmV3ZXIocGFsZXR0ZSA9IFwiU2V0MVwiKSIsInJlZCB0byBncmVlbiBncmFkaWVudCIsInJhaW5ib3coKSJdLCJvcHRpb25zX2ZyIjpbInNjYWxlX2NvbG91cl92aXJpZGlzX2MoKSIsInNjYWxlX2NvbG91cl9icmV3ZXIocGFsZXR0ZSA9IFwiU2V0MVwiKSIsInJlZCB0byBncmVlbiBncmFkaWVudCIsInJhaW5ib3coKSJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiMTAuIEluIHNjYWxlX2ZpbGxfdmlyaWRpc19jKG9wdGlvbiA9IFwibWFrb1wiLCBkaXJlY3Rpb24gPSAtMSksIHdoYXQgZG9lcyBkaXJlY3Rpb24gPSAtMSBkbz8iLCJmciI6IjEwLiBEYW5zIHNjYWxlX2ZpbGxfdmlyaWRpc19jKG9wdGlvbiA9IFwibWFrb1wiLCBkaXJlY3Rpb24gPSAtMSksIHF1ZSBmYWl0IGRpcmVjdGlvbiA9IC0xID8iLCJvcHRpb25zX2VuIjpbIlJldmVyc2VzIHRoZSBjb2xvdXIgb3JkZXIgKGhpZ2ggdmFsdWVzIGRhcmspIiwiUmVtb3ZlcyB0aGUgbGVnZW5kIiwiVXNlcyBhIGxvZyBzY2FsZSIsIkNob29zZXMgdGhlIHBhbGV0dGUgbWFrbyJdLCJvcHRpb25zX2ZyIjpbIkludmVyc2UgbCdvcmRyZSBkZXMgY291bGV1cnMgKHZhbGV1cnMgaGF1dGVzIGZvbmPDqWVzKSIsIlN1cHByaW1lIGxhIGzDqWdlbmRlIiwiVXRpbGlzZSB1bmUgw6ljaGVsbGUgbG9nIiwiQ2hvaXNpdCBsYSBwYWxldHRlIG1ha28iXSwiYW5zd2VyIjowfV0=">
 
 </div>
 <div class="solution" data-quiz="i07">

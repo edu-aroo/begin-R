@@ -605,6 +605,80 @@ correctement les dates (<code>"02/03/2024"</code> passerait avant
 <pre><code>#&gt; [1] 19730</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>d <span class="sc">+</span> <span class="dv">45</span>                           <span class="co"># 45 days later</span></span></code></pre></div>
 <pre><code>#&gt; [1] &quot;2024-02-22&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>as.Date(x)</code></td>
+<td>converts text to a <strong>Date</strong>; without
+<code>format</code>, the text must be <code>yyyy-mm-dd</code> (or
+<code>yyyy/mm/dd</code>)</td>
+<td>text</td>
+</tr>
+<tr class="even">
+<td><code>as.numeric(d)</code></td>
+<td>the number behind a date: days since 1 January 1970</td>
+<td>a Date</td>
+</tr>
+<tr class="odd">
+<td><code>d + 45</code></td>
+<td>adding a number to a Date adds <strong>days</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>as.Date(x)</code></td>
+<td>convertit du texte en <strong>Date</strong> ; sans
+<code>format</code>, le texte doit être <code>aaaa-mm-jj</code> (ou
+<code>aaaa/mm/jj</code>)</td>
+<td>texte</td>
+</tr>
+<tr class="even">
+<td><code>as.numeric(d)</code></td>
+<td>le nombre derrière une date : jours depuis le 1er janvier 1970</td>
+<td>une Date</td>
+</tr>
+<tr class="odd">
+<td><code>d + 45</code></td>
+<td>ajouter un nombre à une Date ajoute des <strong>jours</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="format" class="section level2">
 <h2><span class="en">Text to date: as.Date() and format</span><span
@@ -708,6 +782,60 @@ comment il est écrit avec des <strong>codes de format</strong> :</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>lines<span class="sc">$</span>harvest_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(lines<span class="sc">$</span>harvest_date, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>lines<span class="sc">$</span>harvest_date[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
 <pre><code>#&gt; [1] &quot;2024-02-22&quot; &quot;2024-02-20&quot; &quot;2024-02-26&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>format</code> (argument of <code>as.Date()</code>)</td>
+<td>describes how the text is written, with the codes of the table
+above; separators (<code>/</code>, <code>-</code>, space) are written as
+they appear</td>
+<td>text in quotes, e.g. <code>"%d/%m/%Y"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>format</code> (argument of <code>as.Date()</code>)</td>
+<td>décrit comment le texte est écrit, avec les codes du tableau
+ci-dessus ; les séparateurs (<code>/</code>, <code>-</code>, espace)
+s’écrivent tels qu’ils apparaissent</td>
+<td>texte entre guillemets, ex. <code>"%d/%m/%Y"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p>If the format does not match the text, <code>as.Date()</code> returns
@@ -750,6 +878,112 @@ class="fr">Durées, parties d’une date, séquences</span></h2>
 <pre><code>#&gt; Time difference of 104.2857 weeks</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2024-01-01&quot;</span>), <span class="at">by =</span> <span class="st">&quot;month&quot;</span>, <span class="at">length.out =</span> <span class="dv">4</span>)   <span class="co"># monthly sampling calendar</span></span></code></pre></div>
 <pre><code>#&gt; [1] &quot;2024-01-01&quot; &quot;2024-02-01&quot; &quot;2024-03-01&quot; &quot;2024-04-01&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>date2 - date1</code></td>
+<td>difference between two dates, in days (an object of class
+<em>difftime</em>); <code>as.numeric()</code> turns it into a plain
+number</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>format(x, format)</code></td>
+<td>the <strong>opposite</strong> of <code>as.Date()</code>: writes a
+date as text, with the same <code>%</code> codes. Here the format is
+given by position (2nd argument)</td>
+<td>a Date; a text such as <code>"%Y"</code> or
+<code>"%d %B %Y"</code></td>
+</tr>
+<tr class="odd">
+<td><code>as.integer(x)</code></td>
+<td>converts to whole numbers (<code>"03"</code> → 3)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>difftime(time1, time2, units)</code></td>
+<td>difference <code>time1 − time2</code> in the unit you choose</td>
+<td>two dates; <code>units</code> = <code>"days"</code>,
+<code>"weeks"</code>, <code>"hours"</code>…</td>
+</tr>
+<tr class="odd">
+<td><code>seq(from, by, length.out)</code></td>
+<td>reminder (Beginner Session 2); with dates, <code>by</code> can be a
+word</td>
+<td><code>by = "day"</code>, <code>"week"</code>, <code>"month"</code>,
+<code>"year"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>date2 - date1</code></td>
+<td>différence entre deux dates, en jours (un objet de classe
+<em>difftime</em>) ; <code>as.numeric()</code> le transforme en simple
+nombre</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>format(x, format)</code></td>
+<td>l’<strong>inverse</strong> de <code>as.Date()</code> : écrit une
+date en texte, avec les mêmes codes <code>%</code>. Ici le format est
+donné par position (2e argument)</td>
+<td>une Date ; un texte comme <code>"%Y"</code> ou
+<code>"%d %B %Y"</code></td>
+</tr>
+<tr class="odd">
+<td><code>as.integer(x)</code></td>
+<td>convertit en nombres entiers (<code>"03"</code> → 3)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>difftime(time1, time2, units)</code></td>
+<td>différence <code>time1 − time2</code> dans l’unité choisie</td>
+<td>deux dates ; <code>units</code> = <code>"days"</code>,
+<code>"weeks"</code>, <code>"hours"</code>…</td>
+</tr>
+<tr class="odd">
+<td><code>seq(from, by, length.out)</code></td>
+<td>rappel (séance 2 du niveau débutant) ; avec des dates,
+<code>by</code> peut être un mot</td>
+<td><code>by = "day"</code>, <code>"week"</code>, <code>"month"</code>,
+<code>"year"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="seasons" class="section level2">
 <h2><span class="en">Seasons and periods</span><span class="fr">Saisons
@@ -776,6 +1010,73 @@ saison est une catégorie construite à partir du numéro du mois avec
 #&gt;        dry wet
 #&gt;   2024 692 696
 #&gt;   2025 652 535</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ifelse(test, yes, no)</code></td>
+<td>for each element: the <code>yes</code> value where <code>test</code>
+is <code>TRUE</code>, the <code>no</code> value where it is
+<code>FALSE</code> (and <code>NA</code> where <code>test</code> is
+<code>NA</code>)</td>
+<td>a condition; two values or vectors</td>
+</tr>
+<tr class="even">
+<td><code>%in%</code></td>
+<td>reminder (Beginner Session 4): is the month in the list?</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ifelse(test, yes, no)</code></td>
+<td>pour chaque élément : la valeur <code>yes</code> là où
+<code>test</code> vaut <code>TRUE</code>, la valeur <code>no</code> là
+où il vaut <code>FALSE</code> (et <code>NA</code> là où
+<code>test</code> vaut <code>NA</code>)</td>
+<td>une condition ; deux valeurs ou vecteurs</td>
+</tr>
+<tr class="even">
+<td><code>%in%</code></td>
+<td>rappel (séance 4 du niveau débutant) : le mois est-il dans la liste
+?</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p><code>cut()</code> groups dates into periods, for example
 quarters:</p>
@@ -786,7 +1087,62 @@ trimestres :</p>
 </div>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">cut</span>(lines<span class="sc">$</span>planting_date, <span class="at">breaks =</span> <span class="st">&quot;quarter&quot;</span>))</span></code></pre></div>
 <pre><code>#&gt; [1] 2024-01-01 2024-01-01 2024-01-01 2024-01-01 2024-01-01 2024-01-01
-#&gt; Levels: 2024-01-01 2024-04-01 2024-07-01 2024-10-01 2025-01-01 2025-04-01 2025-07-01 2025-10-01</code></pre>
+#&gt; 8 Levels: 2024-01-01 2024-04-01 2024-07-01 2024-10-01 2025-01-01 2025-04-01 ... 2025-10-01</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cut(x, breaks)</code></td>
+<td>cuts values into classes and returns a factor; with dates,
+<code>breaks</code> can be a period</td>
+<td><code>breaks = "week"</code>, <code>"month"</code>,
+<code>"quarter"</code> (3 months), <code>"year"</code>, or limits</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cut(x, breaks)</code></td>
+<td>découpe des valeurs en classes et renvoie un facteur ; avec des
+dates, <code>breaks</code> peut être une période</td>
+<td><code>breaks = "week"</code>, <code>"month"</code>,
+<code>"quarter"</code> (trimestre), <code>"year"</code>, ou des
+limites</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="lubridate" class="section level2">
 <h2><span class="en">The same with lubridate</span><span class="fr">La
@@ -831,6 +1187,102 @@ nombres.</p>
 <pre><code>#&gt; [1] &quot;2024-02-22&quot; &quot;2024-04-03&quot; &quot;2024-06-05&quot;</code></pre>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="fu">floor_date</span>(<span class="fu">ymd</span>(<span class="st">&quot;2024-02-22&quot;</span>), <span class="st">&quot;month&quot;</span>)          <span class="co"># first day of the month</span></span></code></pre></div>
 <pre><code>#&gt; [1] &quot;2024-02-01&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dmy()</code>, <code>ymd()</code>, <code>mdy()</code></td>
+<td>text to Date; the <strong>name</strong> gives the order:
+<strong>d</strong>ay-<strong>m</strong>onth-<strong>y</strong>ear,
+<strong>y</strong>ear-<strong>m</strong>onth-<strong>d</strong>ay…
+Separators do not matter</td>
+<td>text</td>
+</tr>
+<tr class="even">
+<td><code>month(x)</code>, <code>year(x)</code>, <code>day(x)</code>,
+<code>wday(x)</code></td>
+<td>parts of a date, as numbers (<code>wday</code> = day of the
+week)</td>
+<td>a Date</td>
+</tr>
+<tr class="odd">
+<td><code>days(n)</code>, <code>weeks(n)</code>,
+<code>months(n)</code></td>
+<td>a duration to add to a date</td>
+<td>a whole number</td>
+</tr>
+<tr class="even">
+<td><code>floor_date(x, unit)</code></td>
+<td>rounds a date <strong>down</strong> to the start of the period</td>
+<td>a Date; <code>"week"</code>, <code>"month"</code>,
+<code>"year"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dmy()</code>, <code>ymd()</code>, <code>mdy()</code></td>
+<td>texte vers Date ; le <strong>nom</strong> donne l’ordre :
+<strong>d</strong>ay-<strong>m</strong>onth-<strong>y</strong>ear
+(jour-mois-année),
+<strong>y</strong>ear-<strong>m</strong>onth-<strong>d</strong>ay… Les
+séparateurs n’ont pas d’importance</td>
+<td>texte</td>
+</tr>
+<tr class="even">
+<td><code>month(x)</code>, <code>year(x)</code>, <code>day(x)</code>,
+<code>wday(x)</code></td>
+<td>parties d’une date, en nombres (<code>wday</code> = jour de la
+semaine)</td>
+<td>une Date</td>
+</tr>
+<tr class="odd">
+<td><code>days(n)</code>, <code>weeks(n)</code>,
+<code>months(n)</code></td>
+<td>une durée à ajouter à une date</td>
+<td>un nombre entier</td>
+</tr>
+<tr class="even">
+<td><code>floor_date(x, unit)</code></td>
+<td>arrondit une date <strong>vers le bas</strong> au début de la
+période</td>
+<td>une Date ; <code>"week"</code>, <code>"month"</code>,
+<code>"year"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="growth" class="section level2">
 <h2><span class="en">Growth rate of each line</span><span
@@ -863,6 +1315,66 @@ Des valeurs de 3 à 5 %/jour sont habituelles pour
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(lines<span class="sc">$</span>sgr, lines<span class="sc">$</span>season, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>#&gt;  dry  wet 
 #&gt; 3.56 3.30</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>log(x)</code></td>
+<td>natural logarithm (Beginner Session 1)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>tapply(X, INDEX, FUN, ...)</code></td>
+<td>statistic per group (Beginner Session 6)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>log(x)</code></td>
+<td>logarithme népérien (séance 1 du niveau débutant)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>tapply(X, INDEX, FUN, ...)</code></td>
+<td>statistique par groupe (séance 6 du niveau débutant)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><a class="btn-dl" href="data/checkpoints/I1_lines_dated.csv" download>⇩
 checkpoint: I1_lines_dated.csv</a></p>
 </div>

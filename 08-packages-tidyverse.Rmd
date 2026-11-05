@@ -74,6 +74,11 @@ library(dplyr)        # at the top of EVERY script that uses it
 library(ggplot2)
 ```
 
+```{r, echo=FALSE}
+fa(c("`install.packages(pkgs)`", "downloads packages from CRAN and installs them on the computer", "télécharge des packages depuis le CRAN et les installe sur l'ordinateur", "package names **in quotes**, in `c()` for several", "noms de packages **entre guillemets**, dans `c()` pour plusieurs"),
+   c("`library(package)`", "loads an installed package for this R session", "charge un package installé pour cette session R", "**one** package name, with or without quotes", "**un** nom de package, avec ou sans guillemets"))
+```
+
 ### [Base R is also made of packages]{.en}[R de base est aussi fait de packages]{.fr}
 
 ::: en
@@ -85,6 +90,11 @@ R lui-même est un ensemble de packages installés et chargés automatiquement :
 
 ```{r, eval=FALSE}
 dplyr::filter(sg, seagrass_cover > 80)   # works even without library(dplyr)
+```
+
+```{r, echo=FALSE}
+fa(c("`update.packages()`", "updates all the installed packages that have a newer version", "met à jour tous les packages installés qui ont une version plus récente", "nothing (it asks for each package)", "rien (il demande pour chaque package)"),
+   c("`citation(package)`", "the reference to cite for a package (without argument: R itself)", "la référence à citer pour un package (sans argument : R lui-même)", "a package name in quotes", "un nom de package entre guillemets"))
 ```
 
 ### [The tidyverse family]{.en}[La famille tidyverse]{.fr}
@@ -123,6 +133,10 @@ Le pipe envoie le résultat de gauche dans le **premier argument** de la fonctio
 ```{r}
 round(mean(sg$seagrass_cover), 1)            # nested: read from the inside out
 sg$seagrass_cover |> mean() |> round(1)      # piped: read from left to right
+```
+
+```{r, echo=FALSE}
+fa(c("`x |> f(y)`", "the same as `f(x, y)`: the result on the left becomes the **first argument** of the function on the right; the other arguments (`1` for `round()`) are written as usual", "la même chose que `f(x, y)` : le résultat de gauche devient le **premier argument** de la fonction de droite ; les autres arguments (`1` pour `round()`) s'écrivent comme d'habitude", "", ""))
 ```
 
 ::: en
@@ -168,6 +182,10 @@ sg |>
 :::
 ::::
 
+```{r, echo=FALSE}
+fa(c("`filter(.data, ...)`", "keeps the rows where **all** the conditions are `TRUE`; rows where a condition is `NA` are dropped", "garde les lignes où **toutes** les conditions valent `TRUE` ; les lignes où une condition vaut `NA` sont retirées", "a data frame, then conditions separated by commas (= AND)", "un data frame, puis des conditions séparées par des virgules (= ET)"))
+```
+
 ### [`select()` — keep, drop or reorder columns]{.en}[`select()` — garder, retirer ou réordonner des colonnes]{.fr}
 
 :::: compare
@@ -190,6 +208,10 @@ names(select(sg, -date, -depth_m))
 ```
 :::
 ::::
+
+```{r, echo=FALSE}
+fa(c("`select(.data, ...)`", "keeps columns, in the order given", "garde des colonnes, dans l'ordre donné", "column names **without** quotes, positions (`1:4`), ranges (`site:date`); `-name` drops a column", "noms de colonnes **sans** guillemets, positions (`1:4`), plages (`site:date`) ; `-nom` retire une colonne"))
+```
 
 ### [`mutate()` — add or change columns]{.en}[`mutate()` — ajouter ou modifier des colonnes]{.fr}
 
@@ -227,6 +249,10 @@ Note: inside one `mutate()` you can use a column created just before (`cover_pro
 Remarque : dans un même `mutate()`, on peut utiliser une colonne créée juste avant (`cover_prop`).
 :::
 
+```{r, echo=FALSE}
+fa(c("`mutate(.data, name = calculation, ...)`", "adds a column `name` (or replaces it if it exists); several columns separated by commas", "ajoute une colonne `name` (ou la remplace si elle existe) ; plusieurs colonnes séparées par des virgules", "`new_column = expression` using column names", "`nouvelle_colonne = expression` avec des noms de colonnes"))
+```
+
 ### [`arrange()` — sort rows]{.en}[`arrange()` — trier les lignes]{.fr}
 
 :::: compare
@@ -249,6 +275,18 @@ sg |> arrange(desc(seagrass_cover)) |>
 ```
 :::
 ::::
+
+```{r, echo=FALSE}
+fa(c("`arrange(.data, ...)`", "sorts the rows, by the first column then the next ones in case of ties (increasing)", "trie les lignes, selon la première colonne puis les suivantes en cas d'égalité (croissant)", "column names", "noms de colonnes"),
+   c("`desc(x)`", "inside `arrange()`: decreasing order for this column", "dans `arrange()` : ordre décroissant pour cette colonne", "a column name", "un nom de colonne"))
+```
+
+::: en
+To sort from largest to smallest: `order(x, decreasing = TRUE)` in base R (Session 5), `arrange(desc(x))` in dplyr. Same result, different words.
+:::
+::: fr
+Pour trier du plus grand au plus petit : `order(x, decreasing = TRUE)` en R de base (séance 5), `arrange(desc(x))` dans dplyr. Même résultat, mots différents.
+:::
 
 ### [`rename()` — rename columns]{.en}[`rename()` — renommer des colonnes]{.fr}
 
@@ -274,6 +312,10 @@ names(sg2)[7]
 ```
 :::
 ::::
+
+```{r, echo=FALSE}
+fa(c("`rename(.data, new = old)`", "renames columns; the **new** name is on the left of `=`", "renomme des colonnes ; le **nouveau** nom est à gauche du `=`", "`new_name = old_name`, without quotes", "`nouveau_nom = ancien_nom`, sans guillemets"))
+```
 
 ### [`group_by()` + `summarise()` — statistics per group]{.en}[`group_by()` + `summarise()` — statistiques par groupe]{.fr}
 
@@ -309,6 +351,13 @@ sg |>
 `n()` compte les lignes de chaque groupe. Ajoutez `.groups = "drop"` dans `summarise()` quand vous groupez par deux variables, pour retirer le groupement ensuite.
 :::
 
+```{r, echo=FALSE}
+fa(c("`group_by(.data, ...)`", "marks the groups; nothing visible changes, but the next verbs work **per group**", "marque les groupes ; rien de visible ne change, mais les verbes suivants travaillent **par groupe**", "one or several column names", "un ou plusieurs noms de colonnes"),
+   c("`summarise(.data, name = function(column), ...)`", "one row per group, one column per statistic", "une ligne par groupe, une colonne par statistique", "`new_column = mean(col)`, `sd(col)`, `sum(col)`…", "`nouvelle_colonne = mean(col)`, `sd(col)`, `sum(col)`…"),
+   c("`n()`", "number of rows in the group; only inside `summarise()` or `mutate()`", "nombre de lignes du groupe ; seulement dans `summarise()` ou `mutate()`", "nothing", "rien"),
+   c("&nbsp;&nbsp;`.groups`", "what remains grouped after `summarise()`: `\"drop\"` = nothing", "ce qui reste groupé après `summarise()` : `\"drop\"` = rien", "`\"drop\"`, `\"keep\"`, `\"drop_last\"` (default)", "`\"drop\"`, `\"keep\"`, `\"drop_last\"` (défaut)"))
+```
+
 ### [`count()` — number of rows per category]{.en}[`count()` — nombre de lignes par catégorie]{.fr}
 
 :::: compare
@@ -327,6 +376,10 @@ count(sg, species)
 ```
 :::
 ::::
+
+```{r, echo=FALSE}
+fa(c("`count(x, ...)`", "number of rows for each value (or combination) of the columns, as a data frame with a column `n`", "nombre de lignes pour chaque valeur (ou combinaison) des colonnes, sous forme de data frame avec une colonne `n`", "a data frame, then column names", "un data frame, puis des noms de colonnes"))
+```
 
 ### [A whole analysis, both ways]{.en}[Une analyse complète, des deux façons]{.fr}
 
@@ -441,6 +494,16 @@ In ggplot2 the legend is created **automatically** from `colour = mpa_status`; i
 Dans ggplot2 la légende est créée **automatiquement** à partir de `colour = mpa_status` ; en R de base on la construit soi-même avec `legend()`.
 :::
 
+```{r, echo=FALSE}
+fa(c("`ggplot(data, mapping)`", "starts a plot: the data frame and the aesthetics; draws nothing until a geom is added", "commence un graphique : le data frame et l'esthétique ; ne dessine rien tant qu'aucune géométrie n'est ajoutée", "a data frame, then `aes(...)`", "un data frame, puis `aes(...)`"),
+   c("`aes(x, y, colour, fill, ...)`", "links **columns** to visual properties: position x and y, colour, fill… The first two can be given by position (`aes(seagrass_cover, canopy_height_cm)`)", "relie des **colonnes** à des propriétés visuelles : position x et y, couleur, remplissage… Les deux premiers peuvent être donnés par position (`aes(seagrass_cover, canopy_height_cm)`)", "column names without quotes", "noms de colonnes sans guillemets"),
+   c("`+`", "adds a layer; it must be at the **end** of the line, not at the start of the next", "ajoute une couche ; il doit être en **fin** de ligne, pas au début de la suivante", "", ""),
+   c("`geom_point(size, na.rm)`", "draws points; `size` = their size (default 1.5); `na.rm = TRUE` removes the rows with `NA` without a warning", "dessine des points ; `size` = leur taille (1,5 par défaut) ; `na.rm = TRUE` retire les lignes avec `NA` sans avertissement", "a number; `TRUE`/`FALSE`", "un nombre ; `TRUE`/`FALSE`"),
+   c("`scale_colour_manual(values)`", "chooses the colours used for `colour =` yourself", "choisit soi-même les couleurs utilisées pour `colour =`", "a named vector `c(group = \"colour\")`", "un vecteur nommé `c(groupe = \"couleur\")`"),
+   c("`labs(x, y, title, colour, ...)`", "the labels: axis titles, plot title, legend title (named after the aesthetic)", "les étiquettes : titres des axes, titre du graphique, titre de la légende (nommé d'après l'esthétique)", "text; `NULL` = no label", "texte ; `NULL` = pas d'étiquette"),
+   c("`theme_classic()`, `theme_bw()`, `theme_minimal()`", "ready-made overall looks (background, grid, frame)", "aspects généraux prêts à l'emploi (fond, grille, cadre)", "optional `base_size` = text size", "`base_size` facultatif = taille du texte"))
+```
+
 ### [Histogram]{.en}[Histogramme]{.fr}
 
 :::: compare
@@ -468,6 +531,13 @@ ggplot(sg, aes(seagrass_cover)) +
 :::
 ::::
 
+```{r, echo=FALSE}
+fa(c("`geom_histogram(binwidth, boundary, fill, colour)`", "histogram of the `x` column", "histogramme de la colonne `x`", "", ""),
+   c("&nbsp;&nbsp;`binwidth`", "width of each class (here 10 %)", "largeur de chaque classe (ici 10 %)", "a number", "un nombre"),
+   c("&nbsp;&nbsp;`boundary`", "where a class starts: `0` gives classes 0–10, 10–20…", "où commence une classe : `0` donne les classes 0–10, 10–20…", "a number", "un nombre"),
+   c("&nbsp;&nbsp;`fill`, `colour`", "fill colour of the bars / colour of their outline", "couleur de remplissage des barres / couleur de leur contour", "a colour", "une couleur"))
+```
+
 ### [Boxplot]{.en}[Boxplot]{.fr}
 
 :::: compare
@@ -491,6 +561,10 @@ ggplot(sg, aes(site, seagrass_cover)) +
 ```
 :::
 ::::
+
+```{r, echo=FALSE}
+fa(c("`geom_boxplot(fill)`", "one box per value of `x`", "une boîte par valeur de `x`", "a colour for `fill`", "une couleur pour `fill`"))
+```
 
 ### [Means ± SD]{.en}[Moyennes ± ET]{.fr}
 
@@ -525,6 +599,11 @@ ggplot(summ, aes(site, m)) +
 ```
 :::
 ::::
+
+```{r, echo=FALSE}
+fa(c("`geom_col()`", "bars whose height is the `y` value (already computed, here the mean)", "barres dont la hauteur est la valeur `y` (déjà calculée, ici la moyenne)", "", ""),
+   c("`geom_errorbar(aes(ymin, ymax), width)`", "error bars from `ymin` to `ymax`; `width` = width of the horizontal ends, as a fraction of the space of one bar", "barres d'erreur de `ymin` à `ymax` ; `width` = largeur des extrémités horizontales, en fraction de l'espace d'une barre", "calculations on columns; a number", "calculs sur des colonnes ; un nombre"))
+```
 
 ### [One panel per group]{.en}[Un panneau par groupe]{.fr}
 
@@ -563,6 +642,11 @@ ggplot(sg, aes(seagrass_cover)) +
 `split(x, groupe)` découpe un vecteur en un morceau par groupe (une liste). Avec beaucoup de groupes, `facet_wrap()` évite beaucoup de saisie.
 :::
 
+```{r, echo=FALSE}
+fa(c("`split(x, f)`", "cuts `x` into a list with one piece per group of `f`; `by_site$Ambalaboy` takes one piece", "découpe `x` en une liste avec un morceau par groupe de `f` ; `by_site$Ambalaboy` prend un morceau", "a vector and a grouping vector", "un vecteur et un vecteur de groupes"),
+   c("`facet_wrap(~ group)`", "one panel per value of `group`, same axes everywhere", "un panneau par valeur de `group`, mêmes axes partout", "`~` followed by a column name", "`~` suivi d'un nom de colonne"))
+```
+
 ### [Saving a figure]{.en}[Enregistrer une figure]{.fr}
 
 :::: compare
@@ -587,6 +671,45 @@ ggsave("outputs/fig.png", p, width = 16,
 ```
 :::
 ::::
+
+```{r, echo=FALSE}
+fa(c("`ggsave(filename, plot, width, height, units, dpi)`", "saves a ggplot in a file; the format follows the extension (`.png`, `.pdf`, `.jpg`); no `dev.off()` needed", "enregistre un ggplot dans un fichier ; le format suit l'extension (`.png`, `.pdf`, `.jpg`) ; pas besoin de `dev.off()`", "", ""),
+   c("&nbsp;&nbsp;`plot`", "the plot to save (by default the last one displayed)", "le graphique à enregistrer (par défaut le dernier affiché)", "a ggplot object", "un objet ggplot"),
+   c("&nbsp;&nbsp;`dpi`", "resolution — called `res` in `png()`", "résolution — appelée `res` dans `png()`", "a number, usually 300", "un nombre, en général 300"))
+```
+
+### [Same idea, different argument names]{.en}[Même idée, noms d'arguments différents]{.fr}
+
+::: en
+Base R graphics and ggplot2 were written by different people, so the same setting has different names. Keep this table at hand:
+
+| Setting | Base R (Session 7) | ggplot2 |
+|---|---|---|
+| fill colour | `col` | `fill` |
+| outline / point / line colour | `border` (bars), `col` (points) | `colour` (or `color`) |
+| point size | `cex` | `size` |
+| point shape | `pch` | `shape` |
+| title, axis titles | `main`, `xlab`, `ylab` (arguments of the plot) | `labs(title, x, y)` (a separate layer) |
+| width of histogram classes | `breaks` (the limits) | `binwidth` (the width) |
+| axis limits | `xlim`, `ylim` | `xlim()`, `ylim()` or `coord_cartesian()` |
+| resolution of a saved file | `res` in `png()` | `dpi` in `ggsave()` |
+| missing values | (removed automatically) | `na.rm = TRUE` (to avoid the warning) |
+:::
+::: fr
+Les graphiques de R de base et ggplot2 ont été écrits par des personnes différentes : le même réglage porte donc des noms différents. Gardez ce tableau sous la main :
+
+| Réglage | R de base (séance 7) | ggplot2 |
+|---|---|---|
+| couleur de remplissage | `col` | `fill` |
+| couleur de contour / de point / de ligne | `border` (barres), `col` (points) | `colour` (ou `color`) |
+| taille des points | `cex` | `size` |
+| forme des points | `pch` | `shape` |
+| titre, titres des axes | `main`, `xlab`, `ylab` (arguments du graphique) | `labs(title, x, y)` (une couche à part) |
+| largeur des classes d'histogramme | `breaks` (les limites) | `binwidth` (la largeur) |
+| limites des axes | `xlim`, `ylim` | `xlim()`, `ylim()` ou `coord_cartesian()` |
+| résolution d'un fichier enregistré | `res` dans `png()` | `dpi` dans `ggsave()` |
+| valeurs manquantes | (retirées automatiquement) | `na.rm = TRUE` (pour éviter l'avertissement) |
+:::
 
 ## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
 

@@ -654,8 +654,170 @@ zone) ; les rasters décrivent des <em>surfaces continues</em>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">global</span>(bathy, <span class="fu">c</span>(<span class="st">&quot;mean&quot;</span>, <span class="st">&quot;min&quot;</span>, <span class="st">&quot;max&quot;</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># summary of all cells</span></span></code></pre></div>
 <pre><code>#&gt;            mean min  max
 #&gt; depth_m 23.4882   1 61.4</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>rast(x)</code></td>
+<td>reads a raster file (<code>.tif</code>) as a
+<strong>SpatRaster</strong></td>
+<td>path of the file</td>
+</tr>
+<tr class="even">
+<td><code>res(x)</code>, <code>ncell(x)</code></td>
+<td>cell size (x, y) in the unit of the CRS; number of cells</td>
+<td>a SpatRaster</td>
+</tr>
+<tr class="odd">
+<td><code>global(x, fun, na.rm)</code></td>
+<td>a statistic computed over <strong>all</strong> the cells of each
+layer</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>fun</code></td>
+<td>the statistic(s), <strong>as text</strong></td>
+<td><code>"mean"</code>, <code>"min"</code>, <code>"max"</code>,
+<code>"sum"</code>, <code>"sd"</code>, or <code>c(...)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>rast(x)</code></td>
+<td>lit un fichier raster (<code>.tif</code>) sous forme de
+<strong>SpatRaster</strong></td>
+<td>chemin du fichier</td>
+</tr>
+<tr class="even">
+<td><code>res(x)</code>, <code>ncell(x)</code></td>
+<td>taille des cellules (x, y) dans l’unité du SCR ; nombre de
+cellules</td>
+<td>un SpatRaster</td>
+</tr>
+<tr class="odd">
+<td><code>global(x, fun, na.rm)</code></td>
+<td>une statistique calculée sur <strong>toutes</strong> les cellules de
+chaque couche</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>fun</code></td>
+<td>la ou les statistiques, <strong>en texte</strong></td>
+<td><code>"mean"</code>, <code>"min"</code>, <code>"max"</code>,
+<code>"sum"</code>, <code>"sd"</code>, ou <code>c(...)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">plot</span>(bathy, <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;Blues&quot;</span>)), <span class="at">main =</span> <span class="st">&quot;Depth (m)&quot;</span>)</span></code></pre></div>
-<p><img src="a06-terra_files/figure-html/unnamed-chunk-2-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="a06-terra_files/figure-html/unnamed-chunk-3-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>plot(raster, col, main)</code></td>
+<td>draws the raster with a colour legend</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>hcl.colors(n, palette, rev)</code></td>
+<td><code>n</code> colours from a named palette (<code>"Blues"</code>,
+<code>"YlOrRd"</code>, <code>"viridis"</code>…); <code>rev = TRUE</code>
+reverses them</td>
+<td>a number; a palette name</td>
+</tr>
+<tr class="odd">
+<td><code>rev(x)</code></td>
+<td>reverses a vector (Beginner Session 2): here deep = dark blue</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>plot(raster, col, main)</code></td>
+<td>dessine le raster avec une légende de couleurs</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>hcl.colors(n, palette, rev)</code></td>
+<td><code>n</code> couleurs d’une palette nommée (<code>"Blues"</code>,
+<code>"YlOrRd"</code>, <code>"viridis"</code>…) ;
+<code>rev = TRUE</code> les inverse</td>
+<td>un nombre ; un nom de palette</td>
+</tr>
+<tr class="odd">
+<td><code>rev(x)</code></td>
+<td>inverse un vecteur (séance 2 du niveau débutant) : ici profond =
+bleu foncé</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p><code>terra</code> (Hijmans) replaces the older <code>raster</code>
 package: same ideas, much faster, and functions with similar names. Its
@@ -679,7 +841,93 @@ raster à 12 couches</span></h2>
 <pre><code>#&gt; [1] &quot;sst_2024_01&quot; &quot;sst_2024_02&quot; &quot;sst_2024_03&quot;</code></pre>
 <pre><code>#&gt; [1] &quot;2024-01-15&quot; &quot;2024-02-15&quot; &quot;2024-03-15&quot;</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">plot</span>(sst[[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]], <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;YlOrRd&quot;</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>), <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="fl">31.5</span>), <span class="at">nc =</span> <span class="dv">3</span>)</span></code></pre></div>
-<p><img src="a06-terra_files/figure-html/unnamed-chunk-3-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="a06-terra_files/figure-html/unnamed-chunk-5-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>nlyr(x)</code>, <code>names(x)</code>,
+<code>time(x)</code></td>
+<td>number of layers, their names, their dates</td>
+<td>a SpatRaster</td>
+</tr>
+<tr class="even">
+<td><code>sst[[1:6]]</code></td>
+<td>layers 1 to 6 (double brackets select layers, as columns of a
+list)</td>
+<td>positions or names</td>
+</tr>
+<tr class="odd">
+<td>  <code>range</code> (in <code>plot()</code>)</td>
+<td>the same colour scale for every map, so that they can be
+compared</td>
+<td><code>c(min, max)</code></td>
+</tr>
+<tr class="even">
+<td>  <code>nc</code></td>
+<td>number of columns of maps</td>
+<td>a whole number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>nlyr(x)</code>, <code>names(x)</code>,
+<code>time(x)</code></td>
+<td>nombre de couches, leurs noms, leurs dates</td>
+<td>un SpatRaster</td>
+</tr>
+<tr class="even">
+<td><code>sst[[1:6]]</code></td>
+<td>couches 1 à 6 (les doubles crochets sélectionnent des couches, comme
+les éléments d’une liste)</td>
+<td>positions ou noms</td>
+</tr>
+<tr class="odd">
+<td>  <code>range</code> (in <code>plot()</code>)</td>
+<td>la même échelle de couleurs pour toutes les cartes, pour pouvoir les
+comparer</td>
+<td><code>c(min, max)</code></td>
+</tr>
+<tr class="even">
+<td>  <code>nc</code></td>
+<td>nombre de colonnes de cartes</td>
+<td>un nombre entier</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># one value per layer: the monthly mean over the whole bay</span></span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">month =</span> <span class="fu">format</span>(<span class="fu">time</span>(sst), <span class="st">&quot;%b&quot;</span>),</span>
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>           <span class="at">sst_mean =</span> <span class="fu">round</span>(<span class="fu">global</span>(sst, <span class="st">&quot;mean&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>mean, <span class="dv">2</span>))</span></code></pre></div>
@@ -717,7 +965,88 @@ fonctions qui résument les couches (<code>max</code>, <code>mean</code>,
 <span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
 <span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="fu">plot</span>(sst_max, <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;YlOrRd&quot;</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>), <span class="at">main =</span> <span class="st">&quot;Max SST 2024 (°C)&quot;</span>)</span>
 <span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="fu">plot</span>(hot_mons, <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">4</span>, <span class="st">&quot;Reds&quot;</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>), <span class="at">main =</span> <span class="st">&quot;Months &gt; 29.5 °C&quot;</span>)</span></code></pre></div>
-<p><img src="a06-terra_files/figure-html/unnamed-chunk-5-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="a06-terra_files/figure-html/unnamed-chunk-8-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>max(sst)</code>, <code>mean(sst)</code>,
+<code>sum(sst &gt; 29.5)</code></td>
+<td>on a multi-layer raster: computed <strong>cell by cell across the
+layers</strong>, the result is one layer</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>par(mfrow = c(1, 2))</code></td>
+<td>two plots side by side (Beginner Session 7)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>max(sst)</code>, <code>mean(sst)</code>,
+<code>sum(sst &gt; 29.5)</code></td>
+<td>sur un raster à plusieurs couches : calculé <strong>cellule par
+cellule à travers les couches</strong>, le résultat est une seule
+couche</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>par(mfrow = c(1, 2))</code></td>
+<td>deux graphiques côte à côte (séance 7 du niveau débutant)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>Watch the difference: <code>global(sst, "max")</code> gives one
+number <strong>per layer</strong> (over all cells),
+<code>max(sst)</code> gives one value <strong>per cell</strong> (over
+all layers). And <code>global()</code> wants the function name in
+quotes, while <code>extract(..., fun = mean)</code> below wants it
+without quotes.</p>
+</div>
+<div class="fr">
+<p>Attention à la différence : <code>global(sst, "max")</code> donne un
+nombre <strong>par couche</strong> (sur toutes les cellules),
+<code>max(sst)</code> donne une valeur <strong>par cellule</strong> (sur
+toutes les couches). Et <code>global()</code> veut le nom de la fonction
+entre guillemets, alors que <code>extract(..., fun = mean)</code> plus
+bas le veut sans guillemets.</p>
+</div>
 <div class="callout tip">
 <div class="en">
 <p>The idea of <strong>counting the time above a threshold</strong> is
@@ -746,7 +1075,101 @@ class="fr">Découper, masquer, reprojeter, reclasser</span></h2>
 <span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>b_mask <span class="ot">&lt;-</span> <span class="fu">mask</span>(b_crop, tanjona)                         <span class="co"># cells outside the MPA become NA</span></span>
 <span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="fu">plot</span>(b_mask, <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;Blues&quot;</span>)), <span class="at">main =</span> <span class="st">&quot;Depth inside Tanjona MPA (m)&quot;</span>)</span>
 <span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="fu">lines</span>(tanjona)</span></code></pre></div>
-<p><img src="a06-terra_files/figure-html/unnamed-chunk-6-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="a06-terra_files/figure-html/unnamed-chunk-10-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>crs(x)</code></td>
+<td>the CRS of a raster (terra’s version of <code>st_crs()</code>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>vect(x)</code></td>
+<td>converts an sf layer into a terra <strong>SpatVector</strong></td>
+<td>an sf object or a file path</td>
+</tr>
+<tr class="odd">
+<td><code>crop(x, y)</code></td>
+<td>cuts the raster to the <strong>rectangle</strong> around
+<code>y</code></td>
+<td>a raster; a SpatVector or extent</td>
+</tr>
+<tr class="even">
+<td><code>mask(x, mask)</code></td>
+<td>sets to <code>NA</code> the cells <strong>outside</strong> the
+polygons</td>
+<td>a raster; a SpatVector</td>
+</tr>
+<tr class="odd">
+<td><code>lines(v)</code></td>
+<td>adds the outline of the polygons on the map</td>
+<td>a SpatVector</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>crs(x)</code></td>
+<td>le SCR d’un raster (la version terra de <code>st_crs()</code>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>vect(x)</code></td>
+<td>convertit une couche sf en <strong>SpatVector</strong> de terra</td>
+<td>un objet sf ou un chemin de fichier</td>
+</tr>
+<tr class="odd">
+<td><code>crop(x, y)</code></td>
+<td>découpe le raster au <strong>rectangle</strong> autour de
+<code>y</code></td>
+<td>un raster ; un SpatVector ou une étendue</td>
+</tr>
+<tr class="even">
+<td><code>mask(x, mask)</code></td>
+<td>met à <code>NA</code> les cellules <strong>hors</strong> des
+polygones</td>
+<td>un raster ; un SpatVector</td>
+</tr>
+<tr class="odd">
+<td><code>lines(v)</code></td>
+<td>ajoute le contour des polygones sur la carte</td>
+<td>un SpatVector</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># Reproject to UTM 38S (metres). &quot;bilinear&quot; for continuous values, &quot;near&quot; for classes.</span></span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>bathy_utm <span class="ot">&lt;-</span> <span class="fu">project</span>(bathy, <span class="st">&quot;EPSG:32738&quot;</span>, <span class="at">method =</span> <span class="st">&quot;bilinear&quot;</span>)</span>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="fu">res</span>(bathy_utm)                     <span class="co"># now in metres</span></span></code></pre></div>
@@ -759,6 +1182,126 @@ class="fr">Découper, masquer, reprojeter, reclasser</span></h2>
 #&gt; 1     1     1  7323
 #&gt; 2     1     2 17768
 #&gt; 3     1     3 12465</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>project(x, y, method)</code></td>
+<td>reprojects a raster (terra’s <code>st_transform()</code>); cells are
+re-computed</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>y</code></td>
+<td>the new CRS</td>
+<td><code>"EPSG:32738"</code> or another raster</td>
+</tr>
+<tr class="odd">
+<td>  <code>method</code></td>
+<td>how new cell values are computed: <code>"bilinear"</code> (average
+of neighbours, continuous values), <code>"near"</code> (nearest cell,
+classes)</td>
+<td>text</td>
+</tr>
+<tr class="even">
+<td><code>matrix(data, ncol, byrow)</code></td>
+<td>a table of numbers; <code>byrow = TRUE</code> fills it row by row:
+each row = from, to, new value</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>classify(x, rcl)</code></td>
+<td>replaces value ranges by class numbers</td>
+<td>a raster; the matrix <code>rcl</code></td>
+</tr>
+<tr class="even">
+<td><code>freq(x)</code></td>
+<td>number of cells per value</td>
+<td>a raster</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>project(x, y, method)</code></td>
+<td>reprojette un raster (le <code>st_transform()</code> de terra) ; les
+cellules sont recalculées</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>y</code></td>
+<td>le nouveau SCR</td>
+<td><code>"EPSG:32738"</code> ou un autre raster</td>
+</tr>
+<tr class="odd">
+<td>  <code>method</code></td>
+<td>comment les nouvelles valeurs sont calculées :
+<code>"bilinear"</code> (moyenne des voisins, valeurs continues),
+<code>"near"</code> (cellule la plus proche, classes)</td>
+<td>texte</td>
+</tr>
+<tr class="even">
+<td><code>matrix(data, ncol, byrow)</code></td>
+<td>un tableau de nombres ; <code>byrow = TRUE</code> le remplit ligne
+par ligne : chaque ligne = de, à, nouvelle valeur</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>classify(x, rcl)</code></td>
+<td>remplace des intervalles de valeurs par des numéros de classe</td>
+<td>un raster ; la matrice <code>rcl</code></td>
+</tr>
+<tr class="even">
+<td><code>freq(x)</code></td>
+<td>nombre de cellules par valeur</td>
+<td>un raster</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p><code>st_transform()</code> (sf, vectors) and <code>project()</code>
+(terra, rasters) do the same job with different names — and in the other
+direction, <code>crs()</code> is terra’s name for sf’s
+<code>st_crs()</code>.</p>
+</div>
+<div class="fr">
+<p><code>st_transform()</code> (sf, vecteurs) et <code>project()</code>
+(terra, rasters) font le même travail avec des noms différents — et dans
+l’autre sens, <code>crs()</code> est le nom terra du
+<code>st_crs()</code> de sf.</p>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><strong>Reproject vectors rather than rasters</strong> when you can:
@@ -791,6 +1334,70 @@ class="fr">Extraire les valeurs aux sites</span></h2>
 #&gt; 4     R04 Fishing     7.2         12.0   29.40          0
 #&gt; 5     R05 Fishing    10.9          1.0   29.68          1
 #&gt; 6     R06 Fishing    11.7         12.1   29.73          1</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>extract(x, y)</code></td>
+<td>the value of the raster under each point of <code>y</code>; returns
+a data frame with a first column <code>ID</code> then one column per
+layer</td>
+<td>a raster; a SpatVector in the same CRS</td>
+</tr>
+<tr class="even">
+<td><code>[, 2]</code>, <code>$depth_m</code></td>
+<td>take the column of values (not <code>ID</code>)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>extract(x, y)</code></td>
+<td>la valeur du raster sous chaque point de <code>y</code> ; renvoie un
+data frame avec une première colonne <code>ID</code> puis une colonne
+par couche</td>
+<td>un raster ; un SpatVector dans le même SCR</td>
+</tr>
+<tr class="even">
+<td><code>[, 2]</code>, <code>$depth_m</code></td>
+<td>prendre la colonne des valeurs (pas <code>ID</code>)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>Compare <code>depth_m</code> (measured on the spot) with
 <code>depth_raster</code> (interpolated surface): they differ, sometimes
@@ -821,7 +1428,7 @@ class="fr">Les récifs les plus chauds ont-ils le plus blanchi
 <span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;No-take&quot;</span> <span class="ot">=</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="st">&quot;Fishing&quot;</span> <span class="ot">=</span> <span class="st">&quot;#d9694a&quot;</span>)) <span class="sc">+</span></span>
 <span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Maximum monthly SST 2024 (°C)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Colonies bleached in 2024 (%)&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
 <span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div>
-<p><img src="a06-terra_files/figure-html/unnamed-chunk-9-1.png" alt="" width="75%" style="display: block; margin: auto;" /></p>
+<p><img src="a06-terra_files/figure-html/unnamed-chunk-16-1.png" alt="" width="75%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">cor.test</span>(heat<span class="sc">$</span>sst_max, heat<span class="sc">$</span>bleached)          <span class="co"># Intermediate, Session I10</span></span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  Pearson&#39;s product-moment correlation
@@ -877,6 +1484,72 @@ zone d’AMP, la température maximale de chaque AMP…</p>
 #&gt; 7     Tanjona Fishing        8.4   29.94
 #&gt; 8     Tanjona No-take       14.5   29.56
 #&gt; 9     Tanjona Fishing        7.3   29.57</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>extract(x, polygons, fun, na.rm)</code></td>
+<td>with polygons and <code>fun</code>: <strong>one</strong> value per
+polygon (zonal statistic)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>fun</code></td>
+<td>the function applied to the cells of each polygon,
+<strong>without</strong> quotes</td>
+<td><code>mean</code>, <code>max</code>, <code>min</code>,
+<code>sum</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>extract(x, polygons, fun, na.rm)</code></td>
+<td>avec des polygones et <code>fun</code> : <strong>une</strong> valeur
+par polygone (statistique zonale)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>fun</code></td>
+<td>la fonction appliquée aux cellules de chaque polygone,
+<strong>sans</strong> guillemets</td>
+<td><code>mean</code>, <code>max</code>, <code>min</code>,
+<code>sum</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout try">
 <div class="en">
 <p><strong>Try it.</strong> Compute the <strong>area of shallow water
@@ -900,6 +1573,91 @@ non NA) à l’intérieur de chaque AMP avec <code>mask()</code>. Pourquoi
 rasters</span></h2>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">writeRaster</span>(sst_max, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;derived&quot;</span>, <span class="st">&quot;sst_max_2024.tif&quot;</span>), <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="fu">writeRaster</span>(depth_cl, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;derived&quot;</span>, <span class="st">&quot;depth_classes.tif&quot;</span>), <span class="at">datatype =</span> <span class="st">&quot;INT1U&quot;</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>writeRaster(x, filename, overwrite, datatype)</code></td>
+<td>writes a raster file (GeoTIFF for <code>.tif</code>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>overwrite</code></td>
+<td><code>TRUE</code> replaces an existing file</td>
+<td><code>TRUE</code> / <code>FALSE</code> (default)</td>
+</tr>
+<tr class="odd">
+<td>  <code>datatype</code></td>
+<td>how values are stored; <code>"INT1U"</code> = whole numbers 0–255
+(small file for classes); default <code>"FLT4S"</code> = decimals</td>
+<td>text</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>writeRaster(x, filename, overwrite, datatype)</code></td>
+<td>écrit un fichier raster (GeoTIFF pour <code>.tif</code>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>overwrite</code></td>
+<td><code>TRUE</code> remplace un fichier existant</td>
+<td><code>TRUE</code> / <code>FALSE</code> (défaut)</td>
+</tr>
+<tr class="odd">
+<td>  <code>datatype</code></td>
+<td>comment les valeurs sont stockées ; <code>"INT1U"</code> = entiers
+0–255 (petit fichier pour des classes) ; par défaut <code>"FLT4S"</code>
+= décimaux</td>
+<td>texte</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>Writing a file: <code>overwrite = TRUE</code> in terra,
+<code>delete_dsn</code> / <code>append = FALSE</code> in sf (Session
+A5), <code>overwrite</code> again in <code>file.copy()</code>… each
+package chose its own word.</p>
+</div>
+<div class="fr">
+<p>Écrire un fichier : <code>overwrite = TRUE</code> dans terra,
+<code>delete_dsn</code> / <code>append = FALSE</code> dans sf (séance
+A5), encore <code>overwrite</code> dans <code>file.copy()</code>… chaque
+package a choisi son propre mot.</p>
+</div>
 <div class="en">
 <p>GeoTIFF (<code>.tif</code>) is the standard format; it opens in QGIS.
 Large rasters do not belong in Git (Session A2): keep them in
@@ -979,7 +1737,7 @@ sites</strong> (jointure par <code>site_id</code>).</p>
 </div>
 </div>
 <div id="quiz-a06" class="quiz" data-quiz-id="a06"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIGNlbGxzIG9mIGJhdGh5bWV0cnkudGlmPyIsImZyIjoiMS4gTm9tYnJlIGRlIGNlbGx1bGVzIGRlIGJhdGh5bWV0cnkudGlmID8iLCJhbnN3ZXIiOjcyMDAwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBNZWFuIHJhc3RlciBkZXB0aCBhdCB0aGUgMTggc2l0ZXMgKDIgZGVjaW1hbHMpPyIsImZyIjoiMi4gUHJvZm9uZGV1ciBtb3llbm5lIGR1IHJhc3RlciBhdXggMTggc2l0ZXMgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6OC4yNywidG9sIjowLjAxMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIzLiBTaXRlIHdpdGggdGhlIGhpZ2hlc3QgU1NUIGluIE1hcmNoIDIwMjQ/IiwiZnIiOiIzLiBTaXRlIMOgIGxhIFNTVCBsYSBwbHVzIMOpbGV2w6llIGVuIG1hcnMgMjAyNCA/IiwiYW5zd2VyIjpbIlIwOCJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE1heGltdW0gbnVtYmVyIG9mIG1vbnRocyBhYm92ZSAyOS41IMKwQz8iLCJmciI6IjQuIE5vbWJyZSBtYXhpbWFsIGRlIG1vaXMgYXUtZGVzc3VzIGRlIDI5LDUgwrBDID8iLCJhbnN3ZXIiOjMsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIFBlYXJzb24gciwgbWF4IFNTVCB2cyBibGVhY2hpbmcgMjAyNCAoMiBkZWNpbWFscyk/IiwiZnIiOiI1LiByIGRlIFBlYXJzb24sIFNTVCBtYXggdnMgYmxhbmNoaXNzZW1lbnQgMjAyNCAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjowLjY1LCJ0b2wiOjAuMDExLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNi4gTWVhbiBkZXB0aCwgTm8tdGFrZSB6b25lIG9mIE5vc3kgRmFzaWthICgxIGRlY2ltYWwpPyIsImZyIjoiNi4gUHJvZm9uZGV1ciBtb3llbm5lLCB6b25lIE5vLXRha2UgZGUgTm9zeSBGYXNpa2EgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo3LjYsInRvbCI6MC4xMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFRvIHJlcHJvamVjdCBhIHJhc3RlciBvZiBoYWJpdGF0IENMQVNTRVMgKDEgPSBzZWFncmFzcywgMiA9IGNvcmFs4oCmKSwgdXNlOiIsImZyIjoiNy4gUG91ciByZXByb2pldGVyIHVuIHJhc3RlciBkZSBDTEFTU0VTIGQnaGFiaXRhdCAoMSA9IGhlcmJpZXIsIDIgPSBjb3JhaWzigKYpLCB1dGlsaXNleiA6Iiwib3B0aW9uc19lbiI6WyJtZXRob2QgPSBcImJpbGluZWFyXCIiLCJtZXRob2QgPSBcIm5lYXJcIiIsIm1ldGhvZCA9IFwibWVhblwiIiwibm8gbWV0aG9kOiBpdCBpcyBhdXRvbWF0aWMiXSwib3B0aW9uc19mciI6WyJtZXRob2QgPSBcImJpbGluZWFyXCIiLCJtZXRob2QgPSBcIm5lYXJcIiIsIm1ldGhvZCA9IFwibWVhblwiIiwicGFzIGRlIG3DqXRob2RlIDogYydlc3QgYXV0b21hdGlxdWUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIG1hc2sociwgcG9seWdvbnMpIGRvZXM6IiwiZnIiOiI4LiBtYXNrKHIsIHBvbHlnb25lcykgZmFpdCA6Iiwib3B0aW9uc19lbiI6WyJzZXQgdG8gTkEgdGhlIGNlbGxzIG91dHNpZGUgdGhlIHBvbHlnb25zIiwiY3V0IHRoZSByYXN0ZXIgdG8gdGhlIHJlY3RhbmdsZSBvZiB0aGUgcG9seWdvbnMiLCJjb21wdXRlIHRoZSBtZWFuIHBlciBwb2x5Z29uIiwiY2hhbmdlIHRoZSByZXNvbHV0aW9uIl0sIm9wdGlvbnNfZnIiOlsibWV0dHJlIMOgIE5BIGxlcyBjZWxsdWxlcyBob3JzIGRlcyBwb2x5Z29uZXMiLCJkw6ljb3VwZXIgbGUgcmFzdGVyIGF1IHJlY3RhbmdsZSBkZXMgcG9seWdvbmVzIiwiY2FsY3VsZXIgbGEgbW95ZW5uZSBwYXIgcG9seWdvbmUiLCJjaGFuZ2VyIGxhIHLDqXNvbHV0aW9uIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBBIHNpdGUgd2FzIG1lYXN1cmVkIGF0IDcgbSBidXQgdGhlIHJhc3RlciBnaXZlcyAzIG0uIE1vc3QgbGlrZWx5IHJlYXNvbj8iLCJmciI6IjkuIFVuIHNpdGUgYSDDqXTDqSBtZXN1csOpIMOgIDcgbSBtYWlzIGxlIHJhc3RlciBkb25uZSAzIG0uIFJhaXNvbiBsYSBwbHVzIHByb2JhYmxlID8iLCJvcHRpb25zX2VuIjpbIlRoZSByYXN0ZXIgaXMgd3JvbmcgYW5kIG11c3QgYmUgZGVsZXRlZCIsIkEgcmFzdGVyIGNlbGwgKOKJiCAyNzAgbSkgaXMgYW4gaW50ZXJwb2xhdGVkIGF2ZXJhZ2UsIG5vdCB0aGUgZXhhY3Qgc3BvdCIsIlRoZSBDUlMgaXMgd3JvbmciLCJleHRyYWN0KCkgcm91bmRzIHZhbHVlcyJdLCJvcHRpb25zX2ZyIjpbIkxlIHJhc3RlciBlc3QgZmF1eCBldCBkb2l0IMOqdHJlIHN1cHByaW3DqSIsIlVuZSBjZWxsdWxlICjiiYggMjcwIG0pIGVzdCB1bmUgbW95ZW5uZSBpbnRlcnBvbMOpZSwgcGFzIGxlIHBvaW50IGV4YWN0IiwiTGUgU0NSIGVzdCBmYXV4IiwiZXh0cmFjdCgpIGFycm9uZGl0IGxlcyB2YWxldXJzIl0sImFuc3dlciI6MX1d">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIGNlbGxzIG9mIGJhdGh5bWV0cnkudGlmPyIsImZyIjoiMS4gTm9tYnJlIGRlIGNlbGx1bGVzIGRlIGJhdGh5bWV0cnkudGlmID8iLCJhbnN3ZXIiOjcyMDAwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBNZWFuIHJhc3RlciBkZXB0aCBhdCB0aGUgMTggc2l0ZXMgKDIgZGVjaW1hbHMpPyIsImZyIjoiMi4gUHJvZm9uZGV1ciBtb3llbm5lIGR1IHJhc3RlciBhdXggMTggc2l0ZXMgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6OC4yNywidG9sIjowLjAxMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIzLiBTaXRlIHdpdGggdGhlIGhpZ2hlc3QgU1NUIGluIE1hcmNoIDIwMjQ/IiwiZnIiOiIzLiBTaXRlIMOgIGxhIFNTVCBsYSBwbHVzIMOpbGV2w6llIGVuIG1hcnMgMjAyNCA/IiwiYW5zd2VyIjpbIlIwOCJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE1heGltdW0gbnVtYmVyIG9mIG1vbnRocyBhYm92ZSAyOS41IMKwQz8iLCJmciI6IjQuIE5vbWJyZSBtYXhpbWFsIGRlIG1vaXMgYXUtZGVzc3VzIGRlIDI5LDUgwrBDID8iLCJhbnN3ZXIiOjMsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIFBlYXJzb24gciwgbWF4IFNTVCB2cyBibGVhY2hpbmcgMjAyNCAoMiBkZWNpbWFscyk/IiwiZnIiOiI1LiByIGRlIFBlYXJzb24sIFNTVCBtYXggdnMgYmxhbmNoaXNzZW1lbnQgMjAyNCAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjowLjY1LCJ0b2wiOjAuMDExLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNi4gTWVhbiBkZXB0aCwgTm8tdGFrZSB6b25lIG9mIE5vc3kgRmFzaWthICgxIGRlY2ltYWwpPyIsImZyIjoiNi4gUHJvZm9uZGV1ciBtb3llbm5lLCB6b25lIE5vLXRha2UgZGUgTm9zeSBGYXNpa2EgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo3LjYsInRvbCI6MC4xMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFRvIHJlcHJvamVjdCBhIHJhc3RlciBvZiBoYWJpdGF0IENMQVNTRVMgKDEgPSBzZWFncmFzcywgMiA9IGNvcmFs4oCmKSwgdXNlOiIsImZyIjoiNy4gUG91ciByZXByb2pldGVyIHVuIHJhc3RlciBkZSBDTEFTU0VTIGQnaGFiaXRhdCAoMSA9IGhlcmJpZXIsIDIgPSBjb3JhaWzigKYpLCB1dGlsaXNleiA6Iiwib3B0aW9uc19lbiI6WyJtZXRob2QgPSBcImJpbGluZWFyXCIiLCJtZXRob2QgPSBcIm5lYXJcIiIsIm1ldGhvZCA9IFwibWVhblwiIiwibm8gbWV0aG9kOiBpdCBpcyBhdXRvbWF0aWMiXSwib3B0aW9uc19mciI6WyJtZXRob2QgPSBcImJpbGluZWFyXCIiLCJtZXRob2QgPSBcIm5lYXJcIiIsIm1ldGhvZCA9IFwibWVhblwiIiwicGFzIGRlIG3DqXRob2RlIDogYydlc3QgYXV0b21hdGlxdWUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIG1hc2sociwgcG9seWdvbnMpIGRvZXM6IiwiZnIiOiI4LiBtYXNrKHIsIHBvbHlnb25lcykgZmFpdCA6Iiwib3B0aW9uc19lbiI6WyJzZXQgdG8gTkEgdGhlIGNlbGxzIG91dHNpZGUgdGhlIHBvbHlnb25zIiwiY3V0IHRoZSByYXN0ZXIgdG8gdGhlIHJlY3RhbmdsZSBvZiB0aGUgcG9seWdvbnMiLCJjb21wdXRlIHRoZSBtZWFuIHBlciBwb2x5Z29uIiwiY2hhbmdlIHRoZSByZXNvbHV0aW9uIl0sIm9wdGlvbnNfZnIiOlsibWV0dHJlIMOgIE5BIGxlcyBjZWxsdWxlcyBob3JzIGRlcyBwb2x5Z29uZXMiLCJkw6ljb3VwZXIgbGUgcmFzdGVyIGF1IHJlY3RhbmdsZSBkZXMgcG9seWdvbmVzIiwiY2FsY3VsZXIgbGEgbW95ZW5uZSBwYXIgcG9seWdvbmUiLCJjaGFuZ2VyIGxhIHLDqXNvbHV0aW9uIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBBIHNpdGUgd2FzIG1lYXN1cmVkIGF0IDcgbSBidXQgdGhlIHJhc3RlciBnaXZlcyAzIG0uIE1vc3QgbGlrZWx5IHJlYXNvbj8iLCJmciI6IjkuIFVuIHNpdGUgYSDDqXTDqSBtZXN1csOpIMOgIDcgbSBtYWlzIGxlIHJhc3RlciBkb25uZSAzIG0uIFJhaXNvbiBsYSBwbHVzIHByb2JhYmxlID8iLCJvcHRpb25zX2VuIjpbIlRoZSByYXN0ZXIgaXMgd3JvbmcgYW5kIG11c3QgYmUgZGVsZXRlZCIsIkEgcmFzdGVyIGNlbGwgKOKJiCAyNzAgbSkgaXMgYW4gaW50ZXJwb2xhdGVkIGF2ZXJhZ2UsIG5vdCB0aGUgZXhhY3Qgc3BvdCIsIlRoZSBDUlMgaXMgd3JvbmciLCJleHRyYWN0KCkgcm91bmRzIHZhbHVlcyJdLCJvcHRpb25zX2ZyIjpbIkxlIHJhc3RlciBlc3QgZmF1eCBldCBkb2l0IMOqdHJlIHN1cHByaW3DqSIsIlVuZSBjZWxsdWxlICjiiYggMjcwIG0pIGVzdCB1bmUgbW95ZW5uZSBpbnRlcnBvbMOpZSwgcGFzIGxlIHBvaW50IGV4YWN0IiwiTGUgU0NSIGVzdCBmYXV4IiwiZXh0cmFjdCgpIGFycm9uZGl0IGxlcyB2YWxldXJzIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gV2hhdCBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIGdsb2JhbChzc3QsIFwibWF4XCIpIGFuZCBtYXgoc3N0KT8iLCJmciI6IjEwLiBRdWVsbGUgZXN0IGxhIGRpZmbDqXJlbmNlIGVudHJlIGdsb2JhbChzc3QsIFwibWF4XCIpIGV0IG1heChzc3QpID8iLCJvcHRpb25zX2VuIjpbImdsb2JhbCgpIGdpdmVzIG9uZSB2YWx1ZSBwZXIgbGF5ZXIgKG92ZXIgYWxsIGNlbGxzKTsgbWF4KCkgZ2l2ZXMgb25lIHZhbHVlIHBlciBjZWxsIChvdmVyIGFsbCBsYXllcnMpIiwiTm9uZSIsImdsb2JhbCgpIGlzIHNsb3dlciIsIm1heCgpIHdvcmtzIG9ubHkgb24gb25lIGxheWVyIl0sIm9wdGlvbnNfZnIiOlsiZ2xvYmFsKCkgZG9ubmUgdW5lIHZhbGV1ciBwYXIgY291Y2hlIChzdXIgdG91dGVzIGxlcyBjZWxsdWxlcykgOyBtYXgoKSBkb25uZSB1bmUgdmFsZXVyIHBhciBjZWxsdWxlIChzdXIgdG91dGVzIGxlcyBjb3VjaGVzKSIsIkF1Y3VuZSIsImdsb2JhbCgpIGVzdCBwbHVzIGxlbnQiLCJtYXgoKSBuZSBtYXJjaGUgcXVlIHN1ciB1bmUgY291Y2hlIl0sImFuc3dlciI6MH1d">
 
 </div>
 <div class="solution" data-quiz="a06">

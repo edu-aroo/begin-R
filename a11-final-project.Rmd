@@ -74,6 +74,33 @@ C'est le dernier quiz du niveau avancé (deux tentatives, la meilleure compte).
 
 `r show_file("templates/advanced/final/02_clean_2026.R")`
 
+```{r, echo=FALSE}
+fa(c("`setdiff(x, y)`", "the values of `x` that are **not** in `y` (here: site codes of 2026 unknown in 2019–2025)", "les valeurs de `x` qui ne sont **pas** dans `y` (ici : codes de sites de 2026 inconnus en 2019–2025)", "two vectors", "deux vecteurs"),
+   c("`distinct(.data)`", "**dplyr**: removes the exact duplicate rows (= `df[!duplicated(df), ]`, Beginner Session 5)", "**dplyr** : retire les lignes en double exact (= `df[!duplicated(df), ]`, séance 5 du niveau débutant)", "a data frame", "un data frame"),
+   c("`format(as.Date(x, format = \"%d/%m/%Y\"), \"%Y-%m-%d\")`", "reads the date in one format and writes it in another (Intermediate I1)", "lit la date dans un format et l'écrit dans un autre (intermédiaire I1)", "", ""),
+   c("`stopifnot(condition)`", "stops the script with an error if the condition is `FALSE`: a safety check", "arrête le script avec une erreur si la condition vaut `FALSE` : une vérification de sécurité", "a condition", "une condition"),
+   c("`identical(x, y)`", "`TRUE` if the two objects are exactly the same (here the column names)", "`TRUE` si les deux objets sont exactement identiques (ici les noms de colonnes)", "two objects", "deux objets"),
+   c("`bind_rows(...)`", "**dplyr**: stacks tables (like `rbind()`, Beginner Session 4); columns are matched by name", "**dplyr** : empile des tableaux (comme `rbind()`, séance 4 du niveau débutant) ; les colonnes sont associées par nom", "data frames", "data frames"))
+```
+
+`r show_file("templates/advanced/final/render_2026.R")`
+
+```{r, echo=FALSE}
+fa(c("`quarto::quarto_render(input, output_format, output_file, execute_params)`", "renders a `.qmd` from R (the Quarto version of `rmarkdown::render()`)", "produit un `.qmd` depuis R (la version Quarto de `rmarkdown::render()`)", "", ""),
+   c("&nbsp;&nbsp;`output_format`", "one format of the YAML", "un format du YAML", "`\"html\"`, `\"typst\"`, `\"pdf\"`, `\"docx\"`", "`\"html\"`, `\"typst\"`, `\"pdf\"`, `\"docx\"`"),
+   c("&nbsp;&nbsp;`output_file`", "name of the result, written **next to the `.qmd`**", "nom du résultat, écrit **à côté du `.qmd`**", "text", "texte"),
+   c("&nbsp;&nbsp;`execute_params`", "the parameters, as a list — called `params` in `rmarkdown::render()`", "les paramètres, sous forme de liste — appelé `params` dans `rmarkdown::render()`", "`list(mpa = m, year = 2026)`", "`list(mpa = m, year = 2026)`"),
+   c("`file.rename(from, to)`", "moves (or renames) files", "déplace (ou renomme) des fichiers", "two vectors of paths", "deux vecteurs de chemins"),
+   c("`pattern = \"^report_.*_2026\\\\.(html|pdf)$\"`", "`^` start, `.*` any text, `(html|pdf)` one or the other, `$` end", "`^` début, `.*` n'importe quel texte, `(html|pdf)` l'un ou l'autre, `$` fin", "", ""))
+```
+
+::: en
+`rmarkdown::render()` and `quarto::quarto_render()` do the same job with different argument names: `params` / `execute_params`, `output_dir` (exists) / no `output_dir` (the file is written next to the `.qmd`, hence the `file.rename()` at the end).
+:::
+::: fr
+`rmarkdown::render()` et `quarto::quarto_render()` font le même travail avec des noms d'arguments différents : `params` / `execute_params`, `output_dir` (existe) / pas d'`output_dir` (le fichier est écrit à côté du `.qmd`, d'où le `file.rename()` à la fin).
+:::
+
 ::: hint
 ::: en
 Order matters: remove the **exact duplicates first** (`distinct()`), then fix the codes and values — otherwise a row typed twice is counted twice in your means. If `bind_rows()` complains, the two tables do not have the same column types: compare `str(old)` and `str(new)` (the date!).

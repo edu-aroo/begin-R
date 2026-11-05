@@ -868,6 +868,131 @@ data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUGVucyB3aXRoIGEgZGVuc2l0eSBhYm92ZSAxLjUg
 <span id="cb1-62"><a href="#cb1-62" tabindex="-1"></a><span class="co"># C - B (0.19 %/day) is clear (Welch t-test, p &lt; 0.001). Denser pens tend to grow more</span></span>
 <span id="cb1-63"><a href="#cb1-63" tabindex="-1"></a><span class="co"># slowly (r = -0.49, p = 0.01, n = 24), but part of this may be a farm effect.</span></span>
 <span id="cb1-64"><a href="#cb1-64" tabindex="-1"></a><span class="co"># Farm C has the best yield (~0.10 kg/m2) despite a slightly lower survival.</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>table(table(x))</code></td>
+<td>how many ids appear 1, 2, … times: a quick check that every pen has
+the same number of rows</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>arrange(..., .by_group = TRUE)</code></td>
+<td>sorts inside each group (after <code>group_by()</code>)</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td><code>first(x)</code>, <code>last(x)</code></td>
+<td><strong>dplyr</strong>: first / last value of the group, in the
+current order</td>
+<td>a column</td>
+</tr>
+<tr class="even">
+<td><code>stat_summary(fun, geom, ...)</code></td>
+<td>computes a statistic per x group and draws it: here the mean as a
+big point</td>
+<td><code>fun = mean</code>; <code>geom = "point"</code></td>
+</tr>
+<tr class="odd">
+<td><code>&amp; theme_minimal()</code></td>
+<td>patchwork: <code>&amp;</code> applies the theme to
+<strong>all</strong> the plots of the figure (<code>+</code> would apply
+it to the last one only)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>tapply(x, group, shapiro.test)</code></td>
+<td>a test per group (Sessions I6, I9)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>by(data, INDICES, FUN)</code></td>
+<td>applies a function to each part of a <strong>data frame</strong>
+split by a group (<code>tapply()</code> works on a vector)</td>
+<td>a data frame, a grouping column, a function of a data frame</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>table(table(x))</code></td>
+<td>combien d’identifiants apparaissent 1, 2, … fois : vérification
+rapide que chaque enclos a le même nombre de lignes</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>arrange(..., .by_group = TRUE)</code></td>
+<td>trie à l’intérieur de chaque groupe (après
+<code>group_by()</code>)</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td><code>first(x)</code>, <code>last(x)</code></td>
+<td><strong>dplyr</strong> : première / dernière valeur du groupe, dans
+l’ordre actuel</td>
+<td>une colonne</td>
+</tr>
+<tr class="even">
+<td><code>stat_summary(fun, geom, ...)</code></td>
+<td>calcule une statistique par groupe x et la dessine : ici la moyenne
+en gros point</td>
+<td><code>fun = mean</code> ; <code>geom = "point"</code></td>
+</tr>
+<tr class="odd">
+<td><code>&amp; theme_minimal()</code></td>
+<td>patchwork : <code>&amp;</code> applique le thème à
+<strong>tous</strong> les graphiques de la figure (<code>+</code> ne
+l’appliquerait qu’au dernier)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>tapply(x, group, shapiro.test)</code></td>
+<td>un test par groupe (séances I6, I9)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>by(data, INDICES, FUN)</code></td>
+<td>applique une fonction à chaque partie d’un <strong>data
+frame</strong> découpé par groupe (<code>tapply()</code> travaille sur
+un vecteur)</td>
+<td>un data frame, une colonne de groupes, une fonction d’un data
+frame</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 

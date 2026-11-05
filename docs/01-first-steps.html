@@ -732,9 +732,85 @@ mieux que <code>m1</code>.</li>
 </ul>
 </div>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">ls</span>()                 <span class="co"># lists the objects in memory (same as the Environment pane)</span></span></code></pre></div>
-<pre><code>#&gt;  [1] &quot;density&quot;       &quot;dl&quot;            &quot;fig_svg&quot;       &quot;q_mcq&quot;         &quot;q_num&quot;         &quot;q_text&quot;       
-#&gt;  [7] &quot;quadrat_area&quot;  &quot;quiz&quot;          &quot;register_quiz&quot; &quot;shoots&quot;        &quot;show_file&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;density&quot;       &quot;dl&quot;            &quot;fa&quot;            &quot;fig_shot&quot;      &quot;fig_svg&quot;      
+#&gt;  [6] &quot;q_mcq&quot;         &quot;q_num&quot;         &quot;q_text&quot;        &quot;quadrat_area&quot;  &quot;quiz&quot;         
+#&gt; [11] &quot;register_quiz&quot; &quot;shoots&quot;        &quot;show_file&quot;</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">rm</span>(density)          <span class="co"># removes an object</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&lt;-</code></td>
+<td><strong>assignment</strong>: stores the value on the right in the
+object named on the left</td>
+<td>name <code>&lt;-</code> value</td>
+</tr>
+<tr class="even">
+<td><code>ls()</code></td>
+<td>lists the names of the objects in memory; no argument needed</td>
+<td>nothing</td>
+</tr>
+<tr class="odd">
+<td><code>rm()</code></td>
+<td>removes (deletes) objects from memory</td>
+<td>one or several object names, <strong>without</strong> quotes,
+separated by commas: <code>rm(a, b)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&lt;-</code></td>
+<td><strong>affectation</strong> : range la valeur de droite dans
+l’objet nommé à gauche</td>
+<td>nom <code>&lt;-</code> valeur</td>
+</tr>
+<tr class="even">
+<td><code>ls()</code></td>
+<td>liste les noms des objets en mémoire ; aucun argument
+nécessaire</td>
+<td>rien</td>
+</tr>
+<tr class="odd">
+<td><code>rm()</code></td>
+<td>supprime des objets de la mémoire</td>
+<td>un ou plusieurs noms d’objets, <strong>sans</strong> guillemets,
+séparés par des virgules : <code>rm(a, b)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="functions" class="section level2">
@@ -751,7 +827,8 @@ donne des entrées (<strong>arguments</strong>) entre parenthèses, elle
 renvoie un résultat. Les arguments sont séparés par des
 <strong>virgules</strong> et peuvent être nommés.</p>
 </div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">144</span>)                   <span class="co"># square root</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># function(argument1, argument2 = value, ...)</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">144</span>)                   <span class="co"># square root</span></span></code></pre></div>
 <pre><code>#&gt; [1] 12</code></pre>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">348.6667</span>)             <span class="co"># rounds to the nearest whole number</span></span></code></pre></div>
 <pre><code>#&gt; [1] 349</code></pre>
@@ -775,6 +852,185 @@ l’intérieur vers l’extérieur.</p>
 </div>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sqrt</span>(<span class="dv">2</span>), <span class="dv">3</span>)           <span class="co"># first sqrt(2) = 1.41421..., then round(..., 3)</span></span></code></pre></div>
 <pre><code>#&gt; [1] 1.414</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sqrt(x)</code></td>
+<td>square root of <code>x</code></td>
+<td>a number (or an object containing numbers)</td>
+</tr>
+<tr class="even">
+<td><code>round(x, digits = 0)</code></td>
+<td>rounds <code>x</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>x</code></td>
+<td>the number to round</td>
+<td>a number</td>
+</tr>
+<tr class="even">
+<td>  <code>digits</code></td>
+<td>number of decimals to keep. <strong>Default value
+<code>0</code></strong>: if you do not give it, R rounds to a whole
+number</td>
+<td>a whole number: <code>1</code>, <code>2</code>… (negative:
+<code>-1</code> rounds to the tens)</td>
+</tr>
+<tr class="odd">
+<td><code>log(x, base = exp(1))</code></td>
+<td>logarithm of <code>x</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>base</code></td>
+<td>the base of the logarithm; default <em>e</em> (natural log).
+<code>log10(x)</code> is a shortcut for <code>base = 10</code></td>
+<td>a positive number</td>
+</tr>
+<tr class="odd">
+<td><code>exp(x)</code></td>
+<td><em>e</em> to the power <code>x</code> (the opposite of
+<code>log()</code>)</td>
+<td>a number</td>
+</tr>
+<tr class="even">
+<td><code>abs(x)</code></td>
+<td>absolute value (removes the minus sign)</td>
+<td>a number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sqrt(x)</code></td>
+<td>racine carrée de <code>x</code></td>
+<td>un nombre (ou un objet contenant des nombres)</td>
+</tr>
+<tr class="even">
+<td><code>round(x, digits = 0)</code></td>
+<td>arrondit <code>x</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>x</code></td>
+<td>le nombre à arrondir</td>
+<td>un nombre</td>
+</tr>
+<tr class="even">
+<td>  <code>digits</code></td>
+<td>nombre de décimales à garder. <strong>Valeur par défaut
+<code>0</code></strong> : si vous ne le donnez pas, R arrondit à
+l’entier</td>
+<td>un nombre entier : <code>1</code>, <code>2</code>… (négatif :
+<code>-1</code> arrondit à la dizaine)</td>
+</tr>
+<tr class="odd">
+<td><code>log(x, base = exp(1))</code></td>
+<td>logarithme de <code>x</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>base</code></td>
+<td>la base du logarithme ; par défaut <em>e</em> (logarithme népérien).
+<code>log10(x)</code> est un raccourci pour <code>base = 10</code></td>
+<td>un nombre positif</td>
+</tr>
+<tr class="odd">
+<td><code>exp(x)</code></td>
+<td><em>e</em> puissance <code>x</code> (l’inverse de
+<code>log()</code>)</td>
+<td>un nombre</td>
+</tr>
+<tr class="even">
+<td><code>abs(x)</code></td>
+<td>valeur absolue (enlève le signe moins)</td>
+<td>un nombre</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>How arguments work — valid for every function of the
+course:</strong></p>
+<ul>
+<li>Each argument has a <strong>name</strong> (<code>x</code>,
+<code>digits</code>, <code>base</code>). You can give it <strong>by
+name</strong> (<code>round(3.14159, digits = 2)</code>) or <strong>by
+position</strong>, in the order shown on the help page
+(<code>round(3.14159, 2)</code>). Names make code easier to read: use
+them for everything except the first argument.</li>
+<li>Many arguments have a <strong>default value</strong>
+(<code>digits = 0</code>): you only give them when you want something
+else.</li>
+<li><strong>Each function has its own argument names</strong>, chosen by
+whoever wrote it. The same idea can have different names in different
+functions: the number of decimals is <code>digits</code> in
+<code>round()</code> but <code>nsmall</code> in <code>format()</code>;
+the colour is <code>col</code> in <code>plot()</code> (Session 7) but
+<code>colour</code> in <code>ggplot2</code> (Session 8). Never guess:
+check the help page (<code>?round</code>) — the <strong>Usage</strong>
+section lists the arguments with their default values.</li>
+</ul>
+</div>
+<div class="fr">
+<p><strong>Comment marchent les arguments — valable pour toutes les
+fonctions du cours :</strong></p>
+<ul>
+<li>Chaque argument a un <strong>nom</strong> (<code>x</code>,
+<code>digits</code>, <code>base</code>). On peut le donner <strong>par
+son nom</strong> (<code>round(3.14159, digits = 2)</code>) ou
+<strong>par sa position</strong>, dans l’ordre indiqué dans la page
+d’aide (<code>round(3.14159, 2)</code>). Les noms rendent le code plus
+lisible : utilisez-les pour tous les arguments sauf le premier.</li>
+<li>Beaucoup d’arguments ont une <strong>valeur par défaut</strong>
+(<code>digits = 0</code>) : on ne les donne que si l’on veut autre
+chose.</li>
+<li><strong>Chaque fonction a ses propres noms d’arguments</strong>,
+choisis par la personne qui l’a écrite. La même idée peut avoir des noms
+différents selon la fonction : le nombre de décimales s’appelle
+<code>digits</code> dans <code>round()</code> mais <code>nsmall</code>
+dans <code>format()</code> ; la couleur s’appelle <code>col</code> dans
+<code>plot()</code> (séance 7) mais <code>colour</code> dans
+<code>ggplot2</code> (séance 8). Ne devinez jamais : consultez la page
+d’aide (<code>?round</code>) — la section <strong>Usage</strong> liste
+les arguments avec leurs valeurs par défaut.</li>
+</ul>
+</div>
+</div>
 <div id="getting-helpobtenir-de-laide" class="section level3">
 <h3><span class="en">Getting help</span><span class="fr">Obtenir de
 l’aide</span></h3>
@@ -795,6 +1051,78 @@ leurs valeurs par défaut), <strong>Arguments</strong> et, tout en bas,
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a>?round                 <span class="co"># help page of round()</span></span>
 <span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a><span class="fu">help</span>(<span class="st">&quot;log&quot;</span>)            <span class="co"># same thing</span></span>
 <span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a>??<span class="st">&quot;standard deviation&quot;</span> <span class="co"># search all help pages for a topic</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>?name</code></td>
+<td>opens the help page of a function</td>
+<td>a function name, without parentheses</td>
+</tr>
+<tr class="even">
+<td><code>help("name")</code></td>
+<td>the same, written as a function</td>
+<td>the name in quotes</td>
+</tr>
+<tr class="odd">
+<td><code>??"words"</code></td>
+<td>searches the words in <strong>all</strong> help pages (when you do
+not know the function name)</td>
+<td>words in quotes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>?name</code></td>
+<td>ouvre la page d’aide d’une fonction</td>
+<td>un nom de fonction, sans parenthèses</td>
+</tr>
+<tr class="even">
+<td><code>help("name")</code></td>
+<td>la même chose, écrite comme une fonction</td>
+<td>le nom entre guillemets</td>
+</tr>
+<tr class="odd">
+<td><code>??"words"</code></td>
+<td>cherche les mots dans <strong>toutes</strong> les pages d’aide
+(quand on ne connaît pas le nom de la fonction)</td>
+<td>des mots entre guillemets</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout try">
 <div class="en">
 <p><strong>Try it.</strong> Create <code>quadrat_side &lt;- 0.5</code>
@@ -870,8 +1198,9 @@ il dit généralement ce qui ne va pas.</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>Shoots <span class="sc">/</span> quadrat_area     <span class="co"># capital S: this object does not exist</span></span></code></pre></div>
 <pre><code>#&gt; Error:
 #&gt; ! object &#39;Shoots&#39; not found</code></pre>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">3.456</span>, <span class="at">digit =</span> <span class="dv">1</span>)    <span class="co"># typo in the argument name (&quot;digits&quot;)</span></span></code></pre></div>
-<pre><code>#&gt; [1] 3.5</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">3.456</span>, <span class="at">decimals =</span> <span class="dv">1</span>) <span class="co"># wrong argument name: round() calls it &quot;digits&quot;</span></span></code></pre></div>
+<pre><code>#&gt; Error in `round()`:
+#&gt; ! unused argument (decimals = 1)</code></pre>
 <div class="callout warning">
 <div class="en">
 <p><strong>The <code>+</code> prompt.</strong> If the console shows
@@ -947,7 +1276,7 @@ la surface en km², puis multipliez par 100.</p>
 </div>
 </div>
 <div id="quiz-s01" class="quiz" data-quiz-id="s01"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gU2hvb3QgZGVuc2l0eSAoc2hvb3RzIHBlciBtwrIpPyIsImZyIjoiMS4gRGVuc2l0w6kgZGUgcG91c3NlcyAocG91c3NlcyBwYXIgbcKyKSA/IiwiYW5zd2VyIjo1MjgsInRvbCI6MC41LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gSGFyZCBjb3JhbCBjb3ZlciAoJSk/IiwiZnIiOiIyLiBDb3V2ZXJ0dXJlIGVuIGNvcmFpbCBkdXIgKCUpID8iLCJhbnN3ZXIiOjM3LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzYS4gQXJlYSBvZiB0aGUgbm8tdGFrZSB6b25lIChrbcKyKT8iLCJmciI6IjNhLiBTdXJmYWNlIGRlIGxhIHpvbmUgZGUgbm9uLXByw6lsw6h2ZW1lbnQgKGttwrIpID8iLCJhbnN3ZXIiOjEuMzUsInRvbCI6MC4wMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzYi4gQXJlYSBvZiB0aGUgbm8tdGFrZSB6b25lIChoYSk/IiwiZnIiOiIzYi4gU3VyZmFjZSBkZSBsYSB6b25lIGRlIG5vbi1wcsOpbMOodmVtZW50IChoYSkgPyIsImFuc3dlciI6MTM1LCJ0b2wiOjAuNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIHJvdW5kKHNxcnQoMTAwMCksIDIpID0gPyIsImZyIjoiNC4gcm91bmQoc3FydCgxMDAwKSwgMikgPSA/IiwiYW5zd2VyIjozMS42MiwidG9sIjowLjAwMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFdoaWNoIG9iamVjdCBuYW1lIGlzIHZhbGlkIGluIFI/IiwiZnIiOiI1LiBRdWVsIG5vbSBkJ29iamV0IGVzdCB2YWxpZGUgZGFucyBSID8iLCJvcHRpb25zX2VuIjpbIjJuZF9zaXRlIiwiY29yYWwgY292ZXIiLCJjb3JhbF9jb3Zlcl8yIiwiY29yYWwtY292ZXIiXSwib3B0aW9uc19mciI6WyIybmRfc2l0ZSIsImNvcmFsIGNvdmVyIiwiY29yYWxfY292ZXJfMiIsImNvcmFsLWNvdmVyIl0sImFuc3dlciI6Mn0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBBZnRlciAgYSA8LSAxMCAgdGhlbiAgYSA8LSBhICsgNSAsIHdoYXQgZG9lcyBhIGNvbnRhaW4/IiwiZnIiOiI2LiBBcHLDqHMgIGEgPC0gMTAgIHB1aXMgIGEgPC0gYSArIDUgLCBxdWUgY29udGllbnQgYSA/Iiwib3B0aW9uc19lbiI6WyIxMCIsIjE1IiwiNSIsIkFuIGVycm9yIl0sIm9wdGlvbnNfZnIiOlsiMTAiLCIxNSIsIjUiLCJVbmUgZXJyZXVyIl0sImFuc3dlciI6MX1d">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gU2hvb3QgZGVuc2l0eSAoc2hvb3RzIHBlciBtwrIpPyIsImZyIjoiMS4gRGVuc2l0w6kgZGUgcG91c3NlcyAocG91c3NlcyBwYXIgbcKyKSA/IiwiYW5zd2VyIjo1MjgsInRvbCI6MC41LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gSGFyZCBjb3JhbCBjb3ZlciAoJSk/IiwiZnIiOiIyLiBDb3V2ZXJ0dXJlIGVuIGNvcmFpbCBkdXIgKCUpID8iLCJhbnN3ZXIiOjM3LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzYS4gQXJlYSBvZiB0aGUgbm8tdGFrZSB6b25lIChrbcKyKT8iLCJmciI6IjNhLiBTdXJmYWNlIGRlIGxhIHpvbmUgZGUgbm9uLXByw6lsw6h2ZW1lbnQgKGttwrIpID8iLCJhbnN3ZXIiOjEuMzUsInRvbCI6MC4wMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzYi4gQXJlYSBvZiB0aGUgbm8tdGFrZSB6b25lIChoYSk/IiwiZnIiOiIzYi4gU3VyZmFjZSBkZSBsYSB6b25lIGRlIG5vbi1wcsOpbMOodmVtZW50IChoYSkgPyIsImFuc3dlciI6MTM1LCJ0b2wiOjAuNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIHJvdW5kKHNxcnQoMTAwMCksIDIpID0gPyIsImZyIjoiNC4gcm91bmQoc3FydCgxMDAwKSwgMikgPSA/IiwiYW5zd2VyIjozMS42MiwidG9sIjowLjAwMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFdoaWNoIG9iamVjdCBuYW1lIGlzIHZhbGlkIGluIFI/IiwiZnIiOiI1LiBRdWVsIG5vbSBkJ29iamV0IGVzdCB2YWxpZGUgZGFucyBSID8iLCJvcHRpb25zX2VuIjpbIjJuZF9zaXRlIiwiY29yYWwgY292ZXIiLCJjb3JhbF9jb3Zlcl8yIiwiY29yYWwtY292ZXIiXSwib3B0aW9uc19mciI6WyIybmRfc2l0ZSIsImNvcmFsIGNvdmVyIiwiY29yYWxfY292ZXJfMiIsImNvcmFsLWNvdmVyIl0sImFuc3dlciI6Mn0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBBZnRlciAgYSA8LSAxMCAgdGhlbiAgYSA8LSBhICsgNSAsIHdoYXQgZG9lcyBhIGNvbnRhaW4/IiwiZnIiOiI2LiBBcHLDqHMgIGEgPC0gMTAgIHB1aXMgIGEgPC0gYSArIDUgLCBxdWUgY29udGllbnQgYSA/Iiwib3B0aW9uc19lbiI6WyIxMCIsIjE1IiwiNSIsIkFuIGVycm9yIl0sIm9wdGlvbnNfZnIiOlsiMTAiLCIxNSIsIjUiLCJVbmUgZXJyZXVyIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBXaGF0IGRvZXMgcm91bmQoMTIuMzQ1KSByZXR1cm4sIGFuZCB3aHk/IiwiZnIiOiI3LiBRdWUgcmVudm9pZSByb3VuZCgxMi4zNDUpLCBldCBwb3VycXVvaSA/Iiwib3B0aW9uc19lbiI6WyIxMi4zLCBiZWNhdXNlIGRpZ2l0cyA9IDEgYnkgZGVmYXVsdCIsIjEyLCBiZWNhdXNlIGRpZ2l0cyA9IDAgYnkgZGVmYXVsdCIsIjEyLjM1LCBiZWNhdXNlIGRpZ2l0cyA9IDIgYnkgZGVmYXVsdCIsIkFuIGVycm9yOiBkaWdpdHMgaXMgbWlzc2luZyJdLCJvcHRpb25zX2ZyIjpbIjEyLjMsIGNhciBkaWdpdHMgPSAxIHBhciBkw6lmYXV0IiwiMTIsIGNhciBkaWdpdHMgPSAwIHBhciBkw6lmYXV0IiwiMTIuMzUsIGNhciBkaWdpdHMgPSAyIHBhciBkw6lmYXV0IiwiVW5lIGVycmV1ciA6IGRpZ2l0cyBtYW5xdWUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIHJvdW5kKDMuNDU2LCBkZWNpbWFscyA9IDEpIGdpdmVzIHRoZSBlcnJvciBcInVudXNlZCBhcmd1bWVudFwiLiBXaHk/IiwiZnIiOiI4LiByb3VuZCgzLjQ1NiwgZGVjaW1hbHMgPSAxKSBkb25uZSBsJ2VycmV1ciDCqyB1bnVzZWQgYXJndW1lbnQgwrsuIFBvdXJxdW9pID8iLCJvcHRpb25zX2VuIjpbInJvdW5kKCkgaGFzIG5vIGFyZ3VtZW50IGNhbGxlZCBkZWNpbWFsczogaXQgaXMgY2FsbGVkIGRpZ2l0cyIsInJvdW5kKCkgY2Fubm90IHRha2UgMiBhcmd1bWVudHMiLCIzLjQ1NiBtdXN0IGJlIGluIHF1b3RlcyIsIlRoZSBjb21tYSBzaG91bGQgYmUgYSBkb3QiXSwib3B0aW9uc19mciI6WyJyb3VuZCgpIG4nYSBwYXMgZCdhcmd1bWVudCBhcHBlbMOpIGRlY2ltYWxzIDogaWwgcydhcHBlbGxlIGRpZ2l0cyIsInJvdW5kKCkgbidhY2NlcHRlIHBhcyAyIGFyZ3VtZW50cyIsIjMuNDU2IGRvaXQgw6p0cmUgZW50cmUgZ3VpbGxlbWV0cyIsIkxhIHZpcmd1bGUgZGV2cmFpdCDDqnRyZSB1biBwb2ludCJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiOS4gV2hlcmUgZG8geW91IGZpbmQgdGhlIGxpc3Qgb2YgdGhlIGFyZ3VtZW50cyBvZiBhIGZ1bmN0aW9uIGFuZCB0aGVpciBkZWZhdWx0IHZhbHVlcz8iLCJmciI6IjkuIE/DuSB0cm91dmUtdC1vbiBsYSBsaXN0ZSBkZXMgYXJndW1lbnRzIGQndW5lIGZvbmN0aW9uIGV0IGxldXJzIHZhbGV1cnMgcGFyIGTDqWZhdXQgPyIsIm9wdGlvbnNfZW4iOlsiSW4gdGhlIEVudmlyb25tZW50IHBhbmUiLCJJbiB0aGUgVXNhZ2Ugc2VjdGlvbiBvZiBpdHMgaGVscCBwYWdlICg/ZnVuY3Rpb24pIiwiSW4gdGhlIEZpbGVzIHBhbmUiLCJFdmVyeSBmdW5jdGlvbiB1c2VzIHRoZSBzYW1lIGFyZ3VtZW50cyJdLCJvcHRpb25zX2ZyIjpbIkRhbnMgbGUgcGFubmVhdSBFbnZpcm9ubWVudCIsIkRhbnMgbGEgc2VjdGlvbiBVc2FnZSBkZSBzYSBwYWdlIGQnYWlkZSAoP2ZvbmN0aW9uKSIsIkRhbnMgbGUgcGFubmVhdSBGaWxlcyIsIlRvdXRlcyBsZXMgZm9uY3Rpb25zIHV0aWxpc2VudCBsZXMgbcOqbWVzIGFyZ3VtZW50cyJdLCJhbnN3ZXIiOjF9XQ==">
 
 </div>
 <div class="solution" data-quiz="s01">

@@ -163,6 +163,15 @@ for (d in c("data/raw", "data/derived", "R", "reports", "outputs/figures", "outp
 list.dirs(proj, full.names = FALSE)
 ```
 
+```{r, echo=FALSE}
+fa(c("`tempdir()`", "a temporary folder of the current R session, deleted when R closes (used only for this demo)", "un dossier temporaire de la session R, supprimé à la fermeture de R (utilisé seulement pour cette démonstration)", "nothing", "rien"),
+   c("`file.path(...)`", "builds a path from pieces, with `/` between them (Intermediate I5)", "construit un chemin à partir de morceaux, avec `/` entre eux (intermédiaire I5)", "texts", "textes"),
+   c("`dir.create(path, recursive, showWarnings)`", "creates a folder", "crée un dossier", "", ""),
+   c("&nbsp;&nbsp;`recursive`", "`TRUE` also creates the missing parent folders (`data/` before `data/raw/`)", "`TRUE` crée aussi les dossiers parents manquants (`data/` avant `data/raw/`)", "`TRUE` / `FALSE` (default)", "`TRUE` / `FALSE` (défaut)"),
+   c("&nbsp;&nbsp;`showWarnings`", "`FALSE`: no warning if the folder already exists", "`FALSE` : pas d'avertissement si le dossier existe déjà", "`TRUE` (default) / `FALSE`", "`TRUE` (défaut) / `FALSE`"),
+   c("`list.dirs(path, full.names, recursive = TRUE)`", "lists the folders (and sub-folders) under `path`; `full.names = FALSE` = paths relative to `path`", "liste les dossiers (et sous-dossiers) sous `path` ; `full.names = FALSE` = chemins relatifs à `path`", "a folder; `TRUE`/`FALSE`", "un dossier ; `TRUE`/`FALSE`"))
+```
+
 ::: en
 In real life: **File → New Project → New Directory → New Project** in RStudio, then run the loop above in the Console (without the `tempdir()` part: the project folder is already the working directory).
 :::
@@ -201,6 +210,12 @@ reef <- read.csv(here("data", "raw", "reef_monitoring.csv"))
 :::
 :::
 
+```{r, echo=FALSE}
+fa(c("`setwd(dir)`", "**set**s the **w**orking **d**irectory: the folder where R looks for relative paths. Avoid it in scripts", "fixe le répertoire de travail (*set working directory*) : le dossier où R cherche les chemins relatifs. À éviter dans les scripts", "a folder path", "un chemin de dossier"),
+   c("`getwd()`", "shows the current working directory", "affiche le répertoire de travail actuel", "nothing", "rien"),
+   c("`here(...)`", "**here** package: full path built from the **project root** (the folder with the `.Rproj`), whatever the folder of the file that runs it", "package **here** : chemin complet construit depuis la **racine du projet** (le dossier du `.Rproj`), quel que soit le dossier du fichier qui l'exécute", "folder and file names, as separate texts: `here(\"data\", \"raw\", \"x.csv\")`", "noms de dossiers et de fichier, en textes séparés : `here(\"data\", \"raw\", \"x.csv\")`"))
+```
+
 ::: {.callout .tip}
 ::: en
 `file.path("data", "raw", "x.csv")` builds a path with the right separator for the computer; `here()` does the same **and** starts from the project root. In scripts run from the project root, both work; in reports, use `here()`.
@@ -237,6 +252,13 @@ source(here("R", "02_clean.R"))      # corrections   -> data/derived/reef_clean.
 source(here("R", "03_analysis.R"))   # summaries     -> outputs/tables/*.csv
 source(here("R", "04_figures.R"))    # figures       -> outputs/figures/*.png
 writeLines(capture.output(sessionInfo()), here("outputs", "session_info.txt"))
+```
+
+```{r, echo=FALSE}
+fa(c("`source(file)`", "runs a whole script (Intermediate I6); the scripts run in the current session, so the objects of `01_import.R` are available in `02_clean.R`", "exécute tout un script (intermédiaire I6) ; les scripts tournent dans la session courante, donc les objets de `01_import.R` sont disponibles dans `02_clean.R`", "path of the `.R` file", "chemin du fichier `.R`"),
+   c("`sessionInfo()`", "R version, operating system and versions of the loaded packages", "version de R, système d'exploitation et versions des packages chargés", "nothing", "rien"),
+   c("`capture.output(expr)`", "what `expr` would print, as a text vector", "ce que `expr` afficherait, sous forme de vecteur de texte", "", ""),
+   c("`writeLines(text, con)`", "writes the lines of text in a file (`con` = the file)", "écrit les lignes de texte dans un fichier (`con` = le fichier)", "a text vector; a path", "un vecteur de texte ; un chemin"))
 ```
 
 ::: {.callout .warning}
@@ -278,6 +300,10 @@ Your name, e-mail - last update 2025-06-01
 ```{r}
 si <- sessionInfo()
 si$R.version$version.string          # the R version that produced the results
+```
+
+```{r, echo=FALSE}
+fa(c("`si$R.version$version.string`", "`sessionInfo()` returns a list (Intermediate I6): `$` goes down into it, one level at a time", "`sessionInfo()` renvoie une liste (intermédiaire I6) : `$` y descend, un niveau à la fois", "", ""))
 ```
 
 ::: {.callout .try}
@@ -353,7 +379,13 @@ quiz("a00", list(
         c("La corriger dans Excel et enregistrer", "Ajouter une ligne dans 02_clean.R qui la corrige, et garder le fichier brut intact", "Supprimer la ligne dans le fichier brut", "Renommer le fichier _v2"), correct = 2),
   q_mcq("8. Why set \"Save workspace to .RData on exit\" to Never?", "8. Pourquoi régler « Save workspace to .RData on exit » sur Never ?",
         c("To save disk space", "So that the results depend only on the scripts, not on objects left from earlier sessions", "Because .RData files are viruses", "To make R start faster only"),
-        c("Pour économiser de l'espace disque", "Pour que les résultats ne dépendent que des scripts, pas d'objets restés de sessions précédentes", "Parce que les fichiers .RData sont des virus", "Seulement pour que R démarre plus vite"), correct = 2)
+        c("Pour économiser de l'espace disque", "Pour que les résultats ne dépendent que des scripts, pas d'objets restés de sessions précédentes", "Parce que les fichiers .RData sont des virus", "Seulement pour que R démarre plus vite"), correct = 2),
+  q_mcq("9. In dir.create(\"data/raw\", recursive = TRUE), what does recursive = TRUE do?", "9. Dans dir.create(\"data/raw\", recursive = TRUE), que fait recursive = TRUE ?",
+        c("Also creates data/ if it does not exist", "Deletes the folder first", "Creates the folder in every sub-folder", "Copies the files"),
+        c("Crée aussi data/ s'il n'existe pas", "Supprime d'abord le dossier", "Crée le dossier dans chaque sous-dossier", "Copie les fichiers"), correct = 1),
+  q_mcq("10. here(\"data\", \"raw\", \"reef.csv\") starts from:", "10. here(\"data\", \"raw\", \"reef.csv\") part de :",
+        c("The folder of the file being run", "The root of the project (the folder of the .Rproj)", "The Documents folder", "The folder where R is installed"),
+        c("Le dossier du fichier exécuté", "La racine du projet (le dossier du .Rproj)", "Le dossier Documents", "Le dossier où R est installé"), correct = 2)
 ))
 ```
 

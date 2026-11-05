@@ -1,26 +1,26 @@
 {
   "a00": {
-    "max": 8,
+    "max": 10,
     "page": "a00-project",
     "level": "advanced"
   },
   "a01": {
-    "max": 8,
+    "max": 10,
     "page": "a01-renv",
     "level": "advanced"
   },
   "a02": {
-    "max": 9,
+    "max": 10,
     "page": "a02-git",
     "level": "advanced"
   },
   "a03": {
-    "max": 9,
+    "max": 10,
     "page": "a03-rmarkdown",
     "level": "advanced"
   },
   "a04": {
-    "max": 8,
+    "max": 10,
     "page": "a04-params",
     "level": "advanced"
   },
@@ -30,22 +30,22 @@
     "level": "advanced"
   },
   "a06": {
-    "max": 9,
+    "max": 10,
     "page": "a06-terra",
     "level": "advanced"
   },
   "a07": {
-    "max": 9,
+    "max": 10,
     "page": "a07-maps",
     "level": "advanced"
   },
   "a08": {
-    "max": 9,
+    "max": 10,
     "page": "a08-quarto",
     "level": "advanced"
   },
   "a09": {
-    "max": 8,
+    "max": 10,
     "page": "a09-publish",
     "level": "advanced"
   },
@@ -95,7 +95,7 @@
     "level": "intermediate"
   },
   "i02": {
-    "max": 9,
+    "max": 10,
     "page": "i02-reshape",
     "level": "intermediate"
   },
@@ -115,17 +115,17 @@
     "level": "intermediate"
   },
   "i06": {
-    "max": 8,
+    "max": 10,
     "page": "i06-functions",
     "level": "intermediate"
   },
   "i07": {
-    "max": 9,
+    "max": 10,
     "page": "i07-ggplot-1",
     "level": "intermediate"
   },
   "i08": {
-    "max": 8,
+    "max": 10,
     "page": "i08-ggplot-2",
     "level": "intermediate"
   },
@@ -135,12 +135,12 @@
     "level": "intermediate"
   },
   "i10": {
-    "max": 12,
+    "max": 10,
     "page": "i10-tests",
     "level": "intermediate"
   },
   "i11": {
-    "max": 8,
+    "max": 10,
     "page": "i11-maps",
     "level": "intermediate"
   },
@@ -210,32 +210,32 @@
     "level": "beginner"
   },
   "s00": {
-    "max": 6,
+    "max": 10,
     "page": "00-installation",
     "level": "beginner"
   },
   "s01": {
-    "max": 7,
+    "max": 10,
     "page": "01-first-steps",
     "level": "beginner"
   },
   "s02": {
-    "max": 12,
+    "max": 10,
     "page": "02-vectors",
     "level": "beginner"
   },
   "s03": {
-    "max": 11,
+    "max": 10,
     "page": "03-data-frames",
     "level": "beginner"
   },
   "s04": {
-    "max": 14,
+    "max": 10,
     "page": "04-inside-data-frames",
     "level": "beginner"
   },
   "s05": {
-    "max": 11,
+    "max": 10,
     "page": "05-cleaning",
     "level": "beginner"
   },
@@ -245,7 +245,7 @@
     "level": "beginner"
   },
   "s07": {
-    "max": 7,
+    "max": 10,
     "page": "07-graphics",
     "level": "beginner"
   },

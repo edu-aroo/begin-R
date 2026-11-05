@@ -862,6 +862,113 @@ d’abord.</strong></p>
 #&gt; sample estimates:
 #&gt; mean in group dry mean in group wet 
 #&gt;          3.562905          3.302388</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>width</code>, <code>show.legend</code> (in
+<code>geom_boxplot()</code>)</td>
+<td>width of the boxes (0 to 1); <code>FALSE</code> hides the legend
+(useless here: the groups are already on the x axis)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>t.test(formula, data, paired, var.equal, conf.level)</code></td>
+<td>Student / Welch <em>t</em>-test</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>formula</code></td>
+<td><code>numeric ~ group</code>, the group having exactly 2 values</td>
+<td>column names</td>
+</tr>
+<tr class="even">
+<td>  <code>data</code></td>
+<td>the data frame</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>var.equal</code></td>
+<td><code>FALSE</code> (default) = Welch test, no need for equal
+variances; <code>TRUE</code> = classic Student test</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td>  <code>conf.level</code></td>
+<td>level of the confidence interval</td>
+<td>0.95 (default)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>width</code>, <code>show.legend</code> (in
+<code>geom_boxplot()</code>)</td>
+<td>largeur des boîtes (0 à 1) ; <code>FALSE</code> cache la légende
+(inutile ici : les groupes sont déjà sur l’axe x)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>t.test(formula, data, paired, var.equal, conf.level)</code></td>
+<td>test <em>t</em> de Student / Welch</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>formula</code></td>
+<td><code>numérique ~ groupe</code>, le groupe ayant exactement 2
+valeurs</td>
+<td>noms de colonnes</td>
+</tr>
+<tr class="even">
+<td>  <code>data</code></td>
+<td>le data frame</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>var.equal</code></td>
+<td><code>FALSE</code> (défaut) = test de Welch, pas besoin de variances
+égales ; <code>TRUE</code> = test de Student classique</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td>  <code>conf.level</code></td>
+<td>niveau de l’intervalle de confiance</td>
+<td>0,95 (défaut)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>How to read the output:</p>
 <ul>
@@ -906,6 +1013,74 @@ taille d’effet à rapporter.</strong></li>
 #&gt; [1] 0.95</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>tt<span class="sc">$</span>p.value</span></code></pre></div>
 <pre><code>#&gt; [1] 2.821748e-21</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tt$estimate</code>, <code>tt$conf.int</code>,
+<code>tt$p.value</code>, <code>tt$statistic</code></td>
+<td>the elements of the list returned by a test: estimates, confidence
+interval, p-value, test statistic (<code>names(tt)</code> lists
+them)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>rev(x)</code>, <code>diff(x)</code></td>
+<td>reverses the order (Beginner Session 2); difference between
+consecutive values: <code>diff(c(a, b))</code> = b − a</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tt$estimate</code>, <code>tt$conf.int</code>,
+<code>tt$p.value</code>, <code>tt$statistic</code></td>
+<td>les éléments de la liste renvoyée par un test : estimations,
+intervalle de confiance, p-value, statistique du test
+(<code>names(tt)</code> les liste)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>rev(x)</code>, <code>diff(x)</code></td>
+<td>inverse l’ordre (séance 2 du niveau débutant) ; différence entre
+valeurs successives : <code>diff(c(a, b))</code> = b − a</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout tip">
 <div class="en">
 <p><strong>Report it like this.</strong> “Seaweed grew faster in the dry
@@ -949,6 +1124,60 @@ class="fr">Option A : non paramétrique (rangs)</span></strong></p>
 #&gt; data:  monthly_income_mga by head_sex
 #&gt; W = 20948, p-value = 0.4251
 #&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>wilcox.test(formula, data, paired)</code></td>
+<td>Wilcoxon (Mann–Whitney) test: compares two groups on
+<strong>ranks</strong>, no normality needed; same arguments as
+<code>t.test()</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>wilcox.test(formula, data, paired)</code></td>
+<td>test de Wilcoxon (Mann–Whitney) : compare deux groupes sur les
+<strong>rangs</strong>, sans hypothèse de normalité ; mêmes arguments
+que <code>t.test()</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div class="col pkg">
 <p><strong><span class="en">Option B: t-test on log(income)</span><span
@@ -1037,6 +1266,75 @@ Un test <strong>apparié</strong> travaille sur les 10 différences (2025
 #&gt; sample estimates:
 #&gt; mean difference 
 #&gt;     -0.09978261</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>names_prefix</code> (in <code>pivot_wider()</code>)</td>
+<td>text added before the new column names: <code>2024</code> →
+<code>y2024</code> (a name starting with a digit is awkward with
+<code>$</code>)</td>
+<td>text</td>
+</tr>
+<tr class="even">
+<td><code>t.test(x, y, paired = TRUE)</code></td>
+<td>second way to call <code>t.test()</code>: two vectors instead of a
+formula; <code>paired = TRUE</code> compares the
+<strong>differences</strong> row by row (same station each year)</td>
+<td>two numeric vectors of the same length, in the same order</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>names_prefix</code> (in <code>pivot_wider()</code>)</td>
+<td>texte ajouté devant les nouveaux noms de colonnes :
+<code>2024</code> → <code>y2024</code> (un nom qui commence par un
+chiffre est malcommode avec <code>$</code>)</td>
+<td>texte</td>
+</tr>
+<tr class="even">
+<td><code>t.test(x, y, paired = TRUE)</code></td>
+<td>deuxième façon d’appeler <code>t.test()</code> : deux vecteurs au
+lieu d’une formule ; <code>paired = TRUE</code> compare les
+<strong>différences</strong> ligne par ligne (même station chaque
+année)</td>
+<td>deux vecteurs numériques de même longueur, dans le même ordre</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>The rows must be <strong>in the same order</strong> for both vectors
 (here guaranteed by the wide table: one row = one station). With only 10
@@ -1143,6 +1441,83 @@ vérifiez-le.</p>
 #&gt; sample estimates:
 #&gt;    prop 1    prop 2 
 #&gt; 0.5272727 0.3414634</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>chisq.test(x)</code></td>
+<td>chi-square test of independence between the rows and columns of a
+table; <code>$expected</code> = counts expected if independent</td>
+<td>a <code>table()</code> of counts</td>
+</tr>
+<tr class="even">
+<td><code>fisher.test(x)</code></td>
+<td>Fisher’s exact test, for small expected counts</td>
+<td>a <code>table()</code></td>
+</tr>
+<tr class="odd">
+<td><code>prop.test(x)</code></td>
+<td>compares proportions; with a 2 × 2 table: the proportion of the
+first column in each row</td>
+<td>a <code>table()</code>, or <code>x</code> = successes and
+<code>n</code> = totals</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>chisq.test(x)</code></td>
+<td>test du khi-deux d’indépendance entre lignes et colonnes d’un
+tableau ; <code>$expected</code> = effectifs attendus en cas
+d’indépendance</td>
+<td>une <code>table()</code> d’effectifs</td>
+</tr>
+<tr class="even">
+<td><code>fisher.test(x)</code></td>
+<td>test exact de Fisher, pour de petits effectifs attendus</td>
+<td>une <code>table()</code></td>
+</tr>
+<tr class="odd">
+<td><code>prop.test(x)</code></td>
+<td>compare des proportions ; avec un tableau 2 × 2 : la proportion de
+la première colonne dans chaque ligne</td>
+<td>une <code>table()</code>, ou <code>x</code> = succès et
+<code>n</code> = totaux</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>All three agree (p ≈ 0.10–0.11): <strong>no convincing
 evidence</strong> that technique depends on sex. But look at the
@@ -1219,7 +1594,7 @@ class="section level3">
 class="fr">Température et oxygène dissous</span></h3>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">ggplot</span>(wq, <span class="fu">aes</span>(temp_C, DO_mgL)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">colour =</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
 <span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Temperature (°C)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Dissolved oxygen (mg/L)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span></code></pre></div>
-<p><img src="i10-tests_files/figure-html/unnamed-chunk-9-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i10-tests_files/figure-html/unnamed-chunk-14-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">cor.test</span>(wq<span class="sc">$</span>temp_C, wq<span class="sc">$</span>DO_mgL)          <span class="co"># Pearson by default; NA pairs are dropped</span></span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  Pearson&#39;s product-moment correlation
@@ -1232,6 +1607,61 @@ class="fr">Température et oxygène dissous</span></h3>
 #&gt; sample estimates:
 #&gt;        cor 
 #&gt; -0.5516088</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cor.test(x, y, method)</code></td>
+<td>correlation coefficient with its p-value and (Pearson) its
+confidence interval</td>
+<td>two numeric vectors; <code>method</code> = <code>"pearson"</code>
+(default), <code>"spearman"</code>, <code>"kendall"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cor.test(x, y, method)</code></td>
+<td>coefficient de corrélation avec sa p-value et (Pearson) son
+intervalle de confiance</td>
+<td>deux vecteurs numériques ; <code>method</code> =
+<code>"pearson"</code> (défaut), <code>"spearman"</code>,
+<code>"kendall"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>The cloud is roughly a straight band without extreme points → Pearson
 is appropriate: r = −0.55 (95 % CI −0.60 to −0.50), p &lt; 0.001. Warmer
@@ -1261,7 +1691,96 @@ quand un coefficient trompe</span></h3>
 <span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.05</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>, <span class="at">colour =</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
 <span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">colour =</span> <span class="st">&quot;#d9694a&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span>  <span class="co"># flexible trend line</span></span>
 <span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Mean monthly water temperature (°C)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;SGR (% per day)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span></code></pre></div>
-<p><img src="i10-tests_files/figure-html/unnamed-chunk-10-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i10-tests_files/figure-html/unnamed-chunk-16-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cor(x, y, use, method)</code></td>
+<td>the coefficient only, without a test</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>use</code></td>
+<td>what to do with <code>NA</code>: <code>"complete.obs"</code> = drop
+the pairs with a missing value (default <code>"everything"</code>
+returns <code>NA</code>)</td>
+<td>text</td>
+</tr>
+<tr class="odd">
+<td><code>geom_jitter(width)</code></td>
+<td>points moved slightly at random so that identical values do not hide
+each other; <code>width</code> = maximum horizontal shift</td>
+<td>a number in the units of x</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cor(x, y, use, method)</code></td>
+<td>le coefficient seul, sans test</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>use</code></td>
+<td>que faire des <code>NA</code> : <code>"complete.obs"</code> =
+retirer les paires avec une valeur manquante (par défaut
+<code>"everything"</code> renvoie <code>NA</code>)</td>
+<td>texte</td>
+</tr>
+<tr class="odd">
+<td><code>geom_jitter(width)</code></td>
+<td>points déplacés légèrement au hasard pour que les valeurs identiques
+ne se cachent pas ; <code>width</code> = décalage horizontal
+maximal</td>
+<td>un nombre dans les unités de x</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p><code>cor.test()</code> drops missing pairs by itself, but
+<code>cor()</code> needs <code>use = "complete.obs"</code> — and neither
+uses <code>na.rm</code> like <code>mean()</code>. Same need, three
+different behaviours: check the help page.</p>
+</div>
+<div class="fr">
+<p><code>cor.test()</code> retire seul les paires manquantes, mais
+<code>cor()</code> demande <code>use = "complete.obs"</code> — et aucune
+n’utilise <code>na.rm</code> comme <code>mean()</code>. Même besoin,
+trois comportements différents : consultez la page d’aide.</p>
+</div>
 <div class="en">
 <p>Both coefficients are weak (about −0.19), which suggests “temperature
 hardly matters”. The plot says the opposite: growth
@@ -1378,7 +1897,7 @@ alphabétique) et <code>tt$conf.int</code> l’intervalle. Question 4 :
 </div>
 </div>
 <div id="quiz-i10" class="quiz" data-quiz-id="i10"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMWEuIE1lYW4gU0dSIGRpZmZlcmVuY2UgZHJ5IOKIkiB3ZXQgKDMgZGVjaW1hbHMpPyIsImZyIjoiMWEuIERpZmbDqXJlbmNlIGRlIFNHUiBtb3llbiBzw6hjaGUg4oiSIHBsdWllcyAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjowLjI2MSwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIxYi4gTG93ZXIgbGltaXQgb2YgaXRzIDk1ICUgQ0kgKDMgZGVjaW1hbHMpPyIsImZyIjoiMWIuIEJvcm5lIGluZsOpcmlldXJlIGRlIHNvbiBJQyDDoCA5NSAlICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjAuMjA3LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIFdpbGNveG9uIHAtdmFsdWUsIGluY29tZSBieSBoZWFkX3NleCAoMyBkZWNpbWFscyk/IiwiZnIiOiIyLiBwLXZhbHVlIGRlIFdpbGNveG9uLCByZXZlbnUgc2Vsb24gaGVhZF9zZXggKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MC40MjUsInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gUGFpcmVkIHQtdGVzdCBwLXZhbHVlLCAyMDI1IHZzIDIwMjQgKDMgZGVjaW1hbHMpPyIsImZyIjoiMy4gcC12YWx1ZSBkdSB0ZXN0IHQgYXBwYXJpw6ksIDIwMjUgdnMgMjAyNCAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjowLjAyMSwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0YS4gU21hbGxlc3QgZXhwZWN0ZWQgY291bnQgaW4gc2V4IMOXIHRlY2huaXF1ZSAoMiBkZWNpbWFscyk/IiwiZnIiOiI0YS4gUGx1cyBwZXRpdCBlZmZlY3RpZiBhdHRlbmR1IGRhbnMgc2V4IMOXIHRlY2huaXF1ZSAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoxOC4zNiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjRiLiBDaGktc3F1YXJlIHAtdmFsdWUgKDMgZGVjaW1hbHMpPyIsImZyIjoiNGIuIHAtdmFsdWUgZHUga2hpLWRldXggKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MC4xMDksInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gUGVhcnNvbiByIGJldHdlZW4gdGVtcF9DIGFuZCBET19tZ0wgKDMgZGVjaW1hbHMpPyIsImZyIjoiNS4gciBkZSBQZWFyc29uIGVudHJlIHRlbXBfQyBldCBET19tZ0wgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6LTAuNTUyLCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIFNwZWFybWFuIHJobyBiZXR3ZWVuIHRlbXBfbWVhbiBhbmQgc2dyICgzIGRlY2ltYWxzKT8iLCJmciI6IjYuIHJobyBkZSBTcGVhcm1hbiBlbnRyZSB0ZW1wX21lYW4gZXQgc2dyICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOi0wLjE4OCwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBXaHkgaXMgdGhlIFNwZWFybWFuIGNvZWZmaWNpZW50IG9mIHF1ZXN0aW9uIDYgbWlzbGVhZGluZz8iLCJmciI6IjcuIFBvdXJxdW9pIGxlIGNvZWZmaWNpZW50IGRlIFNwZWFybWFuIGRlIGxhIHF1ZXN0aW9uIDYgZXN0LWlsIHRyb21wZXVyID8iLCJvcHRpb25zX2VuIjpbIkJlY2F1c2UgU3BlYXJtYW4gb25seSB3b3JrcyB3aXRoIG5vcm1hbCBkYXRhIiwiQmVjYXVzZSB0aGUgcmVsYXRpb25zaGlwIHJpc2VzIHRoZW4gZmFsbHMgKG5vdCBtb25vdG9uaWMpLCBzbyB0aGUgY29lZmZpY2llbnQgYXZlcmFnZXMgdHdvIG9wcG9zaXRlIHRyZW5kcyIsIkJlY2F1c2UgdGhlcmUgYXJlIHRvbyBtYW55IG9ic2VydmF0aW9ucyIsIkl0IGlzIG5vdCBtaXNsZWFkaW5nOiB0ZW1wZXJhdHVyZSBoYXMgYWxtb3N0IG5vIGVmZmVjdCJdLCJvcHRpb25zX2ZyIjpbIlBhcmNlIHF1ZSBTcGVhcm1hbiBuZSBmb25jdGlvbm5lIHF1J2F2ZWMgZGVzIGRvbm7DqWVzIG5vcm1hbGVzIiwiUGFyY2UgcXVlIGxhIHJlbGF0aW9uIG1vbnRlIHB1aXMgZGVzY2VuZCAobm9uIG1vbm90b25lKSA6IGxlIGNvZWZmaWNpZW50IG3DqWxhbmdlIGRldXggdGVuZGFuY2VzIG9wcG9zw6llcyIsIlBhcmNlIHF1J2lsIHkgYSB0cm9wIGQnb2JzZXJ2YXRpb25zIiwiSWwgbidlc3QgcGFzIHRyb21wZXVyIDogbGEgdGVtcMOpcmF0dXJlIG4nYSBwcmVzcXVlIHBhcyBkJ2VmZmV0Il0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBTZWEgY3VjdW1iZXIgd2VpZ2h0cyBvZiB0aGUgU0FNRSAzMCB0YWdnZWQgYW5pbWFscywgbWVhc3VyZWQgaW4gTWFyY2ggYW5kIGluIEp1bmUuIFdoaWNoIHRlc3Q/IiwiZnIiOiI4LiBQb2lkcyBkZXMgTcOKTUVTIDMwIGhvbG90aHVyaWVzIG1hcnF1w6llcywgbWVzdXLDqXMgZW4gbWFycyBldCBlbiBqdWluLiBRdWVsIHRlc3QgPyIsIm9wdGlvbnNfZW4iOlsidC50ZXN0KHdlaWdodCB+IG1vbnRoKSAoaW5kZXBlbmRlbnQgZ3JvdXBzKSIsImNoaXNxLnRlc3QoKSIsInQudGVzdChqdW5lLCBtYXJjaCwgcGFpcmVkID0gVFJVRSkgb3IgaXRzIFdpbGNveG9uIHZlcnNpb24iLCJjb3IudGVzdCgpIl0sIm9wdGlvbnNfZnIiOlsidC50ZXN0KHBvaWRzIH4gbW9pcykgKGdyb3VwZXMgaW5kw6lwZW5kYW50cykiLCJjaGlzcS50ZXN0KCkiLCJ0LnRlc3QoanVpbiwgbWFycywgcGFpcmVkID0gVFJVRSkgb3Ugc2EgdmVyc2lvbiBXaWxjb3hvbiIsImNvci50ZXN0KCkiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIEEgMiDDlyAyIHRhYmxlIGhhcyBhbiBleHBlY3RlZCBjb3VudCBvZiAyLjguIFdoaWNoIHRlc3Q/IiwiZnIiOiI5LiBVbiB0YWJsZWF1IDIgw5cgMiBhIHVuIGVmZmVjdGlmIGF0dGVuZHUgZGUgMiw4LiBRdWVsIHRlc3QgPyIsIm9wdGlvbnNfZW4iOlsiY2hpc3EudGVzdCgpIiwiZmlzaGVyLnRlc3QoKSIsInQudGVzdCgpIiwiTm8gdGVzdCBpcyBwb3NzaWJsZSJdLCJvcHRpb25zX2ZyIjpbImNoaXNxLnRlc3QoKSIsImZpc2hlci50ZXN0KCkiLCJ0LnRlc3QoKSIsIkF1Y3VuIHRlc3Qgbidlc3QgcG9zc2libGUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjEwLiBUaGUgcGFpcmVkIHRlc3Qgb2YgcXVlc3Rpb24gMyBpcyBzaWduaWZpY2FudCBidXQgdGhlIGRpZmZlcmVuY2UgaXMg4oiSMC4xIMKwQy4gV2hhdCBkbyB5b3UgY29uY2x1ZGU/IiwiZnIiOiIxMC4gTGUgdGVzdCBhcHBhcmnDqSBkZSBsYSBxdWVzdGlvbiAzIGVzdCBzaWduaWZpY2F0aWYgbWFpcyBsYSBkaWZmw6lyZW5jZSB2YXV0IOKIkjAsMSDCsEMuIFF1ZSBjb25jbHVlei12b3VzID8iLCJvcHRpb25zX2VuIjpbIlRoZXJlIGlzIGEgc21hbGwgYnV0IGRldGVjdGFibGUgZGlmZmVyZW5jZTsgd2hldGhlciBpdCBtYXR0ZXJzIGVjb2xvZ2ljYWxseSBpcyBhbm90aGVyIHF1ZXN0aW9uIiwiMjAyNSB3YXMgbXVjaCBjb2xkZXI6IGFsZXJ0ISIsIlRoZSB0ZXN0IGlzIHdyb25nIiwicC12YWx1ZXMgYmVsb3cgMC4wNSBhbHdheXMgbWVhbiBhbiBpbXBvcnRhbnQgZWZmZWN0Il0sIm9wdGlvbnNfZnIiOlsiSWwgeSBhIHVuZSBkaWZmw6lyZW5jZSBwZXRpdGUgbWFpcyBkw6l0ZWN0YWJsZSA7IHNhdm9pciBzaSBlbGxlIGNvbXB0ZSDDqWNvbG9naXF1ZW1lbnQgZXN0IHVuZSBhdXRyZSBxdWVzdGlvbiIsIjIwMjUgYSDDqXTDqSBiZWF1Y291cCBwbHVzIGZyb2lkZSA6IGFsZXJ0ZSAhIiwiTGUgdGVzdCBlc3QgZmF1eCIsIlVuZSBwLXZhbHVlIHNvdXMgMCwwNSBzaWduaWZpZSB0b3Vqb3VycyB1biBlZmZldCBpbXBvcnRhbnQiXSwiYW5zd2VyIjowfV0=">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTWVhbiBTR1IgZGlmZmVyZW5jZSBkcnkg4oiSIHdldCAoMyBkZWNpbWFscyk/IiwiZnIiOiIxLiBEaWZmw6lyZW5jZSBkZSBTR1IgbW95ZW4gc8OoY2hlIOKIkiBwbHVpZXMgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MC4yNjEsInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gV2lsY294b24gcC12YWx1ZSwgaW5jb21lIGJ5IGhlYWRfc2V4ICgzIGRlY2ltYWxzKT8iLCJmciI6IjIuIHAtdmFsdWUgZGUgV2lsY294b24sIHJldmVudSBzZWxvbiBoZWFkX3NleCAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjowLjQyNSwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBQYWlyZWQgdC10ZXN0IHAtdmFsdWUsIDIwMjUgdnMgMjAyNCAoMyBkZWNpbWFscyk/IiwiZnIiOiIzLiBwLXZhbHVlIGR1IHRlc3QgdCBhcHBhcmnDqSwgMjAyNSB2cyAyMDI0ICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjAuMDIxLCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIENoaS1zcXVhcmUgcC12YWx1ZSAoMyBkZWNpbWFscyk/IiwiZnIiOiI0LiBwLXZhbHVlIGR1IGtoaS1kZXV4ICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjAuMTA5LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIFBlYXJzb24gciBiZXR3ZWVuIHRlbXBfQyBhbmQgRE9fbWdMICgzIGRlY2ltYWxzKT8iLCJmciI6IjUuIHIgZGUgUGVhcnNvbiBlbnRyZSB0ZW1wX0MgZXQgRE9fbWdMICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOi0wLjU1MiwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI2LiBTcGVhcm1hbiByaG8gYmV0d2VlbiB0ZW1wX21lYW4gYW5kIHNnciAoMyBkZWNpbWFscyk/IiwiZnIiOiI2LiByaG8gZGUgU3BlYXJtYW4gZW50cmUgdGVtcF9tZWFuIGV0IHNnciAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjotMC4xODgsInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNy4gV2h5IGlzIHRoZSBTcGVhcm1hbiBjb2VmZmljaWVudCBvZiBxdWVzdGlvbiA2IG1pc2xlYWRpbmc/IiwiZnIiOiI3LiBQb3VycXVvaSBsZSBjb2VmZmljaWVudCBkZSBTcGVhcm1hbiBkZSBsYSBxdWVzdGlvbiA2IGVzdC1pbCB0cm9tcGV1ciA/Iiwib3B0aW9uc19lbiI6WyJCZWNhdXNlIFNwZWFybWFuIG9ubHkgd29ya3Mgd2l0aCBub3JtYWwgZGF0YSIsIkJlY2F1c2UgdGhlIHJlbGF0aW9uc2hpcCByaXNlcyB0aGVuIGZhbGxzIChub3QgbW9ub3RvbmljKSwgc28gdGhlIGNvZWZmaWNpZW50IGF2ZXJhZ2VzIHR3byBvcHBvc2l0ZSB0cmVuZHMiLCJCZWNhdXNlIHRoZXJlIGFyZSB0b28gbWFueSBvYnNlcnZhdGlvbnMiLCJJdCBpcyBub3QgbWlzbGVhZGluZzogdGVtcGVyYXR1cmUgaGFzIGFsbW9zdCBubyBlZmZlY3QiXSwib3B0aW9uc19mciI6WyJQYXJjZSBxdWUgU3BlYXJtYW4gbmUgZm9uY3Rpb25uZSBxdSdhdmVjIGRlcyBkb25uw6llcyBub3JtYWxlcyIsIlBhcmNlIHF1ZSBsYSByZWxhdGlvbiBtb250ZSBwdWlzIGRlc2NlbmQgKG5vbiBtb25vdG9uZSkgOiBsZSBjb2VmZmljaWVudCBtw6lsYW5nZSBkZXV4IHRlbmRhbmNlcyBvcHBvc8OpZXMiLCJQYXJjZSBxdSdpbCB5IGEgdHJvcCBkJ29ic2VydmF0aW9ucyIsIklsIG4nZXN0IHBhcyB0cm9tcGV1ciA6IGxhIHRlbXDDqXJhdHVyZSBuJ2EgcHJlc3F1ZSBwYXMgZCdlZmZldCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gU2VhIGN1Y3VtYmVyIHdlaWdodHMgb2YgdGhlIFNBTUUgMzAgdGFnZ2VkIGFuaW1hbHMsIG1lYXN1cmVkIGluIE1hcmNoIGFuZCBpbiBKdW5lLiBXaGljaCB0ZXN0PyIsImZyIjoiOC4gUG9pZHMgZGVzIE3Dik1FUyAzMCBob2xvdGh1cmllcyBtYXJxdcOpZXMsIG1lc3Vyw6lzIGVuIG1hcnMgZXQgZW4ganVpbi4gUXVlbCB0ZXN0ID8iLCJvcHRpb25zX2VuIjpbInQudGVzdCh3ZWlnaHQgfiBtb250aCkgKGluZGVwZW5kZW50IGdyb3VwcykiLCJjaGlzcS50ZXN0KCkiLCJ0LnRlc3QoanVuZSwgbWFyY2gsIHBhaXJlZCA9IFRSVUUpIG9yIGl0cyBXaWxjb3hvbiB2ZXJzaW9uIiwiY29yLnRlc3QoKSJdLCJvcHRpb25zX2ZyIjpbInQudGVzdChwb2lkcyB+IG1vaXMpIChncm91cGVzIGluZMOpcGVuZGFudHMpIiwiY2hpc3EudGVzdCgpIiwidC50ZXN0KGp1aW4sIG1hcnMsIHBhaXJlZCA9IFRSVUUpIG91IHNhIHZlcnNpb24gV2lsY294b24iLCJjb3IudGVzdCgpIl0sImFuc3dlciI6Mn0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBBIDIgw5cgMiB0YWJsZSBoYXMgYW4gZXhwZWN0ZWQgY291bnQgb2YgMi44LiBXaGljaCB0ZXN0PyIsImZyIjoiOS4gVW4gdGFibGVhdSAyIMOXIDIgYSB1biBlZmZlY3RpZiBhdHRlbmR1IGRlIDIsOC4gUXVlbCB0ZXN0ID8iLCJvcHRpb25zX2VuIjpbImNoaXNxLnRlc3QoKSIsImZpc2hlci50ZXN0KCkiLCJ0LnRlc3QoKSIsIk5vIHRlc3QgaXMgcG9zc2libGUiXSwib3B0aW9uc19mciI6WyJjaGlzcS50ZXN0KCkiLCJmaXNoZXIudGVzdCgpIiwidC50ZXN0KCkiLCJBdWN1biB0ZXN0IG4nZXN0IHBvc3NpYmxlIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gVGhlIHBhaXJlZCB0ZXN0IG9mIHF1ZXN0aW9uIDMgaXMgc2lnbmlmaWNhbnQgYnV0IHRoZSBkaWZmZXJlbmNlIGlzIOKIkjAuMSDCsEMuIFdoYXQgZG8geW91IGNvbmNsdWRlPyIsImZyIjoiMTAuIExlIHRlc3QgYXBwYXJpw6kgZGUgbGEgcXVlc3Rpb24gMyBlc3Qgc2lnbmlmaWNhdGlmIG1haXMgbGEgZGlmZsOpcmVuY2UgdmF1dCDiiJIwLDEgwrBDLiBRdWUgY29uY2x1ZXotdm91cyA/Iiwib3B0aW9uc19lbiI6WyJUaGVyZSBpcyBhIHNtYWxsIGJ1dCBkZXRlY3RhYmxlIGRpZmZlcmVuY2U7IHdoZXRoZXIgaXQgbWF0dGVycyBlY29sb2dpY2FsbHkgaXMgYW5vdGhlciBxdWVzdGlvbiIsIjIwMjUgd2FzIG11Y2ggY29sZGVyOiBhbGVydCEiLCJUaGUgdGVzdCBpcyB3cm9uZyIsInAtdmFsdWVzIGJlbG93IDAuMDUgYWx3YXlzIG1lYW4gYW4gaW1wb3J0YW50IGVmZmVjdCJdLCJvcHRpb25zX2ZyIjpbIklsIHkgYSB1bmUgZGlmZsOpcmVuY2UgcGV0aXRlIG1haXMgZMOpdGVjdGFibGUgOyBzYXZvaXIgc2kgZWxsZSBjb21wdGUgw6ljb2xvZ2lxdWVtZW50IGVzdCB1bmUgYXV0cmUgcXVlc3Rpb24iLCIyMDI1IGEgw6l0w6kgYmVhdWNvdXAgcGx1cyBmcm9pZGUgOiBhbGVydGUgISIsIkxlIHRlc3QgZXN0IGZhdXgiLCJVbmUgcC12YWx1ZSBzb3VzIDAsMDUgc2lnbmlmaWUgdG91am91cnMgdW4gZWZmZXQgaW1wb3J0YW50Il0sImFuc3dlciI6MH1d">
 
 </div>
 <div class="solution" data-quiz="i10">

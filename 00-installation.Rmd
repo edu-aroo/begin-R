@@ -132,9 +132,22 @@ Sys.which("make")       # Windows only: is Rtools found?
 # ""  (empty) means Rtools is not installed or not found
 ```
 
+```{r, echo=FALSE}
+fa(c("`R.version.string`", "not a function but a stored **value**: the text of the R version. Typing a name and pressing Enter prints its value", "pas une fonction mais une **valeur** enregistrée : le texte de la version de R. Taper un nom puis Entrée affiche sa valeur", "nothing", "rien"),
+   c("`Sys.which()`", "looks for a program on the computer and returns where it is", "cherche un programme sur l'ordinateur et renvoie son emplacement", "", ""),
+   c("`\"make\"` (1st argument of `Sys.which`)", "the name of the program to look for; `make` is one of the tools installed by Rtools", "le nom du programme à chercher ; `make` est un des outils installés par Rtools", "text in quotes", "texte entre guillemets"))
+```
+
+::: en
+A **function** is a command that does something: its name is followed by **parentheses**, and inside the parentheses you give it the information it needs, called **arguments**. `Sys.which("make")` = function `Sys.which`, argument `"make"`. Text is always written **in quotes**; without quotes, R would look for an object called `make`.
+:::
+::: fr
+Une **fonction** est une commande qui fait quelque chose : son nom est suivi de **parenthèses**, et entre les parenthèses on lui donne les informations dont elle a besoin, appelées **arguments**. `Sys.which("make")` = fonction `Sys.which`, argument `"make"`. Le texte s'écrit toujours **entre guillemets** ; sans guillemets, R chercherait un objet appelé `make`.
+:::
+
 ## [A tour of RStudio]{.en}[Visite de RStudio]{.fr} {#tour}
 
-`r fig_svg("rstudio-panes")`
+`r fig_shot("rstudio-panes")`
 
 ::: en
 RStudio has four panes. The **Script** pane only appears when you open a script: *File → New File → R Script* (shortcut **Ctrl + Shift + N**).
@@ -240,8 +253,22 @@ Vérifiez dans la console que R « voit » les fichiers :
 :::
 
 ```{r, eval=FALSE}
+# list.files(path): path = the folder to look in, relative to the project folder
 list.files("data")      # lists the files in the data folder of the project
 ```
+
+```{r, echo=FALSE}
+fa(c("`list.files()`", "lists the names of the files in a folder", "liste les noms des fichiers d'un dossier", "", ""),
+   c("`path` (1st argument)", "the folder to look in. `\"data\"` = the `data` folder **inside the project**; without any argument: the project folder itself", "le dossier où chercher. `\"data\"` = le dossier `data` **dans le projet** ; sans argument : le dossier du projet lui-même", "folder name in quotes", "nom de dossier entre guillemets"),
+   c("`Sys.Date()`", "today's date (used in the *Try it* box). Some functions need **no argument**: the parentheses stay empty but are still required", "la date du jour (utilisée dans l'encadré *À vous*). Certaines fonctions n'ont **besoin d'aucun argument** : les parenthèses restent vides mais sont obligatoires", "nothing", "rien"))
+```
+
+::: en
+We wrote `list.files("data")` and not `list.files(path = "data")`: when you give the arguments **in the expected order**, their names can be left out. Session 1 explains this.
+:::
+::: fr
+Nous avons écrit `list.files("data")` et non `list.files(path = "data")` : quand on donne les arguments **dans l'ordre prévu**, on peut omettre leur nom. La séance 1 l'explique.
+:::
 
 ```{r, echo=FALSE}
 print(list.files("data", pattern = "\\.csv$"))
@@ -311,6 +338,21 @@ quiz("s00", list(
   q_num("How many CSV files does list.files(\"data\") show in your project?",
         "Combien de fichiers CSV list.files(\"data\") affiche-t-il dans votre projet ?",
         answer = 5, tol = 0),
+  q_mcq("In Sys.which(\"make\"), what is \"make\"?",
+        "Dans Sys.which(\"make\"), qu'est-ce que \"make\" ?",
+        c("The function", "An argument: the name of the program to look for", "A package", "A file of the project"),
+        c("La fonction", "Un argument : le nom du programme à chercher", "Un package", "Un fichier du projet"), correct = 2),
+  q_mcq("Sys.which(\"make\") returns \"\" (empty). What does it mean?",
+        "Sys.which(\"make\") renvoie \"\" (vide). Qu'est-ce que cela signifie ?",
+        c("Rtools is installed", "R is not installed", "Rtools is not installed or not found", "The project is not open"),
+        c("Rtools est installé", "R n'est pas installé", "Rtools n'est pas installé ou pas trouvé", "Le projet n'est pas ouvert"), correct = 3),
+  q_mcq("Why do we write \"data\" in quotes in list.files(\"data\")?",
+        "Pourquoi écrit-on \"data\" entre guillemets dans list.files(\"data\") ?",
+        c("Because it is text (a folder name); without quotes R would look for an object called data", "Quotes are optional", "To make the text bold", "Because data is a function"),
+        c("Parce que c'est du texte (un nom de dossier) ; sans guillemets R chercherait un objet appelé data", "Les guillemets sont facultatifs", "Pour mettre le texte en gras", "Parce que data est une fonction"), correct = 1),
+  q_mcq("What should \"Save workspace to .RData on exit\" be set to?",
+        "Sur quoi faut-il régler « Save workspace to .RData on exit » ?",
+        c("Always", "Ask", "Never"), c("Always", "Ask", "Never"), correct = 3),
   q_text("What is the exact file name of the raw coral dataset (with its extension)?",
          "Quel est le nom exact du fichier de données brutes sur les coraux (avec son extension) ?",
          c("coral_cover_raw.csv"))

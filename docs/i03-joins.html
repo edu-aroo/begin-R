@@ -631,6 +631,71 @@ copiée plusieurs fois.</p>
 <pre><code>#&gt; [1] 0</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">all</span>(lines<span class="sc">$</span>farmer_id <span class="sc">%in%</span> farmers<span class="sc">$</span>farmer_id)   <span class="co"># every line has a known farmer</span></span></code></pre></div>
 <pre><code>#&gt; [1] TRUE</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>duplicated(x)</code></td>
+<td><code>TRUE</code> for each value already seen before (Beginner
+Session 5); <code>sum()</code> counts them</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>all(x)</code></td>
+<td><code>TRUE</code> if <strong>every</strong> element of a logical
+vector is <code>TRUE</code> (<code>any(x)</code>: at least one)</td>
+<td>a condition</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>duplicated(x)</code></td>
+<td><code>TRUE</code> pour chaque valeur déjà vue avant (séance 5 du
+niveau débutant) ; <code>sum()</code> les compte</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>all(x)</code></td>
+<td><code>TRUE</code> si <strong>tous</strong> les éléments d’un vecteur
+logique valent <code>TRUE</code> (<code>any(x)</code> : au moins
+un)</td>
+<td>une condition</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="join-types" class="section level2">
 <h2><span class="en">The four main joins</span><span class="fr">Les
@@ -756,6 +821,113 @@ right join, nothing an inner join.</p>
 <code>all.y = TRUE</code> une jointure à droite, rien une jointure
 interne.</p>
 </div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>left_join(x, y, by)</code>, <code>inner_join()</code>,
+<code>full_join()</code>, <code>anti_join()</code></td>
+<td>join two tables (see the table above for what each one keeps)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>x</code>, <code>y</code></td>
+<td>the first (main) table and the table whose information is added</td>
+<td>data frames</td>
+</tr>
+<tr class="odd">
+<td>  <code>by</code></td>
+<td>the key column(s), present in both tables. Several keys:
+<code>c("zone", "year", "month")</code>. Different names in the two
+tables: <code>c("name_in_x" = "name_in_y")</code></td>
+<td>column names <strong>in quotes</strong></td>
+</tr>
+<tr class="even">
+<td><code>merge(x, y, by, all.x, all.y, all)</code></td>
+<td>base R join; <code>all.x = TRUE</code> keeps all rows of
+<code>x</code> (left join), <code>all.y = TRUE</code> all rows of
+<code>y</code>, <code>all = TRUE</code> both (full join); none = inner
+join</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>left_join(x, y, by)</code>, <code>inner_join()</code>,
+<code>full_join()</code>, <code>anti_join()</code></td>
+<td>joignent deux tableaux (voir le tableau ci-dessus pour ce que
+chacune garde)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>x</code>, <code>y</code></td>
+<td>le premier tableau (principal) et le tableau dont l’information est
+ajoutée</td>
+<td>data frames</td>
+</tr>
+<tr class="odd">
+<td>  <code>by</code></td>
+<td>la ou les colonnes clés, présentes dans les deux tableaux. Plusieurs
+clés : <code>c("zone", "year", "month")</code>. Noms différents dans les
+deux tableaux : <code>c("nom_dans_x" = "nom_dans_y")</code></td>
+<td>noms de colonnes <strong>entre guillemets</strong></td>
+</tr>
+<tr class="even">
+<td><code>merge(x, y, by, all.x, all.y, all)</code></td>
+<td>jointure de R de base ; <code>all.x = TRUE</code> garde toutes les
+lignes de <code>x</code> (jointure à gauche), <code>all.y = TRUE</code>
+toutes celles de <code>y</code>, <code>all = TRUE</code> les deux
+(jointure complète) ; aucun = jointure interne</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>Same job, different vocabulary: dplyr has <strong>one function per
+type</strong> of join, <code>merge()</code> has <strong>one function
+with switches</strong> (<code>all.x</code>, <code>all.y</code>,
+<code>all</code>). Both use <code>by</code> for the key.</p>
+</div>
+<div class="fr">
+<p>Même travail, vocabulaire différent : dplyr a <strong>une fonction
+par type</strong> de jointure, <code>merge()</code> a <strong>une seule
+fonction avec des interrupteurs</strong> (<code>all.x</code>,
+<code>all.y</code>, <code>all</code>). Les deux utilisent
+<code>by</code> pour la clé.</p>
+</div>
 </div>
 <div id="anti" class="section level2">
 <h2><span class="en">Finding problems with anti_join()</span><span
@@ -802,7 +974,8 @@ référence.</p>
 <pre><code>#&gt; Warning in left_join(members, hh, by = &quot;hh_id&quot;): Detected an unexpected many-to-many relationship between `x` and `y`.
 #&gt; ℹ Row 544 of `x` matches multiple rows in `y`.
 #&gt; ℹ Row 1 of `y` matches multiple rows in `x`.
-#&gt; ℹ If a many-to-many relationship is expected, set `relationship = &quot;many-to-many&quot;` to silence this warning.</code></pre>
+#&gt; ℹ If a many-to-many relationship is expected, set `relationship = &quot;many-to-many&quot;` to silence
+#&gt;   this warning.</code></pre>
 <pre><code>#&gt; [1] 2376</code></pre>
 </div>
 <div id="multi" class="section level2">
@@ -838,6 +1011,70 @@ la jointure utilise trois clés à la fois.</p>
 <pre><code>#&gt; [1] 2575   23</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(seaweed<span class="sc">$</span>temp_mean))                 <span class="co"># 0: every line found its temperature</span></span></code></pre></div>
 <pre><code>#&gt; [1] 0</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>villages[, c("village", "zone")]</code></td>
+<td>keep only the columns needed before joining, so that no unwanted
+column is added (Beginner Session 3)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>by = c("zone", "year", "month")</code></td>
+<td>rows are matched only when the <strong>three</strong> keys are
+equal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>villages[, c("village", "zone")]</code></td>
+<td>ne garder que les colonnes utiles avant de joindre, pour n’ajouter
+aucune colonne inutile (séance 3 du niveau débutant)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>by = c("zone", "year", "month")</code></td>
+<td>les lignes ne sont associées que si les <strong>trois</strong> clés
+sont égales</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout tip">
 <div class="en">
 <p>When the key has <strong>different names</strong> in the two tables:

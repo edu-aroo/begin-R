@@ -27,7 +27,7 @@
 // ---- SETTINGS ----------------------------------------------------------------
 // Address of your course site, WITH the final slash. Used to read the list of
 // quizzes (assets/quiz_index.json) to check level scores. Leave "" to skip checks.
-const SITE_URL = "https://edu-aroo.github.io/begin-R/";                         // e.g. "https://edu-aroo.github.io/begin-R/"
+const SITE_URL = "https://edu-aroo.github.io/begin-R/";                         // e.g. ""
 const ALERT_EMAIL = "aroofalinirina@gmail.com";   // receives "needs help" and "level passed" e-mails
 const MAX_ATTEMPTS = 2;                      // same value as maxAttempts in config.js
 const PASS = 0.75;                           // same value as passThreshold in config.js
@@ -208,7 +208,12 @@ function levelResult(username, level, idx, allScores, openPages) {
   ids.forEach(function (id) {
     const att = mine.filter(function (r) { return String(r.quiz) === id; });
     const max = idx[id].max;
-    const best = att.reduce(function (m, r) { return Math.max(m, Number(r.score) || 0); }, 0);
+    // If the quiz changed size since the attempt (row max differs from the
+    // current quiz index), the score is rescaled: 9/12 becomes 7.5/10.
+    const best = att.reduce(function (m, r) {
+      const rmax = Number(r.max) || max, sc = Number(r.score) || 0;
+      return Math.max(m, rmax === max ? sc : Math.round(10 * sc * max / rmax) / 10);
+    }, 0);
     total += max;
     if (att.length) { done++; earned += best; }
     possible += att.length >= MAX_ATTEMPTS ? best : max;

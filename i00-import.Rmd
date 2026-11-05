@@ -105,6 +105,17 @@ farmers <- read_excel("data/seaweed_farming.xlsx", sheet = "farmers")
 farmers
 ```
 
+```{r, echo=FALSE}
+fa(c("`library(readxl)`", "loads the package **readxl** (installed once with `install.packages(\"readxl\")`, Beginner Session 8)", "charge le package **readxl** (installé une fois avec `install.packages(\"readxl\")`, séance 8 du niveau débutant)", "", ""),
+   c("`excel_sheets(path)`", "the names of the sheets of an Excel file", "les noms des feuilles d'un fichier Excel", "path of the `.xlsx` or `.xls` file, in quotes", "chemin du fichier `.xlsx` ou `.xls`, entre guillemets"),
+   c("`read_excel(path, sheet, col_names, skip, range, na)`", "reads one sheet and returns a **tibble** (a data frame that prints more neatly: size, type of each column, first 10 rows)", "lit une feuille et renvoie un **tibble** (un data frame qui s'affiche plus proprement : taille, type de chaque colonne, 10 premières lignes)", "", ""),
+   c("&nbsp;&nbsp;`sheet`", "which sheet to read (default: the first)", "quelle feuille lire (par défaut : la première)", "its name in quotes, or its number", "son nom entre guillemets, ou son numéro"),
+   c("&nbsp;&nbsp;`col_names`", "`TRUE`: the first row read gives the column names; `FALSE`: R names them `...1`, `...2`", "`TRUE` : la première ligne lue donne les noms des colonnes ; `FALSE` : R les nomme `...1`, `...2`", "`TRUE` (default) / `FALSE`", "`TRUE` (défaut) / `FALSE`"),
+   c("&nbsp;&nbsp;`skip`", "number of rows to ignore at the top (title rows, below)", "nombre de lignes à ignorer en haut (lignes de titre, ci-dessous)", "a whole number (default 0)", "un nombre entier (0 par défaut)"),
+   c("&nbsp;&nbsp;`range`", "a block of cells only, as in Excel", "un bloc de cellules seulement, comme dans Excel", "e.g. `\"A4:K200\"`", "ex. `\"A4:K200\"`"),
+   c("&nbsp;&nbsp;`na`", "the values to read as missing", "les valeurs à lire comme manquantes", "e.g. `c(\"\", \"-\", \"NA\")`", "ex. `c(\"\", \"-\", \"NA\")`"))
+```
+
 ::: en
 The result is a **tibble**: a modern data frame that prints only the first rows and shows the type of each column under its name (`<chr>` text, `<dbl>` number, `<dttm>` date-time). Everything you learned on data frames works on tibbles. To get a classic data frame: `as.data.frame()`.
 :::
@@ -153,6 +164,11 @@ str(lines)
 colSums(is.na(lines))            # missing values per column
 summary(lines$final_weight_kg)   # look at the maximum!
 table(lines$status)
+```
+
+```{r, echo=FALSE}
+fa(c("`str()`, `summary()`, `table()`", "reminders of the Beginner level (Sessions 2–3): structure, summary of each column, counts per value", "rappels du niveau débutant (séances 2–3) : structure, résumé de chaque colonne, effectifs par valeur", "", ""),
+   c("`colSums(is.na(df))`", "number of `NA` per column (Beginner Session 5)", "nombre de `NA` par colonne (séance 5 du niveau débutant)", "", ""))
 ```
 
 ::: en
@@ -224,6 +240,21 @@ str(wq)
 range(wq$temp_C, na.rm = TRUE)     # -999 is a probe "error code", not a temperature
 ```
 
+```{r, echo=FALSE}
+fa(c("`read.csv(file, sep, dec, na.strings, fileEncoding)`", "reads a CSV (Beginner Session 3); the extra arguments of the table above:", "lit un CSV (séance 3 du niveau débutant) ; les arguments supplémentaires du tableau ci-dessus :", "", ""),
+   c("&nbsp;&nbsp;`na.strings`", "the texts to read as `NA` (default `\"NA\"` only)", "les textes à lire comme `NA` (par défaut seulement `\"NA\"`)", "a text vector", "un vecteur de texte"),
+   c("&nbsp;&nbsp;`fileEncoding`", "how the accents are coded in the file", "comment les accents sont codés dans le fichier", "`\"UTF-8\"` or `\"latin1\"`", "`\"UTF-8\"` ou `\"latin1\"`"),
+   c("`rowSums(x)`", "sum of each row; `rowSums(!is.na(df))` = number of filled cells in each row", "somme de chaque ligne ; `rowSums(!is.na(df))` = nombre de cellules remplies dans chaque ligne", "a table of numbers or `TRUE`/`FALSE`", "un tableau de nombres ou de `TRUE`/`FALSE`"),
+   c("`range(x, na.rm = TRUE)`", "minimum and maximum together", "minimum et maximum ensemble", "", ""))
+```
+
+::: en
+**Two readers, two vocabularies.** The same settings have different names in `read.csv()` and `read_excel()`: column names in the first row = `header` / `col_names`; missing values = `na.strings` / `na`; rows to skip = `skip` in both. Check `?read.csv` and `?read_excel` rather than guessing.
+:::
+::: fr
+**Deux lecteurs, deux vocabulaires.** Les mêmes réglages portent des noms différents dans `read.csv()` et `read_excel()` : noms de colonnes en première ligne = `header` / `col_names` ; valeurs manquantes = `na.strings` / `na` ; lignes à sauter = `skip` dans les deux. Consultez `?read.csv` et `?read_excel` au lieu de deviner.
+:::
+
 ::: en
 `readr::read_csv()` (tidyverse) is a faster alternative that returns a tibble and guesses types more carefully. Both are fine: use what you prefer, but **always check** the result.
 :::
@@ -244,6 +275,11 @@ Ne modifiez jamais le fichier brut. Enregistrez la version nettoyée dans `outpu
 lines$planting_date <- as.Date(lines$planting_date)    # date-time -> date
 write.csv(farmers, "outputs/I0_farmers.csv", row.names = FALSE)
 write.csv(lines,   "outputs/I0_lines.csv",   row.names = FALSE)
+```
+
+```{r, echo=FALSE}
+fa(c("`as.Date(x)`", "converts to a date without time of day (Session I1 explains dates)", "convertit en date sans heure (la séance I1 explique les dates)", "", ""),
+   c("`write.csv(x, file, row.names = FALSE)`", "saves a data frame (Beginner Session 3)", "enregistre un data frame (séance 3 du niveau débutant)", "", ""))
 ```
 
 `r dl("I0_farmers.csv", "checkpoint: I0_farmers.csv", dir = "data/checkpoints")` `r dl("I0_lines.csv", "checkpoint: I0_lines.csv", dir = "data/checkpoints")`

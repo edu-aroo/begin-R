@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="The four panes of RStudio" font-family="Source Sans 3, Arial, sans-serif">
 <rect x="10" y="10" width="840" height="450" rx="12" fill="#f2f4f5" stroke="#9aa7ae" stroke-width="2"/>
-<rect x="10" y="10" width="840" height="30" rx="12" fill="#d7dde0"/><circle cx="32" cy="25" r="6" fill="#d9694a"/><circle cx="52" cy="25" r="6" fill="#e3b04b"/><circle cx="72" cy="25" r="6" fill="#4a7d3a"/>
+<rect x="10" y="10" width="840" height="30" rx="12" fill="#d7dde0"/><rect x="24" y="18" width="14" height="14" rx="3" fill="#75aadb"/><text x="770" y="31" font-size="14" fill="#333">&#x2014;</text><rect x="798" y="19" width="11" height="11" fill="none" stroke="#333"/><text x="826" y="32" font-size="15" fill="#333">&#x2715;</text>
 <text x="430" y="31" text-anchor="middle" font-size="15" fill="#3c4a52">RStudio</text>
 <rect x="22" y="50" width="490" height="210" rx="8" fill="#fff" stroke="#1b7f8c" stroke-width="2.5"/>
 <rect x="22" y="270" width="490" height="180" rx="8" fill="#fff" stroke="#0b3d5c" stroke-width="2.5"/>

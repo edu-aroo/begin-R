@@ -787,6 +787,62 @@ dans votre script la liste des problèmes trouvés à l’étape 1. Comparez
 ensuite avec la liste de l’étape 2 : en avez-vous oublié ?</p>
 </div>
 </div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>table(x, useNA = "always")</code></td>
+<td>counts the values <strong>and</strong> the <code>NA</code> (by
+default <code>table()</code> hides them); <code>"ifany"</code> shows
+<code>NA</code> only if there are some</td>
+<td><code>"no"</code> (default), <code>"ifany"</code>,
+<code>"always"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>table(x, useNA = "always")</code></td>
+<td>compte les valeurs <strong>et</strong> les <code>NA</code> (par
+défaut <code>table()</code> les cache) ; <code>"ifany"</code> n’affiche
+<code>NA</code> que s’il y en a</td>
+<td><code>"no"</code> (défaut), <code>"ifany"</code>,
+<code>"always"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="step2" class="section level2">
 <h2><span class="en">Step 2 — Clean</span><span class="fr">Étape 2 —
@@ -849,6 +905,72 @@ montrer exactement 3 AMP, <code>table(raw$zone)</code> 2 zones et
 <code>table(raw$category, useNA = "always")</code> seulement des codes
 en majuscules plus <code>NA</code>. Supprimez les doublons
 <strong>avant</strong> de compter les points manquants.</p>
+</div>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>gsub("\\s+", " ", x)</code></td>
+<td>reminder (Session 5) with a <strong>pattern</strong>:
+<code>\\s</code> = any space, <code>+</code> = one or more; replaces
+each run of spaces by a single space</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>x[x == ""] &lt;- NA</code></td>
+<td>replaces empty texts by <code>NA</code> (Session 4: changing values
+by condition)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>gsub("\\s+", " ", x)</code></td>
+<td>rappel (séance 5) avec un <strong>motif</strong> : <code>\\s</code>
+= n’importe quel espace, <code>+</code> = un ou plusieurs ; remplace
+chaque suite d’espaces par un seul espace</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>x[x == ""] &lt;- NA</code></td>
+<td>remplace les textes vides par <code>NA</code> (séance 4 : modifier
+des valeurs par condition)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -938,6 +1060,86 @@ code complet. Enregistrez la figure en PNG (300 dpi).</p>
 <p><em>Facultatif (séance 8) :</em> faites la même figure avec ggplot2
 en utilisant <code>position = position_dodge(0.8)</code> dans
 <code>geom_col()</code> et <code>geom_errorbar()</code>.</p>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>barplot(height, beside = TRUE)</code></td>
+<td>with a <strong>matrix</strong> (rows = zones, columns = MPAs):
+<code>beside = TRUE</code> puts the bars of each column side by side;
+<code>FALSE</code> (default) stacks them</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>position_dodge(width)</code></td>
+<td>ggplot2: puts side by side the bars (and error bars) of the
+different groups; use the same <code>width</code> in
+<code>geom_col()</code> and <code>geom_errorbar()</code> so that they
+line up</td>
+<td>a number, e.g. <code>0.8</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>barplot(height, beside = TRUE)</code></td>
+<td>avec une <strong>matrice</strong> (lignes = zones, colonnes = AMP) :
+<code>beside = TRUE</code> place côte à côte les barres de chaque
+colonne ; <code>FALSE</code> (défaut) les empile</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>position_dodge(width)</code></td>
+<td>ggplot2 : place côte à côte les barres (et barres d’erreur) des
+différents groupes ; utilisez la même <code>width</code> dans
+<code>geom_col()</code> et <code>geom_errorbar()</code> pour qu’elles
+s’alignent</td>
+<td>un nombre, ex. <code>0.8</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p><code>beside = TRUE</code> in base R and
+<code>position = position_dodge()</code> in ggplot2 do the same thing —
+one more pair of different names for the same idea (Session 8).</p>
+</div>
+<div class="fr">
+<p><code>beside = TRUE</code> en R de base et
+<code>position = position_dodge()</code> dans ggplot2 font la même chose
+— encore une paire de noms différents pour la même idée (séance 8).</p>
 </div>
 </div>
 <div id="step6" class="section level2">

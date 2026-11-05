@@ -675,10 +675,10 @@ class="fr">Lignes et colonnes par numéro</span></h3>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>sg[<span class="dv">2</span>, <span class="dv">7</span>]                  <span class="co"># row 2, column 7 -&gt; one value</span></span></code></pre></div>
 <pre><code>#&gt; [1] 47</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>sg[<span class="dv">2</span>, ]                   <span class="co"># row 2, all columns -&gt; one row (a data frame)</span></span></code></pre></div>
-<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species seagrass_cover canopy_height_cm
-#&gt; 2 Ambalaboy     Inside       2 2026-03-10     0.9 Syringodium isoetifolium             47               17
-#&gt;   shoot_density
-#&gt; 2           464</code></pre>
+<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species seagrass_cover
+#&gt; 2 Ambalaboy     Inside       2 2026-03-10     0.9 Syringodium isoetifolium             47
+#&gt;   canopy_height_cm shoot_density
+#&gt; 2               17           464</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>sg[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]              <span class="co"># rows 1 to 3, columns 1 to 4</span></span></code></pre></div>
 <pre><code>#&gt;        site mpa_status quadrat       date
 #&gt; 1 Ambalaboy     Inside       1 2026-03-10
@@ -755,6 +755,80 @@ utilisez des crochets simples sans virgule :
 <pre><code>#&gt; [1] &quot;character&quot;</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">class</span>(sg[, <span class="st">&quot;site&quot;</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>]) <span class="co"># still a data frame</span></span></code></pre></div>
 <pre><code>#&gt; [1] &quot;data.frame&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df[rows, columns, drop = TRUE]</code></td>
+<td>the address system (reminder of Session 3)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>-</code></td>
+<td>before positions: <strong>removes</strong> them
+(<code>-(1:57)</code> = all rows except 1 to 57)</td>
+<td>numbers</td>
+</tr>
+<tr class="odd">
+<td>  <code>drop</code></td>
+<td><code>TRUE</code> (default): a single column is simplified into a
+vector; <code>FALSE</code>: it stays a data frame</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df[rows, columns, drop = TRUE]</code></td>
+<td>le système d’adresse (rappel de la séance 3)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>-</code></td>
+<td>devant des positions : les <strong>enlève</strong>
+(<code>-(1:57)</code> = toutes les lignes sauf 1 à 57)</td>
+<td>nombres</td>
+</tr>
+<tr class="odd">
+<td>  <code>drop</code></td>
+<td><code>TRUE</code> (défaut) : une seule colonne est simplifiée en
+vecteur ; <code>FALSE</code> : elle reste un data frame</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout try">
 <div class="en">
 <p><strong>Try it.</strong> (a) Show the species and depth of quadrats
@@ -899,6 +973,58 @@ stocké dans un objet.</p>
 <pre><code>#&gt; [1] 2.8 0.9 2.3 0.4 1.9</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>sg<span class="sc">$</span>var               <span class="co"># does NOT work: R looks for a column literally called &quot;var&quot;</span></span></code></pre></div>
 <pre><code>#&gt; NULL</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df[["name"]]</code></td>
+<td>one column, as a vector; the name can be stored in an object
+(<code>df[[var]]</code>)</td>
+<td>a column name in quotes, or an object containing it</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df[["name"]]</code></td>
+<td>une colonne, sous forme de vecteur ; le nom peut être rangé dans un
+objet (<code>df[[var]]</code>)</td>
+<td>un nom de colonne entre guillemets, ou un objet qui le contient</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout tip">
 <div class="en">
 <p><code>sg$seagrass_cover[3]</code> and
@@ -966,6 +1092,84 @@ change, ce qui est normal) :</p>
 <pre><code>#&gt; 
 #&gt;     Ambalaboy     Belitsaky Fasimena Nord    Tsiandamba 
 #&gt;            15            15            15            15</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>address &lt;- value</code></td>
+<td>replaces the values at that address (cell, column, rows that meet a
+condition)</td>
+<td>one value, or as many values as cells</td>
+</tr>
+<tr class="even">
+<td><code>which(condition)</code></td>
+<td>positions where the condition is <code>TRUE</code> (Session 2); it
+skips the <code>NA</code>, so no <code>NA</code> ends up in the
+address</td>
+<td>a condition</td>
+</tr>
+<tr class="odd">
+<td><code>table(x, y)</code></td>
+<td>with <strong>two</strong> vectors: a cross-table (counts for each
+combination), used in the <em>Try it</em> box</td>
+<td>two vectors of the same length</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>address &lt;- value</code></td>
+<td>remplace les valeurs à cette adresse (cellule, colonne, lignes qui
+remplissent une condition)</td>
+<td>une valeur, ou autant de valeurs que de cellules</td>
+</tr>
+<tr class="even">
+<td><code>which(condition)</code></td>
+<td>positions où la condition vaut <code>TRUE</code> (séance 2) ; il
+ignore les <code>NA</code>, donc aucun <code>NA</code> ne se retrouve
+dans l’adresse</td>
+<td>une condition</td>
+</tr>
+<tr class="odd">
+<td><code>table(x, y)</code></td>
+<td>avec <strong>deux</strong> vecteurs : un tableau croisé (effectifs
+de chaque combinaison), utilisé dans l’encadré <em>À vous</em></td>
+<td>deux vecteurs de même longueur</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p>There is <strong>no undo</strong> in R. If you overwrite the wrong
@@ -1074,6 +1278,70 @@ Vous le ferez dans le travail d’application.</p>
 #&gt; 1   Chaetodon auriga        12    15 0.027 3   46.656   699.840
 #&gt; 2 Chlorurus sordidus        12    14 0.017 3   29.376   411.264
 #&gt; 3 Chlorurus sordidus        19    14 0.017 3  116.603  1632.442</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>paste(..., sep)</code></td>
+<td>reminder (Session 2): glues the values of two columns row by row;
+<code>sep = "_"</code> puts <code>_</code> between them</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>^</code></td>
+<td>power: <code>length_cm^b</code> = length to the power
+<em>b</em></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>paste(..., sep)</code></td>
+<td>rappel (séance 2) : colle les valeurs de deux colonnes ligne par
+ligne ; <code>sep = "_"</code> met <code>_</code> entre elles</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>^</code></td>
+<td>puissance : <code>length_cm^b</code> = longueur puissance
+<em>b</em></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout tip">
 <div class="en">
 <p><code>^</code> means “to the power of”. R applies the usual order of
@@ -1095,16 +1363,138 @@ colonnes</span></h2>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a>sg<span class="sc">$</span>campaign <span class="ot">&lt;-</span> <span class="cn">NULL</span>                     <span class="co"># 1. delete one column with NULL</span></span>
 <span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a>sg <span class="ot">&lt;-</span> sg[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">13</span>)]                  <span class="co"># 2. delete by position (minus sign)</span></span>
 <span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a><span class="fu">names</span>(sg)</span></code></pre></div>
-<pre><code>#&gt;  [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;             &quot;depth_m&quot;         
-#&gt;  [6] &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;    &quot;cover_prop&quot;      
-#&gt; [11] &quot;shoots_counted&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;            
+#&gt;  [5] &quot;depth_m&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot;
+#&gt;  [9] &quot;shoot_density&quot;    &quot;cover_prop&quot;       &quot;shoots_counted&quot;</code></pre>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="co"># 3. delete by name: keep the columns whose name is NOT in the list</span></span>
 <span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a>sg <span class="ot">&lt;-</span> sg[, <span class="sc">!</span>(<span class="fu">names</span>(sg) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;canopy_index&quot;</span>))]</span>
 <span id="cb47-3"><a href="#cb47-3" tabindex="-1"></a><span class="co"># 4. same with subset() and select = -c(...)</span></span>
 <span id="cb47-4"><a href="#cb47-4" tabindex="-1"></a>sg <span class="ot">&lt;-</span> <span class="fu">subset</span>(sg, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(cover_prop))</span>
 <span id="cb47-5"><a href="#cb47-5" tabindex="-1"></a><span class="fu">names</span>(sg)</span></code></pre></div>
-<pre><code>#&gt;  [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;             &quot;depth_m&quot;         
-#&gt;  [6] &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;    &quot;shoots_counted&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;            
+#&gt;  [5] &quot;depth_m&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot;
+#&gt;  [9] &quot;shoot_density&quot;    &quot;shoots_counted&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df$col &lt;- NULL</code></td>
+<td><code>NULL</code> = “nothing”: assigning it to a column deletes the
+column</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>x %in% y</code></td>
+<td>for each element of <code>x</code>: <code>TRUE</code> if it is
+somewhere in <code>y</code></td>
+<td>two vectors</td>
+</tr>
+<tr class="odd">
+<td><code>subset(x, subset, select)</code></td>
+<td>keeps part of a data frame</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>x</code></td>
+<td>the data frame</td>
+<td>a data frame</td>
+</tr>
+<tr class="odd">
+<td>  <code>subset</code></td>
+<td>a condition on the rows, written with column names
+<strong>without</strong> <code>df$</code>
+(e.g. <code>subset(sg, depth_m &gt; 2)</code>)</td>
+<td>a condition</td>
+</tr>
+<tr class="even">
+<td>  <code>select</code></td>
+<td>the columns to keep; <code>-c(...)</code> = all except these</td>
+<td>column names without quotes in <code>c()</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df$col &lt;- NULL</code></td>
+<td><code>NULL</code> = « rien » : l’affecter à une colonne supprime la
+colonne</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>x %in% y</code></td>
+<td>pour chaque élément de <code>x</code> : <code>TRUE</code> s’il se
+trouve quelque part dans <code>y</code></td>
+<td>deux vecteurs</td>
+</tr>
+<tr class="odd">
+<td><code>subset(x, subset, select)</code></td>
+<td>garde une partie d’un data frame</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>x</code></td>
+<td>le data frame</td>
+<td>un data frame</td>
+</tr>
+<tr class="odd">
+<td>  <code>subset</code></td>
+<td>une condition sur les lignes, écrite avec les noms de colonnes
+<strong>sans</strong> <code>df$</code> (ex.
+<code>subset(sg, depth_m &gt; 2)</code>)</td>
+<td>une condition</td>
+</tr>
+<tr class="even">
+<td>  <code>select</code></td>
+<td>les colonnes à garder ; <code>-c(...)</code> = toutes sauf
+celles-ci</td>
+<td>noms de colonnes sans guillemets dans <code>c()</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p><code>subset()</code> has an argument called <code>subset</code>: the
+function and one of its arguments have the same name. This is allowed in
+R — always read <code>subset(sg, subset = ...)</code> as
+“function(argument = …)”.</p>
+</div>
+<div class="fr">
+<p><code>subset()</code> a un argument appelé <code>subset</code> : la
+fonction et l’un de ses arguments portent le même nom. C’est permis dans
+R — lisez toujours <code>subset(sg, subset = ...)</code> comme «
+fonction(argument = …) ».</p>
+</div>
 <div class="en">
 <p><strong>Rename</strong> a column by changing its entry in
 <code>names()</code>; <strong>reorder</strong> columns by listing them
@@ -1119,14 +1509,80 @@ listant dans le nouvel ordre.</p>
 <span id="cb49-2"><a href="#cb49-2" tabindex="-1"></a>sg <span class="ot">&lt;-</span> sg[, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;quadrat&quot;</span>, <span class="st">&quot;cover_pct&quot;</span>, <span class="st">&quot;species&quot;</span>, <span class="st">&quot;mpa_status&quot;</span>,</span>
 <span id="cb49-3"><a href="#cb49-3" tabindex="-1"></a>             <span class="st">&quot;date&quot;</span>, <span class="st">&quot;depth_m&quot;</span>, <span class="st">&quot;canopy_height_cm&quot;</span>, <span class="st">&quot;shoot_density&quot;</span>)]  <span class="co"># reorder (and keep 9)</span></span>
 <span id="cb49-4"><a href="#cb49-4" tabindex="-1"></a><span class="fu">head</span>(sg, <span class="dv">3</span>)</span></code></pre></div>
-<pre><code>#&gt;        site quadrat cover_pct                  species mpa_status       date depth_m canopy_height_cm
-#&gt; 1 Ambalaboy       1        69     Thalassia hemprichii     Inside 2026-03-10     2.8             18.8
-#&gt; 2 Ambalaboy       2        47 Syringodium isoetifolium     Inside 2026-03-10     0.9             17.0
-#&gt; 3 Ambalaboy       3        64     Thalassia hemprichii     Inside 2026-03-10     2.3             18.8
-#&gt;   shoot_density
-#&gt; 1           648
-#&gt; 2           464
-#&gt; 3           504</code></pre>
+<pre><code>#&gt;        site quadrat cover_pct                  species mpa_status       date depth_m
+#&gt; 1 Ambalaboy       1        69     Thalassia hemprichii     Inside 2026-03-10     2.8
+#&gt; 2 Ambalaboy       2        47 Syringodium isoetifolium     Inside 2026-03-10     0.9
+#&gt; 3 Ambalaboy       3        64     Thalassia hemprichii     Inside 2026-03-10     2.3
+#&gt;   canopy_height_cm shoot_density
+#&gt; 1             18.8           648
+#&gt; 2             17.0           464
+#&gt; 3             18.8           504</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>names(df)[i] &lt;- "new"</code></td>
+<td>renames the column(s) at position <code>i</code>; here
+<code>i</code> is a condition:
+<code>names(sg) == "seagrass_cover"</code></td>
+<td>a text</td>
+</tr>
+<tr class="even">
+<td><code>df[, c("a", "b", ...)]</code></td>
+<td>keeps the listed columns <strong>in this order</strong>: reorders
+them</td>
+<td>column names in quotes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>names(df)[i] &lt;- "new"</code></td>
+<td>renomme la ou les colonnes à la position <code>i</code> ; ici
+<code>i</code> est une condition :
+<code>names(sg) == "seagrass_cover"</code></td>
+<td>un texte</td>
+</tr>
+<tr class="even">
+<td><code>df[, c("a", "b", ...)]</code></td>
+<td>garde les colonnes listées <strong>dans cet ordre</strong> : les
+réordonne</td>
+<td>noms de colonnes entre guillemets</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="rows" class="section level2">
 <h2><span class="en">Adding and removing rows</span><span
@@ -1151,6 +1607,72 @@ colonnes</strong>. On supprime des lignes avec un signe moins.</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a>sg <span class="ot">&lt;-</span> sg[<span class="sc">-</span><span class="dv">61</span>, ]              <span class="co"># remove it again</span></span>
 <span id="cb53-2"><a href="#cb53-2" tabindex="-1"></a><span class="fu">nrow</span>(sg)</span></code></pre></div>
 <pre><code>#&gt; [1] 60</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>rbind(...)</code></td>
+<td><strong>r</strong>ow <strong>bind</strong>: stacks data frames one
+below the other</td>
+<td>data frames with the <strong>same column names</strong> (order may
+differ)</td>
+</tr>
+<tr class="even">
+<td><code>cbind(...)</code></td>
+<td><strong>c</strong>olumn <strong>bind</strong>: puts them side by
+side (same number of rows)</td>
+<td>data frames or vectors</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>rbind(...)</code></td>
+<td><strong>r</strong>ow <strong>bind</strong> : empile des data frames
+l’un sous l’autre</td>
+<td>des data frames avec les <strong>mêmes noms de colonnes</strong>
+(l’ordre peut différer)</td>
+</tr>
+<tr class="even">
+<td><code>cbind(...)</code></td>
+<td><strong>c</strong>olumn <strong>bind</strong> : les met côte à côte
+(même nombre de lignes)</td>
+<td>data frames ou vecteurs</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="apply" class="section level2">
 <h2><span class="en">Applying a function to every column:
@@ -1253,10 +1775,10 @@ fois la même ligne.</p>
 </table>
 </div>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a><span class="fu">sapply</span>(sg, class)                    <span class="co"># the type of every column, in one line</span></span></code></pre></div>
-<pre><code>#&gt;             site          quadrat        cover_pct          species       mpa_status             date 
-#&gt;      &quot;character&quot;        &quot;numeric&quot;        &quot;numeric&quot;      &quot;character&quot;      &quot;character&quot;      &quot;character&quot; 
-#&gt;          depth_m canopy_height_cm    shoot_density 
-#&gt;        &quot;numeric&quot;        &quot;numeric&quot;        &quot;numeric&quot;</code></pre>
+<pre><code>#&gt;             site          quadrat        cover_pct          species       mpa_status 
+#&gt;      &quot;character&quot;        &quot;numeric&quot;        &quot;numeric&quot;      &quot;character&quot;      &quot;character&quot; 
+#&gt;             date          depth_m canopy_height_cm    shoot_density 
+#&gt;      &quot;character&quot;        &quot;numeric&quot;        &quot;numeric&quot;        &quot;numeric&quot;</code></pre>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a>num <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;cover_pct&quot;</span>, <span class="st">&quot;depth_m&quot;</span>, <span class="st">&quot;canopy_height_cm&quot;</span>, <span class="st">&quot;shoot_density&quot;</span>)</span>
 <span id="cb57-2"><a href="#cb57-2" tabindex="-1"></a><span class="fu">sapply</span>(sg[, num], mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># extra arguments go after the function</span></span></code></pre></div>
 <pre><code>#&gt;        cover_pct          depth_m canopy_height_cm    shoot_density 
@@ -1277,6 +1799,129 @@ fois la même ligne.</p>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a><span class="fu">apply</span>(fish[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="st">&quot;length_cm&quot;</span>, <span class="st">&quot;count&quot;</span>)], <span class="dv">1</span>, max)   <span class="co"># 1 = by row: largest value of each row</span></span></code></pre></div>
 <pre><code>#&gt;  1  2  3 
 #&gt; 15 14 19</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sapply(X, FUN, ...)</code>,
+<code>lapply(X, FUN, ...)</code></td>
+<td>run the function <code>FUN</code> on each column of
+<code>X</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>X</code></td>
+<td>the data frame (or vector, list)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>FUN</code></td>
+<td>the function to apply, <strong>without parentheses</strong>
+(<code>mean</code>, not <code>mean()</code>)</td>
+<td>a function name</td>
+</tr>
+<tr class="even">
+<td>  <code>...</code></td>
+<td>any other argument is passed on to <code>FUN</code>: here
+<code>na.rm = TRUE</code> goes to <code>mean()</code></td>
+<td>arguments of <code>FUN</code></td>
+</tr>
+<tr class="odd">
+<td><code>apply(X, MARGIN, FUN, ...)</code></td>
+<td>the same on rows or columns of a <strong>numeric</strong> table</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>MARGIN</code></td>
+<td><code>1</code> = each row, <code>2</code> = each column</td>
+<td><code>1</code> or <code>2</code></td>
+</tr>
+<tr class="odd">
+<td><code>colSums(x)</code>, <code>colMeans(x)</code>,
+<code>rowSums(x)</code>, <code>rowMeans(x)</code></td>
+<td>sum / mean of each column or row; they also take
+<code>na.rm</code></td>
+<td>numeric columns</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sapply(X, FUN, ...)</code>,
+<code>lapply(X, FUN, ...)</code></td>
+<td>exécutent la fonction <code>FUN</code> sur chaque colonne de
+<code>X</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>X</code></td>
+<td>le data frame (ou vecteur, liste)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>FUN</code></td>
+<td>la fonction à appliquer, <strong>sans parenthèses</strong>
+(<code>mean</code>, pas <code>mean()</code>)</td>
+<td>un nom de fonction</td>
+</tr>
+<tr class="even">
+<td>  <code>...</code></td>
+<td>tout autre argument est transmis à <code>FUN</code> : ici
+<code>na.rm = TRUE</code> va à <code>mean()</code></td>
+<td>arguments de <code>FUN</code></td>
+</tr>
+<tr class="odd">
+<td><code>apply(X, MARGIN, FUN, ...)</code></td>
+<td>la même chose sur les lignes ou colonnes d’un tableau
+<strong>numérique</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>MARGIN</code></td>
+<td><code>1</code> = chaque ligne, <code>2</code> = chaque colonne</td>
+<td><code>1</code> ou <code>2</code></td>
+</tr>
+<tr class="odd">
+<td><code>colSums(x)</code>, <code>colMeans(x)</code>,
+<code>rowSums(x)</code>, <code>rowMeans(x)</code></td>
+<td>somme / moyenne de chaque colonne ou ligne ; elles acceptent aussi
+<code>na.rm</code></td>
+<td>colonnes numériques</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout tip">
 <div class="en">
 <p>For sums and means there are fast ready-made versions:
@@ -1406,7 +2051,7 @@ suivantes semblent fausses, réimportez le fichier et refaites les étapes
 </div>
 </div>
 <div id="quiz-s04" class="quiz" data-quiz-id="s04"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMWEuIE51bWJlciBvZiByb3dzPyIsImZyIjoiMWEuIE5vbWJyZSBkZSBsaWduZXMgPyIsImFuc3dlciI6MTQxLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIxYi4gTnVtYmVyIG9mIGNvbHVtbnM/IiwiZnIiOiIxYi4gTm9tYnJlIGRlIGNvbG9ubmVzID8iLCJhbnN3ZXIiOjksInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjJhLiBsZW5ndGhfY20gaW4gcm93IDI1PyIsImZyIjoiMmEuIGxlbmd0aF9jbSDDoCBsYSBsaWduZSAyNSA/IiwiYW5zd2VyIjoxNCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjJiLiBTcGVjaWVzIGluIHJvdyA0MCAoTGF0aW4gbmFtZSk/IiwiZnIiOiIyYi4gRXNww6hjZSDDoCBsYSBsaWduZSA0MCAobm9tIGxhdGluKSA/IiwiYW5zd2VyIjpbIkFjYW50aHVydXMgdHJpb3N0ZWd1cyJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE1lYW4gbGVuZ3RoX2NtIGFmdGVyIHRoZSBjb3JyZWN0aW9uICgyIGRlY2ltYWxzKT8iLCJmciI6IjMuIE1veWVubmUgZGUgbGVuZ3RoX2NtIGFwcsOocyBjb3JyZWN0aW9uICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjE0LjUyLCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNC4gd2VpZ2h0X2cgaW4gcm93IDEgKDIgZGVjaW1hbHMpPyIsImZyIjoiNC4gd2VpZ2h0X2cgw6AgbGEgbGlnbmUgMSAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjo0Ni42NiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIFRvdGFsIGJpb21hc3MgaW4ga2cgKDIgZGVjaW1hbHMpPyIsImZyIjoiNS4gQmlvbWFzc2UgdG90YWxlIGVuIGtnICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjkzLjc5LCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNi4gYmlvbWFzc19rZ19oYSBpbiByb3cgNSAoMiBkZWNpbWFscyk/IiwiZnIiOiI2LiBiaW9tYXNzX2tnX2hhIMOgIGxhIGxpZ25lIDUgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MTcxLjIzLCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNy4gTnVtYmVyIG9mIGNvbHVtbnMgYWZ0ZXIgcmVtb3ZpbmcgYSBhbmQgYj8iLCJmciI6IjcuIE5vbWJyZSBkZSBjb2xvbm5lcyBhcHLDqHMgc3VwcHJlc3Npb24gZGUgYSBldCBiID8iLCJhbnN3ZXIiOjEwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI4LiBOdW1iZXIgb2YgY2hhcmFjdGVyIGNvbHVtbnM/IiwiZnIiOiI4LiBOb21icmUgZGUgY29sb25uZXMgZGUgY2xhc3NlIGNoYXJhY3RlciA/IiwiYW5zd2VyIjo0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI5LiBOdW1iZXIgb2YgZGlmZmVyZW50IHRyYW5zZWN0cz8iLCJmciI6IjkuIE5vbWJyZSBkZSB0cmFuc2VjdHMgZGlmZsOpcmVudHMgPyIsImFuc3dlciI6MTIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjEwLiBMYXJnZXN0IG9mIHRoZSB0d28gbWF4aW1hPyIsImZyIjoiMTAuIFBsdXMgZ3JhbmQgZGVzIGRldXggbWF4aW1hID8iLCJhbnN3ZXIiOjM1LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMS4gV2hpY2ggb25lIHJldHVybnMgYSBkYXRhIGZyYW1lIChub3QgYSB2ZWN0b3IpPyIsImZyIjoiMTEuIExlcXVlbCByZW52b2llIHVuIGRhdGEgZnJhbWUgKGV0IG5vbiB1biB2ZWN0ZXVyKSA/Iiwib3B0aW9uc19lbiI6WyJmaXNoJGNvdW50IiwiZmlzaFssIFwiY291bnRcIl0iLCJmaXNoW1wiY291bnRcIl0iLCJmaXNoW1tcImNvdW50XCJdXSJdLCJvcHRpb25zX2ZyIjpbImZpc2gkY291bnQiLCJmaXNoWywgXCJjb3VudFwiXSIsImZpc2hbXCJjb3VudFwiXSIsImZpc2hbW1wiY291bnRcIl1dIl0sImFuc3dlciI6Mn0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMi4gY29sIDwtIFwiY291bnRcIi4gV2hpY2ggb25lIHJldHVybnMgdGhlIGNvdW50IGNvbHVtbj8iLCJmciI6IjEyLiBjb2wgPC0gXCJjb3VudFwiLiBMZXF1ZWwgcmVudm9pZSBsYSBjb2xvbm5lIGNvdW50ID8iLCJvcHRpb25zX2VuIjpbImZpc2gkY29sIiwiZmlzaFtbY29sXV0iLCJmaXNoW2NvbCwgXSIsImZpc2gkXCJjb2xcIiJdLCJvcHRpb25zX2ZyIjpbImZpc2gkY29sIiwiZmlzaFtbY29sXV0iLCJmaXNoW2NvbCwgXSIsImZpc2gkXCJjb2xcIiJdLCJhbnN3ZXIiOjF9XQ==">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHJvd3M/IiwiZnIiOiIxLiBOb21icmUgZGUgbGlnbmVzID8iLCJhbnN3ZXIiOjE0MSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gbGVuZ3RoX2NtIGluIHJvdyAyNT8iLCJmciI6IjIuIGxlbmd0aF9jbSDDoCBsYSBsaWduZSAyNSA/IiwiYW5zd2VyIjoxNCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTWVhbiBsZW5ndGhfY20gYWZ0ZXIgdGhlIGNvcnJlY3Rpb24gKDIgZGVjaW1hbHMpPyIsImZyIjoiMy4gTW95ZW5uZSBkZSBsZW5ndGhfY20gYXByw6hzIGNvcnJlY3Rpb24gKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MTQuNTIsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiB3ZWlnaHRfZyBpbiByb3cgMSAoMiBkZWNpbWFscyk/IiwiZnIiOiI0LiB3ZWlnaHRfZyDDoCBsYSBsaWduZSAxICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjQ2LjY2LCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gVG90YWwgYmlvbWFzcyBpbiBrZyAoMiBkZWNpbWFscyk/IiwiZnIiOiI1LiBCaW9tYXNzZSB0b3RhbGUgZW4ga2cgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6OTMuNzksInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI2LiBiaW9tYXNzX2tnX2hhIGluIHJvdyA1ICgyIGRlY2ltYWxzKT8iLCJmciI6IjYuIGJpb21hc3Nfa2dfaGEgw6AgbGEgbGlnbmUgNSAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoxNzEuMjMsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI3LiBOdW1iZXIgb2YgY29sdW1ucyBhZnRlciByZW1vdmluZyBhIGFuZCBiPyIsImZyIjoiNy4gTm9tYnJlIGRlIGNvbG9ubmVzIGFwcsOocyBzdXBwcmVzc2lvbiBkZSBhIGV0IGIgPyIsImFuc3dlciI6MTAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjguIE51bWJlciBvZiBjaGFyYWN0ZXIgY29sdW1ucz8iLCJmciI6IjguIE5vbWJyZSBkZSBjb2xvbm5lcyBkZSBjbGFzc2UgY2hhcmFjdGVyID8iLCJhbnN3ZXIiOjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjkuIE51bWJlciBvZiBkaWZmZXJlbnQgdHJhbnNlY3RzPyIsImZyIjoiOS4gTm9tYnJlIGRlIHRyYW5zZWN0cyBkaWZmw6lyZW50cyA/IiwiYW5zd2VyIjoxMiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiMTAuIFdoaWNoIG9uZSByZXR1cm5zIGEgZGF0YSBmcmFtZSAobm90IGEgdmVjdG9yKT8iLCJmciI6IjEwLiBMZXF1ZWwgcmVudm9pZSB1biBkYXRhIGZyYW1lIChldCBub24gdW4gdmVjdGV1cikgPyIsIm9wdGlvbnNfZW4iOlsiZmlzaCRjb3VudCIsImZpc2hbLCBcImNvdW50XCJdIiwiZmlzaFtcImNvdW50XCJdIiwiZmlzaFtbXCJjb3VudFwiXV0iXSwib3B0aW9uc19mciI6WyJmaXNoJGNvdW50IiwiZmlzaFssIFwiY291bnRcIl0iLCJmaXNoW1wiY291bnRcIl0iLCJmaXNoW1tcImNvdW50XCJdXSJdLCJhbnN3ZXIiOjJ9XQ==">
 
 </div>
 <div class="solution" data-quiz="s04">

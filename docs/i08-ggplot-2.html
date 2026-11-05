@@ -604,6 +604,68 @@ dans la légende lequel vous montrez.</p>
 #&gt; 4 Centre off-bottom   352  3.16 0.0331  3.10  3.23
 #&gt; 5 South  long-line    441  3.73 0.0297  3.67  3.78
 #&gt; 6 South  off-bottom   337  3.32 0.0325  3.26  3.38</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>se()</code></td>
+<td>our function of Session I6</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>mean ± 1.96 × se</code></td>
+<td>limits of the 95 % confidence interval of the mean (normal
+approximation, fine for n &gt; 30)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>se()</code></td>
+<td>notre fonction de la séance I6</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>mean ± 1.96 × se</code></td>
+<td>limites de l’intervalle de confiance à 95 % de la moyenne
+(approximation normale, correcte pour n &gt; 30)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>dodge <span class="ot">&lt;-</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>)          <span class="co"># shift the two techniques side by side</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">ggplot</span>(summ, <span class="fu">aes</span>(zone, mean, <span class="at">colour =</span> technique)) <span class="sc">+</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> low, <span class="at">ymax =</span> high), <span class="at">position =</span> dodge, <span class="at">size =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
@@ -611,7 +673,97 @@ dans la légende lequel vous montrez.</p>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Mean SGR (% per day)&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>,</span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Points: means; bars: 95 % confidence intervals&quot;</span>) <span class="sc">+</span></span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
-<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-2-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-3-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>position_dodge(width)</code></td>
+<td>shifts the groups side by side so they do not overlap (Beginner
+Session 10)</td>
+<td>a number: the distance between groups, in units of the x axis</td>
+</tr>
+<tr class="even">
+<td><code>geom_pointrange(aes(ymin, ymax), position, size)</code></td>
+<td>a point (at <code>y</code>) with a vertical line from
+<code>ymin</code> to <code>ymax</code></td>
+<td>columns for <code>ymin</code>, <code>ymax</code>; <code>size</code>
+of the point</td>
+</tr>
+<tr class="odd">
+<td>  <code>position</code></td>
+<td>how overlapping elements are arranged; the same object
+<code>dodge</code> must be used in every layer</td>
+<td><code>position_dodge()</code>, <code>"identity"</code>,
+<code>"jitter"</code></td>
+</tr>
+<tr class="even">
+<td><code>colour = NULL</code> in <code>labs()</code></td>
+<td>no title for the colour legend</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>position_dodge(width)</code></td>
+<td>décale les groupes côte à côte pour qu’ils ne se superposent pas
+(séance 10 du niveau débutant)</td>
+<td>un nombre : la distance entre groupes, en unités de l’axe x</td>
+</tr>
+<tr class="even">
+<td><code>geom_pointrange(aes(ymin, ymax), position, size)</code></td>
+<td>un point (à <code>y</code>) avec un trait vertical de
+<code>ymin</code> à <code>ymax</code></td>
+<td>colonnes pour <code>ymin</code>, <code>ymax</code> ;
+<code>size</code> du point</td>
+</tr>
+<tr class="odd">
+<td>  <code>position</code></td>
+<td>comment les éléments qui se superposent sont disposés ; le même
+objet <code>dodge</code> doit être utilisé dans chaque couche</td>
+<td><code>position_dodge()</code>, <code>"identity"</code>,
+<code>"jitter"</code></td>
+</tr>
+<tr class="even">
+<td><code>colour = NULL</code> in <code>labs()</code></td>
+<td>pas de titre pour la légende des couleurs</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>For bars, use <code>geom_col(position = position_dodge(0.8))</code> +
 <code>geom_errorbar(position = position_dodge(0.8), width = 0.2)</code>
@@ -659,7 +811,107 @@ groupe</strong> : précisez <code>group</code> ou
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="fu">scale_colour_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>) <span class="sc">+</span></span>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Mean temperature (°C)&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;Zone&quot;</span>) <span class="sc">+</span></span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-3-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-5-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>geom_line(linewidth)</code></td>
+<td>joins the points of each group (here each <code>colour</code>) in
+the order of x; <code>linewidth</code> = thickness of the line</td>
+<td>a number (default 0.5)</td>
+</tr>
+<tr class="even">
+<td><code>scale_x_date(date_breaks, date_labels)</code></td>
+<td>a date axis</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>date_breaks</code></td>
+<td>the space between two ticks</td>
+<td><code>"1 month"</code>, <code>"6 months"</code>,
+<code>"1 year"</code>…</td>
+</tr>
+<tr class="even">
+<td>  <code>date_labels</code></td>
+<td>how the dates are written, with the <code>%</code> codes of Session
+I1</td>
+<td>e.g. <code>"%b %Y"</code> → <em>Jan 2024</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>geom_line(linewidth)</code></td>
+<td>relie les points de chaque groupe (ici chaque <code>colour</code>)
+dans l’ordre de x ; <code>linewidth</code> = épaisseur du trait</td>
+<td>un nombre (0,5 par défaut)</td>
+</tr>
+<tr class="even">
+<td><code>scale_x_date(date_breaks, date_labels)</code></td>
+<td>un axe de dates</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>date_breaks</code></td>
+<td>l’espace entre deux graduations</td>
+<td><code>"1 month"</code>, <code>"6 months"</code>,
+<code>"1 year"</code>…</td>
+</tr>
+<tr class="even">
+<td>  <code>date_labels</code></td>
+<td>comment les dates sont écrites, avec les codes <code>%</code> de la
+séance I1</td>
+<td>ex. <code>"%b %Y"</code> → <em>janv. 2024</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>In ggplot2 the thickness of a <strong>line</strong> is
+<code>linewidth</code>, while <code>size</code> is used for
+<strong>points</strong> and text (since ggplot2 3.4; older code uses
+<code>size</code> for lines too). One more case where the name depends
+on the element.</p>
+</div>
+<div class="fr">
+<p>Dans ggplot2, l’épaisseur d’une <strong>ligne</strong> s’appelle
+<code>linewidth</code>, alors que <code>size</code> sert pour les
+<strong>points</strong> et le texte (depuis ggplot2 3.4 ; du code plus
+ancien utilise aussi <code>size</code> pour les lignes). Encore un cas
+où le nom dépend de l’élément.</p>
+</div>
 </div>
 <div id="annotate" class="section level2">
 <h2><span class="en">Ordering and annotating</span><span
@@ -687,13 +939,165 @@ référence (<code>geom_hline()</code>), une période ombrée
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="fl">1.5</span>, <span class="at">y =</span> overall <span class="sc">+</span> <span class="fl">0.15</span>, <span class="at">label =</span> <span class="st">&quot;cooperative mean&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;#d9694a&quot;</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;SGR (% per day)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-4-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-7-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>reorder(x, X, FUN, ...)</code></td>
+<td>reorders the categories <code>x</code> according to a statistic of
+<code>X</code> (here the median SGR of each village); extra arguments
+(<code>na.rm</code>) go to <code>FUN</code></td>
+<td>a categorical column, a numeric column, a function</td>
+</tr>
+<tr class="even">
+<td><code>geom_hline(yintercept, linetype)</code></td>
+<td>a horizontal line at <code>y = yintercept</code>
+(<code>geom_vline(xintercept)</code> for vertical)</td>
+<td>a number; <code>"solid"</code>, <code>"dashed"</code>,
+<code>"dotted"</code></td>
+</tr>
+<tr class="odd">
+<td><code>annotate(geom, x, y, label, ...)</code></td>
+<td>adds <strong>one</strong> element at a position you give, not taken
+from the data</td>
+<td><code>"text"</code>, <code>"rect"</code>, <code>"segment"</code>…,
+then its position and settings</td>
+</tr>
+<tr class="even">
+<td><code>coord_flip()</code></td>
+<td>swaps x and y: horizontal boxes, long names readable</td>
+<td>nothing</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>reorder(x, X, FUN, ...)</code></td>
+<td>réordonne les catégories <code>x</code> selon une statistique de
+<code>X</code> (ici le SGR médian de chaque village) ; les arguments
+supplémentaires (<code>na.rm</code>) vont à <code>FUN</code></td>
+<td>une colonne catégorielle, une colonne numérique, une fonction</td>
+</tr>
+<tr class="even">
+<td><code>geom_hline(yintercept, linetype)</code></td>
+<td>une ligne horizontale à <code>y = yintercept</code>
+(<code>geom_vline(xintercept)</code> pour verticale)</td>
+<td>un nombre ; <code>"solid"</code>, <code>"dashed"</code>,
+<code>"dotted"</code></td>
+</tr>
+<tr class="odd">
+<td><code>annotate(geom, x, y, label, ...)</code></td>
+<td>ajoute <strong>un</strong> élément à une position que vous donnez,
+pas tirée des données</td>
+<td><code>"text"</code>, <code>"rect"</code>, <code>"segment"</code>…,
+puis sa position et ses réglages</td>
+</tr>
+<tr class="even">
+<td><code>coord_flip()</code></td>
+<td>échange x et y : boîtes horizontales, noms longs lisibles</td>
+<td>rien</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p><code>linetype</code> in ggplot2 is the same idea as <code>lty</code>
+in base R (Beginner Session 7).</p>
+</div>
+<div class="fr">
+<p><code>linetype</code> dans ggplot2 est la même idée que
+<code>lty</code> en R de base (séance 7 du niveau débutant).</p>
+</div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">ggplot</span>(wq_zone, <span class="fu">aes</span>(date, temp, <span class="at">colour =</span> zone)) <span class="sc">+</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="at">xmin =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2024-11-01&quot;</span>), <span class="at">xmax =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2025-04-30&quot;</span>),</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>           <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>, <span class="at">fill =</span> <span class="st">&quot;#1b7f8c&quot;</span>) <span class="sc">+</span></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2025-01-31&quot;</span>), <span class="at">y =</span> <span class="fl">23.3</span>, <span class="at">label =</span> <span class="st">&quot;wet season&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;#0b3d5c&quot;</span>) <span class="sc">+</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;°C&quot;</span>)</span></code></pre></div>
-<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-5-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-9-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>annotate("rect", xmin, xmax, ymin, ymax, alpha, fill)</code></td>
+<td>a shaded rectangle; <code>-Inf</code> / <code>Inf</code> = from the
+bottom to the top of the panel</td>
+<td>positions in the units of the axes (here dates)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>annotate("rect", xmin, xmax, ymin, ymax, alpha, fill)</code></td>
+<td>un rectangle ombré ; <code>-Inf</code> / <code>Inf</code> = du bas
+au haut du panneau</td>
+<td>positions dans les unités des axes (ici des dates)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="own-theme" class="section level2">
 <h2><span class="en">Your own theme, and one figure per
@@ -722,7 +1126,69 @@ figure par village.</p>
 <span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> v, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;SGR (% per day)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_coop</span>()</span>
 <span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>}</span>
 <span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="fu">p_v</span>(<span class="st">&quot;Lovobe&quot;</span>)</span></code></pre></div>
-<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-6-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-11-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>theme_coop &lt;- function(base_size = 12) {...}</code></td>
+<td>a function (Session I6) that returns a theme: reuse it in every
+figure</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>p_v(v)</code></td>
+<td>a function that returns a ggplot for one village</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>theme_coop &lt;- function(base_size = 12) {...}</code></td>
+<td>une fonction (séance I6) qui renvoie un thème : réutilisez-la dans
+chaque figure</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>p_v(v)</code></td>
+<td>une fonction qui renvoie un ggplot pour un village</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;outputs/figures&quot;</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="cf">for</span> (v <span class="cf">in</span> <span class="fu">unique</span>(seaweed<span class="sc">$</span>village)) {</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">ggsave</span>(<span class="fu">file.path</span>(<span class="st">&quot;outputs/figures&quot;</span>, <span class="fu">paste0</span>(<span class="st">&quot;sgr_&quot;</span>, v, <span class="st">&quot;.png&quot;</span>)), <span class="fu">p_v</span>(v),</span>
@@ -756,10 +1222,149 @@ C utilisées dans les articles.</p>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Temperature (°C)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;SGR (% per day)&quot;</span>)</span>
 <span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>(pA) <span class="sc">/</span> (pB <span class="sc">|</span> pC) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">&quot;A&quot;</span>,</span>
 <span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>                                    <span class="at">title =</span> <span class="st">&quot;Sea temperature and seaweed growth, 2024–2025&quot;</span>)</span></code></pre></div>
-<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-8-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i08-ggplot-2_files/figure-html/unnamed-chunk-14-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>library(patchwork)</code></td>
+<td>package to combine ggplots</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>p1 | p2</code>, <code>p1 / p2</code></td>
+<td>side by side / one above the other; parentheses group them</td>
+<td>ggplot objects</td>
+</tr>
+<tr class="odd">
+<td><code>plot_annotation(tag_levels, title)</code></td>
+<td>labels each plot (<code>"A"</code> → A, B, C; <code>"a"</code>,
+<code>"1"</code>) and adds a common title</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_smooth(method, formula)</code></td>
+<td>a trend curve with its confidence band; <code>"loess"</code> =
+flexible curve, <code>"lm"</code> = straight line</td>
+<td><code>method</code> in quotes; <code>formula = y ~ x</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>library(patchwork)</code></td>
+<td>package pour combiner des ggplots</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>p1 | p2</code>, <code>p1 / p2</code></td>
+<td>côte à côte / l’un au-dessus de l’autre ; les parenthèses les
+regroupent</td>
+<td>objets ggplot</td>
+</tr>
+<tr class="odd">
+<td><code>plot_annotation(tag_levels, title)</code></td>
+<td>étiquette chaque graphique (<code>"A"</code> → A, B, C ;
+<code>"a"</code>, <code>"1"</code>) et ajoute un titre commun</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_smooth(method, formula)</code></td>
+<td>une courbe de tendance avec sa bande de confiance ;
+<code>"loess"</code> = courbe souple, <code>"lm"</code> = droite</td>
+<td><code>method</code> entre guillemets ;
+<code>formula = y ~ x</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>fig <span class="ot">&lt;-</span> (pA) <span class="sc">/</span> (pB <span class="sc">|</span> pC) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">&quot;A&quot;</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;outputs/figure_1.png&quot;</span>, fig, <span class="at">width =</span> <span class="dv">18</span>, <span class="at">height =</span> <span class="dv">16</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;outputs/figure_1.pdf&quot;</span>, fig, <span class="at">width =</span> <span class="dv">18</span>, <span class="at">height =</span> <span class="dv">16</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>)   <span class="co"># vector, for printing</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggsave(filename, plot, width, height, units, dpi)</code></td>
+<td>reminder (Beginner Session 8); with a PDF, <code>units = "cm"</code>
+works too (unlike <code>pdf()</code>)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggsave(filename, plot, width, height, units, dpi)</code></td>
+<td>rappel (séance 8 du niveau débutant) ; avec un PDF,
+<code>units = "cm"</code> fonctionne aussi (contrairement à
+<code>pdf()</code>)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout ecology">
 <div class="en">
 <p>Panel C already suggests the answer to one of the cooperative’s
@@ -839,7 +1444,7 @@ maximum.</p>
 </div>
 </div>
 <div id="quiz-i08" class="quiz" data-quiz-id="i08"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gVXBwZXIgOTUgJSBDSSBsaW1pdCwgb2ZmLWJvdHRvbSwgTm9ydGggKDMgZGVjaW1hbHMpPyIsImZyIjoiMS4gQm9ybmUgc3Vww6lyaWV1cmUgZGUgbCdJQyA5NSAlLCBvZmYtYm90dG9tLCBOb3JkICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjMuMjYyLCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyYS4gRGF0ZSBvZiB0aGUgaGlnaGVzdCBtZWFuIHRlbXBlcmF0dXJlICh5eXl5LW1tLWRkKT8iLCJmciI6IjJhLiBEYXRlIGRlIGxhIHRlbXDDqXJhdHVyZSBtb3llbm5lIGxhIHBsdXMgw6lsZXbDqWUgKGFhYWEtbW0tamopID8iLCJhbnN3ZXIiOlsiMjAyNC0wMi0xOSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjJiLiBJdHMgdmFsdWUgKDIgZGVjaW1hbHMpPyIsImZyIjoiMmIuIFNhIHZhbGV1ciAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoyOS40NywidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIzYS4gVmlsbGFnZSB3aXRoIHRoZSBoaWdoZXN0IG1lZGlhbiBTR1I/IiwiZnIiOiIzYS4gVmlsbGFnZSBhdSBTR1IgbcOpZGlhbiBsZSBwbHVzIMOpbGV2w6kgPyIsImFuc3dlciI6WyJUc2ltYW5qYWthIl19LHsidHlwZSI6InRleHQiLCJlbiI6IjNiLiBWaWxsYWdlIHdpdGggdGhlIGxvd2VzdCBtZWRpYW4gU0dSPyIsImZyIjoiM2IuIFZpbGxhZ2UgYXUgU0dSIG3DqWRpYW4gbGUgcGx1cyBmYWlibGUgPyIsImFuc3dlciI6WyJCZWZhc3kiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZWFuIFNHUiwgd2V0IHNlYXNvbiAyMDI1ICgzIGRlY2ltYWxzKT8iLCJmciI6IjQuIFNHUiBtb3llbiwgc2Fpc29uIGRlcyBwbHVpZXMgMjAyNSAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjozLjIyNCwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI1LiBJbiBwYXRjaHdvcmssIChwMSB8IHAyKSAvIHAzIGdpdmVzOiIsImZyIjoiNS4gQXZlYyBwYXRjaHdvcmssIChwMSB8IHAyKSAvIHAzIGRvbm5lIDoiLCJvcHRpb25zX2VuIjpbInRocmVlIHBsb3RzIGluIGEgcm93IiwicDEgYW5kIHAyIHNpZGUgYnkgc2lkZSwgcDMgYmVsb3ciLCJwMyBhYm92ZSBwMSBhbmQgcDIiLCJhbiBlcnJvciJdLCJvcHRpb25zX2ZyIjpbInRyb2lzIGdyYXBoaXF1ZXMgZW4gbGlnbmUiLCJwMSBldCBwMiBjw7R0ZSDDoCBjw7R0ZSwgcDMgZW4gZGVzc291cyIsInAzIGF1LWRlc3N1cyBkZSBwMSBldCBwMiIsInVuZSBlcnJldXIiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIFdoeSBtdXN0IHBvc2l0aW9uX2RvZGdlKCkgaGF2ZSB0aGUgc2FtZSB3aWR0aCBpbiBnZW9tX2NvbCgpIGFuZCBnZW9tX2Vycm9yYmFyKCk/IiwiZnIiOiI2LiBQb3VycXVvaSBwb3NpdGlvbl9kb2RnZSgpIGRvaXQtaWwgYXZvaXIgbGEgbcOqbWUgbGFyZ2V1ciBkYW5zIGdlb21fY29sKCkgZXQgZ2VvbV9lcnJvcmJhcigpID8iLCJvcHRpb25zX2VuIjpbIk90aGVyd2lzZSB0aGUgZXJyb3IgYmFycyBhcmUgbm90IGNlbnRyZWQgb24gdGhlaXIgYmFycyIsIlRvIHNhdmUgbWVtb3J5IiwiSXQgZG9lcyBub3QgbWF0dGVyIiwiQmVjYXVzZSBvZiB0aGUgY29sb3VycyJdLCJvcHRpb25zX2ZyIjpbIlNpbm9uIGxlcyBiYXJyZXMgZCdlcnJldXIgbmUgc29udCBwYXMgY2VudHLDqWVzIHN1ciBsZXVycyBiYXJyZXMiLCJQb3VyIMOpY29ub21pc2VyIGxhIG3DqW1vaXJlIiwiQ2VsYSBuJ2EgcGFzIGQnaW1wb3J0YW5jZSIsIsOAIGNhdXNlIGRlcyBjb3VsZXVycyJdLCJhbnN3ZXIiOjB9XQ==">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gVXBwZXIgOTUgJSBDSSBsaW1pdCwgb2ZmLWJvdHRvbSwgTm9ydGggKDMgZGVjaW1hbHMpPyIsImZyIjoiMS4gQm9ybmUgc3Vww6lyaWV1cmUgZGUgbCdJQyA5NSAlLCBvZmYtYm90dG9tLCBOb3JkICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjMuMjYyLCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyYS4gRGF0ZSBvZiB0aGUgaGlnaGVzdCBtZWFuIHRlbXBlcmF0dXJlICh5eXl5LW1tLWRkKT8iLCJmciI6IjJhLiBEYXRlIGRlIGxhIHRlbXDDqXJhdHVyZSBtb3llbm5lIGxhIHBsdXMgw6lsZXbDqWUgKGFhYWEtbW0tamopID8iLCJhbnN3ZXIiOlsiMjAyNC0wMi0xOSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjJiLiBJdHMgdmFsdWUgKDIgZGVjaW1hbHMpPyIsImZyIjoiMmIuIFNhIHZhbGV1ciAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoyOS40NywidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIzYS4gVmlsbGFnZSB3aXRoIHRoZSBoaWdoZXN0IG1lZGlhbiBTR1I/IiwiZnIiOiIzYS4gVmlsbGFnZSBhdSBTR1IgbcOpZGlhbiBsZSBwbHVzIMOpbGV2w6kgPyIsImFuc3dlciI6WyJUc2ltYW5qYWthIl19LHsidHlwZSI6InRleHQiLCJlbiI6IjNiLiBWaWxsYWdlIHdpdGggdGhlIGxvd2VzdCBtZWRpYW4gU0dSPyIsImZyIjoiM2IuIFZpbGxhZ2UgYXUgU0dSIG3DqWRpYW4gbGUgcGx1cyBmYWlibGUgPyIsImFuc3dlciI6WyJCZWZhc3kiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZWFuIFNHUiwgd2V0IHNlYXNvbiAyMDI1ICgzIGRlY2ltYWxzKT8iLCJmciI6IjQuIFNHUiBtb3llbiwgc2Fpc29uIGRlcyBwbHVpZXMgMjAyNSAoMyBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjozLjIyNCwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI1LiBJbiBwYXRjaHdvcmssIChwMSB8IHAyKSAvIHAzIGdpdmVzOiIsImZyIjoiNS4gQXZlYyBwYXRjaHdvcmssIChwMSB8IHAyKSAvIHAzIGRvbm5lIDoiLCJvcHRpb25zX2VuIjpbInRocmVlIHBsb3RzIGluIGEgcm93IiwicDEgYW5kIHAyIHNpZGUgYnkgc2lkZSwgcDMgYmVsb3ciLCJwMyBhYm92ZSBwMSBhbmQgcDIiLCJhbiBlcnJvciJdLCJvcHRpb25zX2ZyIjpbInRyb2lzIGdyYXBoaXF1ZXMgZW4gbGlnbmUiLCJwMSBldCBwMiBjw7R0ZSDDoCBjw7R0ZSwgcDMgZW4gZGVzc291cyIsInAzIGF1LWRlc3N1cyBkZSBwMSBldCBwMiIsInVuZSBlcnJldXIiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIFdoeSBtdXN0IHBvc2l0aW9uX2RvZGdlKCkgaGF2ZSB0aGUgc2FtZSB3aWR0aCBpbiBnZW9tX2NvbCgpIGFuZCBnZW9tX2Vycm9yYmFyKCk/IiwiZnIiOiI2LiBQb3VycXVvaSBwb3NpdGlvbl9kb2RnZSgpIGRvaXQtaWwgYXZvaXIgbGEgbcOqbWUgbGFyZ2V1ciBkYW5zIGdlb21fY29sKCkgZXQgZ2VvbV9lcnJvcmJhcigpID8iLCJvcHRpb25zX2VuIjpbIk90aGVyd2lzZSB0aGUgZXJyb3IgYmFycyBhcmUgbm90IGNlbnRyZWQgb24gdGhlaXIgYmFycyIsIlRvIHNhdmUgbWVtb3J5IiwiSXQgZG9lcyBub3QgbWF0dGVyIiwiQmVjYXVzZSBvZiB0aGUgY29sb3VycyJdLCJvcHRpb25zX2ZyIjpbIlNpbm9uIGxlcyBiYXJyZXMgZCdlcnJldXIgbmUgc29udCBwYXMgY2VudHLDqWVzIHN1ciBsZXVycyBiYXJyZXMiLCJQb3VyIMOpY29ub21pc2VyIGxhIG3DqW1vaXJlIiwiQ2VsYSBuJ2EgcGFzIGQnaW1wb3J0YW5jZSIsIsOAIGNhdXNlIGRlcyBjb3VsZXVycyJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiNy4gSW4gZ2dwbG90Miwgd2hpY2ggYXJndW1lbnQgc2V0cyB0aGUgdGhpY2tuZXNzIG9mIGEgbGluZSBpbiBnZW9tX2xpbmUoKT8iLCJmciI6IjcuIERhbnMgZ2dwbG90MiwgcXVlbCBhcmd1bWVudCByw6hnbGUgbCfDqXBhaXNzZXVyIGQndW5lIGxpZ25lIGRhbnMgZ2VvbV9saW5lKCkgPyIsIm9wdGlvbnNfZW4iOlsibHdkIiwibGluZXdpZHRoIiwibHR5IiwiYWxwaGEiXSwib3B0aW9uc19mciI6WyJsd2QiLCJsaW5ld2lkdGgiLCJsdHkiLCJhbHBoYSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gc2NhbGVfeF9kYXRlKGRhdGVfbGFiZWxzID0gXCIlYiAlWVwiKSB3cml0ZXMgdGhlIGRhdGVzIGFzOiIsImZyIjoiOC4gc2NhbGVfeF9kYXRlKGRhdGVfbGFiZWxzID0gXCIlYiAlWVwiKSDDqWNyaXQgbGVzIGRhdGVzIHNvdXMgbGEgZm9ybWUgOiIsIm9wdGlvbnNfZW4iOlsiMjAyNC0wMS0xNSIsIkphbiAyMDI0IChzaG9ydCBtb250aCBuYW1lIGFuZCB5ZWFyKSIsIjE1LzAxIiwiTW9uZGF5Il0sIm9wdGlvbnNfZnIiOlsiMjAyNC0wMS0xNSIsImphbnYuIDIwMjQgKG5vbSBkZSBtb2lzIGNvdXJ0IGV0IGFubsOpZSkiLCIxNS8wMSIsImx1bmRpIl0sImFuc3dlciI6MX1d">
 
 </div>
 <div class="solution" data-quiz="i08">

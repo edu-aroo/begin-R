@@ -596,6 +596,58 @@ pour assembler, <code>ggsave()</code> pour exporter</li>
 <strong>À faire</strong> : séances I5 à I8 en ligne, avec leurs quiz.
 </div>
 </div>
+<div id="lire-une-échelle-de-couleur" class="section level2">
+<h2>Lire une échelle de couleur</h2>
+<p><code>scale_fill_viridis_c(option = &quot;mako&quot;, direction = -1, name = &quot;SGR moyen&quot;)</code></p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Élément</th>
+<th>Sens</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>scale_fill_…</code></td>
+<td>règle l’esthétique <code>fill</code> (<code>scale_colour_…</code>
+pour <code>colour</code>)</td>
+</tr>
+<tr class="even">
+<td><code>viridis</code></td>
+<td>palette lisible par les daltoniens et en gris</td>
+</tr>
+<tr class="odd">
+<td><code>_c</code></td>
+<td>variable <strong>c</strong>ontinue (<code>_d</code> :
+catégories)</td>
+</tr>
+<tr class="even">
+<td><code>option</code></td>
+<td><code>&quot;viridis&quot;</code>, <code>&quot;magma&quot;</code>, <code>&quot;plasma&quot;</code>,
+<code>&quot;mako&quot;</code>…</td>
+</tr>
+<tr class="odd">
+<td><code>direction</code></td>
+<td><code>1</code> défaut, <code>-1</code> inverse (valeurs hautes
+foncées)</td>
+</tr>
+<tr class="even">
+<td><code>name</code></td>
+<td>titre de la légende (<code>&quot;\n&quot;</code> = retour à la ligne)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>épaisseur : <code>linewidth</code> (lignes) mais <code>size</code>
+(points, texte)</li>
+<li>type de trait : <code>linetype</code> (ggplot2) = <code>lty</code>
+(R de base)</li>
+</ul>
+</div>
 <div id="merci" class="section level2 segue">
 <h2 class="segue">Merci !</h2>
 </div>

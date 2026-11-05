@@ -640,6 +640,72 @@ plus au sud que −22,6. Une première carte est donc simplement
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="fu">coord_quickmap</span>()      <span class="co"># correct aspect ratio for the latitude (see below)</span></span></code></pre></div>
 <p><img src="i11-maps_files/figure-html/unnamed-chunk-1-1.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(x = lon, y = lat)</code></td>
+<td>longitude on the x axis (east–west), latitude on the y axis
+(north–south)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>coord_quickmap(xlim, ylim, expand)</code></td>
+<td>sets the ratio between the axes so that one degree of longitude is
+shorter than one degree of latitude, as on the Earth at this
+latitude</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(x = lon, y = lat)</code></td>
+<td>longitude sur l’axe x (est–ouest), latitude sur l’axe y
+(nord–sud)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>coord_quickmap(xlim, ylim, expand)</code></td>
+<td>fixe le rapport entre les axes pour qu’un degré de longitude soit
+plus court qu’un degré de latitude, comme sur la Terre à cette
+latitude</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><strong>Why <code>coord_quickmap()</code>?</strong> One degree of
@@ -690,14 +756,216 @@ les écrivez : la terre d’abord, puis les points par-dessus.</p>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;#d8ecf2&quot;</span>, <span class="at">colour =</span> <span class="cn">NA</span>),   <span class="co"># the sea</span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>))</span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>base_map                                     <span class="co"># a ggplot object can be stored and reused (Session I8)</span></span></code></pre></div>
-<p><img src="i11-maps_files/figure-html/unnamed-chunk-2-1.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="i11-maps_files/figure-html/unnamed-chunk-3-1.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggplot()</code> without data</td>
+<td>each layer brings its own data with <code>data =</code>: useful when
+a map combines several tables</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_polygon(data, aes(lon, lat), fill, colour)</code></td>
+<td>joins the points <strong>in the order of the rows</strong> and fills
+the shape</td>
+<td>a table of the outline points</td>
+</tr>
+<tr class="odd">
+<td>  <code>xlim</code>, <code>ylim</code>, <code>expand</code> (in
+<code>coord_quickmap()</code>)</td>
+<td>zoom on a range of longitude / latitude; <code>expand = FALSE</code>
+= no margin around it</td>
+<td><code>c(min, max)</code>; <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>element_rect(fill, colour)</code></td>
+<td>settings of a rectangle element of the theme: here the panel
+background = the sea; <code>colour = NA</code> = no border</td>
+<td>colours</td>
+</tr>
+<tr class="odd">
+<td><code>element_line(colour, linewidth)</code></td>
+<td>settings of the grid lines</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggplot()</code> without data</td>
+<td>chaque couche apporte ses propres données avec <code>data =</code> :
+utile quand une carte combine plusieurs tableaux</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_polygon(data, aes(lon, lat), fill, colour)</code></td>
+<td>relie les points <strong>dans l’ordre des lignes</strong> et remplit
+la forme</td>
+<td>un tableau des points du contour</td>
+</tr>
+<tr class="odd">
+<td>  <code>xlim</code>, <code>ylim</code>, <code>expand</code> (in
+<code>coord_quickmap()</code>)</td>
+<td>zoom sur une étendue de longitude / latitude ;
+<code>expand = FALSE</code> = pas de marge autour</td>
+<td><code>c(min, max)</code> ; <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>element_rect(fill, colour)</code></td>
+<td>réglages d’un élément rectangle du thème : ici le fond du panneau =
+la mer ; <code>colour = NA</code> = pas de bordure</td>
+<td>couleurs</td>
+</tr>
+<tr class="odd">
+<td><code>element_line(colour, linewidth)</code></td>
+<td>réglages des lignes de la grille</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>base_map <span class="sc">+</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> stations, <span class="fu">aes</span>(lon, lat), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">&quot;#1b7f8c&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> villages, <span class="fu">aes</span>(lon, lat), <span class="at">shape =</span> <span class="dv">22</span>, <span class="at">fill =</span> <span class="st">&quot;#d9694a&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> villages, <span class="fu">aes</span>(lon, lat, <span class="at">label =</span> village), <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">nudge_x =</span> <span class="fl">0.012</span>, <span class="at">size =</span> <span class="fl">3.2</span>) <span class="sc">+</span></span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> stations, <span class="fu">aes</span>(lon, lat, <span class="at">label =</span> station), <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">nudge_x =</span> <span class="sc">-</span><span class="fl">0.01</span>,</span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>            <span class="at">size =</span> <span class="fl">2.8</span>, <span class="at">colour =</span> <span class="st">&quot;#0b3d5c&quot;</span>)</span></code></pre></div>
-<p><img src="i11-maps_files/figure-html/unnamed-chunk-3-1.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="i11-maps_files/figure-html/unnamed-chunk-5-1.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>shape</code> (in <code>geom_point()</code>)</td>
+<td>same numbers as <code>pch</code> in base R; <strong>21–25</strong>
+are shapes with an outline (<code>colour</code>) <strong>and</strong> a
+fill (<code>fill</code>): 21 circle, 22 square, 24 triangle</td>
+<td>0 to 25</td>
+</tr>
+<tr class="even">
+<td><code>geom_text(aes(label), hjust, nudge_x, size)</code></td>
+<td>writes the text of the column given to <code>label</code> at each
+point</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>hjust</code></td>
+<td>horizontal anchor of the text: 0 = text starts at the point (to its
+right), 1 = text ends at the point (to its left)</td>
+<td>0, 0.5 or 1</td>
+</tr>
+<tr class="even">
+<td>  <code>nudge_x</code></td>
+<td>moves the label horizontally, in the units of the axis (here
+degrees)</td>
+<td>a number</td>
+</tr>
+<tr class="odd">
+<td>  <code>size</code></td>
+<td>text size in mm (not in points as in <code>theme()</code>)</td>
+<td>a number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>shape</code> (in <code>geom_point()</code>)</td>
+<td>mêmes numéros que <code>pch</code> en R de base ;
+<strong>21–25</strong> sont des formes avec un contour
+(<code>colour</code>) <strong>et</strong> un remplissage
+(<code>fill</code>) : 21 cercle, 22 carré, 24 triangle</td>
+<td>0 à 25</td>
+</tr>
+<tr class="even">
+<td><code>geom_text(aes(label), hjust, nudge_x, size)</code></td>
+<td>écrit le texte de la colonne donnée à <code>label</code> à chaque
+point</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>hjust</code></td>
+<td>ancrage horizontal du texte : 0 = le texte commence au point (à sa
+droite), 1 = le texte finit au point (à sa gauche)</td>
+<td>0, 0,5 ou 1</td>
+</tr>
+<tr class="even">
+<td>  <code>nudge_x</code></td>
+<td>déplace l’étiquette horizontalement, dans les unités de l’axe (ici
+des degrés)</td>
+<td>un nombre</td>
+</tr>
+<tr class="odd">
+<td>  <code>size</code></td>
+<td>taille du texte en mm (pas en points comme dans
+<code>theme()</code>)</td>
+<td>un nombre</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p><code>hjust = 0</code> aligns the <strong>start</strong> of the text
 on the point (text to the right), <code>hjust = 1</code> its
@@ -723,6 +991,73 @@ automatiquement — optionnel :
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">polygon</span>(coast<span class="sc">$</span>lon, coast<span class="sc">$</span>lat, <span class="at">col =</span> <span class="st">&quot;wheat&quot;</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">points</span>(villages<span class="sc">$</span>lon, villages<span class="sc">$</span>lat, <span class="at">pch =</span> <span class="dv">15</span>, <span class="at">col =</span> <span class="st">&quot;tomato&quot;</span>)</span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">text</span>(villages<span class="sc">$</span>lon, villages<span class="sc">$</span>lat, villages<span class="sc">$</span>village, <span class="at">pos =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.7</span>)</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>plot(..., type = "n", asp)</code></td>
+<td>base R: <code>type = "n"</code> draws empty axes; <code>asp</code> =
+aspect ratio y/x (here 1 / cos(latitude))</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>polygon(x, y, col)</code>, <code>points()</code>,
+<code>text(x, y, labels, pos, cex)</code></td>
+<td>add a filled shape, points and texts to the plot (Beginner Session
+7); <code>pos = 4</code> = text to the right</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>plot(..., type = "n", asp)</code></td>
+<td>R de base : <code>type = "n"</code> trace des axes vides ;
+<code>asp</code> = rapport d’aspect y/x (ici 1 / cos(latitude))</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>polygon(x, y, col)</code>, <code>points()</code>,
+<code>text(x, y, labels, pos, cex)</code></td>
+<td>ajoutent une forme remplie, des points et des textes au graphique
+(séance 7 du niveau débutant) ; <code>pos = 4</code> = texte à
+droite</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div class="col pkg">
 <p><strong>ggplot2</strong></p>
@@ -771,7 +1106,86 @@ la valeur à <code>size</code>, <code>colour</code> ou
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;mako&quot;</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">name =</span> <span class="st">&quot;Mean SGR</span><span class="sc">\n</span><span class="st">(% per day)&quot;</span>) <span class="sc">+</span>  <span class="co"># colour-blind safe</span></span>
 <span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">9</span>, <span class="at">name =</span> <span class="st">&quot;Lines&quot;</span>) <span class="sc">+</span></span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Seaweed growth by village, 2024–2025&quot;</span>)</span></code></pre></div>
-<p><img src="i11-maps_files/figure-html/unnamed-chunk-6-1.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="i11-maps_files/figure-html/unnamed-chunk-10-1.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(size = n_lines, fill = mean_sgr)</code></td>
+<td>two variables on one map: the size of the circle and its colour</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>scale_fill_viridis_c(option = "mako", direction = -1, name)</code></td>
+<td>reminder (Session I7): palette <em>mako</em>, reversed so that
+<strong>high</strong> growth is <strong>dark</strong>, legend title on
+two lines (<code>\n</code>)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>scale_size_area(max_size, name)</code></td>
+<td>the <strong>area</strong> of the circles is proportional to the
+value (0 → no circle); <code>max_size</code> = size of the largest
+circle</td>
+<td>a number; a legend title</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(size = n_lines, fill = mean_sgr)</code></td>
+<td>deux variables sur une carte : la taille du cercle et sa
+couleur</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>scale_fill_viridis_c(option = "mako", direction = -1, name)</code></td>
+<td>rappel (séance I7) : palette <em>mako</em>, inversée pour que la
+croissance <strong>forte</strong> soit <strong>foncée</strong>, titre de
+légende sur deux lignes (<code>\n</code>)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>scale_size_area(max_size, name)</code></td>
+<td>la <strong>surface</strong> des cercles est proportionnelle à la
+valeur (0 → pas de cercle) ; <code>max_size</code> = taille du plus
+grand cercle</td>
+<td>un nombre ; un titre de légende</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout tip">
 <div class="en">
 <p><strong>Good map habits.</strong> Use <code>size</code> for a
@@ -806,7 +1220,61 @@ class="fr">Facettes : une carte par saison</span></h3>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> growth_season, <span class="fu">aes</span>(lon, lat, <span class="at">fill =</span> mean_sgr), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
 <span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;mako&quot;</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">name =</span> <span class="st">&quot;Mean SGR&quot;</span>) <span class="sc">+</span></span>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> season, <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">season =</span> <span class="fu">c</span>(<span class="at">dry =</span> <span class="st">&quot;Dry season&quot;</span>, <span class="at">wet =</span> <span class="st">&quot;Wet season&quot;</span>)))</span></code></pre></div>
-<p><img src="i11-maps_files/figure-html/unnamed-chunk-7-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i11-maps_files/figure-html/unnamed-chunk-12-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>labeller</code> (in <code>facet_wrap()</code>)</td>
+<td>changes the titles of the panels;
+<code>labeller(season = c(dry = "Dry season", ...))</code> = new title
+for each value of <code>season</code></td>
+<td>a named vector inside <code>labeller()</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>labeller</code> (in <code>facet_wrap()</code>)</td>
+<td>change les titres des panneaux ;
+<code>labeller(season = c(dry = "Dry season", ...))</code> = nouveau
+titre pour chaque valeur de <code>season</code></td>
+<td>un vecteur nommé dans <code>labeller()</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>The same colour scale is shared by both panels, so the colours can be
 compared directly: growth is higher everywhere in the dry season
@@ -847,7 +1315,83 @@ barre horizontale demanderait la correction cos(latitude).)</p>
 <span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Study area&quot;</span>, <span class="at">subtitle =</span> <span class="st">&quot;Squares: villages · circles: water-quality stations&quot;</span>,</span>
 <span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Coordinates WGS84 · simulated data&quot;</span>)</span>
 <span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>final_map</span></code></pre></div>
-<p><img src="i11-maps_files/figure-html/unnamed-chunk-8-1.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="i11-maps_files/figure-html/unnamed-chunk-14-1.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>annotate("segment", x, xend, y, yend, arrow)</code></td>
+<td>a line from (<code>x</code>, <code>y</code>) to (<code>xend</code>,
+<code>yend</code>); with <code>arrow = arrow()</code> it ends with an
+arrow head</td>
+<td>positions in degrees</td>
+</tr>
+<tr class="even">
+<td><code>arrow(length = unit(0.25, "cm"))</code></td>
+<td>the arrow head and its size</td>
+<td>a <code>unit()</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>fontface</code></td>
+<td><code>"bold"</code>, <code>"italic"</code>, <code>"plain"</code>;
+called <code>face</code> in <code>element_text()</code></td>
+<td>text</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>annotate("segment", x, xend, y, yend, arrow)</code></td>
+<td>un segment de (<code>x</code>, <code>y</code>) à (<code>xend</code>,
+<code>yend</code>) ; avec <code>arrow = arrow()</code> il se termine par
+une pointe</td>
+<td>positions en degrés</td>
+</tr>
+<tr class="even">
+<td><code>arrow(length = unit(0.25, "cm"))</code></td>
+<td>la pointe de flèche et sa taille</td>
+<td>une <code>unit()</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>fontface</code></td>
+<td><code>"bold"</code>, <code>"italic"</code>, <code>"plain"</code> ;
+appelé <code>face</code> dans <code>element_text()</code></td>
+<td>texte</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;outputs/map_study_area.png&quot;</span>, final_map, <span class="at">width =</span> <span class="dv">14</span>, <span class="at">height =</span> <span class="dv">16</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
 <div class="callout try">
 <div class="en">
@@ -914,6 +1458,90 @@ vraie projection. Vous l’utiliserez (avec terra et tmap) au niveau
 <span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="fl">43.4</span>, <span class="fl">43.6</span>, <span class="fl">43.8</span>)) <span class="sc">+</span></span>
 <span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
 <p><img src="i11-maps_files/figure-html/sf-1.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_as_sf(x, coords, crs)</code></td>
+<td>turns a table with coordinate columns into a spatial
+(<strong>sf</strong>) object</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>coords</code></td>
+<td>names of the x and y columns, <strong>longitude first</strong></td>
+<td><code>c("lon", "lat")</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>crs</code></td>
+<td>coordinate reference system; 4326 = WGS84 (GPS degrees)</td>
+<td>an EPSG code</td>
+</tr>
+<tr class="even">
+<td><code>geom_sf()</code>, <code>coord_sf()</code></td>
+<td>draw sf objects whatever their geometry; <code>coord_sf()</code>
+replaces <code>coord_quickmap()</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_as_sf(x, coords, crs)</code></td>
+<td>transforme un tableau avec des colonnes de coordonnées en objet
+spatial (<strong>sf</strong>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>coords</code></td>
+<td>noms des colonnes x et y, <strong>longitude d’abord</strong></td>
+<td><code>c("lon", "lat")</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>crs</code></td>
+<td>système de coordonnées ; 4326 = WGS84 (degrés GPS)</td>
+<td>un code EPSG</td>
+</tr>
+<tr class="even">
+<td><code>geom_sf()</code>, <code>coord_sf()</code></td>
+<td>tracent des objets sf quelle que soit leur géométrie ;
+<code>coord_sf()</code> remplace <code>coord_quickmap()</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="application" class="section level2">
 <h2><span class="en">Application work &amp; quiz</span><span
@@ -971,7 +1599,7 @@ puis <code>left_join()</code> avec <code>stations</code> par
 </div>
 </div>
 <div id="quiz-i11" class="quiz" data-quiz-id="i11"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gVG90YWwgbnVtYmVyIG9mIGZhcm1lcnMgaW4gdGhlIFNvdXRoIHpvbmU/IiwiZnIiOiIxLiBOb21icmUgdG90YWwgZGUgY3VsdGl2YXRldXJzIGRhbnMgbGEgem9uZSBTdWQgPyIsImFuc3dlciI6MzEsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyYS4gVmlsbGFnZSB3aXRoIHRoZSBoaWdoZXN0IG1lYW4gU0dSPyIsImZyIjoiMmEuIFZpbGxhZ2UgYXUgU0dSIG1veWVuIGxlIHBsdXMgw6lsZXbDqSA/IiwiYW5zd2VyIjpbIlRzaW1hbmpha2EiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiIyYi4gSXRzIG1lYW4gU0dSICgzIGRlY2ltYWxzKT8iLCJmciI6IjJiLiBTb24gU0dSIG1veWVuICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjMuNjc0LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIzLiBNb3N0IHR1cmJpZCBzdGF0aW9uIChlLmcuIFdRMDEpPyIsImZyIjoiMy4gU3RhdGlvbiBsYSBwbHVzIHR1cmJpZGUgKGV4LiBXUTAxKSA/IiwiYW5zd2VyIjpbIldRMDgiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBOb3J0aOKAk3NvdXRoIGV4dGVudCBvZiB0aGUgdmlsbGFnZXMgKGttKT8iLCJmciI6IjQuIMOJdGVuZHVlIG5vcmTigJNzdWQgZGVzIHZpbGxhZ2VzIChrbSkgPyIsImFuc3dlciI6NzMsInRvbCI6MSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFdoYXQgZG9lcyBjb29yZF9xdWlja21hcCgpIGRvPyIsImZyIjoiNS4gUXVlIGZhaXQgY29vcmRfcXVpY2ttYXAoKSA/Iiwib3B0aW9uc19lbiI6WyJJdCBkb3dubG9hZHMgYSBiYWNrZ3JvdW5kIG1hcCIsIkl0IHNldHMgYW4gYXNwZWN0IHJhdGlvIHNvIHRoYXQgZGlzdGFuY2VzIGluIGxvbmdpdHVkZSBhbmQgbGF0aXR1ZGUgbG9vayByaWdodCIsIkl0IHNvcnRzIHRoZSBwb2ludHMiLCJJdCBjb252ZXJ0cyBjb29yZGluYXRlcyB0byBrbSJdLCJvcHRpb25zX2ZyIjpbIkVsbGUgdMOpbMOpY2hhcmdlIHVuIGZvbmQgZGUgY2FydGUiLCJFbGxlIGZpeGUgdW4gcmFwcG9ydCBkJ2FzcGVjdCBwb3VyIHF1ZSBsZXMgZGlzdGFuY2VzIGVuIGxvbmdpdHVkZSBldCBsYXRpdHVkZSBzb2llbnQganVzdGVzIiwiRWxsZSB0cmllIGxlcyBwb2ludHMiLCJFbGxlIGNvbnZlcnRpdCBsZXMgY29vcmRvbm7DqWVzIGVuIGttIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBZb3VyIGxhbmQgcG9seWdvbiBsb29rcyBsaWtlIGEgemlnLXphZyBzdGFyLiBNb3N0IGxpa2VseSBjYXVzZT8iLCJmciI6IjYuIFZvdHJlIHBvbHlnb25lIGRlIHRlcnJlIHJlc3NlbWJsZSDDoCB1bmUgw6l0b2lsZSBlbiB6aWd6YWcuIENhdXNlIGxhIHBsdXMgcHJvYmFibGUgPyIsIm9wdGlvbnNfZW4iOlsiVGhlIHJvd3Mgb2YgdGhlIGNvYXN0bGluZSB3ZXJlIHJlLW9yZGVyZWQgKGUuZy4gd2l0aCBhcnJhbmdlKCkpIiwiVGhlIGNvbG91cnMgYXJlIHdyb25nIiwiY29vcmRfcXVpY2ttYXAoKSBpcyBtaXNzaW5nIiwiVGhlIGxhdGl0dWRlcyBhcmUgbmVnYXRpdmUiXSwib3B0aW9uc19mciI6WyJMZXMgbGlnbmVzIGR1IHRyYWl0IGRlIGPDtHRlIG9udCDDqXTDqSByw6lvcmRvbm7DqWVzIChwYXIgZXguIGF2ZWMgYXJyYW5nZSgpKSIsIkxlcyBjb3VsZXVycyBzb250IGZhdXNzZXMiLCJjb29yZF9xdWlja21hcCgpIG1hbnF1ZSIsIkxlcyBsYXRpdHVkZXMgc29udCBuw6lnYXRpdmVzIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBUbyBzaG93IHRoZSBudW1iZXIgb2YgbGluZXMgQU5EIHRoZSBtZWFuIFNHUiBvZiBlYWNoIHZpbGxhZ2Ugb24gdGhlIHNhbWUgbWFwLCB0aGUgYmVzdCBjaG9pY2UgaXM6IiwiZnIiOiI3LiBQb3VyIG1vbnRyZXIgbGUgbm9tYnJlIGRlIGxpZ25lcyBFVCBsZSBTR1IgbW95ZW4gZGUgY2hhcXVlIHZpbGxhZ2Ugc3VyIGxhIG3Dqm1lIGNhcnRlLCBsZSBtZWlsbGV1ciBjaG9peCBlc3QgOiIsIm9wdGlvbnNfZW4iOlsic2l6ZSA9IG5fbGluZXMsIGZpbGwgPSBtZWFuX3NnciIsInNpemUgPSBtZWFuX3NnciwgZmlsbCA9IG5fbGluZXMiLCJ0d28gc2VwYXJhdGUgZ2VvbV90ZXh0KCkiLCJzaGFwZSA9IG1lYW5fc2dyIl0sIm9wdGlvbnNfZnIiOlsic2l6ZSA9IG5fbGluZXMsIGZpbGwgPSBtZWFuX3NnciIsInNpemUgPSBtZWFuX3NnciwgZmlsbCA9IG5fbGluZXMiLCJkZXV4IGdlb21fdGV4dCgpIHPDqXBhcsOpcyIsInNoYXBlID0gbWVhbl9zZ3IiXSwiYW5zd2VyIjowfV0=">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gVG90YWwgbnVtYmVyIG9mIGZhcm1lcnMgaW4gdGhlIFNvdXRoIHpvbmU/IiwiZnIiOiIxLiBOb21icmUgdG90YWwgZGUgY3VsdGl2YXRldXJzIGRhbnMgbGEgem9uZSBTdWQgPyIsImFuc3dlciI6MzEsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyYS4gVmlsbGFnZSB3aXRoIHRoZSBoaWdoZXN0IG1lYW4gU0dSPyIsImZyIjoiMmEuIFZpbGxhZ2UgYXUgU0dSIG1veWVuIGxlIHBsdXMgw6lsZXbDqSA/IiwiYW5zd2VyIjpbIlRzaW1hbmpha2EiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiIyYi4gSXRzIG1lYW4gU0dSICgzIGRlY2ltYWxzKT8iLCJmciI6IjJiLiBTb24gU0dSIG1veWVuICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjMuNjc0LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIzLiBNb3N0IHR1cmJpZCBzdGF0aW9uIChlLmcuIFdRMDEpPyIsImZyIjoiMy4gU3RhdGlvbiBsYSBwbHVzIHR1cmJpZGUgKGV4LiBXUTAxKSA/IiwiYW5zd2VyIjpbIldRMDgiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBOb3J0aOKAk3NvdXRoIGV4dGVudCBvZiB0aGUgdmlsbGFnZXMgKGttKT8iLCJmciI6IjQuIMOJdGVuZHVlIG5vcmTigJNzdWQgZGVzIHZpbGxhZ2VzIChrbSkgPyIsImFuc3dlciI6NzMsInRvbCI6MSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFdoYXQgZG9lcyBjb29yZF9xdWlja21hcCgpIGRvPyIsImZyIjoiNS4gUXVlIGZhaXQgY29vcmRfcXVpY2ttYXAoKSA/Iiwib3B0aW9uc19lbiI6WyJJdCBkb3dubG9hZHMgYSBiYWNrZ3JvdW5kIG1hcCIsIkl0IHNldHMgYW4gYXNwZWN0IHJhdGlvIHNvIHRoYXQgZGlzdGFuY2VzIGluIGxvbmdpdHVkZSBhbmQgbGF0aXR1ZGUgbG9vayByaWdodCIsIkl0IHNvcnRzIHRoZSBwb2ludHMiLCJJdCBjb252ZXJ0cyBjb29yZGluYXRlcyB0byBrbSJdLCJvcHRpb25zX2ZyIjpbIkVsbGUgdMOpbMOpY2hhcmdlIHVuIGZvbmQgZGUgY2FydGUiLCJFbGxlIGZpeGUgdW4gcmFwcG9ydCBkJ2FzcGVjdCBwb3VyIHF1ZSBsZXMgZGlzdGFuY2VzIGVuIGxvbmdpdHVkZSBldCBsYXRpdHVkZSBzb2llbnQganVzdGVzIiwiRWxsZSB0cmllIGxlcyBwb2ludHMiLCJFbGxlIGNvbnZlcnRpdCBsZXMgY29vcmRvbm7DqWVzIGVuIGttIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBZb3VyIGxhbmQgcG9seWdvbiBsb29rcyBsaWtlIGEgemlnLXphZyBzdGFyLiBNb3N0IGxpa2VseSBjYXVzZT8iLCJmciI6IjYuIFZvdHJlIHBvbHlnb25lIGRlIHRlcnJlIHJlc3NlbWJsZSDDoCB1bmUgw6l0b2lsZSBlbiB6aWd6YWcuIENhdXNlIGxhIHBsdXMgcHJvYmFibGUgPyIsIm9wdGlvbnNfZW4iOlsiVGhlIHJvd3Mgb2YgdGhlIGNvYXN0bGluZSB3ZXJlIHJlLW9yZGVyZWQgKGUuZy4gd2l0aCBhcnJhbmdlKCkpIiwiVGhlIGNvbG91cnMgYXJlIHdyb25nIiwiY29vcmRfcXVpY2ttYXAoKSBpcyBtaXNzaW5nIiwiVGhlIGxhdGl0dWRlcyBhcmUgbmVnYXRpdmUiXSwib3B0aW9uc19mciI6WyJMZXMgbGlnbmVzIGR1IHRyYWl0IGRlIGPDtHRlIG9udCDDqXTDqSByw6lvcmRvbm7DqWVzIChwYXIgZXguIGF2ZWMgYXJyYW5nZSgpKSIsIkxlcyBjb3VsZXVycyBzb250IGZhdXNzZXMiLCJjb29yZF9xdWlja21hcCgpIG1hbnF1ZSIsIkxlcyBsYXRpdHVkZXMgc29udCBuw6lnYXRpdmVzIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBUbyBzaG93IHRoZSBudW1iZXIgb2YgbGluZXMgQU5EIHRoZSBtZWFuIFNHUiBvZiBlYWNoIHZpbGxhZ2Ugb24gdGhlIHNhbWUgbWFwLCB0aGUgYmVzdCBjaG9pY2UgaXM6IiwiZnIiOiI3LiBQb3VyIG1vbnRyZXIgbGUgbm9tYnJlIGRlIGxpZ25lcyBFVCBsZSBTR1IgbW95ZW4gZGUgY2hhcXVlIHZpbGxhZ2Ugc3VyIGxhIG3Dqm1lIGNhcnRlLCBsZSBtZWlsbGV1ciBjaG9peCBlc3QgOiIsIm9wdGlvbnNfZW4iOlsic2l6ZSA9IG5fbGluZXMsIGZpbGwgPSBtZWFuX3NnciIsInNpemUgPSBtZWFuX3NnciwgZmlsbCA9IG5fbGluZXMiLCJ0d28gc2VwYXJhdGUgZ2VvbV90ZXh0KCkiLCJzaGFwZSA9IG1lYW5fc2dyIl0sIm9wdGlvbnNfZnIiOlsic2l6ZSA9IG5fbGluZXMsIGZpbGwgPSBtZWFuX3NnciIsInNpemUgPSBtZWFuX3NnciwgZmlsbCA9IG5fbGluZXMiLCJkZXV4IGdlb21fdGV4dCgpIHPDqXBhcsOpcyIsInNoYXBlID0gbWVhbl9zZ3IiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFdpdGggZ2VvbV9wb2ludChzaGFwZSA9IDIxKSwgd2hpY2ggYXJndW1lbnRzIHNldCB0aGUgaW5zaWRlIGFuZCB0aGUgb3V0bGluZSBvZiB0aGUgY2lyY2xlcz8iLCJmciI6IjguIEF2ZWMgZ2VvbV9wb2ludChzaGFwZSA9IDIxKSwgcXVlbHMgYXJndW1lbnRzIHLDqGdsZW50IGwnaW50w6lyaWV1ciBldCBsZSBjb250b3VyIGRlcyBjZXJjbGVzID8iLCJvcHRpb25zX2VuIjpbImZpbGwgKGluc2lkZSkgYW5kIGNvbG91ciAob3V0bGluZSkiLCJjb2xvdXIgKGluc2lkZSkgYW5kIGZpbGwgKG91dGxpbmUpIiwiY29sIGFuZCBib3JkZXIiLCJhbHBoYSBhbmQgc2l6ZSJdLCJvcHRpb25zX2ZyIjpbImZpbGwgKGludMOpcmlldXIpIGV0IGNvbG91ciAoY29udG91cikiLCJjb2xvdXIgKGludMOpcmlldXIpIGV0IGZpbGwgKGNvbnRvdXIpIiwiY29sIGV0IGJvcmRlciIsImFscGhhIGV0IHNpemUiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIEluIGdlb21fdGV4dChoanVzdCA9IDAsIG51ZGdlX3ggPSAwLjAxNSksIHdoZXJlIGlzIHRoZSBsYWJlbD8iLCJmciI6IjkuIEF2ZWMgZ2VvbV90ZXh0KGhqdXN0ID0gMCwgbnVkZ2VfeCA9IDAuMDE1KSwgb8O5IGVzdCBsJ8OpdGlxdWV0dGUgPyIsIm9wdGlvbnNfZW4iOlsiVG8gdGhlIHJpZ2h0IG9mIHRoZSBwb2ludCwgbW92ZWQgMC4wMTXCsCBlYXN0IiwiQ2VudHJlZCBvbiB0aGUgcG9pbnQiLCJUbyB0aGUgbGVmdCBvZiB0aGUgcG9pbnQiLCJBYm92ZSB0aGUgcG9pbnQiXSwib3B0aW9uc19mciI6WyLDgCBkcm9pdGUgZHUgcG9pbnQsIGTDqWNhbMOpZSBkZSAwLDAxNcKwIHZlcnMgbCdlc3QiLCJDZW50csOpZSBzdXIgbGUgcG9pbnQiLCLDgCBnYXVjaGUgZHUgcG9pbnQiLCJBdS1kZXNzdXMgZHUgcG9pbnQiXSwiYW5zd2VyIjowfV0=">
 
 </div>
 <div class="solution" data-quiz="i11">

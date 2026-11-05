@@ -622,6 +622,104 @@ class="fr">Décrire une variable</span></h2>
 #&gt;  30  64</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">IQR</span>(x)                         <span class="co"># interquartile range = Q3 - Q1</span></span></code></pre></div>
 <pre><code>#&gt; [1] 18.25</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>mean()</code>, <code>median()</code>, <code>sd()</code>,
+<code>min()</code>, <code>max()</code></td>
+<td>reminder of Session 2; all accept <code>na.rm = TRUE</code></td>
+<td>a numeric vector</td>
+</tr>
+<tr class="even">
+<td><code>var(x)</code></td>
+<td>variance (the square of the SD)</td>
+<td>a numeric vector</td>
+</tr>
+<tr class="odd">
+<td><code>quantile(x, probs)</code></td>
+<td>the values below which a given proportion of the data lies</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>probs</code></td>
+<td>which proportions; default <code>c(0, 0.25, 0.5, 0.75, 1)</code>
+(min, Q1, median, Q3, max)</td>
+<td>numbers between 0 and 1</td>
+</tr>
+<tr class="odd">
+<td><code>IQR(x)</code></td>
+<td>interquartile range: Q3 − Q1, the width of the middle half of the
+data</td>
+<td>a numeric vector</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>mean()</code>, <code>median()</code>, <code>sd()</code>,
+<code>min()</code>, <code>max()</code></td>
+<td>rappel de la séance 2 ; toutes acceptent
+<code>na.rm = TRUE</code></td>
+<td>un vecteur numérique</td>
+</tr>
+<tr class="even">
+<td><code>var(x)</code></td>
+<td>variance (le carré de l’ET)</td>
+<td>un vecteur numérique</td>
+</tr>
+<tr class="odd">
+<td><code>quantile(x, probs)</code></td>
+<td>les valeurs sous lesquelles se trouve une proportion donnée des
+données</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>probs</code></td>
+<td>quelles proportions ; par défaut
+<code>c(0, 0.25, 0.5, 0.75, 1)</code> (min, Q1, médiane, Q3, max)</td>
+<td>des nombres entre 0 et 1</td>
+</tr>
+<tr class="odd">
+<td><code>IQR(x)</code></td>
+<td>écart interquartile : Q3 − Q1, la largeur de la moitié centrale des
+données</td>
+<td>un vecteur numérique</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout ecology">
 <div class="en">
 <p><strong>Mean or median?</strong> If a few quadrats have extreme
@@ -687,6 +785,70 @@ valeurs non manquantes : <code>sum(!is.na(x))</code>.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>h <span class="ot">&lt;-</span> sg<span class="sc">$</span>canopy_height_cm</span>
 <span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">sd</span>(h, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(h)))</span></code></pre></div>
 <pre><code>#&gt; [1] 0.4946351</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sqrt(n)</code></td>
+<td>square root (Session 1)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>sum(!is.na(x))</code></td>
+<td>counts the values that are <strong>not</strong> missing:
+<code>!is.na()</code> gives <code>TRUE</code> for each measured value,
+<code>sum()</code> counts the <code>TRUE</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sqrt(n)</code></td>
+<td>racine carrée (séance 1)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>sum(!is.na(x))</code></td>
+<td>compte les valeurs <strong>non</strong> manquantes :
+<code>!is.na()</code> donne <code>TRUE</code> pour chaque valeur
+mesurée, <code>sum()</code> compte les <code>TRUE</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="tapply" class="section level2">
 <h2><span class="en">Statistics per group with
@@ -726,6 +888,113 @@ example <code>na.rm = TRUE</code>:</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">tapply</span>(sg<span class="sc">$</span>canopy_height_cm, sg<span class="sc">$</span>site, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>#&gt;  Ambalaboy  Belitsaky   Fasimena Tsiandamba 
 #&gt;   17.05714   16.49333   16.69333   16.32143</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tapply(X, INDEX, FUN, ...)</code></td>
+<td>applies a function to each group of values</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>X</code></td>
+<td>the values</td>
+<td>a vector (a column)</td>
+</tr>
+<tr class="odd">
+<td>  <code>INDEX</code></td>
+<td>the group of each value</td>
+<td>a vector of the same length, or a <code>list()</code> of
+several</td>
+</tr>
+<tr class="even">
+<td>  <code>FUN</code></td>
+<td>the function, without parentheses</td>
+<td><code>mean</code>, <code>sd</code>, <code>length</code>,
+<code>max</code>…</td>
+</tr>
+<tr class="odd">
+<td>  <code>...</code></td>
+<td>extra arguments passed to <code>FUN</code>
+(e.g. <code>na.rm = TRUE</code>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>list(a, b)</code></td>
+<td>groups several objects into one; here two grouping columns</td>
+<td>objects separated by commas</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tapply(X, INDEX, FUN, ...)</code></td>
+<td>applique une fonction à chaque groupe de valeurs</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>X</code></td>
+<td>les valeurs</td>
+<td>un vecteur (une colonne)</td>
+</tr>
+<tr class="odd">
+<td>  <code>INDEX</code></td>
+<td>le groupe de chaque valeur</td>
+<td>un vecteur de même longueur, ou une <code>list()</code> de
+plusieurs</td>
+</tr>
+<tr class="even">
+<td>  <code>FUN</code></td>
+<td>la fonction, sans parenthèses</td>
+<td><code>mean</code>, <code>sd</code>, <code>length</code>,
+<code>max</code>…</td>
+</tr>
+<tr class="odd">
+<td>  <code>...</code></td>
+<td>arguments supplémentaires transmis à <code>FUN</code> (ex.
+<code>na.rm = TRUE</code>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>list(a, b)</code></td>
+<td>regroupe plusieurs objets en un seul ; ici deux colonnes de
+groupement</td>
+<td>objets séparés par des virgules</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>With two grouping variables in a <code>list()</code>, you get a
 two-way table:</p>
@@ -735,11 +1004,16 @@ two-way table:</p>
 obtient un tableau à double entrée :</p>
 </div>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(sg<span class="sc">$</span>seagrass_cover, <span class="fu">list</span>(sg<span class="sc">$</span>site, sg<span class="sc">$</span>species), mean), <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>#&gt;            Cymodocea serrulata Syringodium isoetifolium Thalassia hemprichii Thalassodendron ciliatum
-#&gt; Ambalaboy                 56.0                     49.0                 54.2                     54.0
-#&gt; Belitsaky                 47.0                     48.0                 47.1                     45.0
-#&gt; Fasimena                  59.4                     57.3                 49.5                     40.7
-#&gt; Tsiandamba                46.5                     38.3                 43.2                     29.0</code></pre>
+<pre><code>#&gt;            Cymodocea serrulata Syringodium isoetifolium Thalassia hemprichii
+#&gt; Ambalaboy                 56.0                     49.0                 54.2
+#&gt; Belitsaky                 47.0                     48.0                 47.1
+#&gt; Fasimena                  59.4                     57.3                 49.5
+#&gt; Tsiandamba                46.5                     38.3                 43.2
+#&gt;            Thalassodendron ciliatum
+#&gt; Ambalaboy                      54.0
+#&gt; Belitsaky                      45.0
+#&gt; Fasimena                       40.7
+#&gt; Tsiandamba                     29.0</code></pre>
 <div class="en">
 <p>The <code>NA</code> cells are combinations that do not exist (no
 quadrat of that species at that site).</p>
@@ -796,6 +1070,106 @@ variable <em>en fonction de</em> groupe ».</p>
 <pre><code>#&gt;   mpa_status seagrass_cover shoot_density
 #&gt; 1     Inside           52.7      445.7333
 #&gt; 2    Outside           44.3      405.7333</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aggregate(formula, data, FUN, ...)</code></td>
+<td>statistics per group, returned as a data frame</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>formula</code></td>
+<td><code>y ~ group</code>: the variable on the left of <code>~</code>,
+the groups on the right; <code>+</code> adds a grouping variable;
+<code>cbind(y1, y2)</code> on the left = several variables</td>
+<td>column names without quotes</td>
+</tr>
+<tr class="odd">
+<td>  <code>data</code></td>
+<td>the data frame where the columns are found</td>
+<td>a data frame</td>
+</tr>
+<tr class="even">
+<td>  <code>FUN</code></td>
+<td>the function applied to each group</td>
+<td>a function name</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aggregate(formula, data, FUN, ...)</code></td>
+<td>statistiques par groupe, renvoyées sous forme de data frame</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>formula</code></td>
+<td><code>y ~ groupe</code> : la variable à gauche de <code>~</code>,
+les groupes à droite ; <code>+</code> ajoute une variable de groupement
+; <code>cbind(y1, y2)</code> à gauche = plusieurs variables</td>
+<td>noms de colonnes sans guillemets</td>
+</tr>
+<tr class="odd">
+<td>  <code>data</code></td>
+<td>le data frame où se trouvent les colonnes</td>
+<td>un data frame</td>
+</tr>
+<tr class="even">
+<td>  <code>FUN</code></td>
+<td>la fonction appliquée à chaque groupe</td>
+<td>un nom de fonction</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p><code>sapply()</code> (Session 4), <code>tapply()</code> and
+<code>aggregate()</code> all have an argument <code>FUN</code>, but in a
+<strong>different position</strong> (2nd, 3rd, 3rd) and with different
+other arguments (<code>X</code>, <code>INDEX</code>,
+<code>formula</code>, <code>data</code>). Writing
+<code>FUN = mean</code> by name avoids mistakes.</p>
+</div>
+<div class="fr">
+<p><code>sapply()</code> (séance 4), <code>tapply()</code> et
+<code>aggregate()</code> ont toutes un argument <code>FUN</code>, mais à
+une <strong>position différente</strong> (2e, 3e, 3e) et avec d’autres
+arguments différents (<code>X</code>, <code>INDEX</code>,
+<code>formula</code>, <code>data</code>). Écrire <code>FUN = mean</code>
+avec son nom évite les erreurs.</p>
+</div>
 <div class="callout tip">
 <div class="en">
 <p>With the formula version, <code>aggregate()</code> <strong>drops rows
@@ -841,6 +1215,70 @@ data frame.</p>
 #&gt; 2  Belitsaky 15 46.9 12.0 3.1
 #&gt; 3   Fasimena 15 52.6 12.6 3.3
 #&gt; 4 Tsiandamba 15 41.7 15.5 4.0</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>names(x)</code></td>
+<td>for a <code>tapply()</code> result: the names of the groups (here
+the sites)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>as.vector(x)</code></td>
+<td>removes the names and keeps only the values, so that the column is a
+plain vector</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>names(x)</code></td>
+<td>pour un résultat de <code>tapply()</code> : les noms des groupes
+(ici les sites)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>as.vector(x)</code></td>
+<td>enlève les noms et garde seulement les valeurs, pour que la colonne
+soit un simple vecteur</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">write.csv</span>(summary_site, <span class="st">&quot;outputs/seagrass_summary_by_site.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <div class="callout ecology">
 <div class="en">
@@ -876,8 +1314,8 @@ B06_seagrass_summary_by_site.csv</a></p>
 <h2><span class="en">Application work &amp; quiz</span><span
 class="fr">Travail d’application et quiz</span></h2>
 <div class="application">
-<div id="application-work-5" class="section level3 en">
-<h3>Application work 5</h3>
+<div id="application-work-6" class="section level3 en">
+<h3>Application work 6</h3>
 <p>Using <code>seagrass_quadrats.csv</code>, give each answer
 <strong>rounded to 2 decimals</strong>:</p>
 <ol style="list-style-type: decimal">
@@ -894,8 +1332,8 @@ MPA.</li>
 <code>outputs/</code>.</li>
 </ol>
 </div>
-<div id="travail-dapplication-5" class="section level3 fr">
-<h3>Travail d’application 5</h3>
+<div id="travail-dapplication-6" class="section level3 fr">
+<h3>Travail d’application 6</h3>
 <p>Avec <code>seagrass_quadrats.csv</code>, donnez chaque réponse
 <strong>arrondie à 2 décimales</strong> :</p>
 <ol style="list-style-type: decimal">

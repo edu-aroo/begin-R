@@ -596,6 +596,72 @@ class="fr">Anatomie d’une fonction</span></h2>
 <pre><code>#&gt; [1] 2.036202</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">sgr</span>(<span class="at">w_initial =</span> <span class="dv">10</span>, <span class="at">w_final =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>), <span class="at">days =</span> <span class="dv">45</span>)   <span class="co"># works on vectors too</span></span></code></pre></div>
 <pre><code>#&gt; [1] 2.036202 2.441361</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>name &lt;- function(arg1, arg2) { ... }</code></td>
+<td>creates a function called <code>name</code>; <strong>you</strong>
+choose the names of its arguments, which exist only inside the
+<code>{ }</code></td>
+<td>argument names separated by commas</td>
+</tr>
+<tr class="even">
+<td>last line of the body</td>
+<td>its value is what the function <strong>returns</strong>
+(<code>return(value)</code> does the same explicitly)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>name &lt;- function(arg1, arg2) { ... }</code></td>
+<td>crée une fonction appelée <code>name</code> ; c’est
+<strong>vous</strong> qui choisissez les noms de ses arguments, qui
+n’existent qu’à l’intérieur des <code>{ }</code></td>
+<td>noms d’arguments séparés par des virgules</td>
+</tr>
+<tr class="even">
+<td>last line of the body</td>
+<td>sa valeur est ce que la fonction <strong>renvoie</strong>
+(<code>return(valeur)</code> fait la même chose explicitement)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <ul>
 <li>The <strong>arguments</strong> are local names: inside the function,
@@ -624,6 +690,59 @@ entières :</li>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>seaweed<span class="sc">$</span>sgr2 <span class="ot">&lt;-</span> <span class="fu">sgr</span>(seaweed<span class="sc">$</span>initial_weight_kg, seaweed<span class="sc">$</span>final_weight_kg, seaweed<span class="sc">$</span>days)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">all.equal</span>(seaweed<span class="sc">$</span>sgr, seaweed<span class="sc">$</span>sgr2)        <span class="co"># same as Session I1</span></span></code></pre></div>
 <pre><code>#&gt; [1] TRUE</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>all.equal(target, current)</code></td>
+<td><code>TRUE</code> if the two objects are equal (with a tiny
+tolerance for decimals); otherwise a description of the differences</td>
+<td>two objects</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>all.equal(target, current)</code></td>
+<td><code>TRUE</code> si les deux objets sont égaux (avec une infime
+tolérance pour les décimales) ; sinon une description des
+différences</td>
+<td>deux objets</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="defaults" class="section level2">
 <h2><span class="en">Default values</span><span class="fr">Valeurs par
@@ -650,6 +769,84 @@ l’utilisateur peut l’omettre. Ici, une fonction de résumé avec
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">describe</span>(seaweed<span class="sc">$</span>sgr, <span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;         n      mean        sd        se 
 #&gt; 2317.0000    3.4387    0.6659    0.0138</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>function(x, digits = 2, na.rm = TRUE)</code></td>
+<td><code>= value</code> in the definition gives a <strong>default
+value</strong>: the user may leave the argument out</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>mean(x, na.rm = na.rm)</code></td>
+<td>passes our own argument to <code>mean()</code>: on the left the name
+of <code>mean()</code>’s argument, on the right our object of the same
+name</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>c(n = n, mean = m, ...)</code></td>
+<td>a named vector (Beginner Session 7): the names are printed above the
+values</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>function(x, digits = 2, na.rm = TRUE)</code></td>
+<td><code>= valeur</code> dans la définition donne une <strong>valeur
+par défaut</strong> : l’utilisateur peut omettre l’argument</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>mean(x, na.rm = na.rm)</code></td>
+<td>transmet notre propre argument à <code>mean()</code> : à gauche le
+nom de l’argument de <code>mean()</code>, à droite notre objet du même
+nom</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>c(n = n, mean = m, ...)</code></td>
+<td>un vecteur nommé (séance 7 du niveau débutant) : les noms
+s’affichent au-dessus des valeurs</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="checks" class="section level2">
 <h2><span class="en">Checking the arguments</span><span
@@ -677,8 +874,113 @@ continue avec un avertissement.</p>
 <pre><code>#&gt; Error in `sgr()`:
 #&gt; ! weights must be numbers</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">sgr</span>(<span class="dv">10</span>, <span class="dv">2500</span>, <span class="dv">45</span>)</span></code></pre></div>
-<pre><code>#&gt; Warning in sgr(10, 2500, 45): some final weights are &gt; 100 x the initial weight: grams instead of kg?</code></pre>
+<pre><code>#&gt; Warning in sgr(10, 2500, 45): some final weights are &gt; 100 x the initial weight: grams
+#&gt; instead of kg?</code></pre>
 <pre><code>#&gt; [1] 12.26991</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>is.numeric(x)</code></td>
+<td><code>TRUE</code> if <code>x</code> contains numbers
+(<code>is.character()</code>, <code>is.data.frame()</code>… work the
+same way)</td>
+<td>any object</td>
+</tr>
+<tr class="even">
+<td><code>||</code>, <code>&amp;&amp;</code></td>
+<td>OR / AND for <strong>one</strong>
+<code>TRUE</code>/<code>FALSE</code> (in <code>if</code>);
+<code>|</code> and <code>&amp;</code> (Beginner Session 5) work element
+by element on vectors</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>any(x, na.rm)</code></td>
+<td><code>TRUE</code> if at least one element is <code>TRUE</code></td>
+<td>a condition</td>
+</tr>
+<tr class="even">
+<td><code>stop("message")</code></td>
+<td>stops the function with an <strong>error</strong> and this message:
+nothing is returned</td>
+<td>text</td>
+</tr>
+<tr class="odd">
+<td><code>warning("message")</code></td>
+<td>shows a <strong>warning</strong> but the function continues and
+returns its result</td>
+<td>text</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>is.numeric(x)</code></td>
+<td><code>TRUE</code> si <code>x</code> contient des nombres
+(<code>is.character()</code>, <code>is.data.frame()</code>… fonctionnent
+de même)</td>
+<td>n’importe quel objet</td>
+</tr>
+<tr class="even">
+<td><code>||</code>, <code>&amp;&amp;</code></td>
+<td>OU / ET pour <strong>un seul</strong>
+<code>TRUE</code>/<code>FALSE</code> (dans <code>if</code>) ;
+<code>|</code> et <code>&amp;</code> (séance 5 du niveau débutant)
+travaillent élément par élément sur des vecteurs</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>any(x, na.rm)</code></td>
+<td><code>TRUE</code> si au moins un élément vaut <code>TRUE</code></td>
+<td>une condition</td>
+</tr>
+<tr class="even">
+<td><code>stop("message")</code></td>
+<td>arrête la fonction avec une <strong>erreur</strong> et ce message :
+rien n’est renvoyé</td>
+<td>texte</td>
+</tr>
+<tr class="odd">
+<td><code>warning("message")</code></td>
+<td>affiche un <strong>avertissement</strong> mais la fonction continue
+et renvoie son résultat</td>
+<td>texte</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p><code>||</code> and <code>&amp;&amp;</code> are the “single value”
 versions of <code>|</code> and <code>&amp;</code>, used inside
@@ -726,6 +1028,72 @@ plusieurs résultats de types différents, mettez-les dans une
 #&gt; [1] &quot;F034&quot;</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>r<span class="sc">$</span>harvest_t</span></code></pre></div>
 <pre><code>#&gt; [1] 10.61</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>list(name = value, ...)</code></td>
+<td>a list: several objects of different types and lengths in one; each
+element is reached with <code>$name</code> or
+<code>[["name"]]</code></td>
+<td><code>name = object</code>, separated by commas</td>
+</tr>
+<tr class="even">
+<td><code>names(which.max(...))</code></td>
+<td>the <strong>name</strong> of the largest value of a
+<code>tapply()</code> result (here the farmer)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>list(name = value, ...)</code></td>
+<td>une liste : plusieurs objets de types et longueurs différents en un
+seul ; chaque élément s’atteint avec <code>$nom</code> ou
+<code>[["nom"]]</code></td>
+<td><code>nom = objet</code>, séparés par des virgules</td>
+</tr>
+<tr class="even">
+<td><code>names(which.max(...))</code></td>
+<td>le <strong>nom</strong> de la plus grande valeur d’un résultat de
+<code>tapply()</code> (ici le producteur)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="apply" class="section level2">
 <h2><span class="en">Applying a function to each group</span><span
@@ -757,6 +1125,85 @@ class="fr">Appliquer une fonction à chaque groupe</span></h2>
 #&gt; 1 Centre  3.39 0.0255
 #&gt; 2 North   3.38 0.0230
 #&gt; 3 South   3.55 0.0231</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>function(x) ...</code> on one line</td>
+<td>a short function: the <code>{ }</code> can be left out when the body
+is one expression</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>sapply(X, function(v) ...)</code></td>
+<td>an <strong>anonymous</strong> function written directly inside
+<code>sapply()</code> (Beginner Session 4), called once for each element
+of <code>X</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>your functions in <code>tapply()</code>,
+<code>summarise()</code></td>
+<td>work exactly like <code>mean</code> or <code>sd</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>function(x) ...</code> on one line</td>
+<td>une fonction courte : les <code>{ }</code> peuvent être omises quand
+le corps tient en une expression</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>sapply(X, function(v) ...)</code></td>
+<td>une fonction <strong>anonyme</strong> écrite directement dans
+<code>sapply()</code> (séance 4 du niveau débutant), appelée une fois
+pour chaque élément de <code>X</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>your functions in <code>tapply()</code>,
+<code>summarise()</code></td>
+<td>fonctionnent exactement comme <code>mean</code> ou
+<code>sd</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p><code>function(v) ...</code> written directly inside
 <code>sapply()</code> is an <strong>anonymous function</strong>: a short
@@ -793,6 +1240,58 @@ l’autre.</p>
 <span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a></span>
 <span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a><span class="co"># se(): standard error of the mean, ignoring NA</span></span>
 <span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>source("scripts/functions.R")</code></td>
+<td>runs a whole script file: write this line at the top of your
+analysis to load your functions</td>
+<td>path of the <code>.R</code> file</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>source("scripts/functions.R")</code></td>
+<td>exécute tout un fichier de script : écrivez cette ligne en haut de
+votre analyse pour charger vos fonctions</td>
+<td>chemin du fichier <code>.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="application" class="section level2">
 <h2><span class="en">Application work &amp; quiz</span><span
@@ -859,7 +1358,7 @@ la plus variable (CV le plus élevé) ?</li>
 </div>
 </div>
 <div id="quiz-i06" class="quiz" data-quiz-id="i06"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gc2dyKDgsIDIxLCA0MikgKDMgZGVjaW1hbHMpPyIsImZyIjoiMS4gc2dyKDgsIDIxLCA0MikgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6Mi4yOTgsInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMmEuIE1lYW4gc3Vydml2YWwgaW4gJSAoMiBkZWNpbWFscyk/IiwiZnIiOiIyYS4gU3VydmllIG1veWVubmUgZW4gJSAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjo1OS43NiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyYi4gRmFybSB3aXRoIHRoZSBoaWdoZXN0IG1lYW4gc3Vydml2YWw/IiwiZnIiOiIyYi4gRmVybWUgw6AgbGEgc3VydmllIG1veWVubmUgbGEgcGx1cyDDqWxldsOpZSA/IiwiYW5zd2VyIjpbIkZhcm0gQiIsIkIiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBTRSBvZiBTR1IsIG9mZi1ib3R0b20gKDQgZGVjaW1hbHMpPyIsImZyIjoiMy4gRVMgZHUgU0dSLCBvZmYtYm90dG9tICg0IGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjAuMDE3NSwidG9sIjo2ZS0wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIEhhcnZlc3Qgb2YgdGhlIENlbnRyZSB6b25lIGluIHRvbm5lcyAoMyBkZWNpbWFscyk/IiwiZnIiOiI0LiBSw6ljb2x0ZSBkZSBsYSB6b25lIENlbnRyZSBlbiB0b25uZXMgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MzYuMzAzLCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjVhLiBDViBvZiBhbGwgU0dSIHZhbHVlcyAoMiBkZWNpbWFscyk/IiwiZnIiOiI1YS4gQ1YgZGUgdG91dGVzIGxlcyB2YWxldXJzIGRlIFNHUiAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoxOS4zNywidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI1Yi4gVmlsbGFnZSB3aXRoIHRoZSBoaWdoZXN0IENWPyIsImZyIjoiNWIuIFZpbGxhZ2UgYXUgQ1YgbGUgcGx1cyDDqWxldsOpID8iLCJhbnN3ZXIiOlsiQmVmYXN5Il19LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gV2hhdCBkb2VzIGEgZnVuY3Rpb24gcmV0dXJuPyIsImZyIjoiNi4gUXVlIHJlbnZvaWUgdW5lIGZvbmN0aW9uID8iLCJvcHRpb25zX2VuIjpbIkFsbCBvYmplY3RzIGNyZWF0ZWQgaW5zaWRlIGl0IiwiVGhlIGxhc3QgdmFsdWUgY29tcHV0ZWQgKG9yIHJldHVybigpKSIsIk5vdGhpbmcgdW5sZXNzIHlvdSB1c2UgcHJpbnQoKSIsIkl0cyBmaXJzdCBhcmd1bWVudCJdLCJvcHRpb25zX2ZyIjpbIlRvdXMgbGVzIG9iamV0cyBjcsOpw6lzIMOgIGwnaW50w6lyaWV1ciIsIkxhIGRlcm5pw6hyZSB2YWxldXIgY2FsY3Vsw6llIChvdSByZXR1cm4oKSkiLCJSaWVuIHNhdWYgYXZlYyBwcmludCgpIiwiU29uIHByZW1pZXIgYXJndW1lbnQiXSwiYW5zd2VyIjoxfV0=">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gc2dyKDgsIDIxLCA0MikgKDMgZGVjaW1hbHMpPyIsImZyIjoiMS4gc2dyKDgsIDIxLCA0MikgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6Mi4yOTgsInRvbCI6MC4wMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMmEuIE1lYW4gc3Vydml2YWwgaW4gJSAoMiBkZWNpbWFscyk/IiwiZnIiOiIyYS4gU3VydmllIG1veWVubmUgZW4gJSAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjo1OS43NiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyYi4gRmFybSB3aXRoIHRoZSBoaWdoZXN0IG1lYW4gc3Vydml2YWw/IiwiZnIiOiIyYi4gRmVybWUgw6AgbGEgc3VydmllIG1veWVubmUgbGEgcGx1cyDDqWxldsOpZSA/IiwiYW5zd2VyIjpbIkZhcm0gQiIsIkIiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBTRSBvZiBTR1IsIG9mZi1ib3R0b20gKDQgZGVjaW1hbHMpPyIsImZyIjoiMy4gRVMgZHUgU0dSLCBvZmYtYm90dG9tICg0IGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjAuMDE3NSwidG9sIjo2ZS0wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIEhhcnZlc3Qgb2YgdGhlIENlbnRyZSB6b25lIGluIHRvbm5lcyAoMyBkZWNpbWFscyk/IiwiZnIiOiI0LiBSw6ljb2x0ZSBkZSBsYSB6b25lIENlbnRyZSBlbiB0b25uZXMgKDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MzYuMzAzLCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjVhLiBDViBvZiBhbGwgU0dSIHZhbHVlcyAoMiBkZWNpbWFscyk/IiwiZnIiOiI1YS4gQ1YgZGUgdG91dGVzIGxlcyB2YWxldXJzIGRlIFNHUiAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoxOS4zNywidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI1Yi4gVmlsbGFnZSB3aXRoIHRoZSBoaWdoZXN0IENWPyIsImZyIjoiNWIuIFZpbGxhZ2UgYXUgQ1YgbGUgcGx1cyDDqWxldsOpID8iLCJhbnN3ZXIiOlsiQmVmYXN5Il19LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gV2hhdCBkb2VzIGEgZnVuY3Rpb24gcmV0dXJuPyIsImZyIjoiNi4gUXVlIHJlbnZvaWUgdW5lIGZvbmN0aW9uID8iLCJvcHRpb25zX2VuIjpbIkFsbCBvYmplY3RzIGNyZWF0ZWQgaW5zaWRlIGl0IiwiVGhlIGxhc3QgdmFsdWUgY29tcHV0ZWQgKG9yIHJldHVybigpKSIsIk5vdGhpbmcgdW5sZXNzIHlvdSB1c2UgcHJpbnQoKSIsIkl0cyBmaXJzdCBhcmd1bWVudCJdLCJvcHRpb25zX2ZyIjpbIlRvdXMgbGVzIG9iamV0cyBjcsOpw6lzIMOgIGwnaW50w6lyaWV1ciIsIkxhIGRlcm5pw6hyZSB2YWxldXIgY2FsY3Vsw6llIChvdSByZXR1cm4oKSkiLCJSaWVuIHNhdWYgYXZlYyBwcmludCgpIiwiU29uIHByZW1pZXIgYXJndW1lbnQiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIGRlc2NyaWJlIDwtIGZ1bmN0aW9uKHgsIGRpZ2l0cyA9IDIpIHsuLi59LiBXaGF0IGRvZXMgZGVzY3JpYmUoc2Vhd2VlZCRzZ3IpIHVzZSBmb3IgZGlnaXRzPyIsImZyIjoiNy4gZGVzY3JpYmUgPC0gZnVuY3Rpb24oeCwgZGlnaXRzID0gMikgey4uLn0uIFF1ZWxsZSB2YWxldXIgZGVzY3JpYmUoc2Vhd2VlZCRzZ3IpIHV0aWxpc2UtdC1lbGxlIHBvdXIgZGlnaXRzID8iLCJvcHRpb25zX2VuIjpbIkFuIGVycm9yOiBkaWdpdHMgaXMgbWlzc2luZyIsIjAiLCIyLCB0aGUgZGVmYXVsdCB2YWx1ZSIsIlRoZSBudW1iZXIgb2Ygcm93cyJdLCJvcHRpb25zX2ZyIjpbIlVuZSBlcnJldXIgOiBkaWdpdHMgbWFucXVlIiwiMCIsIjIsIGxhIHZhbGV1ciBwYXIgZMOpZmF1dCIsIkxlIG5vbWJyZSBkZSBsaWduZXMiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIEluc2lkZSBhIGZ1bmN0aW9uLCB3aGF0IGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gc3RvcCgpIGFuZCB3YXJuaW5nKCk/IiwiZnIiOiI4LiBEYW5zIHVuZSBmb25jdGlvbiwgcXVlbGxlIGVzdCBsYSBkaWZmw6lyZW5jZSBlbnRyZSBzdG9wKCkgZXQgd2FybmluZygpID8iLCJvcHRpb25zX2VuIjpbInN0b3AoKSBlbmRzIHRoZSBmdW5jdGlvbiB3aXRoIGFuIGVycm9yOyB3YXJuaW5nKCkgc2hvd3MgYSBtZXNzYWdlIGFuZCB0aGUgZnVuY3Rpb24gc3RpbGwgcmV0dXJucyBpdHMgcmVzdWx0IiwiVGhleSBhcmUgdGhlIHNhbWUiLCJ3YXJuaW5nKCkgZW5kcyB0aGUgZnVuY3Rpb247IHN0b3AoKSBvbmx5IHNob3dzIGEgbWVzc2FnZSIsInN0b3AoKSBwYXVzZXMgdGhlIGZ1bmN0aW9uIHVudGlsIHlvdSBwcmVzcyBFbnRlciJdLCJvcHRpb25zX2ZyIjpbInN0b3AoKSBhcnLDqnRlIGxhIGZvbmN0aW9uIGF2ZWMgdW5lIGVycmV1ciA7IHdhcm5pbmcoKSBhZmZpY2hlIHVuIG1lc3NhZ2UgZXQgbGEgZm9uY3Rpb24gcmVudm9pZSBxdWFuZCBtw6ptZSBzb24gcsOpc3VsdGF0IiwiQ2Ugc29udCBsZXMgbcOqbWVzIiwid2FybmluZygpIGFycsOqdGUgbGEgZm9uY3Rpb24gOyBzdG9wKCkgYWZmaWNoZSBzZXVsZW1lbnQgdW4gbWVzc2FnZSIsInN0b3AoKSBtZXQgbGEgZm9uY3Rpb24gZW4gcGF1c2UganVzcXUnw6AgRW50csOpZSJdLCJhbnN3ZXIiOjB9XQ==">
 
 </div>
 <div class="solution" data-quiz="i06">

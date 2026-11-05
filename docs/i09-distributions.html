@@ -660,6 +660,68 @@ courbe de densité.</p>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Monthly income (thousand MGA)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Households&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Household income&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>p_sgr <span class="sc">|</span> p_inc</span></code></pre></div>
 <p><img src="i09-distributions_files/figure-html/shapes-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(monthly_income_mga / 1000)</code></td>
+<td>a calculation can be written directly in <code>aes()</code>: here
+the income in thousands of MGA</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>p_sgr | p_inc</code></td>
+<td>two plots side by side (patchwork, Session I8)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(monthly_income_mga / 1000)</code></td>
+<td>un calcul peut s’écrire directement dans <code>aes()</code> : ici le
+revenu en milliers de MGA</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>p_sgr | p_inc</code></td>
+<td>deux graphiques côte à côte (patchwork, séance I8)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <ul>
 <li><strong>SGR</strong> is roughly <strong>symmetric</strong>,
@@ -697,6 +759,68 @@ médiane ?</span></h3>
 #&gt; 516950 426000</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">sum</span>(inc <span class="sc">&gt;</span> <span class="fl">1e6</span>)          <span class="co"># number of households above 1 million MGA</span></span></code></pre></div>
 <pre><code>#&gt; [1] 29</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>1e6</code></td>
+<td>scientific notation: 1 × 10⁶ = 1 000 000 (<code>2.5e-3</code> =
+0.0025)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>c(mean = ..., median = ...)</code></td>
+<td>a named vector to print two results side by side</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>1e6</code></td>
+<td>notation scientifique : 1 × 10⁶ = 1 000 000 (<code>2.5e-3</code> =
+0,0025)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>c(mean = ..., median = ...)</code></td>
+<td>un vecteur nommé pour afficher deux résultats côte à côte</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>The mean is <strong>pulled</strong> by the long tail: here it is
 about 90 000 MGA above the median. For a skewed variable, the
@@ -769,6 +893,124 @@ probabilité donnée.</p>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>fake <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="fl">3.4</span>, <span class="at">sd =</span> <span class="fl">0.65</span>)   <span class="co"># 1000 &quot;ideal&quot; SGR values</span></span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(fake <span class="sc">-</span> <span class="fu">mean</span>(fake)) <span class="sc">&lt;</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sd</span>(fake))  <span class="co"># proportion within mean ± 2 SD</span></span></code></pre></div>
 <pre><code>#&gt; [1] 0.949</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pnorm(q, mean = 0, sd = 1)</code></td>
+<td><strong>p</strong>robability that a normal value is
+<strong>below</strong> <code>q</code> (area to the left)</td>
+<td>a value</td>
+</tr>
+<tr class="even">
+<td><code>qnorm(p, mean = 0, sd = 1)</code></td>
+<td>the opposite: the value (<strong>q</strong>uantile) below which
+there is a proportion <code>p</code></td>
+<td>a probability between 0 and 1</td>
+</tr>
+<tr class="odd">
+<td><code>rnorm(n, mean = 0, sd = 1)</code></td>
+<td>draws <code>n</code> <strong>r</strong>andom values from a normal
+distribution</td>
+<td>a whole number; the mean and SD you want</td>
+</tr>
+<tr class="even">
+<td><code>dnorm(x, mean = 0, sd = 1)</code></td>
+<td>the height (<strong>d</strong>ensity) of the normal curve at
+<code>x</code> (used below to draw the curve)</td>
+<td>a value</td>
+</tr>
+<tr class="odd">
+<td><code>abs(x)</code></td>
+<td>absolute value (Beginner Session 1)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pnorm(q, mean = 0, sd = 1)</code></td>
+<td><strong>p</strong>robabilité qu’une valeur normale soit
+<strong>inférieure</strong> à <code>q</code> (surface à gauche)</td>
+<td>une valeur</td>
+</tr>
+<tr class="even">
+<td><code>qnorm(p, mean = 0, sd = 1)</code></td>
+<td>l’inverse : la valeur (<strong>q</strong>uantile) sous laquelle se
+trouve une proportion <code>p</code></td>
+<td>une probabilité entre 0 et 1</td>
+</tr>
+<tr class="odd">
+<td><code>rnorm(n, mean = 0, sd = 1)</code></td>
+<td>tire <code>n</code> valeurs <strong>r</strong>andom (aléatoires)
+d’une distribution normale</td>
+<td>un nombre entier ; la moyenne et l’ET voulus</td>
+</tr>
+<tr class="even">
+<td><code>dnorm(x, mean = 0, sd = 1)</code></td>
+<td>la hauteur (<strong>d</strong>ensité) de la courbe normale en
+<code>x</code> (utilisée plus bas pour tracer la courbe)</td>
+<td>une valeur</td>
+</tr>
+<tr class="odd">
+<td><code>abs(x)</code></td>
+<td>valeur absolue (séance 1 du niveau débutant)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>R uses the same four letters for <strong>every</strong> distribution:
+<code>d</code> (density), <code>p</code> (probability), <code>q</code>
+(quantile), <code>r</code> (random) + the name of the distribution:
+<code>dnorm</code>, <code>pbinom</code>, <code>qt</code>,
+<code>rpois</code>… Their arguments, however, differ: <code>mean</code>
+and <code>sd</code> for the normal, <code>size</code> and
+<code>prob</code> for the binomial, <code>lambda</code> for the Poisson,
+<code>df</code> for Student’s <em>t</em>.</p>
+</div>
+<div class="fr">
+<p>R utilise les quatre mêmes lettres pour <strong>toutes</strong> les
+distributions : <code>d</code> (densité), <code>p</code> (probabilité),
+<code>q</code> (quantile), <code>r</code> (aléatoire) + le nom de la
+distribution : <code>dnorm</code>, <code>pbinom</code>, <code>qt</code>,
+<code>rpois</code>… Leurs arguments, en revanche, diffèrent :
+<code>mean</code> et <code>sd</code> pour la normale, <code>size</code>
+et <code>prob</code> pour la binomiale, <code>lambda</code> pour la
+Poisson, <code>df</code> pour le <em>t</em> de Student.</p>
+</div>
 <div class="en">
 <p>Let us put the theoretical curve on top of the real SGR histogram.
 The trick: draw the histogram on the <strong>density</strong> scale
@@ -789,7 +1031,90 @@ aient les mêmes unités.</p>
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>                <span class="at">colour =</span> <span class="st">&quot;#0b3d5c&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span>            <span class="co"># normal curve with the same mean and SD</span></span>
 <span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;SGR (% per day)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Density&quot;</span>,</span>
 <span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Bars: observed lines; curve: normal distribution with the same mean and SD&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span></code></pre></div>
-<p><img src="i09-distributions_files/figure-html/unnamed-chunk-3-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="i09-distributions_files/figure-html/unnamed-chunk-6-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(y = after_stat(density))</code></td>
+<td>the bars show the <strong>density</strong> (area of all bars = 1)
+instead of counts, so that they can be compared with a curve</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>stat_function(fun, args)</code></td>
+<td>draws the curve of a function</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>fun</code></td>
+<td>the function, without parentheses</td>
+<td>e.g. <code>dnorm</code></td>
+</tr>
+<tr class="even">
+<td>  <code>args</code></td>
+<td>the arguments given to <code>fun</code>, in a list</td>
+<td><code>list(mean = m, sd = s)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(y = after_stat(density))</code></td>
+<td>les barres montrent la <strong>densité</strong> (surface totale des
+barres = 1) au lieu des effectifs, pour pouvoir les comparer à une
+courbe</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>stat_function(fun, args)</code></td>
+<td>trace la courbe d’une fonction</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>fun</code></td>
+<td>la fonction, sans parenthèses</td>
+<td>ex. <code>dnorm</code></td>
+</tr>
+<tr class="even">
+<td>  <code>args</code></td>
+<td>les arguments donnés à <code>fun</code>, dans une liste</td>
+<td><code>list(mean = m, sd = s)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="qq" class="section level2">
 <h2><span class="en">Checking normality</span><span class="fr">Vérifier
@@ -816,11 +1141,139 @@ indiquent des queues épaisses ou des valeurs extrêmes.</p>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>}</span>
 <span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="fu">qq</span>(seaweed<span class="sc">$</span>sgr[<span class="sc">!</span><span class="fu">is.na</span>(seaweed<span class="sc">$</span>sgr)], <span class="st">&quot;SGR&quot;</span>) <span class="sc">|</span> <span class="fu">qq</span>(inc, <span class="st">&quot;Income&quot;</span>) <span class="sc">|</span> <span class="fu">qq</span>(<span class="fu">log</span>(inc), <span class="st">&quot;log(income)&quot;</span>)</span></code></pre></div>
 <p><img src="i09-distributions_files/figure-html/qq-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(sample = x)</code></td>
+<td>for a Q–Q plot the column is given to the aesthetic
+<code>sample</code>, not <code>x</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>stat_qq()</code>, <code>stat_qq_line()</code></td>
+<td>the points (observed vs theoretical quantiles) and the line they
+should follow if the data are normal</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>data.frame(x = x)</code></td>
+<td>ggplot needs a data frame: we put the vector in a one-column
+table</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aes(sample = x)</code></td>
+<td>pour un diagramme Q–Q la colonne est donnée à l’esthétique
+<code>sample</code>, pas <code>x</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>stat_qq()</code>, <code>stat_qq_line()</code></td>
+<td>les points (quantiles observés vs théoriques) et la droite qu’ils
+devraient suivre si les données sont normales</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>data.frame(x = x)</code></td>
+<td>ggplot a besoin d’un data frame : on place le vecteur dans un
+tableau d’une colonne</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="compare">
 <div class="col base">
 <p><strong>base R</strong></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">qqnorm</span>(inc)</span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">qqline</span>(inc, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>qqnorm(y)</code>, <code>qqline(y, col)</code></td>
+<td>the same Q–Q plot in base R; <code>col</code> = colour of the line
+(Beginner Session 7)</td>
+<td>a numeric vector</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>qqnorm(y)</code>, <code>qqline(y, col)</code></td>
+<td>le même diagramme Q–Q en R de base ; <code>col</code> = couleur de
+la droite (séance 7 du niveau débutant)</td>
+<td>un vecteur numérique</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div class="col pkg">
 <p><strong>ggplot2</strong></p>
@@ -846,6 +1299,58 @@ trop s’y fier</span></h3>
 #&gt; 
 #&gt; data:  log(inc)
 #&gt; W = 0.99634, p-value = 0.4517</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>shapiro.test(x)</code></td>
+<td>Shapiro–Wilk test of normality; prints the statistic <code>W</code>
+and the p-value</td>
+<td>a numeric vector of 3 to 5 000 values</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>shapiro.test(x)</code></td>
+<td>test de normalité de Shapiro–Wilk ; affiche la statistique
+<code>W</code> et la p-value</td>
+<td>un vecteur numérique de 3 à 5 000 valeurs</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><code>shapiro.test()</code> tests the null hypothesis “the data are
@@ -911,6 +1416,81 @@ et gardons leur revenu moyen.</p>
 <span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> n, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="sc">+</span></span>
 <span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Mean income of the sample (thousand MGA)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Samples&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span></code></pre></div>
 <p><img src="i09-distributions_files/figure-html/clt-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>replicate(n, expr)</code></td>
+<td>evaluates <code>expr</code> <code>n</code> times and collects the
+results in a vector</td>
+<td>a whole number; an expression</td>
+</tr>
+<tr class="even">
+<td><code>sample(x, size)</code></td>
+<td>random draw of <code>size</code> values (Beginner Session 2)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>bins</code> (in <code>geom_histogram()</code>)</td>
+<td>the <strong>number</strong> of classes; <code>binwidth</code> gives
+their <strong>width</strong> instead — give one or the other</td>
+<td>a whole number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>replicate(n, expr)</code></td>
+<td>évalue <code>expr</code> <code>n</code> fois et rassemble les
+résultats dans un vecteur</td>
+<td>un nombre entier ; une expression</td>
+</tr>
+<tr class="even">
+<td><code>sample(x, size)</code></td>
+<td>tirage aléatoire de <code>size</code> valeurs (séance 2 du niveau
+débutant)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>bins</code> (in <code>geom_histogram()</code>)</td>
+<td>le <strong>nombre</strong> de classes ; <code>binwidth</code> donne
+plutôt leur <strong>largeur</strong> — donnez l’un ou l’autre</td>
+<td>un nombre entier</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>With 5 households the means are still skewed; with 50 they are almost
 perfectly bell-shaped, and much less spread. This is why a
@@ -1041,6 +1621,70 @@ par la queue, proche de la médiane.</p>
 <span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="fu">c</span>(<span class="at">arithmetic =</span> <span class="fu">mean</span>(inc), <span class="at">geometric =</span> <span class="fu">geo_mean</span>(inc), <span class="at">median =</span> <span class="fu">median</span>(inc))</span></code></pre></div>
 <pre><code>#&gt; arithmetic  geometric     median 
 #&gt;   516950.0   437185.9   426000.0</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>log(x)</code>, <code>log10(x)</code>, <code>exp(x)</code></td>
+<td>natural log, log base 10, and the opposite of <code>log()</code>
+(Beginner Session 1)</td>
+<td>positive numbers for <code>log</code></td>
+</tr>
+<tr class="even">
+<td><code>exp(mean(log(x)))</code></td>
+<td>the <strong>geometric mean</strong>: the mean on the log scale,
+brought back to the original scale</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>log(x)</code>, <code>log10(x)</code>, <code>exp(x)</code></td>
+<td>log népérien, log en base 10, et l’inverse de <code>log()</code>
+(séance 1 du niveau débutant)</td>
+<td>nombres positifs pour <code>log</code></td>
+</tr>
+<tr class="even">
+<td><code>exp(mean(log(x)))</code></td>
+<td>la <strong>moyenne géométrique</strong> : la moyenne sur l’échelle
+log, ramenée à l’échelle d’origine</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><strong>Three traps.</strong> (1) <code>log(0)</code> is
@@ -1140,6 +1784,92 @@ hasard — un <strong>test de permutation</strong>.</p>
 <span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Difference in mean log(income) when the labels are shuffled&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Shuffles&quot;</span>,</span>
 <span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Red line: observed difference (dashed: same size, other direction)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_c</span>()</span></code></pre></div>
 <p><img src="i09-distributions_files/figure-html/perm-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sample(x)</code></td>
+<td>without <code>size</code>: all the values in a random order (a
+<strong>shuffle</strong>)</td>
+<td>a vector</td>
+</tr>
+<tr class="even">
+<td><code>for (i in 1:n_perm)</code></td>
+<td>loop filling a vector (Session I5)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>mean(condition)</code></td>
+<td>proportion of <code>TRUE</code> (Beginner Session 2): here the
+permutation p-value</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_vline(xintercept, linetype = c(2, 1))</code></td>
+<td>vertical lines; <code>linetype</code> as numbers works like
+<code>lty</code> (2 dashed, 1 solid)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sample(x)</code></td>
+<td>sans <code>size</code> : toutes les valeurs dans un ordre aléatoire
+(un <strong>mélange</strong>)</td>
+<td>un vecteur</td>
+</tr>
+<tr class="even">
+<td><code>for (i in 1:n_perm)</code></td>
+<td>boucle qui remplit un vecteur (séance I5)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>mean(condition)</code></td>
+<td>proportion de <code>TRUE</code> (séance 2 du niveau débutant) : ici
+la p-value de permutation</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_vline(xintercept, linetype = c(2, 1))</code></td>
+<td>lignes verticales ; <code>linetype</code> en nombres fonctionne
+comme <code>lty</code> (2 tirets, 1 continu)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>About <strong>22 %</strong> of the random shuffles give a difference
 at least as large as the one we observed. That proportion <strong>is the
@@ -1172,6 +1902,70 @@ p-value — il utilise une formule mathématique au lieu des mélanges :</p>
 </div>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">t.test</span>(log_income <span class="sc">~</span> does_seaweed, <span class="at">data =</span> hh)<span class="sc">$</span>p.value</span></code></pre></div>
 <pre><code>#&gt; [1] 0.2147531</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>t.test(formula, data)</code></td>
+<td>Welch’s <em>t</em>-test comparing two group means (Session I10
+explains it)</td>
+<td><code>y ~ group</code> and the data frame</td>
+</tr>
+<tr class="even">
+<td><code>$p.value</code></td>
+<td>a test returns a list (Session I6): <code>$</code> takes one of its
+elements</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>t.test(formula, data)</code></td>
+<td>test <em>t</em> de Welch comparant deux moyennes de groupes (la
+séance I10 l’explique)</td>
+<td><code>y ~ groupe</code> et le data frame</td>
+</tr>
+<tr class="even">
+<td><code>$p.value</code></td>
+<td>un test renvoie une liste (séance I6) : <code>$</code> prend un de
+ses éléments</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><strong>What a p-value is NOT.</strong></p>

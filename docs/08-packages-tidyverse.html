@@ -707,6 +707,69 @@ package.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>))   <span class="co"># ONCE, in the console (needs internet)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)        <span class="co"># at the top of EVERY script that uses it</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>install.packages(pkgs)</code></td>
+<td>downloads packages from CRAN and installs them on the computer</td>
+<td>package names <strong>in quotes</strong>, in <code>c()</code> for
+several</td>
+</tr>
+<tr class="even">
+<td><code>library(package)</code></td>
+<td>loads an installed package for this R session</td>
+<td><strong>one</strong> package name, with or without quotes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>install.packages(pkgs)</code></td>
+<td>télécharge des packages depuis le CRAN et les installe sur
+l’ordinateur</td>
+<td>noms de packages <strong>entre guillemets</strong>, dans
+<code>c()</code> pour plusieurs</td>
+</tr>
+<tr class="even">
+<td><code>library(package)</code></td>
+<td>charge un package installé pour cette session R</td>
+<td><strong>un</strong> nom de package, avec ou sans guillemets</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div
 id="base-r-is-also-made-of-packagesr-de-base-est-aussi-fait-de-packages"
 class="section level3">
@@ -738,6 +801,69 @@ utiliser cette fonction de ce package sans charger tout le package
 ».</p>
 </div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">filter</span>(sg, seagrass_cover <span class="sc">&gt;</span> <span class="dv">80</span>)   <span class="co"># works even without library(dplyr)</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>update.packages()</code></td>
+<td>updates all the installed packages that have a newer version</td>
+<td>nothing (it asks for each package)</td>
+</tr>
+<tr class="even">
+<td><code>citation(package)</code></td>
+<td>the reference to cite for a package (without argument: R
+itself)</td>
+<td>a package name in quotes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>update.packages()</code></td>
+<td>met à jour tous les packages installés qui ont une version plus
+récente</td>
+<td>rien (il demande pour chaque package)</td>
+</tr>
+<tr class="even">
+<td><code>citation(package)</code></td>
+<td>la référence à citer pour un package (sans argument : R
+lui-même)</td>
+<td>un nom de package entre guillemets</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="the-tidyverse-familyla-famille-tidyverse"
 class="section level3">
@@ -838,6 +964,62 @@ usage, il fait la même chose.</p>
 <pre><code>#&gt; [1] 48.5</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>sg<span class="sc">$</span>seagrass_cover <span class="sc">|&gt;</span> <span class="fu">mean</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">1</span>)      <span class="co"># piped: read from left to right</span></span></code></pre></div>
 <pre><code>#&gt; [1] 48.5</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>x |&gt; f(y)</code></td>
+<td>the same as <code>f(x, y)</code>: the result on the left becomes the
+<strong>first argument</strong> of the function on the right; the other
+arguments (<code>1</code> for <code>round()</code>) are written as
+usual</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>x |&gt; f(y)</code></td>
+<td>la même chose que <code>f(x, y)</code> : le résultat de gauche
+devient le <strong>premier argument</strong> de la fonction de droite ;
+les autres arguments (<code>1</code> pour <code>round()</code>)
+s’écrivent comme d’habitude</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>The pipe is not specific to dplyr: it works with base R functions
 too, as above.</p>
@@ -897,6 +1079,61 @@ class="fr"><code>filter()</code> — garder des lignes</span></h3>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># in filter(), a comma means AND</span></span></code></pre></div>
 </div>
 </div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>filter(.data, ...)</code></td>
+<td>keeps the rows where <strong>all</strong> the conditions are
+<code>TRUE</code>; rows where a condition is <code>NA</code> are
+dropped</td>
+<td>a data frame, then conditions separated by commas (= AND)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>filter(.data, ...)</code></td>
+<td>garde les lignes où <strong>toutes</strong> les conditions valent
+<code>TRUE</code> ; les lignes où une condition vaut <code>NA</code>
+sont retirées</td>
+<td>un data frame, puis des conditions séparées par des virgules (=
+ET)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div
 id="select-keep-drop-or-reorder-columnsselect-garder-retirer-ou-réordonner-des-colonnes"
@@ -914,8 +1151,8 @@ ou réordonner des colonnes</span></h3>
 #&gt; 2 Ambalaboy       2             47
 #&gt; 3 Ambalaboy       3             64</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">names</span>(sg[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>)])  <span class="co"># drop</span></span></code></pre></div>
-<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;  
-#&gt; [6] &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;         
+#&gt; [5] &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
 </div>
 <div class="col pkg">
 <p>dplyr</p>
@@ -926,8 +1163,62 @@ ou réordonner des colonnes</span></h3>
 #&gt; 2 Ambalaboy       2             47
 #&gt; 3 Ambalaboy       3             64</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">select</span>(sg, <span class="sc">-</span>date, <span class="sc">-</span>depth_m))</span></code></pre></div>
-<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;  
-#&gt; [6] &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;         
+#&gt; [5] &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
+</div>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>select(.data, ...)</code></td>
+<td>keeps columns, in the order given</td>
+<td>column names <strong>without</strong> quotes, positions
+(<code>1:4</code>), ranges (<code>site:date</code>); <code>-name</code>
+drops a column</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>select(.data, ...)</code></td>
+<td>garde des colonnes, dans l’ordre donné</td>
+<td>noms de colonnes <strong>sans</strong> guillemets, positions
+(<code>1:4</code>), plages (<code>site:date</code>) ; <code>-nom</code>
+retire une colonne</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -973,6 +1264,59 @@ just before (<code>cover_prop</code>).</p>
 <p>Remarque : dans un même <code>mutate()</code>, on peut utiliser une
 colonne créée juste avant (<code>cover_prop</code>).</p>
 </div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>mutate(.data, name = calculation, ...)</code></td>
+<td>adds a column <code>name</code> (or replaces it if it exists);
+several columns separated by commas</td>
+<td><code>new_column = expression</code> using column names</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>mutate(.data, name = calculation, ...)</code></td>
+<td>ajoute une colonne <code>name</code> (ou la remplace si elle existe)
+; plusieurs colonnes séparées par des virgules</td>
+<td><code>nouvelle_colonne = expression</code> avec des noms de
+colonnes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="arrange-sort-rowsarrange-trier-les-lignes"
 class="section level3">
@@ -1000,6 +1344,81 @@ class="fr"><code>arrange()</code> — trier les lignes</span></h3>
 #&gt; 3  Fasimena             71</code></pre>
 </div>
 </div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>arrange(.data, ...)</code></td>
+<td>sorts the rows, by the first column then the next ones in case of
+ties (increasing)</td>
+<td>column names</td>
+</tr>
+<tr class="even">
+<td><code>desc(x)</code></td>
+<td>inside <code>arrange()</code>: decreasing order for this column</td>
+<td>a column name</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>arrange(.data, ...)</code></td>
+<td>trie les lignes, selon la première colonne puis les suivantes en cas
+d’égalité (croissant)</td>
+<td>noms de colonnes</td>
+</tr>
+<tr class="even">
+<td><code>desc(x)</code></td>
+<td>dans <code>arrange()</code> : ordre décroissant pour cette
+colonne</td>
+<td>un nom de colonne</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>To sort from largest to smallest:
+<code>order(x, decreasing = TRUE)</code> in base R (Session 5),
+<code>arrange(desc(x))</code> in dplyr. Same result, different
+words.</p>
+</div>
+<div class="fr">
+<p>Pour trier du plus grand au plus petit :
+<code>order(x, decreasing = TRUE)</code> en R de base (séance 5),
+<code>arrange(desc(x))</code> dans dplyr. Même résultat, mots
+différents.</p>
+</div>
 </div>
 <div id="rename-rename-columnsrename-renommer-des-colonnes"
 class="section level3">
@@ -1021,6 +1440,58 @@ class="fr"><code>rename()</code> — renommer des colonnes</span></h3>
 <span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="co"># new name = old name</span></span>
 <span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="fu">names</span>(sg2)[<span class="dv">7</span>]</span></code></pre></div>
 <pre><code>#&gt; [1] &quot;cover_pct&quot;</code></pre>
+</div>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>rename(.data, new = old)</code></td>
+<td>renames columns; the <strong>new</strong> name is on the left of
+<code>=</code></td>
+<td><code>new_name = old_name</code>, without quotes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>rename(.data, new = old)</code></td>
+<td>renomme des colonnes ; le <strong>nouveau</strong> nom est à gauche
+du <code>=</code></td>
+<td><code>nouveau_nom = ancien_nom</code>, sans guillemets</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1070,6 +1541,96 @@ by two variables, to remove the grouping afterwards.</p>
 <code>.groups = "drop"</code> dans <code>summarise()</code> quand vous
 groupez par deux variables, pour retirer le groupement ensuite.</p>
 </div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>group_by(.data, ...)</code></td>
+<td>marks the groups; nothing visible changes, but the next verbs work
+<strong>per group</strong></td>
+<td>one or several column names</td>
+</tr>
+<tr class="even">
+<td><code>summarise(.data, name = function(column), ...)</code></td>
+<td>one row per group, one column per statistic</td>
+<td><code>new_column = mean(col)</code>, <code>sd(col)</code>,
+<code>sum(col)</code>…</td>
+</tr>
+<tr class="odd">
+<td><code>n()</code></td>
+<td>number of rows in the group; only inside <code>summarise()</code> or
+<code>mutate()</code></td>
+<td>nothing</td>
+</tr>
+<tr class="even">
+<td>  <code>.groups</code></td>
+<td>what remains grouped after <code>summarise()</code>:
+<code>"drop"</code> = nothing</td>
+<td><code>"drop"</code>, <code>"keep"</code>, <code>"drop_last"</code>
+(default)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>group_by(.data, ...)</code></td>
+<td>marque les groupes ; rien de visible ne change, mais les verbes
+suivants travaillent <strong>par groupe</strong></td>
+<td>un ou plusieurs noms de colonnes</td>
+</tr>
+<tr class="even">
+<td><code>summarise(.data, name = function(column), ...)</code></td>
+<td>une ligne par groupe, une colonne par statistique</td>
+<td><code>nouvelle_colonne = mean(col)</code>, <code>sd(col)</code>,
+<code>sum(col)</code>…</td>
+</tr>
+<tr class="odd">
+<td><code>n()</code></td>
+<td>nombre de lignes du groupe ; seulement dans <code>summarise()</code>
+ou <code>mutate()</code></td>
+<td>rien</td>
+</tr>
+<tr class="even">
+<td>  <code>.groups</code></td>
+<td>ce qui reste groupé après <code>summarise()</code> :
+<code>"drop"</code> = rien</td>
+<td><code>"drop"</code>, <code>"keep"</code>, <code>"drop_last"</code>
+(défaut)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div
 id="count-number-of-rows-per-categorycount-nombre-de-lignes-par-catégorie"
@@ -1082,8 +1643,10 @@ par catégorie</span></h3>
 <p>R base</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">table</span>(sg<span class="sc">$</span>species)</span></code></pre></div>
 <pre><code>#&gt; 
-#&gt;      Cymodocea serrulata Syringodium isoetifolium     Thalassia hemprichii Thalassodendron ciliatum 
-#&gt;                       17                       13                       21                        9</code></pre>
+#&gt;      Cymodocea serrulata Syringodium isoetifolium     Thalassia hemprichii 
+#&gt;                       17                       13                       21 
+#&gt; Thalassodendron ciliatum 
+#&gt;                        9</code></pre>
 </div>
 <div class="col pkg">
 <p>dplyr</p>
@@ -1093,6 +1656,58 @@ par catégorie</span></h3>
 #&gt; 2 Syringodium isoetifolium 13
 #&gt; 3     Thalassia hemprichii 21
 #&gt; 4 Thalassodendron ciliatum  9</code></pre>
+</div>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>count(x, ...)</code></td>
+<td>number of rows for each value (or combination) of the columns, as a
+data frame with a column <code>n</code></td>
+<td>a data frame, then column names</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>count(x, ...)</code></td>
+<td>nombre de lignes pour chaque valeur (ou combinaison) des colonnes,
+sous forme de data frame avec une colonne <code>n</code></td>
+<td>un data frame, puis des noms de colonnes</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1223,7 +1838,7 @@ points</span></h3>
 <span id="cb47-5"><a href="#cb47-5" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Canopy height (cm)&quot;</span>)</span>
 <span id="cb47-6"><a href="#cb47-6" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="fu">names</span>(cols), <span class="at">col =</span> cols,</span>
 <span id="cb47-7"><a href="#cb47-7" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
-<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-21-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-31-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 </div>
 <div class="col pkg">
 <p>ggplot2</p>
@@ -1236,7 +1851,7 @@ points</span></h3>
 <span id="cb48-7"><a href="#cb48-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>,</span>
 <span id="cb48-8"><a href="#cb48-8" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Canopy height (cm)&quot;</span>) <span class="sc">+</span></span>
 <span id="cb48-9"><a href="#cb48-9" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
-<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-22-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-32-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div class="en">
@@ -1249,6 +1864,134 @@ points</span></h3>
 partir de <code>colour = mpa_status</code> ; en R de base on la
 construit soi-même avec <code>legend()</code>.</p>
 </div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggplot(data, mapping)</code></td>
+<td>starts a plot: the data frame and the aesthetics; draws nothing
+until a geom is added</td>
+<td>a data frame, then <code>aes(...)</code></td>
+</tr>
+<tr class="even">
+<td><code>aes(x, y, colour, fill, ...)</code></td>
+<td>links <strong>columns</strong> to visual properties: position x and
+y, colour, fill… The first two can be given by position
+(<code>aes(seagrass_cover, canopy_height_cm)</code>)</td>
+<td>column names without quotes</td>
+</tr>
+<tr class="odd">
+<td><code>+</code></td>
+<td>adds a layer; it must be at the <strong>end</strong> of the line,
+not at the start of the next</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_point(size, na.rm)</code></td>
+<td>draws points; <code>size</code> = their size (default 1.5);
+<code>na.rm = TRUE</code> removes the rows with <code>NA</code> without
+a warning</td>
+<td>a number; <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td><code>scale_colour_manual(values)</code></td>
+<td>chooses the colours used for <code>colour =</code> yourself</td>
+<td>a named vector <code>c(group = "colour")</code></td>
+</tr>
+<tr class="even">
+<td><code>labs(x, y, title, colour, ...)</code></td>
+<td>the labels: axis titles, plot title, legend title (named after the
+aesthetic)</td>
+<td>text; <code>NULL</code> = no label</td>
+</tr>
+<tr class="odd">
+<td><code>theme_classic()</code>, <code>theme_bw()</code>,
+<code>theme_minimal()</code></td>
+<td>ready-made overall looks (background, grid, frame)</td>
+<td>optional <code>base_size</code> = text size</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggplot(data, mapping)</code></td>
+<td>commence un graphique : le data frame et l’esthétique ; ne dessine
+rien tant qu’aucune géométrie n’est ajoutée</td>
+<td>un data frame, puis <code>aes(...)</code></td>
+</tr>
+<tr class="even">
+<td><code>aes(x, y, colour, fill, ...)</code></td>
+<td>relie des <strong>colonnes</strong> à des propriétés visuelles :
+position x et y, couleur, remplissage… Les deux premiers peuvent être
+donnés par position
+(<code>aes(seagrass_cover, canopy_height_cm)</code>)</td>
+<td>noms de colonnes sans guillemets</td>
+</tr>
+<tr class="odd">
+<td><code>+</code></td>
+<td>ajoute une couche ; il doit être en <strong>fin</strong> de ligne,
+pas au début de la suivante</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_point(size, na.rm)</code></td>
+<td>dessine des points ; <code>size</code> = leur taille (1,5 par
+défaut) ; <code>na.rm = TRUE</code> retire les lignes avec
+<code>NA</code> sans avertissement</td>
+<td>un nombre ; <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td><code>scale_colour_manual(values)</code></td>
+<td>choisit soi-même les couleurs utilisées pour
+<code>colour =</code></td>
+<td>un vecteur nommé <code>c(groupe = "couleur")</code></td>
+</tr>
+<tr class="even">
+<td><code>labs(x, y, title, colour, ...)</code></td>
+<td>les étiquettes : titres des axes, titre du graphique, titre de la
+légende (nommé d’après l’esthétique)</td>
+<td>texte ; <code>NULL</code> = pas d’étiquette</td>
+</tr>
+<tr class="odd">
+<td><code>theme_classic()</code>, <code>theme_bw()</code>,
+<code>theme_minimal()</code></td>
+<td>aspects généraux prêts à l’emploi (fond, grille, cadre)</td>
+<td><code>base_size</code> facultatif = taille du texte</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="histogramhistogramme" class="section level3">
 <h3><span class="en">Histogram</span><span
@@ -1260,7 +2003,7 @@ class="fr">Histogramme</span></h3>
 <span id="cb49-2"><a href="#cb49-2" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>),</span>
 <span id="cb49-3"><a href="#cb49-3" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;#4a7d3a&quot;</span>, <span class="at">border =</span> <span class="st">&quot;white&quot;</span>,</span>
 <span id="cb49-4"><a href="#cb49-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>)</span></code></pre></div>
-<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-23-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-34-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 </div>
 <div class="col pkg">
 <p>ggplot2</p>
@@ -1270,7 +2013,88 @@ class="fr">Histogramme</span></h3>
 <span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a>                 <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
 <span id="cb50-5"><a href="#cb50-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>) <span class="sc">+</span></span>
 <span id="cb50-6"><a href="#cb50-6" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
-<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-24-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-35-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>geom_histogram(binwidth, boundary, fill, colour)</code></td>
+<td>histogram of the <code>x</code> column</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>binwidth</code></td>
+<td>width of each class (here 10 %)</td>
+<td>a number</td>
+</tr>
+<tr class="odd">
+<td>  <code>boundary</code></td>
+<td>where a class starts: <code>0</code> gives classes 0–10, 10–20…</td>
+<td>a number</td>
+</tr>
+<tr class="even">
+<td>  <code>fill</code>, <code>colour</code></td>
+<td>fill colour of the bars / colour of their outline</td>
+<td>a colour</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>geom_histogram(binwidth, boundary, fill, colour)</code></td>
+<td>histogramme de la colonne <code>x</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>binwidth</code></td>
+<td>largeur de chaque classe (ici 10 %)</td>
+<td>un nombre</td>
+</tr>
+<tr class="odd">
+<td>  <code>boundary</code></td>
+<td>où commence une classe : <code>0</code> donne les classes 0–10,
+10–20…</td>
+<td>un nombre</td>
+</tr>
+<tr class="even">
+<td>  <code>fill</code>, <code>colour</code></td>
+<td>couleur de remplissage des barres / couleur de leur contour</td>
+<td>une couleur</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1282,7 +2106,7 @@ class="fr">Histogramme</span></h3>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a><span class="fu">boxplot</span>(seagrass_cover <span class="sc">~</span> site, <span class="at">data =</span> sg,</span>
 <span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">&quot;#a8d5da&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>,</span>
 <span id="cb51-3"><a href="#cb51-3" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>)</span></code></pre></div>
-<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-25-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-37-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 </div>
 <div class="col pkg">
 <p>ggplot2</p>
@@ -1290,7 +2114,57 @@ class="fr">Histogramme</span></h3>
 <span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">&quot;#a8d5da&quot;</span>) <span class="sc">+</span></span>
 <span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>) <span class="sc">+</span></span>
 <span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
-<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-26-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-38-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>geom_boxplot(fill)</code></td>
+<td>one box per value of <code>x</code></td>
+<td>a colour for <code>fill</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>geom_boxplot(fill)</code></td>
+<td>une boîte par valeur de <code>x</code></td>
+<td>une couleur pour <code>fill</code></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1307,7 +2181,7 @@ ET</span></h3>
 <span id="cb53-5"><a href="#cb53-5" tabindex="-1"></a>              <span class="at">ylab =</span> <span class="st">&quot;Cover (%) ± SD&quot;</span>)</span>
 <span id="cb53-6"><a href="#cb53-6" tabindex="-1"></a><span class="fu">arrows</span>(bp, m <span class="sc">-</span> s, bp, m <span class="sc">+</span> s, <span class="at">angle =</span> <span class="dv">90</span>,</span>
 <span id="cb53-7"><a href="#cb53-7" tabindex="-1"></a>       <span class="at">code =</span> <span class="dv">3</span>, <span class="at">length =</span> <span class="fl">0.06</span>)</span></code></pre></div>
-<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-27-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-40-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 </div>
 <div class="col pkg">
 <p>ggplot2</p>
@@ -1321,7 +2195,73 @@ ET</span></h3>
 <span id="cb54-8"><a href="#cb54-8" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
 <span id="cb54-9"><a href="#cb54-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Cover (%) ± SD&quot;</span>) <span class="sc">+</span></span>
 <span id="cb54-10"><a href="#cb54-10" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
-<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-28-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-41-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>geom_col()</code></td>
+<td>bars whose height is the <code>y</code> value (already computed,
+here the mean)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_errorbar(aes(ymin, ymax), width)</code></td>
+<td>error bars from <code>ymin</code> to <code>ymax</code>;
+<code>width</code> = width of the horizontal ends, as a fraction of the
+space of one bar</td>
+<td>calculations on columns; a number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>geom_col()</code></td>
+<td>barres dont la hauteur est la valeur <code>y</code> (déjà calculée,
+ici la moyenne)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_errorbar(aes(ymin, ymax), width)</code></td>
+<td>barres d’erreur de <code>ymin</code> à <code>ymax</code> ;
+<code>width</code> = largeur des extrémités horizontales, en fraction de
+l’espace d’une barre</td>
+<td>calculs sur des colonnes ; un nombre</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1338,7 +2278,7 @@ panneau par groupe</span></h3>
 <span id="cb55-4"><a href="#cb55-4" tabindex="-1"></a><span class="fu">hist</span>(by_site<span class="sc">$</span>Belitsaky, <span class="at">main =</span> <span class="st">&quot;Belitsaky&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
 <span id="cb55-5"><a href="#cb55-5" tabindex="-1"></a><span class="fu">hist</span>(by_site<span class="sc">$</span>Fasimena, <span class="at">main =</span> <span class="st">&quot;Fasimena&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
 <span id="cb55-6"><a href="#cb55-6" tabindex="-1"></a><span class="fu">hist</span>(by_site<span class="sc">$</span>Tsiandamba, <span class="at">main =</span> <span class="st">&quot;Tsiandamba&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-29-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-43-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div>
 </div>
 <div class="col pkg">
@@ -1349,7 +2289,7 @@ panneau par groupe</span></h3>
 <span id="cb57-4"><a href="#cb57-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> site) <span class="sc">+</span></span>
 <span id="cb57-5"><a href="#cb57-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>) <span class="sc">+</span></span>
 <span id="cb57-6"><a href="#cb57-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-30-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="08-packages-tidyverse_files/figure-html/unnamed-chunk-44-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div class="en">
@@ -1361,6 +2301,68 @@ typing.</p>
 <p><code>split(x, groupe)</code> découpe un vecteur en un morceau par
 groupe (une liste). Avec beaucoup de groupes, <code>facet_wrap()</code>
 évite beaucoup de saisie.</p>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>split(x, f)</code></td>
+<td>cuts <code>x</code> into a list with one piece per group of
+<code>f</code>; <code>by_site$Ambalaboy</code> takes one piece</td>
+<td>a vector and a grouping vector</td>
+</tr>
+<tr class="even">
+<td><code>facet_wrap(~ group)</code></td>
+<td>one panel per value of <code>group</code>, same axes everywhere</td>
+<td><code>~</code> followed by a column name</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>split(x, f)</code></td>
+<td>découpe <code>x</code> en une liste avec un morceau par groupe de
+<code>f</code> ; <code>by_site$Ambalaboy</code> prend un morceau</td>
+<td>un vecteur et un vecteur de groupes</td>
+</tr>
+<tr class="even">
+<td><code>facet_wrap(~ group)</code></td>
+<td>un panneau par valeur de <code>group</code>, mêmes axes partout</td>
+<td><code>~</code> suivi d’un nom de colonne</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 <div id="saving-a-figureenregistrer-une-figure" class="section level3">
@@ -1381,6 +2383,221 @@ une figure</span></h3>
 <span id="cb59-3"><a href="#cb59-3" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;outputs/fig.png&quot;</span>, p, <span class="at">width =</span> <span class="dv">16</span>,</span>
 <span id="cb59-4"><a href="#cb59-4" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">11</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
 </div>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggsave(filename, plot, width, height, units, dpi)</code></td>
+<td>saves a ggplot in a file; the format follows the extension
+(<code>.png</code>, <code>.pdf</code>, <code>.jpg</code>); no
+<code>dev.off()</code> needed</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>plot</code></td>
+<td>the plot to save (by default the last one displayed)</td>
+<td>a ggplot object</td>
+</tr>
+<tr class="odd">
+<td>  <code>dpi</code></td>
+<td>resolution — called <code>res</code> in <code>png()</code></td>
+<td>a number, usually 300</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggsave(filename, plot, width, height, units, dpi)</code></td>
+<td>enregistre un ggplot dans un fichier ; le format suit l’extension
+(<code>.png</code>, <code>.pdf</code>, <code>.jpg</code>) ; pas besoin
+de <code>dev.off()</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>plot</code></td>
+<td>le graphique à enregistrer (par défaut le dernier affiché)</td>
+<td>un objet ggplot</td>
+</tr>
+<tr class="odd">
+<td>  <code>dpi</code></td>
+<td>résolution — appelée <code>res</code> dans <code>png()</code></td>
+<td>un nombre, en général 300</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div
+id="same-idea-different-argument-namesmême-idée-noms-darguments-différents"
+class="section level3">
+<h3><span class="en">Same idea, different argument names</span><span
+class="fr">Même idée, noms d’arguments différents</span></h3>
+<div class="en">
+<p>Base R graphics and ggplot2 were written by different people, so the
+same setting has different names. Keep this table at hand:</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Base R (Session 7)</th>
+<th>ggplot2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>fill colour</td>
+<td><code>col</code></td>
+<td><code>fill</code></td>
+</tr>
+<tr class="even">
+<td>outline / point / line colour</td>
+<td><code>border</code> (bars), <code>col</code> (points)</td>
+<td><code>colour</code> (or <code>color</code>)</td>
+</tr>
+<tr class="odd">
+<td>point size</td>
+<td><code>cex</code></td>
+<td><code>size</code></td>
+</tr>
+<tr class="even">
+<td>point shape</td>
+<td><code>pch</code></td>
+<td><code>shape</code></td>
+</tr>
+<tr class="odd">
+<td>title, axis titles</td>
+<td><code>main</code>, <code>xlab</code>, <code>ylab</code> (arguments
+of the plot)</td>
+<td><code>labs(title, x, y)</code> (a separate layer)</td>
+</tr>
+<tr class="even">
+<td>width of histogram classes</td>
+<td><code>breaks</code> (the limits)</td>
+<td><code>binwidth</code> (the width)</td>
+</tr>
+<tr class="odd">
+<td>axis limits</td>
+<td><code>xlim</code>, <code>ylim</code></td>
+<td><code>xlim()</code>, <code>ylim()</code> or
+<code>coord_cartesian()</code></td>
+</tr>
+<tr class="even">
+<td>resolution of a saved file</td>
+<td><code>res</code> in <code>png()</code></td>
+<td><code>dpi</code> in <code>ggsave()</code></td>
+</tr>
+<tr class="odd">
+<td>missing values</td>
+<td>(removed automatically)</td>
+<td><code>na.rm = TRUE</code> (to avoid the warning)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p>Les graphiques de R de base et ggplot2 ont été écrits par des
+personnes différentes : le même réglage porte donc des noms différents.
+Gardez ce tableau sous la main :</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Réglage</th>
+<th>R de base (séance 7)</th>
+<th>ggplot2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>couleur de remplissage</td>
+<td><code>col</code></td>
+<td><code>fill</code></td>
+</tr>
+<tr class="even">
+<td>couleur de contour / de point / de ligne</td>
+<td><code>border</code> (barres), <code>col</code> (points)</td>
+<td><code>colour</code> (ou <code>color</code>)</td>
+</tr>
+<tr class="odd">
+<td>taille des points</td>
+<td><code>cex</code></td>
+<td><code>size</code></td>
+</tr>
+<tr class="even">
+<td>forme des points</td>
+<td><code>pch</code></td>
+<td><code>shape</code></td>
+</tr>
+<tr class="odd">
+<td>titre, titres des axes</td>
+<td><code>main</code>, <code>xlab</code>, <code>ylab</code> (arguments
+du graphique)</td>
+<td><code>labs(title, x, y)</code> (une couche à part)</td>
+</tr>
+<tr class="even">
+<td>largeur des classes d’histogramme</td>
+<td><code>breaks</code> (les limites)</td>
+<td><code>binwidth</code> (la largeur)</td>
+</tr>
+<tr class="odd">
+<td>limites des axes</td>
+<td><code>xlim</code>, <code>ylim</code></td>
+<td><code>xlim()</code>, <code>ylim()</code> ou
+<code>coord_cartesian()</code></td>
+</tr>
+<tr class="even">
+<td>résolution d’un fichier enregistré</td>
+<td><code>res</code> dans <code>png()</code></td>
+<td><code>dpi</code> dans <code>ggsave()</code></td>
+</tr>
+<tr class="odd">
+<td>valeurs manquantes</td>
+<td>(retirées automatiquement)</td>
+<td><code>na.rm = TRUE</code> (pour éviter l’avertissement)</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>

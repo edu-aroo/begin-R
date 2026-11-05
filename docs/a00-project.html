@@ -802,6 +802,117 @@ class="fr">Créer l’arborescence par le code</span></h3>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">list.dirs</span>(proj, <span class="at">full.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] &quot;&quot;                &quot;data&quot;            &quot;data/derived&quot;    &quot;data/raw&quot;        &quot;outputs&quot;        
 #&gt; [6] &quot;outputs/figures&quot; &quot;outputs/tables&quot;  &quot;R&quot;               &quot;reports&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tempdir()</code></td>
+<td>a temporary folder of the current R session, deleted when R closes
+(used only for this demo)</td>
+<td>nothing</td>
+</tr>
+<tr class="even">
+<td><code>file.path(...)</code></td>
+<td>builds a path from pieces, with <code>/</code> between them
+(Intermediate I5)</td>
+<td>texts</td>
+</tr>
+<tr class="odd">
+<td><code>dir.create(path, recursive, showWarnings)</code></td>
+<td>creates a folder</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>recursive</code></td>
+<td><code>TRUE</code> also creates the missing parent folders
+(<code>data/</code> before <code>data/raw/</code>)</td>
+<td><code>TRUE</code> / <code>FALSE</code> (default)</td>
+</tr>
+<tr class="odd">
+<td>  <code>showWarnings</code></td>
+<td><code>FALSE</code>: no warning if the folder already exists</td>
+<td><code>TRUE</code> (default) / <code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>list.dirs(path, full.names, recursive = TRUE)</code></td>
+<td>lists the folders (and sub-folders) under <code>path</code>;
+<code>full.names = FALSE</code> = paths relative to
+<code>path</code></td>
+<td>a folder; <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tempdir()</code></td>
+<td>un dossier temporaire de la session R, supprimé à la fermeture de R
+(utilisé seulement pour cette démonstration)</td>
+<td>rien</td>
+</tr>
+<tr class="even">
+<td><code>file.path(...)</code></td>
+<td>construit un chemin à partir de morceaux, avec <code>/</code> entre
+eux (intermédiaire I5)</td>
+<td>textes</td>
+</tr>
+<tr class="odd">
+<td><code>dir.create(path, recursive, showWarnings)</code></td>
+<td>crée un dossier</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>recursive</code></td>
+<td><code>TRUE</code> crée aussi les dossiers parents manquants
+(<code>data/</code> avant <code>data/raw/</code>)</td>
+<td><code>TRUE</code> / <code>FALSE</code> (défaut)</td>
+</tr>
+<tr class="odd">
+<td>  <code>showWarnings</code></td>
+<td><code>FALSE</code> : pas d’avertissement si le dossier existe
+déjà</td>
+<td><code>TRUE</code> (défaut) / <code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>list.dirs(path, full.names, recursive = TRUE)</code></td>
+<td>liste les dossiers (et sous-dossiers) sous <code>path</code> ;
+<code>full.names = FALSE</code> = chemins relatifs à
+<code>path</code></td>
+<td>un dossier ; <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>In real life: <strong>File → New Project → New Directory → New
 Project</strong> in RStudio, then run the loop above in the Console
@@ -858,6 +969,86 @@ class="fr">Marche partout</span></strong></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">library</span>(here)</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>reef <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;reef_monitoring.csv&quot;</span>))</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co"># here() -&gt; &quot;.../reef-monitoring/data/raw/reef_monitoring.csv&quot;</span></span></code></pre></div>
+</div>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>setwd(dir)</code></td>
+<td><strong>set</strong>s the <strong>w</strong>orking
+<strong>d</strong>irectory: the folder where R looks for relative paths.
+Avoid it in scripts</td>
+<td>a folder path</td>
+</tr>
+<tr class="even">
+<td><code>getwd()</code></td>
+<td>shows the current working directory</td>
+<td>nothing</td>
+</tr>
+<tr class="odd">
+<td><code>here(...)</code></td>
+<td><strong>here</strong> package: full path built from the
+<strong>project root</strong> (the folder with the <code>.Rproj</code>),
+whatever the folder of the file that runs it</td>
+<td>folder and file names, as separate texts:
+<code>here("data", "raw", "x.csv")</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>setwd(dir)</code></td>
+<td>fixe le répertoire de travail (<em>set working directory</em>) : le
+dossier où R cherche les chemins relatifs. À éviter dans les
+scripts</td>
+<td>un chemin de dossier</td>
+</tr>
+<tr class="even">
+<td><code>getwd()</code></td>
+<td>affiche le répertoire de travail actuel</td>
+<td>rien</td>
+</tr>
+<tr class="odd">
+<td><code>here(...)</code></td>
+<td>package <strong>here</strong> : chemin complet construit depuis la
+<strong>racine du projet</strong> (le dossier du <code>.Rproj</code>),
+quel que soit le dossier du fichier qui l’exécute</td>
+<td>noms de dossiers et de fichier, en textes séparés :
+<code>here("data", "raw", "x.csv")</code></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="callout tip">
@@ -930,6 +1121,94 @@ tout revient.</p>
 <span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;03_analysis.R&quot;</span>))   <span class="co"># summaries     -&gt; outputs/tables/*.csv</span></span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;04_figures.R&quot;</span>))    <span class="co"># figures       -&gt; outputs/figures/*.png</span></span>
 <span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">capture.output</span>(<span class="fu">sessionInfo</span>()), <span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;session_info.txt&quot;</span>))</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>source(file)</code></td>
+<td>runs a whole script (Intermediate I6); the scripts run in the
+current session, so the objects of <code>01_import.R</code> are
+available in <code>02_clean.R</code></td>
+<td>path of the <code>.R</code> file</td>
+</tr>
+<tr class="even">
+<td><code>sessionInfo()</code></td>
+<td>R version, operating system and versions of the loaded packages</td>
+<td>nothing</td>
+</tr>
+<tr class="odd">
+<td><code>capture.output(expr)</code></td>
+<td>what <code>expr</code> would print, as a text vector</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>writeLines(text, con)</code></td>
+<td>writes the lines of text in a file (<code>con</code> = the
+file)</td>
+<td>a text vector; a path</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>source(file)</code></td>
+<td>exécute tout un script (intermédiaire I6) ; les scripts tournent
+dans la session courante, donc les objets de <code>01_import.R</code>
+sont disponibles dans <code>02_clean.R</code></td>
+<td>chemin du fichier <code>.R</code></td>
+</tr>
+<tr class="even">
+<td><code>sessionInfo()</code></td>
+<td>version de R, système d’exploitation et versions des packages
+chargés</td>
+<td>rien</td>
+</tr>
+<tr class="odd">
+<td><code>capture.output(expr)</code></td>
+<td>ce que <code>expr</code> afficherait, sous forme de vecteur de
+texte</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>writeLines(text, con)</code></td>
+<td>écrit les lignes de texte dans un fichier (<code>con</code> = le
+fichier)</td>
+<td>un vecteur de texte ; un chemin</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><strong>Restart R often</strong> (<em>Session → Restart R</em>,
@@ -987,6 +1266,58 @@ class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb9-1"><
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>si <span class="ot">&lt;-</span> <span class="fu">sessionInfo</span>()</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>si<span class="sc">$</span>R.version<span class="sc">$</span>version.string          <span class="co"># the R version that produced the results</span></span></code></pre></div>
 <pre><code>#&gt; [1] &quot;R version 4.6.1 (2026-06-24)&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>si$R.version$version.string</code></td>
+<td><code>sessionInfo()</code> returns a list (Intermediate I6):
+<code>$</code> goes down into it, one level at a time</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>si$R.version$version.string</code></td>
+<td><code>sessionInfo()</code> renvoie une liste (intermédiaire I6) :
+<code>$</code> y descend, un niveau à la fois</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout try">
 <div class="en">
 <p><strong>Try it.</strong> Run <code>sessionInfo()</code> in your
@@ -1070,7 +1401,7 @@ comment la racine a été trouvée.</p>
 </div>
 </div>
 <div id="quiz-a00" class="quiz" data-quiz-id="a00"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gSG93IG1hbnkgZmlsZXMgKG5vdCBmb2xkZXJzKSBhcmUgaW4gbWVzc3lfcHJvamVjdC56aXA/IiwiZnIiOiIxLiBDb21iaWVuIGRlIGZpY2hpZXJzIChwYXMgZGUgZG9zc2llcnMpIGNvbnRpZW50IG1lc3N5X3Byb2plY3QuemlwID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIFJvd3Mgb2YgZGF0YS9kZXJpdmVkL3JlZWZfMjAyNS5jc3Y/IiwiZnIiOiIyLiBMaWduZXMgZGUgZGF0YS9kZXJpdmVkL3JlZWZfMjAyNS5jc3YgPyIsImFuc3dlciI6NTQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE1lYW4gaGFyZCBjb3JhbCBjb3ZlciBpbiBOby10YWtlIHpvbmVzLCAyMDI1ICgyIGRlY2ltYWxzKT8iLCJmciI6IjMuIENvcmFpbCBkdXIgbW95ZW4gZGFucyBsZXMgem9uZXMgTm8tdGFrZSwgMjAyNSAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjozNy41OSwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIFNhbWUgZm9yIEZpc2hpbmcgem9uZXMgKDIgZGVjaW1hbHMpPyIsImZyIjoiNC4gSWRlbSBwb3VyIGxlcyB6b25lcyBGaXNoaW5nICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjE4LjgxLCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gV2h5IGlzIHNldHdkKFwiQzovVXNlcnMvUmFrb3RvL0Rlc2t0b3AvLi4uXCIpIGEgcHJvYmxlbT8iLCJmciI6IjUuIFBvdXJxdW9pIHNldHdkKFwiQzovVXNlcnMvUmFrb3RvL0Rlc2t0b3AvLi4uXCIpIHBvc2UtdC1pbCBwcm9ibMOobWUgPyIsIm9wdGlvbnNfZW4iOlsiSXQgaXMgc2xvdyIsIlRoZSBwYXRoIGV4aXN0cyBvbmx5IG9uIFJha290bydzIGNvbXB1dGVyIiwic2V0d2QoKSBpcyBkZXByZWNhdGVkIiwiSXQgZGVsZXRlcyBmaWxlcyJdLCJvcHRpb25zX2ZyIjpbIkMnZXN0IGxlbnQiLCJMZSBjaGVtaW4gbidleGlzdGUgcXVlIHN1ciBsJ29yZGluYXRldXIgZGUgUmFrb3RvIiwic2V0d2QoKSBlc3Qgb2Jzb2zDqHRlIiwiSWwgc3VwcHJpbWUgZGVzIGZpY2hpZXJzIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBBIHJlcG9ydCBpbiByZXBvcnRzL3JlcG9ydC5SbWQgbXVzdCByZWFkIGRhdGEvcmF3L3JlZWYuY3N2LiBUaGUgc2FmZXN0IGNvZGUgaXM6IiwiZnIiOiI2LiBVbiByYXBwb3J0IGRhbnMgcmVwb3J0cy9yZXBvcnQuUm1kIGRvaXQgbGlyZSBkYXRhL3Jhdy9yZWVmLmNzdi4gTGUgY29kZSBsZSBwbHVzIHPDu3IgZXN0IDoiLCJvcHRpb25zX2VuIjpbInJlYWQuY3N2KFwiZGF0YS9yYXcvcmVlZi5jc3ZcIikiLCJyZWFkLmNzdihcIi4uL2RhdGEvcmF3L3JlZWYuY3N2XCIpIiwicmVhZC5jc3YoaGVyZShcImRhdGFcIiwgXCJyYXdcIiwgXCJyZWVmLmNzdlwiKSkiLCJzZXR3ZChcIi4uXCIpOyByZWFkLmNzdihcImRhdGEvcmF3L3JlZWYuY3N2XCIpIl0sIm9wdGlvbnNfZnIiOlsicmVhZC5jc3YoXCJkYXRhL3Jhdy9yZWVmLmNzdlwiKSIsInJlYWQuY3N2KFwiLi4vZGF0YS9yYXcvcmVlZi5jc3ZcIikiLCJyZWFkLmNzdihoZXJlKFwiZGF0YVwiLCBcInJhd1wiLCBcInJlZWYuY3N2XCIpKSIsInNldHdkKFwiLi5cIik7IHJlYWQuY3N2KFwiZGF0YS9yYXcvcmVlZi5jc3ZcIikiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFlvdSBmaW5kIGEgdHlwaW5nIGVycm9yIGluIGEgcmF3IGRhdGEgZmlsZS4gV2hhdCBkbyB5b3UgZG8/IiwiZnIiOiI3LiBWb3VzIHRyb3V2ZXogdW5lIGVycmV1ciBkZSBzYWlzaWUgZGFucyB1biBmaWNoaWVyIGRlIGRvbm7DqWVzIGJydXRlcy4gUXVlIGZhaXRlcy12b3VzID8iLCJvcHRpb25zX2VuIjpbIkNvcnJlY3QgaXQgaW4gRXhjZWwgYW5kIHNhdmUiLCJBZGQgYSBsaW5lIGluIDAyX2NsZWFuLlIgdGhhdCBjb3JyZWN0cyBpdCwgYW5kIGtlZXAgdGhlIHJhdyBmaWxlIHVuY2hhbmdlZCIsIkRlbGV0ZSB0aGUgcm93IGluIHRoZSByYXcgZmlsZSIsIlJlbmFtZSB0aGUgZmlsZSBfdjIiXSwib3B0aW9uc19mciI6WyJMYSBjb3JyaWdlciBkYW5zIEV4Y2VsIGV0IGVucmVnaXN0cmVyIiwiQWpvdXRlciB1bmUgbGlnbmUgZGFucyAwMl9jbGVhbi5SIHF1aSBsYSBjb3JyaWdlLCBldCBnYXJkZXIgbGUgZmljaGllciBicnV0IGludGFjdCIsIlN1cHByaW1lciBsYSBsaWduZSBkYW5zIGxlIGZpY2hpZXIgYnJ1dCIsIlJlbm9tbWVyIGxlIGZpY2hpZXIgX3YyIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBXaHkgc2V0IFwiU2F2ZSB3b3Jrc3BhY2UgdG8gLlJEYXRhIG9uIGV4aXRcIiB0byBOZXZlcj8iLCJmciI6IjguIFBvdXJxdW9pIHLDqWdsZXIgwqsgU2F2ZSB3b3Jrc3BhY2UgdG8gLlJEYXRhIG9uIGV4aXQgwrsgc3VyIE5ldmVyID8iLCJvcHRpb25zX2VuIjpbIlRvIHNhdmUgZGlzayBzcGFjZSIsIlNvIHRoYXQgdGhlIHJlc3VsdHMgZGVwZW5kIG9ubHkgb24gdGhlIHNjcmlwdHMsIG5vdCBvbiBvYmplY3RzIGxlZnQgZnJvbSBlYXJsaWVyIHNlc3Npb25zIiwiQmVjYXVzZSAuUkRhdGEgZmlsZXMgYXJlIHZpcnVzZXMiLCJUbyBtYWtlIFIgc3RhcnQgZmFzdGVyIG9ubHkiXSwib3B0aW9uc19mciI6WyJQb3VyIMOpY29ub21pc2VyIGRlIGwnZXNwYWNlIGRpc3F1ZSIsIlBvdXIgcXVlIGxlcyByw6lzdWx0YXRzIG5lIGTDqXBlbmRlbnQgcXVlIGRlcyBzY3JpcHRzLCBwYXMgZCdvYmpldHMgcmVzdMOpcyBkZSBzZXNzaW9ucyBwcsOpY8OpZGVudGVzIiwiUGFyY2UgcXVlIGxlcyBmaWNoaWVycyAuUkRhdGEgc29udCBkZXMgdmlydXMiLCJTZXVsZW1lbnQgcG91ciBxdWUgUiBkw6ltYXJyZSBwbHVzIHZpdGUiXSwiYW5zd2VyIjoxfV0=">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gSG93IG1hbnkgZmlsZXMgKG5vdCBmb2xkZXJzKSBhcmUgaW4gbWVzc3lfcHJvamVjdC56aXA/IiwiZnIiOiIxLiBDb21iaWVuIGRlIGZpY2hpZXJzIChwYXMgZGUgZG9zc2llcnMpIGNvbnRpZW50IG1lc3N5X3Byb2plY3QuemlwID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIFJvd3Mgb2YgZGF0YS9kZXJpdmVkL3JlZWZfMjAyNS5jc3Y/IiwiZnIiOiIyLiBMaWduZXMgZGUgZGF0YS9kZXJpdmVkL3JlZWZfMjAyNS5jc3YgPyIsImFuc3dlciI6NTQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE1lYW4gaGFyZCBjb3JhbCBjb3ZlciBpbiBOby10YWtlIHpvbmVzLCAyMDI1ICgyIGRlY2ltYWxzKT8iLCJmciI6IjMuIENvcmFpbCBkdXIgbW95ZW4gZGFucyBsZXMgem9uZXMgTm8tdGFrZSwgMjAyNSAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjozNy41OSwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIFNhbWUgZm9yIEZpc2hpbmcgem9uZXMgKDIgZGVjaW1hbHMpPyIsImZyIjoiNC4gSWRlbSBwb3VyIGxlcyB6b25lcyBGaXNoaW5nICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjE4LjgxLCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gV2h5IGlzIHNldHdkKFwiQzovVXNlcnMvUmFrb3RvL0Rlc2t0b3AvLi4uXCIpIGEgcHJvYmxlbT8iLCJmciI6IjUuIFBvdXJxdW9pIHNldHdkKFwiQzovVXNlcnMvUmFrb3RvL0Rlc2t0b3AvLi4uXCIpIHBvc2UtdC1pbCBwcm9ibMOobWUgPyIsIm9wdGlvbnNfZW4iOlsiSXQgaXMgc2xvdyIsIlRoZSBwYXRoIGV4aXN0cyBvbmx5IG9uIFJha290bydzIGNvbXB1dGVyIiwic2V0d2QoKSBpcyBkZXByZWNhdGVkIiwiSXQgZGVsZXRlcyBmaWxlcyJdLCJvcHRpb25zX2ZyIjpbIkMnZXN0IGxlbnQiLCJMZSBjaGVtaW4gbidleGlzdGUgcXVlIHN1ciBsJ29yZGluYXRldXIgZGUgUmFrb3RvIiwic2V0d2QoKSBlc3Qgb2Jzb2zDqHRlIiwiSWwgc3VwcHJpbWUgZGVzIGZpY2hpZXJzIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBBIHJlcG9ydCBpbiByZXBvcnRzL3JlcG9ydC5SbWQgbXVzdCByZWFkIGRhdGEvcmF3L3JlZWYuY3N2LiBUaGUgc2FmZXN0IGNvZGUgaXM6IiwiZnIiOiI2LiBVbiByYXBwb3J0IGRhbnMgcmVwb3J0cy9yZXBvcnQuUm1kIGRvaXQgbGlyZSBkYXRhL3Jhdy9yZWVmLmNzdi4gTGUgY29kZSBsZSBwbHVzIHPDu3IgZXN0IDoiLCJvcHRpb25zX2VuIjpbInJlYWQuY3N2KFwiZGF0YS9yYXcvcmVlZi5jc3ZcIikiLCJyZWFkLmNzdihcIi4uL2RhdGEvcmF3L3JlZWYuY3N2XCIpIiwicmVhZC5jc3YoaGVyZShcImRhdGFcIiwgXCJyYXdcIiwgXCJyZWVmLmNzdlwiKSkiLCJzZXR3ZChcIi4uXCIpOyByZWFkLmNzdihcImRhdGEvcmF3L3JlZWYuY3N2XCIpIl0sIm9wdGlvbnNfZnIiOlsicmVhZC5jc3YoXCJkYXRhL3Jhdy9yZWVmLmNzdlwiKSIsInJlYWQuY3N2KFwiLi4vZGF0YS9yYXcvcmVlZi5jc3ZcIikiLCJyZWFkLmNzdihoZXJlKFwiZGF0YVwiLCBcInJhd1wiLCBcInJlZWYuY3N2XCIpKSIsInNldHdkKFwiLi5cIik7IHJlYWQuY3N2KFwiZGF0YS9yYXcvcmVlZi5jc3ZcIikiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFlvdSBmaW5kIGEgdHlwaW5nIGVycm9yIGluIGEgcmF3IGRhdGEgZmlsZS4gV2hhdCBkbyB5b3UgZG8/IiwiZnIiOiI3LiBWb3VzIHRyb3V2ZXogdW5lIGVycmV1ciBkZSBzYWlzaWUgZGFucyB1biBmaWNoaWVyIGRlIGRvbm7DqWVzIGJydXRlcy4gUXVlIGZhaXRlcy12b3VzID8iLCJvcHRpb25zX2VuIjpbIkNvcnJlY3QgaXQgaW4gRXhjZWwgYW5kIHNhdmUiLCJBZGQgYSBsaW5lIGluIDAyX2NsZWFuLlIgdGhhdCBjb3JyZWN0cyBpdCwgYW5kIGtlZXAgdGhlIHJhdyBmaWxlIHVuY2hhbmdlZCIsIkRlbGV0ZSB0aGUgcm93IGluIHRoZSByYXcgZmlsZSIsIlJlbmFtZSB0aGUgZmlsZSBfdjIiXSwib3B0aW9uc19mciI6WyJMYSBjb3JyaWdlciBkYW5zIEV4Y2VsIGV0IGVucmVnaXN0cmVyIiwiQWpvdXRlciB1bmUgbGlnbmUgZGFucyAwMl9jbGVhbi5SIHF1aSBsYSBjb3JyaWdlLCBldCBnYXJkZXIgbGUgZmljaGllciBicnV0IGludGFjdCIsIlN1cHByaW1lciBsYSBsaWduZSBkYW5zIGxlIGZpY2hpZXIgYnJ1dCIsIlJlbm9tbWVyIGxlIGZpY2hpZXIgX3YyIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBXaHkgc2V0IFwiU2F2ZSB3b3Jrc3BhY2UgdG8gLlJEYXRhIG9uIGV4aXRcIiB0byBOZXZlcj8iLCJmciI6IjguIFBvdXJxdW9pIHLDqWdsZXIgwqsgU2F2ZSB3b3Jrc3BhY2UgdG8gLlJEYXRhIG9uIGV4aXQgwrsgc3VyIE5ldmVyID8iLCJvcHRpb25zX2VuIjpbIlRvIHNhdmUgZGlzayBzcGFjZSIsIlNvIHRoYXQgdGhlIHJlc3VsdHMgZGVwZW5kIG9ubHkgb24gdGhlIHNjcmlwdHMsIG5vdCBvbiBvYmplY3RzIGxlZnQgZnJvbSBlYXJsaWVyIHNlc3Npb25zIiwiQmVjYXVzZSAuUkRhdGEgZmlsZXMgYXJlIHZpcnVzZXMiLCJUbyBtYWtlIFIgc3RhcnQgZmFzdGVyIG9ubHkiXSwib3B0aW9uc19mciI6WyJQb3VyIMOpY29ub21pc2VyIGRlIGwnZXNwYWNlIGRpc3F1ZSIsIlBvdXIgcXVlIGxlcyByw6lzdWx0YXRzIG5lIGTDqXBlbmRlbnQgcXVlIGRlcyBzY3JpcHRzLCBwYXMgZCdvYmpldHMgcmVzdMOpcyBkZSBzZXNzaW9ucyBwcsOpY8OpZGVudGVzIiwiUGFyY2UgcXVlIGxlcyBmaWNoaWVycyAuUkRhdGEgc29udCBkZXMgdmlydXMiLCJTZXVsZW1lbnQgcG91ciBxdWUgUiBkw6ltYXJyZSBwbHVzIHZpdGUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIEluIGRpci5jcmVhdGUoXCJkYXRhL3Jhd1wiLCByZWN1cnNpdmUgPSBUUlVFKSwgd2hhdCBkb2VzIHJlY3Vyc2l2ZSA9IFRSVUUgZG8/IiwiZnIiOiI5LiBEYW5zIGRpci5jcmVhdGUoXCJkYXRhL3Jhd1wiLCByZWN1cnNpdmUgPSBUUlVFKSwgcXVlIGZhaXQgcmVjdXJzaXZlID0gVFJVRSA/Iiwib3B0aW9uc19lbiI6WyJBbHNvIGNyZWF0ZXMgZGF0YS8gaWYgaXQgZG9lcyBub3QgZXhpc3QiLCJEZWxldGVzIHRoZSBmb2xkZXIgZmlyc3QiLCJDcmVhdGVzIHRoZSBmb2xkZXIgaW4gZXZlcnkgc3ViLWZvbGRlciIsIkNvcGllcyB0aGUgZmlsZXMiXSwib3B0aW9uc19mciI6WyJDcsOpZSBhdXNzaSBkYXRhLyBzJ2lsIG4nZXhpc3RlIHBhcyIsIlN1cHByaW1lIGQnYWJvcmQgbGUgZG9zc2llciIsIkNyw6llIGxlIGRvc3NpZXIgZGFucyBjaGFxdWUgc291cy1kb3NzaWVyIiwiQ29waWUgbGVzIGZpY2hpZXJzIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gaGVyZShcImRhdGFcIiwgXCJyYXdcIiwgXCJyZWVmLmNzdlwiKSBzdGFydHMgZnJvbToiLCJmciI6IjEwLiBoZXJlKFwiZGF0YVwiLCBcInJhd1wiLCBcInJlZWYuY3N2XCIpIHBhcnQgZGUgOiIsIm9wdGlvbnNfZW4iOlsiVGhlIGZvbGRlciBvZiB0aGUgZmlsZSBiZWluZyBydW4iLCJUaGUgcm9vdCBvZiB0aGUgcHJvamVjdCAodGhlIGZvbGRlciBvZiB0aGUgLlJwcm9qKSIsIlRoZSBEb2N1bWVudHMgZm9sZGVyIiwiVGhlIGZvbGRlciB3aGVyZSBSIGlzIGluc3RhbGxlZCJdLCJvcHRpb25zX2ZyIjpbIkxlIGRvc3NpZXIgZHUgZmljaGllciBleMOpY3V0w6kiLCJMYSByYWNpbmUgZHUgcHJvamV0IChsZSBkb3NzaWVyIGR1IC5ScHJvaikiLCJMZSBkb3NzaWVyIERvY3VtZW50cyIsIkxlIGRvc3NpZXIgb8O5IFIgZXN0IGluc3RhbGzDqSJdLCJhbnN3ZXIiOjF9XQ==">
 
 </div>
 <div class="solution" data-quiz="a00">

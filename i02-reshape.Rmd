@@ -71,6 +71,12 @@ wide[1:3, 1:6]
 dim(wide)
 ```
 
+```{r, echo=FALSE}
+fa(c("`library(tidyr)`", "the tidyverse package for reshaping tables (install it once)", "le package du tidyverse pour restructurer les tableaux (à installer une fois)", "", ""),
+   c("&nbsp;&nbsp;`check.names` (argument of `read.csv()`)", "`TRUE` (default) changes column names that are not valid R names (`2023-01` → `X2023.01`); `FALSE` keeps them as in the file", "`TRUE` (défaut) modifie les noms de colonnes qui ne sont pas des noms R valides (`2023-01` → `X2023.01`) ; `FALSE` les garde comme dans le fichier", "`TRUE` / `FALSE`", "`TRUE` / `FALSE`"),
+   c("`%>%`", "the pipe of the tidyverse; for our use it is the same as `|>` (Beginner Session 8)", "le pipe du tidyverse ; pour notre usage, identique à `|>` (séance 8 du niveau débutant)", "", ""))
+```
+
 ## [Wide to long: pivot_longer()]{.en}[Du large au long : pivot_longer()]{.fr} {#longer}
 
 ::: en
@@ -89,6 +95,13 @@ head(long)
 dim(long)                                  # 10 stations x 36 months = 360 rows
 ```
 
+```{r, echo=FALSE}
+fa(c("`pivot_longer(data, cols, names_to, values_to)`", "wide → long: several columns become two columns (one with the old column **names**, one with their **values**)", "large → long : plusieurs colonnes deviennent deux colonnes (une avec les **noms** des anciennes colonnes, une avec leurs **valeurs**)", "", ""),
+   c("&nbsp;&nbsp;`cols`", "the columns to stack; `-station` = all except `station`; `temp_C:turbidity_NTU` = from one to the other", "les colonnes à empiler ; `-station` = toutes sauf `station` ; `temp_C:turbidity_NTU` = de l'une à l'autre", "column names, as in `select()`", "noms de colonnes, comme dans `select()`"),
+   c("&nbsp;&nbsp;`names_to`", "name of the new column that receives the old column names", "nom de la nouvelle colonne qui reçoit les anciens noms de colonnes", "text in quotes", "texte entre guillemets"),
+   c("&nbsp;&nbsp;`values_to`", "name of the new column that receives the values", "nom de la nouvelle colonne qui reçoit les valeurs", "text in quotes", "texte entre guillemets"))
+```
+
 ## [Splitting a column: separate()]{.en}[Séparer une colonne : separate()]{.fr} {#separate}
 
 ::: en
@@ -102,6 +115,15 @@ dim(long)                                  # 10 stations x 36 months = 360 rows
 long <- long %>% separate(month, into = c("year", "month"), sep = "-", convert = TRUE)
 head(long, 3)
 long %>% unite("period", year, month, sep = "/") %>% head(2)
+```
+
+```{r, echo=FALSE}
+fa(c("`separate(data, col, into, sep, convert)`", "cuts one column into several", "coupe une colonne en plusieurs", "", ""),
+   c("&nbsp;&nbsp;`col`", "the column to cut", "la colonne à couper", "a column name", "un nom de colonne"),
+   c("&nbsp;&nbsp;`into`", "names of the new columns", "noms des nouvelles colonnes", "a text vector `c(\"year\", \"month\")`", "un vecteur de texte `c(\"year\", \"month\")`"),
+   c("&nbsp;&nbsp;`sep`", "where to cut", "où couper", "a character in quotes, e.g. `\"-\"`", "un caractère entre guillemets, ex. `\"-\"`"),
+   c("&nbsp;&nbsp;`convert`", "`TRUE`: the new columns get their real type (numbers instead of text)", "`TRUE` : les nouvelles colonnes prennent leur vrai type (nombres au lieu de texte)", "`TRUE` / `FALSE` (default)", "`TRUE` / `FALSE` (défaut)"),
+   c("`unite(data, col, ..., sep)`", "the opposite: glues columns into a new one called `col`", "l'inverse : colle des colonnes dans une nouvelle appelée `col`", "new name in quotes, then the columns, then `sep`", "nouveau nom entre guillemets, puis les colonnes, puis `sep`"))
 ```
 
 ## [Several parameters: clean, then pivot]{.en}[Plusieurs paramètres : nettoyer, puis pivoter]{.fr} {#parameters}
@@ -137,6 +159,10 @@ wq_tidy %>%
             min = min(value, na.rm = TRUE), max = max(value, na.rm = TRUE))
 ```
 
+```{r, echo=FALSE}
+fa(c("`group_by()` + `summarise()`", "statistics per group (Beginner Session 8); `sum(!is.na(value))` = number of measured values", "statistiques par groupe (séance 8 du niveau débutant) ; `sum(!is.na(value))` = nombre de valeurs mesurées", "", ""))
+```
+
 ## [Long to wide: pivot_wider()]{.en}[Du long au large : pivot_wider()]{.fr} {#wider}
 
 ::: en
@@ -153,6 +179,19 @@ station_table <- wq_tidy %>%
   pivot_wider(names_from = parameter, values_from = mean)
 station_table
 ```
+
+```{r, echo=FALSE}
+fa(c("`pivot_wider(data, names_from, values_from)`", "long → wide: the values of one column become new column names", "long → large : les valeurs d'une colonne deviennent de nouveaux noms de colonnes", "", ""),
+   c("&nbsp;&nbsp;`names_from`", "the column whose values become the new column names", "la colonne dont les valeurs deviennent les nouveaux noms de colonnes", "a column name, **without** quotes", "un nom de colonne, **sans** guillemets"),
+   c("&nbsp;&nbsp;`values_from`", "the column whose values fill the new columns", "la colonne dont les valeurs remplissent les nouvelles colonnes", "a column name, without quotes", "un nom de colonne, sans guillemets"))
+```
+
+::: en
+Note the asymmetry: in `pivot_longer()` the **new** columns do not exist yet, so `names_to` and `values_to` take names **in quotes**; in `pivot_wider()` the columns already exist, so `names_from` and `values_from` take names **without** quotes.
+:::
+::: fr
+Remarquez l'asymétrie : dans `pivot_longer()` les **nouvelles** colonnes n'existent pas encore, donc `names_to` et `values_to` prennent des noms **entre guillemets** ; dans `pivot_wider()` les colonnes existent déjà, donc `names_from` et `values_from` prennent des noms **sans** guillemets.
+:::
 
 ::: compare
 ::: {.col .base}
@@ -254,7 +293,9 @@ quiz("i02", list(
   q_num("6b. Number of columns of the station table?", "6b. Nombre de colonnes du tableau par station ?", a7, tol = 0),
   q_num("7. Mean salinity in 2025 (3 decimals)?", "7. Salinité moyenne en 2025 (3 décimales) ?", a8, tol = 0.0006),
   q_mcq("8. Which format does ggplot2 need to draw one panel per parameter?", "8. Quel format faut-il à ggplot2 pour un panneau par paramètre ?",
-        c("Wide", "Long", "Either", "Neither"), c("Large", "Long", "Les deux", "Aucun"), correct = 2)
+        c("Wide", "Long", "Either", "Neither"), c("Large", "Long", "Les deux", "Aucun"), correct = 2),
+  q_mcq("9. In pivot_longer(), which argument names the new column that receives the old column names?", "9. Dans pivot_longer(), quel argument nomme la nouvelle colonne qui reçoit les anciens noms de colonnes ?",
+        c("values_to", "names_from", "names_to", "cols"), correct = 3)
 ))
 ```
 

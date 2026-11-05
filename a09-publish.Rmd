@@ -94,10 +94,38 @@ format:
 ```
 
 ::: en
+| Key | Format | What it does | Value it expects |
+|---|---|---|---|
+| `papersize` | typst, pdf | paper size | `a4`, `a5`, `us-letter` |
+| `margin` → `x`, `y` | typst | `x` = left and right margins, `y` = top and bottom (also `left`, `right`, `top`, `bottom` separately) | lengths: `2cm`, `25mm`, `1in` |
+| `geometry` | pdf | the same for LaTeX, in the syntax of its *geometry* package: `margin=2.5cm` (all sides) or `top=2cm,bottom=2cm,left=3cm,right=2cm` | text |
+| `fontsize` | typst, pdf | size of the body text | `10pt`, `11pt`, `12pt` |
+| `mainfont` | typst, pdf | font of the text; it must be **installed** on the computer that renders | font name in quotes |
+| `linestretch` | pdf | line spacing: `1` single, `1.5` one and a half, `2` double | a number |
+| `fig-pos` | pdf | where LaTeX places figures; `"H"` = exactly here (otherwise LaTeX may move them to the next page) | `"H"`, `"t"` (top), `"b"` (bottom) |
+| `reference-doc` | docx | Word file whose **styles** are copied | path to a .docx |
+
+The same thing has **different keys** in Typst (`margin`) and LaTeX (`geometry`): when you switch format, check the keys.
+:::
+::: en
 - **Page break** anywhere: `{{< pagebreak >}}` on its own line (all formats).
 - **Figure size**: `fig-width` and `fig-height` are in **inches** (1 in = 2.54 cm): an A4 page with 2.5 cm margins leaves about 6.3 in of width. Set them once under `execute:` or `format:` and change them in a chunk when needed.
 - **Word template**: create the default one with `quarto pandoc -o my-styles.docx --print-default-data-file reference.docx`, open it in Word, change the **styles** (not the text!) — *Heading 1*, *Normal*, *Caption* — and save. Every report rendered with `reference-doc: my-styles.docx` will use them.
 - **One HTML file** to send by e-mail: `embed-resources: true` under `html:` puts images, styles and scripts inside the file.
+:::
+::: fr
+| Clé | Format | Ce qu'elle fait | Valeur attendue |
+|---|---|---|---|
+| `papersize` | typst, pdf | format du papier | `a4`, `a5`, `us-letter` |
+| `margin` → `x`, `y` | typst | `x` = marges gauche et droite, `y` = haut et bas (aussi `left`, `right`, `top`, `bottom` séparément) | longueurs : `2cm`, `25mm`, `1in` |
+| `geometry` | pdf | la même chose pour LaTeX, dans la syntaxe de son package *geometry* : `margin=2.5cm` (tous les côtés) ou `top=2cm,bottom=2cm,left=3cm,right=2cm` | texte |
+| `fontsize` | typst, pdf | taille du texte courant | `10pt`, `11pt`, `12pt` |
+| `mainfont` | typst, pdf | police du texte ; elle doit être **installée** sur l'ordinateur qui produit le document | nom de police entre guillemets |
+| `linestretch` | pdf | interligne : `1` simple, `1.5` un et demi, `2` double | un nombre |
+| `fig-pos` | pdf | où LaTeX place les figures ; `"H"` = exactement ici (sinon LaTeX peut les déplacer à la page suivante) | `"H"`, `"t"` (haut), `"b"` (bas) |
+| `reference-doc` | docx | fichier Word dont les **styles** sont copiés | chemin vers un .docx |
+
+La même chose a des **clés différentes** en Typst (`margin`) et en LaTeX (`geometry`) : quand vous changez de format, vérifiez les clés.
 :::
 ::: fr
 - **Saut de page** n'importe où : `{{< pagebreak >}}` seul sur sa ligne (tous formats).
@@ -125,6 +153,39 @@ Un **projet Quarto** est un dossier avec un fichier `_quarto.yml`. Avec `type: w
 :::
 
 `r show_file("templates/advanced/quarto/website_quarto.yml", "yaml")`
+
+::: en
+| Key in `_quarto.yml` | What it does | Value it expects |
+|---|---|---|
+| `project` → `type` | kind of project: `website` (pages + menu), `book` (chapters), `default` (separate documents) | one of these words |
+| `project` → `output-dir` | folder where the finished site is written; `docs` because GitHub Pages can publish a folder of that name | a folder name |
+| `website` → `title` | name of the site, shown at the left of the menu bar and in the browser tab | text |
+| `navbar` | the **nav**igation **bar**: the menu at the top of every page | `left:` and/or `right:` lists |
+| `left`, `right` | menu items on the left / right of the bar, in this order | a list of items (`- href: …`) |
+| `href` | the **link** of a menu item (*h*ypertext *ref*erence): the page to open — a `.qmd` of the project (Quarto turns it into `.html`) or a full web address | file name or URL |
+| `text` | the word shown in the menu for this link (otherwise: the title of the page) | text |
+| `page-footer` → `left`/`center`/`right` | text at the bottom of every page | text |
+| `format` → `html` → `theme` | the look of the site (colours, fonts): one of the 25 Bootswatch themes, e.g. `cosmo`, `flatly`, `darkly` | a theme name |
+| `execute` → `freeze` | `auto`: re-run the R code of a page only when its `.qmd` changed (below) | `auto`, `true`, `false` |
+
+A menu item can be written short (`- coral.qmd`, the text is then the page title) or long (`- href:` + `text:`).
+:::
+::: fr
+| Clé de `_quarto.yml` | Ce qu'elle fait | Valeur attendue |
+|---|---|---|
+| `project` → `type` | type de projet : `website` (pages + menu), `book` (chapitres), `default` (documents séparés) | un de ces mots |
+| `project` → `output-dir` | dossier où le site fini est écrit ; `docs` car GitHub Pages sait publier un dossier de ce nom | un nom de dossier |
+| `website` → `title` | nom du site, affiché à gauche de la barre de menu et dans l'onglet du navigateur | texte |
+| `navbar` | la **barre de navigation** (*navigation bar*) : le menu en haut de chaque page | des listes `left:` et/ou `right:` |
+| `left`, `right` | éléments du menu à gauche / à droite de la barre, dans cet ordre | une liste d'éléments (`- href: …`) |
+| `href` | le **lien** d'un élément du menu (*hypertext reference*) : la page à ouvrir — un `.qmd` du projet (Quarto le transforme en `.html`) ou une adresse web complète | nom de fichier ou URL |
+| `text` | le mot affiché dans le menu pour ce lien (sinon : le titre de la page) | texte |
+| `page-footer` → `left`/`center`/`right` | texte en bas de chaque page | texte |
+| `format` → `html` → `theme` | l'apparence du site (couleurs, polices) : un des 25 thèmes Bootswatch, ex. `cosmo`, `flatly`, `darkly` | un nom de thème |
+| `execute` → `freeze` | `auto` : ne relance le code R d'une page que si son `.qmd` a changé (ci-dessous) | `auto`, `true`, `false` |
+
+Un élément de menu peut s'écrire court (`- coral.qmd`, le texte est alors le titre de la page) ou long (`- href:` + `text:`).
+:::
 
 ```
 mpa-monitoring-site/
@@ -156,7 +217,7 @@ quarto render         # builds every page into docs/
 ### [GitHub Pages]{.en}[GitHub Pages]{.fr}
 
 ::: en
-1. Render the site into `docs/` and create an empty file `docs/.nojekyll` once (`file.create("docs/.nojekyll")`) — it tells GitHub to serve the files as they are.
+1. Render the site into `docs/` and create an empty file `docs/.nojekyll` once (`file.create("docs/.nojekyll")`) — it tells GitHub to serve the files as they are. `file.create(path)` creates an empty file (it returns `TRUE` if it worked).
 2. Commit **everything** (sources, `_freeze/`, `docs/`) and push (Session A2).
 3. On GitHub: *Settings → Pages → Build and deployment → Deploy from a branch → main / docs → Save*.
 4. After a minute: `https://<your-account>.github.io/mpa-monitoring-site/`. This course website is published exactly this way.
@@ -166,7 +227,7 @@ Alternative: `quarto publish gh-pages` renders the site and pushes it to a separ
 On a **free** GitHub account, Pages only works for **public** repositories (private ones need a paid plan).
 :::
 ::: fr
-1. Produisez le site dans `docs/` et créez une fois un fichier vide `docs/.nojekyll` (`file.create("docs/.nojekyll")`) — il dit à GitHub de servir les fichiers tels quels.
+1. Produisez le site dans `docs/` et créez une fois un fichier vide `docs/.nojekyll` (`file.create("docs/.nojekyll")`) — il dit à GitHub de servir les fichiers tels quels. `file.create(chemin)` crée un fichier vide (il renvoie `TRUE` si cela a marché).
 2. Validez **tout** (sources, `_freeze/`, `docs/`) et poussez (séance A2).
 3. Sur GitHub : *Settings → Pages → Build and deployment → Deploy from a branch → main / docs → Save*.
 4. Une minute plus tard : `https://<votre-compte>.github.io/mpa-monitoring-site/`. Ce site de cours est publié exactement ainsi.
@@ -186,6 +247,29 @@ GitLab publie ce qu'une petite **tâche CI** place dans un dossier nommé `publi
 :::
 
 `r show_file("templates/advanced/quarto/gitlab-ci.yml", "yaml")`
+
+::: en
+| Key | What it does |
+|---|---|
+| `pages` | name of the job; GitLab publishes a site only from a job called **`pages`** |
+| `stage: deploy` | the step of the pipeline in which the job runs (`deploy` = publication) |
+| `script` | the commands run by GitLab on its own computer, one per line: `mkdir -p public` creates the folder, `cp -r docs/* public/` copies the site in it |
+| `artifacts` → `paths` | the files to **keep** when the job ends; `public` is the folder GitLab Pages publishes |
+| `rules` → `if` | when the job runs: here only when the commit is on the `main` branch (`$CI_COMMIT_BRANCH` is a variable filled by GitLab) |
+
+You see each run in *Build → Pipelines* (green = published, red = click to read the error).
+:::
+::: fr
+| Clé | Ce qu'elle fait |
+|---|---|
+| `pages` | nom de la tâche ; GitLab ne publie un site qu'à partir d'une tâche appelée **`pages`** |
+| `stage: deploy` | l'étape du pipeline où la tâche s'exécute (`deploy` = publication) |
+| `script` | les commandes exécutées par GitLab sur son propre ordinateur, une par ligne : `mkdir -p public` crée le dossier, `cp -r docs/* public/` y copie le site |
+| `artifacts` → `paths` | les fichiers à **garder** à la fin de la tâche ; `public` est le dossier que GitLab Pages publie |
+| `rules` → `if` | quand la tâche s'exécute : ici seulement quand le commit est sur la branche `main` (`$CI_COMMIT_BRANCH` est une variable remplie par GitLab) |
+
+Chaque exécution est visible dans *Build → Pipelines* (vert = publié, rouge = cliquez pour lire l'erreur).
+:::
 
 ### [Quarto Pub]{.en}[Quarto Pub]{.fr}
 
@@ -266,7 +350,13 @@ quiz("a09", list(
         c("Empêche de modifier le site", "Ne relance le code R d'une page que si cette page a changé", "Fige les versions des packages comme renv", "Empêche la publication"), correct = 2),
   q_mcq("8. You deleted a file with phone numbers and pushed again to a public repository. The file:", "8. Vous avez supprimé un fichier contenant des téléphones et poussé à nouveau sur un dépôt public. Le fichier :",
         c("is gone for good", "is still visible in the history of old commits", "is hidden automatically by GitHub", "is moved to a private branch"),
-        c("a disparu pour de bon", "reste visible dans l'historique des anciens commits", "est caché automatiquement par GitHub", "est déplacé sur une branche privée"), correct = 2)
+        c("a disparu pour de bon", "reste visible dans l'historique des anciens commits", "est caché automatiquement par GitHub", "est déplacé sur une branche privée"), correct = 2),
+  q_mcq("9. In _quarto.yml, under navbar: left:, what does href: coral.qmd give?", "9. Dans _quarto.yml, sous navbar: left:, que donne href: coral.qmd ?",
+        c("The page the menu item links to", "The title of the site", "The folder of the site", "The colour of the menu"),
+        c("La page vers laquelle pointe l'élément du menu", "Le titre du site", "Le dossier du site", "La couleur du menu"), correct = 1),
+  q_mcq("10. To set 2.5 cm margins in a LaTeX PDF (format: pdf) you write:", "10. Pour des marges de 2,5 cm dans un PDF LaTeX (format: pdf) on écrit :",
+        c("geometry: margin=2.5cm", "margin: x: 2.5cm", "papersize: 2.5cm", "fontsize: 2.5cm"),
+        c("geometry: margin=2.5cm", "margin: x: 2.5cm", "papersize: 2.5cm", "fontsize: 2.5cm"), correct = 1)
 ))
 ```
 

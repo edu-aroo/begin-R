@@ -1,486 +1,601 @@
 ---
-title: "[A2 · Version control with Git, GitHub and GitLab]{.en}[A2 · Gestion de versions avec Git, GitHub et GitLab]{.fr}"
+title: "[A2 · Git and GitHub / GitLab with RStudio]{.en}[A2 · Git et GitHub / GitLab avec RStudio]{.fr}"
 pagetitle: "R for marine sciences · A2"
 subtitle: "~3.5 h"
 ---
 
 ```{r setup, include=FALSE}
 source("R/course_helpers.R")
-# A demo repository in a temporary folder. Fixed author and dates -> same output every build.
-demo <- file.path(tempdir(), "git-demo", "reef-monitoring")
-unlink(dirname(demo), recursive = TRUE); dir.create(demo, recursive = TRUE)
-Sys.setenv(DEMO = demo,
-           GIT_AUTHOR_NAME = "Fara Rasoa", GIT_AUTHOR_EMAIL = "fara@example.org",
-           GIT_COMMITTER_NAME = "Fara Rasoa", GIT_COMMITTER_EMAIL = "fara@example.org",
-           GIT_AUTHOR_DATE = "2025-06-02T09:00:00+0300", GIT_COMMITTER_DATE = "2025-06-02T09:00:00+0300",
-           GIT_PAGER = "cat", GIT_CONFIG_NOSYSTEM = "1", GIT_CONFIG_GLOBAL = "/dev/null")
-knitr::opts_chunk$set(comment = "")
+# The NGO project with its history, unzipped in a temporary folder: used only to compute the quiz answers.
+ngo <- file.path(tempdir(), "git-ngo"); unlink(ngo, recursive = TRUE); dir.create(ngo)
+utils::unzip("data/advanced/reef_project_git.zip", exdir = ngo)
+ngo <- file.path(ngo, "reef-monitoring")
 ```
 
 ::: objectives
 ::: en
 #### By the end of this session you will be able to
-- explain what Git does (a **history** of your project) and what GitHub / GitLab add (a **shared copy online**);
-- configure Git, and **commit** changes from RStudio or the terminal;
-- read the **history**, compare versions and go back to an old version of a file;
-- write a good `.gitignore` for an R project (and keep personal or large data out);
-- connect a project to **GitHub or GitLab** (HTTPS token or SSH key, several accounts), **push** and **pull**;
-- use a **branch**, and solve a simple **merge conflict**.
+- explain what **Git** does (the history of your project) and what **GitHub** and **GitLab** add (a copy online, to share and to keep safe);
+- install Git on Windows, connect it to RStudio and **configure it once** (the only time you use the Terminal);
+- create an account and a **repository** on GitHub or GitLab;
+- **open the repository in RStudio** as a version-controlled R project;
+- **commit**, **push** and **pull** with the buttons of RStudio — and know **when** to do each;
+- read the **history**, keep files out of Git, and solve a simple **conflict**.
 :::
 ::: fr
 #### À la fin de cette séance vous saurez
-- expliquer ce que fait Git (un **historique** de votre projet) et ce qu'ajoutent GitHub / GitLab (une **copie partagée en ligne**) ;
-- configurer Git, et **valider** (*commit*) des modifications depuis RStudio ou le terminal ;
-- lire l'**historique**, comparer des versions et revenir à une ancienne version d'un fichier ;
-- écrire un bon `.gitignore` pour un projet R (et garder hors du dépôt les données personnelles ou volumineuses) ;
-- relier un projet à **GitHub ou GitLab** (jeton HTTPS ou clé SSH, plusieurs comptes), **pousser** (*push*) et **récupérer** (*pull*) ;
-- utiliser une **branche**, et résoudre un **conflit de fusion** simple.
+- expliquer ce que fait **Git** (l'historique de votre projet) et ce qu'ajoutent **GitHub** et **GitLab** (une copie en ligne, pour partager et garder en sécurité) ;
+- installer Git sous Windows, le relier à RStudio et le **configurer une fois** (la seule fois où vous utilisez le Terminal) ;
+- créer un compte et un **dépôt** sur GitHub ou GitLab ;
+- **ouvrir le dépôt dans RStudio** comme projet R sous contrôle de version ;
+- **valider (commit)**, **pousser (push)** et **récupérer (pull)** avec les boutons de RStudio — et savoir **quand** faire chacun ;
+- lire l'**historique**, garder des fichiers hors de Git, et résoudre un **conflit** simple.
 :::
 :::
 
 ::: {.callout .ecology}
 ::: en
-**Data of this session (simulated).** `reef_project_git.zip` contains the `reef-monitoring` project of the NGO **with its Git history**: six commits made in May 2025 by the two analysts, Fara and Hery, while they prepared the coral analysis (import, cleaning, a bleaching indicator whose threshold was changed after a meeting with the MPA managers, figures). *Type:* an R project + the hidden `.git/` folder that stores every version. The commands below are run on a copy made for this page.
+**Data of this session (simulated).** You will put **your own** `reef-monitoring` project (Sessions A0–A1) under version control. To practise reading a history, `reef_project_git.zip` contains the same kind of project as prepared by the NGO **with its Git history**: six commits made in May 2025 by the two analysts, Fara and Hery (import, cleaning, a bleaching indicator whose threshold was changed after a meeting with the MPA managers, figures). *Type:* an R project plus the hidden `.git` folder that stores every saved version.
 :::
 ::: fr
-**Données de cette séance (simulées).** `reef_project_git.zip` contient le projet `reef-monitoring` de l'ONG **avec son historique Git** : six *commits* faits en mai 2025 par les deux analystes, Fara et Hery, pendant la préparation de l'analyse corallienne (import, nettoyage, un indicateur de blanchissement dont le seuil a été changé après une réunion avec les gestionnaires des AMP, figures). *Type :* un projet R + le dossier caché `.git/` qui garde chaque version. Les commandes ci-dessous sont lancées sur une copie faite pour cette page.
+**Données de cette séance (simulées).** Vous allez mettre **votre** projet `reef-monitoring` (séances A0–A1) sous contrôle de version. Pour vous entraîner à lire un historique, `reef_project_git.zip` contient le même type de projet préparé par l'ONG **avec son historique Git** : six *commits* faits en mai 2025 par les deux analystes, Fara et Hery (import, nettoyage, un indicateur de blanchissement dont le seuil a été changé après une réunion avec les gestionnaires des AMP, figures). *Type :* un projet R plus le dossier caché `.git` qui garde chaque version enregistrée.
 :::
 :::
 
 `r dl("reef_project_git.zip", "reef_project_git.zip", dir = "data/advanced")`
 
-## [Git in one picture]{.en}[Git en une image]{.fr} {#concepts}
+## [Git, GitHub and GitLab in a nutshell]{.en}[Git, GitHub et GitLab en bref]{.fr} {#concepts}
 
 ::: en
-Without Git, versions live in file names (`analysis_v3_FINAL.R`) and nobody knows what changed. With Git, the folder contains **one** version of each file, and a hidden `.git/` folder keeps **every saved state** (a *commit*) with its date, author and a message explaining why.
+- **Git** is a program on your computer. In a project folder, it records **snapshots** of your files (*commits*), each with a date, an author and a message saying why. You can see what changed, who changed it, and go back. No more `analysis_v3_FINAL.R`.
+- **GitHub** (github.com) and **GitLab** (gitlab.com) are **websites** that keep a copy of your project online (a *remote repository*). They are a backup, a way to share with colleagues, and a place to publish (Session A9). Both are free; you need only one. GitHub is the most used; GitLab is common in some institutions and allows free websites from private projects.
+- **RStudio** has a **Git pane** with buttons for everything you need every day: you do not need to type Git commands.
 
-| Word | Meaning |
-|---|---|
-| **repository** (repo) | a project folder followed by Git (it contains `.git/`) |
-| **commit** | a saved snapshot of the project, with a message; identified by a code (*hash*), e.g. `4a5c8d0` |
-| **staging** (`git add`) | choosing which changes go into the next commit |
-| **remote** | a copy of the repository on a server: **GitHub**, **GitLab** (or Bitbucket) |
-| **push** / **pull** | send your commits to the remote / get the commits of others |
-| **clone** | download a whole repository (with its history) |
-| **branch** | a parallel line of work, merged back later |
+| Word | Meaning | In RStudio |
+|---|---|---|
+| repository (repo) | a project folder followed by Git | an R project with a **Git** tab |
+| commit | a saved snapshot, with a message | **Commit** button |
+| stage | choose which changes go into the next commit | tick **Staged** |
+| push | send your commits to GitHub / GitLab | green arrow **Push** |
+| pull | get the commits made by others (or by you on another computer) | blue arrow **Pull** |
+| clone | download a repository from GitHub / GitLab, with its history | *New Project → Version Control* |
 :::
 ::: fr
-Sans Git, les versions vivent dans les noms de fichiers (`analyse_v3_FINAL.R`) et personne ne sait ce qui a changé. Avec Git, le dossier contient **une seule** version de chaque fichier, et un dossier caché `.git/` garde **chaque état enregistré** (un *commit*) avec sa date, son auteur et un message expliquant pourquoi.
+- **Git** est un programme sur votre ordinateur. Dans un dossier de projet, il enregistre des **instantanés** de vos fichiers (*commits*), chacun avec une date, un auteur et un message qui dit pourquoi. Vous voyez ce qui a changé, qui l'a changé, et pouvez revenir en arrière. Fini les `analyse_v3_FINAL.R`.
+- **GitHub** (github.com) et **GitLab** (gitlab.com) sont des **sites web** qui gardent une copie de votre projet en ligne (un *dépôt distant*). C'est une sauvegarde, un moyen de partager avec des collègues, et un lieu de publication (séance A9). Les deux sont gratuits ; un seul suffit. GitHub est le plus utilisé ; GitLab est courant dans certaines institutions et permet des sites gratuits depuis des projets privés.
+- **RStudio** a un **panneau Git** avec des boutons pour tout ce dont vous avez besoin chaque jour : inutile de taper des commandes Git.
 
-| Mot | Signification |
-|---|---|
-| **dépôt** (*repository*, repo) | un dossier de projet suivi par Git (il contient `.git/`) |
-| **commit** | un instantané enregistré du projet, avec un message ; identifié par un code (*hash*), ex. `4a5c8d0` |
-| **indexation** (`git add`, *staging*) | choisir quelles modifications vont dans le prochain commit |
-| **dépôt distant** (*remote*) | une copie du dépôt sur un serveur : **GitHub**, **GitLab** (ou Bitbucket) |
-| **push** / **pull** | envoyer vos commits vers le distant / récupérer les commits des autres |
-| **clone** | télécharger un dépôt entier (avec son historique) |
-| **branche** | une ligne de travail parallèle, fusionnée plus tard |
+| Mot | Signification | Dans RStudio |
+|---|---|---|
+| dépôt (*repository*, repo) | un dossier de projet suivi par Git | un projet R avec un onglet **Git** |
+| commit | un instantané enregistré, avec un message | bouton **Commit** |
+| indexer (*stage*) | choisir quelles modifications vont dans le prochain commit | cocher **Staged** |
+| push | envoyer vos commits vers GitHub / GitLab | flèche verte **Push** |
+| pull | récupérer les commits faits par d'autres (ou par vous sur un autre ordinateur) | flèche bleue **Pull** |
+| clone | télécharger un dépôt depuis GitHub / GitLab, avec son historique | *New Project → Version Control* |
 :::
 
-::: {.callout .tip}
+::: {.callout .warning}
 ::: en
-**Git is not a backup of your data.** It is made for **text files** (scripts, Rmd, Quarto, README, small CSV). Large files (rasters, photos, big Excel files) and **personal data** (names and phone numbers of interviewed households!) do not belong in a repository — especially a public one.
+**Git is made for text files** (scripts `.R`, reports `.Rmd`/`.qmd`, `README.md`, small CSV files). Do not put in a repository: large files (rasters, photos, big Excel files), files rebuilt by your scripts (`outputs/`), and above all **personal data** (names, phone numbers and GPS positions of interviewed people). We will exclude them with `.gitignore`.
 :::
 ::: fr
-**Git n'est pas une sauvegarde de vos données.** Il est fait pour les **fichiers texte** (scripts, Rmd, Quarto, README, petits CSV). Les gros fichiers (rasters, photos, gros fichiers Excel) et les **données personnelles** (noms et téléphones des ménages enquêtés !) n'ont pas leur place dans un dépôt — surtout public.
+**Git est fait pour les fichiers texte** (scripts `.R`, rapports `.Rmd`/`.qmd`, `README.md`, petits CSV). Ne mettez pas dans un dépôt : les gros fichiers (rasters, photos, gros fichiers Excel), les fichiers reconstruits par vos scripts (`outputs/`), et surtout les **données personnelles** (noms, téléphones et positions GPS des personnes enquêtées). Nous les exclurons avec `.gitignore`.
 :::
 :::
 
-## [Install and configure]{.en}[Installer et configurer]{.fr} {#install}
+## [Step 1 — Install Git for Windows]{.en}[Étape 1 — Installer Git pour Windows]{.fr} {#install}
 
 ::: en
-1. Install Git: **Windows** — *Git for Windows* from <https://git-scm.com> (keep the default options; it also installs **Git Bash**, a terminal); **Mac** — type `git --version` in the Terminal and accept the installation of the developer tools; **Linux** — `sudo apt install git`.
-2. Restart RStudio. *Tools → Global Options → Git/SVN* must show the path of `git.exe`.
-3. Tell Git who you are (once per computer). The e-mail should be the one of your GitHub / GitLab account:
+1. Download **Git for Windows** from <https://git-scm.com/download/win> (the *64-bit Git for Windows Setup*) and run it.
+2. Keep the default options, except on these screens:
+   - *Choosing the default editor used by Git*: choose **Use Notepad as Git's default editor** (simpler than Vim);
+   - *Adjusting the name of the initial branch in new repositories*: choose **Override the default branch name for new repositories** and keep `main`;
+   - *Adjusting your PATH environment*: keep **Git from the command line and also from 3rd-party software** (RStudio is the "3rd-party software");
+   - *Choose a credential helper*: keep **Git Credential Manager** — it will handle your GitHub / GitLab login (Step 8).
+3. **Close and reopen RStudio** after the installation, so that it finds Git.
+
+*Mac: open the Terminal app and type `git --version`; accept the installation of the "command line developer tools". Linux: `sudo apt install git`.*
 :::
 ::: fr
-1. Installez Git : **Windows** — *Git for Windows* depuis <https://git-scm.com> (gardez les options par défaut ; il installe aussi **Git Bash**, un terminal) ; **Mac** — tapez `git --version` dans le Terminal et acceptez l'installation des outils de développement ; **Linux** — `sudo apt install git`.
-2. Redémarrez RStudio. *Tools → Global Options → Git/SVN* doit afficher le chemin de `git.exe`.
-3. Dites à Git qui vous êtes (une fois par ordinateur). L'e-mail doit être celui de votre compte GitHub / GitLab :
+1. Téléchargez **Git for Windows** sur <https://git-scm.com/download/win> (le *64-bit Git for Windows Setup*) et lancez-le.
+2. Gardez les options par défaut, sauf sur ces écrans :
+   - *Choosing the default editor used by Git* : choisissez **Use Notepad as Git's default editor** (plus simple que Vim) ;
+   - *Adjusting the name of the initial branch in new repositories* : choisissez **Override the default branch name for new repositories** et gardez `main` ;
+   - *Adjusting your PATH environment* : gardez **Git from the command line and also from 3rd-party software** (RStudio est le « logiciel tiers ») ;
+   - *Choose a credential helper* : gardez **Git Credential Manager** — il gérera votre connexion à GitHub / GitLab (étape 8).
+3. **Fermez et rouvrez RStudio** après l'installation, pour qu'il trouve Git.
+
+*Mac : ouvrez l'application Terminal et tapez `git --version` ; acceptez l'installation des « command line developer tools ». Linux : `sudo apt install git`.*
 :::
 
-::: compare
-::: {.col .base}
-**[Terminal (RStudio: Tools → Terminal)]{.en}[Terminal (RStudio : Tools → Terminal)]{.fr}**
+## [Step 2 — Connect Git to RStudio]{.en}[Étape 2 — Relier Git à RStudio]{.fr} {#rstudio-options}
+
+`r fig_shot("git-options", "RStudio: Tools → Global Options → Git/SVN.", "RStudio : Tools → Global Options → Git/SVN.")`
+
+::: en
+In RStudio, **Tools → Global Options… → Git/SVN**:
+
+- **Enable version control interface for RStudio projects** must be ticked: it shows the Git pane in projects that use Git.
+- **Git executable** is the path to the program `git.exe`, normally `C:/Program Files/Git/bin/git.exe`. If it is empty, click **Browse…** and select that file, click **OK**, and restart RStudio.
+
+While you are in Global Options, open **Terminal** and set **New terminals open with: Git Bash** (a terminal that understands Git commands on Windows). Click **OK**.
+:::
+::: fr
+Dans RStudio, **Tools → Global Options… → Git/SVN** :
+
+- **Enable version control interface for RStudio projects** doit être coché : cela affiche le panneau Git dans les projets qui utilisent Git.
+- **Git executable** est le chemin du programme `git.exe`, normalement `C:/Program Files/Git/bin/git.exe`. S'il est vide, cliquez sur **Browse…** et sélectionnez ce fichier, cliquez **OK**, et redémarrez RStudio.
+
+Tant que vous êtes dans Global Options, ouvrez **Terminal** et réglez **New terminals open with: Git Bash** (un terminal qui comprend les commandes Git sous Windows). Cliquez **OK**.
+:::
+
+## [Step 3 — Tell Git who you are (once per computer)]{.en}[Étape 3 — Dire à Git qui vous êtes (une fois par ordinateur)]{.fr} {#config}
+
+::: en
+Each commit is signed with a name and an e-mail. You set them **once** on each computer. This is the **only** time in this lesson that we type commands: in RStudio, **Tools → Terminal → New Terminal** (Alt + Shift + R) opens a terminal at the bottom, next to the Console. Type each line and press Enter:
+:::
+::: fr
+Chaque commit est signé d'un nom et d'un e-mail. Vous les réglez **une fois** sur chaque ordinateur. C'est la **seule** fois dans cette leçon que nous tapons des commandes : dans RStudio, **Tools → Terminal → New Terminal** (Alt + Maj + R) ouvre un terminal en bas, à côté de la Console. Tapez chaque ligne et appuyez sur Entrée :
+:::
+
 ```bash
-git config --global user.name "Your Name"
-git config --global user.email "you@example.org"
+git config --global user.name "Fara Rasoa"
+git config --global user.email "fara@example.org"
 git config --global init.defaultBranch main
+git config --global --list
 ```
+
+`r fig_shot("git-terminal-config", "The first configuration in the Terminal of RStudio (Git Bash).", "La première configuration dans le Terminal de RStudio (Git Bash).")`
+
+::: en
+| Part of the command | What it means |
+|---|---|
+| `git config` | the Git command that reads and writes Git **settings** |
+| `--global` | an **option**: the setting is for every project of this Windows user (without it, only for the current project) |
+| `user.name "Fara Rasoa"` | the **name** written in your commits — your real name, between quotes because it has a space |
+| `user.email "…"` | the **e-mail** written in your commits: use the one of your GitHub / GitLab account, so the website links the commits to you |
+| `init.defaultBranch main` | the name of the main branch of new repositories (`main`, like GitHub and GitLab) |
+| `--list` | prints all the settings, to check them |
+
+**Without the Terminal**, the package `usethis` does the same from the Console:
 :::
-::: {.col .pkg}
-**[From R, with usethis]{.en}[Depuis R, avec usethis]{.fr}**
+::: fr
+| Partie de la commande | Signification |
+|---|---|
+| `git config` | la commande Git qui lit et écrit les **réglages** de Git |
+| `--global` | une **option** : le réglage vaut pour tous les projets de cet utilisateur Windows (sans elle, seulement pour le projet courant) |
+| `user.name "Fara Rasoa"` | le **nom** écrit dans vos commits — votre vrai nom, entre guillemets car il contient une espace |
+| `user.email "…"` | l'**e-mail** écrit dans vos commits : utilisez celui de votre compte GitHub / GitLab, pour que le site vous associe les commits |
+| `init.defaultBranch main` | le nom de la branche principale des nouveaux dépôts (`main`, comme GitHub et GitLab) |
+| `--list` | affiche tous les réglages, pour les vérifier |
+
+**Sans le Terminal**, le package `usethis` fait la même chose depuis la Console :
+:::
+
 ```{r, eval=FALSE}
-usethis::use_git_config(user.name = "Your Name",
-                        user.email = "you@example.org")
-usethis::git_default_branch_configure()
-```
-:::
-:::
-
-## [The daily cycle: change, add, commit]{.en}[Le cycle quotidien : modifier, indexer, valider]{.fr} {#cycle}
-
-::: en
-The commands below are really run on this page (in a temporary folder). In RStudio you do the same with the **Git** pane: tick *Staged*, click *Commit*, write the message.
-:::
-::: fr
-Les commandes ci-dessous sont réellement exécutées sur cette page (dans un dossier temporaire). Dans RStudio, vous faites la même chose avec le panneau **Git** : cochez *Staged*, cliquez sur *Commit*, écrivez le message.
-:::
-
-```{bash}
-cd "$DEMO"
-git init -q -b main                       # 1. turn the folder into a repository (once)
-mkdir -p R data/raw
-echo 'reef <- read.csv("data/raw/reef_monitoring.csv")' > R/01_import.R
-echo '# Reef monitoring' > README.md
-git status --short                        # ?? = new files, not followed yet
-```
-
-```{bash}
-cd "$DEMO"
-git add README.md R/01_import.R           # 2. stage: choose what goes in the commit
-git commit -q -m "Start the project: README and import script"   # 3. commit with a message
-git log --oneline                         # the history: one line per commit
+usethis::use_git_config(user.name = "Fara Rasoa",          # name written in the commits (text)
+                        user.email = "fara@example.org")    # e-mail of your GitHub / GitLab account (text)
+usethis::git_default_branch_configure()                     # no argument needed: sets the default branch to "main"
 ```
 
 ::: en
-Now we change a file. `git diff` shows exactly what changed (`-` removed, `+` added) before we commit:
+`usethis::use_git_config()` writes Git settings; each argument has the **name of the Git setting** with a dot (`user.name =`, `user.email =`) and takes a **text** value. `pkg::function()` calls a function of a package without `library()` (Beginner, Session 8).
 :::
 ::: fr
-Modifions maintenant un fichier. `git diff` montre exactement ce qui a changé (`-` supprimé, `+` ajouté) avant de valider :
+`usethis::use_git_config()` écrit des réglages Git ; chaque argument porte le **nom du réglage Git** avec un point (`user.name =`, `user.email =`) et attend une valeur **texte**. `pkg::fonction()` appelle une fonction d'un package sans `library()` (débutant, séance 8).
 :::
 
-```{bash}
-cd "$DEMO"
-echo 'sites <- read.csv("data/raw/reef_sites.csv")' >> R/01_import.R
-git diff
-```
+## [Step 4 — Create an account]{.en}[Étape 4 — Créer un compte]{.fr} {#account}
 
-```{bash}
-cd "$DEMO"
-export GIT_AUTHOR_DATE="2025-06-03T10:00:00+0300" GIT_COMMITTER_DATE="2025-06-03T10:00:00+0300"
-git commit -q -am "Import the sites table"   # -a: stage every modified (already followed) file
-git log --format="%h  %ad  %an  %s" --date=short
-```
+::: en
+**GitHub** — go to <https://github.com> → **Sign up**:
+
+1. enter your e-mail (the same as in Step 3), a password and a **username** — it appears in the address of your projects (`github.com/username/…`), so choose something short and professional, e.g. `fara-rasoa`;
+2. confirm with the code sent by e-mail;
+3. set up **two-factor authentication** when GitHub asks (it is required for accounts that push code): install an authenticator app on your phone (e.g. Microsoft Authenticator), scan the QR code, and **save the recovery codes** in a safe place.
+
+**GitLab** — go to <https://gitlab.com> → **Register now**: first and last name, username, e-mail, password, then confirm your e-mail. GitLab may ask you to confirm your identity (for example with a phone number) before you can use some features; follow its instructions. You can also activate two-factor authentication in *Preferences → Account*.
+:::
+::: fr
+**GitHub** — allez sur <https://github.com> → **Sign up** :
+
+1. saisissez votre e-mail (le même qu'à l'étape 3), un mot de passe et un **nom d'utilisateur** — il apparaît dans l'adresse de vos projets (`github.com/nom/…`), choisissez donc quelque chose de court et professionnel, ex. `fara-rasoa` ;
+2. confirmez avec le code envoyé par e-mail ;
+3. activez l'**authentification à deux facteurs** quand GitHub le demande (elle est obligatoire pour les comptes qui envoient du code) : installez une application d'authentification sur votre téléphone (ex. Microsoft Authenticator), scannez le QR code, et **gardez les codes de récupération** en lieu sûr.
+
+**GitLab** — allez sur <https://gitlab.com> → **Register now** : prénom et nom, nom d'utilisateur, e-mail, mot de passe, puis confirmez votre e-mail. GitLab peut vous demander de confirmer votre identité (par exemple avec un numéro de téléphone) avant d'utiliser certaines fonctions ; suivez ses instructions. Vous pouvez aussi activer l'authentification à deux facteurs dans *Preferences → Account*.
+:::
+
+## [Step 5 — Create a repository online]{.en}[Étape 5 — Créer un dépôt en ligne]{.fr} {#create-repo}
+
+::: en
+The easiest way to work with RStudio is to **create the repository online first**, then download it into RStudio (Step 6).
+:::
+::: fr
+La façon la plus simple de travailler avec RStudio est de **créer d'abord le dépôt en ligne**, puis de le télécharger dans RStudio (étape 6).
+:::
+
+### GitHub
+
+`r fig_shot("git-github-new", "GitHub: Create a new repository.", "GitHub : Create a new repository.")`
+
+::: en
+| Field | What to choose |
+|---|---|
+| **Repository name** | short, lower case, no spaces: it becomes the name of the project folder (`reef-monitoring`) |
+| **Description** | one sentence, optional |
+| **Public / Private** | *Private*: only you and the people you invite can see it. *Public*: everybody can see it (needed for a free GitHub Pages website, Session A9) |
+| **Add a README file** | tick it: the repository starts with one file, so it can be cloned at once |
+| **Add .gitignore** | choose the template **R**: it already excludes `.Rhistory`, `.RData`, `.Rproj.user/`… |
+| **Choose a license** | *None* for data and internal work; a licence (e.g. MIT, CC-BY) only if you want others to reuse your code |
+
+Click **Create repository**, then the green **Code ▾** button → **HTTPS** → copy the address (`https://github.com/fara-rasoa/reef-monitoring.git`).
+:::
+::: fr
+| Champ | Que choisir |
+|---|---|
+| **Repository name** | court, en minuscules, sans espaces : il devient le nom du dossier du projet (`reef-monitoring`) |
+| **Description** | une phrase, facultative |
+| **Public / Private** | *Private* : seuls vous et les personnes invitées le voient. *Public* : tout le monde le voit (nécessaire pour un site GitHub Pages gratuit, séance A9) |
+| **Add a README file** | cochez : le dépôt commence avec un fichier, il peut donc être cloné tout de suite |
+| **Add .gitignore** | choisissez le modèle **R** : il exclut déjà `.Rhistory`, `.RData`, `.Rproj.user/`… |
+| **Choose a license** | *None* pour des données et un travail interne ; une licence (ex. MIT, CC-BY) seulement si vous voulez que d'autres réutilisent votre code |
+
+Cliquez sur **Create repository**, puis sur le bouton vert **Code ▾** → **HTTPS** → copiez l'adresse (`https://github.com/fara-rasoa/reef-monitoring.git`).
+:::
+
+### GitLab
+
+`r fig_shot("git-gitlab-new", "GitLab: Create blank project.", "GitLab : Create blank project.")`
+
+::: en
+**New project** (+ button) → **Create blank project**: *Project name*, *Visibility Level* (Private / Internal / Public), tick **Initialize repository with a README**, **Create project**. Then **Code ▾ → Clone with HTTPS** → copy the address (`https://gitlab.com/fara-rasoa/reef-monitoring.git`). GitLab has no R `.gitignore` template here: you will add it from RStudio (Step 9).
+:::
+::: fr
+**New project** (bouton +) → **Create blank project** : *Project name*, *Visibility Level* (Private / Internal / Public), cochez **Initialize repository with a README**, **Create project**. Puis **Code ▾ → Clone with HTTPS** → copiez l'adresse (`https://gitlab.com/fara-rasoa/reef-monitoring.git`). GitLab n'a pas ici de modèle `.gitignore` pour R : vous l'ajouterez depuis RStudio (étape 9).
+:::
+
+## [Step 6 — Open the repository in RStudio]{.en}[Étape 6 — Ouvrir le dépôt dans RStudio]{.fr} {#clone}
+
+`r fig_shot("git-new-project", "RStudio: File → New Project → Version Control → Git.", "RStudio : File → New Project → Version Control → Git.")`
+
+::: en
+**File → New Project… → Version Control → Git**, then:
+
+| Field | Meaning |
+|---|---|
+| **Repository URL** | the HTTPS address copied in Step 5 |
+| **Project directory name** | the name of the folder that will be created (filled automatically from the address) |
+| **Create project as subdirectory of** | where this folder goes on your computer (e.g. `Documents/R`). Avoid folders synchronised by OneDrive, Google Drive or Dropbox: they fight with Git |
+| **Open in new session** | tick it to keep your current project open in another window |
+
+**Create Project**: RStudio *clones* the repository (downloads it with its history), adds an `.Rproj` file and opens the project. A new **Git** tab appears in the top-right pane. If the repository is private, Windows asks you to sign in (Step 8).
+
+You can now organise the project as in Session A0 (folders `data/raw`, `R`, `outputs`…) and run `renv::init()` (Session A1).
+:::
+::: fr
+**File → New Project… → Version Control → Git**, puis :
+
+| Champ | Signification |
+|---|---|
+| **Repository URL** | l'adresse HTTPS copiée à l'étape 5 |
+| **Project directory name** | le nom du dossier qui sera créé (rempli automatiquement à partir de l'adresse) |
+| **Create project as subdirectory of** | où va ce dossier sur votre ordinateur (ex. `Documents/R`). Évitez les dossiers synchronisés par OneDrive, Google Drive ou Dropbox : ils se battent avec Git |
+| **Open in new session** | cochez-le pour garder votre projet actuel ouvert dans une autre fenêtre |
+
+**Create Project** : RStudio *clone* le dépôt (le télécharge avec son historique), ajoute un fichier `.Rproj` et ouvre le projet. Un nouvel onglet **Git** apparaît dans le panneau en haut à droite. Si le dépôt est privé, Windows vous demande de vous connecter (étape 8).
+
+Vous pouvez maintenant organiser le projet comme à la séance A0 (dossiers `data/raw`, `R`, `outputs`…) et lancer `renv::init()` (séance A1).
+:::
 
 ::: {.callout .tip}
 ::: en
-**Good commit messages** say *why* in a short sentence, in the imperative: "Lower the bleaching threshold to 20 %", "Fix the site names of Tanjona". Bad: "update", "changes", "final". **Commit often**: one commit = one logical change.
+**You already have a project (e.g. `reef-monitoring` of Session A0)?** Two ways:
+
+- *simplest*: create an empty repository online (Step 5), clone it in RStudio (Step 6), then **copy your files** into the new folder with the Windows file explorer, and commit them (Step 7);
+- *with GitHub*: open your project and run `usethis::use_git()` (starts Git in the project, offers a first commit and restarts RStudio, which then shows the Git tab), then `usethis::use_github(private = TRUE)` (creates the repository on GitHub and pushes; `private = TRUE` makes it private, `FALSE` public). It needs a GitHub token: see Step 8.
 :::
 ::: fr
-**Les bons messages de commit** disent *pourquoi* en une courte phrase, à l'impératif : « Lower the bleaching threshold to 20 % », « Corrige les noms de sites de Tanjona ». Mauvais : « update », « modifs », « final ». **Validez souvent** : un commit = une modification logique.
+**Vous avez déjà un projet (ex. `reef-monitoring` de la séance A0) ?** Deux façons :
+
+- *la plus simple* : créez un dépôt vide en ligne (étape 5), clonez-le dans RStudio (étape 6), puis **copiez vos fichiers** dans le nouveau dossier avec l'explorateur de fichiers Windows, et validez-les (étape 7) ;
+- *avec GitHub* : ouvrez votre projet et lancez `usethis::use_git()` (démarre Git dans le projet, propose un premier commit et redémarre RStudio, qui affiche alors l'onglet Git), puis `usethis::use_github(private = TRUE)` (crée le dépôt sur GitHub et pousse ; `private = TRUE` le rend privé, `FALSE` public). Il faut un jeton GitHub : voir l'étape 8.
 :::
 :::
 
-## [Travelling in the history]{.en}[Voyager dans l'historique]{.fr} {#history}
+## [The Git pane]{.en}[Le panneau Git]{.fr} {#pane}
+
+`r fig_shot("git-pane", "The Git pane of RStudio.", "Le panneau Git de RStudio.")`
 
 ::: en
-Let us open the NGO project (`reef_project_git.zip`). These commands answer the classic questions: *who changed this, when, and what was the value before?*
+The Git pane lists every file that **changed since the last commit** (a file that did not change is not listed). The coloured letter is its **status**:
+
+| Status | Meaning | What to do |
+|---|---|---|
+| **?** (grey) | new file, not followed by Git yet (*untracked*) | tick *Staged* to add it — or ignore it (Step 9) |
+| **A** (green) | new file, added to the next commit | commit |
+| **M** (orange) | modified file | tick *Staged*, commit |
+| **D** (red) | deleted file | tick *Staged* to record the deletion |
+| **R** (purple) | renamed file | tick *Staged* |
+| **U** (orange) | conflict to solve (Step 11) | open the file, solve, tick *Staged* |
+
+Click ⟳ (top right of the pane) to refresh the list.
 :::
 ::: fr
-Ouvrons le projet de l'ONG (`reef_project_git.zip`). Ces commandes répondent aux questions classiques : *qui a changé ceci, quand, et quelle était la valeur avant ?*
+Le panneau Git liste chaque fichier **modifié depuis le dernier commit** (un fichier inchangé n'est pas listé). La lettre colorée est son **statut** :
+
+| Statut | Signification | Que faire |
+|---|---|---|
+| **?** (gris) | nouveau fichier, pas encore suivi par Git (*untracked*) | cocher *Staged* pour l'ajouter — ou l'ignorer (étape 9) |
+| **A** (vert) | nouveau fichier, ajouté au prochain commit | valider |
+| **M** (orange) | fichier modifié | cocher *Staged*, valider |
+| **D** (rouge) | fichier supprimé | cocher *Staged* pour enregistrer la suppression |
+| **R** (violet) | fichier renommé | cocher *Staged* |
+| **U** (orange) | conflit à résoudre (étape 11) | ouvrir le fichier, résoudre, cocher *Staged* |
+
+Cliquez sur ⟳ (en haut à droite du panneau) pour actualiser la liste.
 :::
 
-```{r unzip-ngo, include=FALSE}
-ngo <- file.path(tempdir(), "git-ngo"); unlink(ngo, recursive = TRUE); dir.create(ngo)
-utils::unzip("data/advanced/reef_project_git.zip", exdir = ngo)
-Sys.setenv(NGO = file.path(ngo, "reef-monitoring"))
-```
+## [Step 7 — Commit]{.en}[Étape 7 — Valider (commit)]{.fr} {#commit}
 
-```{bash}
-cd "$NGO"
-git log --format="%h  %ad  %<(12)%an %s" --date=short    # who did what, when
-```
+`r fig_shot("git-commit-window", "The Review Changes window (Commit button of the Git pane).", "La fenêtre Review Changes (bouton Commit du panneau Git).")`
 
-```{bash}
-cd "$NGO"
-git log --oneline -- R/03_bleaching.R        # only the commits that touched this file
-git show 4a5c8d0 --stat --format="%h %an: %s"  # what one commit changed
-```
+::: en
+1. In the Git pane, click **Commit**: the **Review Changes** window opens.
+2. **Tick Staged** for the files that belong to the same change (e.g. the cleaning script and the README that explains it). Click a file to see its **diff**: green lines added, red lines removed.
+3. Write a **commit message**: one short sentence that says *why*, e.g. *"Remove duplicated transects of 2026"*. Bad messages: *"update"*, *"changes"*, *"final"*.
+4. Click **Commit**. A small window confirms it ("1 file changed…"): close it.
 
-```{bash}
-cd "$NGO"
-git show 8c390f6:R/03_bleaching.R            # the file as it was in an older commit
+The commit is now saved **on your computer only**. Nothing is online yet: that is the Push (Step 8).
+
+**When to commit?** After each **logical step that works**: a script that runs, a figure finished, a section of a report written, a bug fixed. Commit **often** — several times per work session — with small commits: they are easier to understand and to undo. Do not commit a script that does not run, and do not wait until the end of the week.
+:::
+::: fr
+1. Dans le panneau Git, cliquez sur **Commit** : la fenêtre **Review Changes** s'ouvre.
+2. **Cochez Staged** pour les fichiers qui font partie de la même modification (ex. le script de nettoyage et le README qui l'explique). Cliquez sur un fichier pour voir son **diff** : lignes vertes ajoutées, lignes rouges supprimées.
+3. Écrivez un **message de commit** : une courte phrase qui dit *pourquoi*, ex. *« Supprime les transects en double de 2026 »*. Mauvais messages : *« update »*, *« modifs »*, *« final »*.
+4. Cliquez sur **Commit**. Une petite fenêtre le confirme (« 1 file changed… ») : fermez-la.
+
+Le commit est maintenant enregistré **sur votre ordinateur seulement**. Rien n'est encore en ligne : c'est le Push (étape 8).
+
+**Quand valider ?** Après chaque **étape logique qui marche** : un script qui tourne, une figure terminée, une section de rapport écrite, une erreur corrigée. Validez **souvent** — plusieurs fois par séance de travail — avec de petits commits : ils sont plus faciles à comprendre et à annuler. Ne validez pas un script qui ne tourne pas, et n'attendez pas la fin de la semaine.
+:::
+
+## [Step 8 — Push and pull]{.en}[Étape 8 — Pousser (push) et récupérer (pull)]{.fr} {#push-pull}
+
+`r fig_shot("git-cycle", "The daily cycle.", "Le cycle quotidien.")`
+
+::: en
+- **Push** (green arrow ⬆, in the Git pane or the Review Changes window) sends your commits to GitHub / GitLab. Refresh the page of your repository in the browser: your files and messages are there.
+- **Pull** (blue arrow ⬇) downloads the commits that are online and not yet on your computer: those of a colleague, or yours made on another computer.
+
+**When?**
+
+- **Pull when you start working** (open the project → Pull), so you start from the latest version.
+- **Push at least at the end of each work session** — your work is then backed up online — and whenever a colleague needs your changes.
+- **Pull just before you push**. If RStudio says the push was *rejected* ("Updates were rejected… fetch first"), somebody pushed in the meantime: click **Pull**, then **Push** again.
+:::
+::: fr
+- **Push** (flèche verte ⬆, dans le panneau Git ou la fenêtre Review Changes) envoie vos commits vers GitHub / GitLab. Actualisez la page de votre dépôt dans le navigateur : vos fichiers et messages y sont.
+- **Pull** (flèche bleue ⬇) télécharge les commits qui sont en ligne et pas encore sur votre ordinateur : ceux d'un collègue, ou les vôtres faits sur un autre ordinateur.
+
+**Quand ?**
+
+- **Pull quand vous commencez à travailler** (ouvrir le projet → Pull), pour partir de la dernière version.
+- **Push au moins à la fin de chaque séance de travail** — votre travail est alors sauvegardé en ligne — et dès qu'un collègue a besoin de vos modifications.
+- **Pull juste avant de pousser**. Si RStudio dit que le push a été *rejeté* (« Updates were rejected… fetch first »), quelqu'un a poussé entre-temps : cliquez sur **Pull**, puis à nouveau sur **Push**.
+:::
+
+### [The first push: signing in]{.en}[Le premier push : se connecter]{.fr}
+
+`r fig_shot("git-credential", "Git Credential Manager asks you to sign in once.", "Git Credential Manager vous demande de vous connecter une fois.")`
+
+::: en
+GitHub and GitLab do not accept your account password from Git. On Windows, the **first** Push (or Pull of a private repository) opens a **Git Credential Manager** window: click **Sign in with your browser**, log in on the website, click **Authorize**. Windows then remembers it safely: you will not be asked again on this computer.
+
+If that window does not appear, use a **personal access token** (a long password made only for Git):
+:::
+::: fr
+GitHub et GitLab n'acceptent pas le mot de passe de votre compte depuis Git. Sous Windows, le **premier** Push (ou Pull d'un dépôt privé) ouvre une fenêtre **Git Credential Manager** : cliquez sur **Sign in with your browser**, connectez-vous sur le site, cliquez sur **Authorize**. Windows s'en souvient ensuite en sécurité : on ne vous le redemandera plus sur cet ordinateur.
+
+Si cette fenêtre n'apparaît pas, utilisez un **jeton d'accès personnel** (*personal access token* : un long mot de passe fait uniquement pour Git) :
+:::
+
+```{r, eval=FALSE}
+usethis::create_github_token()   # opens GitHub on the page to create a token: keep the proposed boxes, set an expiry date, copy the token
+gitcreds::gitcreds_set()         # then paste the token when the Console asks for it; it is stored safely by Windows
 ```
 
 ::: en
-To **go back** to an old version of one file: `git restore --source=8c390f6 R/03_bleaching.R`, then commit. Nothing is ever lost: the newer version is still in the history. In RStudio: Git pane → *History* (clock icon) lets you browse every commit and every file.
+`create_github_token()` needs no argument; it only opens the right web page with the right boxes ticked. `gitcreds_set()` asks for the token in the Console and stores it in the Windows credential store, where Git and `usethis` find it. **GitLab:** *Preferences → Access tokens → Add new token*, tick the scopes `read_repository` and `write_repository`, copy the token; at the first Push, choose the *Token* tab of the Credential Manager window (or type your username and paste the token as password). A token is like a password: never put it in a script or a commit.
 :::
 ::: fr
-Pour **revenir** à une ancienne version d'un fichier : `git restore --source=8c390f6 R/03_bleaching.R`, puis validez. Rien n'est jamais perdu : la version plus récente reste dans l'historique. Dans RStudio : panneau Git → *History* (icône horloge) permet de parcourir chaque commit et chaque fichier.
+`create_github_token()` n'a pas besoin d'argument ; elle ouvre seulement la bonne page web avec les bonnes cases cochées. `gitcreds_set()` demande le jeton dans la Console et le range dans le gestionnaire d'identifiants de Windows, où Git et `usethis` le trouvent. **GitLab :** *Preferences → Access tokens → Add new token*, cochez les droits `read_repository` et `write_repository`, copiez le jeton ; au premier Push, choisissez l'onglet *Token* de la fenêtre Credential Manager (ou tapez votre nom d'utilisateur et collez le jeton comme mot de passe). Un jeton est comme un mot de passe : ne le mettez jamais dans un script ni dans un commit.
+:::
+
+## [Step 9 — Keep files out of Git: .gitignore]{.en}[Étape 9 — Garder des fichiers hors de Git : .gitignore]{.fr} {#gitignore}
+
+::: en
+`.gitignore` is a text file at the root of the project: each line is a file or a folder that Git must **never** follow. The quickest way in RStudio: in the Git pane, **right-click** a file or folder → **Ignore…** → **Save**. You can also open `.gitignore` in RStudio and type the lines. A good start for an R project:
+:::
+::: fr
+`.gitignore` est un fichier texte à la racine du projet : chaque ligne est un fichier ou un dossier que Git ne doit **jamais** suivre. Le plus rapide dans RStudio : dans le panneau Git, **clic droit** sur un fichier ou un dossier → **Ignore…** → **Save**. Vous pouvez aussi ouvrir `.gitignore` dans RStudio et taper les lignes. Un bon début pour un projet R :
+:::
+
+```bash
+.Rproj.user/          # RStudio settings of YOUR computer
+.Rhistory             # history of the Console
+.RData                # saved workspace (we never use it, Session A0)
+renv/library/         # packages: rebuilt by renv::restore() (Session A1)
+outputs/              # results rebuilt by the scripts
+data/derived/
+*.html                # rendered reports
+*.tif                 # large rasters: share them another way
+data/raw/household_survey_names.csv   # personal data: NEVER online
+```
+
+::: en
+`#` starts a comment; `*` means "any characters" (`*.html` = every HTML file); a name ending with `/` is a folder. Commit the `.gitignore` itself. A file committed **before** it was ignored stays in the history: avoid committing personal data even once.
+:::
+::: fr
+`#` commence un commentaire ; `*` signifie « n'importe quels caractères » (`*.html` = tous les fichiers HTML) ; un nom terminé par `/` est un dossier. Validez le `.gitignore` lui-même. Un fichier validé **avant** d'être ignoré reste dans l'historique : évitez de valider des données personnelles, même une fois.
+:::
+
+## [Step 10 — History and going back]{.en}[Étape 10 — Historique et retour en arrière]{.fr} {#history}
+
+`r fig_shot("git-history", "History: every commit, who made it, when, and what it changed.", "History : chaque commit, qui l'a fait, quand, et ce qu'il a changé.")`
+
+::: en
+- **History** (clock icon of the Git pane): one line per commit with its message, author, date and **SHA** (its identity code, e.g. `4a5c8d0`). Click a commit to see what it changed. **Filter by File…** keeps the commits of one file. **View file @…** opens the whole file as it was at that commit: copy what you need.
+- **Undo changes that are not committed yet**: right-click the file in the Git pane → **Revert…**. The file goes back to its last committed version. Careful: what you changed since is lost.
+- On the website, the history is in **Commits** (GitHub) or **Code → Commits** (GitLab).
+:::
+::: fr
+- **History** (icône horloge du panneau Git) : une ligne par commit avec son message, son auteur, sa date et son **SHA** (son code d'identité, ex. `4a5c8d0`). Cliquez sur un commit pour voir ce qu'il a changé. **Filter by File…** garde les commits d'un seul fichier. **View file @…** ouvre le fichier entier tel qu'il était à ce commit : copiez ce dont vous avez besoin.
+- **Annuler des modifications pas encore validées** : clic droit sur le fichier dans le panneau Git → **Revert…**. Le fichier revient à sa dernière version validée. Attention : ce que vous avez changé depuis est perdu.
+- Sur le site, l'historique est dans **Commits** (GitHub) ou **Code → Commits** (GitLab).
 :::
 
 ::: {.callout .try}
 ::: en
-**Try it.** Unzip `reef_project_git.zip`, open `reef-monitoring` in RStudio (*File → New Project → Existing Directory*) and open the **History** of the Git pane. Who wrote the figures script? When was the README last changed?
+**Try it.** Unzip `reef_project_git.zip`. It has no `.Rproj` yet: **File → New Project… → Existing Directory** → choose the `reef-monitoring` folder → **Create Project**. The Git tab appears (the new `.Rproj` file shows as `?`). Open **History**: who changed the bleaching threshold, when, and from which value to which value?
 :::
 ::: fr
-**À vous.** Décompressez `reef_project_git.zip`, ouvrez `reef-monitoring` dans RStudio (*File → New Project → Existing Directory*) et ouvrez l'**History** du panneau Git. Qui a écrit le script des figures ? Quand le README a-t-il été modifié pour la dernière fois ?
+**À vous.** Décompressez `reef_project_git.zip`. Il n'a pas encore de `.Rproj` : **File → New Project… → Existing Directory** → choisissez le dossier `reef-monitoring` → **Create Project**. L'onglet Git apparaît (le nouveau fichier `.Rproj` s'affiche en `?`). Ouvrez **History** : qui a changé le seuil de blanchissement, quand, et de quelle valeur à quelle valeur ?
 :::
 :::
 
-## [What Git must ignore]{.en}[Ce que Git doit ignorer]{.fr} {#gitignore}
+## [Step 11 — Working with others]{.en}[Étape 11 — Travailler à plusieurs]{.fr} {#collaborate}
 
 ::: en
-The file `.gitignore` lists the files Git never follows. A good start for an R project with renv:
+1. **Invite** your colleague: GitHub → your repository → *Settings → Collaborators → Add people*; GitLab → *Manage → Members → Invite members* (role *Developer*). She clones the repository in RStudio (Step 6).
+2. Each of you follows the cycle **Pull → work → Commit → Pull → Push**. If you work on different files, Git merges everything automatically.
+3. **A conflict** happens when you both changed **the same lines** of the same file. After your Pull, RStudio shows the file with status **U**. Open it: Git wrote both versions between markers:
 :::
 ::: fr
-Le fichier `.gitignore` liste les fichiers que Git ne suit jamais. Un bon début pour un projet R avec renv :
+1. **Invitez** votre collègue : GitHub → votre dépôt → *Settings → Collaborators → Add people* ; GitLab → *Manage → Members → Invite members* (rôle *Developer*). Elle clone le dépôt dans RStudio (étape 6).
+2. Chacun suit le cycle **Pull → travail → Commit → Pull → Push**. Si vous travaillez sur des fichiers différents, Git fusionne tout automatiquement.
+3. **Un conflit** arrive quand vous avez tous deux modifié **les mêmes lignes** du même fichier. Après votre Pull, RStudio affiche le fichier avec le statut **U**. Ouvrez-le : Git a écrit les deux versions entre des marqueurs :
 :::
 
-```bash
-# R and RStudio
-.Rhistory
-.RData
-.Rproj.user/
-# renv: the library is rebuilt by renv::restore() (renv/.gitignore already does it)
-renv/library/
-# results that the scripts can rebuild
-outputs/
-data/derived/
-# rendered reports
-*.html
-*.docx
-# large or confidential data: share them another way (drive, data repository)
-data/raw/household_survey_names.csv
-*.tif
+```
+<<<<<<< HEAD
+bleach_threshold <- 25   # your version
+=======
+bleach_threshold <- 20   # the version of your colleague
+>>>>>>> 4a5c8d0
 ```
 
 ::: en
-`usethis::use_git_ignore(c("outputs/", "*.tif"))` adds lines from R. Ignoring a file **after** it was committed is not enough: also run `git rm --cached file` to stop following it (it stays on your disk).
+4. Decide together which is right, **edit the file** to keep only the right line(s), **delete the three marker lines**, save.
+5. In the Git pane: tick **Staged** for the file, **Commit** (RStudio proposes a "Merge…" message), **Push**.
+
+Conflicts are rare if you **pull often** and **commit small changes**.
+
+*Going further: a* **branch** *(Git pane → "New Branch" button) lets you try something without touching the main version; you then merge it on the website with a* Pull request *(GitHub) or* Merge request *(GitLab). Useful in teams, not needed for your own projects.*
 :::
 ::: fr
-`usethis::use_git_ignore(c("outputs/", "*.tif"))` ajoute des lignes depuis R. Ignorer un fichier **après** l'avoir validé ne suffit pas : lancez aussi `git rm --cached fichier` pour qu'il ne soit plus suivi (il reste sur votre disque).
+4. Décidez ensemble laquelle est juste, **modifiez le fichier** pour ne garder que la ou les bonnes lignes, **supprimez les trois lignes de marqueurs**, enregistrez.
+5. Dans le panneau Git : cochez **Staged** pour le fichier, **Commit** (RStudio propose un message « Merge… »), **Push**.
+
+Les conflits sont rares si vous **faites souvent Pull** et **validez de petites modifications**.
+
+*Pour aller plus loin : une* **branche** *(panneau Git → bouton « New Branch ») permet d'essayer quelque chose sans toucher la version principale ; on la fusionne ensuite sur le site avec une* Pull request *(GitHub) ou une* Merge request *(GitLab). Utile en équipe, pas nécessaire pour vos propres projets.*
 :::
-
-## [GitHub or GitLab: your project online]{.en}[GitHub ou GitLab : votre projet en ligne]{.fr} {#remote}
-
-::: en
-**GitHub** (github.com) and **GitLab** (gitlab.com, or a server of your institution) are both free for public and private repositories. They work the same way for what we do here; the main difference is the vocabulary (GitHub *pull request* = GitLab *merge request*) and the publishing service (Session A9).
-
-**1. Create the empty repository online** (*New repository* / *New project*), without README (your project already has one).
-
-**2. Prove who you are.** Two methods:
-:::
-::: fr
-**GitHub** (github.com) et **GitLab** (gitlab.com, ou un serveur de votre institution) sont tous deux gratuits pour les dépôts publics et privés. Ils fonctionnent de la même façon pour ce que nous faisons ici ; la principale différence est le vocabulaire (GitHub *pull request* = GitLab *merge request*) et le service de publication (séance A9).
-
-**1. Créez le dépôt vide en ligne** (*New repository* / *New project*), sans README (votre projet en a déjà un).
-
-**2. Prouvez qui vous êtes.** Deux méthodes :
-:::
-
-::: compare
-::: {.col .base}
-**[HTTPS + personal token (easiest)]{.en}[HTTPS + jeton personnel (le plus simple)]{.fr}**
-```{r, eval=FALSE}
-usethis::create_github_token()   # opens GitHub: create a token, copy it
-gitcreds::gitcreds_set()         # paste it: stored safely
-# GitLab: Preferences -> Access tokens (scopes
-# read_repository + write_repository), then the same
-```
-:::
-::: {.col .pkg}
-**[SSH key (no token to renew)]{.en}[Clé SSH (pas de jeton à renouveler)]{.fr}**
-```bash
-ssh-keygen -t ed25519 -C "you@example.org"   # Enter x3
-cat ~/.ssh/id_ed25519.pub   # copy this PUBLIC key into
-# GitHub: Settings -> SSH and GPG keys -> New SSH key
-# GitLab: Preferences -> SSH Keys
-ssh -T git@github.com       # test: "Hi <name>! ..."
-```
-:::
-:::
-
-::: en
-**3. Connect and push** (in the Terminal of your project):
-:::
-::: fr
-**3. Reliez et poussez** (dans le Terminal de votre projet) :
-:::
-
-```bash
-git remote add origin git@github.com:your-account/reef-monitoring.git      # SSH
-# or: https://github.com/your-account/reef-monitoring.git                  # HTTPS
-# GitLab: git@gitlab.com:your-account/reef-monitoring.git
-git push -u origin main        # first time; afterwards: git push
-```
-
-::: en
-From R, `usethis::use_git()` then `usethis::use_github()` do steps 1 and 3 for GitHub in one go (with a token).
-:::
-::: fr
-Depuis R, `usethis::use_git()` puis `usethis::use_github()` font les étapes 1 et 3 pour GitHub d'un coup (avec un jeton).
-:::
-
-### [Two accounts on one computer (SSH)]{.en}[Deux comptes sur un même ordinateur (SSH)]{.fr}
-
-::: en
-With a personal and a work account, give each its own key and an **alias** in `~/.ssh/config`. The alias then replaces `github.com` in the address of the remote — and it must be **exactly** the alias written in the config file, or the push fails with *Could not resolve hostname*.
-:::
-::: fr
-Avec un compte personnel et un compte professionnel, donnez à chacun sa propre clé et un **alias** dans `~/.ssh/config`. L'alias remplace alors `github.com` dans l'adresse du dépôt distant — et il doit être **exactement** l'alias écrit dans le fichier config, sinon le push échoue avec *Could not resolve hostname*.
-:::
-
-```bash
-# ~/.ssh/config
-Host github-work
-    HostName github.com
-    User git
-    IdentityFile ~/.ssh/id_ed25519_work
-Host github-perso
-    HostName github.com
-    User git
-    IdentityFile ~/.ssh/id_ed25519_perso
-
-# test each alias, then use it in the remote address:
-ssh -T git@github-work
-git remote set-url origin git@github-work:organisation/reef-monitoring.git
-git remote -v                       # check which address is used
-```
-
-### [Working with others: pull before you push]{.en}[Travailler à plusieurs : pull avant push]{.fr}
-
-::: en
-1. **Pull** (blue arrow in RStudio) before starting to work: you get your colleagues' commits.
-2. Work, commit.
-3. **Pull** again, then **push** (green arrow). If Git refuses the push (*rejected — fetch first*), somebody pushed in the meantime: pull, then push.
-
-To start from somebody else's project: `git clone <address>` or, in RStudio, *File → New Project → Version Control → Git*.
-:::
-::: fr
-1. **Pull** (flèche bleue dans RStudio) avant de commencer à travailler : vous récupérez les commits de vos collègues.
-2. Travaillez, validez.
-3. **Pull** à nouveau, puis **push** (flèche verte). Si Git refuse le push (*rejected — fetch first*), quelqu'un a poussé entre-temps : pull, puis push.
-
-Pour partir du projet de quelqu'un d'autre : `git clone <adresse>` ou, dans RStudio, *File → New Project → Version Control → Git*.
-:::
-
-## [Branches and conflicts]{.en}[Branches et conflits]{.fr} {#branches}
-
-::: en
-A **branch** lets you try something (a new indicator, a new figure) without disturbing the main version. If it works, you **merge** it; if not, you delete it. Here Hery changes the threshold on a branch while Fara changes the same line on `main`:
-:::
-::: fr
-Une **branche** permet d'essayer quelque chose (un nouvel indicateur, une nouvelle figure) sans perturber la version principale. Si ça marche, on la **fusionne** (*merge*) ; sinon on la supprime. Ici Hery change le seuil sur une branche pendant que Fara change la même ligne sur `main` :
-:::
-
-```{bash}
-cd "$DEMO"
-echo 'threshold <- 30' > R/02_indicator.R && git add . && git commit -q -m "Add the bleaching indicator"
-git switch -q -c hery-threshold                 # new branch, and go on it
-echo 'threshold <- 20' > R/02_indicator.R && git commit -q -am "Threshold 20 % (managers' request)"
-git switch -q main                              # back on main
-echo 'threshold <- 25' > R/02_indicator.R && git commit -q -am "Threshold 25 % (literature)"
-git merge hery-threshold || true                # same line changed on both sides -> conflict
-```
-
-```{bash}
-cd "$DEMO"
-cat R/02_indicator.R
-```
-
-::: en
-Git cannot choose between 25 and 20: it writes **both** versions between markers. You decide (talk to Hery!), edit the file to keep the right line and **delete the markers**, then add and commit:
-:::
-::: fr
-Git ne peut pas choisir entre 25 et 20 : il écrit **les deux** versions entre des marqueurs. C'est vous qui décidez (parlez avec Hery !), modifiez le fichier pour garder la bonne ligne et **supprimez les marqueurs**, puis indexez et validez :
-:::
-
-```{bash}
-cd "$DEMO"
-echo 'threshold <- 20   # agreed with the MPA managers, 2025-06-04' > R/02_indicator.R
-git add R/02_indicator.R && git commit -q -m "Merge hery-threshold: keep 20 %"
-git log --oneline --graph
-```
 
 ## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
 
 ```{r answers, include=FALSE}
-g <- function(...) system2("git", c("-C", Sys.getenv("NGO"), ...), stdout = TRUE)
-a1 <- length(g("log", "--format=%h"))
+g <- function(...) system2("git", c("-C", ngo, ...), stdout = TRUE)
+a1 <- length(g("log", "--format=%h"))                                     # number of commits
 a2 <- g("log", "-1", "--format=%an", "--", "R/03_bleaching.R")             # last author of that file
-first_b <- tail(g("log", "--format=%h", "--", "R/03_bleaching.R"), 1)
-a3 <- as.numeric(sub(".*<-\\s*([0-9]+).*", "\\1", g("show", paste0(first_b, ":R/03_bleaching.R"))[1]))
-a4 <- g("log", "--format=%h", "--diff-filter=A", "--", "R/02_clean.R")      # commit that added the file
-a5 <- length(g("ls-files"))
+b_commits <- g("log", "--format=%h", "--", "R/03_bleaching.R")
+a3 <- length(b_commits)                                                    # commits that touched the file
+a4 <- as.numeric(sub(".*<-\\s*([0-9]+).*", "\\1", g("show", paste0(tail(b_commits, 1), ":R/03_bleaching.R"))[1]))
+a5 <- g("log", "--format=%h", "--diff-filter=A", "--", "R/02_clean.R")      # commit that added the file
 ```
 
 ::: application
 ::: en
 ### Application work A2
 
-**Part A — explore** (unzip `reef_project_git.zip`; Terminal or RStudio History):
+**Part A — your project, with RStudio only:**
 
-1. How many commits does the project have?
-2. Who made the **last** change to `R/03_bleaching.R`?
-3. What was the value of `bleach_threshold` when the file was **first** committed?
-4. Short hash (7 characters) of the commit that **added** `R/02_clean.R`.
-5. How many files does Git follow (`git ls-files`)?
+1. Install and configure Git (Steps 1–3). Create a GitHub **or** GitLab account (Step 4).
+2. Create a **private** repository `reef-monitoring` (Step 5) and clone it in RStudio (Step 6).
+3. Copy in it the folders and files of your Session A0–A1 project. Add a `.gitignore` (Step 9). **Commit** in two or three logical commits (e.g. "Add raw data and README", "Add the analysis scripts"), then **Push**. Check on the website.
+4. Change the README directly on the website (pencil icon → *Commit changes*), then **Pull** in RStudio: the change arrives.
 
-**Part B — your project:** in your `reef-monitoring` project (Sessions A0–A1), add a `.gitignore`, make your first commit, create a **private** repository on GitHub **or** GitLab, connect it and push. Then change the README online (pencil icon), and **pull** it into RStudio.
+**Part B — read a history** (the NGO project of the *Try it* box, in RStudio's History):
+
+5. How many commits does the project have?
+6. Who made the **last** change to `R/03_bleaching.R`? How many commits changed this file (*Filter by File*)?
+7. What was the value of `bleach_threshold` when the file was **first** committed?
+8. SHA (7 characters) of the commit that **added** `R/02_clean.R`.
 :::
 ::: fr
 ### Travail d'application A2
 
-**Partie A — explorer** (décompressez `reef_project_git.zip` ; Terminal ou History de RStudio) :
+**Partie A — votre projet, avec RStudio seulement :**
 
-1. Combien de commits compte le projet ?
-2. Qui a fait la **dernière** modification de `R/03_bleaching.R` ?
-3. Quelle était la valeur de `bleach_threshold` lors du **premier** commit de ce fichier ?
-4. Hash court (7 caractères) du commit qui a **ajouté** `R/02_clean.R`.
-5. Combien de fichiers Git suit-il (`git ls-files`) ?
+1. Installez et configurez Git (étapes 1–3). Créez un compte GitHub **ou** GitLab (étape 4).
+2. Créez un dépôt **privé** `reef-monitoring` (étape 5) et clonez-le dans RStudio (étape 6).
+3. Copiez-y les dossiers et fichiers de votre projet des séances A0–A1. Ajoutez un `.gitignore` (étape 9). **Validez** en deux ou trois commits logiques (ex. « Ajoute les données brutes et le README », « Ajoute les scripts d'analyse »), puis **Push**. Vérifiez sur le site.
+4. Modifiez le README directement sur le site (icône crayon → *Commit changes*), puis faites **Pull** dans RStudio : la modification arrive.
 
-**Partie B — votre projet :** dans votre projet `reef-monitoring` (séances A0–A1), ajoutez un `.gitignore`, faites votre premier commit, créez un dépôt **privé** sur GitHub **ou** GitLab, reliez-le et poussez. Modifiez ensuite le README en ligne (icône crayon), et récupérez-le (**pull**) dans RStudio.
+**Partie B — lire un historique** (le projet de l'ONG de l'encadré *À vous*, dans l'History de RStudio) :
+
+5. Combien de commits compte le projet ?
+6. Qui a fait la **dernière** modification de `R/03_bleaching.R` ? Combien de commits ont modifié ce fichier (*Filter by File*) ?
+7. Quelle était la valeur de `bleach_threshold` lors du **premier** commit de ce fichier ?
+8. SHA (7 caractères) du commit qui a **ajouté** `R/02_clean.R`.
 :::
 :::
 
 ::: hint
 ::: en
-`git log --oneline -- R/03_bleaching.R` lists the commits of one file, newest first: the **last** line is the first commit. `git show <hash>:R/03_bleaching.R` prints the file at that commit. `git log --diff-filter=A -- R/02_clean.R` shows the commit that **A**dded the file.
+In History, choose **Filter by File…** → `R/03_bleaching.R`: only its commits remain, the newest at the top. Click the **bottom** one (the first) → **View file @…** to read the file as it was. The SHA is in the last column of the list.
 :::
 ::: fr
-`git log --oneline -- R/03_bleaching.R` liste les commits d'un fichier, du plus récent au plus ancien : la **dernière** ligne est le premier commit. `git show <hash>:R/03_bleaching.R` affiche le fichier à ce commit. `git log --diff-filter=A -- R/02_clean.R` montre le commit qui a **A**jouté le fichier.
+Dans History, choisissez **Filter by File…** → `R/03_bleaching.R` : seuls ses commits restent, le plus récent en haut. Cliquez sur celui du **bas** (le premier) → **View file @…** pour lire le fichier tel qu'il était. Le SHA est dans la dernière colonne de la liste.
 :::
 :::
 
 ```{r quiz, echo=FALSE}
 quiz("a02", list(
-  q_num("1. Number of commits?", "1. Nombre de commits ?", a1, tol = 0),
-  q_text("2. Author of the last change to R/03_bleaching.R (first and last name)?", "2. Auteur de la dernière modification de R/03_bleaching.R (prénom et nom) ?", a2),
-  q_num("3. First value of bleach_threshold?", "3. Première valeur de bleach_threshold ?", a3, tol = 0),
-  q_text("4. Short hash of the commit that added R/02_clean.R?", "4. Hash court du commit qui a ajouté R/02_clean.R ?", a4),
-  q_num("5. Number of files followed by Git?", "5. Nombre de fichiers suivis par Git ?", a5, tol = 0),
-  q_mcq("6. Which file should be in .gitignore?", "6. Quel fichier doit être dans .gitignore ?",
-        c("R/01_import.R", "README.md", "renv/library/", "renv.lock"),
-        c("R/01_import.R", "README.md", "renv/library/", "renv.lock"), correct = 3),
-  q_mcq("7. git push is rejected with \"fetch first\". What do you do?", "7. git push est refusé avec « fetch first ». Que faites-vous ?",
-        c("Delete the remote repository", "Pull first, then push", "Use git push --force", "Commit again"),
-        c("Supprimer le dépôt distant", "Faire un pull d'abord, puis push", "Utiliser git push --force", "Refaire un commit"), correct = 2),
-  q_mcq("8. A survey file contains the names and phone numbers of households. On a public GitHub repository you:", "8. Un fichier d'enquête contient les noms et téléphones des ménages. Sur un dépôt GitHub public vous :",
-        c("keep it out of the repository (.gitignore) and share an anonymised version", "commit it: Git is a backup", "commit it in a private branch", "zip it before committing"),
-        c("le gardez hors du dépôt (.gitignore) et partagez une version anonymisée", "le validez : Git est une sauvegarde", "le validez sur une branche privée", "le zippez avant de le valider"), correct = 1),
-  q_mcq("9. After a merge conflict, the file contains <<<<<<<, ======= and >>>>>>>. You must:", "9. Après un conflit de fusion, le fichier contient <<<<<<<, ======= et >>>>>>>. Vous devez :",
-        c("run git merge again", "delete the file", "keep the right lines, delete the markers, then add and commit", "push immediately"),
-        c("relancer git merge", "supprimer le fichier", "garder les bonnes lignes, supprimer les marqueurs, puis add et commit", "pousser immédiatement"), correct = 3)
+  q_num("5. Number of commits?", "5. Nombre de commits ?", a1, tol = 0),
+  q_text("6a. Author of the last change to R/03_bleaching.R (first and last name)?", "6a. Auteur de la dernière modification de R/03_bleaching.R (prénom et nom) ?", a2),
+  q_num("6b. Number of commits that changed R/03_bleaching.R?", "6b. Nombre de commits ayant modifié R/03_bleaching.R ?", a3, tol = 0),
+  q_num("7. First value of bleach_threshold?", "7. Première valeur de bleach_threshold ?", a4, tol = 0),
+  q_text("8. SHA of the commit that added R/02_clean.R?", "8. SHA du commit qui a ajouté R/02_clean.R ?", a5),
+  q_mcq("9. You clicked Commit. Where are your changes now?", "9. Vous avez cliqué sur Commit. Où sont vos modifications maintenant ?",
+        c("On GitHub / GitLab", "Saved on your computer only, until you Push", "Sent by e-mail to your colleagues", "Nowhere: you must Pull first"),
+        c("Sur GitHub / GitLab", "Enregistrées sur votre ordinateur seulement, jusqu'au Push", "Envoyées par e-mail à vos collègues", "Nulle part : il faut d'abord Pull"), correct = 2),
+  q_mcq("10. In the Git pane a file has the status \"?\". It means:", "10. Dans le panneau Git un fichier a le statut « ? ». Cela signifie :",
+        c("A new file that Git does not follow yet", "The file has an error", "A file deleted by a colleague", "A conflict"),
+        c("Un nouveau fichier que Git ne suit pas encore", "Le fichier contient une erreur", "Un fichier supprimé par un collègue", "Un conflit"), correct = 1),
+  q_mcq("11. You open your project in the morning to continue the analysis with a colleague. First you:", "11. Vous ouvrez votre projet le matin pour continuer l'analyse avec une collègue. D'abord vous :",
+        c("Push", "Commit", "Pull", "delete the .gitignore"),
+        c("faites Push", "faites Commit", "faites Pull", "supprimez le .gitignore"), correct = 3),
+  q_mcq("12. Push is rejected: \"Updates were rejected… fetch first\". You:", "12. Le Push est rejeté : « Updates were rejected… fetch first ». Vous :",
+        c("delete the repository and start again", "click Pull, then Push again", "Commit again the same files", "rename the project"),
+        c("supprimez le dépôt et recommencez", "cliquez sur Pull, puis à nouveau Push", "validez à nouveau les mêmes fichiers", "renommez le projet"), correct = 2),
+  q_mcq("13. Which file must be in .gitignore?", "13. Quel fichier doit être dans .gitignore ?",
+        c("R/02_clean.R", "README.md", "renv.lock", "a CSV with the names and phone numbers of interviewed households"),
+        c("R/02_clean.R", "README.md", "renv.lock", "un CSV avec les noms et téléphones des ménages enquêtés"), correct = 4)
 ))
 ```
 
 ::: {.solution data-quiz="a02"}
-```bash
-cd reef-monitoring
-git log --oneline | wc -l                               # 1: 6 commits
-git log -1 --format="%an" -- R/03_bleaching.R           # 2: Hery Nirina
-git log --oneline -- R/03_bleaching.R                   # the last line = first commit (8c390f6)
-git show 8c390f6:R/03_bleaching.R                       # 3: bleach_threshold <- 30
-git log --oneline --diff-filter=A -- R/02_clean.R       # 4: 06d0e2b
-git ls-files | wc -l                                    # 5: 6 files
-```
-:::
+::: en
+**Part B, in RStudio** (Git pane → History): 6 commits in the list; *Filter by File* → `R/03_bleaching.R` keeps 2 commits, the newest by **Hery Nirina** (`4a5c8d0`, "Lower the bleaching threshold to 20 %"); click the bottom one (`8c390f6`) → *View file*: `bleach_threshold <- 30`; *Filter by File* → `R/02_clean.R`: the commit "Add the cleaning script" is `06d0e2b`.
 
-```{r cleanup, include=FALSE}
-# remove the variables set for this page (the site is built in one R session)
-Sys.unsetenv(c("DEMO", "NGO", "GIT_AUTHOR_NAME", "GIT_AUTHOR_EMAIL", "GIT_COMMITTER_NAME", "GIT_COMMITTER_EMAIL",
-               "GIT_AUTHOR_DATE", "GIT_COMMITTER_DATE", "GIT_PAGER", "GIT_CONFIG_NOSYSTEM", "GIT_CONFIG_GLOBAL"))
-```
+**Part A:** your repository online shows your files, your commit messages and, after step 4, the README change also appears in RStudio after **Pull**.
+:::
+::: fr
+**Partie B, dans RStudio** (panneau Git → History) : 6 commits dans la liste ; *Filter by File* → `R/03_bleaching.R` garde 2 commits, le plus récent par **Hery Nirina** (`4a5c8d0`, « Lower the bleaching threshold to 20 % ») ; cliquez sur celui du bas (`8c390f6`) → *View file* : `bleach_threshold <- 30` ; *Filter by File* → `R/02_clean.R` : le commit « Add the cleaning script » est `06d0e2b`.
+
+**Partie A :** votre dépôt en ligne montre vos fichiers, vos messages de commit et, après l'étape 4, la modification du README apparaît aussi dans RStudio après **Pull**.
+:::
+:::

@@ -763,6 +763,56 @@ facteurs ordonnés</li>
 checkpoint et les quiz (2 tentatives).
 </div>
 </div>
+<div id="même-idée-noms-différents" class="section level2">
+<h2>Même idée, noms différents</h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Réglage</th>
+<th>Fonction 1</th>
+<th>Fonction 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>noms en 1re ligne</td>
+<td><code>read.csv(header =)</code></td>
+<td><code>read_excel(col_names =)</code></td>
+</tr>
+<tr class="even">
+<td>valeurs manquantes</td>
+<td><code>read.csv(na.strings =)</code></td>
+<td><code>read_excel(na =)</code></td>
+</tr>
+<tr class="odd">
+<td>nouvelles colonnes</td>
+<td><code>pivot_longer(names_to = &quot;x&quot;)</code> (guillemets)</td>
+<td><code>pivot_wider(names_from = x)</code> (sans)</td>
+</tr>
+<tr class="even">
+<td>jointure à gauche</td>
+<td><code>left_join(x, y, by)</code></td>
+<td><code>merge(x, y, by, all.x = TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td>ordre des arguments</td>
+<td><code>str_replace_all(texte, motif, remplacement)</code></td>
+<td><code>gsub(motif, remplacement, texte)</code></td>
+</tr>
+<tr class="even">
+<td>% par ligne</td>
+<td><code>prop.table(t, margin = 1)</code></td>
+<td><code>apply(m, MARGIN = 1, ...)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Toujours : <code>?fonction</code> → <em>Usage</em></p>
+</div>
 <div id="merci" class="section level2 segue">
 <h2 class="segue">Merci !</h2>
 </div>

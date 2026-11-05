@@ -116,6 +116,10 @@ Téléchargez le **script modèle**, enregistrez-le dans votre dossier `scripts/
 :::
 :::
 
+```{r, echo=FALSE}
+fa(c("`table(x, useNA = \"always\")`", "counts the values **and** the `NA` (by default `table()` hides them); `\"ifany\"` shows `NA` only if there are some", "compte les valeurs **et** les `NA` (par défaut `table()` les cache) ; `\"ifany\"` n'affiche `NA` que s'il y en a", "`\"no\"` (default), `\"ifany\"`, `\"always\"`", "`\"no\"` (défaut), `\"ifany\"`, `\"always\"`"))
+```
+
 ## [Step 2 — Clean]{.en}[Étape 2 — Nettoyer]{.fr} {#step2}
 
 ::: en
@@ -147,6 +151,11 @@ To check your cleaning: `table(raw$mpa)` must show exactly 3 MPAs, `table(raw$zo
 Pour vérifier votre nettoyage : `table(raw$mpa)` doit montrer exactement 3 AMP, `table(raw$zone)` 2 zones et `table(raw$category, useNA = "always")` seulement des codes en majuscules plus `NA`. Supprimez les doublons **avant** de compter les points manquants.
 :::
 :::
+
+```{r, echo=FALSE}
+fa(c("`gsub(\"\\\\s+\", \" \", x)`", "reminder (Session 5) with a **pattern**: `\\\\s` = any space, `+` = one or more; replaces each run of spaces by a single space", "rappel (séance 5) avec un **motif** : `\\\\s` = n'importe quel espace, `+` = un ou plusieurs ; remplace chaque suite d'espaces par un seul espace", "", ""),
+   c("`x[x == \"\"] <- NA`", "replaces empty texts by `NA` (Session 4: changing values by condition)", "remplace les textes vides par `NA` (séance 4 : modifier des valeurs par condition)", "", ""))
+```
 
 ## [Step 3 — Build the database]{.en}[Étape 3 — Construire la base de données]{.fr} {#step3}
 
@@ -186,6 +195,18 @@ Un transect = 50 points. Couverture en corail dur d'un transect = 100 × nombre 
 *Séance 7.* Tracez un **diagramme en barres groupées** : AMP en abscisse, une barre par zone, moyenne ± ET. En R de base, `tapply()` avec deux groupes renvoie une **matrice** ; `barplot(matrice, beside = TRUE)` trace des barres groupées et renvoie une matrice de positions que `arrows()` accepte directement. Le script modèle contient le code complet. Enregistrez la figure en PNG (300 dpi).
 
 *Facultatif (séance 8) :* faites la même figure avec ggplot2 en utilisant `position = position_dodge(0.8)` dans `geom_col()` et `geom_errorbar()`.
+:::
+
+```{r, echo=FALSE}
+fa(c("`barplot(height, beside = TRUE)`", "with a **matrix** (rows = zones, columns = MPAs): `beside = TRUE` puts the bars of each column side by side; `FALSE` (default) stacks them", "avec une **matrice** (lignes = zones, colonnes = AMP) : `beside = TRUE` place côte à côte les barres de chaque colonne ; `FALSE` (défaut) les empile", "`TRUE` / `FALSE`", "`TRUE` / `FALSE`"),
+   c("`position_dodge(width)`", "ggplot2: puts side by side the bars (and error bars) of the different groups; use the same `width` in `geom_col()` and `geom_errorbar()` so that they line up", "ggplot2 : place côte à côte les barres (et barres d'erreur) des différents groupes ; utilisez la même `width` dans `geom_col()` et `geom_errorbar()` pour qu'elles s'alignent", "a number, e.g. `0.8`", "un nombre, ex. `0.8`"))
+```
+
+::: en
+`beside = TRUE` in base R and `position = position_dodge()` in ggplot2 do the same thing — one more pair of different names for the same idea (Session 8).
+:::
+::: fr
+`beside = TRUE` en R de base et `position = position_dodge()` dans ggplot2 font la même chose — encore une paire de noms différents pour la même idée (séance 8).
 :::
 
 ## [Step 6 — Interpret]{.en}[Étape 6 — Interpréter]{.fr} {#step6}

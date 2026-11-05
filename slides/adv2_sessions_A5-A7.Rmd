@@ -152,6 +152,19 @@ ggplot() + geom_sf(data = land, fill = "#efe6d2") +
 ggsave("outputs/figures/carte.png", width = 16, height = 20, units = "cm", dpi = 300)
 ```
 
+## sf, terra, tmap : même idée, noms différents
+
+| Tâche | sf / ggplot2 | terra / tmap |
+|---|---|---|
+| SCR | `st_crs()` | `crs()` |
+| reprojeter | `st_transform(x, crs)` | `project(x, y, method)` |
+| statistique | `extract(..., fun = mean)` | `global(x, "mean")` (texte !) |
+| écraser un fichier | `st_write(delete_dsn / append = FALSE)` | `writeRaster(overwrite = TRUE)` |
+| colonne → couleur | `aes(fill = zone)` (sans guillemets) | `tm_polygons(fill = "zone")` (avec) |
+| transparence | `alpha` | `fill_alpha` |
+
+`crs` dans `st_as_sf()` **déclare** ; `crs` dans `st_transform()` **convertit**.
+
 ## À retenir — partie 2
 
 - **même SCR** avant de combiner ; UTM pour mesurer en mètres

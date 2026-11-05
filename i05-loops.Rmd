@@ -68,6 +68,13 @@ if (loss_rate > 15) {
 }
 ```
 
+```{r, echo=FALSE}
+fa(c("`if (condition) { ... }`", "runs the code between `{ }` only if the condition is `TRUE`", "exécute le code entre `{ }` seulement si la condition vaut `TRUE`", "**one** `TRUE` or `FALSE` (not a vector, not `NA`)", "**un seul** `TRUE` ou `FALSE` (pas un vecteur, pas `NA`)"),
+   c("`else if (condition) { ... }`", "tested only if the previous conditions were `FALSE`", "testé seulement si les conditions précédentes valaient `FALSE`", "", ""),
+   c("`else { ... }`", "runs when no condition was `TRUE`; must start on the same line as the `}` before it", "s'exécute quand aucune condition n'était `TRUE` ; doit commencer sur la même ligne que le `}` qui précède", "", ""),
+   c("`message(...)`", "prints a message in the console; the pieces are glued without spaces", "affiche un message dans la console ; les morceaux sont collés sans espace", "texts and numbers separated by commas", "textes et nombres séparés par des virgules"))
+```
+
 ::: {.callout .warning}
 ::: en
 `if` needs **a single** TRUE/FALSE. `if (seaweed$sgr > 4)` is an error ("the condition has length > 1"), because there are 2 575 values. To classify a whole column, use `ifelse()` or `case_when()` (next section). Also, `if (NA)` is an error: test missing values first with `is.na()`.
@@ -109,6 +116,12 @@ seaweed <- seaweed %>% mutate(growth_class = case_when(
   TRUE       ~ "poor"))
 table(seaweed$growth_class)
 ```
+
+```{r, echo=FALSE}
+fa(c("`ifelse(test, yes, no)`", "reminder (Session I1); nested `ifelse()` = a new `ifelse()` in the `no` position", "rappel (séance I1) ; `ifelse()` imbriqués = un nouveau `ifelse()` à la position `no`", "", ""),
+   c("`case_when(condition ~ value, ...)`", "**dplyr**: tests the conditions **in order**, and each row gets the value of the **first** condition that is `TRUE`", "**dplyr** : teste les conditions **dans l'ordre**, et chaque ligne reçoit la valeur de la **première** condition qui vaut `TRUE`", "`condition ~ value`, separated by commas", "`condition ~ valeur`, séparés par des virgules"),
+   c("&nbsp;&nbsp;`TRUE ~ value`", "the last line: \"in all other cases\"", "la dernière ligne : « dans tous les autres cas »", "", ""))
+```
 :::
 :::
 
@@ -121,6 +134,13 @@ table(seaweed$growth_class)
 
 ```{r}
 table(cut(seaweed$sgr, breaks = c(0, 3, 4, Inf), labels = c("poor", "medium", "good"), right = FALSE))
+```
+
+```{r, echo=FALSE}
+fa(c("`cut(x, breaks, labels, right)`", "cuts numbers into classes (Session I1 with dates)", "découpe des nombres en classes (séance I1 avec des dates)", "", ""),
+   c("&nbsp;&nbsp;`breaks`", "limits of the classes; `Inf` = infinity (no upper limit)", "limites des classes ; `Inf` = infini (pas de limite haute)", "a vector of numbers", "un vecteur de nombres"),
+   c("&nbsp;&nbsp;`labels`", "names of the classes (one fewer than `breaks`)", "noms des classes (un de moins que `breaks`)", "a text vector", "un vecteur de texte"),
+   c("&nbsp;&nbsp;`right`", "`TRUE` (default): classes `(3, 4]`, the limit goes in the lower class; `FALSE`: `[3, 4)`, in the upper class", "`TRUE` (défaut) : classes `(3, 4]`, la limite va dans la classe inférieure ; `FALSE` : `[3, 4)`, dans la classe supérieure", "`TRUE` / `FALSE`", "`TRUE` / `FALSE`"))
 ```
 
 ## [for loops]{.en}[Boucles for]{.fr} {#for}
@@ -142,12 +162,24 @@ for (v in villages[1:3]) {
 }
 ```
 
+```{r, echo=FALSE}
+fa(c("`for (v in values) { ... }`", "repeats the code once per element of `values`; at each turn `v` contains the current element (you choose the name `v`)", "répète le code une fois par élément de `values` ; à chaque tour `v` contient l'élément en cours (vous choisissez le nom `v`)", "a vector", "un vecteur"),
+   c("`cat(..., sep = \" \")`", "prints texts and numbers; `\"\\n\"` = go to a new line", "affiche textes et nombres ; `\"\\n\"` = passer à la ligne", "pieces separated by commas", "morceaux séparés par des virgules"),
+   c("&nbsp;&nbsp;`sep`", "what is put between the pieces (a space by default, as in `paste()`)", "ce qui est mis entre les morceaux (une espace par défaut, comme dans `paste()`)", "text", "texte"))
+```
+
 ```{r, eval=FALSE}
 dir.create("outputs/villages", showWarnings = FALSE)
 for (v in villages) {
   d <- seaweed[seaweed$village == v, ]
   write.csv(d, file.path("outputs/villages", paste0("lines_", v, ".csv")), row.names = FALSE)
 }
+```
+
+```{r, echo=FALSE}
+fa(c("`dir.create(path, showWarnings)`", "creates a folder; `showWarnings = FALSE` stays silent if it already exists", "crée un dossier ; `showWarnings = FALSE` reste silencieux s'il existe déjà", "folder path; `TRUE`/`FALSE`", "chemin du dossier ; `TRUE`/`FALSE`"),
+   c("`file.path(...)`", "builds a path by joining folder and file names with `/`", "construit un chemin en joignant noms de dossiers et de fichiers avec `/`", "texts", "textes"),
+   c("`paste0(...)`", "glues texts without separator (Beginner Session 2): a different file name at each turn", "colle des textes sans séparateur (séance 2 du niveau débutant) : un nom de fichier différent à chaque tour", "", ""))
 ```
 
 ### [2. Fill a vector of results]{.en}[2. Remplir un vecteur de résultats]{.fr}
@@ -169,6 +201,12 @@ for (i in seq_along(villages)) {
 loss
 ```
 
+```{r, echo=FALSE}
+fa(c("`numeric(n)`", "a vector of `n` zeros, to be filled by the loop", "un vecteur de `n` zéros, à remplir par la boucle", "a whole number", "un nombre entier"),
+   c("`names(x) <- ...`", "gives a name to each element", "donne un nom à chaque élément", "a text vector of the same length", "un vecteur de texte de même longueur"),
+   c("`seq_along(x)`", "the positions `1, 2, …, length(x)`; safer than `1:length(x)` (which gives `1 0` when `x` is empty)", "les positions `1, 2, …, length(x)` ; plus sûr que `1:length(x)` (qui donne `1 0` quand `x` est vide)", "a vector", "un vecteur"))
+```
+
 ### [3. Build a table, one row per turn]{.en}[3. Construire un tableau, une ligne par tour]{.fr}
 
 ```{r}
@@ -181,6 +219,12 @@ for (i in seq_along(villages)) {
 }
 summary_v <- do.call(rbind, res)            # stack the 12 one-row tables
 head(summary_v, 4)
+```
+
+```{r, echo=FALSE}
+fa(c("`vector(\"list\", n)`", "an empty list with `n` places", "une liste vide de `n` places", "`\"list\"` and a whole number", "`\"list\"` et un nombre entier"),
+   c("`res[[i]] <- ...`", "puts an object (here a one-row data frame) in place `i` of the list; a list can hold anything", "range un objet (ici un data frame d'une ligne) à la place `i` de la liste ; une liste peut contenir n'importe quoi", "", ""),
+   c("`do.call(what, args)`", "calls the function `what` with **all the elements of the list** `args` as arguments: `do.call(rbind, res)` = `rbind(res[[1]], res[[2]], …)`", "appelle la fonction `what` avec **tous les éléments de la liste** `args` comme arguments : `do.call(rbind, res)` = `rbind(res[[1]], res[[2]], …)`", "a function name; a list", "un nom de fonction ; une liste"))
 ```
 
 ::: {.callout .tip}
@@ -210,6 +254,12 @@ files <- list.files("outputs/villages", pattern = "\\.csv$", full.names = TRUE)
 all <- vector("list", length(files))
 for (i in seq_along(files)) all[[i]] <- read.csv(files[i])
 all <- do.call(rbind, all)                   # one table again
+```
+
+```{r, echo=FALSE}
+fa(c("`list.files(path, pattern, full.names)`", "file names in a folder (Beginner Session 0)", "noms des fichiers d'un dossier (séance 0 du niveau débutant)", "", ""),
+   c("&nbsp;&nbsp;`pattern`", "keep only the names that match; `\"\\\\.csv$\"` = ending in `.csv` (`$` = end, `\\\\.` = a real dot)", "ne garder que les noms qui correspondent ; `\"\\\\.csv$\"` = finissant par `.csv` (`$` = fin, `\\\\.` = un vrai point)", "a pattern in quotes", "un motif entre guillemets"),
+   c("&nbsp;&nbsp;`full.names`", "`TRUE` returns the path with the folder (`outputs/villages/lines_X.csv`), needed to read the files", "`TRUE` renvoie le chemin avec le dossier (`outputs/villages/lines_X.csv`), nécessaire pour lire les fichiers", "`TRUE` / `FALSE` (default)", "`TRUE` / `FALSE` (défaut)"))
 ```
 
 ::: {.callout .try}
@@ -244,6 +294,12 @@ all <- do.call(rbind, all)                   # one table again
 w <- 10; day <- 0
 while (w < 30) { w <- w * exp(0.035); day <- day + 1 }
 day
+```
+
+```{r, echo=FALSE}
+fa(c("`while (condition) { ... }`", "repeats the code **as long as** the condition is `TRUE`; the code must change something, or the loop never stops (press **Esc**)", "répète le code **tant que** la condition vaut `TRUE` ; le code doit changer quelque chose, sinon la boucle ne s'arrête jamais (appuyez sur **Échap**)", "one `TRUE`/`FALSE`", "un seul `TRUE`/`FALSE`"),
+   c("`break`", "inside a loop: leaves it immediately", "dans une boucle : en sort immédiatement", "", ""),
+   c("`exp(x)`", "*e* to the power *x* (Beginner Session 1): a growth of 3.5 % per day multiplies the weight by exp(0.035)", "*e* puissance *x* (séance 1 du niveau débutant) : une croissance de 3,5 % par jour multiplie le poids par exp(0.035)", "", ""))
 ```
 
 ## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}

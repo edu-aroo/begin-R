@@ -627,6 +627,71 @@ niveaux ménage et individu.</p>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>hh <span class="ot">&lt;-</span> hh[<span class="sc">!</span><span class="fu">duplicated</span>(hh), ]          <span class="co"># 5 households synchronised twice</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">dim</span>(hh)</span></code></pre></div>
 <pre><code>#&gt; [1] 420  13</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>na.strings = ""</code> (argument of
+<code>read.csv()</code>)</td>
+<td>empty cells (unanswered questions) are read as <code>NA</code>
+(Session I0)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>df[!duplicated(df), ]</code></td>
+<td>removes the rows that are exact copies (Beginner Session 5)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>  <code>na.strings = ""</code> (argument of
+<code>read.csv()</code>)</td>
+<td>les cellules vides (questions sans réponse) sont lues comme
+<code>NA</code> (séance I0)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>df[!duplicated(df), ]</code></td>
+<td>retire les lignes qui sont des copies exactes (séance 5 du niveau
+débutant)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="stringr" class="section level2">
 <h2><span class="en">Cleaning text with stringr</span><span
@@ -688,6 +753,24 @@ work too:</p>
 </tbody>
 </table>
 </div>
+<div class="en">
+<p>Look at the <strong>order of the arguments</strong>: stringr
+functions always take the text <strong>first</strong>
+(<code>str_replace_all(string, pattern, replacement)</code>), while
+<code>gsub()</code> and <code>grepl()</code> take the pattern first and
+the text last (<code>gsub(pattern, replacement, x)</code>). This is why
+the tidyverse authors wrote stringr: same order everywhere, and it works
+with the pipe.</p>
+</div>
+<div class="fr">
+<p>Regardez l’<strong>ordre des arguments</strong> : les fonctions de
+stringr prennent toujours le texte <strong>en premier</strong>
+(<code>str_replace_all(string, pattern, replacement)</code>), alors que
+<code>gsub()</code> et <code>grepl()</code> prennent d’abord le motif et
+le texte en dernier (<code>gsub(pattern, replacement, x)</code>). C’est
+pour cela que les auteurs du tidyverse ont écrit stringr : le même ordre
+partout, compatible avec le pipe.</p>
+</div>
 <div class="fr">
 <p><strong>stringr</strong> rassemble des fonctions de texte aux noms
 cohérents, toutes commençant par <code>str_</code>. Leurs équivalents en
@@ -748,17 +831,97 @@ R de base fonctionnent aussi :</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">table</span>(hh<span class="sc">$</span>mpa_benefits, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; 
-#&gt;              Agree     Strongly agree  Strongly disagree              agree              Agree 
-#&gt;                  5                  4                  1                  9                136 
-#&gt;           Disagree            neutral            Neutral     strongly agree     Strongly agree 
-#&gt;                 46                  5                102                  4                 71 
-#&gt;  strongly disagree  Strongly disagree               &lt;NA&gt; 
-#&gt;                  1                 28                  8</code></pre>
+#&gt;              Agree     Strongly agree  Strongly disagree              agree 
+#&gt;                  5                  4                  1                  9 
+#&gt;              Agree           Disagree            neutral            Neutral 
+#&gt;                136                 46                  5                102 
+#&gt;     strongly agree     Strongly agree  strongly disagree  Strongly disagree 
+#&gt;                  4                 71                  1                 28 
+#&gt;               &lt;NA&gt; 
+#&gt;                  8</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>hh<span class="sc">$</span>mpa_benefits <span class="ot">&lt;-</span> <span class="fu">str_to_sentence</span>(<span class="fu">str_squish</span>(hh<span class="sc">$</span>mpa_benefits))</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">table</span>(hh<span class="sc">$</span>mpa_benefits, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; 
-#&gt;             Agree          Disagree           Neutral    Strongly agree Strongly disagree              &lt;NA&gt; 
-#&gt;               150                46               107                79                30                 8</code></pre>
+#&gt;             Agree          Disagree           Neutral    Strongly agree Strongly disagree 
+#&gt;               150                46               107                79                30 
+#&gt;              &lt;NA&gt; 
+#&gt;                 8</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>str_squish(string)</code></td>
+<td>removes spaces at the start and end, and replaces double spaces
+inside by one</td>
+<td>text</td>
+</tr>
+<tr class="even">
+<td><code>str_to_sentence(string)</code></td>
+<td>capital first letter, the rest in lower case
+(<code>"strongly AGREE"</code> → <code>"Strongly agree"</code>)</td>
+<td>text</td>
+</tr>
+<tr class="odd">
+<td><code>table(x, useNA = "ifany")</code></td>
+<td>counts, and shows the <code>NA</code> if there are any (Beginner
+Session 10)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>str_squish(string)</code></td>
+<td>retire les espaces au début et à la fin, et remplace les espaces
+doubles à l’intérieur par un seul</td>
+<td>texte</td>
+</tr>
+<tr class="even">
+<td><code>str_to_sentence(string)</code></td>
+<td>majuscule en première lettre, le reste en minuscules
+(<code>"strongly AGREE"</code> → <code>"Strongly agree"</code>)</td>
+<td>texte</td>
+</tr>
+<tr class="odd">
+<td><code>table(x, useNA = "ifany")</code></td>
+<td>effectifs, et affiche les <code>NA</code> s’il y en a (séance 10 du
+niveau débutant)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="likert" class="section level2">
 <h2><span class="en">Ordered factors for Likert scales</span><span
@@ -790,6 +953,72 @@ comparaisons.</p>
 #&gt;               7.3              11.2              26.0              36.4              19.2</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">sum</span>(hh<span class="sc">$</span>mpa_benefits <span class="sc">&gt;=</span> <span class="st">&quot;Agree&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)          <span class="co"># &quot;agree&quot; or &quot;strongly agree&quot;</span></span></code></pre></div>
 <pre><code>#&gt; [1] 229</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>factor(x, levels, ordered)</code></td>
+<td>reminder (Beginner Session 2); <code>ordered = TRUE</code> makes the
+order of <code>levels</code> meaningful, so <code>&gt;=</code> and
+<code>&lt;</code> can be used</td>
+<td><code>TRUE</code> / <code>FALSE</code> (default)</td>
+</tr>
+<tr class="even">
+<td><code>prop.table(x, margin)</code></td>
+<td>turns a table of counts into proportions (sum = 1); multiply by 100
+for %</td>
+<td>a <code>table()</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>factor(x, levels, ordered)</code></td>
+<td>rappel (séance 2 du niveau débutant) ; <code>ordered = TRUE</code>
+donne un sens à l’ordre de <code>levels</code>, ce qui permet
+<code>&gt;=</code> et <code>&lt;</code></td>
+<td><code>TRUE</code> / <code>FALSE</code> (défaut)</td>
+</tr>
+<tr class="even">
+<td><code>prop.table(x, margin)</code></td>
+<td>transforme un tableau d’effectifs en proportions (somme = 1) ;
+multipliez par 100 pour des %</td>
+<td>une <code>table()</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>Collapse categories when a scale is too detailed for the sample size,
 by renaming levels:</p>
@@ -804,6 +1033,58 @@ taille de l’échantillon, en renommant les niveaux :</p>
 <pre><code>#&gt; b3
 #&gt; Disagree  Neutral    Agree 
 #&gt;       76      107      229</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>levels(f) &lt;- c(...)</code></td>
+<td>renames the levels, in their order; giving two levels the
+<strong>same</strong> new name merges them</td>
+<td>as many names as levels</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>levels(f) &lt;- c(...)</code></td>
+<td>renomme les niveaux, dans leur ordre ; donner le
+<strong>même</strong> nouveau nom à deux niveaux les fusionne</td>
+<td>autant de noms que de niveaux</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="multiple" class="section level2">
 <h2><span class="en">Multiple-choice answers</span><span
@@ -855,6 +1136,91 @@ chaque option (format long, séance I2).</li>
 <pre><code>#&gt; 
 #&gt;     fishing     seaweed       trade    gleaning agriculture   livestock 
 #&gt;         156         144         144         142         137         128</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>str_count(string, pattern)</code></td>
+<td>how many times <code>pattern</code> appears in each text (here the
+separators <code>;</code>, so the number of answers = count + 1)</td>
+<td>text; a pattern in quotes</td>
+</tr>
+<tr class="even">
+<td><code>str_detect(string, pattern)</code></td>
+<td><code>TRUE</code> if <code>pattern</code> is in the text</td>
+<td>text; a pattern</td>
+</tr>
+<tr class="odd">
+<td><code>separate_rows(data, ..., sep)</code></td>
+<td><strong>tidyr</strong>: one row per piece — a cell
+<code>"fishing;seaweed"</code> becomes two rows</td>
+<td>column name(s); the separator in quotes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>str_count(string, pattern)</code></td>
+<td>combien de fois <code>pattern</code> apparaît dans chaque texte (ici
+les séparateurs <code>;</code>, donc nombre de réponses = compte +
+1)</td>
+<td>texte ; un motif entre guillemets</td>
+</tr>
+<tr class="even">
+<td><code>str_detect(string, pattern)</code></td>
+<td><code>TRUE</code> si <code>pattern</code> est dans le texte</td>
+<td>texte ; un motif</td>
+</tr>
+<tr class="odd">
+<td><code>separate_rows(data, ..., sep)</code></td>
+<td><strong>tidyr</strong> : une ligne par morceau — une cellule
+<code>"fishing;seaweed"</code> devient deux lignes</td>
+<td>nom(s) de colonne ; le séparateur entre guillemets</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p><code>separate()</code> (Session I2) cuts a cell into
+<strong>columns</strong>, <code>separate_rows()</code> into
+<strong>rows</strong>. Both use <code>sep</code>.</p>
+</div>
+<div class="fr">
+<p><code>separate()</code> (séance I2) coupe une cellule en
+<strong>colonnes</strong>, <code>separate_rows()</code> en
+<strong>lignes</strong>. Les deux utilisent <code>sep</code>.</p>
+</div>
 </div>
 <div id="members" class="section level2">
 <h2><span class="en">Household variables from the member
@@ -882,6 +1248,70 @@ joint au tableau des ménages (séance I3).</p>
 <span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="fu">summary</span>(hh<span class="sc">$</span>hh_size)</span></code></pre></div>
 <pre><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 #&gt;   2.000   3.000   6.000   5.581   8.000   9.000</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>n()</code>, <code>sum(condition)</code></td>
+<td>inside <code>summarise()</code>: number of rows of the group; number
+of rows where the condition is <code>TRUE</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>left_join(x, y, by)</code></td>
+<td>adds the household variables to the household table (Session
+I3)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>n()</code>, <code>sum(condition)</code></td>
+<td>dans <code>summarise()</code> : nombre de lignes du groupe ; nombre
+de lignes où la condition vaut <code>TRUE</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>left_join(x, y, by)</code></td>
+<td>ajoute les variables de ménage au tableau des ménages (séance
+I3)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="crosstab" class="section level2">
 <h2><span class="en">Cross-tables and percentages</span><span
@@ -917,6 +1347,83 @@ totaux.</p>
 #&gt;   Mahavelo       21.1    26.8  52.1
 #&gt;   Sarondrano     21.5    26.6  51.9
 #&gt;   Tsimanjaka     22.6    19.4  58.1</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>addmargins(x)</code></td>
+<td>adds the totals of rows and columns (<em>Sum</em>) to a table</td>
+<td>a <code>table()</code></td>
+</tr>
+<tr class="even">
+<td>  <code>margin</code> (argument of <code>prop.table()</code>)</td>
+<td><code>1</code> = % within each <strong>row</strong> (rows sum to
+100), <code>2</code> = within each <strong>column</strong>; nothing = of
+the grand total</td>
+<td><code>1</code> or <code>2</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>addmargins(x)</code></td>
+<td>ajoute les totaux des lignes et des colonnes (<em>Sum</em>) à un
+tableau</td>
+<td>une <code>table()</code></td>
+</tr>
+<tr class="even">
+<td>  <code>margin</code> (argument of <code>prop.table()</code>)</td>
+<td><code>1</code> = % dans chaque <strong>ligne</strong> (les lignes
+font 100), <code>2</code> = dans chaque <strong>colonne</strong> ; rien
+= du total général</td>
+<td><code>1</code> ou <code>2</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p><code>margin = 1</code> / <code>2</code> means rows / columns, as
+<code>MARGIN</code> in <code>apply()</code> (Beginner Session 4) — but
+here the argument is written in lower case: R is case-sensitive, so
+<code>prop.table(t1, MARGIN = 1)</code> would fail.</p>
+</div>
+<div class="fr">
+<p><code>margin = 1</code> / <code>2</code> signifie lignes / colonnes,
+comme <code>MARGIN</code> dans <code>apply()</code> (séance 4 du niveau
+débutant) — mais ici l’argument s’écrit en minuscules : R est sensible à
+la casse, donc <code>prop.table(t1, MARGIN = 1)</code> échouerait.</p>
+</div>
 <div class="compare">
 <div class="col base">
 <p>R base</p>
@@ -935,6 +1442,58 @@ totaux.</p>
 #&gt; 3        salaried  37  8.8
 #&gt; 4 seaweed farming 118 28.1
 #&gt; 5           trade  74 17.6</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>count()</code> + <code>mutate()</code></td>
+<td>counts per category (Beginner Session 8), then a column of %
+calculated from the column <code>n</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>count()</code> + <code>mutate()</code></td>
+<td>effectifs par catégorie (séance 8 du niveau débutant), puis une
+colonne de % calculée à partir de la colonne <code>n</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <p><a class="btn-dl" href="data/checkpoints/I4_households_clean.csv" download>⇩

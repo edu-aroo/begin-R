@@ -792,6 +792,119 @@ point sont encore acceptés dans les lignes <code>#|</code>, mais
 utilisez les tirets dans les nouveaux documents.</p>
 </div>
 </div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>#| option: value</code></td>
+<td>a chunk option written <strong>inside</strong> the chunk, one per
+line, in YAML style (<code>key: value</code>,
+<code>true</code>/<code>false</code> in lower case)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>#| label: fig-agb</code></td>
+<td>name of the chunk; the prefix <code>fig-</code> / <code>tbl-</code>
+makes it a numbered figure / table that <code>@fig-agb</code> can
+cite</td>
+<td>text without spaces</td>
+</tr>
+<tr class="odd">
+<td><code>#| fig-cap:</code>, <code>#| tbl-cap:</code></td>
+<td>caption of the figure / table</td>
+<td>text in quotes</td>
+</tr>
+<tr class="even">
+<td><code>#| fig-width:</code>, <code>#| fig-height:</code></td>
+<td>size of the figure, in inches</td>
+<td>numbers</td>
+</tr>
+<tr class="odd">
+<td><code>#| echo:</code>, <code>#| include:</code>, <code>#|
+eval:</code>, <code>#| warning:</code></td>
+<td>the same options as in R Markdown (Session A3), with YAML
+values</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>`{r} x`</code></td>
+<td>inline code in Quarto: replaced by the value of <code>x</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>#| option: value</code></td>
+<td>une option de chunk écrite <strong>dans</strong> le chunk, une par
+ligne, au style YAML (<code>clé: valeur</code>,
+<code>true</code>/<code>false</code> en minuscules)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>#| label: fig-agb</code></td>
+<td>nom du chunk ; le préfixe <code>fig-</code> / <code>tbl-</code> en
+fait une figure / un tableau numéroté que <code>@fig-agb</code> peut
+citer</td>
+<td>texte sans espaces</td>
+</tr>
+<tr class="odd">
+<td><code>#| fig-cap:</code>, <code>#| tbl-cap:</code></td>
+<td>légende de la figure / du tableau</td>
+<td>texte entre guillemets</td>
+</tr>
+<tr class="even">
+<td><code>#| fig-width:</code>, <code>#| fig-height:</code></td>
+<td>taille de la figure, en pouces</td>
+<td>nombres</td>
+</tr>
+<tr class="odd">
+<td><code>#| echo:</code>, <code>#| include:</code>, <code>#|
+eval:</code>, <code>#| warning:</code></td>
+<td>les mêmes options qu’en R Markdown (séance A3), avec des valeurs
+YAML</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>`{r} x`</code></td>
+<td>code en ligne dans Quarto : remplacé par la valeur de
+<code>x</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="template" class="section level2">
 <h2><span class="en">The template of this session</span><span
@@ -977,38 +1090,424 @@ style="width:100.0%" /></p>
 <h2><span class="en">The YAML header</span><span class="fr">L’en-tête
 YAML</span></h2>
 <div class="en">
-<ul>
-<li><code>author:</code> can be a list with <code>name</code>,
-<code>affiliation</code>, <code>email</code>, <code>orcid</code>.</li>
-<li><code>date: today</code> is replaced by the date of rendering;
-<code>date-format</code> chooses how it is written;
-<code>lang: fr</code> translates “Table of contents”, “Figure”, “Table”
-into French.</li>
-<li>Under <code>format:</code>, each output has its own options. Options
-common to all (bibliography, <code>execute</code>) stay at the top
-level.</li>
-<li><code>execute:</code> sets the default chunk options of the whole
-document (<code>echo</code>, <code>warning</code>, <code>message</code>,
-<code>cache</code>…). A chunk can still change them with its own
-<code>#|</code> lines.</li>
-</ul>
+<p>Quarto keys are written with a <strong>hyphen</strong>
+(<code>number-sections</code>, <code>code-fold</code>), R Markdown keys
+with an <strong>underscore</strong> (<code>number_sections</code>,
+<code>code_folding</code>): same idea, different names — one more case
+where two tools do not use the same name for the same thing. Indentation
+(two spaces) says which key belongs to which.</p>
+<p><strong>Top level</strong> (valid for every format):</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>title</code>, <code>subtitle</code></td>
+<td>texts at the top of the document</td>
+<td>text</td>
+</tr>
+<tr class="even">
+<td><code>author</code></td>
+<td>the author(s); a simple text, or a list where each author has
+<code>name</code> and optionally <code>affiliation</code>,
+<code>email</code>, <code>orcid</code></td>
+<td>text, or a list starting with <code>- name:</code></td>
+</tr>
+<tr class="odd">
+<td><code>date</code></td>
+<td>date under the title; <code>today</code> = the day of rendering</td>
+<td><code>today</code>, or a date <code>2025-11-30</code></td>
+</tr>
+<tr class="even">
+<td><code>date-format</code></td>
+<td>how the date is written: <code>D</code> day, <code>MMMM</code> month
+in letters, <code>YYYY</code> year</td>
+<td>a pattern, e.g. <code>"D MMMM YYYY"</code> → 5 November 2026</td>
+</tr>
+<tr class="odd">
+<td><code>lang</code></td>
+<td>language of the words Quarto writes itself (Table of contents,
+Figure, Table, and, References)</td>
+<td><code>en</code>, <code>fr</code>…</td>
+</tr>
+<tr class="even">
+<td><code>format</code></td>
+<td>opens the list of outputs; each one (<code>html</code>,
+<code>typst</code>, <code>pdf</code>, <code>docx</code>) has its own
+options indented below it</td>
+<td>output names</td>
+</tr>
+<tr class="odd">
+<td><code>bibliography</code></td>
+<td>the BibTeX file of the references (next section)</td>
+<td>path to a .bib file</td>
+</tr>
+<tr class="even">
+<td><code>execute</code></td>
+<td>default options of <strong>all</strong> chunks (below)</td>
+<td>options indented below</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Under <code>format:</code></strong>:</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Formats</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>toc</code></td>
+<td>all</td>
+<td>adds a table of contents</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>toc-depth</code></td>
+<td>all</td>
+<td>heading levels in the table of contents</td>
+<td>a number (default 3)</td>
+</tr>
+<tr class="odd">
+<td><code>number-sections</code></td>
+<td>all</td>
+<td>numbers the headings 1, 1.1… (needed for <code>@sec-</code>
+references)</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>code-fold</code></td>
+<td>html</td>
+<td>adds a <em>Code</em> button above each chunk; code hidden until the
+reader clicks</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="odd">
+<td><code>embed-resources</code></td>
+<td>html</td>
+<td>puts images, styles and scripts <strong>inside</strong> the .html:
+one file to send</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>papersize</code></td>
+<td>typst, pdf</td>
+<td>paper size</td>
+<td><code>a4</code>, <code>us-letter</code></td>
+</tr>
+<tr class="odd">
+<td><code>margin</code> with <code>x</code> and <code>y</code></td>
+<td>typst</td>
+<td><code>x</code> = left and right margins, <code>y</code> = top and
+bottom</td>
+<td>lengths: <code>2.5cm</code>, <code>1in</code></td>
+</tr>
+<tr class="even">
+<td><code>geometry</code></td>
+<td>pdf (LaTeX)</td>
+<td>margins, in the syntax of the LaTeX package <em>geometry</em></td>
+<td><code>margin=2.5cm</code>, or <code>left=3cm,right=2cm</code></td>
+</tr>
+<tr class="odd">
+<td><code>citeproc</code></td>
+<td>typst</td>
+<td>lets Quarto format the citations (author–year, as in HTML) instead
+of Typst’s own numbered style</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>lof</code>, <code>lot</code></td>
+<td>pdf (LaTeX)</td>
+<td><strong>l</strong>ist <strong>o</strong>f <strong>f</strong>igures,
+<strong>l</strong>ist <strong>o</strong>f <strong>t</strong>ables after
+the table of contents</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="odd">
+<td><code>reference-doc</code></td>
+<td>docx</td>
+<td>Word file whose styles are copied (Session A9)</td>
+<td>path to a .docx</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Under <code>execute:</code></strong> (the same option written
+as <code>#|</code> in a chunk wins over it):</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>What it does</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>echo</code></td>
+<td>shows the code in the output</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>warning</code>, <code>message</code></td>
+<td>shows R warnings / messages (e.g. those of
+<code>library()</code>)</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="odd">
+<td><code>cache</code></td>
+<td>keeps chunk results between two renderings</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>freeze</code></td>
+<td>in a project only (Session A9): re-run the code only when the file
+changed</td>
+<td><code>auto</code>, <code>true</code>, <code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p>The list of all options of a format is in the Quarto reference: <a
+href="https://quarto.org/docs/reference/"
+class="uri">https://quarto.org/docs/reference/</a> (choose
+<em>HTML</em>, <em>Typst</em>, <em>PDF</em> or <em>Word</em>). In
+RStudio, <strong>Ctrl + Space</strong> inside the YAML proposes the
+valid keys.</p>
 </div>
 <div class="fr">
-<ul>
-<li><code>author:</code> peut être une liste avec <code>name</code>,
-<code>affiliation</code>, <code>email</code>, <code>orcid</code>.</li>
-<li><code>date: today</code> est remplacé par la date de production ;
-<code>date-format</code> choisit sa forme ; <code>lang: fr</code>
-traduit « Table des matières », « Figure », « Tableau » en
-français.</li>
-<li>Sous <code>format:</code>, chaque sortie a ses propres options. Les
-options communes (bibliographie, <code>execute</code>) restent au
-premier niveau.</li>
-<li><code>execute:</code> fixe les options de chunk par défaut de tout
-le document (<code>echo</code>, <code>warning</code>,
-<code>message</code>, <code>cache</code>…). Un chunk peut encore les
-changer avec ses propres lignes <code>#|</code>.</li>
-</ul>
+<p>Les clés Quarto s’écrivent avec un <strong>tiret</strong>
+(<code>number-sections</code>, <code>code-fold</code>), celles de R
+Markdown avec un <strong>tiret bas</strong>
+(<code>number_sections</code>, <code>code_folding</code>) : même idée,
+noms différents — encore un cas où deux outils n’utilisent pas le même
+nom pour la même chose. L’indentation (deux espaces) indique quelle clé
+appartient à laquelle.</p>
+<p><strong>Premier niveau</strong> (valable pour tous les formats) :</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Clé</th>
+<th>Ce qu’elle fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>title</code>, <code>subtitle</code></td>
+<td>textes en haut du document</td>
+<td>texte</td>
+</tr>
+<tr class="even">
+<td><code>author</code></td>
+<td>le ou les auteurs ; un texte simple, ou une liste où chaque auteur a
+<code>name</code> et éventuellement <code>affiliation</code>,
+<code>email</code>, <code>orcid</code></td>
+<td>texte, ou une liste commençant par <code>- name:</code></td>
+</tr>
+<tr class="odd">
+<td><code>date</code></td>
+<td>date sous le titre ; <code>today</code> = le jour de la
+production</td>
+<td><code>today</code>, ou une date <code>2025-11-30</code></td>
+</tr>
+<tr class="even">
+<td><code>date-format</code></td>
+<td>forme de la date : <code>D</code> jour, <code>MMMM</code> mois en
+lettres, <code>YYYY</code> année</td>
+<td>un motif, ex. <code>"D MMMM YYYY"</code> → 5 novembre 2026</td>
+</tr>
+<tr class="odd">
+<td><code>lang</code></td>
+<td>langue des mots que Quarto écrit lui-même (Table des matières,
+Figure, Tableau, et, Références)</td>
+<td><code>en</code>, <code>fr</code>…</td>
+</tr>
+<tr class="even">
+<td><code>format</code></td>
+<td>ouvre la liste des sorties ; chacune (<code>html</code>,
+<code>typst</code>, <code>pdf</code>, <code>docx</code>) a ses options
+décalées en dessous</td>
+<td>noms de sorties</td>
+</tr>
+<tr class="odd">
+<td><code>bibliography</code></td>
+<td>le fichier BibTeX des références (section suivante)</td>
+<td>chemin vers un .bib</td>
+</tr>
+<tr class="even">
+<td><code>execute</code></td>
+<td>options par défaut de <strong>tous</strong> les chunks
+(ci-dessous)</td>
+<td>options décalées en dessous</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sous <code>format:</code></strong> :</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Clé</th>
+<th>Formats</th>
+<th>Ce qu’elle fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>toc</code></td>
+<td>tous</td>
+<td>ajoute une table des matières</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>toc-depth</code></td>
+<td>tous</td>
+<td>niveaux de titres dans la table des matières</td>
+<td>un nombre (3 par défaut)</td>
+</tr>
+<tr class="odd">
+<td><code>number-sections</code></td>
+<td>tous</td>
+<td>numérote les titres 1, 1.1… (nécessaire pour les renvois
+<code>@sec-</code>)</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>code-fold</code></td>
+<td>html</td>
+<td>ajoute un bouton <em>Code</em> au-dessus de chaque chunk ; code
+caché jusqu’au clic du lecteur</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="odd">
+<td><code>embed-resources</code></td>
+<td>html</td>
+<td>met images, styles et scripts <strong>dans</strong> le .html : un
+seul fichier à envoyer</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>papersize</code></td>
+<td>typst, pdf</td>
+<td>format du papier</td>
+<td><code>a4</code>, <code>us-letter</code></td>
+</tr>
+<tr class="odd">
+<td><code>margin</code> avec <code>x</code> et <code>y</code></td>
+<td>typst</td>
+<td><code>x</code> = marges gauche et droite, <code>y</code> = haut et
+bas</td>
+<td>longueurs : <code>2.5cm</code>, <code>1in</code></td>
+</tr>
+<tr class="even">
+<td><code>geometry</code></td>
+<td>pdf (LaTeX)</td>
+<td>marges, dans la syntaxe du package LaTeX <em>geometry</em></td>
+<td><code>margin=2.5cm</code>, ou <code>left=3cm,right=2cm</code></td>
+</tr>
+<tr class="odd">
+<td><code>citeproc</code></td>
+<td>typst</td>
+<td>laisse Quarto mettre en forme les citations (auteur–date, comme en
+HTML) au lieu du style numéroté propre à Typst</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>lof</code>, <code>lot</code></td>
+<td>pdf (LaTeX)</td>
+<td>liste des figures (<em>list of figures</em>), liste des tableaux
+(<em>list of tables</em>) après la table des matières</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="odd">
+<td><code>reference-doc</code></td>
+<td>docx</td>
+<td>fichier Word dont les styles sont copiés (séance A9)</td>
+<td>chemin vers un .docx</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sous <code>execute:</code></strong> (la même option écrite en
+<code>#|</code> dans un chunk l’emporte) :</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Clé</th>
+<th>Ce qu’elle fait</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>echo</code></td>
+<td>montre le code dans la sortie</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>warning</code>, <code>message</code></td>
+<td>montre les avertissements / messages de R (ex. ceux de
+<code>library()</code>)</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="odd">
+<td><code>cache</code></td>
+<td>garde les résultats des chunks entre deux productions</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>freeze</code></td>
+<td>dans un projet seulement (séance A9) : ne relance le code que si le
+fichier a changé</td>
+<td><code>auto</code>, <code>true</code>, <code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p>La liste de toutes les options d’un format est dans la référence
+Quarto : <a href="https://quarto.org/docs/reference/"
+class="uri">https://quarto.org/docs/reference/</a> (choisissez
+<em>HTML</em>, <em>Typst</em>, <em>PDF</em> ou <em>Word</em>). Dans
+RStudio, <strong>Ctrl + Espace</strong> dans le YAML propose les clés
+valides.</p>
 </div>
 </div>
 <div id="xref" class="section level2">
@@ -1485,7 +1984,7 @@ affiche <code>?@fig-agb</code>, le label ne commence pas par
 </div>
 </div>
 <div id="quiz-a08" class="quiz" data-quiz-id="a08"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHRyZWVzIGluIHRoZSBTdW1tYXJ5PyIsImZyIjoiMS4gTm9tYnJlIGQnYXJicmVzIGRhbnMgbGUgcsOpc3Vtw6kgPyIsImFuc3dlciI6MTM1MywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gTnVtYmVyIG9mIERCSCB2YWx1ZXMgY29ycmVjdGVkPyIsImZyIjoiMi4gTm9tYnJlIGRlIERIUCBjb3JyaWfDqXMgPyIsImFuc3dlciI6NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiM2EuIE1lYW4gYmlvbWFzcyBvZiB0aGUgcmVmZXJlbmNlIHN0YW5kcyAodC9oYSk/IiwiZnIiOiIzYS4gQmlvbWFzc2UgbW95ZW5uZSBkZXMgcGV1cGxlbWVudHMgZGUgcsOpZsOpcmVuY2UgKHQvaGEpID8iLCJhbnN3ZXIiOjI2NSwidG9sIjoxLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiM2IuIE1lYW4gYmlvbWFzcyBvZiB0aGUgaGFydmVzdGVkIHN0YW5kcyAodC9oYSk/IiwiZnIiOiIzYi4gQmlvbWFzc2UgbW95ZW5uZSBkZXMgcGV1cGxlbWVudHMgZXhwbG9pdMOpcyAodC9oYSkgPyIsImFuc3dlciI6MzQsInRvbCI6MSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIFNoYXJlIG9mIFJoaXpvcGhvcmEgbXVjcm9uYXRhIGluIHRoZSBsaXZpbmcgYmlvbWFzcyAoJSwgMSBkZWNpbWFsKT8iLCJmciI6IjQuIFBhcnQgZGUgUmhpem9waG9yYSBtdWNyb25hdGEgZGFucyBsYSBiaW9tYXNzZSB2aXZhbnRlICglLCAxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6NDEsInRvbCI6MC4xMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFRvIHJlZmVyIHRvIHRoZSBmaWd1cmUgbWFkZSBieSBhIGNodW5rLCBpdHMgbGFiZWwgbXVzdCBiZToiLCJmciI6IjUuIFBvdXIgcmVudm95ZXIgw6AgbGEgZmlndXJlIGQndW4gY2h1bmssIHNvbiBsYWJlbCBkb2l0IMOqdHJlIDoiLCJvcHRpb25zX2VuIjpbIiN8IGxhYmVsOiBhZ2IiLCIjfCBsYWJlbDogZmlnLWFnYiIsIntyIGZpZzphZ2J9IiwiI3wgZmlnLWxhYmVsOiBhZ2IiXSwib3B0aW9uc19mciI6WyIjfCBsYWJlbDogYWdiIiwiI3wgbGFiZWw6IGZpZy1hZ2IiLCJ7ciBmaWc6YWdifSIsIiN8IGZpZy1sYWJlbDogYWdiIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBJbiB0aGUgdGV4dCB5b3Ugd3JpdGUgXCJzZWUgQHRibC1zdGF0dXMgW0Brb21peWFtYTIwMDVdXCIuIFdoYXQgaGFwcGVucz8iLCJmciI6IjYuIERhbnMgbGUgdGV4dGUgdm91cyDDqWNyaXZleiDCqyB2b2lyIEB0Ymwtc3RhdHVzIFtAa29taXlhbWEyMDA1XSDCuy4gUXVlIHNlIHBhc3NlLXQtaWwgPyIsIm9wdGlvbnNfZW4iOlsiQm90aCBhcHBlYXIgbm9ybWFsbHkiLCJUaGUgY2l0YXRpb24gaXMgc3dhbGxvd2VkIGFzIGEgY29tbWVudCBvZiB0aGUgdGFibGUgcmVmZXJlbmNlIiwiUXVhcnRvIHN0b3BzIHdpdGggYW4gZXJyb3IiLCJUaGUgdGFibGUgaXMgcmVudW1iZXJlZCJdLCJvcHRpb25zX2ZyIjpbIkxlcyBkZXV4IGFwcGFyYWlzc2VudCBub3JtYWxlbWVudCIsIkxhIGNpdGF0aW9uIGVzdCBhdmFsw6llIGNvbW1lIGNvbW1lbnRhaXJlIGR1IHJlbnZvaSBhdSB0YWJsZWF1IiwiUXVhcnRvIHMnYXJyw6p0ZSBhdmVjIHVuZSBlcnJldXIiLCJMZSB0YWJsZWF1IGVzdCByZW51bcOpcm90w6kiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFdoaWNoIG91dHB1dCBnaXZlcyBhIGxpc3Qgb2YgZmlndXJlcyBhbmQgYSBsaXN0IG9mIHRhYmxlcyB3aXRoIGxvZjogdHJ1ZSBhbmQgbG90OiB0cnVlPyIsImZyIjoiNy4gUXVlbGxlIHNvcnRpZSBkb25uZSB1bmUgbGlzdGUgZGVzIGZpZ3VyZXMgZXQgdW5lIGxpc3RlIGRlcyB0YWJsZWF1eCBhdmVjIGxvZjogdHJ1ZSBldCBsb3Q6IHRydWUgPyIsIm9wdGlvbnNfZW4iOlsiaHRtbCIsImRvY3giLCJwZGYgKExhVGVYKSIsImFsbCBvZiB0aGVtIl0sIm9wdGlvbnNfZnIiOlsiaHRtbCIsImRvY3giLCJwZGYgKExhVGVYKSIsInRvdXRlcyJdLCJhbnN3ZXIiOjJ9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gVG8gY2l0ZSBpbiBBUEEgc3R5bGUgaW5zdGVhZCBvZiB0aGUgZGVmYXVsdCBzdHlsZSB5b3U6IiwiZnIiOiI4LiBQb3VyIGNpdGVyIGVuIHN0eWxlIEFQQSBhdSBsaWV1IGR1IHN0eWxlIHBhciBkw6lmYXV0IHZvdXMgOiIsIm9wdGlvbnNfZW4iOlsiYWRkIGNzbDogYXBhLmNzbCB0byB0aGUgWUFNTCAod2l0aCB0aGUgLmNzbCBmaWxlKSIsInJlbmFtZSByZWZlcmVuY2VzLmJpYiB0byBhcGEuYmliIiwid3JpdGUgdGhlIHJlZmVyZW5jZXMgYnkgaGFuZCIsInVzZSBmb3JtYXQ6IGFwYSJdLCJvcHRpb25zX2ZyIjpbImFqb3V0ZXogY3NsOiBhcGEuY3NsIGF1IFlBTUwgKGF2ZWMgbGUgZmljaGllciAuY3NsKSIsInJlbm9tbWV6IHJlZmVyZW5jZXMuYmliIGVuIGFwYS5iaWIiLCLDqWNyaXZleiBsZXMgcsOpZsOpcmVuY2VzIMOgIGxhIG1haW4iLCJ1dGlsaXNleiBmb3JtYXQ6IGFwYSJdLCJhbnN3ZXIiOjB9XQ==">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHRyZWVzIGluIHRoZSBTdW1tYXJ5PyIsImZyIjoiMS4gTm9tYnJlIGQnYXJicmVzIGRhbnMgbGUgcsOpc3Vtw6kgPyIsImFuc3dlciI6MTM1MywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gTnVtYmVyIG9mIERCSCB2YWx1ZXMgY29ycmVjdGVkPyIsImZyIjoiMi4gTm9tYnJlIGRlIERIUCBjb3JyaWfDqXMgPyIsImFuc3dlciI6NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiM2EuIE1lYW4gYmlvbWFzcyBvZiB0aGUgcmVmZXJlbmNlIHN0YW5kcyAodC9oYSk/IiwiZnIiOiIzYS4gQmlvbWFzc2UgbW95ZW5uZSBkZXMgcGV1cGxlbWVudHMgZGUgcsOpZsOpcmVuY2UgKHQvaGEpID8iLCJhbnN3ZXIiOjI2NSwidG9sIjoxLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiM2IuIE1lYW4gYmlvbWFzcyBvZiB0aGUgaGFydmVzdGVkIHN0YW5kcyAodC9oYSk/IiwiZnIiOiIzYi4gQmlvbWFzc2UgbW95ZW5uZSBkZXMgcGV1cGxlbWVudHMgZXhwbG9pdMOpcyAodC9oYSkgPyIsImFuc3dlciI6MzQsInRvbCI6MSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIFNoYXJlIG9mIFJoaXpvcGhvcmEgbXVjcm9uYXRhIGluIHRoZSBsaXZpbmcgYmlvbWFzcyAoJSwgMSBkZWNpbWFsKT8iLCJmciI6IjQuIFBhcnQgZGUgUmhpem9waG9yYSBtdWNyb25hdGEgZGFucyBsYSBiaW9tYXNzZSB2aXZhbnRlICglLCAxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6NDEsInRvbCI6MC4xMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFRvIHJlZmVyIHRvIHRoZSBmaWd1cmUgbWFkZSBieSBhIGNodW5rLCBpdHMgbGFiZWwgbXVzdCBiZToiLCJmciI6IjUuIFBvdXIgcmVudm95ZXIgw6AgbGEgZmlndXJlIGQndW4gY2h1bmssIHNvbiBsYWJlbCBkb2l0IMOqdHJlIDoiLCJvcHRpb25zX2VuIjpbIiN8IGxhYmVsOiBhZ2IiLCIjfCBsYWJlbDogZmlnLWFnYiIsIntyIGZpZzphZ2J9IiwiI3wgZmlnLWxhYmVsOiBhZ2IiXSwib3B0aW9uc19mciI6WyIjfCBsYWJlbDogYWdiIiwiI3wgbGFiZWw6IGZpZy1hZ2IiLCJ7ciBmaWc6YWdifSIsIiN8IGZpZy1sYWJlbDogYWdiIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBJbiB0aGUgdGV4dCB5b3Ugd3JpdGUgXCJzZWUgQHRibC1zdGF0dXMgW0Brb21peWFtYTIwMDVdXCIuIFdoYXQgaGFwcGVucz8iLCJmciI6IjYuIERhbnMgbGUgdGV4dGUgdm91cyDDqWNyaXZleiDCqyB2b2lyIEB0Ymwtc3RhdHVzIFtAa29taXlhbWEyMDA1XSDCuy4gUXVlIHNlIHBhc3NlLXQtaWwgPyIsIm9wdGlvbnNfZW4iOlsiQm90aCBhcHBlYXIgbm9ybWFsbHkiLCJUaGUgY2l0YXRpb24gaXMgc3dhbGxvd2VkIGFzIGEgY29tbWVudCBvZiB0aGUgdGFibGUgcmVmZXJlbmNlIiwiUXVhcnRvIHN0b3BzIHdpdGggYW4gZXJyb3IiLCJUaGUgdGFibGUgaXMgcmVudW1iZXJlZCJdLCJvcHRpb25zX2ZyIjpbIkxlcyBkZXV4IGFwcGFyYWlzc2VudCBub3JtYWxlbWVudCIsIkxhIGNpdGF0aW9uIGVzdCBhdmFsw6llIGNvbW1lIGNvbW1lbnRhaXJlIGR1IHJlbnZvaSBhdSB0YWJsZWF1IiwiUXVhcnRvIHMnYXJyw6p0ZSBhdmVjIHVuZSBlcnJldXIiLCJMZSB0YWJsZWF1IGVzdCByZW51bcOpcm90w6kiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFdoaWNoIG91dHB1dCBnaXZlcyBhIGxpc3Qgb2YgZmlndXJlcyBhbmQgYSBsaXN0IG9mIHRhYmxlcyB3aXRoIGxvZjogdHJ1ZSBhbmQgbG90OiB0cnVlPyIsImZyIjoiNy4gUXVlbGxlIHNvcnRpZSBkb25uZSB1bmUgbGlzdGUgZGVzIGZpZ3VyZXMgZXQgdW5lIGxpc3RlIGRlcyB0YWJsZWF1eCBhdmVjIGxvZjogdHJ1ZSBldCBsb3Q6IHRydWUgPyIsIm9wdGlvbnNfZW4iOlsiaHRtbCIsImRvY3giLCJwZGYgKExhVGVYKSIsImFsbCBvZiB0aGVtIl0sIm9wdGlvbnNfZnIiOlsiaHRtbCIsImRvY3giLCJwZGYgKExhVGVYKSIsInRvdXRlcyJdLCJhbnN3ZXIiOjJ9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gVG8gY2l0ZSBpbiBBUEEgc3R5bGUgaW5zdGVhZCBvZiB0aGUgZGVmYXVsdCBzdHlsZSB5b3U6IiwiZnIiOiI4LiBQb3VyIGNpdGVyIGVuIHN0eWxlIEFQQSBhdSBsaWV1IGR1IHN0eWxlIHBhciBkw6lmYXV0IHZvdXMgOiIsIm9wdGlvbnNfZW4iOlsiYWRkIGNzbDogYXBhLmNzbCB0byB0aGUgWUFNTCAod2l0aCB0aGUgLmNzbCBmaWxlKSIsInJlbmFtZSByZWZlcmVuY2VzLmJpYiB0byBhcGEuYmliIiwid3JpdGUgdGhlIHJlZmVyZW5jZXMgYnkgaGFuZCIsInVzZSBmb3JtYXQ6IGFwYSJdLCJvcHRpb25zX2ZyIjpbImFqb3V0ZXogY3NsOiBhcGEuY3NsIGF1IFlBTUwgKGF2ZWMgbGUgZmljaGllciAuY3NsKSIsInJlbm9tbWV6IHJlZmVyZW5jZXMuYmliIGVuIGFwYS5iaWIiLCLDqWNyaXZleiBsZXMgcsOpZsOpcmVuY2VzIMOgIGxhIG1haW4iLCJ1dGlsaXNleiBmb3JtYXQ6IGFwYSJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiOS4gSW4gYSBRdWFydG8gY2h1bmssIGhvdyBkbyB5b3UgaGlkZSB0aGUgY29kZSBidXQga2VlcCB0aGUgcmVzdWx0PyIsImZyIjoiOS4gRGFucyB1biBjaHVuayBRdWFydG8sIGNvbW1lbnQgY2FjaGVyIGxlIGNvZGUgbWFpcyBnYXJkZXIgbGUgcsOpc3VsdGF0ID8iLCJvcHRpb25zX2VuIjpbIiN8IGVjaG86IGZhbHNlIiwiI3wgZWNobyA9IEZBTFNFIiwie3IsIGVjaG8gPSBGQUxTRX0gb25seSIsIiN8IGluY2x1ZGU6IGZhbHNlIl0sIm9wdGlvbnNfZnIiOlsiI3wgZWNobzogZmFsc2UiLCIjfCBlY2hvID0gRkFMU0UiLCJ7ciwgZWNobyA9IEZBTFNFfSBzZXVsZW1lbnQiLCIjfCBpbmNsdWRlOiBmYWxzZSJdLCJhbnN3ZXIiOjB9XQ==">
 
 </div>
 <div class="solution" data-quiz="a08">

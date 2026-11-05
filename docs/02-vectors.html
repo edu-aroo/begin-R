@@ -625,6 +625,77 @@ avec la fonction <code>c()</code> (pour <em>combine</em>, combiner).</p>
 <pre><code>#&gt; [1] 45 60 12 NA 80 33  0 55</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">length</span>(cover)                               <span class="co"># number of values</span></span></code></pre></div>
 <pre><code>#&gt; [1] 8</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>c(...)</code></td>
+<td><strong>c</strong>ombines values into one vector</td>
+<td>values separated by commas</td>
+</tr>
+<tr class="even">
+<td><code>NA</code></td>
+<td>a missing value (quadrat not measured); written without quotes</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>length(x)</code></td>
+<td>number of values in the vector <code>x</code></td>
+<td>a vector</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>c(...)</code></td>
+<td><strong>c</strong>ombine des valeurs en un vecteur</td>
+<td>des valeurs séparées par des virgules</td>
+</tr>
+<tr class="even">
+<td><code>NA</code></td>
+<td>une valeur manquante (quadrat non mesuré) ; s’écrit sans
+guillemets</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>length(x)</code></td>
+<td>nombre de valeurs du vecteur <code>x</code></td>
+<td>un vecteur</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="build" class="section level2">
 <h2><span class="en">Building vectors: <code>seq()</code>,
@@ -651,9 +722,9 @@ class="fr"><code>seq()</code> — suites régulières</span></h3>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="dv">5</span>)                  <span class="co"># same thing: arguments given by position</span></span></code></pre></div>
 <pre><code>#&gt; [1]  0  5 10 15 20 25</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="fl">0.5</span>)              <span class="co"># PIT points every 0.5 m on a 25 m tape -&gt; 50 points</span></span></code></pre></div>
-<pre><code>#&gt;  [1]  0.5  1.0  1.5  2.0  2.5  3.0  3.5  4.0  4.5  5.0  5.5  6.0  6.5  7.0  7.5  8.0  8.5  9.0  9.5 10.0 10.5
-#&gt; [22] 11.0 11.5 12.0 12.5 13.0 13.5 14.0 14.5 15.0 15.5 16.0 16.5 17.0 17.5 18.0 18.5 19.0 19.5 20.0 20.5 21.0
-#&gt; [43] 21.5 22.0 22.5 23.0 23.5 24.0 24.5 25.0</code></pre>
+<pre><code>#&gt;  [1]  0.5  1.0  1.5  2.0  2.5  3.0  3.5  4.0  4.5  5.0  5.5  6.0  6.5  7.0  7.5  8.0  8.5
+#&gt; [18]  9.0  9.5 10.0 10.5 11.0 11.5 12.0 12.5 13.0 13.5 14.0 14.5 15.0 15.5 16.0 16.5 17.0
+#&gt; [35] 17.5 18.0 18.5 19.0 19.5 20.0 20.5 21.0 21.5 22.0 22.5 23.0 23.5 24.0 24.5 25.0</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">length.out =</span> <span class="dv">5</span>)         <span class="co"># 5 equally spaced values between 0 and 100</span></span></code></pre></div>
 <pre><code>#&gt; [1]   0  25  50  75 100</code></pre>
 <div class="en">
@@ -665,6 +736,100 @@ lets R compute the step.</p>
 <p><code>by</code> donne le <strong>pas</strong> ;
 <code>length.out</code> donne le <strong>nombre de valeurs</strong> et
 laisse R calculer le pas.</p>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>a:b</code></td>
+<td>whole numbers from <code>a</code> to <code>b</code>, step 1</td>
+<td>two numbers</td>
+</tr>
+<tr class="even">
+<td><code>seq()</code></td>
+<td>builds a regular sequence</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>from</code>, <code>to</code></td>
+<td>first value, last value (<code>to</code> is reached only if the
+steps fall on it)</td>
+<td>numbers</td>
+</tr>
+<tr class="even">
+<td>  <code>by</code></td>
+<td>the step between two values</td>
+<td>a number</td>
+</tr>
+<tr class="odd">
+<td>  <code>length.out</code></td>
+<td>how many values you want; give <code>by</code> <strong>or</strong>
+<code>length.out</code>, not both</td>
+<td>a whole number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>a:b</code></td>
+<td>les entiers de <code>a</code> à <code>b</code>, pas de 1</td>
+<td>deux nombres</td>
+</tr>
+<tr class="even">
+<td><code>seq()</code></td>
+<td>crée une suite régulière</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>from</code>, <code>to</code></td>
+<td>première valeur, dernière valeur (<code>to</code> n’est atteint que
+si les pas tombent dessus)</td>
+<td>nombres</td>
+</tr>
+<tr class="even">
+<td>  <code>by</code></td>
+<td>le pas entre deux valeurs</td>
+<td>un nombre</td>
+</tr>
+<tr class="odd">
+<td>  <code>length.out</code></td>
+<td>combien de valeurs vous voulez ; donnez <code>by</code>
+<strong>ou</strong> <code>length.out</code>, pas les deux</td>
+<td>un nombre entier</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 <div id="rep-repeating-valuesrep-répéter-des-valeurs"
@@ -679,6 +844,89 @@ class="fr"><code>rep()</code> — répéter des valeurs</span></h3>
 <pre><code>#&gt; [1] &quot;Inside&quot;  &quot;Inside&quot;  &quot;Outside&quot; &quot;Outside&quot;</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;T1&quot;</span>, <span class="st">&quot;T2&quot;</span>, <span class="st">&quot;T3&quot;</span>), <span class="at">each =</span> <span class="dv">2</span>, <span class="at">times =</span> <span class="dv">2</span>)  <span class="co"># combine both</span></span></code></pre></div>
 <pre><code>#&gt;  [1] &quot;T1&quot; &quot;T1&quot; &quot;T2&quot; &quot;T2&quot; &quot;T3&quot; &quot;T3&quot; &quot;T1&quot; &quot;T1&quot; &quot;T2&quot; &quot;T2&quot; &quot;T3&quot; &quot;T3&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>rep(x, times, each)</code></td>
+<td>repeats values</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>x</code></td>
+<td>what to repeat</td>
+<td>a value or a vector</td>
+</tr>
+<tr class="odd">
+<td>  <code>times</code></td>
+<td>how many times the <strong>whole</strong> <code>x</code> is
+repeated</td>
+<td>a whole number</td>
+</tr>
+<tr class="even">
+<td>  <code>each</code></td>
+<td>how many times <strong>each element</strong> is repeated (done
+before <code>times</code>)</td>
+<td>a whole number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>rep(x, times, each)</code></td>
+<td>répète des valeurs</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>x</code></td>
+<td>ce qu’il faut répéter</td>
+<td>une valeur ou un vecteur</td>
+</tr>
+<tr class="odd">
+<td>  <code>times</code></td>
+<td>combien de fois <strong>tout</strong> <code>x</code> est répété</td>
+<td>un nombre entier</td>
+</tr>
+<tr class="even">
+<td>  <code>each</code></td>
+<td>combien de fois <strong>chaque élément</strong> est répété (fait
+avant <code>times</code>)</td>
+<td>un nombre entier</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout ecology">
 <div class="en">
 <p><strong>Building a field sheet.</strong> 3 sites × 4 quadrats:
@@ -694,8 +942,8 @@ encore les numéros de quadrats.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>site    <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Ambalaboy&quot;</span>, <span class="st">&quot;Fasimena&quot;</span>, <span class="st">&quot;Tsiandamba&quot;</span>), <span class="at">each =</span> <span class="dv">4</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>quadrat <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">times =</span> <span class="dv">3</span>)</span>
 <span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>site</span></code></pre></div>
-<pre><code>#&gt;  [1] &quot;Ambalaboy&quot;  &quot;Ambalaboy&quot;  &quot;Ambalaboy&quot;  &quot;Ambalaboy&quot;  &quot;Fasimena&quot;   &quot;Fasimena&quot;   &quot;Fasimena&quot;   &quot;Fasimena&quot;  
-#&gt;  [9] &quot;Tsiandamba&quot; &quot;Tsiandamba&quot; &quot;Tsiandamba&quot; &quot;Tsiandamba&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;Ambalaboy&quot;  &quot;Ambalaboy&quot;  &quot;Ambalaboy&quot;  &quot;Ambalaboy&quot;  &quot;Fasimena&quot;   &quot;Fasimena&quot;  
+#&gt;  [7] &quot;Fasimena&quot;   &quot;Fasimena&quot;   &quot;Tsiandamba&quot; &quot;Tsiandamba&quot; &quot;Tsiandamba&quot; &quot;Tsiandamba&quot;</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>quadrat</span></code></pre></div>
 <pre><code>#&gt;  [1] 1 2 3 4 1 2 3 4 1 2 3 4</code></pre>
 </div>
@@ -737,6 +985,100 @@ essentiel pour une science reproductible (et pour les quiz de ce cours
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">size =</span> <span class="dv">5</span>)              <span class="co"># same seed -&gt; exactly the same draw as above</span></span></code></pre></div>
 <pre><code>#&gt; [1] 31 15 14  3 42</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>set.seed(seed)</code></td>
+<td>fixes the starting point of the random generator</td>
+<td>any whole number (<code>123</code>, <code>2026</code>…): the same
+number gives the same draws</td>
+</tr>
+<tr class="even">
+<td><code>sample(x, size, replace = FALSE)</code></td>
+<td>draws values at random</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>x</code></td>
+<td>the values to draw from</td>
+<td>a vector</td>
+</tr>
+<tr class="even">
+<td>  <code>size</code></td>
+<td>how many values to draw</td>
+<td>a whole number</td>
+</tr>
+<tr class="odd">
+<td>  <code>replace</code></td>
+<td><code>FALSE</code> (default): each value at most once;
+<code>TRUE</code>: a value can be drawn again</td>
+<td><code>TRUE</code> / <code>FALSE</code> (capitals in R)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>set.seed(seed)</code></td>
+<td>fixe le point de départ du générateur aléatoire</td>
+<td>n’importe quel entier (<code>123</code>, <code>2026</code>…) : le
+même nombre donne les mêmes tirages</td>
+</tr>
+<tr class="even">
+<td><code>sample(x, size, replace = FALSE)</code></td>
+<td>tire des valeurs au hasard</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>x</code></td>
+<td>les valeurs parmi lesquelles tirer</td>
+<td>un vecteur</td>
+</tr>
+<tr class="even">
+<td>  <code>size</code></td>
+<td>combien de valeurs tirer</td>
+<td>un nombre entier</td>
+</tr>
+<tr class="odd">
+<td>  <code>replace</code></td>
+<td><code>FALSE</code> (défaut) : chaque valeur au plus une fois ;
+<code>TRUE</code> : une valeur peut être retirée</td>
+<td><code>TRUE</code> / <code>FALSE</code> (majuscules dans R)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><code>set.seed()</code> must be run <strong>just before</strong>
@@ -867,6 +1209,84 @@ numérique (on corrigera cela en séance 5).</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="fu">as.numeric</span>(mixed)   <span class="co"># convert back to numbers: &quot;-&quot; becomes NA (with a warning)</span></span></code></pre></div>
 <pre><code>#&gt; Warning: NAs introduced by coercion</code></pre>
 <pre><code>#&gt; [1] 45 60 NA 12</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>class(x)</code></td>
+<td>the type of <code>x</code>: <code>"numeric"</code>,
+<code>"character"</code>, <code>"logical"</code>,
+<code>"factor"</code>…</td>
+<td>any object</td>
+</tr>
+<tr class="even">
+<td><code>;</code></td>
+<td>separates two commands written on the same line</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>as.numeric(x)</code></td>
+<td>converts <code>x</code> to numbers; what cannot be converted becomes
+<code>NA</code>. Same family: <code>as.character()</code>,
+<code>as.logical()</code></td>
+<td>a vector</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>class(x)</code></td>
+<td>le type de <code>x</code> : <code>"numeric"</code>,
+<code>"character"</code>, <code>"logical"</code>,
+<code>"factor"</code>…</td>
+<td>n’importe quel objet</td>
+</tr>
+<tr class="even">
+<td><code>;</code></td>
+<td>sépare deux commandes écrites sur la même ligne</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>as.numeric(x)</code></td>
+<td>convertit <code>x</code> en nombres ; ce qui ne peut pas l’être
+devient <code>NA</code>. Même famille : <code>as.character()</code>,
+<code>as.logical()</code></td>
+<td>un vecteur</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="factorsles-facteurs" class="section level3">
 <h3><span class="en">Factors</span><span class="fr">Les
 facteurs</span></h3>
@@ -897,6 +1317,100 @@ l’ordre des groupes dans les tableaux et les graphiques.</p>
 <pre><code>#&gt; status2
 #&gt; Outside  Inside 
 #&gt;       2       3</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>factor(x, levels)</code></td>
+<td>turns <code>x</code> into a factor</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>x</code></td>
+<td>the values (categories)</td>
+<td>a vector, usually text</td>
+</tr>
+<tr class="odd">
+<td>  <code>levels</code></td>
+<td>the possible categories, <strong>in the order you want</strong>
+(default: alphabetical). A value not in <code>levels</code> becomes
+<code>NA</code></td>
+<td>a text vector <code>c("...", "...")</code></td>
+</tr>
+<tr class="even">
+<td><code>levels(f)</code></td>
+<td>the levels of the factor <code>f</code>, in their order</td>
+<td>a factor</td>
+</tr>
+<tr class="odd">
+<td><code>table(x)</code></td>
+<td>counts how many times each value appears</td>
+<td>a vector or a factor</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>factor(x, levels)</code></td>
+<td>transforme <code>x</code> en facteur</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>x</code></td>
+<td>les valeurs (catégories)</td>
+<td>un vecteur, en général du texte</td>
+</tr>
+<tr class="odd">
+<td>  <code>levels</code></td>
+<td>les catégories possibles, <strong>dans l’ordre voulu</strong> (par
+défaut : alphabétique). Une valeur absente de <code>levels</code>
+devient <code>NA</code></td>
+<td>un vecteur de texte <code>c("...", "...")</code></td>
+</tr>
+<tr class="even">
+<td><code>levels(f)</code></td>
+<td>les niveaux du facteur <code>f</code>, dans leur ordre</td>
+<td>un facteur</td>
+</tr>
+<tr class="odd">
+<td><code>table(x)</code></td>
+<td>compte combien de fois chaque valeur apparaît</td>
+<td>un vecteur ou un facteur</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="vector-maths" class="section level2">
@@ -934,105 +1448,229 @@ seule valeur :</p>
 <pre><code>#&gt; [1]  45 160</code></pre>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a><span class="fu">sd</span>(shoots)                        <span class="co"># standard deviation (Session 6)</span></span></code></pre></div>
 <pre><code>#&gt; [1] 50.57667</code></pre>
-</div>
-<div id="useful" class="section level2">
-<h2><span class="en">Useful functions on vectors</span><span
-class="fr">Fonctions utiles sur les vecteurs</span></h2>
+<div class="fa-box">
 <div class="en">
+<p><strong>Functions and arguments used here</strong></p>
 <table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th>Function</th>
-<th>What it returns</th>
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>length(x)</code></td>
-<td>number of values</td>
+<td><code>sum(x)</code>, <code>mean(x)</code>,
+<code>median(x)</code></td>
+<td>total, mean (average), median (middle value)</td>
+<td>a numeric vector</td>
 </tr>
 <tr class="even">
-<td><code>sort(x)</code> / <code>sort(x, decreasing = TRUE)</code></td>
-<td>the values sorted</td>
+<td><code>min(x)</code>, <code>max(x)</code>, <code>range(x)</code></td>
+<td>smallest value, largest value, both together</td>
+<td>a numeric vector</td>
 </tr>
 <tr class="odd">
-<td><code>rev(x)</code></td>
-<td>the values in reverse order</td>
+<td><code>sd(x)</code></td>
+<td>standard deviation</td>
+<td>a numeric vector</td>
 </tr>
 <tr class="even">
-<td><code>unique(x)</code></td>
-<td>each different value once</td>
-</tr>
-<tr class="odd">
-<td><code>head(x, n)</code> / <code>tail(x, n)</code></td>
-<td>the first / last n values</td>
-</tr>
-<tr class="even">
-<td><code>which.max(x)</code> / <code>which.min(x)</code></td>
-<td>the <strong>position</strong> of the max / min</td>
-</tr>
-<tr class="odd">
-<td><code>round(x, digits)</code></td>
-<td>rounded values</td>
-</tr>
-<tr class="even">
-<td><code>paste(a, b, sep = "_")</code> / <code>paste0(a, b)</code></td>
-<td>texts glued together</td>
-</tr>
-<tr class="odd">
-<td><code>cumsum(x)</code></td>
-<td>cumulative sum</td>
+<td>  <code>na.rm</code></td>
+<td>all these functions have this argument: <code>TRUE</code> ignores
+the missing values (see <em>Missing values</em> below)</td>
+<td><code>TRUE</code> / <code>FALSE</code> (default)</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
 <table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th>Fonction</th>
-<th>Ce qu’elle renvoie</th>
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>length(x)</code></td>
-<td>nombre de valeurs</td>
+<td><code>sum(x)</code>, <code>mean(x)</code>,
+<code>median(x)</code></td>
+<td>total, moyenne, médiane (valeur du milieu)</td>
+<td>un vecteur numérique</td>
 </tr>
 <tr class="even">
-<td><code>sort(x)</code> / <code>sort(x, decreasing = TRUE)</code></td>
-<td>les valeurs triées</td>
+<td><code>min(x)</code>, <code>max(x)</code>, <code>range(x)</code></td>
+<td>plus petite valeur, plus grande, les deux ensemble</td>
+<td>un vecteur numérique</td>
 </tr>
 <tr class="odd">
+<td><code>sd(x)</code></td>
+<td>écart-type</td>
+<td>un vecteur numérique</td>
+</tr>
+<tr class="even">
+<td>  <code>na.rm</code></td>
+<td>toutes ces fonctions ont cet argument : <code>TRUE</code> ignore les
+valeurs manquantes (voir <em>Valeurs manquantes</em> plus bas)</td>
+<td><code>TRUE</code> / <code>FALSE</code> (défaut)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="useful" class="section level2">
+<h2><span class="en">Useful functions on vectors</span><span
+class="fr">Fonctions utiles sur les vecteurs</span></h2>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sort(x, decreasing = FALSE)</code></td>
+<td>the values sorted; <code>decreasing = TRUE</code> = from largest to
+smallest. <code>NA</code>s are removed</td>
+<td>a vector; <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>rev(x)</code></td>
+<td>the values in reverse order</td>
+<td>a vector</td>
+</tr>
+<tr class="odd">
+<td><code>unique(x)</code></td>
+<td>each different value once</td>
+<td>a vector</td>
+</tr>
+<tr class="even">
+<td><code>head(x, n = 6)</code>, <code>tail(x, n = 6)</code></td>
+<td>the first / last <code>n</code> values (6 by default)</td>
+<td>a vector; a whole number</td>
+</tr>
+<tr class="odd">
+<td><code>which.max(x)</code>, <code>which.min(x)</code></td>
+<td>the <strong>position</strong> of the largest / smallest value (the
+first one if there are ties)</td>
+<td>a numeric vector</td>
+</tr>
+<tr class="even">
+<td><code>paste(..., sep = " ")</code></td>
+<td>glues texts together, element by element</td>
+<td>texts or numbers separated by commas</td>
+</tr>
+<tr class="odd">
+<td>  <code>sep</code></td>
+<td>what is put <strong>between</strong> the pieces; a space by default,
+<code>""</code> = nothing</td>
+<td>text in quotes</td>
+</tr>
+<tr class="even">
+<td><code>paste0(...)</code></td>
+<td>the same as <code>paste(..., sep = "")</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>cumsum(x)</code></td>
+<td>cumulative (running) sum</td>
+<td>a numeric vector</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sort(x, decreasing = FALSE)</code></td>
+<td>les valeurs triées ; <code>decreasing = TRUE</code> = de la plus
+grande à la plus petite. Les <code>NA</code> sont enlevés</td>
+<td>un vecteur ; <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+<tr class="even">
 <td><code>rev(x)</code></td>
 <td>les valeurs dans l’ordre inverse</td>
+<td>un vecteur</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>unique(x)</code></td>
 <td>chaque valeur différente une seule fois</td>
-</tr>
-<tr class="odd">
-<td><code>head(x, n)</code> / <code>tail(x, n)</code></td>
-<td>les n premières / dernières valeurs</td>
+<td>un vecteur</td>
 </tr>
 <tr class="even">
-<td><code>which.max(x)</code> / <code>which.min(x)</code></td>
-<td>la <strong>position</strong> du max / min</td>
+<td><code>head(x, n = 6)</code>, <code>tail(x, n = 6)</code></td>
+<td>les <code>n</code> premières / dernières valeurs (6 par défaut)</td>
+<td>un vecteur ; un entier</td>
 </tr>
 <tr class="odd">
-<td><code>round(x, digits)</code></td>
-<td>valeurs arrondies</td>
+<td><code>which.max(x)</code>, <code>which.min(x)</code></td>
+<td>la <strong>position</strong> de la plus grande / plus petite valeur
+(la première en cas d’égalité)</td>
+<td>un vecteur numérique</td>
 </tr>
 <tr class="even">
-<td><code>paste(a, b, sep = "_")</code> / <code>paste0(a, b)</code></td>
-<td>textes collés ensemble</td>
+<td><code>paste(..., sep = " ")</code></td>
+<td>colle des textes, élément par élément</td>
+<td>des textes ou nombres séparés par des virgules</td>
+</tr>
+<tr class="odd">
+<td>  <code>sep</code></td>
+<td>ce qui est mis <strong>entre</strong> les morceaux ; une espace par
+défaut, <code>""</code> = rien</td>
+<td>texte entre guillemets</td>
+</tr>
+<tr class="even">
+<td><code>paste0(...)</code></td>
+<td>la même chose que <code>paste(..., sep = "")</code></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td><code>cumsum(x)</code></td>
 <td>somme cumulée</td>
+<td>un vecteur numérique</td>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a>depth <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.4</span>, <span class="fl">0.8</span>, <span class="fl">1.9</span>, <span class="fl">3.1</span>, <span class="fl">0.8</span>, <span class="fl">1.2</span>)</span>
 <span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a><span class="fu">sort</span>(depth)</span></code></pre></div>
@@ -1100,6 +1738,86 @@ de comparaison : <code>==</code> (égal — deux signes !), <code>!=</code>
 <pre><code>#&gt; [1] 2 5 8</code></pre>
 <div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" tabindex="-1"></a><span class="fu">sum</span>(cover <span class="sc">&gt;</span> <span class="dv">50</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># how many? (TRUE counts as 1, FALSE as 0)</span></span></code></pre></div>
 <pre><code>#&gt; [1] 3</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>x[i]</code></td>
+<td>the elements of <code>x</code> at the positions <code>i</code>; a
+negative position removes that element</td>
+<td>positions (numbers) or a condition
+(<code>TRUE</code>/<code>FALSE</code>)</td>
+</tr>
+<tr class="even">
+<td><code>==</code>, <code>!=</code>, <code>&gt;</code>,
+<code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code></td>
+<td>compare each element and answer <code>TRUE</code> or
+<code>FALSE</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>which(x)</code></td>
+<td>the <strong>positions</strong> where a logical vector is
+<code>TRUE</code></td>
+<td>a condition</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>x[i]</code></td>
+<td>les éléments de <code>x</code> aux positions <code>i</code> ; une
+position négative enlève cet élément</td>
+<td>des positions (nombres) ou une condition
+(<code>TRUE</code>/<code>FALSE</code>)</td>
+</tr>
+<tr class="even">
+<td><code>==</code>, <code>!=</code>, <code>&gt;</code>,
+<code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code></td>
+<td>comparent chaque élément et répondent <code>TRUE</code> ou
+<code>FALSE</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>which(x)</code></td>
+<td>les <strong>positions</strong> où un vecteur logique vaut
+<code>TRUE</code></td>
+<td>une condition</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout tip">
 <div class="en">
 <p><code>sum()</code> of a logical vector <strong>counts</strong> the
@@ -1180,6 +1898,96 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb1
 <div class="sourceCode" id="cb110"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" tabindex="-1"></a>cover[<span class="sc">!</span><span class="fu">is.na</span>(cover)]       <span class="co"># ! means NOT: keep the non-missing values</span></span></code></pre></div>
 <pre><code>#&gt; [1] 45 60 12 80 33  0 55</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>na.rm = TRUE</code></td>
+<td>argument of <code>mean()</code>, <code>sum()</code>,
+<code>sd()</code>, <code>min()</code>… : remove the <code>NA</code>s
+before calculating</td>
+<td><code>TRUE</code> / <code>FALSE</code> (default)</td>
+</tr>
+<tr class="even">
+<td><code>is.na(x)</code></td>
+<td><code>TRUE</code> where the value is missing</td>
+<td>a vector</td>
+</tr>
+<tr class="odd">
+<td><code>!</code></td>
+<td><strong>not</strong>: turns <code>TRUE</code> into
+<code>FALSE</code> and the reverse</td>
+<td>a logical vector</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>na.rm = TRUE</code></td>
+<td>argument de <code>mean()</code>, <code>sum()</code>,
+<code>sd()</code>, <code>min()</code>… : enlever les <code>NA</code>
+avant de calculer</td>
+<td><code>TRUE</code> / <code>FALSE</code> (défaut)</td>
+</tr>
+<tr class="even">
+<td><code>is.na(x)</code></td>
+<td><code>TRUE</code> là où la valeur manque</td>
+<td>un vecteur</td>
+</tr>
+<tr class="odd">
+<td><code>!</code></td>
+<td><strong>non</strong> : change <code>TRUE</code> en
+<code>FALSE</code> et inversement</td>
+<td>un vecteur logique</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>Not every function calls this option <code>na.rm</code>:
+<code>table()</code> uses <code>useNA = "ifany"</code> to
+<strong>show</strong> the NAs, and <code>cor()</code> (Intermediate
+level) uses <code>use = "complete.obs"</code>. Same idea, different
+names — check the help page.</p>
+</div>
+<div class="fr">
+<p>Toutes les fonctions n’appellent pas cette option <code>na.rm</code>
+: <code>table()</code> utilise <code>useNA = "ifany"</code> pour
+<strong>afficher</strong> les NA, et <code>cor()</code> (niveau
+intermédiaire) utilise <code>use = "complete.obs"</code>. Même idée,
+noms différents — consultez la page d’aide.</p>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><code>0</code> and <code>NA</code> are <strong>not</strong> the same.
@@ -1293,7 +2101,7 @@ Inside.</p>
 </div>
 </div>
 <div id="quiz-s02" class="quiz" data-quiz-id="s02"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gMzd0aCB2YWx1ZSBvZiBwb3NpdGlvbnM/IiwiZnIiOiIxLiAzN2UgdmFsZXVyIGRlIHBvc2l0aW9ucyA/IiwiYW5zd2VyIjoxOC41LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBTdW0gb2YgdGhlIDQgcG9zaXRpb25zIGRyYXduIGFmdGVyIHNldC5zZWVkKDIwMjYpPyIsImZyIjoiMi4gU29tbWUgZGVzIDQgcG9zaXRpb25zIHRpcsOpZXMgYXByw6hzIHNldC5zZWVkKDIwMjYpID8iLCJhbnN3ZXIiOjE0NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTGVuZ3RoIG9mIHRyYW5zZWN0PyIsImZyIjoiMy4gTG9uZ3VldXIgZGUgdHJhbnNlY3QgPyIsImFuc3dlciI6MjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE1lYW4gY292ZXIgb2YgYWxsIHF1YWRyYXRzICgxIGRlY2ltYWwpPyIsImZyIjoiNC4gUmVjb3V2cmVtZW50IG1veWVuIGRlIHRvdXMgbGVzIHF1YWRyYXRzICgxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6NTMuNywidG9sIjowLjA1LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gTnVtYmVyIG9mIHF1YWRyYXRzIHdpdGggY292ZXIgPiA1MD8iLCJmciI6IjUuIE5vbWJyZSBkZSBxdWFkcmF0cyBhdmVjIHJlY291dnJlbWVudCA+IDUwID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIE1lYW4gY292ZXIgSW5zaWRlICgxIGRlY2ltYWwpPyIsImZyIjoiNi4gTW95ZW5uZSBJbnNpZGUgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo1My44LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI3LiBNZWFuIGNvdmVyIE91dHNpZGUgKDEgZGVjaW1hbCk/IiwiZnIiOiI3LiBNb3llbm5lIE91dHNpZGUgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo1My42LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI4LiBUaGlyZCBoaWdoZXN0IGNvdmVyPyIsImZyIjoiOC4gVHJvaXNpw6htZSBwbHVzIGZvcnQgcmVjb3V2cmVtZW50ID8iLCJhbnN3ZXIiOjY4LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI5LiBQb3NpdGlvbiBvZiB0aGUgbG93ZXN0IGNvdmVyPyIsImZyIjoiOS4gUG9zaXRpb24gZHUgcmVjb3V2cmVtZW50IGxlIHBsdXMgZmFpYmxlID8iLCJhbnN3ZXIiOjgsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjEwLiBOdW1iZXIgb2YgT3V0c2lkZSBxdWFkcmF0cz8iLCJmciI6IjEwLiBOb21icmUgZGUgcXVhZHJhdHMgT3V0c2lkZSA/IiwiYW5zd2VyIjo1LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMS4gV2hhdCBkb2VzIG1lYW4oYygxMCwgTkEsIDIwKSkgcmV0dXJuPyIsImZyIjoiMTEuIFF1ZSByZW52b2llIG1lYW4oYygxMCwgTkEsIDIwKSkgPyIsIm9wdGlvbnNfZW4iOlsiMTUiLCIxMCIsIk5BIiwiQW4gZXJyb3IiXSwib3B0aW9uc19mciI6WyIxNSIsIjEwIiwiTkEiLCJVbmUgZXJyZXVyIl0sImFuc3dlciI6Mn0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMi4gV2hhdCBkb2VzIHJlcChjKFwiQVwiLCBcIkJcIiksIGVhY2ggPSAyKSByZXR1cm4/IiwiZnIiOiIxMi4gUXVlIHJlbnZvaWUgcmVwKGMoXCJBXCIsIFwiQlwiKSwgZWFjaCA9IDIpID8iLCJvcHRpb25zX2VuIjpbIkEgQiBBIEIiLCJBIEEgQiBCIiwiQSBCIiwiQUEgQkIiXSwib3B0aW9uc19mciI6WyJBIEIgQSBCIiwiQSBBIEIgQiIsIkEgQiIsIkFBIEJCIl0sImFuc3dlciI6MX1d">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gMzd0aCB2YWx1ZSBvZiBwb3NpdGlvbnM/IiwiZnIiOiIxLiAzN2UgdmFsZXVyIGRlIHBvc2l0aW9ucyA/IiwiYW5zd2VyIjoxOC41LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBTdW0gb2YgdGhlIDQgcG9zaXRpb25zIGRyYXduIGFmdGVyIHNldC5zZWVkKDIwMjYpPyIsImZyIjoiMi4gU29tbWUgZGVzIDQgcG9zaXRpb25zIHRpcsOpZXMgYXByw6hzIHNldC5zZWVkKDIwMjYpID8iLCJhbnN3ZXIiOjE0NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTGVuZ3RoIG9mIHRyYW5zZWN0PyIsImZyIjoiMy4gTG9uZ3VldXIgZGUgdHJhbnNlY3QgPyIsImFuc3dlciI6MjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE1lYW4gY292ZXIgb2YgYWxsIHF1YWRyYXRzICgxIGRlY2ltYWwpPyIsImZyIjoiNC4gUmVjb3V2cmVtZW50IG1veWVuIGRlIHRvdXMgbGVzIHF1YWRyYXRzICgxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6NTMuNywidG9sIjowLjA1LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gTnVtYmVyIG9mIHF1YWRyYXRzIHdpdGggY292ZXIgPiA1MD8iLCJmciI6IjUuIE5vbWJyZSBkZSBxdWFkcmF0cyBhdmVjIHJlY291dnJlbWVudCA+IDUwID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIE1lYW4gY292ZXIgSW5zaWRlICgxIGRlY2ltYWwpPyIsImZyIjoiNi4gTW95ZW5uZSBJbnNpZGUgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo1My44LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI3LiBNZWFuIGNvdmVyIE91dHNpZGUgKDEgZGVjaW1hbCk/IiwiZnIiOiI3LiBNb3llbm5lIE91dHNpZGUgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo1My42LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI4LiBUaGlyZCBoaWdoZXN0IGNvdmVyPyIsImZyIjoiOC4gVHJvaXNpw6htZSBwbHVzIGZvcnQgcmVjb3V2cmVtZW50ID8iLCJhbnN3ZXIiOjY4LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI5LiBQb3NpdGlvbiBvZiB0aGUgbG93ZXN0IGNvdmVyPyIsImZyIjoiOS4gUG9zaXRpb24gZHUgcmVjb3V2cmVtZW50IGxlIHBsdXMgZmFpYmxlID8iLCJhbnN3ZXIiOjgsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjEwLiBOdW1iZXIgb2YgT3V0c2lkZSBxdWFkcmF0cz8iLCJmciI6IjEwLiBOb21icmUgZGUgcXVhZHJhdHMgT3V0c2lkZSA/IiwiYW5zd2VyIjo1LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn1d">
 
 </div>
 <div class="solution" data-quiz="s02">

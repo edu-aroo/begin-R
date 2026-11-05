@@ -227,4 +227,14 @@ ggplot() + geom_polygon(data = coast, aes(lon, lat), fill = "#efe6d2") +
 # slowly (r = -0.49, p = 0.01, n = 24), but part of this may be a farm effect.
 # Farm C has the best yield (~0.10 kg/m2) despite a slightly lower survival.
 ```
+
+```{r, echo=FALSE}
+fa(c("`table(table(x))`", "how many ids appear 1, 2, … times: a quick check that every pen has the same number of rows", "combien d'identifiants apparaissent 1, 2, … fois : vérification rapide que chaque enclos a le même nombre de lignes", "", ""),
+   c("`arrange(..., .by_group = TRUE)`", "sorts inside each group (after `group_by()`)", "trie à l'intérieur de chaque groupe (après `group_by()`)", "`TRUE` / `FALSE`", "`TRUE` / `FALSE`"),
+   c("`first(x)`, `last(x)`", "**dplyr**: first / last value of the group, in the current order", "**dplyr** : première / dernière valeur du groupe, dans l'ordre actuel", "a column", "une colonne"),
+   c("`stat_summary(fun, geom, ...)`", "computes a statistic per x group and draws it: here the mean as a big point", "calcule une statistique par groupe x et la dessine : ici la moyenne en gros point", "`fun = mean`; `geom = \"point\"`", "`fun = mean` ; `geom = \"point\"`"),
+   c("`& theme_minimal()`", "patchwork: `&` applies the theme to **all** the plots of the figure (`+` would apply it to the last one only)", "patchwork : `&` applique le thème à **tous** les graphiques de la figure (`+` ne l'appliquerait qu'au dernier)", "", ""),
+   c("`tapply(x, group, shapiro.test)`", "a test per group (Sessions I6, I9)", "un test par groupe (séances I6, I9)", "", ""),
+   c("`by(data, INDICES, FUN)`", "applies a function to each part of a **data frame** split by a group (`tapply()` works on a vector)", "applique une fonction à chaque partie d'un **data frame** découpé par groupe (`tapply()` travaille sur un vecteur)", "a data frame, a grouping column, a function of a data frame", "un data frame, une colonne de groupes, une fonction d'un data frame"))
+```
 :::

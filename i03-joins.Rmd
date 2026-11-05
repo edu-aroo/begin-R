@@ -64,6 +64,11 @@ sum(duplicated(farmers$farmer_id))        # 0: one row per farmer
 all(lines$farmer_id %in% farmers$farmer_id)   # every line has a known farmer
 ```
 
+```{r, echo=FALSE}
+fa(c("`duplicated(x)`", "`TRUE` for each value already seen before (Beginner Session 5); `sum()` counts them", "`TRUE` pour chaque valeur déjà vue avant (séance 5 du niveau débutant) ; `sum()` les compte", "", ""),
+   c("`all(x)`", "`TRUE` if **every** element of a logical vector is `TRUE` (`any(x)`: at least one)", "`TRUE` si **tous** les éléments d'un vecteur logique valent `TRUE` (`any(x)` : au moins un)", "a condition", "une condition"))
+```
+
 ## [The four main joins]{.en}[Les quatre jointures principales]{.fr} {#join-types}
 
 ::: en
@@ -117,6 +122,20 @@ dim(lf3)
 `merge()` trie le résultat par la clé ; `left_join()` garde l'ordre d'origine. `all = TRUE` donne une jointure complète, `all.y = TRUE` une jointure à droite, rien une jointure interne.
 :::
 
+```{r, echo=FALSE}
+fa(c("`left_join(x, y, by)`, `inner_join()`, `full_join()`, `anti_join()`", "join two tables (see the table above for what each one keeps)", "joignent deux tableaux (voir le tableau ci-dessus pour ce que chacune garde)", "", ""),
+   c("&nbsp;&nbsp;`x`, `y`", "the first (main) table and the table whose information is added", "le premier tableau (principal) et le tableau dont l'information est ajoutée", "data frames", "data frames"),
+   c("&nbsp;&nbsp;`by`", "the key column(s), present in both tables. Several keys: `c(\"zone\", \"year\", \"month\")`. Different names in the two tables: `c(\"name_in_x\" = \"name_in_y\")`", "la ou les colonnes clés, présentes dans les deux tableaux. Plusieurs clés : `c(\"zone\", \"year\", \"month\")`. Noms différents dans les deux tableaux : `c(\"nom_dans_x\" = \"nom_dans_y\")`", "column names **in quotes**", "noms de colonnes **entre guillemets**"),
+   c("`merge(x, y, by, all.x, all.y, all)`", "base R join; `all.x = TRUE` keeps all rows of `x` (left join), `all.y = TRUE` all rows of `y`, `all = TRUE` both (full join); none = inner join", "jointure de R de base ; `all.x = TRUE` garde toutes les lignes de `x` (jointure à gauche), `all.y = TRUE` toutes celles de `y`, `all = TRUE` les deux (jointure complète) ; aucun = jointure interne", "`TRUE` / `FALSE`", "`TRUE` / `FALSE`"))
+```
+
+::: en
+Same job, different vocabulary: dplyr has **one function per type** of join, `merge()` has **one function with switches** (`all.x`, `all.y`, `all`). Both use `by` for the key.
+:::
+::: fr
+Même travail, vocabulaire différent : dplyr a **une fonction par type** de jointure, `merge()` a **une seule fonction avec des interrupteurs** (`all.x`, `all.y`, `all`). Les deux utilisent `by` pour la clé.
+:::
+
 ## [Finding problems with anti_join()]{.en}[Trouver les problèmes avec anti_join()]{.fr} {#anti}
 
 ::: en
@@ -167,6 +186,11 @@ seaweed <- lines %>%
             by = c("zone", "year", "month"))
 dim(seaweed)
 sum(is.na(seaweed$temp_mean))                 # 0: every line found its temperature
+```
+
+```{r, echo=FALSE}
+fa(c("`villages[, c(\"village\", \"zone\")]`", "keep only the columns needed before joining, so that no unwanted column is added (Beginner Session 3)", "ne garder que les colonnes utiles avant de joindre, pour n'ajouter aucune colonne inutile (séance 3 du niveau débutant)", "", ""),
+   c("`by = c(\"zone\", \"year\", \"month\")`", "rows are matched only when the **three** keys are equal", "les lignes ne sont associées que si les **trois** clés sont égales", "", ""))
 ```
 
 ::: {.callout .tip}

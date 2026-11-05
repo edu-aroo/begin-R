@@ -70,6 +70,17 @@ mini <- data.frame(
 mini
 ```
 
+```{r, echo=FALSE}
+fa(c("`data.frame(...)`", "builds a table from vectors of the same length", "construit un tableau à partir de vecteurs de même longueur", "`column_name = vector`, separated by commas", "`nom_colonne = vecteur`, séparés par des virgules"))
+```
+
+::: en
+Here `site = c(...)` is not an argument of `data.frame()` with a fixed name: **you** choose the column names. Writing a long call over several lines, one argument per line, makes it easier to read; R waits for the closing `)`.
+:::
+::: fr
+Ici `site = c(...)` n'est pas un argument de `data.frame()` au nom imposé : c'est **vous** qui choisissez les noms des colonnes. Écrire un appel long sur plusieurs lignes, un argument par ligne, le rend plus lisible ; R attend la `)` finale.
+:::
+
 ::: {.callout .tip}
 ::: en
 **Tidy data rule:** one row = one observation, one column = one variable, one cell = one value. Avoid merged cells, colours used as information, or several values in one cell (e.g. "45% Thalassia"). Data organised this way can be read by R directly.
@@ -90,6 +101,15 @@ Un fichier **CSV** (*comma-separated values*) est un tableau en texte brut : une
 
 ```{r}
 sg <- read.csv("data/seagrass_quadrats.csv")   # sg = seagrass
+```
+
+```{r, echo=FALSE}
+fa(c("`read.csv(file, header = TRUE, sep = \",\", dec = \".\")`", "reads a CSV file and returns a data frame; store it with `<-`", "lit un fichier CSV et renvoie un data frame ; rangez-le avec `<-`", "", ""),
+   c("&nbsp;&nbsp;`file`", "path of the file, from the project folder", "chemin du fichier, depuis le dossier du projet", "text in quotes, with the extension `.csv`", "texte entre guillemets, avec l'extension `.csv`"),
+   c("&nbsp;&nbsp;`header`", "`TRUE`: the first line contains the column names", "`TRUE` : la première ligne contient les noms des colonnes", "`TRUE` (default) / `FALSE`", "`TRUE` (défaut) / `FALSE`"),
+   c("&nbsp;&nbsp;`sep`", "the character that separates the values", "le caractère qui sépare les valeurs", "`\",\"` (default), `\";\"`, `\"\\t\"` (tab)", "`\",\"` (défaut), `\";\"`, `\"\\t\"` (tabulation)"),
+   c("&nbsp;&nbsp;`dec`", "the decimal separator", "le séparateur décimal", "`\".\"` (default) or `\",\"`", "`\".\"` (défaut) ou `\",\"`"),
+   c("`read.csv2(file)`", "the same with `sep = \";\"` and `dec = \",\"` already set (French-style CSV)", "la même chose avec `sep = \";\"` et `dec = \",\"` déjà réglés (CSV à la française)", "", ""))
 ```
 
 ::: {.callout .warning}
@@ -121,6 +141,13 @@ nrow(sg); ncol(sg)
 names(sg)         # column names
 ```
 
+```{r, echo=FALSE}
+fa(c("`head(x, n = 6)`, `tail(x, n = 6)`", "the first / last `n` **rows** of a data frame (Session 2: of a vector)", "les `n` premières / dernières **lignes** d'un data frame (séance 2 : d'un vecteur)", "a data frame; a whole number", "un data frame ; un entier"),
+   c("`dim(x)`", "number of rows **and** columns", "nombre de lignes **et** de colonnes", "a data frame", "un data frame"),
+   c("`nrow(x)`, `ncol(x)`", "number of rows / of columns", "nombre de lignes / de colonnes", "a data frame", "un data frame"),
+   c("`names(x)`", "the column names", "les noms des colonnes", "a data frame", "un data frame"))
+```
+
 ```{r}
 str(sg)           # STRucture: type and first values of each column
 ```
@@ -138,6 +165,12 @@ summary(sg)
 
 ```{r, eval=FALSE}
 View(sg)          # opens the table in a spreadsheet-like tab (capital V!)
+```
+
+```{r, echo=FALSE}
+fa(c("`str(object)`", "**str**ucture: size, then the type and first values of each column", "**str**ucture : taille, puis type et premières valeurs de chaque colonne", "any object", "n'importe quel objet"),
+   c("`summary(object)`", "a summary of each column: min, quartiles, mean, max and number of `NA` (numbers); length and type (text)", "un résumé de chaque colonne : min, quartiles, moyenne, max et nombre de `NA` (nombres) ; longueur et type (texte)", "a data frame or a vector", "un data frame ou un vecteur"),
+   c("`View(x)`", "opens the table in a tab of RStudio (look only, no editing)", "ouvre le tableau dans un onglet de RStudio (lecture seule)", "a data frame", "un data frame"))
 ```
 
 ## [Accessing columns, rows and cells]{.en}[Accéder aux colonnes, lignes et cellules]{.fr} {#access}
@@ -168,6 +201,11 @@ Les crochets sur un data frame prennent **deux** positions : `[lignes, colonnes]
 sg[1, ]                                   # row 1, all columns
 sg[1:3, c("site", "seagrass_cover")]      # rows 1-3, two columns
 sg[5, "species"]                          # one cell
+```
+
+```{r, echo=FALSE}
+fa(c("`df$column`", "one column, as a vector", "une colonne, sous forme de vecteur", "a column name, without quotes", "un nom de colonne, sans guillemets"),
+   c("`df[rows, columns]`", "a part of the table; empty = all", "une partie du tableau ; vide = tout", "positions, conditions, or column names in quotes", "des positions, des conditions, ou des noms de colonnes entre guillemets"))
 ```
 
 ::: en
@@ -211,6 +249,21 @@ head(sg[, c("site", "seagrass_cover", "cover_prop", "shoot_density", "shoots_cou
 write.csv(sg, "outputs/seagrass_with_new_columns.csv", row.names = FALSE)
 # row.names = FALSE avoids an extra unnamed column of row numbers
 ```
+
+```{r, echo=FALSE}
+fa(c("`df$new <- ...`", "creates the column `new` (or replaces it if it exists)", "crée la colonne `new` (ou la remplace si elle existe)", "a vector of length 1 or `nrow(df)`", "un vecteur de longueur 1 ou `nrow(df)`"),
+   c("`write.csv(x, file, row.names = TRUE)`", "saves a data frame as a CSV file", "enregistre un data frame en fichier CSV", "", ""),
+   c("&nbsp;&nbsp;`x`", "the data frame to save", "le data frame à enregistrer", "a data frame", "un data frame"),
+   c("&nbsp;&nbsp;`file`", "path and name of the new file (the folder must exist)", "chemin et nom du nouveau fichier (le dossier doit exister)", "text in quotes", "texte entre guillemets"),
+   c("&nbsp;&nbsp;`row.names`", "`TRUE` adds a first column of row numbers; `FALSE` avoids it", "`TRUE` ajoute une première colonne de numéros de lignes ; `FALSE` l'évite", "`TRUE` (default) / `FALSE`", "`TRUE` (défaut) / `FALSE`"))
+```
+
+::: en
+Notice: `read.csv()` takes the file name as its **first** argument, `write.csv()` takes the **data** first and the file name second. Same argument name (`file`), different position — another reason to name arguments.
+:::
+::: fr
+Remarquez : `read.csv()` prend le nom du fichier en **premier** argument, `write.csv()` prend d'abord les **données** puis le nom du fichier. Même nom d'argument (`file`), position différente — encore une raison de nommer les arguments.
+:::
 
 ::: {.callout .tip}
 ::: en
@@ -293,8 +346,7 @@ Question 5 : `which.max(sg$shoot_density)` donne le **numéro de ligne** du maxi
 
 ```{r quiz03, echo=FALSE}
 quiz("s03", list(
-  q_num("2a. Number of rows?", "2a. Nombre de lignes ?", nrow(sg), tol = 0),
-  q_num("2b. Number of columns?", "2b. Nombre de colonnes ?", ncol(sg), tol = 0),
+  q_num("2. Number of rows?", "2. Nombre de lignes ?", nrow(sg), tol = 0),
   q_mcq("3. Class of the column site?", "3. Classe de la colonne site ?",
         c("numeric", "character", "logical", "data.frame"), correct = 2),
   q_num("4. Mean canopy height (cm, 2 decimals)?", "4. Hauteur de canopée moyenne (cm, 2 décimales) ?", a_canopy, tol = 0.006),

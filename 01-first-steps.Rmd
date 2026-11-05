@@ -143,6 +143,12 @@ ls()                 # lists the objects in memory (same as the Environment pane
 rm(density)          # removes an object
 ```
 
+```{r, echo=FALSE}
+fa(c("`<-`", "**assignment**: stores the value on the right in the object named on the left", "**affectation** : range la valeur de droite dans l'objet nommé à gauche", "name `<-` value", "nom `<-` valeur"),
+   c("`ls()`", "lists the names of the objects in memory; no argument needed", "liste les noms des objets en mémoire ; aucun argument nécessaire", "nothing", "rien"),
+   c("`rm()`", "removes (deletes) objects from memory", "supprime des objets de la mémoire", "one or several object names, **without** quotes, separated by commas: `rm(a, b)`", "un ou plusieurs noms d'objets, **sans** guillemets, séparés par des virgules : `rm(a, b)`"))
+```
+
 ## [Functions and arguments]{.en}[Fonctions et arguments]{.fr} {#functions}
 
 ::: en
@@ -153,6 +159,7 @@ Une **fonction** est un outil prêt à l'emploi : on lui donne des entrées (**a
 :::
 
 ```{r}
+# function(argument1, argument2 = value, ...)
 sqrt(144)                   # square root
 round(348.6667)             # rounds to the nearest whole number
 round(348.6667, digits = 1) # the argument "digits" sets the number of decimals
@@ -173,6 +180,34 @@ Les fonctions peuvent être **imbriquées** : R évalue de l'intérieur vers l'e
 round(sqrt(2), 3)           # first sqrt(2) = 1.41421..., then round(..., 3)
 ```
 
+```{r, echo=FALSE}
+fa(c("`sqrt(x)`", "square root of `x`", "racine carrée de `x`", "a number (or an object containing numbers)", "un nombre (ou un objet contenant des nombres)"),
+   c("`round(x, digits = 0)`", "rounds `x`", "arrondit `x`", "", ""),
+   c("&nbsp;&nbsp;`x`", "the number to round", "le nombre à arrondir", "a number", "un nombre"),
+   c("&nbsp;&nbsp;`digits`", "number of decimals to keep. **Default value `0`**: if you do not give it, R rounds to a whole number", "nombre de décimales à garder. **Valeur par défaut `0`** : si vous ne le donnez pas, R arrondit à l'entier", "a whole number: `1`, `2`… (negative: `-1` rounds to the tens)", "un nombre entier : `1`, `2`… (négatif : `-1` arrondit à la dizaine)"),
+   c("`log(x, base = exp(1))`", "logarithm of `x`", "logarithme de `x`", "", ""),
+   c("&nbsp;&nbsp;`base`", "the base of the logarithm; default *e* (natural log). `log10(x)` is a shortcut for `base = 10`", "la base du logarithme ; par défaut *e* (logarithme népérien). `log10(x)` est un raccourci pour `base = 10`", "a positive number", "un nombre positif"),
+   c("`exp(x)`", "*e* to the power `x` (the opposite of `log()`)", "*e* puissance `x` (l'inverse de `log()`)", "a number", "un nombre"),
+   c("`abs(x)`", "absolute value (removes the minus sign)", "valeur absolue (enlève le signe moins)", "a number", "un nombre"))
+```
+
+::: {.callout .tip}
+::: en
+**How arguments work — valid for every function of the course:**
+
+- Each argument has a **name** (`x`, `digits`, `base`). You can give it **by name** (`round(3.14159, digits = 2)`) or **by position**, in the order shown on the help page (`round(3.14159, 2)`). Names make code easier to read: use them for everything except the first argument.
+- Many arguments have a **default value** (`digits = 0`): you only give them when you want something else.
+- **Each function has its own argument names**, chosen by whoever wrote it. The same idea can have different names in different functions: the number of decimals is `digits` in `round()` but `nsmall` in `format()`; the colour is `col` in `plot()` (Session 7) but `colour` in `ggplot2` (Session 8). Never guess: check the help page (`?round`) — the **Usage** section lists the arguments with their default values.
+:::
+::: fr
+**Comment marchent les arguments — valable pour toutes les fonctions du cours :**
+
+- Chaque argument a un **nom** (`x`, `digits`, `base`). On peut le donner **par son nom** (`round(3.14159, digits = 2)`) ou **par sa position**, dans l'ordre indiqué dans la page d'aide (`round(3.14159, 2)`). Les noms rendent le code plus lisible : utilisez-les pour tous les arguments sauf le premier.
+- Beaucoup d'arguments ont une **valeur par défaut** (`digits = 0`) : on ne les donne que si l'on veut autre chose.
+- **Chaque fonction a ses propres noms d'arguments**, choisis par la personne qui l'a écrite. La même idée peut avoir des noms différents selon la fonction : le nombre de décimales s'appelle `digits` dans `round()` mais `nsmall` dans `format()` ; la couleur s'appelle `col` dans `plot()` (séance 7) mais `colour` dans `ggplot2` (séance 8). Ne devinez jamais : consultez la page d'aide (`?round`) — la section **Usage** liste les arguments avec leurs valeurs par défaut.
+:::
+:::
+
 ### [Getting help]{.en}[Obtenir de l'aide]{.fr}
 
 ::: en
@@ -186,6 +221,12 @@ Chaque fonction possède une page d'aide. Tapez `?` suivi du nom ; la page s'ouv
 ?round                 # help page of round()
 help("log")            # same thing
 ??"standard deviation" # search all help pages for a topic
+```
+
+```{r, echo=FALSE}
+fa(c("`?name`", "opens the help page of a function", "ouvre la page d'aide d'une fonction", "a function name, without parentheses", "un nom de fonction, sans parenthèses"),
+   c("`help(\"name\")`", "the same, written as a function", "la même chose, écrite comme une fonction", "the name in quotes", "le nom entre guillemets"),
+   c("`??\"words\"`", "searches the words in **all** help pages (when you do not know the function name)", "cherche les mots dans **toutes** les pages d'aide (quand on ne connaît pas le nom de la fonction)", "words in quotes", "des mots entre guillemets"))
 ```
 
 ::: {.callout .try}
@@ -240,7 +281,7 @@ Shoots / quadrat_area     # capital S: this object does not exist
 ```
 
 ```{r, error=TRUE}
-round(3.456, digit = 1)    # typo in the argument name ("digits")
+round(3.456, decimals = 1) # wrong argument name: round() calls it "digits"
 ```
 
 ::: {.callout .warning}
@@ -305,7 +346,16 @@ quiz("s01", list(
   q_mcq("6. After  a <- 10  then  a <- a + 5 , what does a contain?",
         "6. Après  a <- 10  puis  a <- a + 5 , que contient a ?",
         c("10", "15", "5", "An error"),
-        c("10", "15", "5", "Une erreur"), correct = 2)
+        c("10", "15", "5", "Une erreur"), correct = 2),
+  q_mcq("7. What does round(12.345) return, and why?", "7. Que renvoie round(12.345), et pourquoi ?",
+        c("12.3, because digits = 1 by default", "12, because digits = 0 by default", "12.35, because digits = 2 by default", "An error: digits is missing"),
+        c("12.3, car digits = 1 par défaut", "12, car digits = 0 par défaut", "12.35, car digits = 2 par défaut", "Une erreur : digits manque"), correct = 2),
+  q_mcq("8. round(3.456, decimals = 1) gives the error \"unused argument\". Why?", "8. round(3.456, decimals = 1) donne l'erreur « unused argument ». Pourquoi ?",
+        c("round() has no argument called decimals: it is called digits", "round() cannot take 2 arguments", "3.456 must be in quotes", "The comma should be a dot"),
+        c("round() n'a pas d'argument appelé decimals : il s'appelle digits", "round() n'accepte pas 2 arguments", "3.456 doit être entre guillemets", "La virgule devrait être un point"), correct = 1),
+  q_mcq("9. Where do you find the list of the arguments of a function and their default values?", "9. Où trouve-t-on la liste des arguments d'une fonction et leurs valeurs par défaut ?",
+        c("In the Environment pane", "In the Usage section of its help page (?function)", "In the Files pane", "Every function uses the same arguments"),
+        c("Dans le panneau Environment", "Dans la section Usage de sa page d'aide (?fonction)", "Dans le panneau Files", "Toutes les fonctions utilisent les mêmes arguments"), correct = 2)
 ))
 ```
 

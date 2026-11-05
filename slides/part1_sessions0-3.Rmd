@@ -168,6 +168,20 @@ round(sqrt(2), 3)             # imbrication : de l'intérieur vers l'extérieur
 
 <div class="box tip">Aide : `?round` → sections *Usage*, *Arguments*, *Examples*.</div>
 
+## Lire un appel de fonction
+
+`round(x, digits = 0)`
+
+| Élément | Sens |
+|---|---|
+| `round` | le nom de la fonction |
+| `x` | le nombre à arrondir (1er argument) |
+| `digits = 0` | nombre de décimales ; **valeur par défaut** 0 |
+
+- arguments donnés **par nom** ou **par position** (ordre de *Usage*)
+- **chaque fonction a ses propres noms** : décimales = `digits` dans `round()`, `nsmall` dans `format()` ; couleur = `col` dans `plot()`, `colour` dans ggplot2
+- ne jamais deviner : `?fonction`
+
 ## Lire les messages d'erreur
 
 ```{r, error=TRUE}
@@ -175,7 +189,7 @@ Shoots / quadrat_area      # S majuscule : objet inexistant
 ```
 
 ```{r, error=TRUE}
-round(3.456, digit = 1)    # faute dans le nom de l'argument
+round(3.456, decimals = 1) # mauvais nom d'argument : round() l'appelle "digits"
 ```
 
 - Invite **`+`** dans la console = commande inachevée (`)` ou `"` manquant) → **Échap**

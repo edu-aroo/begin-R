@@ -62,6 +62,12 @@ cover
 length(cover)                               # number of values
 ```
 
+```{r, echo=FALSE}
+fa(c("`c(...)`", "**c**ombines values into one vector", "**c**ombine des valeurs en un vecteur", "values separated by commas", "des valeurs séparées par des virgules"),
+   c("`NA`", "a missing value (quadrat not measured); written without quotes", "une valeur manquante (quadrat non mesuré) ; s'écrit sans guillemets", "", ""),
+   c("`length(x)`", "number of values in the vector `x`", "nombre de valeurs du vecteur `x`", "a vector", "un vecteur"))
+```
+
 ## [Building vectors: `seq()`, `rep()`, `sample()`]{.en}[Créer des vecteurs : `seq()`, `rep()`, `sample()`]{.fr} {#build}
 
 ::: en
@@ -88,6 +94,14 @@ seq(0, 100, length.out = 5)         # 5 equally spaced values between 0 and 100
 `by` donne le **pas** ; `length.out` donne le **nombre de valeurs** et laisse R calculer le pas.
 :::
 
+```{r, echo=FALSE}
+fa(c("`a:b`", "whole numbers from `a` to `b`, step 1", "les entiers de `a` à `b`, pas de 1", "two numbers", "deux nombres"),
+   c("`seq()`", "builds a regular sequence", "crée une suite régulière", "", ""),
+   c("&nbsp;&nbsp;`from`, `to`", "first value, last value (`to` is reached only if the steps fall on it)", "première valeur, dernière valeur (`to` n'est atteint que si les pas tombent dessus)", "numbers", "nombres"),
+   c("&nbsp;&nbsp;`by`", "the step between two values", "le pas entre deux valeurs", "a number", "un nombre"),
+   c("&nbsp;&nbsp;`length.out`", "how many values you want; give `by` **or** `length.out`, not both", "combien de valeurs vous voulez ; donnez `by` **ou** `length.out`, pas les deux", "a whole number", "un nombre entier"))
+```
+
 ### [`rep()` — repeating values]{.en}[`rep()` — répéter des valeurs]{.fr}
 
 ```{r}
@@ -95,6 +109,13 @@ rep("Inside", times = 3)                       # repeat a value 3 times
 rep(c("Inside", "Outside"), times = 2)         # repeat the whole vector: I O I O
 rep(c("Inside", "Outside"), each = 2)          # repeat each element:     I I O O
 rep(c("T1", "T2", "T3"), each = 2, times = 2)  # combine both
+```
+
+```{r, echo=FALSE}
+fa(c("`rep(x, times, each)`", "repeats values", "répète des valeurs", "", ""),
+   c("&nbsp;&nbsp;`x`", "what to repeat", "ce qu'il faut répéter", "a value or a vector", "une valeur ou un vecteur"),
+   c("&nbsp;&nbsp;`times`", "how many times the **whole** `x` is repeated", "combien de fois **tout** `x` est répété", "a whole number", "un nombre entier"),
+   c("&nbsp;&nbsp;`each`", "how many times **each element** is repeated (done before `times`)", "combien de fois **chaque élément** est répété (fait avant `times`)", "a whole number", "un nombre entier"))
 ```
 
 ::: {.callout .ecology}
@@ -132,6 +153,14 @@ sample(1:50, size = 5)              # 5 random positions among 50 PIT points
 sample(c("HC", "SD", "MA"), size = 8, replace = TRUE)   # with replacement
 set.seed(123)
 sample(1:50, size = 5)              # same seed -> exactly the same draw as above
+```
+
+```{r, echo=FALSE}
+fa(c("`set.seed(seed)`", "fixes the starting point of the random generator", "fixe le point de départ du générateur aléatoire", "any whole number (`123`, `2026`…): the same number gives the same draws", "n'importe quel entier (`123`, `2026`…) : le même nombre donne les mêmes tirages"),
+   c("`sample(x, size, replace = FALSE)`", "draws values at random", "tire des valeurs au hasard", "", ""),
+   c("&nbsp;&nbsp;`x`", "the values to draw from", "les valeurs parmi lesquelles tirer", "a vector", "un vecteur"),
+   c("&nbsp;&nbsp;`size`", "how many values to draw", "combien de valeurs tirer", "a whole number", "un nombre entier"),
+   c("&nbsp;&nbsp;`replace`", "`FALSE` (default): each value at most once; `TRUE`: a value can be drawn again", "`FALSE` (défaut) : chaque valeur au plus une fois ; `TRUE` : une valeur peut être retirée", "`TRUE` / `FALSE` (capitals in R)", "`TRUE` / `FALSE` (majuscules dans R)"))
 ```
 
 ::: {.callout .warning}
@@ -189,6 +218,12 @@ class(mixed)
 as.numeric(mixed)   # convert back to numbers: "-" becomes NA (with a warning)
 ```
 
+```{r, echo=FALSE}
+fa(c("`class(x)`", "the type of `x`: `\"numeric\"`, `\"character\"`, `\"logical\"`, `\"factor\"`…", "le type de `x` : `\"numeric\"`, `\"character\"`, `\"logical\"`, `\"factor\"`…", "any object", "n'importe quel objet"),
+   c("`;`", "separates two commands written on the same line", "sépare deux commandes écrites sur la même ligne", "", ""),
+   c("`as.numeric(x)`", "converts `x` to numbers; what cannot be converted becomes `NA`. Same family: `as.character()`, `as.logical()`", "convertit `x` en nombres ; ce qui ne peut pas l'être devient `NA`. Même famille : `as.character()`, `as.logical()`", "a vector", "un vecteur"))
+```
+
 ### [Factors]{.en}[Les facteurs]{.fr}
 
 ::: en
@@ -205,6 +240,14 @@ levels(status)                     # alphabetical order by default
 table(status)                      # counts per level
 status2 <- factor(status, levels = c("Outside", "Inside"))   # choose the order
 table(status2)
+```
+
+```{r, echo=FALSE}
+fa(c("`factor(x, levels)`", "turns `x` into a factor", "transforme `x` en facteur", "", ""),
+   c("&nbsp;&nbsp;`x`", "the values (categories)", "les valeurs (catégories)", "a vector, usually text", "un vecteur, en général du texte"),
+   c("&nbsp;&nbsp;`levels`", "the possible categories, **in the order you want** (default: alphabetical). A value not in `levels` becomes `NA`", "les catégories possibles, **dans l'ordre voulu** (par défaut : alphabétique). Une valeur absente de `levels` devient `NA`", "a text vector `c(\"...\", \"...\")`", "un vecteur de texte `c(\"...\", \"...\")`"),
+   c("`levels(f)`", "the levels of the factor `f`, in their order", "les niveaux du facteur `f`, dans leur ordre", "a factor", "un facteur"),
+   c("`table(x)`", "counts how many times each value appears", "compte combien de fois chaque valeur apparaît", "a vector or a factor", "un vecteur ou un facteur"))
 ```
 
 ## [Calculating with vectors]{.en}[Calculer avec des vecteurs]{.fr} {#vector-maths}
@@ -236,34 +279,26 @@ min(shoots); max(shoots); range(shoots)
 sd(shoots)                        # standard deviation (Session 6)
 ```
 
+```{r, echo=FALSE}
+fa(c("`sum(x)`, `mean(x)`, `median(x)`", "total, mean (average), median (middle value)", "total, moyenne, médiane (valeur du milieu)", "a numeric vector", "un vecteur numérique"),
+   c("`min(x)`, `max(x)`, `range(x)`", "smallest value, largest value, both together", "plus petite valeur, plus grande, les deux ensemble", "a numeric vector", "un vecteur numérique"),
+   c("`sd(x)`", "standard deviation", "écart-type", "a numeric vector", "un vecteur numérique"),
+   c("&nbsp;&nbsp;`na.rm`", "all these functions have this argument: `TRUE` ignores the missing values (see *Missing values* below)", "toutes ces fonctions ont cet argument : `TRUE` ignore les valeurs manquantes (voir *Valeurs manquantes* plus bas)", "`TRUE` / `FALSE` (default)", "`TRUE` / `FALSE` (défaut)"))
+```
+
 ## [Useful functions on vectors]{.en}[Fonctions utiles sur les vecteurs]{.fr} {#useful}
 
-::: en
-| Function | What it returns |
-|---|---|
-| `length(x)` | number of values |
-| `sort(x)` / `sort(x, decreasing = TRUE)` | the values sorted |
-| `rev(x)` | the values in reverse order |
-| `unique(x)` | each different value once |
-| `head(x, n)` / `tail(x, n)` | the first / last n values |
-| `which.max(x)` / `which.min(x)` | the **position** of the max / min |
-| `round(x, digits)` | rounded values |
-| `paste(a, b, sep = "_")` / `paste0(a, b)` | texts glued together |
-| `cumsum(x)` | cumulative sum |
-:::
-::: fr
-| Fonction | Ce qu'elle renvoie |
-|---|---|
-| `length(x)` | nombre de valeurs |
-| `sort(x)` / `sort(x, decreasing = TRUE)` | les valeurs triées |
-| `rev(x)` | les valeurs dans l'ordre inverse |
-| `unique(x)` | chaque valeur différente une seule fois |
-| `head(x, n)` / `tail(x, n)` | les n premières / dernières valeurs |
-| `which.max(x)` / `which.min(x)` | la **position** du max / min |
-| `round(x, digits)` | valeurs arrondies |
-| `paste(a, b, sep = "_")` / `paste0(a, b)` | textes collés ensemble |
-| `cumsum(x)` | somme cumulée |
-:::
+```{r, echo=FALSE}
+fa(c("`sort(x, decreasing = FALSE)`", "the values sorted; `decreasing = TRUE` = from largest to smallest. `NA`s are removed", "les valeurs triées ; `decreasing = TRUE` = de la plus grande à la plus petite. Les `NA` sont enlevés", "a vector; `TRUE`/`FALSE`", "un vecteur ; `TRUE`/`FALSE`"),
+   c("`rev(x)`", "the values in reverse order", "les valeurs dans l'ordre inverse", "a vector", "un vecteur"),
+   c("`unique(x)`", "each different value once", "chaque valeur différente une seule fois", "a vector", "un vecteur"),
+   c("`head(x, n = 6)`, `tail(x, n = 6)`", "the first / last `n` values (6 by default)", "les `n` premières / dernières valeurs (6 par défaut)", "a vector; a whole number", "un vecteur ; un entier"),
+   c("`which.max(x)`, `which.min(x)`", "the **position** of the largest / smallest value (the first one if there are ties)", "la **position** de la plus grande / plus petite valeur (la première en cas d'égalité)", "a numeric vector", "un vecteur numérique"),
+   c("`paste(..., sep = \" \")`", "glues texts together, element by element", "colle des textes, élément par élément", "texts or numbers separated by commas", "des textes ou nombres séparés par des virgules"),
+   c("&nbsp;&nbsp;`sep`", "what is put **between** the pieces; a space by default, `\"\"` = nothing", "ce qui est mis **entre** les morceaux ; une espace par défaut, `\"\"` = rien", "text in quotes", "texte entre guillemets"),
+   c("`paste0(...)`", "the same as `paste(..., sep = \"\")`", "la même chose que `paste(..., sep = \"\")`", "", ""),
+   c("`cumsum(x)`", "cumulative (running) sum", "somme cumulée", "a numeric vector", "un vecteur numérique"))
+```
 
 ```{r}
 depth <- c(2.4, 0.8, 1.9, 3.1, 0.8, 1.2)
@@ -309,6 +344,12 @@ cover > 50                 # which quadrats have more than 50 % cover?
 cover[cover > 50]          # keep only those values (NA stays: unknown!)
 which(cover > 50)          # their positions
 sum(cover > 50, na.rm = TRUE)   # how many? (TRUE counts as 1, FALSE as 0)
+```
+
+```{r, echo=FALSE}
+fa(c("`x[i]`", "the elements of `x` at the positions `i`; a negative position removes that element", "les éléments de `x` aux positions `i` ; une position négative enlève cet élément", "positions (numbers) or a condition (`TRUE`/`FALSE`)", "des positions (nombres) ou une condition (`TRUE`/`FALSE`)"),
+   c("`==`, `!=`, `>`, `>=`, `<`, `<=`", "compare each element and answer `TRUE` or `FALSE`", "comparent chaque élément et répondent `TRUE` ou `FALSE`", "", ""),
+   c("`which(x)`", "the **positions** where a logical vector is `TRUE`", "les **positions** où un vecteur logique vaut `TRUE`", "a condition", "une condition"))
 ```
 
 ::: {.callout .tip}
@@ -357,6 +398,19 @@ is.na(cover)               # which values are missing?
 sum(is.na(cover))          # how many?
 cover[!is.na(cover)]       # ! means NOT: keep the non-missing values
 ```
+
+```{r, echo=FALSE}
+fa(c("`na.rm = TRUE`", "argument of `mean()`, `sum()`, `sd()`, `min()`… : remove the `NA`s before calculating", "argument de `mean()`, `sum()`, `sd()`, `min()`… : enlever les `NA` avant de calculer", "`TRUE` / `FALSE` (default)", "`TRUE` / `FALSE` (défaut)"),
+   c("`is.na(x)`", "`TRUE` where the value is missing", "`TRUE` là où la valeur manque", "a vector", "un vecteur"),
+   c("`!`", "**not**: turns `TRUE` into `FALSE` and the reverse", "**non** : change `TRUE` en `FALSE` et inversement", "a logical vector", "un vecteur logique"))
+```
+
+::: en
+Not every function calls this option `na.rm`: `table()` uses `useNA = "ifany"` to **show** the NAs, and `cor()` (Intermediate level) uses `use = "complete.obs"`. Same idea, different names — check the help page.
+:::
+::: fr
+Toutes les fonctions n'appellent pas cette option `na.rm` : `table()` utilise `useNA = "ifany"` pour **afficher** les NA, et `cor()` (niveau intermédiaire) utilise `use = "complete.obs"`. Même idée, noms différents — consultez la page d'aide.
+:::
 
 ::: {.callout .warning}
 ::: en
@@ -448,11 +502,7 @@ quiz("s02", list(
         round(mean(cover[zone == "Outside"]), 1), tol = 0.05),
   q_num("8. Third highest cover?", "8. Troisième plus fort recouvrement ?", sort(cover, decreasing = TRUE)[3], tol = 0),
   q_num("9. Position of the lowest cover?", "9. Position du recouvrement le plus faible ?", which.min(cover), tol = 0),
-  q_num("10. Number of Outside quadrats?", "10. Nombre de quadrats Outside ?", sum(zone == "Outside"), tol = 0),
-  q_mcq("11. What does mean(c(10, NA, 20)) return?", "11. Que renvoie mean(c(10, NA, 20)) ?",
-        c("15", "10", "NA", "An error"), c("15", "10", "NA", "Une erreur"), correct = 3),
-  q_mcq("12. What does rep(c(\"A\", \"B\"), each = 2) return?", "12. Que renvoie rep(c(\"A\", \"B\"), each = 2) ?",
-        c("A B A B", "A A B B", "A B", "AA BB"), correct = 2)
+  q_num("10. Number of Outside quadrats?", "10. Nombre de quadrats Outside ?", sum(zone == "Outside"), tol = 0)
 ))
 ```
 

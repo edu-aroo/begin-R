@@ -60,6 +60,14 @@ quantile(x, probs = c(0.1, 0.9))
 IQR(x)                         # interquartile range = Q3 - Q1
 ```
 
+```{r, echo=FALSE}
+fa(c("`mean()`, `median()`, `sd()`, `min()`, `max()`", "reminder of Session 2; all accept `na.rm = TRUE`", "rappel de la séance 2 ; toutes acceptent `na.rm = TRUE`", "a numeric vector", "un vecteur numérique"),
+   c("`var(x)`", "variance (the square of the SD)", "variance (le carré de l'ET)", "a numeric vector", "un vecteur numérique"),
+   c("`quantile(x, probs)`", "the values below which a given proportion of the data lies", "les valeurs sous lesquelles se trouve une proportion donnée des données", "", ""),
+   c("&nbsp;&nbsp;`probs`", "which proportions; default `c(0, 0.25, 0.5, 0.75, 1)` (min, Q1, median, Q3, max)", "quelles proportions ; par défaut `c(0, 0.25, 0.5, 0.75, 1)` (min, Q1, médiane, Q3, max)", "numbers between 0 and 1", "des nombres entre 0 et 1"),
+   c("`IQR(x)`", "interquartile range: Q3 − Q1, the width of the middle half of the data", "écart interquartile : Q3 − Q1, la largeur de la moitié centrale des données", "a numeric vector", "un vecteur numérique"))
+```
+
 ::: {.callout .ecology}
 ::: en
 **Mean or median?** If a few quadrats have extreme values (e.g. a dense patch at 95 % among quadrats around 20 %), the mean is pulled towards them while the median is not. Report the median when the distribution is very skewed.
@@ -106,6 +114,11 @@ h <- sg$canopy_height_cm
 sd(h, na.rm = TRUE) / sqrt(sum(!is.na(h)))
 ```
 
+```{r, echo=FALSE}
+fa(c("`sqrt(n)`", "square root (Session 1)", "racine carrée (séance 1)", "", ""),
+   c("`sum(!is.na(x))`", "counts the values that are **not** missing: `!is.na()` gives `TRUE` for each measured value, `sum()` counts the `TRUE`", "compte les valeurs **non** manquantes : `!is.na()` donne `TRUE` pour chaque valeur mesurée, `sum()` compte les `TRUE`", "", ""))
+```
+
 ## [Statistics per group with `tapply()`]{.en}[Statistiques par groupe avec `tapply()`]{.fr} {#tapply}
 
 ::: en
@@ -131,6 +144,15 @@ Les arguments supplémentaires pour la fonction se placent **après** elle — p
 
 ```{r}
 tapply(sg$canopy_height_cm, sg$site, mean, na.rm = TRUE)
+```
+
+```{r, echo=FALSE}
+fa(c("`tapply(X, INDEX, FUN, ...)`", "applies a function to each group of values", "applique une fonction à chaque groupe de valeurs", "", ""),
+   c("&nbsp;&nbsp;`X`", "the values", "les valeurs", "a vector (a column)", "un vecteur (une colonne)"),
+   c("&nbsp;&nbsp;`INDEX`", "the group of each value", "le groupe de chaque valeur", "a vector of the same length, or a `list()` of several", "un vecteur de même longueur, ou une `list()` de plusieurs"),
+   c("&nbsp;&nbsp;`FUN`", "the function, without parentheses", "la fonction, sans parenthèses", "`mean`, `sd`, `length`, `max`…", "`mean`, `sd`, `length`, `max`…"),
+   c("&nbsp;&nbsp;`...`", "extra arguments passed to `FUN` (e.g. `na.rm = TRUE`)", "arguments supplémentaires transmis à `FUN` (ex. `na.rm = TRUE`)", "", ""),
+   c("`list(a, b)`", "groups several objects into one; here two grouping columns", "regroupe plusieurs objets en un seul ; ici deux colonnes de groupement", "objects separated by commas", "objets séparés par des virgules"))
 ```
 
 ::: en
@@ -175,6 +197,20 @@ aggregate(seagrass_cover ~ mpa_status + site, data = sg, FUN = mean)   # two gro
 aggregate(cbind(seagrass_cover, shoot_density) ~ mpa_status, data = sg, FUN = mean)  # two variables
 ```
 
+```{r, echo=FALSE}
+fa(c("`aggregate(formula, data, FUN, ...)`", "statistics per group, returned as a data frame", "statistiques par groupe, renvoyées sous forme de data frame", "", ""),
+   c("&nbsp;&nbsp;`formula`", "`y ~ group`: the variable on the left of `~`, the groups on the right; `+` adds a grouping variable; `cbind(y1, y2)` on the left = several variables", "`y ~ groupe` : la variable à gauche de `~`, les groupes à droite ; `+` ajoute une variable de groupement ; `cbind(y1, y2)` à gauche = plusieurs variables", "column names without quotes", "noms de colonnes sans guillemets"),
+   c("&nbsp;&nbsp;`data`", "the data frame where the columns are found", "le data frame où se trouvent les colonnes", "a data frame", "un data frame"),
+   c("&nbsp;&nbsp;`FUN`", "the function applied to each group", "la fonction appliquée à chaque groupe", "a function name", "un nom de fonction"))
+```
+
+::: en
+`sapply()` (Session 4), `tapply()` and `aggregate()` all have an argument `FUN`, but in a **different position** (2nd, 3rd, 3rd) and with different other arguments (`X`, `INDEX`, `formula`, `data`). Writing `FUN = mean` by name avoids mistakes.
+:::
+::: fr
+`sapply()` (séance 4), `tapply()` et `aggregate()` ont toutes un argument `FUN`, mais à une **position différente** (2e, 3e, 3e) et avec d'autres arguments différents (`X`, `INDEX`, `formula`, `data`). Écrire `FUN = mean` avec son nom évite les erreurs.
+:::
+
 ::: {.callout .tip}
 ::: en
 With the formula version, `aggregate()` **drops rows containing NA** in the variables used before calculating. This is convenient, but be aware of it.
@@ -206,6 +242,11 @@ summary_site <- data.frame(
 )
 summary_site$se <- round(summary_site$sd / sqrt(summary_site$n), 1)
 summary_site
+```
+
+```{r, echo=FALSE}
+fa(c("`names(x)`", "for a `tapply()` result: the names of the groups (here the sites)", "pour un résultat de `tapply()` : les noms des groupes (ici les sites)", "", ""),
+   c("`as.vector(x)`", "removes the names and keeps only the values, so that the column is a plain vector", "enlève les noms et garde seulement les valeurs, pour que la colonne soit un simple vecteur", "", ""))
 ```
 
 ```{r, eval=FALSE}
@@ -246,7 +287,7 @@ a_canopy_fas <- mean(sg$canopy_height_cm[sg$site == "Fasimena"], na.rm = TRUE)
 
 ::: application
 ::: en
-### Application work 5
+### Application work 6
 
 Using `seagrass_quadrats.csv`, give each answer **rounded to 2 decimals**:
 
@@ -261,7 +302,7 @@ Using `seagrass_quadrats.csv`, give each answer **rounded to 2 decimals**:
 9. Build the summary table (site, n, mean, sd, se) and save it in `outputs/`.
 :::
 ::: fr
-### Travail d'application 5
+### Travail d'application 6
 
 Avec `seagrass_quadrats.csv`, donnez chaque réponse **arrondie à 2 décimales** :
 

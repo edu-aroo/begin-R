@@ -629,6 +629,70 @@ bibliothèque</strong> et un relevé des versions exactes.</p>
 <pre><code>#&gt; [1] &#39;4.0.3&#39;</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">.libPaths</span>()[<span class="dv">1</span>]                     <span class="co"># where your packages are installed (renv changes this)</span></span></code></pre></div>
 <pre><code>#&gt; [1] &quot;/home/aroo/R/x86_64-pc-linux-gnu-library/4.6&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>packageVersion(pkg)</code></td>
+<td>the version of an installed package</td>
+<td>a package name in quotes</td>
+</tr>
+<tr class="even">
+<td><code>.libPaths()</code></td>
+<td>the folders (<strong>lib</strong>raries) where R looks for packages,
+in order; <code>[1]</code> = the first, where new packages are
+installed</td>
+<td>nothing</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>packageVersion(pkg)</code></td>
+<td>la version d’un package installé</td>
+<td>un nom de package entre guillemets</td>
+</tr>
+<tr class="even">
+<td><code>.libPaths()</code></td>
+<td>les dossiers (bibliothèques, <em>libraries</em>) où R cherche les
+packages, dans l’ordre ; <code>[1]</code> = le premier, où les nouveaux
+packages sont installés</td>
+<td>rien</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="workflow" class="section level2">
 <h2><span class="en">The renv workflow</span><span class="fr">Le déroulé
@@ -743,6 +807,105 @@ nouvel ordinateur, ou après un problème)</td>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;sf&quot;</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()              <span class="co"># record it: renv.lock now contains sf and its version</span></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">status</span>()                <span class="co"># &quot;No issues found -- the project is in a consistent state.&quot;</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>renv::init()</code></td>
+<td>turns the current project into a renv project (private library +
+<code>renv.lock</code> + <code>.Rprofile</code>)</td>
+<td>nothing (to run inside the project)</td>
+</tr>
+<tr class="even">
+<td><code>renv::snapshot()</code></td>
+<td>writes the versions currently installed <strong>and used</strong> by
+the scripts into <code>renv.lock</code>; it asks for confirmation</td>
+<td>nothing</td>
+</tr>
+<tr class="odd">
+<td><code>renv::status()</code></td>
+<td>compares scripts, library and lockfile and lists the
+differences</td>
+<td>nothing</td>
+</tr>
+<tr class="even">
+<td><code>renv::restore()</code></td>
+<td>installs the versions written in <code>renv.lock</code></td>
+<td>nothing</td>
+</tr>
+<tr class="odd">
+<td><code>renv::update()</code></td>
+<td>updates the packages of the project (then test and
+<code>snapshot()</code>)</td>
+<td>optional package names</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>renv::init()</code></td>
+<td>transforme le projet en cours en projet renv (bibliothèque privée +
+<code>renv.lock</code> + <code>.Rprofile</code>)</td>
+<td>rien (à lancer dans le projet)</td>
+</tr>
+<tr class="even">
+<td><code>renv::snapshot()</code></td>
+<td>écrit dans <code>renv.lock</code> les versions actuellement
+installées <strong>et utilisées</strong> par les scripts ; il demande
+confirmation</td>
+<td>rien</td>
+</tr>
+<tr class="odd">
+<td><code>renv::status()</code></td>
+<td>compare scripts, bibliothèque et fichier lock et liste les
+différences</td>
+<td>rien</td>
+</tr>
+<tr class="even">
+<td><code>renv::restore()</code></td>
+<td>installe les versions écrites dans <code>renv.lock</code></td>
+<td>rien</td>
+</tr>
+<tr class="odd">
+<td><code>renv::update()</code></td>
+<td>met à jour les packages du projet (puis tester et
+<code>snapshot()</code>)</td>
+<td>noms de packages facultatifs</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p><code>renv::init()</code> scans your scripts for
 <code>library()</code> and <code>pkg::</code> calls to know which
@@ -841,6 +1004,80 @@ class="sourceCode json"><code class="sourceCode json"><span id="cb7-1"><a href="
 #&gt; dplyr     dplyr   1.1.4
 #&gt; ggplot2 ggplot2   3.5.1
 #&gt; glue       glue   1.7.0</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>jsonlite::read_json(path)</code></td>
+<td>reads a <strong>JSON</strong> file (the text format of
+<code>renv.lock</code>) into a list of lists</td>
+<td>path of the file</td>
+</tr>
+<tr class="even">
+<td><code>lock$Packages$dplyr$Version</code></td>
+<td>goes down the list level by level with <code>$</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>sapply(pk, function(p) p$Version)</code></td>
+<td>an anonymous function applied to each package (Intermediate I6): its
+<code>Version</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>jsonlite::read_json(path)</code></td>
+<td>lit un fichier <strong>JSON</strong> (le format texte de
+<code>renv.lock</code>) en une liste de listes</td>
+<td>chemin du fichier</td>
+</tr>
+<tr class="even">
+<td><code>lock$Packages$dplyr$Version</code></td>
+<td>descend dans la liste niveau par niveau avec <code>$</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>sapply(pk, function(p) p$Version)</code></td>
+<td>une fonction anonyme appliquée à chaque package (intermédiaire I6) :
+son <code>Version</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>To compare with <strong>your</strong> computer, use
 <code>packageVersion()</code> — or simply <code>renv::restore()</code>
@@ -857,6 +1094,70 @@ and let renv do the work.</p>
 #&gt; dplyr     dplyr    1.1.4         1.2.1
 #&gt; ggplot2 ggplot2    3.5.1         4.0.3
 #&gt; knitr     knitr     1.47          1.52</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>as.character(packageVersion(p))</code></td>
+<td>a version is a special object; <code>as.character()</code> turns it
+into text such as <code>"1.1.4"</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>versions[names(mine), "version"]</code></td>
+<td>rows chosen by their <strong>row names</strong> (here the package
+names, given by <code>sapply()</code>)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>as.character(packageVersion(p))</code></td>
+<td>une version est un objet particulier ; <code>as.character()</code>
+le transforme en texte comme <code>"1.1.4"</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>versions[names(mine), "version"]</code></td>
+<td>lignes choisies par leurs <strong>noms de lignes</strong> (ici les
+noms des packages, donnés par <code>sapply()</code>)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout try">
 <div class="en">
 <p><strong>Try it.</strong> Read the lockfile and list the packages
@@ -978,7 +1279,7 @@ commençant par « r ».</p>
 </div>
 </div>
 <div id="quiz-a01" class="quiz" data-quiz-id="a01"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gSG93IG1hbnkgcGFja2FnZXMgYXJlIGxpc3RlZCBpbiByZW52X2V4YW1wbGUubG9jaz8iLCJmciI6IjEuIENvbWJpZW4gZGUgcGFja2FnZXMgc29udCBsaXN0w6lzIGRhbnMgcmVudl9leGFtcGxlLmxvY2sgPyIsImFuc3dlciI6MTQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyLiBXaGljaCBSIHZlcnNpb24gaXMgcmVjb3JkZWQgKGUuZy4gNC4zLjIpPyIsImZyIjoiMi4gUXVlbGxlIHZlcnNpb24gZGUgUiBlc3QgZW5yZWdpc3Ryw6llIChleC4gNC4zLjIpID8iLCJhbnN3ZXIiOlsiNC40LjEiXX0seyJ0eXBlIjoidGV4dCIsImVuIjoiMy4gV2hpY2ggZ2dwbG90MiB2ZXJzaW9uIGlzIHJlY29yZGVkPyIsImZyIjoiMy4gUXVlbGxlIHZlcnNpb24gZGUgZ2dwbG90MiBlc3QgZW5yZWdpc3Ryw6llID8iLCJhbnN3ZXIiOlsiMy41LjEiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBIb3cgbWFueSBwYWNrYWdlIG5hbWVzIHN0YXJ0IHdpdGggXCJyXCI/IiwiZnIiOiI0LiBDb21iaWVuIGRlIG5vbXMgZGUgcGFja2FnZXMgY29tbWVuY2VudCBwYXIgwqsgciDCuyA/IiwiYW5zd2VyIjo0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI1LiBXaGljaCBmaWxlIG11c3QgTk9UIGJlIHNoYXJlZCBvciBjb21taXR0ZWQ/IiwiZnIiOiI1LiBRdWVsIGZpY2hpZXIgbmUgZmF1dC1pbCBQQVMgcGFydGFnZXIgbmkgdmVyc2lvbm5lciA/Iiwib3B0aW9uc19lbiI6WyJyZW52LmxvY2siLCIuUnByb2ZpbGUiLCJyZW52L2FjdGl2YXRlLlIiLCJyZW52L2xpYnJhcnkvIl0sIm9wdGlvbnNfZnIiOlsicmVudi5sb2NrIiwiLlJwcm9maWxlIiwicmVudi9hY3RpdmF0ZS5SIiwicmVudi9saWJyYXJ5LyJdLCJhbnN3ZXIiOjN9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gQSBjb2xsZWFndWUgcmVjZWl2ZXMgeW91ciBwcm9qZWN0IHdpdGggcmVudi5sb2NrLiBXaGF0IGRvZXMgc2hlIHJ1biBmaXJzdD8iLCJmciI6IjYuIFVuZSBjb2xsw6hndWUgcmXDp29pdCB2b3RyZSBwcm9qZXQgYXZlYyByZW52LmxvY2suIFF1ZSBsYW5jZS10LWVsbGUgZCdhYm9yZCA/Iiwib3B0aW9uc19lbiI6WyJyZW52OjpzbmFwc2hvdCgpIiwicmVudjo6cmVzdG9yZSgpIiwiaW5zdGFsbC5wYWNrYWdlcyhcInRpZHl2ZXJzZVwiKSIsInJlbnY6OmluaXQoKSJdLCJvcHRpb25zX2ZyIjpbInJlbnY6OnNuYXBzaG90KCkiLCJyZW52OjpyZXN0b3JlKCkiLCJpbnN0YWxsLnBhY2thZ2VzKFwidGlkeXZlcnNlXCIpIiwicmVudjo6aW5pdCgpIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBZb3UgaW5zdGFsbGVkIGEgbmV3IHBhY2thZ2UgaW4gdGhlIHByb2plY3QuIFRvIHJlY29yZCBpdCB5b3UgcnVuOiIsImZyIjoiNy4gVm91cyBhdmV6IGluc3RhbGzDqSB1biBub3V2ZWF1IHBhY2thZ2UgZGFucyBsZSBwcm9qZXQuIFBvdXIgbCdlbnJlZ2lzdHJlciB2b3VzIGxhbmNleiA6Iiwib3B0aW9uc19lbiI6WyJyZW52OjpzbmFwc2hvdCgpIiwicmVudjo6cmVzdG9yZSgpIiwicmVudjo6c3RhdHVzKCkgb25seSIsIm5vdGhpbmc6IGl0IGlzIGF1dG9tYXRpYyJdLCJvcHRpb25zX2ZyIjpbInJlbnY6OnNuYXBzaG90KCkiLCJyZW52OjpyZXN0b3JlKCkiLCJyZW52OjpzdGF0dXMoKSBzZXVsZW1lbnQiLCJyaWVuIDogYydlc3QgYXV0b21hdGlxdWUiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFdoaWNoIG9mIHRoZXNlIGRvZXMgcmVudiBOT1QgaW5zdGFsbCBmb3IgeW91PyIsImZyIjoiOC4gTGVxdWVsIGRlIGNlcyDDqWzDqW1lbnRzIHJlbnYgbidpbnN0YWxsZS10LWlsIFBBUyBwb3VyIHZvdXMgPyIsIm9wdGlvbnNfZW4iOlsiVGhlIHBhY2thZ2UgdmVyc2lvbnMgb2YgcmVudi5sb2NrIiwiVGhlIFIgdmVyc2lvbiBpdHNlbGYiLCJEZXBlbmRlbmNpZXMgb2YgeW91ciBwYWNrYWdlcyIsIlBhY2thZ2VzIGZyb20gQ1JBTiJdLCJvcHRpb25zX2ZyIjpbIkxlcyB2ZXJzaW9ucyBkZXMgcGFja2FnZXMgZGUgcmVudi5sb2NrIiwiTGEgdmVyc2lvbiBkZSBSIGVsbGUtbcOqbWUiLCJMZXMgZMOpcGVuZGFuY2VzIGRlIHZvcyBwYWNrYWdlcyIsIkxlcyBwYWNrYWdlcyBkdSBDUkFOIl0sImFuc3dlciI6MX1d">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gSG93IG1hbnkgcGFja2FnZXMgYXJlIGxpc3RlZCBpbiByZW52X2V4YW1wbGUubG9jaz8iLCJmciI6IjEuIENvbWJpZW4gZGUgcGFja2FnZXMgc29udCBsaXN0w6lzIGRhbnMgcmVudl9leGFtcGxlLmxvY2sgPyIsImFuc3dlciI6MTQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyLiBXaGljaCBSIHZlcnNpb24gaXMgcmVjb3JkZWQgKGUuZy4gNC4zLjIpPyIsImZyIjoiMi4gUXVlbGxlIHZlcnNpb24gZGUgUiBlc3QgZW5yZWdpc3Ryw6llIChleC4gNC4zLjIpID8iLCJhbnN3ZXIiOlsiNC40LjEiXX0seyJ0eXBlIjoidGV4dCIsImVuIjoiMy4gV2hpY2ggZ2dwbG90MiB2ZXJzaW9uIGlzIHJlY29yZGVkPyIsImZyIjoiMy4gUXVlbGxlIHZlcnNpb24gZGUgZ2dwbG90MiBlc3QgZW5yZWdpc3Ryw6llID8iLCJhbnN3ZXIiOlsiMy41LjEiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBIb3cgbWFueSBwYWNrYWdlIG5hbWVzIHN0YXJ0IHdpdGggXCJyXCI/IiwiZnIiOiI0LiBDb21iaWVuIGRlIG5vbXMgZGUgcGFja2FnZXMgY29tbWVuY2VudCBwYXIgwqsgciDCuyA/IiwiYW5zd2VyIjo0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI1LiBXaGljaCBmaWxlIG11c3QgTk9UIGJlIHNoYXJlZCBvciBjb21taXR0ZWQ/IiwiZnIiOiI1LiBRdWVsIGZpY2hpZXIgbmUgZmF1dC1pbCBQQVMgcGFydGFnZXIgbmkgdmVyc2lvbm5lciA/Iiwib3B0aW9uc19lbiI6WyJyZW52LmxvY2siLCIuUnByb2ZpbGUiLCJyZW52L2FjdGl2YXRlLlIiLCJyZW52L2xpYnJhcnkvIl0sIm9wdGlvbnNfZnIiOlsicmVudi5sb2NrIiwiLlJwcm9maWxlIiwicmVudi9hY3RpdmF0ZS5SIiwicmVudi9saWJyYXJ5LyJdLCJhbnN3ZXIiOjN9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gQSBjb2xsZWFndWUgcmVjZWl2ZXMgeW91ciBwcm9qZWN0IHdpdGggcmVudi5sb2NrLiBXaGF0IGRvZXMgc2hlIHJ1biBmaXJzdD8iLCJmciI6IjYuIFVuZSBjb2xsw6hndWUgcmXDp29pdCB2b3RyZSBwcm9qZXQgYXZlYyByZW52LmxvY2suIFF1ZSBsYW5jZS10LWVsbGUgZCdhYm9yZCA/Iiwib3B0aW9uc19lbiI6WyJyZW52OjpzbmFwc2hvdCgpIiwicmVudjo6cmVzdG9yZSgpIiwiaW5zdGFsbC5wYWNrYWdlcyhcInRpZHl2ZXJzZVwiKSIsInJlbnY6OmluaXQoKSJdLCJvcHRpb25zX2ZyIjpbInJlbnY6OnNuYXBzaG90KCkiLCJyZW52OjpyZXN0b3JlKCkiLCJpbnN0YWxsLnBhY2thZ2VzKFwidGlkeXZlcnNlXCIpIiwicmVudjo6aW5pdCgpIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBZb3UgaW5zdGFsbGVkIGEgbmV3IHBhY2thZ2UgaW4gdGhlIHByb2plY3QuIFRvIHJlY29yZCBpdCB5b3UgcnVuOiIsImZyIjoiNy4gVm91cyBhdmV6IGluc3RhbGzDqSB1biBub3V2ZWF1IHBhY2thZ2UgZGFucyBsZSBwcm9qZXQuIFBvdXIgbCdlbnJlZ2lzdHJlciB2b3VzIGxhbmNleiA6Iiwib3B0aW9uc19lbiI6WyJyZW52OjpzbmFwc2hvdCgpIiwicmVudjo6cmVzdG9yZSgpIiwicmVudjo6c3RhdHVzKCkgb25seSIsIm5vdGhpbmc6IGl0IGlzIGF1dG9tYXRpYyJdLCJvcHRpb25zX2ZyIjpbInJlbnY6OnNuYXBzaG90KCkiLCJyZW52OjpyZXN0b3JlKCkiLCJyZW52OjpzdGF0dXMoKSBzZXVsZW1lbnQiLCJyaWVuIDogYydlc3QgYXV0b21hdGlxdWUiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFdoaWNoIG9mIHRoZXNlIGRvZXMgcmVudiBOT1QgaW5zdGFsbCBmb3IgeW91PyIsImZyIjoiOC4gTGVxdWVsIGRlIGNlcyDDqWzDqW1lbnRzIHJlbnYgbidpbnN0YWxsZS10LWlsIFBBUyBwb3VyIHZvdXMgPyIsIm9wdGlvbnNfZW4iOlsiVGhlIHBhY2thZ2UgdmVyc2lvbnMgb2YgcmVudi5sb2NrIiwiVGhlIFIgdmVyc2lvbiBpdHNlbGYiLCJEZXBlbmRlbmNpZXMgb2YgeW91ciBwYWNrYWdlcyIsIlBhY2thZ2VzIGZyb20gQ1JBTiJdLCJvcHRpb25zX2ZyIjpbIkxlcyB2ZXJzaW9ucyBkZXMgcGFja2FnZXMgZGUgcmVudi5sb2NrIiwiTGEgdmVyc2lvbiBkZSBSIGVsbGUtbcOqbWUiLCJMZXMgZMOpcGVuZGFuY2VzIGRlIHZvcyBwYWNrYWdlcyIsIkxlcyBwYWNrYWdlcyBkdSBDUkFOIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBXaGVyZSBkb2VzIHJlbnYgd3JpdGUgdGhlIHZlcnNpb25zIG9mIHRoZSBwYWNrYWdlcyBvZiB0aGUgcHJvamVjdD8iLCJmciI6IjkuIE/DuSByZW52IMOpY3JpdC1pbCBsZXMgdmVyc2lvbnMgZGVzIHBhY2thZ2VzIGR1IHByb2pldCA/Iiwib3B0aW9uc19lbiI6WyJJbiByZW52LmxvY2siLCJJbiAuUnByb2ZpbGUiLCJJbiB0aGUgUkVBRE1FIiwiSW4gLmdpdGlnbm9yZSJdLCJvcHRpb25zX2ZyIjpbIkRhbnMgcmVudi5sb2NrIiwiRGFucyAuUnByb2ZpbGUiLCJEYW5zIGxlIFJFQURNRSIsIkRhbnMgLmdpdGlnbm9yZSJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiMTAuIFdoYXQgZG9lcyByZW52OjpzdGF0dXMoKSBkbz8iLCJmciI6IjEwLiBRdWUgZmFpdCByZW52OjpzdGF0dXMoKSA/Iiwib3B0aW9uc19lbiI6WyJJbnN0YWxscyB0aGUgbWlzc2luZyBwYWNrYWdlcyIsIlJlcG9ydHMgdGhlIGRpZmZlcmVuY2VzIGJldHdlZW4geW91ciBzY3JpcHRzLCB0aGUgcHJvamVjdCBsaWJyYXJ5IGFuZCByZW52LmxvY2siLCJVcGRhdGVzIFIiLCJEZWxldGVzIHJlbnYubG9jayJdLCJvcHRpb25zX2ZyIjpbIkluc3RhbGxlIGxlcyBwYWNrYWdlcyBtYW5xdWFudHMiLCJTaWduYWxlIGxlcyBkaWZmw6lyZW5jZXMgZW50cmUgdm9zIHNjcmlwdHMsIGxhIGJpYmxpb3Row6hxdWUgZHUgcHJvamV0IGV0IHJlbnYubG9jayIsIk1ldCDDoCBqb3VyIFIiLCJTdXBwcmltZSByZW52LmxvY2siXSwiYW5zd2VyIjoxfV0=">
 
 </div>
 <div class="solution" data-quiz="a01">

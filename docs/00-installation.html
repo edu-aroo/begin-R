@@ -770,6 +770,100 @@ ci-dessous et appuyez sur <strong>Entrée</strong> :</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">Sys.which</span>(<span class="st">&quot;make&quot;</span>)       <span class="co"># Windows only: is Rtools found?</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># a path such as &quot;C:\\rtools45\\usr\\bin\\make.exe&quot; means YES</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># &quot;&quot;  (empty) means Rtools is not installed or not found</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>R.version.string</code></td>
+<td>not a function but a stored <strong>value</strong>: the text of the
+R version. Typing a name and pressing Enter prints its value</td>
+<td>nothing</td>
+</tr>
+<tr class="even">
+<td><code>Sys.which()</code></td>
+<td>looks for a program on the computer and returns where it is</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>"make"</code> (1st argument of <code>Sys.which</code>)</td>
+<td>the name of the program to look for; <code>make</code> is one of the
+tools installed by Rtools</td>
+<td>text in quotes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>R.version.string</code></td>
+<td>pas une fonction mais une <strong>valeur</strong> enregistrée : le
+texte de la version de R. Taper un nom puis Entrée affiche sa
+valeur</td>
+<td>rien</td>
+</tr>
+<tr class="even">
+<td><code>Sys.which()</code></td>
+<td>cherche un programme sur l’ordinateur et renvoie son
+emplacement</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>"make"</code> (1st argument of <code>Sys.which</code>)</td>
+<td>le nom du programme à chercher ; <code>make</code> est un des outils
+installés par Rtools</td>
+<td>texte entre guillemets</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>A <strong>function</strong> is a command that does something: its
+name is followed by <strong>parentheses</strong>, and inside the
+parentheses you give it the information it needs, called
+<strong>arguments</strong>. <code>Sys.which("make")</code> = function
+<code>Sys.which</code>, argument <code>"make"</code>. Text is always
+written <strong>in quotes</strong>; without quotes, R would look for an
+object called <code>make</code>.</p>
+</div>
+<div class="fr">
+<p>Une <strong>fonction</strong> est une commande qui fait quelque chose
+: son nom est suivi de <strong>parenthèses</strong>, et entre les
+parenthèses on lui donne les informations dont elle a besoin, appelées
+<strong>arguments</strong>. <code>Sys.which("make")</code> = fonction
+<code>Sys.which</code>, argument <code>"make"</code>. Le texte s’écrit
+toujours <strong>entre guillemets</strong> ; sans guillemets, R
+chercherait un objet appelé <code>make</code>.</p>
+</div>
 </div>
 </div>
 <div id="tour" class="section level2">
@@ -777,7 +871,7 @@ ci-dessous et appuyez sur <strong>Entrée</strong> :</p>
 RStudio</span></h2>
 <figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="The four panes of RStudio" font-family="Source Sans 3, Arial, sans-serif">
 <rect x="10" y="10" width="840" height="450" rx="12" fill="#f2f4f5" stroke="#9aa7ae" stroke-width="2"/>
-<rect x="10" y="10" width="840" height="30" rx="12" fill="#d7dde0"/><circle cx="32" cy="25" r="6" fill="#d9694a"/><circle cx="52" cy="25" r="6" fill="#e3b04b"/><circle cx="72" cy="25" r="6" fill="#4a7d3a"/>
+<rect x="10" y="10" width="840" height="30" rx="12" fill="#d7dde0"/><rect x="24" y="18" width="14" height="14" rx="3" fill="#75aadb"/><text x="770" y="31" font-size="14" fill="#333">&#x2014;</text><rect x="798" y="19" width="11" height="11" fill="none" stroke="#333"/><text x="826" y="32" font-size="15" fill="#333">&#x2715;</text>
 <text x="430" y="31" text-anchor="middle" font-size="15" fill="#3c4a52">RStudio</text>
 <rect x="22" y="50" width="490" height="210" rx="8" fill="#fff" stroke="#1b7f8c" stroke-width="2.5"/>
 <rect x="22" y="270" width="490" height="180" rx="8" fill="#fff" stroke="#0b3d5c" stroke-width="2.5"/>
@@ -1003,7 +1097,98 @@ r_course_data.zip</a></p>
 <div class="fr">
 <p>Vérifiez dans la console que R « voit » les fichiers :</p>
 </div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">&quot;data&quot;</span>)      <span class="co"># lists the files in the data folder of the project</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># list.files(path): path = the folder to look in, relative to the project folder</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">&quot;data&quot;</span>)      <span class="co"># lists the files in the data folder of the project</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>list.files()</code></td>
+<td>lists the names of the files in a folder</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>path</code> (1st argument)</td>
+<td>the folder to look in. <code>"data"</code> = the <code>data</code>
+folder <strong>inside the project</strong>; without any argument: the
+project folder itself</td>
+<td>folder name in quotes</td>
+</tr>
+<tr class="odd">
+<td><code>Sys.Date()</code></td>
+<td>today’s date (used in the <em>Try it</em> box). Some functions need
+<strong>no argument</strong>: the parentheses stay empty but are still
+required</td>
+<td>nothing</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>list.files()</code></td>
+<td>liste les noms des fichiers d’un dossier</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>path</code> (1st argument)</td>
+<td>le dossier où chercher. <code>"data"</code> = le dossier
+<code>data</code> <strong>dans le projet</strong> ; sans argument : le
+dossier du projet lui-même</td>
+<td>nom de dossier entre guillemets</td>
+</tr>
+<tr class="odd">
+<td><code>Sys.Date()</code></td>
+<td>la date du jour (utilisée dans l’encadré <em>À vous</em>). Certaines
+fonctions n’ont <strong>besoin d’aucun argument</strong> : les
+parenthèses restent vides mais sont obligatoires</td>
+<td>rien</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>We wrote <code>list.files("data")</code> and not
+<code>list.files(path = "data")</code>: when you give the arguments
+<strong>in the expected order</strong>, their names can be left out.
+Session 1 explains this.</p>
+</div>
+<div class="fr">
+<p>Nous avons écrit <code>list.files("data")</code> et non
+<code>list.files(path = "data")</code> : quand on donne les arguments
+<strong>dans l’ordre prévu</strong>, on peut omettre leur nom. La séance
+1 l’explique.</p>
+</div>
 <pre><code>#&gt;  [1] &quot;coastline.csv&quot;              &quot;coral_cover_raw.csv&quot;        &quot;coral_pit_example.csv&quot;     
 #&gt;  [4] &quot;fish_uvc.csv&quot;               &quot;seacucumber_harvest.csv&quot;    &quot;seacucumber_monitoring.csv&quot;
 #&gt;  [7] &quot;seacucumber_pens.csv&quot;       &quot;seagrass_messy.csv&quot;         &quot;seagrass_quadrats.csv&quot;     
@@ -1075,7 +1260,7 @@ RStudio).</p>
 </div>
 </div>
 <div id="quiz-s00" class="quiz" data-quiz-id="s00"
-data-q="W3sidHlwZSI6Im1jcSIsImVuIjoiV2hpY2ggcHJvZ3JhbSBhY3R1YWxseSBwZXJmb3JtcyB0aGUgY2FsY3VsYXRpb25zPyIsImZyIjoiUXVlbCBsb2dpY2llbCBlZmZlY3R1ZSByw6llbGxlbWVudCBsZXMgY2FsY3VscyA/Iiwib3B0aW9uc19lbiI6WyJSU3R1ZGlvIiwiUiIsIlJ0b29scyIsIkV4Y2VsIl0sIm9wdGlvbnNfZnIiOlsiUlN0dWRpbyIsIlIiLCJSdG9vbHMiLCJFeGNlbCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiV2hhdCBpcyBSdG9vbHMgdXNlZCBmb3I/IiwiZnIiOiLDgCBxdW9pIHNlcnQgUnRvb2xzID8iLCJvcHRpb25zX2VuIjpbIkRyYXdpbmcgbmljZXIgZ3JhcGhzIiwiQ29tcGlsaW5nIHBhY2thZ2VzIGZyb20gc291cmNlIGNvZGUgb24gV2luZG93cyIsIk9wZW5pbmcgRXhjZWwgZmlsZXMiLCJUcmFuc2xhdGluZyBSIGludG8gRnJlbmNoIl0sIm9wdGlvbnNfZnIiOlsiRmFpcmUgZGUgcGx1cyBiZWF1eCBncmFwaGlxdWVzIiwiQ29tcGlsZXIgZGVzIHBhY2thZ2VzIGRlcHVpcyBsZSBjb2RlIHNvdXJjZSBzb3VzIFdpbmRvd3MiLCJPdXZyaXIgZGVzIGZpY2hpZXJzIEV4Y2VsIiwiVHJhZHVpcmUgUiBlbiBmcmFuw6dhaXMiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IkluIHdoaWNoIHBhbmUgc2hvdWxkIHlvdSB3cml0ZSB0aGUgY29kZSB5b3Ugd2FudCB0byBrZWVwPyIsImZyIjoiRGFucyBxdWVsIHBhbm5lYXUgZmF1dC1pbCDDqWNyaXJlIGxlIGNvZGUgcXVlIGwnb24gdmV1dCBnYXJkZXIgPyIsIm9wdGlvbnNfZW4iOlsiQ29uc29sZSIsIkVudmlyb25tZW50IiwiU291cmNlIC8gU2NyaXB0IiwiSGVscCJdLCJvcHRpb25zX2ZyIjpbIkNvbnNvbGUiLCJFbnZpcm9ubWVudCIsIlNvdXJjZSAvIFNjcmlwdCIsIkhlbHAiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IldoaWNoIGtleWJvYXJkIHNob3J0Y3V0IHJ1bnMgdGhlIGN1cnJlbnQgbGluZSBvZiBhIHNjcmlwdCAoV2luZG93cyk/IiwiZnIiOiJRdWVsIHJhY2NvdXJjaSBleMOpY3V0ZSBsYSBsaWduZSBjb3VyYW50ZSBkJ3VuIHNjcmlwdCAoV2luZG93cykgPyIsIm9wdGlvbnNfZW4iOlsiQ3RybCArIFMiLCJDdHJsICsgRW50ZXIiLCJBbHQgKyBGNCIsIkN0cmwgKyBaIl0sIm9wdGlvbnNfZnIiOlsiQ3RybCArIFMiLCJDdHJsICsgRW50csOpZSIsIkFsdCArIEY0IiwiQ3RybCArIFoiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJudW0iLCJlbiI6IkhvdyBtYW55IENTViBmaWxlcyBkb2VzIGxpc3QuZmlsZXMoXCJkYXRhXCIpIHNob3cgaW4geW91ciBwcm9qZWN0PyIsImZyIjoiQ29tYmllbiBkZSBmaWNoaWVycyBDU1YgbGlzdC5maWxlcyhcImRhdGFcIikgYWZmaWNoZS10LWlsIGRhbnMgdm90cmUgcHJvamV0ID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiJXaGF0IGlzIHRoZSBleGFjdCBmaWxlIG5hbWUgb2YgdGhlIHJhdyBjb3JhbCBkYXRhc2V0ICh3aXRoIGl0cyBleHRlbnNpb24pPyIsImZyIjoiUXVlbCBlc3QgbGUgbm9tIGV4YWN0IGR1IGZpY2hpZXIgZGUgZG9ubsOpZXMgYnJ1dGVzIHN1ciBsZXMgY29yYXV4IChhdmVjIHNvbiBleHRlbnNpb24pID8iLCJhbnN3ZXIiOlsiY29yYWxfY292ZXJfcmF3LmNzdiJdfV0=">
+data-q="W3sidHlwZSI6Im1jcSIsImVuIjoiV2hpY2ggcHJvZ3JhbSBhY3R1YWxseSBwZXJmb3JtcyB0aGUgY2FsY3VsYXRpb25zPyIsImZyIjoiUXVlbCBsb2dpY2llbCBlZmZlY3R1ZSByw6llbGxlbWVudCBsZXMgY2FsY3VscyA/Iiwib3B0aW9uc19lbiI6WyJSU3R1ZGlvIiwiUiIsIlJ0b29scyIsIkV4Y2VsIl0sIm9wdGlvbnNfZnIiOlsiUlN0dWRpbyIsIlIiLCJSdG9vbHMiLCJFeGNlbCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiV2hhdCBpcyBSdG9vbHMgdXNlZCBmb3I/IiwiZnIiOiLDgCBxdW9pIHNlcnQgUnRvb2xzID8iLCJvcHRpb25zX2VuIjpbIkRyYXdpbmcgbmljZXIgZ3JhcGhzIiwiQ29tcGlsaW5nIHBhY2thZ2VzIGZyb20gc291cmNlIGNvZGUgb24gV2luZG93cyIsIk9wZW5pbmcgRXhjZWwgZmlsZXMiLCJUcmFuc2xhdGluZyBSIGludG8gRnJlbmNoIl0sIm9wdGlvbnNfZnIiOlsiRmFpcmUgZGUgcGx1cyBiZWF1eCBncmFwaGlxdWVzIiwiQ29tcGlsZXIgZGVzIHBhY2thZ2VzIGRlcHVpcyBsZSBjb2RlIHNvdXJjZSBzb3VzIFdpbmRvd3MiLCJPdXZyaXIgZGVzIGZpY2hpZXJzIEV4Y2VsIiwiVHJhZHVpcmUgUiBlbiBmcmFuw6dhaXMiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IkluIHdoaWNoIHBhbmUgc2hvdWxkIHlvdSB3cml0ZSB0aGUgY29kZSB5b3Ugd2FudCB0byBrZWVwPyIsImZyIjoiRGFucyBxdWVsIHBhbm5lYXUgZmF1dC1pbCDDqWNyaXJlIGxlIGNvZGUgcXVlIGwnb24gdmV1dCBnYXJkZXIgPyIsIm9wdGlvbnNfZW4iOlsiQ29uc29sZSIsIkVudmlyb25tZW50IiwiU291cmNlIC8gU2NyaXB0IiwiSGVscCJdLCJvcHRpb25zX2ZyIjpbIkNvbnNvbGUiLCJFbnZpcm9ubWVudCIsIlNvdXJjZSAvIFNjcmlwdCIsIkhlbHAiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IldoaWNoIGtleWJvYXJkIHNob3J0Y3V0IHJ1bnMgdGhlIGN1cnJlbnQgbGluZSBvZiBhIHNjcmlwdCAoV2luZG93cyk/IiwiZnIiOiJRdWVsIHJhY2NvdXJjaSBleMOpY3V0ZSBsYSBsaWduZSBjb3VyYW50ZSBkJ3VuIHNjcmlwdCAoV2luZG93cykgPyIsIm9wdGlvbnNfZW4iOlsiQ3RybCArIFMiLCJDdHJsICsgRW50ZXIiLCJBbHQgKyBGNCIsIkN0cmwgKyBaIl0sIm9wdGlvbnNfZnIiOlsiQ3RybCArIFMiLCJDdHJsICsgRW50csOpZSIsIkFsdCArIEY0IiwiQ3RybCArIFoiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJudW0iLCJlbiI6IkhvdyBtYW55IENTViBmaWxlcyBkb2VzIGxpc3QuZmlsZXMoXCJkYXRhXCIpIHNob3cgaW4geW91ciBwcm9qZWN0PyIsImZyIjoiQ29tYmllbiBkZSBmaWNoaWVycyBDU1YgbGlzdC5maWxlcyhcImRhdGFcIikgYWZmaWNoZS10LWlsIGRhbnMgdm90cmUgcHJvamV0ID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IkluIFN5cy53aGljaChcIm1ha2VcIiksIHdoYXQgaXMgXCJtYWtlXCI/IiwiZnIiOiJEYW5zIFN5cy53aGljaChcIm1ha2VcIiksIHF1J2VzdC1jZSBxdWUgXCJtYWtlXCIgPyIsIm9wdGlvbnNfZW4iOlsiVGhlIGZ1bmN0aW9uIiwiQW4gYXJndW1lbnQ6IHRoZSBuYW1lIG9mIHRoZSBwcm9ncmFtIHRvIGxvb2sgZm9yIiwiQSBwYWNrYWdlIiwiQSBmaWxlIG9mIHRoZSBwcm9qZWN0Il0sIm9wdGlvbnNfZnIiOlsiTGEgZm9uY3Rpb24iLCJVbiBhcmd1bWVudCA6IGxlIG5vbSBkdSBwcm9ncmFtbWUgw6AgY2hlcmNoZXIiLCJVbiBwYWNrYWdlIiwiVW4gZmljaGllciBkdSBwcm9qZXQiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IlN5cy53aGljaChcIm1ha2VcIikgcmV0dXJucyBcIlwiIChlbXB0eSkuIFdoYXQgZG9lcyBpdCBtZWFuPyIsImZyIjoiU3lzLndoaWNoKFwibWFrZVwiKSByZW52b2llIFwiXCIgKHZpZGUpLiBRdSdlc3QtY2UgcXVlIGNlbGEgc2lnbmlmaWUgPyIsIm9wdGlvbnNfZW4iOlsiUnRvb2xzIGlzIGluc3RhbGxlZCIsIlIgaXMgbm90IGluc3RhbGxlZCIsIlJ0b29scyBpcyBub3QgaW5zdGFsbGVkIG9yIG5vdCBmb3VuZCIsIlRoZSBwcm9qZWN0IGlzIG5vdCBvcGVuIl0sIm9wdGlvbnNfZnIiOlsiUnRvb2xzIGVzdCBpbnN0YWxsw6kiLCJSIG4nZXN0IHBhcyBpbnN0YWxsw6kiLCJSdG9vbHMgbidlc3QgcGFzIGluc3RhbGzDqSBvdSBwYXMgdHJvdXbDqSIsIkxlIHByb2pldCBuJ2VzdCBwYXMgb3V2ZXJ0Il0sImFuc3dlciI6Mn0seyJ0eXBlIjoibWNxIiwiZW4iOiJXaHkgZG8gd2Ugd3JpdGUgXCJkYXRhXCIgaW4gcXVvdGVzIGluIGxpc3QuZmlsZXMoXCJkYXRhXCIpPyIsImZyIjoiUG91cnF1b2kgw6ljcml0LW9uIFwiZGF0YVwiIGVudHJlIGd1aWxsZW1ldHMgZGFucyBsaXN0LmZpbGVzKFwiZGF0YVwiKSA/Iiwib3B0aW9uc19lbiI6WyJCZWNhdXNlIGl0IGlzIHRleHQgKGEgZm9sZGVyIG5hbWUpOyB3aXRob3V0IHF1b3RlcyBSIHdvdWxkIGxvb2sgZm9yIGFuIG9iamVjdCBjYWxsZWQgZGF0YSIsIlF1b3RlcyBhcmUgb3B0aW9uYWwiLCJUbyBtYWtlIHRoZSB0ZXh0IGJvbGQiLCJCZWNhdXNlIGRhdGEgaXMgYSBmdW5jdGlvbiJdLCJvcHRpb25zX2ZyIjpbIlBhcmNlIHF1ZSBjJ2VzdCBkdSB0ZXh0ZSAodW4gbm9tIGRlIGRvc3NpZXIpIDsgc2FucyBndWlsbGVtZXRzIFIgY2hlcmNoZXJhaXQgdW4gb2JqZXQgYXBwZWzDqSBkYXRhIiwiTGVzIGd1aWxsZW1ldHMgc29udCBmYWN1bHRhdGlmcyIsIlBvdXIgbWV0dHJlIGxlIHRleHRlIGVuIGdyYXMiLCJQYXJjZSBxdWUgZGF0YSBlc3QgdW5lIGZvbmN0aW9uIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiJXaGF0IHNob3VsZCBcIlNhdmUgd29ya3NwYWNlIHRvIC5SRGF0YSBvbiBleGl0XCIgYmUgc2V0IHRvPyIsImZyIjoiU3VyIHF1b2kgZmF1dC1pbCByw6lnbGVyIMKrIFNhdmUgd29ya3NwYWNlIHRvIC5SRGF0YSBvbiBleGl0IMK7ID8iLCJvcHRpb25zX2VuIjpbIkFsd2F5cyIsIkFzayIsIk5ldmVyIl0sIm9wdGlvbnNfZnIiOlsiQWx3YXlzIiwiQXNrIiwiTmV2ZXIiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiJXaGF0IGlzIHRoZSBleGFjdCBmaWxlIG5hbWUgb2YgdGhlIHJhdyBjb3JhbCBkYXRhc2V0ICh3aXRoIGl0cyBleHRlbnNpb24pPyIsImZyIjoiUXVlbCBlc3QgbGUgbm9tIGV4YWN0IGR1IGZpY2hpZXIgZGUgZG9ubsOpZXMgYnJ1dGVzIHN1ciBsZXMgY29yYXV4IChhdmVjIHNvbiBleHRlbnNpb24pID8iLCJhbnN3ZXIiOlsiY29yYWxfY292ZXJfcmF3LmNzdiJdfV0=">
 
 </div>
 </div>

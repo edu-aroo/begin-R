@@ -6,6 +6,52 @@ pagetitle: "R for marine sciences · What's new"
 <!-- Add a section at the TOP each time you publish a new version, and change
      "version" and "versionDate" in assets/config.js -->
 
+## v4.4 — 2026-11 {.no-track}
+
+::: en
+- **Advanced level**: every new function and argument explained in a *Functions and arguments* table — `here()`, `dir.create()`, renv, `kable()` and flextable, `render()` and `expand.grid()`/`sprintf()`, sf (`st_read()`, `st_transform()`, `st_buffer()`, `st_join()`, `st_write()`…), terra (`rast()`, `global()`, `crop()`, `mask()`, `project()`, `classify()`, `extract()`, `writeRaster()`), map functions (`coord_sf(datum)`, `geom_sf_label()`, ggrepel, `scale_fill_gradient2()`, tmap), Quarto `#|` chunk options and `quarto_render()` — with notes when two packages name the same thing differently.
+- Every Advanced session quiz now has **10 questions**. Saved scores keep their percentage.
+:::
+::: fr
+- **Niveau avancé** : chaque nouvelle fonction et chaque nouvel argument expliqués dans un tableau *Fonctions et arguments* — `here()`, `dir.create()`, renv, `kable()` et flextable, `render()` et `expand.grid()`/`sprintf()`, sf (`st_read()`, `st_transform()`, `st_buffer()`, `st_join()`, `st_write()`…), terra (`rast()`, `global()`, `crop()`, `mask()`, `project()`, `classify()`, `extract()`, `writeRaster()`), fonctions de carte (`coord_sf(datum)`, `geom_sf_label()`, ggrepel, `scale_fill_gradient2()`, tmap), options de chunk `#|` de Quarto et `quarto_render()` — avec des remarques quand deux packages nomment différemment la même chose.
+- Chaque quiz de séance du niveau avancé compte maintenant **10 questions**. Les scores enregistrés gardent leur pourcentage.
+:::
+
+## v4.3 — 2026-11 {.no-track}
+
+::: en
+- **Intermediate level**: every new function and argument explained in a *Functions and arguments* table (e.g. `read_excel()` and its `sheet`, `skip`, `na`; `pivot_longer()`; joins; `case_when()`; `scale_fill_viridis_c()` and its `option`, `direction`, `name`; `geom_text()` and `hjust`, `nudge_x`), with notes when two functions name the same setting differently.
+- Every Intermediate session quiz now has **10 questions** (I10 went from 12 to 10; I2, I6, I7, I8 and I11 got new questions on arguments). Saved scores keep their percentage.
+:::
+::: fr
+- **Niveau intermédiaire** : chaque nouvelle fonction et chaque nouvel argument expliqués dans un tableau *Fonctions et arguments* (ex. `read_excel()` et ses `sheet`, `skip`, `na` ; `pivot_longer()` ; les jointures ; `case_when()` ; `scale_fill_viridis_c()` et ses `option`, `direction`, `name` ; `geom_text()` et `hjust`, `nudge_x`), avec des remarques quand deux fonctions nomment différemment le même réglage.
+- Chaque quiz de séance du niveau intermédiaire compte maintenant **10 questions** (I10 passe de 12 à 10 ; I2, I6, I7, I8 et I11 ont de nouvelles questions sur les arguments). Les scores enregistrés gardent leur pourcentage.
+:::
+
+## v4.2 — 2026-11 {.no-track}
+
+::: en
+- **Beginner level**: every function and argument is explained the first time it is used, in a *Functions and arguments* table (what it does, what value it expects), with notes when two functions use different names for the same setting (e.g. `col` in base R, `colour` in ggplot2; `res` in `png()`, `dpi` in `ggsave()`).
+- Each Beginner session quiz now has **up to 10 questions** (the final project keeps 15). Scores already saved keep their percentage: 9/12 becomes 7.5/10.
+- Session 1: the example of a wrong argument name is now `round(3.456, decimals = 1)`.
+:::
+::: fr
+- **Niveau débutant** : chaque fonction et chaque argument sont expliqués à leur première utilisation, dans un tableau *Fonctions et arguments* (ce qu'il fait, la valeur attendue), avec des remarques quand deux fonctions utilisent des noms différents pour le même réglage (ex. `col` en R de base, `colour` dans ggplot2 ; `res` dans `png()`, `dpi` dans `ggsave()`).
+- Chaque quiz de séance du niveau débutant compte maintenant **jusqu'à 10 questions** (le projet final garde 15). Les scores déjà enregistrés gardent leur pourcentage : 9/12 devient 7,5/10.
+- Séance 1 : l'exemple de mauvais nom d'argument est maintenant `round(3.456, decimals = 1)`.
+:::
+
+## v4.1 — 2026-11 {.no-track}
+
+::: en
+- **A2 rewritten**: Git with RStudio buttons (Commit, Push, Pull, History) — Git for Windows installation, first configuration in the Terminal, GitHub and GitLab accounts, creating a repository and cloning it as an RStudio project. Windows illustrations. Quiz of 10 questions.
+- **A3, A4, A8, A9**: every YAML key explained in a table (output formats, `toc`, `params`, `format`, `geometry`, `margin`, `navbar`, `href`, `.gitlab-ci.yml`…).
+:::
+::: fr
+- **A2 réécrite** : Git avec les boutons de RStudio (Commit, Push, Pull, History) — installation de Git for Windows, première configuration dans le Terminal, comptes GitHub et GitLab, création d'un dépôt et clonage en projet RStudio. Illustrations Windows. Quiz de 10 questions.
+- **A3, A4, A8, A9** : chaque clé YAML expliquée dans un tableau (formats de sortie, `toc`, `params`, `format`, `geometry`, `margin`, `navbar`, `href`, `.gitlab-ci.yml`…).
+:::
+
 ## v4.0 — 2026-11 {.no-track}
 
 ::: en

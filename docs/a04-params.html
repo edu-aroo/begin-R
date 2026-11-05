@@ -715,6 +715,138 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="at">    </span><span class="fu">sep</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span></code></pre></div>
 </div>
 </div>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key (under each parameter)</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>params</code></td>
+<td>opens the list of parameters; each key under it (<code>mpa</code>,
+<code>year</code>) becomes <code>params$mpa</code>,
+<code>params$year</code> in the report</td>
+<td>names you choose (no spaces)</td>
+</tr>
+<tr class="even">
+<td><code>label</code></td>
+<td>text shown next to the field in the <em>Knit with Parameters</em>
+form</td>
+<td>text</td>
+</tr>
+<tr class="odd">
+<td><code>value</code></td>
+<td>the <strong>default value</strong>, used when you click Knit or when
+<code>render()</code> gives no other value</td>
+<td>text, number, <code>true</code>/<code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>input</code></td>
+<td>the kind of field in the form: <code>text</code>,
+<code>numeric</code>, <code>select</code> (drop-down list),
+<code>slider</code>, <code>checkbox</code>, <code>date</code>,
+<code>file</code></td>
+<td>one of these words</td>
+</tr>
+<tr class="odd">
+<td><code>choices</code></td>
+<td><code>select</code> only: the allowed values</td>
+<td>a list in brackets <code>[a, b, c]</code></td>
+</tr>
+<tr class="even">
+<td><code>min</code>, <code>max</code>, <code>step</code></td>
+<td><code>slider</code> and <code>numeric</code> only: smallest value,
+largest value, size of one step</td>
+<td>numbers</td>
+</tr>
+<tr class="odd">
+<td><code>sep</code></td>
+<td><code>slider</code> only: thousands separator shown in the form;
+<code>""</code> avoids “2,025”</td>
+<td>text</td>
+</tr>
+</tbody>
+</table>
+<p>The short form (<code>mpa: "Ankaramena"</code>) only gives a
+<code>value</code>. The long form is needed for <code>label</code>,
+<code>input</code>, <code>choices</code>…; both forms give the same
+<code>params$mpa</code> in the code.</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Clé (sous chaque paramètre)</th>
+<th>Ce qu’elle fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>params</code></td>
+<td>ouvre la liste des paramètres ; chaque clé en dessous
+(<code>mpa</code>, <code>year</code>) devient <code>params$mpa</code>,
+<code>params$year</code> dans le rapport</td>
+<td>des noms de votre choix (sans espaces)</td>
+</tr>
+<tr class="even">
+<td><code>label</code></td>
+<td>texte affiché à côté du champ dans le formulaire <em>Knit with
+Parameters</em></td>
+<td>texte</td>
+</tr>
+<tr class="odd">
+<td><code>value</code></td>
+<td>la <strong>valeur par défaut</strong>, utilisée quand vous cliquez
+sur Knit ou quand <code>render()</code> ne donne pas d’autre valeur</td>
+<td>texte, nombre, <code>true</code>/<code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>input</code></td>
+<td>le type de champ du formulaire : <code>text</code>,
+<code>numeric</code>, <code>select</code> (liste déroulante),
+<code>slider</code> (curseur), <code>checkbox</code>, <code>date</code>,
+<code>file</code></td>
+<td>un de ces mots</td>
+</tr>
+<tr class="odd">
+<td><code>choices</code></td>
+<td><code>select</code> seulement : les valeurs permises</td>
+<td>une liste entre crochets <code>[a, b, c]</code></td>
+</tr>
+<tr class="even">
+<td><code>min</code>, <code>max</code>, <code>step</code></td>
+<td><code>slider</code> et <code>numeric</code> seulement : plus petite
+valeur, plus grande valeur, taille d’un pas</td>
+<td>nombres</td>
+</tr>
+<tr class="odd">
+<td><code>sep</code></td>
+<td><code>slider</code> seulement : séparateur de milliers affiché dans
+le formulaire ; <code>""</code> évite « 2,025 »</td>
+<td>texte</td>
+</tr>
+</tbody>
+</table>
+<p>La forme courte (<code>mpa: "Ankaramena"</code>) ne donne qu’une
+<code>value</code>. La forme longue est nécessaire pour
+<code>label</code>, <code>input</code>, <code>choices</code>… ; les deux
+formes donnent le même <code>params$mpa</code> dans le code.</p>
+</div>
 </div>
 <div id="render" class="section level2">
 <h2><span class="en">Rendering from code</span><span class="fr">Produire
@@ -736,6 +868,42 @@ mais vous choisissez les paramètres, le nom et le dossier de la sortie
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">envir       =</span> <span class="fu">new.env</span>()                               <span class="co"># a clean environment for this report</span></span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>)</span></code></pre></div>
 <div class="en">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument of <code>render()</code></th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>input</code></td>
+<td>the .Rmd template</td>
+</tr>
+<tr class="even">
+<td><code>params</code></td>
+<td>a <code>list()</code> of values that <strong>replace</strong> the
+defaults of the YAML; parameters not given keep their default</td>
+</tr>
+<tr class="odd">
+<td><code>output_file</code></td>
+<td>name of the result file (otherwise: the name of the .Rmd, so each
+report would overwrite the previous one)</td>
+</tr>
+<tr class="even">
+<td><code>output_dir</code></td>
+<td>folder of the result</td>
+</tr>
+<tr class="odd">
+<td><code>envir</code></td>
+<td>the R environment in which the chunks run (see below)</td>
+</tr>
+</tbody>
+</table>
 <p><strong>Why <code>envir = new.env()</code>?</strong> By default
 <code>render()</code> runs the report in your current session: objects
 left by the previous report (or in your Environment) could be used by
@@ -743,6 +911,44 @@ mistake. A new environment gives each report a clean start — exactly
 like the Knit button.</p>
 </div>
 <div class="fr">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument de <code>render()</code></th>
+<th>Ce qu’il fait</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>input</code></td>
+<td>le modèle .Rmd</td>
+</tr>
+<tr class="even">
+<td><code>params</code></td>
+<td>une <code>list()</code> de valeurs qui <strong>remplacent</strong>
+celles par défaut du YAML ; les paramètres non donnés gardent leur
+valeur par défaut</td>
+</tr>
+<tr class="odd">
+<td><code>output_file</code></td>
+<td>nom du fichier résultat (sinon : le nom du .Rmd, et chaque rapport
+écraserait le précédent)</td>
+</tr>
+<tr class="even">
+<td><code>output_dir</code></td>
+<td>dossier du résultat</td>
+</tr>
+<tr class="odd">
+<td><code>envir</code></td>
+<td>l’environnement R dans lequel les chunks s’exécutent (voir
+ci-dessous)</td>
+</tr>
+</tbody>
+</table>
 <p><strong>Pourquoi <code>envir = new.env()</code> ?</strong> Par
 défaut, <code>render()</code> exécute le rapport dans votre session
 courante : des objets laissés par le rapport précédent (ou dans votre
@@ -774,6 +980,90 @@ class="fr">Un rapport par AMP, en un clic</span></h2>
 <span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>         <span class="at">quiet       =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Done: &quot;</span>, file_name)</span>
 <span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>}</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>library(rmarkdown)</code></td>
+<td>loads rmarkdown, so <code>render()</code> can be written without
+<code>rmarkdown::</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>gsub(" ", "_", tolower(m))</code></td>
+<td>“Nosy Fasika” → “nosy_fasika”: lower case, spaces replaced by
+<code>_</code> (Beginner Session 5)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>quiet</code> (argument of <code>render()</code>)</td>
+<td><code>TRUE</code> hides the long log of knitr and pandoc</td>
+<td><code>TRUE</code> / <code>FALSE</code> (default)</td>
+</tr>
+<tr class="even">
+<td><code>message(...)</code></td>
+<td>prints a progress message (Intermediate I5)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>library(rmarkdown)</code></td>
+<td>charge rmarkdown, pour écrire <code>render()</code> sans
+<code>rmarkdown::</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>gsub(" ", "_", tolower(m))</code></td>
+<td>« Nosy Fasika » → « nosy_fasika » : minuscules, espaces remplacées
+par <code>_</code> (séance 5 du niveau débutant)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>quiet</code> (argument of <code>render()</code>)</td>
+<td><code>TRUE</code> cache le long journal de knitr et pandoc</td>
+<td><code>TRUE</code> / <code>FALSE</code> (défaut)</td>
+</tr>
+<tr class="even">
+<td><code>message(...)</code></td>
+<td>affiche un message de progression (intermédiaire I5)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>This script was run for real when this page was built, in a temporary
 copy of a project with the structure of Session A0. Here are the files
@@ -819,6 +1109,94 @@ de l’année précédente ?</p>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>                    <span class="at">output_file =</span> <span class="fu">sprintf</span>(<span class="st">&quot;report_%s_%d.html&quot;</span>, <span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;_&quot;</span>, <span class="fu">tolower</span>(m)), y),</span>
 <span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>                    <span class="at">output_dir =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;reports&quot;</span>), <span class="at">envir =</span> <span class="fu">new.env</span>(), <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>}</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>expand.grid(...)</code></td>
+<td>a data frame with <strong>every combination</strong> of the vectors
+given (3 MPAs × 3 years = 9 rows)</td>
+<td><code>name = vector</code>, separated by commas</td>
+</tr>
+<tr class="even">
+<td>  <code>stringsAsFactors</code></td>
+<td><code>FALSE</code> keeps text as text (not factors)</td>
+<td><code>TRUE</code> (default here) / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td><code>seq_len(n)</code></td>
+<td><code>1, 2, …, n</code> (and nothing if <code>n</code> = 0), like
+<code>seq_along()</code> (Intermediate I5)</td>
+<td>a whole number</td>
+</tr>
+<tr class="even">
+<td><code>sprintf(fmt, ...)</code></td>
+<td>fills a text template: <code>%s</code> is replaced by a text,
+<code>%d</code> by a whole number, <code>%.1f</code> by a number with 1
+decimal</td>
+<td>a template in quotes, then the values in order</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>expand.grid(...)</code></td>
+<td>un data frame avec <strong>toutes les combinaisons</strong> des
+vecteurs donnés (3 AMP × 3 années = 9 lignes)</td>
+<td><code>nom = vecteur</code>, séparés par des virgules</td>
+</tr>
+<tr class="even">
+<td>  <code>stringsAsFactors</code></td>
+<td><code>FALSE</code> garde le texte en texte (pas en facteurs)</td>
+<td><code>TRUE</code> (défaut ici) / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td><code>seq_len(n)</code></td>
+<td><code>1, 2, …, n</code> (et rien si <code>n</code> = 0), comme
+<code>seq_along()</code> (intermédiaire I5)</td>
+<td>un nombre entier</td>
+</tr>
+<tr class="even">
+<td><code>sprintf(fmt, ...)</code></td>
+<td>remplit un modèle de texte : <code>%s</code> est remplacé par un
+texte, <code>%d</code> par un entier, <code>%.1f</code> par un nombre à
+1 décimale</td>
+<td>un modèle entre guillemets, puis les valeurs dans l’ordre</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="robust" class="section level2">
 <h2><span class="en">Robust templates</span><span class="fr">Des modèles
@@ -876,6 +1254,70 @@ modèle.</li>
 <pre><code>#&gt; [1] &quot;Cover increased by 2.2 points since the previous survey.&quot;</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">trend_sentence</span>(<span class="fl">27.5</span>, <span class="cn">NA</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] &quot;There was no survey the year before.&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>return(value)</code></td>
+<td>leaves the function at once with this value (here when the previous
+year is missing)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>is.na()</code>, <code>ifelse()</code>, <code>abs()</code>,
+<code>paste0()</code></td>
+<td>reminders (Beginner Sessions 1, 2; Intermediate I1)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>return(value)</code></td>
+<td>sort de la fonction immédiatement avec cette valeur (ici quand
+l’année précédente manque)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>is.na()</code>, <code>ifelse()</code>, <code>abs()</code>,
+<code>paste0()</code></td>
+<td>rappels (séances 1, 2 du niveau débutant ; intermédiaire I1)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="automation" class="section level2">
 <h2><span class="en">Running it every year</span><span class="fr">Le
@@ -992,7 +1434,7 @@ vérifiez que vous avez écrit <code>params$year</code> (avec un
 </div>
 </div>
 <div id="quiz-a04" class="quiz" data-quiz-id="a04"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTWVhbiBoYXJkIGNvcmFsIGNvdmVyLCBOb3N5IEZhc2lrYSAyMDI0ICgxIGRlY2ltYWwpPyIsImZyIjoiMS4gQ29yYWlsIGR1ciBtb3llbiwgTm9zeSBGYXNpa2EgMjAyNCAoMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjI0LjYsInRvbCI6MC4wNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIE51bWJlciBvZiBzaXRlcyBpbiB0aGUgVGFuam9uYSAyMDI1IHJlcG9ydD8iLCJmciI6IjIuIE5vbWJyZSBkZSBzaXRlcyBkYW5zIGxlIHJhcHBvcnQgVGFuam9uYSAyMDI1ID8iLCJhbnN3ZXIiOjYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE51bWJlciBvZiByZXBvcnRzIGZvciAzIE1QQXMgw5cgMjAyM+KAkzIwMjU/IiwiZnIiOiIzLiBOb21icmUgZGUgcmFwcG9ydHMgcG91ciAzIEFNUCDDlyAyMDIz4oCTMjAyNSA/IiwiYW5zd2VyIjo5LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBDaGFuZ2UgaW4gY292ZXIgYXQgQW5rYXJhbWVuYSwgMjAyNCDihpIgMjAyNSAocG9pbnRzLCAxIGRlY2ltYWwpPyIsImZyIjoiNC4gVmFyaWF0aW9uIGR1IHJlY291dnJlbWVudCDDoCBBbmthcmFtZW5hLCAyMDI0IOKGkiAyMDI1IChwb2ludHMsIDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjozLjEsInRvbCI6MC4xMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIEluc2lkZSB0aGUgcmVwb3J0LCB0aGUgTVBBIGNob3NlbiBpbiB0aGUgcGFyYW1ldGVycyBpczoiLCJmciI6IjUuIERhbnMgbGUgcmFwcG9ydCwgbCdBTVAgY2hvaXNpZSBkYW5zIGxlcyBwYXJhbcOodHJlcyBlc3QgOiIsIm9wdGlvbnNfZW4iOlsibXBhIiwicGFyYW1zJG1wYSIsInlhbWwkbXBhIiwiaW5wdXQkbXBhIl0sIm9wdGlvbnNfZnIiOlsibXBhIiwicGFyYW1zJG1wYSIsInlhbWwkbXBhIiwiaW5wdXQkbXBhIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBXaHkgdXNlIGVudmlyID0gbmV3LmVudigpIGluIHJlbmRlcigpIGluc2lkZSBhIGxvb3A/IiwiZnIiOiI2LiBQb3VycXVvaSB1dGlsaXNlciBlbnZpciA9IG5ldy5lbnYoKSBkYW5zIHJlbmRlcigpIMOgIGwnaW50w6lyaWV1ciBkJ3VuZSBib3VjbGUgPyIsIm9wdGlvbnNfZW4iOlsiU28gdGhhdCBlYWNoIHJlcG9ydCBzdGFydHMgY2xlYW4sIHdpdGhvdXQgb2JqZWN0cyBsZWZ0IGJ5IHRoZSBwcmV2aW91cyBvbmUiLCJUbyByZW5kZXIgZmFzdGVyIiwiSXQgaXMgcmVxdWlyZWQgZm9yIEhUTUwiLCJUbyBzYXZlIHRoZSBwYXJhbWV0ZXJzIl0sIm9wdGlvbnNfZnIiOlsiUG91ciBxdWUgY2hhcXVlIHJhcHBvcnQgcGFydGUgcHJvcHJlLCBzYW5zIG9iamV0cyBsYWlzc8OpcyBwYXIgbGUgcHLDqWPDqWRlbnQiLCJQb3VyIHByb2R1aXJlIHBsdXMgdml0ZSIsIkMnZXN0IG9ibGlnYXRvaXJlIHBvdXIgbGUgSFRNTCIsIlBvdXIgZW5yZWdpc3RyZXIgbGVzIHBhcmFtw6h0cmVzIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBXaXRob3V0IG91dHB1dF9maWxlLCB0aGUgMyByZXBvcnRzIG9mIHRoZSBsb29wIHdvdWxkOiIsImZyIjoiNy4gU2FucyBvdXRwdXRfZmlsZSwgbGVzIDMgcmFwcG9ydHMgZGUgbGEgYm91Y2xlIDoiLCJvcHRpb25zX2VuIjpbImVhY2ggZ2V0IGEgZGlmZmVyZW50IG5hbWUgYXV0b21hdGljYWxseSIsIm92ZXJ3cml0ZSBlYWNoIG90aGVyIChzYW1lIG5hbWUgbXBhX3JlcG9ydC5odG1sKSIsIm5vdCBiZSBjcmVhdGVkIiwiYmUgc2F2ZWQgYXMgV29yZCJdLCJvcHRpb25zX2ZyIjpbImF1cmFpZW50IGNoYWN1biB1biBub20gZGlmZsOpcmVudCBhdXRvbWF0aXF1ZW1lbnQiLCJzJ8OpY3Jhc2VyYWllbnQgKG3Dqm1lIG5vbSBtcGFfcmVwb3J0Lmh0bWwpIiwibmUgc2VyYWllbnQgcGFzIGNyw6nDqXMiLCJzZXJhaWVudCBlbnJlZ2lzdHLDqXMgZW4gV29yZCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gV2hhdCBzaG91bGQgeW91IGNvbW1pdCB0byBHaXQgaW4gdGhpcyB3b3JrZmxvdz8iLCJmciI6IjguIFF1ZSBmYXV0LWlsIHZhbGlkZXIgZGFucyBHaXQgZGFucyBjZSBkw6lyb3Vsw6kgPyIsIm9wdGlvbnNfZW4iOlsiVGhlIEhUTUwgcmVwb3J0cyBvbmx5IiwiRXZlcnl0aGluZywgaW5jbHVkaW5nIHJlbnYvbGlicmFyeS8iLCJOb3RoaW5nOiByZXBvcnRzIGFyZSBub3QgY29kZSIsIlRoZSB0ZW1wbGF0ZSwgdGhlIHNjcmlwdHMsIHRoZSBmdW5jdGlvbnMgYW5kIHJlbnYubG9jayJdLCJvcHRpb25zX2ZyIjpbIlNldWxlbWVudCBsZXMgcmFwcG9ydHMgSFRNTCIsIlRvdXQsIHkgY29tcHJpcyByZW52L2xpYnJhcnkvIiwiUmllbiA6IGxlcyByYXBwb3J0cyBuZSBzb250IHBhcyBkdSBjb2RlIiwiTGUgbW9kw6hsZSwgbGVzIHNjcmlwdHMsIGxlcyBmb25jdGlvbnMgZXQgcmVudi5sb2NrIl0sImFuc3dlciI6M31d">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTWVhbiBoYXJkIGNvcmFsIGNvdmVyLCBOb3N5IEZhc2lrYSAyMDI0ICgxIGRlY2ltYWwpPyIsImZyIjoiMS4gQ29yYWlsIGR1ciBtb3llbiwgTm9zeSBGYXNpa2EgMjAyNCAoMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjI0LjYsInRvbCI6MC4wNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIE51bWJlciBvZiBzaXRlcyBpbiB0aGUgVGFuam9uYSAyMDI1IHJlcG9ydD8iLCJmciI6IjIuIE5vbWJyZSBkZSBzaXRlcyBkYW5zIGxlIHJhcHBvcnQgVGFuam9uYSAyMDI1ID8iLCJhbnN3ZXIiOjYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE51bWJlciBvZiByZXBvcnRzIGZvciAzIE1QQXMgw5cgMjAyM+KAkzIwMjU/IiwiZnIiOiIzLiBOb21icmUgZGUgcmFwcG9ydHMgcG91ciAzIEFNUCDDlyAyMDIz4oCTMjAyNSA/IiwiYW5zd2VyIjo5LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBDaGFuZ2UgaW4gY292ZXIgYXQgQW5rYXJhbWVuYSwgMjAyNCDihpIgMjAyNSAocG9pbnRzLCAxIGRlY2ltYWwpPyIsImZyIjoiNC4gVmFyaWF0aW9uIGR1IHJlY291dnJlbWVudCDDoCBBbmthcmFtZW5hLCAyMDI0IOKGkiAyMDI1IChwb2ludHMsIDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjozLjEsInRvbCI6MC4xMSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIEluc2lkZSB0aGUgcmVwb3J0LCB0aGUgTVBBIGNob3NlbiBpbiB0aGUgcGFyYW1ldGVycyBpczoiLCJmciI6IjUuIERhbnMgbGUgcmFwcG9ydCwgbCdBTVAgY2hvaXNpZSBkYW5zIGxlcyBwYXJhbcOodHJlcyBlc3QgOiIsIm9wdGlvbnNfZW4iOlsibXBhIiwicGFyYW1zJG1wYSIsInlhbWwkbXBhIiwiaW5wdXQkbXBhIl0sIm9wdGlvbnNfZnIiOlsibXBhIiwicGFyYW1zJG1wYSIsInlhbWwkbXBhIiwiaW5wdXQkbXBhIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBXaHkgdXNlIGVudmlyID0gbmV3LmVudigpIGluIHJlbmRlcigpIGluc2lkZSBhIGxvb3A/IiwiZnIiOiI2LiBQb3VycXVvaSB1dGlsaXNlciBlbnZpciA9IG5ldy5lbnYoKSBkYW5zIHJlbmRlcigpIMOgIGwnaW50w6lyaWV1ciBkJ3VuZSBib3VjbGUgPyIsIm9wdGlvbnNfZW4iOlsiU28gdGhhdCBlYWNoIHJlcG9ydCBzdGFydHMgY2xlYW4sIHdpdGhvdXQgb2JqZWN0cyBsZWZ0IGJ5IHRoZSBwcmV2aW91cyBvbmUiLCJUbyByZW5kZXIgZmFzdGVyIiwiSXQgaXMgcmVxdWlyZWQgZm9yIEhUTUwiLCJUbyBzYXZlIHRoZSBwYXJhbWV0ZXJzIl0sIm9wdGlvbnNfZnIiOlsiUG91ciBxdWUgY2hhcXVlIHJhcHBvcnQgcGFydGUgcHJvcHJlLCBzYW5zIG9iamV0cyBsYWlzc8OpcyBwYXIgbGUgcHLDqWPDqWRlbnQiLCJQb3VyIHByb2R1aXJlIHBsdXMgdml0ZSIsIkMnZXN0IG9ibGlnYXRvaXJlIHBvdXIgbGUgSFRNTCIsIlBvdXIgZW5yZWdpc3RyZXIgbGVzIHBhcmFtw6h0cmVzIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBXaXRob3V0IG91dHB1dF9maWxlLCB0aGUgMyByZXBvcnRzIG9mIHRoZSBsb29wIHdvdWxkOiIsImZyIjoiNy4gU2FucyBvdXRwdXRfZmlsZSwgbGVzIDMgcmFwcG9ydHMgZGUgbGEgYm91Y2xlIDoiLCJvcHRpb25zX2VuIjpbImVhY2ggZ2V0IGEgZGlmZmVyZW50IG5hbWUgYXV0b21hdGljYWxseSIsIm92ZXJ3cml0ZSBlYWNoIG90aGVyIChzYW1lIG5hbWUgbXBhX3JlcG9ydC5odG1sKSIsIm5vdCBiZSBjcmVhdGVkIiwiYmUgc2F2ZWQgYXMgV29yZCJdLCJvcHRpb25zX2ZyIjpbImF1cmFpZW50IGNoYWN1biB1biBub20gZGlmZsOpcmVudCBhdXRvbWF0aXF1ZW1lbnQiLCJzJ8OpY3Jhc2VyYWllbnQgKG3Dqm1lIG5vbSBtcGFfcmVwb3J0Lmh0bWwpIiwibmUgc2VyYWllbnQgcGFzIGNyw6nDqXMiLCJzZXJhaWVudCBlbnJlZ2lzdHLDqXMgZW4gV29yZCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gV2hhdCBzaG91bGQgeW91IGNvbW1pdCB0byBHaXQgaW4gdGhpcyB3b3JrZmxvdz8iLCJmciI6IjguIFF1ZSBmYXV0LWlsIHZhbGlkZXIgZGFucyBHaXQgZGFucyBjZSBkw6lyb3Vsw6kgPyIsIm9wdGlvbnNfZW4iOlsiVGhlIEhUTUwgcmVwb3J0cyBvbmx5IiwiRXZlcnl0aGluZywgaW5jbHVkaW5nIHJlbnYvbGlicmFyeS8iLCJOb3RoaW5nOiByZXBvcnRzIGFyZSBub3QgY29kZSIsIlRoZSB0ZW1wbGF0ZSwgdGhlIHNjcmlwdHMsIHRoZSBmdW5jdGlvbnMgYW5kIHJlbnYubG9jayJdLCJvcHRpb25zX2ZyIjpbIlNldWxlbWVudCBsZXMgcmFwcG9ydHMgSFRNTCIsIlRvdXQsIHkgY29tcHJpcyByZW52L2xpYnJhcnkvIiwiUmllbiA6IGxlcyByYXBwb3J0cyBuZSBzb250IHBhcyBkdSBjb2RlIiwiTGUgbW9kw6hsZSwgbGVzIHNjcmlwdHMsIGxlcyBmb25jdGlvbnMgZXQgcmVudi5sb2NrIl0sImFuc3dlciI6M30seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBXaGF0IGRvZXMgZXhwYW5kLmdyaWQobXBhID0gYyhcIkFcIiwgXCJCXCIpLCB5ZWFyID0gMjAyNDoyMDI1KSByZXR1cm4/IiwiZnIiOiI5LiBRdWUgcmVudm9pZSBleHBhbmQuZ3JpZChtcGEgPSBjKFwiQVwiLCBcIkJcIiksIHllYXIgPSAyMDI0OjIwMjUpID8iLCJvcHRpb25zX2VuIjpbIkEgdGFibGUgb2YgNCByb3dzOiBldmVyeSBNUEEgw5cgeWVhciBjb21iaW5hdGlvbiIsIkEgdGFibGUgb2YgMiByb3dzIiwiQSBsaXN0IG9mIDIgdmVjdG9ycyIsIkFuIGVycm9yIl0sIm9wdGlvbnNfZnIiOlsiVW4gdGFibGVhdSBkZSA0IGxpZ25lcyA6IHRvdXRlcyBsZXMgY29tYmluYWlzb25zIEFNUCDDlyBhbm7DqWUiLCJVbiB0YWJsZWF1IGRlIDIgbGlnbmVzIiwiVW5lIGxpc3RlIGRlIDIgdmVjdGV1cnMiLCJVbmUgZXJyZXVyIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gc3ByaW50ZihcInJlcG9ydF8lc18lZC5odG1sXCIsIFwidGFuam9uYVwiLCAyMDI1KSBnaXZlczoiLCJmciI6IjEwLiBzcHJpbnRmKFwicmVwb3J0XyVzXyVkLmh0bWxcIiwgXCJ0YW5qb25hXCIsIDIwMjUpIGRvbm5lIDoiLCJvcHRpb25zX2VuIjpbInJlcG9ydF90YW5qb25hXzIwMjUuaHRtbCIsInJlcG9ydF8lc18lZC5odG1sIiwicmVwb3J0XzIwMjVfdGFuam9uYS5odG1sIiwiYW4gZXJyb3IiXSwib3B0aW9uc19mciI6WyJyZXBvcnRfdGFuam9uYV8yMDI1Lmh0bWwiLCJyZXBvcnRfJXNfJWQuaHRtbCIsInJlcG9ydF8yMDI1X3RhbmpvbmEuaHRtbCIsInVuZSBlcnJldXIiXSwiYW5zd2VyIjowfV0=">
 
 </div>
 <div class="solution" data-quiz="a04">

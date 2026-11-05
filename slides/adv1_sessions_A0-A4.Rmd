@@ -33,7 +33,7 @@ reef <- left_join(read.csv("data/advanced/reef_monitoring.csv"), read.csv("data/
 
 - **A0** : organiser un projet reproductible
 - **A1** : figer les versions des packages avec `renv`
-- **A2** : Git, GitHub et GitLab
+- **A2** : Git, GitHub et GitLab avec RStudio
 - **A3** : rapports avec R Markdown
 - **A4** : rapports paramétrés et automatiques
 
@@ -115,19 +115,54 @@ sapply(lock$Packages[c("dplyr", "ggplot2", "sf")], function(p) p$Version)
 
 Limites : la version de **R**, les bibliothèques système (GDAL…), → README, rig, Docker.
 
-## A2 — Git, GitHub, GitLab {.segue}
+## A2 — Git, GitHub, GitLab avec RStudio {.segue}
 
 ## Le vocabulaire
 
 | Mot | Sens |
 |---|---|
 | dépôt (repo) | dossier suivi par Git (`.git/`) |
-| commit | instantané + message + auteur + date |
-| add / commit | choisir puis enregistrer |
-| push / pull | envoyer / récupérer (GitHub, GitLab) |
-| branche / merge | travail parallèle / fusion |
+| commit | instantané + message + auteur + date, **sur votre ordinateur** |
+| push | envoyer vos commits vers GitHub / GitLab |
+| pull | récupérer les commits des autres |
+| clone | copier un dépôt en ligne sur votre ordinateur |
 
 <div class="box warn">Pas de données personnelles ni de gros fichiers dans un dépôt — surtout public.</div>
+
+## Une seule fois par ordinateur
+
+1. Installer **Git for Windows** (éditeur : Notepad · branche : `main` · Git Credential Manager)
+2. RStudio : *Tools → Global Options → Git/SVN* → `git.exe` ; *Terminal* → **Git Bash**
+3. Terminal de RStudio :
+
+```bash
+git config --global user.name "Prénom Nom"
+git config --global user.email "adresse@du.compte"
+git config --global init.defaultBranch main
+```
+
+4. Comptes **GitHub** et **GitLab** (double authentification, garder les codes de secours)
+
+## Du site à RStudio
+
+1. Sur le site : **New repository** → nom, *Private*, *Add a README* → copier l'URL HTTPS
+2. RStudio : *File → New Project → Version Control → Git* → coller l'URL
+3. Dossier hors de OneDrive · le panneau **Git** apparaît
+
+| Statut | Sens |
+|---|---|
+| `?` | nouveau, pas encore suivi |
+| `M` | modifié |
+| `A` / `D` | ajouté / supprimé |
+
+## Le cycle de travail
+
+- **Pull** en ouvrant le projet
+- travailler, enregistrer
+- **Commit** : cocher *Staged*, écrire un message clair, *Commit* — une modification logique = un commit
+- **Push** à la fin de la séance (ou quand un collègue en a besoin)
+- Push rejeté ? → **Pull**, puis **Push**
+- premier Push : la fenêtre **Git Credential Manager** demande de se connecter
 
 ## L'historique répond aux questions
 
@@ -138,21 +173,8 @@ cat(system2("git", c("-C", file.path(ngo, "reef-monitoring"), "log", shQuote("--
             stdout = TRUE), sep = "\n")
 ```
 
-- `git show 8c390f6:R/03_bleaching.R` : le fichier à une date donnée
-- `git restore --source=8c390f6 fichier` : revenir en arrière (rien n'est perdu)
-
-## Se connecter à GitHub / GitLab
-
-- **HTTPS + jeton** : `usethis::create_github_token()` puis `gitcreds::gitcreds_set()`
-- **SSH** : `ssh-keygen -t ed25519`, clé **publique** dans le compte, `ssh -T git@github.com`
-- deux comptes : alias dans `~/.ssh/config` → `git@github-work:org/projet.git`
-
-```bash
-git remote add origin git@github.com:compte/reef-monitoring.git
-git push -u origin main
-```
-
-**Pull avant de travailler, pull avant de pousser.**
+- panneau Git → **History** · *Filter by File* · *View file @…*
+- clic droit → **Ignore** = ajouter au `.gitignore`
 
 ## Un conflit, ce n'est pas grave
 
@@ -161,10 +183,10 @@ git push -u origin main
 threshold <- 25
 =======
 threshold <- 20
->>>>>>> hery-threshold
+>>>>>>> 4a5c8d0
 ```
 
-Garder la bonne ligne, **supprimer les marqueurs**, `git add`, `git commit`.
+Garder la bonne ligne, **supprimer les marqueurs**, enregistrer, cocher *Staged*, **Commit**, **Push**.
 
 ## A3 — R Markdown {.segue}
 

@@ -81,6 +81,11 @@ p_inc <- ggplot(hh, aes(monthly_income_mga / 1000)) +
 p_sgr | p_inc
 ```
 
+```{r, echo=FALSE}
+fa(c("`aes(monthly_income_mga / 1000)`", "a calculation can be written directly in `aes()`: here the income in thousands of MGA", "un calcul peut s'écrire directement dans `aes()` : ici le revenu en milliers de MGA", "", ""),
+   c("`p_sgr | p_inc`", "two plots side by side (patchwork, Session I8)", "deux graphiques côte à côte (patchwork, séance I8)", "", ""))
+```
+
 ::: en
 - **SGR** is roughly **symmetric**, bell-shaped: most values near the centre, as many above as below.
 - **Income** is **right-skewed** (positively skewed): many modest incomes and a long tail of a few high ones. This is typical of incomes, weights, abundances, concentrations: values that cannot be negative and that grow *multiplicatively*.
@@ -98,6 +103,11 @@ p_sgr | p_inc
 inc <- hh$monthly_income_mga
 c(mean = mean(inc), median = median(inc))
 sum(inc > 1e6)          # number of households above 1 million MGA
+```
+
+```{r, echo=FALSE}
+fa(c("`1e6`", "scientific notation: 1 × 10⁶ = 1 000 000 (`2.5e-3` = 0.0025)", "notation scientifique : 1 × 10⁶ = 1 000 000 (`2.5e-3` = 0,0025)", "", ""),
+   c("`c(mean = ..., median = ...)`", "a named vector to print two results side by side", "un vecteur nommé pour afficher deux résultats côte à côte", "", ""))
 ```
 
 ::: en
@@ -138,6 +148,21 @@ fake <- rnorm(1000, mean = 3.4, sd = 0.65)   # 1000 "ideal" SGR values
 mean(abs(fake - mean(fake)) < 2 * sd(fake))  # proportion within mean ± 2 SD
 ```
 
+```{r, echo=FALSE}
+fa(c("`pnorm(q, mean = 0, sd = 1)`", "**p**robability that a normal value is **below** `q` (area to the left)", "**p**robabilité qu'une valeur normale soit **inférieure** à `q` (surface à gauche)", "a value", "une valeur"),
+   c("`qnorm(p, mean = 0, sd = 1)`", "the opposite: the value (**q**uantile) below which there is a proportion `p`", "l'inverse : la valeur (**q**uantile) sous laquelle se trouve une proportion `p`", "a probability between 0 and 1", "une probabilité entre 0 et 1"),
+   c("`rnorm(n, mean = 0, sd = 1)`", "draws `n` **r**andom values from a normal distribution", "tire `n` valeurs **r**andom (aléatoires) d'une distribution normale", "a whole number; the mean and SD you want", "un nombre entier ; la moyenne et l'ET voulus"),
+   c("`dnorm(x, mean = 0, sd = 1)`", "the height (**d**ensity) of the normal curve at `x` (used below to draw the curve)", "la hauteur (**d**ensité) de la courbe normale en `x` (utilisée plus bas pour tracer la courbe)", "a value", "une valeur"),
+   c("`abs(x)`", "absolute value (Beginner Session 1)", "valeur absolue (séance 1 du niveau débutant)", "", ""))
+```
+
+::: en
+R uses the same four letters for **every** distribution: `d` (density), `p` (probability), `q` (quantile), `r` (random) + the name of the distribution: `dnorm`, `pbinom`, `qt`, `rpois`… Their arguments, however, differ: `mean` and `sd` for the normal, `size` and `prob` for the binomial, `lambda` for the Poisson, `df` for Student's *t*.
+:::
+::: fr
+R utilise les quatre mêmes lettres pour **toutes** les distributions : `d` (densité), `p` (probabilité), `q` (quantile), `r` (aléatoire) + le nom de la distribution : `dnorm`, `pbinom`, `qt`, `rpois`… Leurs arguments, en revanche, diffèrent : `mean` et `sd` pour la normale, `size` et `prob` pour la binomiale, `lambda` pour la Poisson, `df` pour le *t* de Student.
+:::
+
 ::: en
 Let us put the theoretical curve on top of the real SGR histogram. The trick: draw the histogram on the **density** scale (`after_stat(density)`) so that the bars and the curve have the same units.
 :::
@@ -154,6 +179,13 @@ ggplot(seaweed, aes(sgr)) +
                 colour = "#0b3d5c", linewidth = 1) +            # normal curve with the same mean and SD
   labs(x = "SGR (% per day)", y = "Density",
        caption = "Bars: observed lines; curve: normal distribution with the same mean and SD") + theme_c()
+```
+
+```{r, echo=FALSE}
+fa(c("`aes(y = after_stat(density))`", "the bars show the **density** (area of all bars = 1) instead of counts, so that they can be compared with a curve", "les barres montrent la **densité** (surface totale des barres = 1) au lieu des effectifs, pour pouvoir les comparer à une courbe", "", ""),
+   c("`stat_function(fun, args)`", "draws the curve of a function", "trace la courbe d'une fonction", "", ""),
+   c("&nbsp;&nbsp;`fun`", "the function, without parentheses", "la fonction, sans parenthèses", "e.g. `dnorm`", "ex. `dnorm`"),
+   c("&nbsp;&nbsp;`args`", "the arguments given to `fun`, in a list", "les arguments donnés à `fun`, dans une liste", "`list(mean = m, sd = s)`", "`list(mean = m, sd = s)`"))
 ```
 
 ## [Checking normality]{.en}[Vérifier la normalité]{.fr} {#qq}
@@ -174,12 +206,22 @@ qq <- function(x, title) {                     # small function (Session I6) to 
 qq(seaweed$sgr[!is.na(seaweed$sgr)], "SGR") | qq(inc, "Income") | qq(log(inc), "log(income)")
 ```
 
+```{r, echo=FALSE}
+fa(c("`aes(sample = x)`", "for a Q–Q plot the column is given to the aesthetic `sample`, not `x`", "pour un diagramme Q–Q la colonne est donnée à l'esthétique `sample`, pas `x`", "", ""),
+   c("`stat_qq()`, `stat_qq_line()`", "the points (observed vs theoretical quantiles) and the line they should follow if the data are normal", "les points (quantiles observés vs théoriques) et la droite qu'ils devraient suivre si les données sont normales", "", ""),
+   c("`data.frame(x = x)`", "ggplot needs a data frame: we put the vector in a one-column table", "ggplot a besoin d'un data frame : on place le vecteur dans un tableau d'une colonne", "", ""))
+```
+
 ::: compare
 ::: {.col .base}
 **base R**
 ```{r, eval=FALSE}
 qqnorm(inc)
 qqline(inc, col = "red")
+```
+
+```{r, echo=FALSE}
+fa(c("`qqnorm(y)`, `qqline(y, col)`", "the same Q–Q plot in base R; `col` = colour of the line (Beginner Session 7)", "le même diagramme Q–Q en R de base ; `col` = couleur de la droite (séance 7 du niveau débutant)", "a numeric vector", "un vecteur numérique"))
 ```
 :::
 ::: {.col .pkg}
@@ -196,6 +238,10 @@ ggplot(hh, aes(sample = monthly_income_mga)) +
 ```{r}
 shapiro.test(inc)              # H0: the data come from a normal distribution
 shapiro.test(log(inc))
+```
+
+```{r, echo=FALSE}
+fa(c("`shapiro.test(x)`", "Shapiro–Wilk test of normality; prints the statistic `W` and the p-value", "test de normalité de Shapiro–Wilk ; affiche la statistique `W` et la p-value", "a numeric vector of 3 to 5 000 values", "un vecteur numérique de 3 à 5 000 valeurs"))
 ```
 
 ::: {.callout .warning}
@@ -236,6 +282,12 @@ sims <- data.frame(n = rep(c("n = 5", "n = 50"), each = 2000), mean = c(means5, 
 ggplot(sims, aes(mean)) + geom_histogram(bins = 40, fill = "#1b7f8c", colour = "white") +
   facet_wrap(~ n, scales = "free_y") +
   labs(x = "Mean income of the sample (thousand MGA)", y = "Samples") + theme_c()
+```
+
+```{r, echo=FALSE}
+fa(c("`replicate(n, expr)`", "evaluates `expr` `n` times and collects the results in a vector", "évalue `expr` `n` fois et rassemble les résultats dans un vecteur", "a whole number; an expression", "un nombre entier ; une expression"),
+   c("`sample(x, size)`", "random draw of `size` values (Beginner Session 2)", "tirage aléatoire de `size` valeurs (séance 2 du niveau débutant)", "", ""),
+   c("&nbsp;&nbsp;`bins` (in `geom_histogram()`)", "the **number** of classes; `binwidth` gives their **width** instead — give one or the other", "le **nombre** de classes ; `binwidth` donne plutôt leur **largeur** — donnez l'un ou l'autre", "a whole number", "un nombre entier"))
 ```
 
 ::: en
@@ -285,6 +337,11 @@ Après le log, le revenu est bien symétrique (et Shapiro–Wilk ne rejette plus
 ```{r}
 geo_mean <- function(x) exp(mean(log(x), na.rm = TRUE))   # a reusable function (Session I6)
 c(arithmetic = mean(inc), geometric = geo_mean(inc), median = median(inc))
+```
+
+```{r, echo=FALSE}
+fa(c("`log(x)`, `log10(x)`, `exp(x)`", "natural log, log base 10, and the opposite of `log()` (Beginner Session 1)", "log népérien, log en base 10, et l'inverse de `log()` (séance 1 du niveau débutant)", "positive numbers for `log`", "nombres positifs pour `log`"),
+   c("`exp(mean(log(x)))`", "the **geometric mean**: the mean on the log scale, brought back to the original scale", "la **moyenne géométrique** : la moyenne sur l'échelle log, ramenée à l'échelle d'origine", "", ""))
 ```
 
 ::: {.callout .warning}
@@ -346,6 +403,13 @@ ggplot(data.frame(d = perm), aes(d)) +
        caption = "Red line: observed difference (dashed: same size, other direction)") + theme_c()
 ```
 
+```{r, echo=FALSE}
+fa(c("`sample(x)`", "without `size`: all the values in a random order (a **shuffle**)", "sans `size` : toutes les valeurs dans un ordre aléatoire (un **mélange**)", "a vector", "un vecteur"),
+   c("`for (i in 1:n_perm)`", "loop filling a vector (Session I5)", "boucle qui remplit un vecteur (séance I5)", "", ""),
+   c("`mean(condition)`", "proportion of `TRUE` (Beginner Session 2): here the permutation p-value", "proportion de `TRUE` (séance 2 du niveau débutant) : ici la p-value de permutation", "", ""),
+   c("`geom_vline(xintercept, linetype = c(2, 1))`", "vertical lines; `linetype` as numbers works like `lty` (2 dashed, 1 solid)", "lignes verticales ; `linetype` en nombres fonctionne comme `lty` (2 tirets, 1 continu)", "", ""))
+```
+
 ::: en
 About **`r round(p_perm * 100)` %** of the random shuffles give a difference at least as large as the one we observed. That proportion **is the p-value**:
 
@@ -363,6 +427,11 @@ Ici, p ≈ `r round(p_perm, 2)` : une différence de cette taille est fréquente
 
 ```{r}
 t.test(log_income ~ does_seaweed, data = hh)$p.value
+```
+
+```{r, echo=FALSE}
+fa(c("`t.test(formula, data)`", "Welch's *t*-test comparing two group means (Session I10 explains it)", "test *t* de Welch comparant deux moyennes de groupes (la séance I10 l'explique)", "`y ~ group` and the data frame", "`y ~ groupe` et le data frame"),
+   c("`$p.value`", "a test returns a list (Session I6): `$` takes one of its elements", "un test renvoie une liste (séance I6) : `$` prend un de ses éléments", "", ""))
 ```
 
 ::: {.callout .warning}

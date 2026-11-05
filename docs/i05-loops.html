@@ -614,6 +614,95 @@ condition vaut <strong>un seul</strong> <code>TRUE</code>. Ajoutez
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Losses are low&quot;</span>)</span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>#&gt; Losses to watch: 10 %</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>if (condition) { ... }</code></td>
+<td>runs the code between <code>{ }</code> only if the condition is
+<code>TRUE</code></td>
+<td><strong>one</strong> <code>TRUE</code> or <code>FALSE</code> (not a
+vector, not <code>NA</code>)</td>
+</tr>
+<tr class="even">
+<td><code>else if (condition) { ... }</code></td>
+<td>tested only if the previous conditions were <code>FALSE</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>else { ... }</code></td>
+<td>runs when no condition was <code>TRUE</code>; must start on the same
+line as the <code>}</code> before it</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>message(...)</code></td>
+<td>prints a message in the console; the pieces are glued without
+spaces</td>
+<td>texts and numbers separated by commas</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>if (condition) { ... }</code></td>
+<td>exécute le code entre <code>{ }</code> seulement si la condition
+vaut <code>TRUE</code></td>
+<td><strong>un seul</strong> <code>TRUE</code> ou <code>FALSE</code>
+(pas un vecteur, pas <code>NA</code>)</td>
+</tr>
+<tr class="even">
+<td><code>else if (condition) { ... }</code></td>
+<td>testé seulement si les conditions précédentes valaient
+<code>FALSE</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>else { ... }</code></td>
+<td>s’exécute quand aucune condition n’était <code>TRUE</code> ; doit
+commencer sur la même ligne que le <code>}</code> qui précède</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>message(...)</code></td>
+<td>affiche un message dans la console ; les morceaux sont collés sans
+espace</td>
+<td>textes et nombres séparés par des virgules</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><code>if</code> needs <strong>a single</strong> TRUE/FALSE.
@@ -674,6 +763,82 @@ classes : <code>case_when()</code> (dplyr) liste les cas un par ligne,
 <pre><code>#&gt; 
 #&gt;   good   lost medium   poor 
 #&gt;    473    258   1229    615</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ifelse(test, yes, no)</code></td>
+<td>reminder (Session I1); nested <code>ifelse()</code> = a new
+<code>ifelse()</code> in the <code>no</code> position</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>case_when(condition ~ value, ...)</code></td>
+<td><strong>dplyr</strong>: tests the conditions <strong>in
+order</strong>, and each row gets the value of the
+<strong>first</strong> condition that is <code>TRUE</code></td>
+<td><code>condition ~ value</code>, separated by commas</td>
+</tr>
+<tr class="odd">
+<td>  <code>TRUE ~ value</code></td>
+<td>the last line: “in all other cases”</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ifelse(test, yes, no)</code></td>
+<td>rappel (séance I1) ; <code>ifelse()</code> imbriqués = un nouveau
+<code>ifelse()</code> à la position <code>no</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>case_when(condition ~ value, ...)</code></td>
+<td><strong>dplyr</strong> : teste les conditions <strong>dans
+l’ordre</strong>, et chaque ligne reçoit la valeur de la
+<strong>première</strong> condition qui vaut <code>TRUE</code></td>
+<td><code>condition ~ valeur</code>, séparés par des virgules</td>
+</tr>
+<tr class="odd">
+<td>  <code>TRUE ~ value</code></td>
+<td>la dernière ligne : « dans tous les autres cas »</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div class="en">
@@ -690,6 +855,92 @@ supérieure) :</p>
 <pre><code>#&gt; 
 #&gt;   poor medium   good 
 #&gt;    615   1229    473</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cut(x, breaks, labels, right)</code></td>
+<td>cuts numbers into classes (Session I1 with dates)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>breaks</code></td>
+<td>limits of the classes; <code>Inf</code> = infinity (no upper
+limit)</td>
+<td>a vector of numbers</td>
+</tr>
+<tr class="odd">
+<td>  <code>labels</code></td>
+<td>names of the classes (one fewer than <code>breaks</code>)</td>
+<td>a text vector</td>
+</tr>
+<tr class="even">
+<td>  <code>right</code></td>
+<td><code>TRUE</code> (default): classes <code>(3, 4]</code>, the limit
+goes in the lower class; <code>FALSE</code>: <code>[3, 4)</code>, in the
+upper class</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cut(x, breaks, labels, right)</code></td>
+<td>découpe des nombres en classes (séance I1 avec des dates)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>breaks</code></td>
+<td>limites des classes ; <code>Inf</code> = infini (pas de limite
+haute)</td>
+<td>un vecteur de nombres</td>
+</tr>
+<tr class="odd">
+<td>  <code>labels</code></td>
+<td>noms des classes (un de moins que <code>breaks</code>)</td>
+<td>un vecteur de texte</td>
+</tr>
+<tr class="even">
+<td>  <code>right</code></td>
+<td><code>TRUE</code> (défaut) : classes <code>(3, 4]</code>, la limite
+va dans la classe inférieure ; <code>FALSE</code> : <code>[3, 4)</code>,
+dans la classe supérieure</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="for" class="section level2">
 <h2><span class="en">for loops</span><span class="fr">Boucles
@@ -718,11 +969,164 @@ pour chaque groupe</span></h3>
 <pre><code>#&gt; Ambalakely: 147 lines, mean SGR = 3.34 %/day
 #&gt; Ambatofotsy: 199 lines, mean SGR = 3.43 %/day
 #&gt; Ampasimena: 240 lines, mean SGR = 3.42 %/day</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>for (v in values) { ... }</code></td>
+<td>repeats the code once per element of <code>values</code>; at each
+turn <code>v</code> contains the current element (you choose the name
+<code>v</code>)</td>
+<td>a vector</td>
+</tr>
+<tr class="even">
+<td><code>cat(..., sep = " ")</code></td>
+<td>prints texts and numbers; <code>"\n"</code> = go to a new line</td>
+<td>pieces separated by commas</td>
+</tr>
+<tr class="odd">
+<td>  <code>sep</code></td>
+<td>what is put between the pieces (a space by default, as in
+<code>paste()</code>)</td>
+<td>text</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>for (v in values) { ... }</code></td>
+<td>répète le code une fois par élément de <code>values</code> ; à
+chaque tour <code>v</code> contient l’élément en cours (vous choisissez
+le nom <code>v</code>)</td>
+<td>un vecteur</td>
+</tr>
+<tr class="even">
+<td><code>cat(..., sep = " ")</code></td>
+<td>affiche textes et nombres ; <code>"\n"</code> = passer à la
+ligne</td>
+<td>morceaux séparés par des virgules</td>
+</tr>
+<tr class="odd">
+<td>  <code>sep</code></td>
+<td>ce qui est mis entre les morceaux (une espace par défaut, comme dans
+<code>paste()</code>)</td>
+<td>texte</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;outputs/villages&quot;</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="cf">for</span> (v <span class="cf">in</span> villages) {</span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  d <span class="ot">&lt;-</span> seaweed[seaweed<span class="sc">$</span>village <span class="sc">==</span> v, ]</span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">write.csv</span>(d, <span class="fu">file.path</span>(<span class="st">&quot;outputs/villages&quot;</span>, <span class="fu">paste0</span>(<span class="st">&quot;lines_&quot;</span>, v, <span class="st">&quot;.csv&quot;</span>)), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>}</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dir.create(path, showWarnings)</code></td>
+<td>creates a folder; <code>showWarnings = FALSE</code> stays silent if
+it already exists</td>
+<td>folder path; <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>file.path(...)</code></td>
+<td>builds a path by joining folder and file names with
+<code>/</code></td>
+<td>texts</td>
+</tr>
+<tr class="odd">
+<td><code>paste0(...)</code></td>
+<td>glues texts without separator (Beginner Session 2): a different file
+name at each turn</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dir.create(path, showWarnings)</code></td>
+<td>crée un dossier ; <code>showWarnings = FALSE</code> reste silencieux
+s’il existe déjà</td>
+<td>chemin du dossier ; <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>file.path(...)</code></td>
+<td>construit un chemin en joignant noms de dossiers et de fichiers avec
+<code>/</code></td>
+<td>textes</td>
+</tr>
+<tr class="odd">
+<td><code>paste0(...)</code></td>
+<td>colle des textes sans séparateur (séance 2 du niveau débutant) : un
+nom de fichier différent à chaque tour</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="fill-a-vector-of-results2.-remplir-un-vecteur-de-résultats"
 class="section level3">
@@ -747,10 +1151,84 @@ donne 1, 2, …, length(x) — plus sûr que <code>1:length(x)</code> quand
 <span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  loss[i] <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(d<span class="sc">$</span>status <span class="sc">!=</span> <span class="st">&quot;harvested&quot;</span>), <span class="dv">1</span>)</span>
 <span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>}</span>
 <span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>loss</span></code></pre></div>
-<pre><code>#&gt;  Ambalakely Ambatofotsy  Ampasimena   Andrevobe    Ankarabe   Antsiraka      Befasy      Lovobe    Mahavelo 
-#&gt;         8.2        11.1        12.1         7.7         4.5        10.4        14.2        13.6         8.6 
-#&gt;  Sarondrano Tsiandavaka  Tsimanjaka 
-#&gt;         8.9        13.3         8.8</code></pre>
+<pre><code>#&gt;  Ambalakely Ambatofotsy  Ampasimena   Andrevobe    Ankarabe   Antsiraka      Befasy 
+#&gt;         8.2        11.1        12.1         7.7         4.5        10.4        14.2 
+#&gt;      Lovobe    Mahavelo  Sarondrano Tsiandavaka  Tsimanjaka 
+#&gt;        13.6         8.6         8.9        13.3         8.8</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>numeric(n)</code></td>
+<td>a vector of <code>n</code> zeros, to be filled by the loop</td>
+<td>a whole number</td>
+</tr>
+<tr class="even">
+<td><code>names(x) &lt;- ...</code></td>
+<td>gives a name to each element</td>
+<td>a text vector of the same length</td>
+</tr>
+<tr class="odd">
+<td><code>seq_along(x)</code></td>
+<td>the positions <code>1, 2, …, length(x)</code>; safer than
+<code>1:length(x)</code> (which gives <code>1 0</code> when
+<code>x</code> is empty)</td>
+<td>a vector</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>numeric(n)</code></td>
+<td>un vecteur de <code>n</code> zéros, à remplir par la boucle</td>
+<td>un nombre entier</td>
+</tr>
+<tr class="even">
+<td><code>names(x) &lt;- ...</code></td>
+<td>donne un nom à chaque élément</td>
+<td>un vecteur de texte de même longueur</td>
+</tr>
+<tr class="odd">
+<td><code>seq_along(x)</code></td>
+<td>les positions <code>1, 2, …, length(x)</code> ; plus sûr que
+<code>1:length(x)</code> (qui donne <code>1 0</code> quand
+<code>x</code> est vide)</td>
+<td>un vecteur</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div
 id="build-a-table-one-row-per-turn3.-construire-un-tableau-une-ligne-par-tour"
@@ -771,6 +1249,84 @@ class="fr">3. Construire un tableau, une ligne par tour</span></h3>
 #&gt; 2 Ambatofotsy     199 3.434218    9.7298
 #&gt; 3  Ampasimena     240 3.415613   11.3207
 #&gt; 4   Andrevobe     182 3.461735    9.2724</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>vector("list", n)</code></td>
+<td>an empty list with <code>n</code> places</td>
+<td><code>"list"</code> and a whole number</td>
+</tr>
+<tr class="even">
+<td><code>res[[i]] &lt;- ...</code></td>
+<td>puts an object (here a one-row data frame) in place <code>i</code>
+of the list; a list can hold anything</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>do.call(what, args)</code></td>
+<td>calls the function <code>what</code> with <strong>all the elements
+of the list</strong> <code>args</code> as arguments:
+<code>do.call(rbind, res)</code> =
+<code>rbind(res[[1]], res[[2]], …)</code></td>
+<td>a function name; a list</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>vector("list", n)</code></td>
+<td>une liste vide de <code>n</code> places</td>
+<td><code>"list"</code> et un nombre entier</td>
+</tr>
+<tr class="even">
+<td><code>res[[i]] &lt;- ...</code></td>
+<td>range un objet (ici un data frame d’une ligne) à la place
+<code>i</code> de la liste ; une liste peut contenir n’importe quoi</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>do.call(what, args)</code></td>
+<td>appelle la fonction <code>what</code> avec <strong>tous les éléments
+de la liste</strong> <code>args</code> comme arguments :
+<code>do.call(rbind, res)</code> =
+<code>rbind(res[[1]], res[[2]], …)</code></td>
+<td>un nom de fonction ; une liste</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout tip">
 <div class="en">
 <p><strong>Do you really need a loop?</strong> Many loops can be
@@ -784,10 +1340,10 @@ groupe, plus courts et plus rapides :</p>
 </div>
 </div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">tapply</span>(seaweed<span class="sc">$</span>status <span class="sc">!=</span> <span class="st">&quot;harvested&quot;</span>, seaweed<span class="sc">$</span>village, mean), <span class="dv">1</span>)   <span class="co"># = loss</span></span></code></pre></div>
-<pre><code>#&gt;  Ambalakely Ambatofotsy  Ampasimena   Andrevobe    Ankarabe   Antsiraka      Befasy      Lovobe    Mahavelo 
-#&gt;         8.2        11.1        12.1         7.7         4.5        10.4        14.2        13.6         8.6 
-#&gt;  Sarondrano Tsiandavaka  Tsimanjaka 
-#&gt;         8.9        13.3         8.8</code></pre>
+<pre><code>#&gt;  Ambalakely Ambatofotsy  Ampasimena   Andrevobe    Ankarabe   Antsiraka      Befasy 
+#&gt;         8.2        11.1        12.1         7.7         4.5        10.4        14.2 
+#&gt;      Lovobe    Mahavelo  Sarondrano Tsiandavaka  Tsimanjaka 
+#&gt;        13.6         8.6         8.9        13.3         8.8</code></pre>
 <div class="en">
 <p>Use a loop when each turn does something that has no vectorised
 equivalent: <strong>writing files</strong>, drawing <strong>one graph
@@ -811,6 +1367,84 @@ class="fr">Lire plusieurs fichiers avec une boucle</span></h3>
 <span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>all <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;list&quot;</span>, <span class="fu">length</span>(files))</span>
 <span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(files)) all[[i]] <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(files[i])</span>
 <span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>all <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, all)                   <span class="co"># one table again</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>list.files(path, pattern, full.names)</code></td>
+<td>file names in a folder (Beginner Session 0)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>pattern</code></td>
+<td>keep only the names that match; <code>"\\.csv$"</code> = ending in
+<code>.csv</code> (<code>$</code> = end, <code>\\.</code> = a real
+dot)</td>
+<td>a pattern in quotes</td>
+</tr>
+<tr class="odd">
+<td>  <code>full.names</code></td>
+<td><code>TRUE</code> returns the path with the folder
+(<code>outputs/villages/lines_X.csv</code>), needed to read the
+files</td>
+<td><code>TRUE</code> / <code>FALSE</code> (default)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>list.files(path, pattern, full.names)</code></td>
+<td>noms des fichiers d’un dossier (séance 0 du niveau débutant)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>pattern</code></td>
+<td>ne garder que les noms qui correspondent ; <code>"\\.csv$"</code> =
+finissant par <code>.csv</code> (<code>$</code> = fin, <code>\\.</code>
+= un vrai point)</td>
+<td>un motif entre guillemets</td>
+</tr>
+<tr class="odd">
+<td>  <code>full.names</code></td>
+<td><code>TRUE</code> renvoie le chemin avec le dossier
+(<code>outputs/villages/lines_X.csv</code>), nécessaire pour lire les
+fichiers</td>
+<td><code>TRUE</code> / <code>FALSE</code> (défaut)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout try">
 <div class="en">
 <p><strong>Try it.</strong> Write a loop over the three zones that
@@ -857,6 +1491,82 @@ au tour suivant. Assurez-vous que la condition devient
 <span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="cf">while</span> (w <span class="sc">&lt;</span> <span class="dv">30</span>) { w <span class="ot">&lt;-</span> w <span class="sc">*</span> <span class="fu">exp</span>(<span class="fl">0.035</span>); day <span class="ot">&lt;-</span> day <span class="sc">+</span> <span class="dv">1</span> }</span>
 <span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>day</span></code></pre></div>
 <pre><code>#&gt; [1] 32</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>while (condition) { ... }</code></td>
+<td>repeats the code <strong>as long as</strong> the condition is
+<code>TRUE</code>; the code must change something, or the loop never
+stops (press <strong>Esc</strong>)</td>
+<td>one <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>break</code></td>
+<td>inside a loop: leaves it immediately</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>exp(x)</code></td>
+<td><em>e</em> to the power <em>x</em> (Beginner Session 1): a growth of
+3.5 % per day multiplies the weight by exp(0.035)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>while (condition) { ... }</code></td>
+<td>répète le code <strong>tant que</strong> la condition vaut
+<code>TRUE</code> ; le code doit changer quelque chose, sinon la boucle
+ne s’arrête jamais (appuyez sur <strong>Échap</strong>)</td>
+<td>un seul <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>break</code></td>
+<td>dans une boucle : en sort immédiatement</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>exp(x)</code></td>
+<td><em>e</em> puissance <em>x</em> (séance 1 du niveau débutant) : une
+croissance de 3,5 % par jour multiplie le poids par exp(0.035)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="application" class="section level2">
 <h2><span class="en">Application work &amp; quiz</span><span

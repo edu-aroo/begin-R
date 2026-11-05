@@ -429,6 +429,17 @@ ggsave("outputs/fig.png", p,
 :::
 :::
 
+## Même idée, noms d'arguments différents
+
+| Réglage | R de base | ggplot2 |
+|---|---|---|
+| remplissage | `col` | `fill` |
+| contour / points | `border`, `col` | `colour` |
+| taille, forme des points | `cex`, `pch` | `size`, `shape` |
+| titres | `main`, `xlab`, `ylab` | `labs(title, x, y)` |
+| classes d'histogramme | `breaks` | `binwidth` |
+| résolution | `res` dans `png()` | `dpi` dans `ggsave()` |
+
 ## Séance 9 — Séance d'exercices {.segue}
 
 ## Six exercices pour s'entraîner

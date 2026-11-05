@@ -90,6 +90,24 @@ hist(sg$seagrass_cover,
      xlab = "Seagrass cover (%)", ylab = "Number of quadrats")
 ```
 
+```{r, echo=FALSE}
+fa(c("`hist(x, ...)`", "draws a histogram: the values are cut into classes and the bars show how many values fall in each", "trace un histogramme : les valeurs sont découpées en classes et les barres montrent combien de valeurs tombent dans chacune", "a numeric vector", "un vecteur numérique"),
+   c("&nbsp;&nbsp;`breaks`", "the limits of the classes (otherwise R chooses)", "les limites des classes (sinon R choisit)", "a vector of limits, e.g. `seq(0, 100, by = 10)`, or a number of classes", "un vecteur de limites, ex. `seq(0, 100, by = 10)`, ou un nombre de classes"),
+   c("&nbsp;&nbsp;`col`", "fill colour", "couleur de remplissage", "a colour name (`\"grey80\"`, `\"steelblue\"`) or a hex code `\"#4a7d3a\"`", "un nom de couleur (`\"grey80\"`, `\"steelblue\"`) ou un code hexadécimal `\"#4a7d3a\"`"),
+   c("&nbsp;&nbsp;`border`", "colour of the outline of the bars", "couleur du contour des barres", "a colour", "une couleur"),
+   c("&nbsp;&nbsp;`main`", "title above the plot; `\"\"` = no title", "titre au-dessus du graphique ; `\"\"` = pas de titre", "text", "texte"),
+   c("&nbsp;&nbsp;`xlab`, `ylab`", "label of the x axis / y axis", "étiquette de l'axe x / de l'axe y", "text", "texte"),
+   c("&nbsp;&nbsp;`xlim`, `ylim`", "range of the axes", "étendue des axes", "two numbers `c(min, max)`", "deux nombres `c(min, max)`"),
+   c("&nbsp;&nbsp;`plot`", "`FALSE` computes the classes without drawing (used in the application work: `h$counts`)", "`FALSE` calcule les classes sans dessiner (utilisé dans le travail d'application : `h$counts`)", "`TRUE` (default) / `FALSE`", "`TRUE` (défaut) / `FALSE`"))
+```
+
+::: en
+The **hex code** `"#4a7d3a"` describes a colour by its amounts of red, green and blue (two characters each, from `00` to `ff`). `colors()` lists the 657 colour names R knows.
+:::
+::: fr
+Le **code hexadécimal** `"#4a7d3a"` décrit une couleur par ses quantités de rouge, vert et bleu (deux caractères chacune, de `00` à `ff`). `colors()` liste les 657 noms de couleurs que R connaît.
+:::
+
 ## [Scatter plot]{.en}[Nuage de points]{.fr} {#scatter}
 
 ```{r}
@@ -98,6 +116,13 @@ plot(sg$seagrass_cover, sg$canopy_height_cm,
      col = "#1b7f8c",
      xlab = "Seagrass cover (%)", ylab = "Canopy height (cm)",
      main = "Taller canopies where cover is higher")
+```
+
+```{r, echo=FALSE}
+fa(c("`plot(x, y, ...)`", "scatter plot: one point per row, `x` horizontal, `y` vertical", "nuage de points : un point par ligne, `x` en horizontal, `y` en vertical", "two numeric vectors of the same length", "deux vecteurs numériques de même longueur"),
+   c("&nbsp;&nbsp;`pch`", "**p**oint **ch**aracter: the shape of the points (1 empty circle, 19 filled circle, 17 triangle, 15 square…)", "**p**oint **ch**aracter : la forme des points (1 cercle vide, 19 cercle plein, 17 triangle, 15 carré…)", "a number from 0 to 25", "un nombre de 0 à 25"),
+   c("&nbsp;&nbsp;`col`", "colour of the points (here: not a fill, but the colour of the symbol)", "couleur des points (ici : pas un remplissage, mais la couleur du symbole)", "one colour, or one colour per point", "une couleur, ou une couleur par point"),
+   c("&nbsp;&nbsp;`cex`", "**c**haracter **ex**pansion: size of the points; 1 = normal, 1.5 = 50 % larger", "**c**haracter **ex**pansion : taille des points ; 1 = normal, 1,5 = 50 % plus grand", "a number", "un nombre"))
 ```
 
 ::: en
@@ -114,6 +139,18 @@ plot(sg$seagrass_cover, sg$shoot_density, pch = 19,
      xlab = "Seagrass cover (%)", ylab = expression("Shoot density (shoots m"^-2*")"))
 legend("topleft", legend = names(cols), col = cols, pch = 19, bty = "n")
 abline(lm(shoot_density ~ seagrass_cover, data = sg), lty = 2)   # add a trend line
+```
+
+```{r, echo=FALSE}
+fa(c("`c(Inside = \"#1b7f8c\", ...)`", "a **named** vector: each value has a name; `cols[\"Inside\"]` gives its colour, and `cols[sg$mpa_status]` gives one colour per row", "un vecteur **nommé** : chaque valeur a un nom ; `cols[\"Inside\"]` donne sa couleur, et `cols[sg$mpa_status]` une couleur par ligne", "", ""),
+   c("`expression()`", "writes a label with exponents or Greek letters: `\"m\"^-2` = m⁻²; `*` glues two parts", "écrit une étiquette avec exposants ou lettres grecques : `\"m\"^-2` = m⁻² ; `*` colle deux parties", "", ""),
+   c("`legend(x, legend, col, pch, fill, bty)`", "adds a legend", "ajoute une légende", "", ""),
+   c("&nbsp;&nbsp;`x`", "where: `\"topleft\"`, `\"topright\"`, `\"bottomright\"`…", "où : `\"topleft\"`, `\"topright\"`, `\"bottomright\"`…", "text", "texte"),
+   c("&nbsp;&nbsp;`legend`", "the texts of the legend (the argument has the same name as the function)", "les textes de la légende (l'argument porte le même nom que la fonction)", "a text vector", "un vecteur de texte"),
+   c("&nbsp;&nbsp;`col` + `pch`, or `fill`", "symbols drawn next to each text: points of colour `col` and shape `pch`, or squares filled with `fill`", "symboles dessinés à côté de chaque texte : points de couleur `col` et de forme `pch`, ou carrés remplis de `fill`", "colours, shapes", "couleurs, formes"),
+   c("&nbsp;&nbsp;`bty`", "**b**ox **ty**pe: `\"n\"` = no frame around the legend", "**b**ox **ty**pe : `\"n\"` = pas de cadre autour de la légende", "`\"o\"` (default) / `\"n\"`", "`\"o\"` (défaut) / `\"n\"`"),
+   c("`abline()`", "adds a straight line; with a fitted model `lm(y ~ x, data)` (Intermediate level), its regression line", "ajoute une droite ; avec un modèle ajusté `lm(y ~ x, data)` (niveau intermédiaire), sa droite de régression", "a model, or `h =` (horizontal) / `v =` (vertical) positions", "un modèle, ou des positions `h =` (horizontale) / `v =` (verticale)"),
+   c("&nbsp;&nbsp;`lty`", "**l**ine **ty**pe: 1 solid, 2 dashed, 3 dotted", "**l**ine **ty**pe : 1 continue, 2 tirets, 3 pointillés", "a number", "un nombre"))
 ```
 
 ::: {.callout .tip}
@@ -140,6 +177,13 @@ boxplot(seagrass_cover ~ site, data = sg,
         col = c("#a8d5da", "#a8d5da", "#f3c3b2", "#f3c3b2"),
         xlab = "", ylab = "Seagrass cover (%)", las = 1)   # las = 1: horizontal axis numbers
 legend("topright", fill = c("#a8d5da", "#f3c3b2"), legend = c("Inside MPA", "Outside MPA"), bty = "n")
+```
+
+```{r, echo=FALSE}
+fa(c("`factor(x, levels)`", "reminder (Session 2): the order of the levels is the order of the boxes", "rappel (séance 2) : l'ordre des niveaux est l'ordre des boîtes", "", ""),
+   c("`boxplot(formula, data, ...)`", "one box per group", "une boîte par groupe", "`y ~ group` (as in `aggregate()`, Session 6) and the data frame", "`y ~ groupe` (comme dans `aggregate()`, séance 6) et le data frame"),
+   c("&nbsp;&nbsp;`col`", "fill colour of the boxes, one per box", "couleur de remplissage des boîtes, une par boîte", "colours", "couleurs"),
+   c("&nbsp;&nbsp;`las`", "orientation of the axis numbers: 0 parallel to the axis (default), 1 always horizontal, 2 perpendicular", "orientation des nombres des axes : 0 parallèle à l'axe (défaut), 1 toujours horizontal, 2 perpendiculaire", "0, 1, 2 or 3", "0, 1, 2 ou 3"))
 ```
 
 ## [Barplot of means with error bars]{.en}[Diagramme des moyennes avec barres d'erreur]{.fr} {#barplot}
@@ -170,6 +214,15 @@ arrows(x0 = bp, y0 = m - s, x1 = bp, y1 = m + s,
 box(bty = "l")         # L-shaped axis line
 ```
 
+```{r, echo=FALSE}
+fa(c("`barplot(height, ...)`", "one bar per value; it **returns** the x position of each bar (kept in `bp`)", "une barre par valeur ; elle **renvoie** la position x de chaque barre (gardée dans `bp`)", "a vector with names (e.g. a `tapply()` result) or a `table()`", "un vecteur avec des noms (ex. un résultat de `tapply()`) ou une `table()`"),
+   c("`arrows(x0, y0, x1, y1, ...)`", "draws arrows from the point (`x0`, `y0`) to the point (`x1`, `y1`)", "trace des flèches du point (`x0`, `y0`) au point (`x1`, `y1`)", "numbers or vectors (one arrow per value)", "nombres ou vecteurs (une flèche par valeur)"),
+   c("&nbsp;&nbsp;`angle`", "angle between the shaft and the head; 90 = flat head", "angle entre la tige et la pointe ; 90 = pointe plate", "degrees", "degrés"),
+   c("&nbsp;&nbsp;`code`", "where the heads are: 1 at the start, 2 at the end, 3 at both ends", "où sont les pointes : 1 au début, 2 à la fin, 3 aux deux bouts", "1, 2 or 3", "1, 2 ou 3"),
+   c("&nbsp;&nbsp;`length`", "width of the head, in inches", "largeur de la pointe, en pouces", "a number", "un nombre"),
+   c("`box(bty)`", "draws a frame around the plot; `bty = \"l\"` = only the left and bottom sides", "dessine un cadre autour du graphique ; `bty = \"l\"` = seulement les côtés gauche et bas", "`\"o\"`, `\"l\"`, `\"n\"`…", "`\"o\"`, `\"l\"`, `\"n\"`…"))
+```
+
 ::: {.callout .warning}
 ::: en
 **Always set `ylim`** so that the top error bar fits: `ylim = c(0, max(m + s) * 1.1)` is a safe automatic choice. Without it, error bars may be cut off.
@@ -187,6 +240,14 @@ par(mar = c(5, 13, 2, 1))     # enlarge the left margin for long names (bottom, 
 barplot(counts, horiz = TRUE, las = 1, col = "#4a7d3a", xlab = "Number of quadrats",
         names.arg = names(counts), cex.names = 0.85, font.axis = 3)   # font 3 = italic
 par(mar = c(5, 4, 4, 2) + 0.1)   # back to default margins
+```
+
+```{r, echo=FALSE}
+fa(c("`par(mar = ...)`", "**par**ameters of the graphics; `mar` = margins around the plot, in lines of text", "**par**amètres graphiques ; `mar` = marges autour du graphique, en lignes de texte", "4 numbers: bottom, left, top, right", "4 nombres : bas, gauche, haut, droite"),
+   c("&nbsp;&nbsp;`horiz`", "argument of `barplot()`: `TRUE` = horizontal bars", "argument de `barplot()` : `TRUE` = barres horizontales", "`TRUE` / `FALSE`", "`TRUE` / `FALSE`"),
+   c("&nbsp;&nbsp;`names.arg`", "labels under (or beside) the bars", "étiquettes sous (ou à côté des) barres", "a text vector", "un vecteur de texte"),
+   c("&nbsp;&nbsp;`cex.names`", "size of these labels; 0.85 = 85 %", "taille de ces étiquettes ; 0,85 = 85 %", "a number", "un nombre"),
+   c("&nbsp;&nbsp;`font.axis`", "font of the axis labels: 1 normal, 2 bold, 3 italic (Latin names)", "police des étiquettes d'axe : 1 normale, 2 gras, 3 italique (noms latins)", "1 to 4", "1 à 4"))
 ```
 
 ::: {.callout .try}
@@ -215,6 +276,10 @@ boxplot(shoot_density ~ mpa_status, data = sg, main = "Shoot density",
 par(mfrow = c(1, 1))
 ```
 
+```{r, echo=FALSE}
+fa(c("`par(mfrow = c(rows, columns))`", "**m**ulti-**f**igure, filled by **row**: cuts the drawing area into a grid; the next plots fill it from left to right", "**m**ulti-**f**igure, rempli par **ligne** (*row*) : découpe la zone de dessin en grille ; les graphiques suivants la remplissent de gauche à droite", "two whole numbers", "deux entiers"))
+```
+
 ## [Saving figures with code]{.en}[Enregistrer les figures par le code]{.fr} {#save}
 
 ::: en
@@ -233,6 +298,23 @@ pdf("outputs/fig_cover_by_site.pdf", width = 6.3, height = 4.3)   # size in inch
 boxplot(seagrass_cover ~ site, data = sg, ylab = "Seagrass cover (%)", xlab = "")
 dev.off()
 ```
+
+```{r, echo=FALSE}
+fa(c("`png(filename, width, height, units, res)`", "opens a PNG image file; the next plot is drawn **in the file**", "ouvre un fichier image PNG ; le graphique suivant est dessiné **dans le fichier**", "", ""),
+   c("&nbsp;&nbsp;`filename`", "path and name of the image", "chemin et nom de l'image", "text ending in `.png`", "texte finissant par `.png`"),
+   c("&nbsp;&nbsp;`width`, `height`", "size of the image, in the unit given by `units`", "taille de l'image, dans l'unité donnée par `units`", "numbers", "nombres"),
+   c("&nbsp;&nbsp;`units`", "unit of `width` and `height`", "unité de `width` et `height`", "`\"px\"` (default), `\"cm\"`, `\"in\"`, `\"mm\"`", "`\"px\"` (défaut), `\"cm\"`, `\"in\"`, `\"mm\"`"),
+   c("&nbsp;&nbsp;`res`", "resolution in dots per inch (needed when `units` is not pixels)", "résolution en points par pouce (nécessaire quand `units` n'est pas en pixels)", "a number, usually 300", "un nombre, en général 300"),
+   c("`pdf(file, width, height)`", "the same for a PDF file; the size is **always in inches** (no `units` argument)", "la même chose pour un fichier PDF ; la taille est **toujours en pouces** (pas d'argument `units`)", "", ""),
+   c("`dev.off()`", "closes the file (**dev**ice **off**): only then is it written on the disk", "ferme le fichier (**dev**ice **off**) : c'est seulement alors qu'il est écrit sur le disque", "nothing", "rien"))
+```
+
+::: en
+Again, two functions doing the same job do not use the same arguments: the file name is `filename` in `png()` but `file` in `pdf()`, and only `png()` has `units` and `res`. Giving them by position (first argument) avoids the problem; for the others, check `?png` and `?pdf`.
+:::
+::: fr
+Encore une fois, deux fonctions qui font le même travail n'utilisent pas les mêmes arguments : le nom du fichier s'appelle `filename` dans `png()` mais `file` dans `pdf()`, et seul `png()` a `units` et `res`. Les donner par position (premier argument) évite le problème ; pour les autres, consultez `?png` et `?pdf`.
+:::
 
 ::: {.callout .tip}
 ::: en
@@ -301,7 +383,13 @@ quiz("s07", list(
   q_mcq("6. What must you always call after png() and your plot?", "6. Que faut-il toujours appeler après png() et le graphique ?",
         c("save()", "close()", "dev.off()", "plot.new()"), correct = 3),
   q_mcq("7. Which argument makes the axis numbers horizontal?", "7. Quel argument rend les nombres des axes horizontaux ?",
-        c("las = 1", "horiz = TRUE", "pch = 19", "bty = \"l\""), correct = 1)
+        c("las = 1", "horiz = TRUE", "pch = 19", "bty = \"l\""), correct = 1),
+  q_num("8. How many plots fit in the figure after par(mfrow = c(2, 3))?", "8. Combien de graphiques tiennent dans la figure après par(mfrow = c(2, 3)) ?", 6, tol = 0),
+  q_mcq("9. In plot(), what does pch = 17 change?", "9. Dans plot(), que change pch = 17 ?",
+        c("The colour of the points", "The shape of the points (triangles)", "The size of the points", "The title"),
+        c("La couleur des points", "La forme des points (triangles)", "La taille des points", "Le titre"), correct = 2),
+  q_mcq("10. In arrows(), which arguments give flat heads at both ends of the error bar?", "10. Dans arrows(), quels arguments donnent des pointes plates aux deux bouts de la barre d'erreur ?",
+        c("angle = 90, code = 3", "angle = 3, code = 90", "length = 90, code = 1", "las = 1, bty = \"l\""), correct = 1)
 ))
 ```
 

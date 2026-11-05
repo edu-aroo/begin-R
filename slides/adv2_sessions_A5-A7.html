@@ -544,6 +544,58 @@ avec le même code</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;outputs/figures/carte.png&quot;</span>, <span class="at">width =</span> <span class="dv">16</span>, <span class="at">height =</span> <span class="dv">20</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
 </div>
+<div id="sf-terra-tmap-même-idée-noms-différents" class="section level2">
+<h2>sf, terra, tmap : même idée, noms différents</h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tâche</th>
+<th>sf / ggplot2</th>
+<th>terra / tmap</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SCR</td>
+<td><code>st_crs()</code></td>
+<td><code>crs()</code></td>
+</tr>
+<tr class="even">
+<td>reprojeter</td>
+<td><code>st_transform(x, crs)</code></td>
+<td><code>project(x, y, method)</code></td>
+</tr>
+<tr class="odd">
+<td>statistique</td>
+<td><code>extract(..., fun = mean)</code></td>
+<td><code>global(x, &quot;mean&quot;)</code> (texte !)</td>
+</tr>
+<tr class="even">
+<td>écraser un fichier</td>
+<td><code>st_write(delete_dsn / append = FALSE)</code></td>
+<td><code>writeRaster(overwrite = TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td>colonne → couleur</td>
+<td><code>aes(fill = zone)</code> (sans guillemets)</td>
+<td><code>tm_polygons(fill = &quot;zone&quot;)</code> (avec)</td>
+</tr>
+<tr class="even">
+<td>transparence</td>
+<td><code>alpha</code></td>
+<td><code>fill_alpha</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>crs</code> dans <code>st_as_sf()</code>
+<strong>déclare</strong> ; <code>crs</code> dans
+<code>st_transform()</code> <strong>convertit</strong>.</p>
+</div>
 <div id="à-retenir-partie-2" class="section level2">
 <h2>À retenir — partie 2</h2>
 <ul>

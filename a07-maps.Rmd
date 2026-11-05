@@ -72,6 +72,16 @@ ggplot() +
   theme(panel.background = element_rect(fill = "#dceef3", colour = NA), legend.position = "top")
 ```
 
+```{r, echo=FALSE}
+fa(c("`st_bbox(st_buffer(zones, 3000))`", "the rectangle around the zones enlarged by 3 km: the map frame (Session A5)", "le rectangle autour des zones élargi de 3 km : le cadre de la carte (séance A5)", "", ""),
+   c("`geom_sf(data, aes(...), fill, colour, linewidth, alpha, shape, size)`", "draws any sf layer (polygons, lines, points); the usual ggplot2 settings apply (Intermediate I7)", "dessine n'importe quelle couche sf (polygones, lignes, points) ; les réglages habituels de ggplot2 s'appliquent (intermédiaire I7)", "an sf object", "un objet sf"),
+   c("`coord_sf(xlim, ylim, crs, datum, expand)`", "the frame and the projection of the map", "le cadre et la projection de la carte", "", ""),
+   c("&nbsp;&nbsp;`xlim`, `ylim`", "limits, in the units of `crs` (here metres): `bb[c(\"xmin\", \"xmax\")]`", "limites, dans les unités de `crs` (ici des mètres) : `bb[c(\"xmin\", \"xmax\")]`", "two numbers", "deux nombres"),
+   c("&nbsp;&nbsp;`crs`", "the CRS in which the map is **drawn** (default: that of the first layer)", "le SCR dans lequel la carte est **dessinée** (par défaut : celui de la première couche)", "an EPSG code or `st_crs()`", "un code EPSG ou `st_crs()`"),
+   c("&nbsp;&nbsp;`datum`", "the CRS of the **graticule** (grid lines and their labels); 4326 = degrees", "le SCR du **graticule** (lignes de la grille et leurs étiquettes) ; 4326 = degrés", "an EPSG code", "un code EPSG"),
+   c("`scale_x_continuous(breaks)`", "on a map the breaks are given **in degrees** (the graticule), even if the map is drawn in metres", "sur une carte les graduations se donnent **en degrés** (le graticule), même si la carte est dessinée en mètres", "", ""))
+```
+
 ::: en
 `coord_sf()` does three jobs: the **zoom** (`xlim`, `ylim`, in the units of the CRS used for drawing), the **projection** of the map (`crs`: every layer is transformed on the fly), and the **graticule** (`datum`: the lines and labels, here in degrees for readers).
 :::
@@ -92,6 +102,15 @@ ggplot() +
                            stat = "sf_coordinates", size = 2.6, min.segment.length = 0, seed = 1) +
   coord_sf(xlim = bb[c("xmin", "xmax")] + c(0, 15000), ylim = bb[c("ymin", "ymax")], datum = 4326) +
   labs(x = NULL, y = NULL) + theme_minimal(base_size = 10)
+```
+
+```{r, echo=FALSE}
+fa(c("`summarise(.groups = \"drop\")` without statistic", "only dissolves the polygons of each group (Session A5)", "fusionne seulement les polygones de chaque groupe (séance A5)", "", ""),
+   c("`geom_sf_label(aes(label), nudge_x)`", "a label in a box at the centre of each feature; `nudge_x` moves it, here in metres", "une étiquette dans un cadre au centre de chaque entité ; `nudge_x` la déplace, ici en mètres", "", ""),
+   c("`ggrepel::geom_text_repel(...)`", "**ggrepel** package: labels pushed apart so they do not overlap, with a line to their point", "package **ggrepel** : étiquettes écartées pour ne pas se chevaucher, avec un trait vers leur point", "", ""),
+   c("&nbsp;&nbsp;`aes(geometry = geometry)`, `stat = \"sf_coordinates\"`", "tell ggrepel to take x and y from the geometry of the sf layer", "indiquent à ggrepel de prendre x et y dans la géométrie de la couche sf", "", ""),
+   c("&nbsp;&nbsp;`min.segment.length`", "shortest line drawn; 0 = always draw the line", "trait le plus court dessiné ; 0 = toujours dessiner le trait", "a number", "un nombre"),
+   c("&nbsp;&nbsp;`seed`", "fixes the random placement (like `set.seed()`), so the labels stay at the same place", "fixe le placement aléatoire (comme `set.seed()`), pour que les étiquettes restent au même endroit", "a whole number", "un nombre entier"))
 ```
 
 ## [Scale bar and north arrow]{.en}[Barre d'échelle et flèche du nord]{.fr} {#scale}
@@ -117,11 +136,22 @@ scale_north <- function(bb, km = 10) {
 }
 ```
 
+```{r, echo=FALSE}
+fa(c("`bb[[\"xmin\"]]`", "one value of the bounding box, by name", "une valeur du rectangle englobant, par son nom", "", ""),
+   c("`list(annotate(...), ...)`", "a ggplot can receive a **list** of layers with `+`: our function returns four annotations at once", "un ggplot peut recevoir une **liste** de couches avec `+` : notre fonction renvoie quatre annotations d'un coup", "", ""),
+   c("`annotate(\"rect\" / \"text\" / \"segment\")`", "reminders (Intermediate I8, I11); in UTM the positions are in metres, so `km * 1000` is the length of the bar", "rappels (intermédiaire I8, I11) ; en UTM les positions sont en mètres, donc `km * 1000` est la longueur de la barre", "", ""))
+```
+
 ```{r, eval=FALSE}
 # With the package ggspatial (optional: install.packages("ggspatial")), the same in two lines:
 library(ggspatial)
 annotation_scale(location = "bl", width_hint = 0.3) +
 annotation_north_arrow(location = "tl", style = north_arrow_fancy_orienteering)
+```
+
+```{r, echo=FALSE}
+fa(c("`annotation_scale(location, width_hint)`", "**ggspatial**: a scale bar computed from the CRS; `\"bl\"` = bottom left; `width_hint` = approximate share of the map width", "**ggspatial** : une barre d'échelle calculée à partir du SCR ; `\"bl\"` = en bas à gauche ; `width_hint` = part approximative de la largeur de la carte", "`\"bl\"`, `\"br\"`, `\"tl\"`, `\"tr\"`; 0 to 1", "`\"bl\"`, `\"br\"`, `\"tl\"`, `\"tr\"` ; 0 à 1"),
+   c("`annotation_north_arrow(location, style)`", "a north arrow; `style` chooses its drawing", "une flèche du nord ; `style` choisit son dessin", "", ""))
 ```
 
 ::: {.callout .warning}
@@ -159,6 +189,14 @@ map_change <- ggplot() +
 map_change
 ```
 
+```{r, echo=FALSE}
+fa(c("`tidyr::pivot_wider(names_prefix = \"y\")`", "one column per year, called `y2023`, `y2025` (Intermediate I2, I10)", "une colonne par année, appelées `y2023`, `y2025` (intermédiaire I2, I10)", "", ""),
+   c("`aes(linetype = zone)`", "the line type depends on a column (here the outline of the zones)", "le type de trait dépend d'une colonne (ici le contour des zones)", "", ""),
+   c("`scale_fill_gradient2(low, mid, high, midpoint, name)`", "a **diverging** colour scale: `low` colour for negative values, `mid` at `midpoint`, `high` for positive values", "une échelle de couleurs **divergente** : couleur `low` pour les valeurs négatives, `mid` au `midpoint`, `high` pour les positives", "three colours; a number (here 0)", "trois couleurs ; un nombre (ici 0)"),
+   c("`scale_linetype_manual(values)`", "chooses the line type of each category", "choisit le type de trait de chaque catégorie", "a named vector: `\"solid\"`, `\"dashed\"`, `\"dotted\"`", "un vecteur nommé : `\"solid\"`, `\"dashed\"`, `\"dotted\"`"),
+   c("`scale_size_area(max_size)`", "reminder (Intermediate I11)", "rappel (intermédiaire I11)", "", ""))
+```
+
 ::: en
 **Choosing colours.** A quantity that goes from low to high: a **sequential** palette (`scale_fill_viridis_c()`, `"Blues"`). A change with a meaningful zero: a **diverging** palette centred on 0 (`scale_fill_gradient2()`, `scale_fill_distiller(palette = "RdBu")`). Categories: a **qualitative** palette with few colours. Avoid red–green together (colour-blind readers), and check your map printed in grey.
 :::
@@ -178,6 +216,12 @@ ggplot() +
   facet_wrap(~ year, nrow = 1) +
   coord_sf(xlim = bb[c("xmin", "xmax")], ylim = bb[c("ymin", "ymax")]) +
   theme_void(base_size = 10) + theme(legend.position = "bottom")
+```
+
+```{r, echo=FALSE}
+fa(c("`scale_colour_viridis_c(option = \"mako\", direction = -1, name)`", "reminder (Intermediate I7): palette *mako*, reversed (high cover = dark), legend title", "rappel (intermédiaire I7) : palette *mako*, inversée (couverture forte = foncé), titre de la légende", "", ""),
+   c("`facet_wrap(~ year, nrow = 1)`", "one map per year, all on one row", "une carte par année, toutes sur une ligne", "", ""),
+   c("`theme_void()`", "a theme with no axes, no grid, no background: only the data", "un thème sans axes, ni grille, ni fond : seulement les données", "optional `base_size`", "`base_size` facultatif"))
 ```
 
 ::: en
@@ -213,6 +257,14 @@ ggplot() +
   labs(title = "Nosy Fasika: shallow areas", x = NULL, y = NULL,
        caption = "Bathymetry interpolated from echo-sounder transects (simulated) · WGS84") +
   theme_minimal(base_size = 10)
+```
+
+```{r, echo=FALSE}
+fa(c("`as.data.frame(r, xy = TRUE)`", "a raster → a table with one row per cell: columns `x`, `y` (cell centre) and the values", "un raster → un tableau avec une ligne par cellule : colonnes `x`, `y` (centre de la cellule) et les valeurs", "a SpatRaster; `TRUE`", "un SpatRaster ; `TRUE`"),
+   c("`cut(x, breaks, labels)`", "depth classes (Intermediate I5)", "classes de profondeur (intermédiaire I5)", "", ""),
+   c("`geom_raster(aes(x, y, fill))`", "draws one square per row (cell): fast for regular grids", "dessine un carré par ligne (cellule) : rapide pour des grilles régulières", "", ""),
+   c("`scale_fill_brewer(palette = \"Blues\")`", "a ColorBrewer palette for ordered classes (Intermediate I7)", "une palette ColorBrewer pour des classes ordonnées (intermédiaire I7)", "", ""),
+   c("`range(x)`, `expand = FALSE`", "frame = exactly the extent of the raster", "cadre = exactement l'étendue du raster", "", ""))
 ```
 
 ```{r, eval=FALSE}
@@ -251,6 +303,22 @@ tm_shape(sites_ch) + tm_dots(fill = "change", popup.vars = c("site_id", "y2023",
 tmap_mode("plot")                      # back to static maps
 ```
 
+```{r, echo=FALSE}
+fa(c("`tmap_mode(mode)`", "`\"plot\"` = static maps, `\"view\"` = interactive web maps (zoom, background tiles)", "`\"plot\"` = cartes statiques, `\"view\"` = cartes web interactives (zoom, fonds de carte)", "`\"plot\"` / `\"view\"`", "`\"plot\"` / `\"view\"`"),
+   c("`tm_shape(shp, bbox)`", "the layer to draw next (and, for the first one, the map frame)", "la couche à dessiner ensuite (et, pour la première, le cadre de la carte)", "an sf or terra object", "un objet sf ou terra"),
+   c("`tm_polygons(fill, fill_alpha, fill.scale)`", "draws polygons; `fill` = a colour or **a column name in quotes**", "dessine des polygones ; `fill` = une couleur ou **un nom de colonne entre guillemets**", "", ""),
+   c("`tm_dots(fill, size, popup.vars)`", "draws points; `popup.vars` = columns shown when clicking (view mode)", "dessine des points ; `popup.vars` = colonnes affichées au clic (mode view)", "", ""),
+   c("`tm_scale_categorical(values)`, `tm_scale_continuous(values, midpoint)`", "how values become colours (tmap's version of `scale_fill_…()`)", "comment les valeurs deviennent des couleurs (la version tmap de `scale_fill_…()`)", "colours or a palette name", "couleurs ou un nom de palette"),
+   c("`tm_scalebar()`, `tm_compass()`, `tm_title()`", "scale bar, north arrow, title; `position = c(\"left\", \"bottom\")`", "barre d'échelle, flèche du nord, titre ; `position = c(\"left\", \"bottom\")`", "", ""))
+```
+
+::: en
+ggplot2 and tmap do the same maps with different words: a column is given **without** quotes inside `aes()` in ggplot2, but **with** quotes in tmap (`fill = "zone"`); transparency is `alpha` in ggplot2, `fill_alpha` in tmap; the colour scale is `scale_fill_…()` in ggplot2, `fill.scale = tm_scale_…()` in tmap.
+:::
+::: fr
+ggplot2 et tmap font les mêmes cartes avec des mots différents : une colonne se donne **sans** guillemets dans `aes()` avec ggplot2, mais **avec** guillemets dans tmap (`fill = "zone"`) ; la transparence s'appelle `alpha` dans ggplot2, `fill_alpha` dans tmap ; l'échelle de couleurs est `scale_fill_…()` dans ggplot2, `fill.scale = tm_scale_…()` dans tmap.
+:::
+
 ::: {.callout .tip}
 ::: en
 **Which one?** Use **ggplot2 + sf** when the map sits next to other ggplot figures in a report (same style, patchwork) — and it is what this course used so far. Use **tmap** for quick, map-only work, and for **interactive maps** to explore your data or to put in an HTML report.
@@ -269,6 +337,11 @@ g_trend <- ggplot(trend, aes(year, m, colour = zone)) + geom_line() + geom_point
   scale_colour_manual(values = c("No-take" = "#1b7f8c", "Fishing" = "#d9694a"), name = NULL) +
   labs(x = NULL, y = "Hard coral cover (%)") + theme_minimal(base_size = 10)
 (map_change | g_trend) + plot_layout(widths = c(1.2, 1)) + plot_annotation(tag_levels = "A")
+```
+
+```{r, echo=FALSE}
+fa(c("`plot_layout(widths)`", "patchwork: relative widths of the plots side by side (here the map 1.2 × wider)", "patchwork : largeurs relatives des graphiques côte à côte (ici la carte 1,2 × plus large)", "a vector of numbers", "un vecteur de nombres"),
+   c("`plot_annotation(tag_levels = \"A\")`", "letters A, B on the panels (Intermediate I8)", "lettres A, B sur les panneaux (intermédiaire I8)", "", ""))
 ```
 
 ```{r, eval=FALSE}
@@ -348,7 +421,9 @@ quiz("a07", list(
         c("le convertir en data frame avec as.data.frame(r, xy = TRUE)", "le convertir en sf avec st_as_sf()", "utiliser geom_sf(data = r)", "l'enregistrer en PNG"), correct = 1),
   q_mcq("9. With tmap, one line switches the same map to an interactive web map:", "9. Avec tmap, une ligne transforme la même carte en carte web interactive :",
         c("tmap_mode(\"view\")", "tm_interactive()", "ggplotly()", "tmap_save()"),
-        c("tmap_mode(\"view\")", "tm_interactive()", "ggplotly()", "tmap_save()"), correct = 1)
+        c("tmap_mode(\"view\")", "tm_interactive()", "ggplotly()", "tmap_save()"), correct = 1),
+  q_mcq("10. In scale_fill_gradient2(low = \"#b2182b\", mid = \"white\", high = \"#2166ac\", midpoint = 0), the sites with no change are:", "10. Dans scale_fill_gradient2(low = \"#b2182b\", mid = \"white\", high = \"#2166ac\", midpoint = 0), les sites sans changement sont :",
+        c("white", "red", "blue", "grey"), c("blancs", "rouges", "bleus", "gris"), correct = 1)
 ))
 ```
 

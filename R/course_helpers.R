@@ -113,3 +113,48 @@ show_file <- function(path, lang = NULL, lines = NULL) {
   fence <- "`````"
   knitr::asis_output(paste0("\n\n", fence, lang, "\n", paste(x, collapse = "\n"), "\n", fence, "\n\n"))
 }
+
+# ---- Illustration that can be replaced by a real screenshot ---------------------
+# fig_shot("git-pane", "caption EN", "légende FR")
+#   - if assets/img/screens/git-pane.png exists (your own Windows screenshot), it is shown;
+#   - otherwise the drawn illustration assets/img/git-pane.svg is shown.
+# The list of screenshots to take is in assets/img/screens/README.md.
+fig_shot <- function(name, caption_en = NULL, caption_fr = NULL) {
+  png <- file.path("assets", "img", "screens", paste0(name, ".png"))
+  if (!file.exists(png)) return(fig_svg(name, caption_en, caption_fr))
+  cap <- if (is.null(caption_en)) "" else
+    sprintf('<figcaption><span class="en">%s</span><span class="fr">%s</span></figcaption>', caption_en, caption_fr)
+  knitr::asis_output(sprintf('\n\n```{=html}\n<figure class="svg-fig"><img src="%s" alt="%s" style="max-width:100%%">%s</figure>\n```\n\n',
+                             png, name, cap))
+}
+
+# fa(): "Functions and arguments" table, in English and French.
+# Each row: c(code, what it does (en), what it does (fr), value expected (en), value expected (fr))
+# Use "" for the value when it does not apply. The result is written as two
+# Markdown tables (::: en / ::: fr) inside a box with class "fa-box".
+fa <- function(..., title = TRUE) {
+  rows <- list(...)
+  esc <- function(x) {
+    # code spans containing "|" become <code> HTML (a "|" would cut the table cell)
+    m <- gregexpr("`[^`]*\\|[^`]*`", x)
+    regmatches(x, m) <- lapply(regmatches(x, m), function(v) {
+      v <- substr(v, 2, nchar(v) - 1)
+      v <- gsub("&", "&amp;", v, fixed = TRUE); v <- gsub("<", "&lt;", v, fixed = TRUE)
+      v <- gsub("|", "&#124;", v, fixed = TRUE); v <- gsub("\\", "&#92;", v, fixed = TRUE)
+      paste0("<code>", v, "</code>")
+    })
+    gsub("|", "&#124;", x, fixed = TRUE)
+  }
+  tab <- function(k, head) {
+    lines <- vapply(rows, function(r) {
+      r <- c(r, rep("", 5 - length(r)))
+      sprintf("| %s | %s | %s |", esc(r[1]), esc(r[k]), esc(r[k + 2]))
+    }, "")
+    paste(c(head, "|---|---|---|", lines), collapse = "\n")
+  }
+  en <- tab(2, "| Function / argument | What it does | Value it expects |")
+  fr <- tab(3, "| Fonction / argument | Ce qu'il fait | Valeur attendue |")
+  t_en <- if (title) "**Functions and arguments used here**\n\n" else ""
+  t_fr <- if (title) "**Fonctions et arguments utilisés ici**\n\n" else ""
+  knitr::asis_output(paste0("\n\n::: fa-box\n::: en\n", t_en, en, "\n:::\n::: fr\n", t_fr, fr, "\n:::\n:::\n\n"))
+}

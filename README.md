@@ -105,6 +105,10 @@ r-course-beginner/
 2. Run `installTriggers`.
 3. *Deploy → Manage deployments → ✏ → Version: New version → Deploy* (the URL stays the same).
 4. Students keep their beginner progress and scores (page and quiz ids did not change).
+   When a quiz changes size (v4.2: Beginner quizzes now have up to 10 questions),
+   saved scores are rescaled to keep the same percentage (9/12 → 7.5/10), both on
+   the website (`migrateState()` in `course.js`) and in `Code.gs` (`levelResult()`),
+   so **update `Code.gs` too** (steps 1 and 3).
 
 ### Tabs of the sheet
 
@@ -226,6 +230,17 @@ The pages render with R Markdown only (no Quarto needed to build the site): the 
 A8–A9 are screenshots in `assets/img/quarto/`, and the Quarto templates are in `templates/advanced/`.
 To add a level that is still being written, put `inProgress: true` in its entry of `assets/config.js`
 (students can study it, but no certificate is issued until you remove the line).
+
+**"Functions and arguments" tables.** After a code chunk, explain every new function and argument with `fa()` (in `R/course_helpers.R`). Each row: code, what it does (EN), (FR), value expected (EN), (FR):
+
+````
+```{r, echo=FALSE}
+fa(c("`round(x, digits = 0)`", "rounds x", "arrondit x", "", ""),
+   c("&nbsp;&nbsp;`digits`", "number of decimals", "nombre de décimales", "a whole number", "un nombre entier"))
+```
+````
+
+**Screenshots.** `fig_shot("name")` shows `assets/img/screens/name.png` if it exists, otherwise the drawing `assets/img/name.svg` (list in `assets/img/screens/README.md`).
 
 ## 8. Slides
 

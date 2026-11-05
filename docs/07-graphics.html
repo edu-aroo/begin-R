@@ -719,6 +719,146 @@ remplissage), <code>border</code>, <code>xlim</code>, <code>ylim</code>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Distribution of seagrass cover (60 quadrats)&quot;</span>,</span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Number of quadrats&quot;</span>)</span></code></pre></div>
 <p><img src="07-graphics_files/figure-html/unnamed-chunk-2-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>hist(x, ...)</code></td>
+<td>draws a histogram: the values are cut into classes and the bars show
+how many values fall in each</td>
+<td>a numeric vector</td>
+</tr>
+<tr class="even">
+<td>  <code>breaks</code></td>
+<td>the limits of the classes (otherwise R chooses)</td>
+<td>a vector of limits, e.g. <code>seq(0, 100, by = 10)</code>, or a
+number of classes</td>
+</tr>
+<tr class="odd">
+<td>  <code>col</code></td>
+<td>fill colour</td>
+<td>a colour name (<code>"grey80"</code>, <code>"steelblue"</code>) or a
+hex code <code>"#4a7d3a"</code></td>
+</tr>
+<tr class="even">
+<td>  <code>border</code></td>
+<td>colour of the outline of the bars</td>
+<td>a colour</td>
+</tr>
+<tr class="odd">
+<td>  <code>main</code></td>
+<td>title above the plot; <code>""</code> = no title</td>
+<td>text</td>
+</tr>
+<tr class="even">
+<td>  <code>xlab</code>, <code>ylab</code></td>
+<td>label of the x axis / y axis</td>
+<td>text</td>
+</tr>
+<tr class="odd">
+<td>  <code>xlim</code>, <code>ylim</code></td>
+<td>range of the axes</td>
+<td>two numbers <code>c(min, max)</code></td>
+</tr>
+<tr class="even">
+<td>  <code>plot</code></td>
+<td><code>FALSE</code> computes the classes without drawing (used in the
+application work: <code>h$counts</code>)</td>
+<td><code>TRUE</code> (default) / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>hist(x, ...)</code></td>
+<td>trace un histogramme : les valeurs sont découpées en classes et les
+barres montrent combien de valeurs tombent dans chacune</td>
+<td>un vecteur numérique</td>
+</tr>
+<tr class="even">
+<td>  <code>breaks</code></td>
+<td>les limites des classes (sinon R choisit)</td>
+<td>un vecteur de limites, ex. <code>seq(0, 100, by = 10)</code>, ou un
+nombre de classes</td>
+</tr>
+<tr class="odd">
+<td>  <code>col</code></td>
+<td>couleur de remplissage</td>
+<td>un nom de couleur (<code>"grey80"</code>, <code>"steelblue"</code>)
+ou un code hexadécimal <code>"#4a7d3a"</code></td>
+</tr>
+<tr class="even">
+<td>  <code>border</code></td>
+<td>couleur du contour des barres</td>
+<td>une couleur</td>
+</tr>
+<tr class="odd">
+<td>  <code>main</code></td>
+<td>titre au-dessus du graphique ; <code>""</code> = pas de titre</td>
+<td>texte</td>
+</tr>
+<tr class="even">
+<td>  <code>xlab</code>, <code>ylab</code></td>
+<td>étiquette de l’axe x / de l’axe y</td>
+<td>texte</td>
+</tr>
+<tr class="odd">
+<td>  <code>xlim</code>, <code>ylim</code></td>
+<td>étendue des axes</td>
+<td>deux nombres <code>c(min, max)</code></td>
+</tr>
+<tr class="even">
+<td>  <code>plot</code></td>
+<td><code>FALSE</code> calcule les classes sans dessiner (utilisé dans
+le travail d’application : <code>h$counts</code>)</td>
+<td><code>TRUE</code> (défaut) / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>The <strong>hex code</strong> <code>"#4a7d3a"</code> describes a
+colour by its amounts of red, green and blue (two characters each, from
+<code>00</code> to <code>ff</code>). <code>colors()</code> lists the 657
+colour names R knows.</p>
+</div>
+<div class="fr">
+<p>Le <strong>code hexadécimal</strong> <code>"#4a7d3a"</code> décrit
+une couleur par ses quantités de rouge, vert et bleu (deux caractères
+chacune, de <code>00</code> à <code>ff</code>). <code>colors()</code>
+liste les 657 noms de couleurs que R connaît.</p>
+</div>
 </div>
 <div id="scatter" class="section level2">
 <h2><span class="en">Scatter plot</span><span class="fr">Nuage de
@@ -728,7 +868,95 @@ points</span></h2>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;#1b7f8c&quot;</span>,</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Canopy height (cm)&quot;</span>,</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Taller canopies where cover is higher&quot;</span>)</span></code></pre></div>
-<p><img src="07-graphics_files/figure-html/unnamed-chunk-3-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="07-graphics_files/figure-html/unnamed-chunk-4-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>plot(x, y, ...)</code></td>
+<td>scatter plot: one point per row, <code>x</code> horizontal,
+<code>y</code> vertical</td>
+<td>two numeric vectors of the same length</td>
+</tr>
+<tr class="even">
+<td>  <code>pch</code></td>
+<td><strong>p</strong>oint <strong>ch</strong>aracter: the shape of the
+points (1 empty circle, 19 filled circle, 17 triangle, 15 square…)</td>
+<td>a number from 0 to 25</td>
+</tr>
+<tr class="odd">
+<td>  <code>col</code></td>
+<td>colour of the points (here: not a fill, but the colour of the
+symbol)</td>
+<td>one colour, or one colour per point</td>
+</tr>
+<tr class="even">
+<td>  <code>cex</code></td>
+<td><strong>c</strong>haracter <strong>ex</strong>pansion: size of the
+points; 1 = normal, 1.5 = 50 % larger</td>
+<td>a number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>plot(x, y, ...)</code></td>
+<td>nuage de points : un point par ligne, <code>x</code> en horizontal,
+<code>y</code> en vertical</td>
+<td>deux vecteurs numériques de même longueur</td>
+</tr>
+<tr class="even">
+<td>  <code>pch</code></td>
+<td><strong>p</strong>oint <strong>ch</strong>aracter : la forme des
+points (1 cercle vide, 19 cercle plein, 17 triangle, 15 carré…)</td>
+<td>un nombre de 0 à 25</td>
+</tr>
+<tr class="odd">
+<td>  <code>col</code></td>
+<td>couleur des points (ici : pas un remplissage, mais la couleur du
+symbole)</td>
+<td>une couleur, ou une couleur par point</td>
+</tr>
+<tr class="even">
+<td>  <code>cex</code></td>
+<td><strong>c</strong>haracter <strong>ex</strong>pansion : taille des
+points ; 1 = normal, 1,5 = 50 % plus grand</td>
+<td>un nombre</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>Colour points by group: create a vector of colours, one per row,
 using the group as an index.</p>
@@ -743,7 +971,161 @@ par ligne, en utilisant le groupe comme index.</p>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">&quot;Shoot density (shoots m&quot;</span><span class="sc">^-</span><span class="dv">2</span><span class="sc">*</span><span class="st">&quot;)&quot;</span>))</span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend =</span> <span class="fu">names</span>(cols), <span class="at">col =</span> cols, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(shoot_density <span class="sc">~</span> seagrass_cover, <span class="at">data =</span> sg), <span class="at">lty =</span> <span class="dv">2</span>)   <span class="co"># add a trend line</span></span></code></pre></div>
-<p><img src="07-graphics_files/figure-html/unnamed-chunk-4-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="07-graphics_files/figure-html/unnamed-chunk-6-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>c(Inside = "#1b7f8c", ...)</code></td>
+<td>a <strong>named</strong> vector: each value has a name;
+<code>cols["Inside"]</code> gives its colour, and
+<code>cols[sg$mpa_status]</code> gives one colour per row</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>expression()</code></td>
+<td>writes a label with exponents or Greek letters: <code>"m"^-2</code>
+= m⁻²; <code>*</code> glues two parts</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>legend(x, legend, col, pch, fill, bty)</code></td>
+<td>adds a legend</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>x</code></td>
+<td>where: <code>"topleft"</code>, <code>"topright"</code>,
+<code>"bottomright"</code>…</td>
+<td>text</td>
+</tr>
+<tr class="odd">
+<td>  <code>legend</code></td>
+<td>the texts of the legend (the argument has the same name as the
+function)</td>
+<td>a text vector</td>
+</tr>
+<tr class="even">
+<td>  <code>col</code> + <code>pch</code>, or <code>fill</code></td>
+<td>symbols drawn next to each text: points of colour <code>col</code>
+and shape <code>pch</code>, or squares filled with
+<code>fill</code></td>
+<td>colours, shapes</td>
+</tr>
+<tr class="odd">
+<td>  <code>bty</code></td>
+<td><strong>b</strong>ox <strong>ty</strong>pe: <code>"n"</code> = no
+frame around the legend</td>
+<td><code>"o"</code> (default) / <code>"n"</code></td>
+</tr>
+<tr class="even">
+<td><code>abline()</code></td>
+<td>adds a straight line; with a fitted model
+<code>lm(y ~ x, data)</code> (Intermediate level), its regression
+line</td>
+<td>a model, or <code>h =</code> (horizontal) / <code>v =</code>
+(vertical) positions</td>
+</tr>
+<tr class="odd">
+<td>  <code>lty</code></td>
+<td><strong>l</strong>ine <strong>ty</strong>pe: 1 solid, 2 dashed, 3
+dotted</td>
+<td>a number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>c(Inside = "#1b7f8c", ...)</code></td>
+<td>un vecteur <strong>nommé</strong> : chaque valeur a un nom ;
+<code>cols["Inside"]</code> donne sa couleur, et
+<code>cols[sg$mpa_status]</code> une couleur par ligne</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>expression()</code></td>
+<td>écrit une étiquette avec exposants ou lettres grecques :
+<code>"m"^-2</code> = m⁻² ; <code>*</code> colle deux parties</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>legend(x, legend, col, pch, fill, bty)</code></td>
+<td>ajoute une légende</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>x</code></td>
+<td>où : <code>"topleft"</code>, <code>"topright"</code>,
+<code>"bottomright"</code>…</td>
+<td>texte</td>
+</tr>
+<tr class="odd">
+<td>  <code>legend</code></td>
+<td>les textes de la légende (l’argument porte le même nom que la
+fonction)</td>
+<td>un vecteur de texte</td>
+</tr>
+<tr class="even">
+<td>  <code>col</code> + <code>pch</code>, or <code>fill</code></td>
+<td>symboles dessinés à côté de chaque texte : points de couleur
+<code>col</code> et de forme <code>pch</code>, ou carrés remplis de
+<code>fill</code></td>
+<td>couleurs, formes</td>
+</tr>
+<tr class="odd">
+<td>  <code>bty</code></td>
+<td><strong>b</strong>ox <strong>ty</strong>pe : <code>"n"</code> = pas
+de cadre autour de la légende</td>
+<td><code>"o"</code> (défaut) / <code>"n"</code></td>
+</tr>
+<tr class="even">
+<td><code>abline()</code></td>
+<td>ajoute une droite ; avec un modèle ajusté
+<code>lm(y ~ x, data)</code> (niveau intermédiaire), sa droite de
+régression</td>
+<td>un modèle, ou des positions <code>h =</code> (horizontale) /
+<code>v =</code> (verticale)</td>
+</tr>
+<tr class="odd">
+<td>  <code>lty</code></td>
+<td><strong>l</strong>ine <strong>ty</strong>pe : 1 continue, 2 tirets,
+3 pointillés</td>
+<td>un nombre</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout tip">
 <div class="en">
 <p><code>abline()</code>, <code>points()</code>, <code>lines()</code>,
@@ -780,7 +1162,92 @@ la meilleure façon rapide de comparer des groupes.</p>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;#a8d5da&quot;</span>, <span class="st">&quot;#a8d5da&quot;</span>, <span class="st">&quot;#f3c3b2&quot;</span>, <span class="st">&quot;#f3c3b2&quot;</span>),</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>, <span class="at">las =</span> <span class="dv">1</span>)   <span class="co"># las = 1: horizontal axis numbers</span></span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">&quot;#a8d5da&quot;</span>, <span class="st">&quot;#f3c3b2&quot;</span>), <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Inside MPA&quot;</span>, <span class="st">&quot;Outside MPA&quot;</span>), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
-<p><img src="07-graphics_files/figure-html/unnamed-chunk-5-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="07-graphics_files/figure-html/unnamed-chunk-8-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>factor(x, levels)</code></td>
+<td>reminder (Session 2): the order of the levels is the order of the
+boxes</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>boxplot(formula, data, ...)</code></td>
+<td>one box per group</td>
+<td><code>y ~ group</code> (as in <code>aggregate()</code>, Session 6)
+and the data frame</td>
+</tr>
+<tr class="odd">
+<td>  <code>col</code></td>
+<td>fill colour of the boxes, one per box</td>
+<td>colours</td>
+</tr>
+<tr class="even">
+<td>  <code>las</code></td>
+<td>orientation of the axis numbers: 0 parallel to the axis (default), 1
+always horizontal, 2 perpendicular</td>
+<td>0, 1, 2 or 3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>factor(x, levels)</code></td>
+<td>rappel (séance 2) : l’ordre des niveaux est l’ordre des boîtes</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>boxplot(formula, data, ...)</code></td>
+<td>une boîte par groupe</td>
+<td><code>y ~ groupe</code> (comme dans <code>aggregate()</code>, séance
+6) et le data frame</td>
+</tr>
+<tr class="odd">
+<td>  <code>col</code></td>
+<td>couleur de remplissage des boîtes, une par boîte</td>
+<td>couleurs</td>
+</tr>
+<tr class="even">
+<td>  <code>las</code></td>
+<td>orientation des nombres des axes : 0 parallèle à l’axe (défaut), 1
+toujours horizontal, 2 perpendiculaire</td>
+<td>0, 1, 2 ou 3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="barplot" class="section level2">
 <h2><span class="en">Barplot of means with error bars</span><span
@@ -813,7 +1280,116 @@ d’erreur avec <code>arrows()</code>.</p>
 <span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>       <span class="at">code =</span> <span class="dv">3</span>,       <span class="co"># heads at both ends</span></span>
 <span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>       <span class="at">length =</span> <span class="fl">0.08</span>)  <span class="co"># head width</span></span>
 <span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="fu">box</span>(<span class="at">bty =</span> <span class="st">&quot;l&quot;</span>)         <span class="co"># L-shaped axis line</span></span></code></pre></div>
-<p><img src="07-graphics_files/figure-html/unnamed-chunk-6-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="07-graphics_files/figure-html/unnamed-chunk-10-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>barplot(height, ...)</code></td>
+<td>one bar per value; it <strong>returns</strong> the x position of
+each bar (kept in <code>bp</code>)</td>
+<td>a vector with names (e.g. a <code>tapply()</code> result) or a
+<code>table()</code></td>
+</tr>
+<tr class="even">
+<td><code>arrows(x0, y0, x1, y1, ...)</code></td>
+<td>draws arrows from the point (<code>x0</code>, <code>y0</code>) to
+the point (<code>x1</code>, <code>y1</code>)</td>
+<td>numbers or vectors (one arrow per value)</td>
+</tr>
+<tr class="odd">
+<td>  <code>angle</code></td>
+<td>angle between the shaft and the head; 90 = flat head</td>
+<td>degrees</td>
+</tr>
+<tr class="even">
+<td>  <code>code</code></td>
+<td>where the heads are: 1 at the start, 2 at the end, 3 at both
+ends</td>
+<td>1, 2 or 3</td>
+</tr>
+<tr class="odd">
+<td>  <code>length</code></td>
+<td>width of the head, in inches</td>
+<td>a number</td>
+</tr>
+<tr class="even">
+<td><code>box(bty)</code></td>
+<td>draws a frame around the plot; <code>bty = "l"</code> = only the
+left and bottom sides</td>
+<td><code>"o"</code>, <code>"l"</code>, <code>"n"</code>…</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>barplot(height, ...)</code></td>
+<td>une barre par valeur ; elle <strong>renvoie</strong> la position x
+de chaque barre (gardée dans <code>bp</code>)</td>
+<td>un vecteur avec des noms (ex. un résultat de <code>tapply()</code>)
+ou une <code>table()</code></td>
+</tr>
+<tr class="even">
+<td><code>arrows(x0, y0, x1, y1, ...)</code></td>
+<td>trace des flèches du point (<code>x0</code>, <code>y0</code>) au
+point (<code>x1</code>, <code>y1</code>)</td>
+<td>nombres ou vecteurs (une flèche par valeur)</td>
+</tr>
+<tr class="odd">
+<td>  <code>angle</code></td>
+<td>angle entre la tige et la pointe ; 90 = pointe plate</td>
+<td>degrés</td>
+</tr>
+<tr class="even">
+<td>  <code>code</code></td>
+<td>où sont les pointes : 1 au début, 2 à la fin, 3 aux deux bouts</td>
+<td>1, 2 ou 3</td>
+</tr>
+<tr class="odd">
+<td>  <code>length</code></td>
+<td>largeur de la pointe, en pouces</td>
+<td>un nombre</td>
+</tr>
+<tr class="even">
+<td><code>box(bty)</code></td>
+<td>dessine un cadre autour du graphique ; <code>bty = "l"</code> =
+seulement les côtés gauche et bas</td>
+<td><code>"o"</code>, <code>"l"</code>, <code>"n"</code>…</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><strong>Always set <code>ylim</code></strong> so that the top error
@@ -835,8 +1411,104 @@ class="fr">Effectifs par catégorie</span></h3>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">13</span>, <span class="dv">2</span>, <span class="dv">1</span>))     <span class="co"># enlarge the left margin for long names (bottom, left, top, right)</span></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">barplot</span>(counts, <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">&quot;#4a7d3a&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Number of quadrats&quot;</span>,</span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>        <span class="at">names.arg =</span> <span class="fu">names</span>(counts), <span class="at">cex.names =</span> <span class="fl">0.85</span>, <span class="at">font.axis =</span> <span class="dv">3</span>)   <span class="co"># font 3 = italic</span></span></code></pre></div>
-<p><img src="07-graphics_files/figure-html/unnamed-chunk-7-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="07-graphics_files/figure-html/unnamed-chunk-12-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fl">0.1</span>)   <span class="co"># back to default margins</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>par(mar = ...)</code></td>
+<td><strong>par</strong>ameters of the graphics; <code>mar</code> =
+margins around the plot, in lines of text</td>
+<td>4 numbers: bottom, left, top, right</td>
+</tr>
+<tr class="even">
+<td>  <code>horiz</code></td>
+<td>argument of <code>barplot()</code>: <code>TRUE</code> = horizontal
+bars</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>names.arg</code></td>
+<td>labels under (or beside) the bars</td>
+<td>a text vector</td>
+</tr>
+<tr class="even">
+<td>  <code>cex.names</code></td>
+<td>size of these labels; 0.85 = 85 %</td>
+<td>a number</td>
+</tr>
+<tr class="odd">
+<td>  <code>font.axis</code></td>
+<td>font of the axis labels: 1 normal, 2 bold, 3 italic (Latin
+names)</td>
+<td>1 to 4</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>par(mar = ...)</code></td>
+<td><strong>par</strong>amètres graphiques ; <code>mar</code> = marges
+autour du graphique, en lignes de texte</td>
+<td>4 nombres : bas, gauche, haut, droite</td>
+</tr>
+<tr class="even">
+<td>  <code>horiz</code></td>
+<td>argument de <code>barplot()</code> : <code>TRUE</code> = barres
+horizontales</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>names.arg</code></td>
+<td>étiquettes sous (ou à côté des) barres</td>
+<td>un vecteur de texte</td>
+</tr>
+<tr class="even">
+<td>  <code>cex.names</code></td>
+<td>taille de ces étiquettes ; 0,85 = 85 %</td>
+<td>un nombre</td>
+</tr>
+<tr class="odd">
+<td>  <code>font.axis</code></td>
+<td>police des étiquettes d’axe : 1 normale, 2 gras, 3 italique (noms
+latins)</td>
+<td>1 à 4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout try">
 <div class="en">
 <p><strong>Try it.</strong> Draw a scatter plot of
@@ -868,8 +1540,62 @@ dessin. Réinitialisez-la avec <code>par(mfrow = c(1, 1))</code>.</p>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">hist</span>(sg<span class="sc">$</span>depth_m, <span class="at">col =</span> <span class="st">&quot;grey80&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Depth&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Depth (m)&quot;</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">boxplot</span>(shoot_density <span class="sc">~</span> mpa_status, <span class="at">data =</span> sg, <span class="at">main =</span> <span class="st">&quot;Shoot density&quot;</span>,</span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Shoots per m2&quot;</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;#a8d5da&quot;</span>, <span class="st">&quot;#f3c3b2&quot;</span>))</span></code></pre></div>
-<p><img src="07-graphics_files/figure-html/unnamed-chunk-8-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="07-graphics_files/figure-html/unnamed-chunk-14-1.png" alt="" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>par(mfrow = c(rows, columns))</code></td>
+<td><strong>m</strong>ulti-<strong>f</strong>igure, filled by
+<strong>row</strong>: cuts the drawing area into a grid; the next plots
+fill it from left to right</td>
+<td>two whole numbers</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>par(mfrow = c(rows, columns))</code></td>
+<td><strong>m</strong>ulti-<strong>f</strong>igure, rempli par
+<strong>ligne</strong> (<em>row</em>) : découpe la zone de dessin en
+grille ; les graphiques suivants la remplissent de gauche à droite</td>
+<td>deux entiers</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="save" class="section level2">
 <h2><span class="en">Saving figures with code</span><span
@@ -895,6 +1621,143 @@ est ouvert.</p>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&quot;outputs/fig_cover_by_site.pdf&quot;</span>, <span class="at">width =</span> <span class="fl">6.3</span>, <span class="at">height =</span> <span class="fl">4.3</span>)   <span class="co"># size in inches</span></span>
 <span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">boxplot</span>(seagrass_cover <span class="sc">~</span> site, <span class="at">data =</span> sg, <span class="at">ylab =</span> <span class="st">&quot;Seagrass cover (%)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span>
 <span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>png(filename, width, height, units, res)</code></td>
+<td>opens a PNG image file; the next plot is drawn <strong>in the
+file</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>filename</code></td>
+<td>path and name of the image</td>
+<td>text ending in <code>.png</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>width</code>, <code>height</code></td>
+<td>size of the image, in the unit given by <code>units</code></td>
+<td>numbers</td>
+</tr>
+<tr class="even">
+<td>  <code>units</code></td>
+<td>unit of <code>width</code> and <code>height</code></td>
+<td><code>"px"</code> (default), <code>"cm"</code>, <code>"in"</code>,
+<code>"mm"</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>res</code></td>
+<td>resolution in dots per inch (needed when <code>units</code> is not
+pixels)</td>
+<td>a number, usually 300</td>
+</tr>
+<tr class="even">
+<td><code>pdf(file, width, height)</code></td>
+<td>the same for a PDF file; the size is <strong>always in
+inches</strong> (no <code>units</code> argument)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>dev.off()</code></td>
+<td>closes the file (<strong>dev</strong>ice <strong>off</strong>): only
+then is it written on the disk</td>
+<td>nothing</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>png(filename, width, height, units, res)</code></td>
+<td>ouvre un fichier image PNG ; le graphique suivant est dessiné
+<strong>dans le fichier</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>filename</code></td>
+<td>chemin et nom de l’image</td>
+<td>texte finissant par <code>.png</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>width</code>, <code>height</code></td>
+<td>taille de l’image, dans l’unité donnée par <code>units</code></td>
+<td>nombres</td>
+</tr>
+<tr class="even">
+<td>  <code>units</code></td>
+<td>unité de <code>width</code> et <code>height</code></td>
+<td><code>"px"</code> (défaut), <code>"cm"</code>, <code>"in"</code>,
+<code>"mm"</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>res</code></td>
+<td>résolution en points par pouce (nécessaire quand <code>units</code>
+n’est pas en pixels)</td>
+<td>un nombre, en général 300</td>
+</tr>
+<tr class="even">
+<td><code>pdf(file, width, height)</code></td>
+<td>la même chose pour un fichier PDF ; la taille est <strong>toujours
+en pouces</strong> (pas d’argument <code>units</code>)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>dev.off()</code></td>
+<td>ferme le fichier (<strong>dev</strong>ice <strong>off</strong>) :
+c’est seulement alors qu’il est écrit sur le disque</td>
+<td>rien</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>Again, two functions doing the same job do not use the same
+arguments: the file name is <code>filename</code> in <code>png()</code>
+but <code>file</code> in <code>pdf()</code>, and only <code>png()</code>
+has <code>units</code> and <code>res</code>. Giving them by position
+(first argument) avoids the problem; for the others, check
+<code>?png</code> and <code>?pdf</code>.</p>
+</div>
+<div class="fr">
+<p>Encore une fois, deux fonctions qui font le même travail n’utilisent
+pas les mêmes arguments : le nom du fichier s’appelle
+<code>filename</code> dans <code>png()</code> mais <code>file</code>
+dans <code>pdf()</code>, et seul <code>png()</code> a <code>units</code>
+et <code>res</code>. Les donner par position (premier argument) évite le
+problème ; pour les autres, consultez <code>?png</code> et
+<code>?pdf</code>.</p>
+</div>
 <div class="callout tip">
 <div class="en">
 <p><code>res = 300</code> (dots per inch) is the usual resolution
@@ -974,7 +1837,7 @@ Question 4 :
 </div>
 </div>
 <div id="quiz-s07" class="quiz" data-quiz-id="s07"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHF1YWRyYXRzIGluIHRoZSBtb3N0IGZyZXF1ZW50IGNvdmVyIGNsYXNzPyIsImZyIjoiMS4gTm9tYnJlIGRlIHF1YWRyYXRzIGRhbnMgbGEgY2xhc3NlIGRlIHJlY291dnJlbWVudCBsYSBwbHVzIGZyw6lxdWVudGUgPyIsImFuc3dlciI6MTYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyLiBTaXRlIHdpdGggdGhlIGhpZ2hlc3QgbWVkaWFuIGNvdmVyPyIsImZyIjoiMi4gU2l0ZSDDoCBsYSBtw6lkaWFuZSBsYSBwbHVzIMOpbGV2w6llID8iLCJhbnN3ZXIiOlsiQW1iYWxhYm95Il19LHsidHlwZSI6Im51bSIsImVuIjoiMy4gVG9wIG9mIHRoZSBoaWdoZXN0IGVycm9yIGJhciAobWVhbiArIFNELCAxIGRlY2ltYWwpPyIsImZyIjoiMy4gU29tbWV0IGRlIGxhIGJhcnJlIGQnZXJyZXVyIGxhIHBsdXMgaGF1dGUgKG1veWVubmUgKyBFVCwgMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjY0LjksInRvbCI6MC4wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI0LiBTcGVjaWVzIHdpdGggdGhlIGhpZ2hlc3QgbWVhbiBjb3ZlciAoZnVsbCBMYXRpbiBuYW1lKT8iLCJmciI6IjQuIEVzcMOoY2UgYXUgcmVjb3V2cmVtZW50IG1veWVuIGxlIHBsdXMgw6lsZXbDqSAobm9tIGxhdGluIGNvbXBsZXQpID8iLCJhbnN3ZXIiOlsiQ3ltb2RvY2VhIHNlcnJ1bGF0YSJdfSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFdoaWNoIGZ1bmN0aW9uIGFkZHMgZXJyb3IgYmFycyB0byBhbiBleGlzdGluZyBiYXJwbG90PyIsImZyIjoiNS4gUXVlbGxlIGZvbmN0aW9uIGFqb3V0ZSBkZXMgYmFycmVzIGQnZXJyZXVyIMOgIHVuIGJhcnBsb3QgZXhpc3RhbnQgPyIsIm9wdGlvbnNfZW4iOlsiZXJyb3JiYXIoKSIsImFycm93cygpIiwibGluZXMoKSIsInNlZ21lbnRzX2Vycm9yKCkiXSwib3B0aW9uc19mciI6WyJlcnJvcmJhcigpIiwiYXJyb3dzKCkiLCJsaW5lcygpIiwic2VnbWVudHNfZXJyb3IoKSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gV2hhdCBtdXN0IHlvdSBhbHdheXMgY2FsbCBhZnRlciBwbmcoKSBhbmQgeW91ciBwbG90PyIsImZyIjoiNi4gUXVlIGZhdXQtaWwgdG91am91cnMgYXBwZWxlciBhcHLDqHMgcG5nKCkgZXQgbGUgZ3JhcGhpcXVlID8iLCJvcHRpb25zX2VuIjpbInNhdmUoKSIsImNsb3NlKCkiLCJkZXYub2ZmKCkiLCJwbG90Lm5ldygpIl0sIm9wdGlvbnNfZnIiOlsic2F2ZSgpIiwiY2xvc2UoKSIsImRldi5vZmYoKSIsInBsb3QubmV3KCkiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFdoaWNoIGFyZ3VtZW50IG1ha2VzIHRoZSBheGlzIG51bWJlcnMgaG9yaXpvbnRhbD8iLCJmciI6IjcuIFF1ZWwgYXJndW1lbnQgcmVuZCBsZXMgbm9tYnJlcyBkZXMgYXhlcyBob3Jpem9udGF1eCA/Iiwib3B0aW9uc19lbiI6WyJsYXMgPSAxIiwiaG9yaXogPSBUUlVFIiwicGNoID0gMTkiLCJidHkgPSBcImxcIiJdLCJvcHRpb25zX2ZyIjpbImxhcyA9IDEiLCJob3JpeiA9IFRSVUUiLCJwY2ggPSAxOSIsImJ0eSA9IFwibFwiIl0sImFuc3dlciI6MH1d">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHF1YWRyYXRzIGluIHRoZSBtb3N0IGZyZXF1ZW50IGNvdmVyIGNsYXNzPyIsImZyIjoiMS4gTm9tYnJlIGRlIHF1YWRyYXRzIGRhbnMgbGEgY2xhc3NlIGRlIHJlY291dnJlbWVudCBsYSBwbHVzIGZyw6lxdWVudGUgPyIsImFuc3dlciI6MTYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyLiBTaXRlIHdpdGggdGhlIGhpZ2hlc3QgbWVkaWFuIGNvdmVyPyIsImZyIjoiMi4gU2l0ZSDDoCBsYSBtw6lkaWFuZSBsYSBwbHVzIMOpbGV2w6llID8iLCJhbnN3ZXIiOlsiQW1iYWxhYm95Il19LHsidHlwZSI6Im51bSIsImVuIjoiMy4gVG9wIG9mIHRoZSBoaWdoZXN0IGVycm9yIGJhciAobWVhbiArIFNELCAxIGRlY2ltYWwpPyIsImZyIjoiMy4gU29tbWV0IGRlIGxhIGJhcnJlIGQnZXJyZXVyIGxhIHBsdXMgaGF1dGUgKG1veWVubmUgKyBFVCwgMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjY0LjksInRvbCI6MC4wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI0LiBTcGVjaWVzIHdpdGggdGhlIGhpZ2hlc3QgbWVhbiBjb3ZlciAoZnVsbCBMYXRpbiBuYW1lKT8iLCJmciI6IjQuIEVzcMOoY2UgYXUgcmVjb3V2cmVtZW50IG1veWVuIGxlIHBsdXMgw6lsZXbDqSAobm9tIGxhdGluIGNvbXBsZXQpID8iLCJhbnN3ZXIiOlsiQ3ltb2RvY2VhIHNlcnJ1bGF0YSJdfSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFdoaWNoIGZ1bmN0aW9uIGFkZHMgZXJyb3IgYmFycyB0byBhbiBleGlzdGluZyBiYXJwbG90PyIsImZyIjoiNS4gUXVlbGxlIGZvbmN0aW9uIGFqb3V0ZSBkZXMgYmFycmVzIGQnZXJyZXVyIMOgIHVuIGJhcnBsb3QgZXhpc3RhbnQgPyIsIm9wdGlvbnNfZW4iOlsiZXJyb3JiYXIoKSIsImFycm93cygpIiwibGluZXMoKSIsInNlZ21lbnRzX2Vycm9yKCkiXSwib3B0aW9uc19mciI6WyJlcnJvcmJhcigpIiwiYXJyb3dzKCkiLCJsaW5lcygpIiwic2VnbWVudHNfZXJyb3IoKSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gV2hhdCBtdXN0IHlvdSBhbHdheXMgY2FsbCBhZnRlciBwbmcoKSBhbmQgeW91ciBwbG90PyIsImZyIjoiNi4gUXVlIGZhdXQtaWwgdG91am91cnMgYXBwZWxlciBhcHLDqHMgcG5nKCkgZXQgbGUgZ3JhcGhpcXVlID8iLCJvcHRpb25zX2VuIjpbInNhdmUoKSIsImNsb3NlKCkiLCJkZXYub2ZmKCkiLCJwbG90Lm5ldygpIl0sIm9wdGlvbnNfZnIiOlsic2F2ZSgpIiwiY2xvc2UoKSIsImRldi5vZmYoKSIsInBsb3QubmV3KCkiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFdoaWNoIGFyZ3VtZW50IG1ha2VzIHRoZSBheGlzIG51bWJlcnMgaG9yaXpvbnRhbD8iLCJmciI6IjcuIFF1ZWwgYXJndW1lbnQgcmVuZCBsZXMgbm9tYnJlcyBkZXMgYXhlcyBob3Jpem9udGF1eCA/Iiwib3B0aW9uc19lbiI6WyJsYXMgPSAxIiwiaG9yaXogPSBUUlVFIiwicGNoID0gMTkiLCJidHkgPSBcImxcIiJdLCJvcHRpb25zX2ZyIjpbImxhcyA9IDEiLCJob3JpeiA9IFRSVUUiLCJwY2ggPSAxOSIsImJ0eSA9IFwibFwiIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibnVtIiwiZW4iOiI4LiBIb3cgbWFueSBwbG90cyBmaXQgaW4gdGhlIGZpZ3VyZSBhZnRlciBwYXIobWZyb3cgPSBjKDIsIDMpKT8iLCJmciI6IjguIENvbWJpZW4gZGUgZ3JhcGhpcXVlcyB0aWVubmVudCBkYW5zIGxhIGZpZ3VyZSBhcHLDqHMgcGFyKG1mcm93ID0gYygyLCAzKSkgPyIsImFuc3dlciI6NiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiOS4gSW4gcGxvdCgpLCB3aGF0IGRvZXMgcGNoID0gMTcgY2hhbmdlPyIsImZyIjoiOS4gRGFucyBwbG90KCksIHF1ZSBjaGFuZ2UgcGNoID0gMTcgPyIsIm9wdGlvbnNfZW4iOlsiVGhlIGNvbG91ciBvZiB0aGUgcG9pbnRzIiwiVGhlIHNoYXBlIG9mIHRoZSBwb2ludHMgKHRyaWFuZ2xlcykiLCJUaGUgc2l6ZSBvZiB0aGUgcG9pbnRzIiwiVGhlIHRpdGxlIl0sIm9wdGlvbnNfZnIiOlsiTGEgY291bGV1ciBkZXMgcG9pbnRzIiwiTGEgZm9ybWUgZGVzIHBvaW50cyAodHJpYW5nbGVzKSIsIkxhIHRhaWxsZSBkZXMgcG9pbnRzIiwiTGUgdGl0cmUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjEwLiBJbiBhcnJvd3MoKSwgd2hpY2ggYXJndW1lbnRzIGdpdmUgZmxhdCBoZWFkcyBhdCBib3RoIGVuZHMgb2YgdGhlIGVycm9yIGJhcj8iLCJmciI6IjEwLiBEYW5zIGFycm93cygpLCBxdWVscyBhcmd1bWVudHMgZG9ubmVudCBkZXMgcG9pbnRlcyBwbGF0ZXMgYXV4IGRldXggYm91dHMgZGUgbGEgYmFycmUgZCdlcnJldXIgPyIsIm9wdGlvbnNfZW4iOlsiYW5nbGUgPSA5MCwgY29kZSA9IDMiLCJhbmdsZSA9IDMsIGNvZGUgPSA5MCIsImxlbmd0aCA9IDkwLCBjb2RlID0gMSIsImxhcyA9IDEsIGJ0eSA9IFwibFwiIl0sIm9wdGlvbnNfZnIiOlsiYW5nbGUgPSA5MCwgY29kZSA9IDMiLCJhbmdsZSA9IDMsIGNvZGUgPSA5MCIsImxlbmd0aCA9IDkwLCBjb2RlID0gMSIsImxhcyA9IDEsIGJ0eSA9IFwibFwiIl0sImFuc3dlciI6MH1d">
 
 </div>
 <div class="solution" data-quiz="s07">

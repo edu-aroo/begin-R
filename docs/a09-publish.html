@@ -735,6 +735,85 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="
 <span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="at">  </span><span class="fu">docx</span><span class="kw">:</span></span>
 <span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="at">    </span><span class="fu">reference-doc</span><span class="kw">:</span><span class="at"> my-styles.docx</span><span class="co">   # fonts, heading styles and margins of your institution</span></span></code></pre></div>
 <div class="en">
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Format</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>papersize</code></td>
+<td>typst, pdf</td>
+<td>paper size</td>
+<td><code>a4</code>, <code>a5</code>, <code>us-letter</code></td>
+</tr>
+<tr class="even">
+<td><code>margin</code> → <code>x</code>, <code>y</code></td>
+<td>typst</td>
+<td><code>x</code> = left and right margins, <code>y</code> = top and
+bottom (also <code>left</code>, <code>right</code>, <code>top</code>,
+<code>bottom</code> separately)</td>
+<td>lengths: <code>2cm</code>, <code>25mm</code>, <code>1in</code></td>
+</tr>
+<tr class="odd">
+<td><code>geometry</code></td>
+<td>pdf</td>
+<td>the same for LaTeX, in the syntax of its <em>geometry</em> package:
+<code>margin=2.5cm</code> (all sides) or
+<code>top=2cm,bottom=2cm,left=3cm,right=2cm</code></td>
+<td>text</td>
+</tr>
+<tr class="even">
+<td><code>fontsize</code></td>
+<td>typst, pdf</td>
+<td>size of the body text</td>
+<td><code>10pt</code>, <code>11pt</code>, <code>12pt</code></td>
+</tr>
+<tr class="odd">
+<td><code>mainfont</code></td>
+<td>typst, pdf</td>
+<td>font of the text; it must be <strong>installed</strong> on the
+computer that renders</td>
+<td>font name in quotes</td>
+</tr>
+<tr class="even">
+<td><code>linestretch</code></td>
+<td>pdf</td>
+<td>line spacing: <code>1</code> single, <code>1.5</code> one and a
+half, <code>2</code> double</td>
+<td>a number</td>
+</tr>
+<tr class="odd">
+<td><code>fig-pos</code></td>
+<td>pdf</td>
+<td>where LaTeX places figures; <code>"H"</code> = exactly here
+(otherwise LaTeX may move them to the next page)</td>
+<td><code>"H"</code>, <code>"t"</code> (top), <code>"b"</code>
+(bottom)</td>
+</tr>
+<tr class="even">
+<td><code>reference-doc</code></td>
+<td>docx</td>
+<td>Word file whose <strong>styles</strong> are copied</td>
+<td>path to a .docx</td>
+</tr>
+</tbody>
+</table>
+<p>The same thing has <strong>different keys</strong> in Typst
+(<code>margin</code>) and LaTeX (<code>geometry</code>): when you switch
+format, check the keys.</p>
+</div>
+<div class="en">
 <ul>
 <li><strong>Page break</strong> anywhere:
 <code>{{&lt; pagebreak &gt;}}</code> on its own line (all formats).</li>
@@ -753,6 +832,86 @@ them.</li>
 <code>embed-resources: true</code> under <code>html:</code> puts images,
 styles and scripts inside the file.</li>
 </ul>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Clé</th>
+<th>Format</th>
+<th>Ce qu’elle fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>papersize</code></td>
+<td>typst, pdf</td>
+<td>format du papier</td>
+<td><code>a4</code>, <code>a5</code>, <code>us-letter</code></td>
+</tr>
+<tr class="even">
+<td><code>margin</code> → <code>x</code>, <code>y</code></td>
+<td>typst</td>
+<td><code>x</code> = marges gauche et droite, <code>y</code> = haut et
+bas (aussi <code>left</code>, <code>right</code>, <code>top</code>,
+<code>bottom</code> séparément)</td>
+<td>longueurs : <code>2cm</code>, <code>25mm</code>,
+<code>1in</code></td>
+</tr>
+<tr class="odd">
+<td><code>geometry</code></td>
+<td>pdf</td>
+<td>la même chose pour LaTeX, dans la syntaxe de son package
+<em>geometry</em> : <code>margin=2.5cm</code> (tous les côtés) ou
+<code>top=2cm,bottom=2cm,left=3cm,right=2cm</code></td>
+<td>texte</td>
+</tr>
+<tr class="even">
+<td><code>fontsize</code></td>
+<td>typst, pdf</td>
+<td>taille du texte courant</td>
+<td><code>10pt</code>, <code>11pt</code>, <code>12pt</code></td>
+</tr>
+<tr class="odd">
+<td><code>mainfont</code></td>
+<td>typst, pdf</td>
+<td>police du texte ; elle doit être <strong>installée</strong> sur
+l’ordinateur qui produit le document</td>
+<td>nom de police entre guillemets</td>
+</tr>
+<tr class="even">
+<td><code>linestretch</code></td>
+<td>pdf</td>
+<td>interligne : <code>1</code> simple, <code>1.5</code> un et demi,
+<code>2</code> double</td>
+<td>un nombre</td>
+</tr>
+<tr class="odd">
+<td><code>fig-pos</code></td>
+<td>pdf</td>
+<td>où LaTeX place les figures ; <code>"H"</code> = exactement ici
+(sinon LaTeX peut les déplacer à la page suivante)</td>
+<td><code>"H"</code>, <code>"t"</code> (haut), <code>"b"</code>
+(bas)</td>
+</tr>
+<tr class="even">
+<td><code>reference-doc</code></td>
+<td>docx</td>
+<td>fichier Word dont les <strong>styles</strong> sont copiés</td>
+<td>chemin vers un .docx</td>
+</tr>
+</tbody>
+</table>
+<p>La même chose a des <strong>clés différentes</strong> en Typst
+(<code>margin</code>) et en LaTeX (<code>geometry</code>) : quand vous
+changez de format, vérifiez les clés.</p>
 </div>
 <div class="fr">
 <ul>
@@ -841,6 +1000,175 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="
 <span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
 <span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
 <span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="at">  </span><span class="fu">freeze</span><span class="kw">:</span><span class="at"> auto</span><span class="co">                # re-run the R code only when a page changes</span></span></code></pre></div>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key in <code>_quarto.yml</code></th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>project</code> → <code>type</code></td>
+<td>kind of project: <code>website</code> (pages + menu),
+<code>book</code> (chapters), <code>default</code> (separate
+documents)</td>
+<td>one of these words</td>
+</tr>
+<tr class="even">
+<td><code>project</code> → <code>output-dir</code></td>
+<td>folder where the finished site is written; <code>docs</code> because
+GitHub Pages can publish a folder of that name</td>
+<td>a folder name</td>
+</tr>
+<tr class="odd">
+<td><code>website</code> → <code>title</code></td>
+<td>name of the site, shown at the left of the menu bar and in the
+browser tab</td>
+<td>text</td>
+</tr>
+<tr class="even">
+<td><code>navbar</code></td>
+<td>the <strong>nav</strong>igation <strong>bar</strong>: the menu at
+the top of every page</td>
+<td><code>left:</code> and/or <code>right:</code> lists</td>
+</tr>
+<tr class="odd">
+<td><code>left</code>, <code>right</code></td>
+<td>menu items on the left / right of the bar, in this order</td>
+<td>a list of items (<code>- href: …</code>)</td>
+</tr>
+<tr class="even">
+<td><code>href</code></td>
+<td>the <strong>link</strong> of a menu item (<em>h</em>ypertext
+<em>ref</em>erence): the page to open — a <code>.qmd</code> of the
+project (Quarto turns it into <code>.html</code>) or a full web
+address</td>
+<td>file name or URL</td>
+</tr>
+<tr class="odd">
+<td><code>text</code></td>
+<td>the word shown in the menu for this link (otherwise: the title of
+the page)</td>
+<td>text</td>
+</tr>
+<tr class="even">
+<td><code>page-footer</code> →
+<code>left</code>/<code>center</code>/<code>right</code></td>
+<td>text at the bottom of every page</td>
+<td>text</td>
+</tr>
+<tr class="odd">
+<td><code>format</code> → <code>html</code> → <code>theme</code></td>
+<td>the look of the site (colours, fonts): one of the 25 Bootswatch
+themes, e.g. <code>cosmo</code>, <code>flatly</code>,
+<code>darkly</code></td>
+<td>a theme name</td>
+</tr>
+<tr class="even">
+<td><code>execute</code> → <code>freeze</code></td>
+<td><code>auto</code>: re-run the R code of a page only when its
+<code>.qmd</code> changed (below)</td>
+<td><code>auto</code>, <code>true</code>, <code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p>A menu item can be written short (<code>- coral.qmd</code>, the text
+is then the page title) or long (<code>- href:</code> +
+<code>text:</code>).</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Clé de <code>_quarto.yml</code></th>
+<th>Ce qu’elle fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>project</code> → <code>type</code></td>
+<td>type de projet : <code>website</code> (pages + menu),
+<code>book</code> (chapitres), <code>default</code> (documents
+séparés)</td>
+<td>un de ces mots</td>
+</tr>
+<tr class="even">
+<td><code>project</code> → <code>output-dir</code></td>
+<td>dossier où le site fini est écrit ; <code>docs</code> car GitHub
+Pages sait publier un dossier de ce nom</td>
+<td>un nom de dossier</td>
+</tr>
+<tr class="odd">
+<td><code>website</code> → <code>title</code></td>
+<td>nom du site, affiché à gauche de la barre de menu et dans l’onglet
+du navigateur</td>
+<td>texte</td>
+</tr>
+<tr class="even">
+<td><code>navbar</code></td>
+<td>la <strong>barre de navigation</strong> (<em>navigation bar</em>) :
+le menu en haut de chaque page</td>
+<td>des listes <code>left:</code> et/ou <code>right:</code></td>
+</tr>
+<tr class="odd">
+<td><code>left</code>, <code>right</code></td>
+<td>éléments du menu à gauche / à droite de la barre, dans cet
+ordre</td>
+<td>une liste d’éléments (<code>- href: …</code>)</td>
+</tr>
+<tr class="even">
+<td><code>href</code></td>
+<td>le <strong>lien</strong> d’un élément du menu (<em>hypertext
+reference</em>) : la page à ouvrir — un <code>.qmd</code> du projet
+(Quarto le transforme en <code>.html</code>) ou une adresse web
+complète</td>
+<td>nom de fichier ou URL</td>
+</tr>
+<tr class="odd">
+<td><code>text</code></td>
+<td>le mot affiché dans le menu pour ce lien (sinon : le titre de la
+page)</td>
+<td>texte</td>
+</tr>
+<tr class="even">
+<td><code>page-footer</code> →
+<code>left</code>/<code>center</code>/<code>right</code></td>
+<td>texte en bas de chaque page</td>
+<td>texte</td>
+</tr>
+<tr class="odd">
+<td><code>format</code> → <code>html</code> → <code>theme</code></td>
+<td>l’apparence du site (couleurs, polices) : un des 25 thèmes
+Bootswatch, ex. <code>cosmo</code>, <code>flatly</code>,
+<code>darkly</code></td>
+<td>un nom de thème</td>
+</tr>
+<tr class="even">
+<td><code>execute</code> → <code>freeze</code></td>
+<td><code>auto</code> : ne relance le code R d’une page que si son
+<code>.qmd</code> a changé (ci-dessous)</td>
+<td><code>auto</code>, <code>true</code>, <code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p>Un élément de menu peut s’écrire court (<code>- coral.qmd</code>, le
+texte est alors le titre de la page) ou long (<code>- href:</code> +
+<code>text:</code>).</p>
+</div>
 <pre><code>mpa-monitoring-site/
 ├── _quarto.yml           &lt;- settings of the whole site
 ├── index.qmd             &lt;- home page (index = the first page)
@@ -882,7 +1210,8 @@ Pages</span></h3>
 <li>Render the site into <code>docs/</code> and create an empty file
 <code>docs/.nojekyll</code> once
 (<code>file.create("docs/.nojekyll")</code>) — it tells GitHub to serve
-the files as they are.</li>
+the files as they are. <code>file.create(path)</code> creates an empty
+file (it returns <code>TRUE</code> if it worked).</li>
 <li>Commit <strong>everything</strong> (sources, <code>_freeze/</code>,
 <code>docs/</code>) and push (Session A2).</li>
 <li>On GitHub: <em>Settings → Pages → Build and deployment → Deploy from
@@ -903,7 +1232,8 @@ plan).</p>
 <li>Produisez le site dans <code>docs/</code> et créez une fois un
 fichier vide <code>docs/.nojekyll</code>
 (<code>file.create("docs/.nojekyll")</code>) — il dit à GitHub de servir
-les fichiers tels quels.</li>
+les fichiers tels quels. <code>file.create(chemin)</code> crée un
+fichier vide (il renvoie <code>TRUE</code> si cela a marché).</li>
 <li>Validez <strong>tout</strong> (sources, <code>_freeze/</code>,
 <code>docs/</code>) et poussez (séance A2).</li>
 <li>Sur GitHub : <em>Settings → Pages → Build and deployment → Deploy
@@ -959,6 +1289,96 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb5-1"><a href="
 <span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> public</span></span>
 <span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="at">  </span><span class="fu">rules</span><span class="kw">:</span></span>
 <span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">if</span><span class="kw">:</span><span class="at"> $CI_COMMIT_BRANCH == &quot;main&quot;</span></span></code></pre></div>
+<div class="en">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pages</code></td>
+<td>name of the job; GitLab publishes a site only from a job called
+<strong><code>pages</code></strong></td>
+</tr>
+<tr class="even">
+<td><code>stage: deploy</code></td>
+<td>the step of the pipeline in which the job runs (<code>deploy</code>
+= publication)</td>
+</tr>
+<tr class="odd">
+<td><code>script</code></td>
+<td>the commands run by GitLab on its own computer, one per line:
+<code>mkdir -p public</code> creates the folder,
+<code>cp -r docs/* public/</code> copies the site in it</td>
+</tr>
+<tr class="even">
+<td><code>artifacts</code> → <code>paths</code></td>
+<td>the files to <strong>keep</strong> when the job ends;
+<code>public</code> is the folder GitLab Pages publishes</td>
+</tr>
+<tr class="odd">
+<td><code>rules</code> → <code>if</code></td>
+<td>when the job runs: here only when the commit is on the
+<code>main</code> branch (<code>$CI_COMMIT_BRANCH</code> is a variable
+filled by GitLab)</td>
+</tr>
+</tbody>
+</table>
+<p>You see each run in <em>Build → Pipelines</em> (green = published,
+red = click to read the error).</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Clé</th>
+<th>Ce qu’elle fait</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pages</code></td>
+<td>nom de la tâche ; GitLab ne publie un site qu’à partir d’une tâche
+appelée <strong><code>pages</code></strong></td>
+</tr>
+<tr class="even">
+<td><code>stage: deploy</code></td>
+<td>l’étape du pipeline où la tâche s’exécute (<code>deploy</code> =
+publication)</td>
+</tr>
+<tr class="odd">
+<td><code>script</code></td>
+<td>les commandes exécutées par GitLab sur son propre ordinateur, une
+par ligne : <code>mkdir -p public</code> crée le dossier,
+<code>cp -r docs/* public/</code> y copie le site</td>
+</tr>
+<tr class="even">
+<td><code>artifacts</code> → <code>paths</code></td>
+<td>les fichiers à <strong>garder</strong> à la fin de la tâche ;
+<code>public</code> est le dossier que GitLab Pages publie</td>
+</tr>
+<tr class="odd">
+<td><code>rules</code> → <code>if</code></td>
+<td>quand la tâche s’exécute : ici seulement quand le commit est sur la
+branche <code>main</code> (<code>$CI_COMMIT_BRANCH</code> est une
+variable remplie par GitLab)</td>
+</tr>
+</tbody>
+</table>
+<p>Chaque exécution est visible dans <em>Build → Pipelines</em> (vert =
+publié, rouge = cliquez pour lire l’erreur).</p>
+</div>
 </div>
 <div id="quarto-pubquarto-pub" class="section level3">
 <h3><span class="en">Quarto Pub</span><span class="fr">Quarto
@@ -1061,7 +1481,7 @@ n’a pas été validé.</p>
 </div>
 </div>
 <div id="quiz-a09" class="quiz" data-quiz-id="a09"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiM2EuIE51bWJlciBvZiAucW1kIHBhZ2VzIGluIHRoZSB3ZWJzaXRlIHRlbXBsYXRlPyIsImZyIjoiM2EuIE5vbWJyZSBkZSBwYWdlcyAucW1kIGRhbnMgbGUgbW9kw6hsZSBkZSBzaXRlID8iLCJhbnN3ZXIiOjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjNiLiBOdW1iZXIgb2Ygb3V0cHV0IGZvcm1hdHMgaW4gdGhlIFlBTUwgb2YgbWFuZ3JvdmVfcmVwb3J0LnFtZD8iLCJmciI6IjNiLiBOb21icmUgZGUgZm9ybWF0cyBkZSBzb3J0aWUgZGFucyBsZSBZQU1MIGRlIG1hbmdyb3ZlX3JlcG9ydC5xbWQgPyIsImFuc3dlciI6NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiMS4gV2hpY2ggUERGIGVuZ2luZSBuZWVkcyBub3RoaW5nIG1vcmUgdGhhbiBRdWFydG8/IiwiZnIiOiIxLiBRdWVsIG1vdGV1ciBQREYgbmUgZGVtYW5kZSByaWVuIGRlIHBsdXMgcXVlIFF1YXJ0byA/Iiwib3B0aW9uc19lbiI6WyJMYVRlWCIsIlR5cHN0IiwiV29yZCIsInBhbmRvYy1jaXRlcHJvYyJdLCJvcHRpb25zX2ZyIjpbIkxhVGVYIiwiVHlwc3QiLCJXb3JkIiwicGFuZG9jLWNpdGVwcm9jIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI0LiBZb3UgbmVlZCBhIExpc3Qgb2YgRmlndXJlcyBhbmQgYSBMaXN0IG9mIFRhYmxlcyBpbiBhIFBERi4gWW91IHVzZToiLCJmciI6IjQuIElsIHZvdXMgZmF1dCB1bmUgbGlzdGUgZGVzIGZpZ3VyZXMgZXQgdW5lIGxpc3RlIGRlcyB0YWJsZWF1eCBkYW5zIHVuIFBERi4gVm91cyB1dGlsaXNleiA6Iiwib3B0aW9uc19lbiI6WyJmb3JtYXQ6IHR5cHN0IHdpdGggdG9jOiB0cnVlIiwiZm9ybWF0OiBwZGYgKExhVGVYKSB3aXRoIGxvZjogdHJ1ZSBhbmQgbG90OiB0cnVlIiwiZm9ybWF0OiBodG1sIiwie3s8IHBhZ2VicmVhayA+fX0iXSwib3B0aW9uc19mciI6WyJmb3JtYXQ6IHR5cHN0IGF2ZWMgdG9jOiB0cnVlIiwiZm9ybWF0OiBwZGYgKExhVGVYKSBhdmVjIGxvZjogdHJ1ZSBldCBsb3Q6IHRydWUiLCJmb3JtYXQ6IGh0bWwiLCJ7ezwgcGFnZWJyZWFrID59fSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gZmlnLXdpZHRoOiA2IG1lYW5zIGEgZmlndXJlOiIsImZyIjoiNS4gZmlnLXdpZHRoOiA2IHNpZ25pZmllIHVuZSBmaWd1cmUgOiIsIm9wdGlvbnNfZW4iOlsiNiBjbSB3aWRlIiwiNiBpbmNoZXMgKOKJiCAxNSBjbSkgd2lkZSIsIjYgJSBvZiB0aGUgcGFnZSIsIndpdGggNiBwYW5lbHMiXSwib3B0aW9uc19mciI6WyJkZSA2IGNtIGRlIGxhcmdlIiwiZGUgNiBwb3VjZXMgKOKJiCAxNSBjbSkgZGUgbGFyZ2UiLCJkZSA2ICUgZGUgbGEgcGFnZSIsImF2ZWMgNiBwYW5uZWF1eCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gT24gYSBmcmVlIEdpdEh1YiBhY2NvdW50LCBHaXRIdWIgUGFnZXMgY2FuIHB1Ymxpc2g6IiwiZnIiOiI2LiBBdmVjIHVuIGNvbXB0ZSBHaXRIdWIgZ3JhdHVpdCwgR2l0SHViIFBhZ2VzIHBldXQgcHVibGllciA6Iiwib3B0aW9uc19lbiI6WyJvbmx5IHB1YmxpYyByZXBvc2l0b3JpZXMiLCJwcml2YXRlIHJlcG9zaXRvcmllcyB0b28iLCJvbmx5IHJlcG9zaXRvcmllcyB3aXRoIFF1YXJ0byIsIm5vdGhpbmciXSwib3B0aW9uc19mciI6WyJzZXVsZW1lbnQgZGVzIGTDqXDDtHRzIHB1YmxpY3MiLCJhdXNzaSBkZXMgZMOpcMO0dHMgcHJpdsOpcyIsInNldWxlbWVudCBkZXMgZMOpcMO0dHMgYXZlYyBRdWFydG8iLCJyaWVuIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBXaGF0IGRvZXMgZnJlZXplOiBhdXRvIGRvIGluIGEgUXVhcnRvIHdlYnNpdGU/IiwiZnIiOiI3LiBRdWUgZmFpdCBmcmVlemU6IGF1dG8gZGFucyB1biBzaXRlIFF1YXJ0byA/Iiwib3B0aW9uc19lbiI6WyJCbG9ja3MgdGhlIHNpdGUgZnJvbSBiZWluZyBlZGl0ZWQiLCJSZS1ydW5zIHRoZSBSIGNvZGUgb2YgYSBwYWdlIG9ubHkgd2hlbiB0aGF0IHBhZ2UgY2hhbmdlZCIsIkZyZWV6ZXMgcGFja2FnZSB2ZXJzaW9ucyBsaWtlIHJlbnYiLCJQcmV2ZW50cyBwdWJsaXNoaW5nIl0sIm9wdGlvbnNfZnIiOlsiRW1ww6pjaGUgZGUgbW9kaWZpZXIgbGUgc2l0ZSIsIk5lIHJlbGFuY2UgbGUgY29kZSBSIGQndW5lIHBhZ2UgcXVlIHNpIGNldHRlIHBhZ2UgYSBjaGFuZ8OpIiwiRmlnZSBsZXMgdmVyc2lvbnMgZGVzIHBhY2thZ2VzIGNvbW1lIHJlbnYiLCJFbXDDqmNoZSBsYSBwdWJsaWNhdGlvbiJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gWW91IGRlbGV0ZWQgYSBmaWxlIHdpdGggcGhvbmUgbnVtYmVycyBhbmQgcHVzaGVkIGFnYWluIHRvIGEgcHVibGljIHJlcG9zaXRvcnkuIFRoZSBmaWxlOiIsImZyIjoiOC4gVm91cyBhdmV6IHN1cHByaW3DqSB1biBmaWNoaWVyIGNvbnRlbmFudCBkZXMgdMOpbMOpcGhvbmVzIGV0IHBvdXNzw6kgw6Agbm91dmVhdSBzdXIgdW4gZMOpcMO0dCBwdWJsaWMuIExlIGZpY2hpZXIgOiIsIm9wdGlvbnNfZW4iOlsiaXMgZ29uZSBmb3IgZ29vZCIsImlzIHN0aWxsIHZpc2libGUgaW4gdGhlIGhpc3Rvcnkgb2Ygb2xkIGNvbW1pdHMiLCJpcyBoaWRkZW4gYXV0b21hdGljYWxseSBieSBHaXRIdWIiLCJpcyBtb3ZlZCB0byBhIHByaXZhdGUgYnJhbmNoIl0sIm9wdGlvbnNfZnIiOlsiYSBkaXNwYXJ1IHBvdXIgZGUgYm9uIiwicmVzdGUgdmlzaWJsZSBkYW5zIGwnaGlzdG9yaXF1ZSBkZXMgYW5jaWVucyBjb21taXRzIiwiZXN0IGNhY2jDqSBhdXRvbWF0aXF1ZW1lbnQgcGFyIEdpdEh1YiIsImVzdCBkw6lwbGFjw6kgc3VyIHVuZSBicmFuY2hlIHByaXbDqWUiXSwiYW5zd2VyIjoxfV0=">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiM2EuIE51bWJlciBvZiAucW1kIHBhZ2VzIGluIHRoZSB3ZWJzaXRlIHRlbXBsYXRlPyIsImZyIjoiM2EuIE5vbWJyZSBkZSBwYWdlcyAucW1kIGRhbnMgbGUgbW9kw6hsZSBkZSBzaXRlID8iLCJhbnN3ZXIiOjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjNiLiBOdW1iZXIgb2Ygb3V0cHV0IGZvcm1hdHMgaW4gdGhlIFlBTUwgb2YgbWFuZ3JvdmVfcmVwb3J0LnFtZD8iLCJmciI6IjNiLiBOb21icmUgZGUgZm9ybWF0cyBkZSBzb3J0aWUgZGFucyBsZSBZQU1MIGRlIG1hbmdyb3ZlX3JlcG9ydC5xbWQgPyIsImFuc3dlciI6NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiMS4gV2hpY2ggUERGIGVuZ2luZSBuZWVkcyBub3RoaW5nIG1vcmUgdGhhbiBRdWFydG8/IiwiZnIiOiIxLiBRdWVsIG1vdGV1ciBQREYgbmUgZGVtYW5kZSByaWVuIGRlIHBsdXMgcXVlIFF1YXJ0byA/Iiwib3B0aW9uc19lbiI6WyJMYVRlWCIsIlR5cHN0IiwiV29yZCIsInBhbmRvYy1jaXRlcHJvYyJdLCJvcHRpb25zX2ZyIjpbIkxhVGVYIiwiVHlwc3QiLCJXb3JkIiwicGFuZG9jLWNpdGVwcm9jIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI0LiBZb3UgbmVlZCBhIExpc3Qgb2YgRmlndXJlcyBhbmQgYSBMaXN0IG9mIFRhYmxlcyBpbiBhIFBERi4gWW91IHVzZToiLCJmciI6IjQuIElsIHZvdXMgZmF1dCB1bmUgbGlzdGUgZGVzIGZpZ3VyZXMgZXQgdW5lIGxpc3RlIGRlcyB0YWJsZWF1eCBkYW5zIHVuIFBERi4gVm91cyB1dGlsaXNleiA6Iiwib3B0aW9uc19lbiI6WyJmb3JtYXQ6IHR5cHN0IHdpdGggdG9jOiB0cnVlIiwiZm9ybWF0OiBwZGYgKExhVGVYKSB3aXRoIGxvZjogdHJ1ZSBhbmQgbG90OiB0cnVlIiwiZm9ybWF0OiBodG1sIiwie3s8IHBhZ2VicmVhayA+fX0iXSwib3B0aW9uc19mciI6WyJmb3JtYXQ6IHR5cHN0IGF2ZWMgdG9jOiB0cnVlIiwiZm9ybWF0OiBwZGYgKExhVGVYKSBhdmVjIGxvZjogdHJ1ZSBldCBsb3Q6IHRydWUiLCJmb3JtYXQ6IGh0bWwiLCJ7ezwgcGFnZWJyZWFrID59fSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gZmlnLXdpZHRoOiA2IG1lYW5zIGEgZmlndXJlOiIsImZyIjoiNS4gZmlnLXdpZHRoOiA2IHNpZ25pZmllIHVuZSBmaWd1cmUgOiIsIm9wdGlvbnNfZW4iOlsiNiBjbSB3aWRlIiwiNiBpbmNoZXMgKOKJiCAxNSBjbSkgd2lkZSIsIjYgJSBvZiB0aGUgcGFnZSIsIndpdGggNiBwYW5lbHMiXSwib3B0aW9uc19mciI6WyJkZSA2IGNtIGRlIGxhcmdlIiwiZGUgNiBwb3VjZXMgKOKJiCAxNSBjbSkgZGUgbGFyZ2UiLCJkZSA2ICUgZGUgbGEgcGFnZSIsImF2ZWMgNiBwYW5uZWF1eCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gT24gYSBmcmVlIEdpdEh1YiBhY2NvdW50LCBHaXRIdWIgUGFnZXMgY2FuIHB1Ymxpc2g6IiwiZnIiOiI2LiBBdmVjIHVuIGNvbXB0ZSBHaXRIdWIgZ3JhdHVpdCwgR2l0SHViIFBhZ2VzIHBldXQgcHVibGllciA6Iiwib3B0aW9uc19lbiI6WyJvbmx5IHB1YmxpYyByZXBvc2l0b3JpZXMiLCJwcml2YXRlIHJlcG9zaXRvcmllcyB0b28iLCJvbmx5IHJlcG9zaXRvcmllcyB3aXRoIFF1YXJ0byIsIm5vdGhpbmciXSwib3B0aW9uc19mciI6WyJzZXVsZW1lbnQgZGVzIGTDqXDDtHRzIHB1YmxpY3MiLCJhdXNzaSBkZXMgZMOpcMO0dHMgcHJpdsOpcyIsInNldWxlbWVudCBkZXMgZMOpcMO0dHMgYXZlYyBRdWFydG8iLCJyaWVuIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBXaGF0IGRvZXMgZnJlZXplOiBhdXRvIGRvIGluIGEgUXVhcnRvIHdlYnNpdGU/IiwiZnIiOiI3LiBRdWUgZmFpdCBmcmVlemU6IGF1dG8gZGFucyB1biBzaXRlIFF1YXJ0byA/Iiwib3B0aW9uc19lbiI6WyJCbG9ja3MgdGhlIHNpdGUgZnJvbSBiZWluZyBlZGl0ZWQiLCJSZS1ydW5zIHRoZSBSIGNvZGUgb2YgYSBwYWdlIG9ubHkgd2hlbiB0aGF0IHBhZ2UgY2hhbmdlZCIsIkZyZWV6ZXMgcGFja2FnZSB2ZXJzaW9ucyBsaWtlIHJlbnYiLCJQcmV2ZW50cyBwdWJsaXNoaW5nIl0sIm9wdGlvbnNfZnIiOlsiRW1ww6pjaGUgZGUgbW9kaWZpZXIgbGUgc2l0ZSIsIk5lIHJlbGFuY2UgbGUgY29kZSBSIGQndW5lIHBhZ2UgcXVlIHNpIGNldHRlIHBhZ2UgYSBjaGFuZ8OpIiwiRmlnZSBsZXMgdmVyc2lvbnMgZGVzIHBhY2thZ2VzIGNvbW1lIHJlbnYiLCJFbXDDqmNoZSBsYSBwdWJsaWNhdGlvbiJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gWW91IGRlbGV0ZWQgYSBmaWxlIHdpdGggcGhvbmUgbnVtYmVycyBhbmQgcHVzaGVkIGFnYWluIHRvIGEgcHVibGljIHJlcG9zaXRvcnkuIFRoZSBmaWxlOiIsImZyIjoiOC4gVm91cyBhdmV6IHN1cHByaW3DqSB1biBmaWNoaWVyIGNvbnRlbmFudCBkZXMgdMOpbMOpcGhvbmVzIGV0IHBvdXNzw6kgw6Agbm91dmVhdSBzdXIgdW4gZMOpcMO0dCBwdWJsaWMuIExlIGZpY2hpZXIgOiIsIm9wdGlvbnNfZW4iOlsiaXMgZ29uZSBmb3IgZ29vZCIsImlzIHN0aWxsIHZpc2libGUgaW4gdGhlIGhpc3Rvcnkgb2Ygb2xkIGNvbW1pdHMiLCJpcyBoaWRkZW4gYXV0b21hdGljYWxseSBieSBHaXRIdWIiLCJpcyBtb3ZlZCB0byBhIHByaXZhdGUgYnJhbmNoIl0sIm9wdGlvbnNfZnIiOlsiYSBkaXNwYXJ1IHBvdXIgZGUgYm9uIiwicmVzdGUgdmlzaWJsZSBkYW5zIGwnaGlzdG9yaXF1ZSBkZXMgYW5jaWVucyBjb21taXRzIiwiZXN0IGNhY2jDqSBhdXRvbWF0aXF1ZW1lbnQgcGFyIEdpdEh1YiIsImVzdCBkw6lwbGFjw6kgc3VyIHVuZSBicmFuY2hlIHByaXbDqWUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIEluIF9xdWFydG8ueW1sLCB1bmRlciBuYXZiYXI6IGxlZnQ6LCB3aGF0IGRvZXMgaHJlZjogY29yYWwucW1kIGdpdmU/IiwiZnIiOiI5LiBEYW5zIF9xdWFydG8ueW1sLCBzb3VzIG5hdmJhcjogbGVmdDosIHF1ZSBkb25uZSBocmVmOiBjb3JhbC5xbWQgPyIsIm9wdGlvbnNfZW4iOlsiVGhlIHBhZ2UgdGhlIG1lbnUgaXRlbSBsaW5rcyB0byIsIlRoZSB0aXRsZSBvZiB0aGUgc2l0ZSIsIlRoZSBmb2xkZXIgb2YgdGhlIHNpdGUiLCJUaGUgY29sb3VyIG9mIHRoZSBtZW51Il0sIm9wdGlvbnNfZnIiOlsiTGEgcGFnZSB2ZXJzIGxhcXVlbGxlIHBvaW50ZSBsJ8OpbMOpbWVudCBkdSBtZW51IiwiTGUgdGl0cmUgZHUgc2l0ZSIsIkxlIGRvc3NpZXIgZHUgc2l0ZSIsIkxhIGNvdWxldXIgZHUgbWVudSJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiMTAuIFRvIHNldCAyLjUgY20gbWFyZ2lucyBpbiBhIExhVGVYIFBERiAoZm9ybWF0OiBwZGYpIHlvdSB3cml0ZToiLCJmciI6IjEwLiBQb3VyIGRlcyBtYXJnZXMgZGUgMiw1IGNtIGRhbnMgdW4gUERGIExhVGVYIChmb3JtYXQ6IHBkZikgb24gw6ljcml0IDoiLCJvcHRpb25zX2VuIjpbImdlb21ldHJ5OiBtYXJnaW49Mi41Y20iLCJtYXJnaW46IHg6IDIuNWNtIiwicGFwZXJzaXplOiAyLjVjbSIsImZvbnRzaXplOiAyLjVjbSJdLCJvcHRpb25zX2ZyIjpbImdlb21ldHJ5OiBtYXJnaW49Mi41Y20iLCJtYXJnaW46IHg6IDIuNWNtIiwicGFwZXJzaXplOiAyLjVjbSIsImZvbnRzaXplOiAyLjVjbSJdLCJhbnN3ZXIiOjB9XQ==">
 
 </div>
 <div class="solution" data-quiz="a09">

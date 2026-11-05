@@ -68,6 +68,14 @@ class(zones)
 st_geometry_type(zones, by_geometry = FALSE)
 ```
 
+```{r, echo=FALSE}
+fa(c("`st_layers(dsn)`", "lists the layers of a GeoPackage (name, geometry type, number of features)", "liste les couches d'un GeoPackage (nom, type de géométrie, nombre d'entités)", "path of the file (`dsn` = *data source name*)", "chemin du fichier (`dsn` = *data source name*)"),
+   c("`st_read(dsn, layer, quiet)`", "reads one layer as an **sf** object (a data frame + a geometry column)", "lit une couche sous forme d'objet **sf** (un data frame + une colonne de géométrie)", "", ""),
+   c("&nbsp;&nbsp;`layer`", "which layer of the file (needed when there are several)", "quelle couche du fichier (nécessaire quand il y en a plusieurs)", "the layer name in quotes", "le nom de la couche entre guillemets"),
+   c("&nbsp;&nbsp;`quiet`", "`TRUE` hides the reading summary", "`TRUE` cache le résumé de lecture", "`TRUE` / `FALSE` (default)", "`TRUE` / `FALSE` (défaut)"),
+   c("`st_geometry_type(x, by_geometry)`", "POINT, LINESTRING, POLYGON, MULTIPOLYGON…; `by_geometry = FALSE` = one answer for the whole layer", "POINT, LINESTRING, POLYGON, MULTIPOLYGON… ; `by_geometry = FALSE` = une seule réponse pour toute la couche", "", ""))
+```
+
 ```{r}
 land  <- st_read(gpkg, layer = "land", quiet = TRUE)
 sites <- st_read(gpkg, layer = "reef_sites", quiet = TRUE)
@@ -75,6 +83,13 @@ plot(st_geometry(land), col = "#efe6d2", border = "grey60", axes = TRUE,
      xlim = st_bbox(zones)[c(1, 3)], ylim = st_bbox(zones)[c(2, 4)])
 plot(st_geometry(zones), col = ifelse(zones$zone == "No-take", "#1b7f8c55", "#d9694a33"), add = TRUE)
 plot(st_geometry(sites), pch = 19, cex = 0.7, add = TRUE)
+```
+
+```{r, echo=FALSE}
+fa(c("`st_geometry(x)`", "only the geometry column (otherwise `plot()` draws one map per attribute)", "seulement la colonne de géométrie (sinon `plot()` dessine une carte par attribut)", "an sf object", "un objet sf"),
+   c("`st_bbox(x)`", "the bounding box: `xmin`, `ymin`, `xmax`, `ymax`; `[c(1, 3)]` = the x limits", "le rectangle englobant : `xmin`, `ymin`, `xmax`, `ymax` ; `[c(1, 3)]` = les limites en x", "an sf object", "un objet sf"),
+   c("`plot(..., col, border, axes, add)`", "base R plot (Beginner Session 7); `axes = TRUE` draws the coordinates; `add = TRUE` draws **on** the previous map", "graphique de R de base (séance 7 du niveau débutant) ; `axes = TRUE` dessine les coordonnées ; `add = TRUE` dessine **sur** la carte précédente", "", ""),
+   c("`\"#1b7f8c55\"`", "a hex colour with 2 more characters = transparency (`00` invisible, `ff` opaque)", "une couleur hexadécimale avec 2 caractères de plus = transparence (`00` invisible, `ff` opaque)", "", ""))
 ```
 
 ::: en
@@ -113,6 +128,13 @@ plots <- st_as_sf(plots_csv, coords = c("lon", "lat"), crs = 4326)   # 4326 = WG
 plots
 ```
 
+```{r, echo=FALSE}
+fa(c("`st_read(\"…/villages.shp\")`", "a shapefile is read through its `.shp`; the `.dbf`, `.shx`, `.prj` must be in the same folder", "un shapefile se lit par son `.shp` ; les `.dbf`, `.shx`, `.prj` doivent être dans le même dossier", "", ""),
+   c("`st_as_sf(x, coords, crs)`", "table with coordinate columns → sf points (Intermediate I11)", "tableau avec colonnes de coordonnées → points sf (intermédiaire I11)", "", ""),
+   c("&nbsp;&nbsp;`coords`", "x then y: **longitude first**", "x puis y : **longitude d'abord**", "`c(\"lon\", \"lat\")`", "`c(\"lon\", \"lat\")`"),
+   c("&nbsp;&nbsp;`crs`", "the coordinate system **in which the numbers are written** (it does not convert)", "le système de coordonnées **dans lequel les nombres sont écrits** (il ne convertit pas)", "an EPSG code, e.g. 4326", "un code EPSG, ex. 4326"))
+```
+
 ## [Coordinate reference systems]{.en}[Systèmes de coordonnées de référence]{.fr} {#crs}
 
 ::: en
@@ -141,6 +163,19 @@ plots_utm    <- st_transform(plots, st_crs(zones))
 st_coordinates(villages_utm)[1:2, ]                      # now in metres (Easting, Northing)
 ```
 
+```{r, echo=FALSE}
+fa(c("`st_crs(x)`", "the CRS of a layer; `$epsg` = its EPSG code, `$units` = its unit", "le SCR d'une couche ; `$epsg` = son code EPSG, `$units` = son unité", "an sf object", "un objet sf"),
+   c("`st_transform(x, crs)`", "**converts** the coordinates into another CRS", "**convertit** les coordonnées dans un autre SCR", "a layer; an EPSG code or `st_crs(other_layer)`", "une couche ; un code EPSG ou `st_crs(autre_couche)`"),
+   c("`st_coordinates(x)`", "a matrix of the coordinates (`X`, `Y`)", "une matrice des coordonnées (`X`, `Y`)", "an sf object", "un objet sf"))
+```
+
+::: en
+Two arguments with the same name, two different jobs: `crs` in `st_as_sf()` **declares** the system of the numbers you have; `crs` in `st_transform()` gives the system you **want**.
+:::
+::: fr
+Deux arguments du même nom, deux rôles différents : `crs` dans `st_as_sf()` **déclare** le système des nombres que vous avez ; `crs` dans `st_transform()` donne le système que vous **voulez**.
+:::
+
 ::: {.callout .warning}
 ::: en
 `st_crs()` returning `NA` means the CRS is **unknown** (e.g. a shapefile without its `.prj`). Do not guess with `st_transform()`: **set** the CRS you know is right with `st_set_crs(x, 4326)` (it changes the label, not the numbers), then transform if needed. A classic error is mixing them up: coordinates in degrees declared as metres put all your points a few metres from the origin of the projection — far from Madagascar.
@@ -161,6 +196,11 @@ zones_table <- st_drop_geometry(zones)                          # back to a plai
 class(zones_table)
 ```
 
+```{r, echo=FALSE}
+fa(c("`filter()`, `select()`, `group_by()`, `summarise()`", "dplyr verbs (Beginner Session 8) work on sf objects; the geometry is kept, and `summarise()` merges it per group", "les verbes dplyr (séance 8 du niveau débutant) marchent sur les objets sf ; la géométrie est gardée, et `summarise()` la fusionne par groupe", "", ""),
+   c("`st_drop_geometry(x)`", "removes the geometry: a plain data frame (faster for tables)", "retire la géométrie : un simple data frame (plus rapide pour les tableaux)", "an sf object", "un objet sf"))
+```
+
 ::: en
 To add field results to the sites, join a normal table by its key — the spatial object must come **first** to stay spatial (Intermediate, Session I3):
 :::
@@ -176,6 +216,10 @@ sites25 <- left_join(sites, cover25, by = "site_id")
 head(sites25, 3)
 ```
 
+```{r, echo=FALSE}
+fa(c("`left_join(sites, cover25, by)`", "attribute join (Intermediate I3): the sf object must be **first** to stay spatial", "jointure attributaire (intermédiaire I3) : l'objet sf doit être **en premier** pour rester spatial", "", ""))
+```
+
 ## [Measuring: areas and distances]{.en}[Mesurer : surfaces et distances]{.fr} {#measure}
 
 ```{r}
@@ -185,6 +229,11 @@ zones$area_km2 <- as.numeric(st_area(zones)) / 1e6    # plain number in km^2
 zones %>% st_drop_geometry() %>% group_by(zone) %>% summarise(total_km2 = round(sum(area_km2), 1))
 ```
 
+```{r, echo=FALSE}
+fa(c("`st_area(x)`", "area of each polygon, **with its unit** (`[m^2]`) taken from the CRS", "surface de chaque polygone, **avec son unité** (`[m^2]`) tirée du SCR", "polygons", "des polygones"),
+   c("`as.numeric(x)`", "removes the unit: a plain number you can divide (`/ 1e6` → km²)", "retire l'unité : un simple nombre que l'on peut diviser (`/ 1e6` → km²)", "", ""))
+```
+
 ```{r}
 d <- st_distance(sites, villages_utm)     # matrix: 18 sites x 12 villages, in metres
 dim(d)
@@ -192,6 +241,11 @@ sites$nearest_village   <- villages_utm$village[apply(d, 1, which.min)]
 sites$dist_village_km   <- round(apply(d, 1, min) / 1000, 2)
 sites$dist_land_km      <- round(as.numeric(st_distance(sites, land)) / 1000, 2)   # distance to the coast
 head(st_drop_geometry(sites)[, c("site_id", "nearest_village", "dist_village_km", "dist_land_km")], 4)
+```
+
+```{r, echo=FALSE}
+fa(c("`st_distance(x, y)`", "matrix of the distances between every feature of `x` (rows) and every feature of `y` (columns), in the unit of the CRS", "matrice des distances entre chaque entité de `x` (lignes) et chaque entité de `y` (colonnes), dans l'unité du SCR", "two layers in the same CRS", "deux couches dans le même SCR"),
+   c("`apply(d, 1, which.min)`", "for each row (`1`, Beginner Session 4): the column of the smallest distance = the nearest village", "pour chaque ligne (`1`, séance 4 du niveau débutant) : la colonne de la plus petite distance = le village le plus proche", "", ""))
 ```
 
 ::: {.callout .tip}
@@ -239,6 +293,12 @@ plot(no_take, col = "#1b7f8c88", add = TRUE)
 plot(st_geometry(villages_utm), pch = 15, col = "black", add = TRUE)
 ```
 
+```{r, echo=FALSE}
+fa(c("`st_union(x)`", "merges all features into one geometry", "fusionne toutes les entités en une seule géométrie", "a layer", "une couche"),
+   c("`st_buffer(x, dist)`", "zone of width `dist` around the features, in the unit of the CRS (metres in UTM; never in degrees)", "zone de largeur `dist` autour des entités, dans l'unité du SCR (mètres en UTM ; jamais en degrés)", "a layer; a number", "une couche ; un nombre"),
+   c("`st_intersection(x, y)`", "the parts of `x` that are inside `y`", "les parties de `x` qui sont dans `y`", "two layers in the same CRS", "deux couches dans le même SCR"))
+```
+
 ## [Spatial questions: predicates and joins]{.en}[Questions spatiales : prédicats et jointures]{.fr} {#join}
 
 ::: en
@@ -265,6 +325,13 @@ zones$n_sites <- lengths(st_intersects(zones, sites))
 st_drop_geometry(zones)[, c("mpa", "zone", "n_sites")]
 ```
 
+```{r, echo=FALSE}
+fa(c("`st_intersects(x, y)`", "for each feature of `x`, the list of the features of `y` it touches", "pour chaque entité de `x`, la liste des entités de `y` qu'elle touche", "two layers", "deux couches"),
+   c("`lengths(list)`", "the length of each element of a list: here the number of features touched (`> 0` = touches at least one)", "la longueur de chaque élément d'une liste : ici le nombre d'entités touchées (`> 0` = en touche au moins une)", "a list", "une liste"),
+   c("`st_join(x, y, join = st_intersects)`", "spatial join: adds to `x` the attributes of the features of `y` at the same place", "jointure spatiale : ajoute à `x` les attributs des entités de `y` au même endroit", "two sf objects", "deux objets sf"),
+   c("`select(zones, mpa_poly = mpa)`", "`select()` can rename while selecting: `new = old`", "`select()` peut renommer en sélectionnant : `nouveau = ancien`", "", ""))
+```
+
 ::: {.callout .try}
 ::: en
 **Try it.** With `st_join(villages_utm, select(zones, mpa), join = st_is_within_distance, dist = 3000)`, find for each village the MPA that is less than 3 km away. Which village has **no** MPA within 3 km? Why can a village appear twice?
@@ -282,6 +349,13 @@ st_write(belt, here::here("data", "derived", "analysis.gpkg"), layer = "no_take_
 # for a colleague who only uses Excel: coordinates as columns
 out <- cbind(st_drop_geometry(sites25), st_coordinates(st_transform(sites25, 4326)))
 write.csv(out, here::here("outputs", "tables", "reef_sites_2025_lonlat.csv"), row.names = FALSE)
+```
+
+```{r, echo=FALSE}
+fa(c("`st_write(obj, dsn, layer, delete_dsn, append)`", "writes a layer; the format follows the extension (`.gpkg`, `.shp`, `.geojson`)", "écrit une couche ; le format suit l'extension (`.gpkg`, `.shp`, `.geojson`)", "", ""),
+   c("&nbsp;&nbsp;`delete_dsn`", "`TRUE` deletes the whole **file** before writing", "`TRUE` supprime tout le **fichier** avant d'écrire", "`TRUE` / `FALSE`", "`TRUE` / `FALSE`"),
+   c("&nbsp;&nbsp;`append`", "`FALSE` replaces the **layer** if it exists (other layers of the GeoPackage are kept); `TRUE` adds rows", "`FALSE` remplace la **couche** si elle existe (les autres couches du GeoPackage sont gardées) ; `TRUE` ajoute des lignes", "`TRUE` / `FALSE`", "`TRUE` / `FALSE`"),
+   c("`cbind(a, b)`", "puts the attribute table and the coordinates side by side (Beginner Session 4)", "met côte à côte la table attributaire et les coordonnées (séance 4 du niveau débutant)", "", ""))
 ```
 
 ::: en

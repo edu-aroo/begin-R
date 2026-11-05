@@ -115,6 +115,15 @@ tt <- t.test(sgr ~ season, data = seaweed)   # formula: numeric ~ group (2 level
 tt
 ```
 
+```{r, echo=FALSE}
+fa(c("&nbsp;&nbsp;`width`, `show.legend` (in `geom_boxplot()`)", "width of the boxes (0 to 1); `FALSE` hides the legend (useless here: the groups are already on the x axis)", "largeur des boîtes (0 à 1) ; `FALSE` cache la légende (inutile ici : les groupes sont déjà sur l'axe x)", "", ""),
+   c("`t.test(formula, data, paired, var.equal, conf.level)`", "Student / Welch *t*-test", "test *t* de Student / Welch", "", ""),
+   c("&nbsp;&nbsp;`formula`", "`numeric ~ group`, the group having exactly 2 values", "`numérique ~ groupe`, le groupe ayant exactement 2 valeurs", "column names", "noms de colonnes"),
+   c("&nbsp;&nbsp;`data`", "the data frame", "le data frame", "", ""),
+   c("&nbsp;&nbsp;`var.equal`", "`FALSE` (default) = Welch test, no need for equal variances; `TRUE` = classic Student test", "`FALSE` (défaut) = test de Welch, pas besoin de variances égales ; `TRUE` = test de Student classique", "`TRUE` / `FALSE`", "`TRUE` / `FALSE`"),
+   c("&nbsp;&nbsp;`conf.level`", "level of the confidence interval", "niveau de l'intervalle de confiance", "0.95 (default)", "0,95 (défaut)"))
+```
+
 ::: en
 How to read the output:
 
@@ -137,6 +146,11 @@ tt$estimate                    # the two means
 diff(rev(tt$estimate))         # dry - wet
 tt$conf.int                    # 95 % CI of the difference
 tt$p.value
+```
+
+```{r, echo=FALSE}
+fa(c("`tt$estimate`, `tt$conf.int`, `tt$p.value`, `tt$statistic`", "the elements of the list returned by a test: estimates, confidence interval, p-value, test statistic (`names(tt)` lists them)", "les éléments de la liste renvoyée par un test : estimations, intervalle de confiance, p-value, statistique du test (`names(tt)` les liste)", "", ""),
+   c("`rev(x)`, `diff(x)`", "reverses the order (Beginner Session 2); difference between consecutive values: `diff(c(a, b))` = b − a", "inverse l'ordre (séance 2 du niveau débutant) ; différence entre valeurs successives : `diff(c(a, b))` = b − a", "", ""))
 ```
 
 ::: {.callout .tip}
@@ -163,6 +177,10 @@ Le revenu est fortement asymétrique à droite (séance I9). Deux options valide
 ```{r}
 wilcox.test(monthly_income_mga ~ head_sex,
             data = hh)
+```
+
+```{r, echo=FALSE}
+fa(c("`wilcox.test(formula, data, paired)`", "Wilcoxon (Mann–Whitney) test: compares two groups on **ranks**, no normality needed; same arguments as `t.test()`", "test de Wilcoxon (Mann–Whitney) : compare deux groupes sur les **rangs**, sans hypothèse de normalité ; mêmes arguments que `t.test()`", "", ""))
 ```
 :::
 ::: {.col .pkg}
@@ -206,6 +224,11 @@ station_year
 t.test(station_year$y2025, station_year$y2024, paired = TRUE)
 ```
 
+```{r, echo=FALSE}
+fa(c("&nbsp;&nbsp;`names_prefix` (in `pivot_wider()`)", "text added before the new column names: `2024` → `y2024` (a name starting with a digit is awkward with `$`)", "texte ajouté devant les nouveaux noms de colonnes : `2024` → `y2024` (un nom qui commence par un chiffre est malcommode avec `$`)", "text", "texte"),
+   c("`t.test(x, y, paired = TRUE)`", "second way to call `t.test()`: two vectors instead of a formula; `paired = TRUE` compares the **differences** row by row (same station each year)", "deuxième façon d'appeler `t.test()` : deux vecteurs au lieu d'une formule ; `paired = TRUE` compare les **différences** ligne par ligne (même station chaque année)", "two numeric vectors of the same length, in the same order", "deux vecteurs numériques de même longueur, dans le même ordre"))
+```
+
 ::: en
 The rows must be **in the same order** for both vectors (here guaranteed by the wide table: one row = one station). With only 10 differences, check their shape (`hist(station_year$y2025 - station_year$y2024)`); if in doubt, use `wilcox.test(..., paired = TRUE)`.
 
@@ -247,6 +270,12 @@ fisher.test(tab)      # exact test: use it when an expected count is < 5
 prop.test(tab)        # same test, presented as two proportions with a CI of the difference
 ```
 
+```{r, echo=FALSE}
+fa(c("`chisq.test(x)`", "chi-square test of independence between the rows and columns of a table; `$expected` = counts expected if independent", "test du khi-deux d'indépendance entre lignes et colonnes d'un tableau ; `$expected` = effectifs attendus en cas d'indépendance", "a `table()` of counts", "une `table()` d'effectifs"),
+   c("`fisher.test(x)`", "Fisher's exact test, for small expected counts", "test exact de Fisher, pour de petits effectifs attendus", "a `table()`", "une `table()`"),
+   c("`prop.test(x)`", "compares proportions; with a 2 × 2 table: the proportion of the first column in each row", "compare des proportions ; avec un tableau 2 × 2 : la proportion de la première colonne dans chaque ligne", "a `table()`, or `x` = successes and `n` = totals", "une `table()`, ou `x` = succès et `n` = totaux"))
+```
+
 ::: en
 All three agree (p ≈ 0.10–0.11): **no convincing evidence** that technique depends on sex. But look at the confidence interval of `prop.test()`: the difference could be anywhere from about −3 to +40 percentage points. With only 96 farmers we simply **cannot tell** — this is not proof that women and men farm alike. Report: "53 % of women and 34 % of men used long-lines (χ² = 2.57, df = 1, p = 0.11; n = 96)".
 
@@ -284,6 +313,10 @@ ggplot(wq, aes(temp_C, DO_mgL)) + geom_point(alpha = 0.4, colour = "#1b7f8c", na
 cor.test(wq$temp_C, wq$DO_mgL)          # Pearson by default; NA pairs are dropped
 ```
 
+```{r, echo=FALSE}
+fa(c("`cor.test(x, y, method)`", "correlation coefficient with its p-value and (Pearson) its confidence interval", "coefficient de corrélation avec sa p-value et (Pearson) son intervalle de confiance", "two numeric vectors; `method` = `\"pearson\"` (default), `\"spearman\"`, `\"kendall\"`", "deux vecteurs numériques ; `method` = `\"pearson\"` (défaut), `\"spearman\"`, `\"kendall\"`"))
+```
+
 ::: en
 The cloud is roughly a straight band without extreme points → Pearson is appropriate: r = −0.55 (95 % CI −0.60 to −0.50), p < 0.001. Warmer water holds less oxygen: a well-known physical relationship. `r^2` ≈ 0.30: temperature "accounts for" about 30 % of the variation of DO.
 :::
@@ -301,6 +334,19 @@ ggplot(seaweed, aes(temp_mean, sgr)) +
   geom_smooth(method = "loess", formula = y ~ x, colour = "#d9694a", na.rm = TRUE) +  # flexible trend line
   labs(x = "Mean monthly water temperature (°C)", y = "SGR (% per day)") + theme_c()
 ```
+
+```{r, echo=FALSE}
+fa(c("`cor(x, y, use, method)`", "the coefficient only, without a test", "le coefficient seul, sans test", "", ""),
+   c("&nbsp;&nbsp;`use`", "what to do with `NA`: `\"complete.obs\"` = drop the pairs with a missing value (default `\"everything\"` returns `NA`)", "que faire des `NA` : `\"complete.obs\"` = retirer les paires avec une valeur manquante (par défaut `\"everything\"` renvoie `NA`)", "text", "texte"),
+   c("`geom_jitter(width)`", "points moved slightly at random so that identical values do not hide each other; `width` = maximum horizontal shift", "points déplacés légèrement au hasard pour que les valeurs identiques ne se cachent pas ; `width` = décalage horizontal maximal", "a number in the units of x", "un nombre dans les unités de x"))
+```
+
+::: en
+`cor.test()` drops missing pairs by itself, but `cor()` needs `use = "complete.obs"` — and neither uses `na.rm` like `mean()`. Same need, three different behaviours: check the help page.
+:::
+::: fr
+`cor.test()` retire seul les paires manquantes, mais `cor()` demande `use = "complete.obs"` — et aucune n'utilise `na.rm` comme `mean()`. Même besoin, trois comportements différents : consultez la page d'aide.
+:::
 
 ::: en
 Both coefficients are weak (about −0.19), which suggests "temperature hardly matters". The plot says the opposite: growth **rises** up to about 25–26 °C and then **falls**. The relationship is strong but **not monotonic**, so neither Pearson nor Spearman can describe it: their value mixes the rising and the falling parts. **Always plot before computing a correlation**; for such a curve, describe it with the graph (and, at the advanced level, with a model).
@@ -382,12 +428,10 @@ Question 1 : `tt <- t.test(sgr ~ season, data = seaweed)` ; `tt$estimate` contie
 
 ```{r quiz, echo=FALSE}
 quiz("i10", list(
-  q_num("1a. Mean SGR difference dry − wet (3 decimals)?", "1a. Différence de SGR moyen sèche − pluies (3 décimales) ?", a1, tol = 0.0006),
-  q_num("1b. Lower limit of its 95 % CI (3 decimals)?", "1b. Borne inférieure de son IC à 95 % (3 décimales) ?", a2, tol = 0.0006),
+  q_num("1. Mean SGR difference dry − wet (3 decimals)?", "1. Différence de SGR moyen sèche − pluies (3 décimales) ?", a1, tol = 0.0006),
   q_num("2. Wilcoxon p-value, income by head_sex (3 decimals)?", "2. p-value de Wilcoxon, revenu selon head_sex (3 décimales) ?", a3, tol = 0.0006),
   q_num("3. Paired t-test p-value, 2025 vs 2024 (3 decimals)?", "3. p-value du test t apparié, 2025 vs 2024 (3 décimales) ?", a4, tol = 0.0006),
-  q_num("4a. Smallest expected count in sex × technique (2 decimals)?", "4a. Plus petit effectif attendu dans sex × technique (2 décimales) ?", a5, tol = 0.006),
-  q_num("4b. Chi-square p-value (3 decimals)?", "4b. p-value du khi-deux (3 décimales) ?", a6, tol = 0.0006),
+  q_num("4. Chi-square p-value (3 decimals)?", "4. p-value du khi-deux (3 décimales) ?", a6, tol = 0.0006),
   q_num("5. Pearson r between temp_C and DO_mgL (3 decimals)?", "5. r de Pearson entre temp_C et DO_mgL (3 décimales) ?", a7, tol = 0.0006),
   q_num("6. Spearman rho between temp_mean and sgr (3 decimals)?", "6. rho de Spearman entre temp_mean et sgr (3 décimales) ?", a8, tol = 0.0006),
   q_mcq("7. Why is the Spearman coefficient of question 6 misleading?", "7. Pourquoi le coefficient de Spearman de la question 6 est-il trompeur ?",

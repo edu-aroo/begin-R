@@ -74,6 +74,11 @@ ggplot(villages, aes(x = lon, y = lat)) +
   coord_quickmap()      # correct aspect ratio for the latitude (see below)
 ```
 
+```{r, echo=FALSE}
+fa(c("`aes(x = lon, y = lat)`", "longitude on the x axis (east–west), latitude on the y axis (north–south)", "longitude sur l'axe x (est–ouest), latitude sur l'axe y (nord–sud)", "", ""),
+   c("`coord_quickmap(xlim, ylim, expand)`", "sets the ratio between the axes so that one degree of longitude is shorter than one degree of latitude, as on the Earth at this latitude", "fixe le rapport entre les axes pour qu'un degré de longitude soit plus court qu'un degré de latitude, comme sur la Terre à cette latitude", "", ""))
+```
+
 ::: {.callout .warning}
 ::: en
 **Why `coord_quickmap()`?** One degree of latitude is always ≈ 111 km, but one degree of longitude shrinks towards the poles (≈ 111 × cos(latitude) km: about 102 km here at 23° S). Without a map coordinate system, ggplot stretches the axes to fill the figure and the shapes are distorted. `coord_quickmap()` sets the right ratio; `coord_sf()` (with the sf package, below) uses a true map projection.
@@ -103,6 +108,14 @@ base_map <- ggplot() +
 base_map                                     # a ggplot object can be stored and reused (Session I8)
 ```
 
+```{r, echo=FALSE}
+fa(c("`ggplot()` without data", "each layer brings its own data with `data =`: useful when a map combines several tables", "chaque couche apporte ses propres données avec `data =` : utile quand une carte combine plusieurs tableaux", "", ""),
+   c("`geom_polygon(data, aes(lon, lat), fill, colour)`", "joins the points **in the order of the rows** and fills the shape", "relie les points **dans l'ordre des lignes** et remplit la forme", "a table of the outline points", "un tableau des points du contour"),
+   c("&nbsp;&nbsp;`xlim`, `ylim`, `expand` (in `coord_quickmap()`)", "zoom on a range of longitude / latitude; `expand = FALSE` = no margin around it", "zoom sur une étendue de longitude / latitude ; `expand = FALSE` = pas de marge autour", "`c(min, max)`; `TRUE`/`FALSE`", "`c(min, max)` ; `TRUE`/`FALSE`"),
+   c("`element_rect(fill, colour)`", "settings of a rectangle element of the theme: here the panel background = the sea; `colour = NA` = no border", "réglages d'un élément rectangle du thème : ici le fond du panneau = la mer ; `colour = NA` = pas de bordure", "colours", "couleurs"),
+   c("`element_line(colour, linewidth)`", "settings of the grid lines", "réglages des lignes de la grille", "", ""))
+```
+
 ```{r}
 base_map +
   geom_point(data = stations, aes(lon, lat), shape = 21, fill = "#1b7f8c", colour = "white", size = 3) +
@@ -110,6 +123,14 @@ base_map +
   geom_text(data = villages, aes(lon, lat, label = village), hjust = 0, nudge_x = 0.012, size = 3.2) +
   geom_text(data = stations, aes(lon, lat, label = station), hjust = 1, nudge_x = -0.01,
             size = 2.8, colour = "#0b3d5c")
+```
+
+```{r, echo=FALSE}
+fa(c("&nbsp;&nbsp;`shape` (in `geom_point()`)", "same numbers as `pch` in base R; **21–25** are shapes with an outline (`colour`) **and** a fill (`fill`): 21 circle, 22 square, 24 triangle", "mêmes numéros que `pch` en R de base ; **21–25** sont des formes avec un contour (`colour`) **et** un remplissage (`fill`) : 21 cercle, 22 carré, 24 triangle", "0 to 25", "0 à 25"),
+   c("`geom_text(aes(label), hjust, nudge_x, size)`", "writes the text of the column given to `label` at each point", "écrit le texte de la colonne donnée à `label` à chaque point", "", ""),
+   c("&nbsp;&nbsp;`hjust`", "horizontal anchor of the text: 0 = text starts at the point (to its right), 1 = text ends at the point (to its left)", "ancrage horizontal du texte : 0 = le texte commence au point (à sa droite), 1 = le texte finit au point (à sa gauche)", "0, 0.5 or 1", "0, 0,5 ou 1"),
+   c("&nbsp;&nbsp;`nudge_x`", "moves the label horizontally, in the units of the axis (here degrees)", "déplace l'étiquette horizontalement, dans les unités de l'axe (ici des degrés)", "a number", "un nombre"),
+   c("&nbsp;&nbsp;`size`", "text size in mm (not in points as in `theme()`)", "taille du texte en mm (pas en points comme dans `theme()`)", "a number", "un nombre"))
 ```
 
 ::: en
@@ -128,6 +149,11 @@ plot(coast$lon, coast$lat, type = "n", asp = 1 / cos(23 * pi / 180),
 polygon(coast$lon, coast$lat, col = "wheat")
 points(villages$lon, villages$lat, pch = 15, col = "tomato")
 text(villages$lon, villages$lat, villages$village, pos = 4, cex = 0.7)
+```
+
+```{r, echo=FALSE}
+fa(c("`plot(..., type = \"n\", asp)`", "base R: `type = \"n\"` draws empty axes; `asp` = aspect ratio y/x (here 1 / cos(latitude))", "R de base : `type = \"n\"` trace des axes vides ; `asp` = rapport d'aspect y/x (ici 1 / cos(latitude))", "", ""),
+   c("`polygon(x, y, col)`, `points()`, `text(x, y, labels, pos, cex)`", "add a filled shape, points and texts to the plot (Beginner Session 7); `pos = 4` = text to the right", "ajoutent une forme remplie, des points et des textes au graphique (séance 7 du niveau débutant) ; `pos = 4` = texte à droite", "", ""))
 ```
 :::
 ::: {.col .pkg}
@@ -167,6 +193,12 @@ base_map +
   labs(title = "Seaweed growth by village, 2024–2025")
 ```
 
+```{r, echo=FALSE}
+fa(c("`aes(size = n_lines, fill = mean_sgr)`", "two variables on one map: the size of the circle and its colour", "deux variables sur une carte : la taille du cercle et sa couleur", "", ""),
+   c("`scale_fill_viridis_c(option = \"mako\", direction = -1, name)`", "reminder (Session I7): palette *mako*, reversed so that **high** growth is **dark**, legend title on two lines (`\\n`)", "rappel (séance I7) : palette *mako*, inversée pour que la croissance **forte** soit **foncée**, titre de légende sur deux lignes (`\\n`)", "", ""),
+   c("`scale_size_area(max_size, name)`", "the **area** of the circles is proportional to the value (0 → no circle); `max_size` = size of the largest circle", "la **surface** des cercles est proportionnelle à la valeur (0 → pas de cercle) ; `max_size` = taille du plus grand cercle", "a number; a legend title", "un nombre ; un titre de légende"))
+```
+
 ::: {.callout .tip}
 ::: en
 **Good map habits.** Use `size` for a **quantity** (number of lines, of farmers) and `colour/fill` for an **intensity** (mean, rate). Use `scale_size_area()` so that the **area** of the circle is proportional to the value. Choose a **sequential** colour scale (viridis) for a value that goes from low to high, and keep the legend title explicit with its unit.
@@ -188,6 +220,10 @@ base_map +
   geom_point(data = growth_season, aes(lon, lat, fill = mean_sgr), shape = 21, size = 4) +
   scale_fill_viridis_c(option = "mako", direction = -1, name = "Mean SGR") +
   facet_wrap(~ season, labeller = labeller(season = c(dry = "Dry season", wet = "Wet season")))
+```
+
+```{r, echo=FALSE}
+fa(c("&nbsp;&nbsp;`labeller` (in `facet_wrap()`)", "changes the titles of the panels; `labeller(season = c(dry = \"Dry season\", ...))` = new title for each value of `season`", "change les titres des panneaux ; `labeller(season = c(dry = \"Dry season\", ...))` = nouveau titre pour chaque valeur de `season`", "a named vector inside `labeller()`", "un vecteur nommé dans `labeller()`"))
 ```
 
 ::: en
@@ -220,6 +256,12 @@ final_map <- base_map +
   labs(title = "Study area", subtitle = "Squares: villages · circles: water-quality stations",
        caption = "Coordinates WGS84 · simulated data")
 final_map
+```
+
+```{r, echo=FALSE}
+fa(c("`annotate(\"segment\", x, xend, y, yend, arrow)`", "a line from (`x`, `y`) to (`xend`, `yend`); with `arrow = arrow()` it ends with an arrow head", "un segment de (`x`, `y`) à (`xend`, `yend`) ; avec `arrow = arrow()` il se termine par une pointe", "positions in degrees", "positions en degrés"),
+   c("`arrow(length = unit(0.25, \"cm\"))`", "the arrow head and its size", "la pointe de flèche et sa taille", "a `unit()`", "une `unit()`"),
+   c("&nbsp;&nbsp;`fontface`", "`\"bold\"`, `\"italic\"`, `\"plain\"`; called `face` in `element_text()`", "`\"bold\"`, `\"italic\"`, `\"plain\"` ; appelé `face` dans `element_text()`", "text", "texte"))
 ```
 
 ```{r, eval=FALSE}
@@ -255,6 +297,13 @@ ggplot() +
   coord_sf(xlim = c(43.38, 43.88), ylim = c(-23.35, -22.55)) +
   scale_x_continuous(breaks = c(43.4, 43.6, 43.8)) +
   theme_minimal()
+```
+
+```{r, echo=FALSE}
+fa(c("`st_as_sf(x, coords, crs)`", "turns a table with coordinate columns into a spatial (**sf**) object", "transforme un tableau avec des colonnes de coordonnées en objet spatial (**sf**)", "", ""),
+   c("&nbsp;&nbsp;`coords`", "names of the x and y columns, **longitude first**", "noms des colonnes x et y, **longitude d'abord**", "`c(\"lon\", \"lat\")`", "`c(\"lon\", \"lat\")`"),
+   c("&nbsp;&nbsp;`crs`", "coordinate reference system; 4326 = WGS84 (GPS degrees)", "système de coordonnées ; 4326 = WGS84 (degrés GPS)", "an EPSG code", "un code EPSG"),
+   c("`geom_sf()`, `coord_sf()`", "draw sf objects whatever their geometry; `coord_sf()` replaces `coord_quickmap()`", "tracent des objets sf quelle que soit leur géométrie ; `coord_sf()` remplace `coord_quickmap()`", "", ""))
 ```
 
 ## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
@@ -323,7 +372,13 @@ quiz("i11", list(
   q_mcq("7. To show the number of lines AND the mean SGR of each village on the same map, the best choice is:",
         "7. Pour montrer le nombre de lignes ET le SGR moyen de chaque village sur la même carte, le meilleur choix est :",
         c("size = n_lines, fill = mean_sgr", "size = mean_sgr, fill = n_lines", "two separate geom_text()", "shape = mean_sgr"),
-        c("size = n_lines, fill = mean_sgr", "size = mean_sgr, fill = n_lines", "deux geom_text() séparés", "shape = mean_sgr"), correct = 1)
+        c("size = n_lines, fill = mean_sgr", "size = mean_sgr, fill = n_lines", "deux geom_text() séparés", "shape = mean_sgr"), correct = 1),
+  q_mcq("8. With geom_point(shape = 21), which arguments set the inside and the outline of the circles?", "8. Avec geom_point(shape = 21), quels arguments règlent l'intérieur et le contour des cercles ?",
+        c("fill (inside) and colour (outline)", "colour (inside) and fill (outline)", "col and border", "alpha and size"),
+        c("fill (intérieur) et colour (contour)", "colour (intérieur) et fill (contour)", "col et border", "alpha et size"), correct = 1),
+  q_mcq("9. In geom_text(hjust = 0, nudge_x = 0.015), where is the label?", "9. Avec geom_text(hjust = 0, nudge_x = 0.015), où est l'étiquette ?",
+        c("To the right of the point, moved 0.015° east", "Centred on the point", "To the left of the point", "Above the point"),
+        c("À droite du point, décalée de 0,015° vers l'est", "Centrée sur le point", "À gauche du point", "Au-dessus du point"), correct = 1)
 ))
 ```
 

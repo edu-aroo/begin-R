@@ -100,6 +100,33 @@ params:
 :::
 :::
 
+::: en
+| Key (under each parameter) | What it does | Value it expects |
+|---|---|---|
+| `params` | opens the list of parameters; each key under it (`mpa`, `year`) becomes `params$mpa`, `params$year` in the report | names you choose (no spaces) |
+| `label` | text shown next to the field in the *Knit with Parameters* form | text |
+| `value` | the **default value**, used when you click Knit or when `render()` gives no other value | text, number, `true`/`false` |
+| `input` | the kind of field in the form: `text`, `numeric`, `select` (drop-down list), `slider`, `checkbox`, `date`, `file` | one of these words |
+| `choices` | `select` only: the allowed values | a list in brackets `[a, b, c]` |
+| `min`, `max`, `step` | `slider` and `numeric` only: smallest value, largest value, size of one step | numbers |
+| `sep` | `slider` only: thousands separator shown in the form; `""` avoids "2,025" | text |
+
+The short form (`mpa: "Ankaramena"`) only gives a `value`. The long form is needed for `label`, `input`, `choices`…; both forms give the same `params$mpa` in the code.
+:::
+::: fr
+| Clé (sous chaque paramètre) | Ce qu'elle fait | Valeur attendue |
+|---|---|---|
+| `params` | ouvre la liste des paramètres ; chaque clé en dessous (`mpa`, `year`) devient `params$mpa`, `params$year` dans le rapport | des noms de votre choix (sans espaces) |
+| `label` | texte affiché à côté du champ dans le formulaire *Knit with Parameters* | texte |
+| `value` | la **valeur par défaut**, utilisée quand vous cliquez sur Knit ou quand `render()` ne donne pas d'autre valeur | texte, nombre, `true`/`false` |
+| `input` | le type de champ du formulaire : `text`, `numeric`, `select` (liste déroulante), `slider` (curseur), `checkbox`, `date`, `file` | un de ces mots |
+| `choices` | `select` seulement : les valeurs permises | une liste entre crochets `[a, b, c]` |
+| `min`, `max`, `step` | `slider` et `numeric` seulement : plus petite valeur, plus grande valeur, taille d'un pas | nombres |
+| `sep` | `slider` seulement : séparateur de milliers affiché dans le formulaire ; `""` évite « 2,025 » | texte |
+
+La forme courte (`mpa: "Ankaramena"`) ne donne qu'une `value`. La forme longue est nécessaire pour `label`, `input`, `choices`… ; les deux formes donnent le même `params$mpa` dans le code.
+:::
+
 ## [Rendering from code]{.en}[Produire par le code]{.fr} {#render}
 
 ::: en
@@ -120,15 +147,38 @@ rmarkdown::render(
 ```
 
 ::: en
+| Argument of `render()` | What it does |
+|---|---|
+| `input` | the .Rmd template |
+| `params` | a `list()` of values that **replace** the defaults of the YAML; parameters not given keep their default |
+| `output_file` | name of the result file (otherwise: the name of the .Rmd, so each report would overwrite the previous one) |
+| `output_dir` | folder of the result |
+| `envir` | the R environment in which the chunks run (see below) |
+
 **Why `envir = new.env()`?** By default `render()` runs the report in your current session: objects left by the previous report (or in your Environment) could be used by mistake. A new environment gives each report a clean start — exactly like the Knit button.
 :::
 ::: fr
+| Argument de `render()` | Ce qu'il fait |
+|---|---|
+| `input` | le modèle .Rmd |
+| `params` | une `list()` de valeurs qui **remplacent** celles par défaut du YAML ; les paramètres non donnés gardent leur valeur par défaut |
+| `output_file` | nom du fichier résultat (sinon : le nom du .Rmd, et chaque rapport écraserait le précédent) |
+| `output_dir` | dossier du résultat |
+| `envir` | l'environnement R dans lequel les chunks s'exécutent (voir ci-dessous) |
+
 **Pourquoi `envir = new.env()` ?** Par défaut, `render()` exécute le rapport dans votre session courante : des objets laissés par le rapport précédent (ou dans votre Environment) pourraient être utilisés par erreur. Un nouvel environnement donne à chaque rapport un départ propre — exactement comme le bouton Knit.
 :::
 
 ## [One report per MPA, in one click]{.en}[Un rapport par AMP, en un clic]{.fr} {#loop}
 
 `r show_file("templates/advanced/render_reports.R")`
+
+```{r, echo=FALSE}
+fa(c("`library(rmarkdown)`", "loads rmarkdown, so `render()` can be written without `rmarkdown::`", "charge rmarkdown, pour écrire `render()` sans `rmarkdown::`", "", ""),
+   c("`gsub(\" \", \"_\", tolower(m))`", "\"Nosy Fasika\" → \"nosy_fasika\": lower case, spaces replaced by `_` (Beginner Session 5)", "« Nosy Fasika » → « nosy_fasika » : minuscules, espaces remplacées par `_` (séance 5 du niveau débutant)", "", ""),
+   c("&nbsp;&nbsp;`quiet` (argument of `render()`)", "`TRUE` hides the long log of knitr and pandoc", "`TRUE` cache le long journal de knitr et pandoc", "`TRUE` / `FALSE` (default)", "`TRUE` / `FALSE` (défaut)"),
+   c("`message(...)`", "prints a progress message (Intermediate I5)", "affiche un message de progression (intermédiaire I5)", "", ""))
+```
 
 ::: en
 This script was run for real when this page was built, in a temporary copy of a project with the structure of Session A0. Here are the files it produced and the first sentences of each report:
@@ -180,6 +230,13 @@ for (i in seq_len(nrow(jobs))) {
 }
 ```
 
+```{r, echo=FALSE}
+fa(c("`expand.grid(...)`", "a data frame with **every combination** of the vectors given (3 MPAs × 3 years = 9 rows)", "un data frame avec **toutes les combinaisons** des vecteurs donnés (3 AMP × 3 années = 9 lignes)", "`name = vector`, separated by commas", "`nom = vecteur`, séparés par des virgules"),
+   c("&nbsp;&nbsp;`stringsAsFactors`", "`FALSE` keeps text as text (not factors)", "`FALSE` garde le texte en texte (pas en facteurs)", "`TRUE` (default here) / `FALSE`", "`TRUE` (défaut ici) / `FALSE`"),
+   c("`seq_len(n)`", "`1, 2, …, n` (and nothing if `n` = 0), like `seq_along()` (Intermediate I5)", "`1, 2, …, n` (et rien si `n` = 0), comme `seq_along()` (intermédiaire I5)", "a whole number", "un nombre entier"),
+   c("`sprintf(fmt, ...)`", "fills a text template: `%s` is replaced by a text, `%d` by a whole number, `%.1f` by a number with 1 decimal", "remplit un modèle de texte : `%s` est remplacé par un texte, `%d` par un entier, `%.1f` par un nombre à 1 décimale", "a template in quotes, then the values in order", "un modèle entre guillemets, puis les valeurs dans l'ordre"))
+```
+
 ## [Robust templates]{.en}[Des modèles robustes]{.fr} {#robust}
 
 ::: en
@@ -211,6 +268,11 @@ trend_sentence <- function(now, before) {
 }
 trend_sentence(26.8, 24.6)
 trend_sentence(27.5, NA)
+```
+
+```{r, echo=FALSE}
+fa(c("`return(value)`", "leaves the function at once with this value (here when the previous year is missing)", "sort de la fonction immédiatement avec cette valeur (ici quand l'année précédente manque)", "", ""),
+   c("`is.na()`, `ifelse()`, `abs()`, `paste0()`", "reminders (Beginner Sessions 1, 2; Intermediate I1)", "rappels (séances 1, 2 du niveau débutant ; intermédiaire I1)", "", ""))
 ```
 
 ## [Running it every year]{.en}[Le relancer chaque année]{.fr} {#automation}
@@ -296,7 +358,13 @@ quiz("a04", list(
         c("auraient chacun un nom différent automatiquement", "s'écraseraient (même nom mpa_report.html)", "ne seraient pas créés", "seraient enregistrés en Word"), correct = 2),
   q_mcq("8. What should you commit to Git in this workflow?", "8. Que faut-il valider dans Git dans ce déroulé ?",
         c("The HTML reports only", "Everything, including renv/library/", "Nothing: reports are not code", "The template, the scripts, the functions and renv.lock"),
-        c("Seulement les rapports HTML", "Tout, y compris renv/library/", "Rien : les rapports ne sont pas du code", "Le modèle, les scripts, les fonctions et renv.lock"), correct = 4)
+        c("Seulement les rapports HTML", "Tout, y compris renv/library/", "Rien : les rapports ne sont pas du code", "Le modèle, les scripts, les fonctions et renv.lock"), correct = 4),
+  q_mcq("9. What does expand.grid(mpa = c(\"A\", \"B\"), year = 2024:2025) return?", "9. Que renvoie expand.grid(mpa = c(\"A\", \"B\"), year = 2024:2025) ?",
+        c("A table of 4 rows: every MPA × year combination", "A table of 2 rows", "A list of 2 vectors", "An error"),
+        c("Un tableau de 4 lignes : toutes les combinaisons AMP × année", "Un tableau de 2 lignes", "Une liste de 2 vecteurs", "Une erreur"), correct = 1),
+  q_mcq("10. sprintf(\"report_%s_%d.html\", \"tanjona\", 2025) gives:", "10. sprintf(\"report_%s_%d.html\", \"tanjona\", 2025) donne :",
+        c("report_tanjona_2025.html", "report_%s_%d.html", "report_2025_tanjona.html", "an error"),
+        c("report_tanjona_2025.html", "report_%s_%d.html", "report_2025_tanjona.html", "une erreur"), correct = 1)
 ))
 ```
 

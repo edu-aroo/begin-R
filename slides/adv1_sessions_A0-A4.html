@@ -368,7 +368,7 @@ reproductibles, renv, Git, rapports R Markdown</h3>
 <li><strong>A0</strong> : organiser un projet reproductible</li>
 <li><strong>A1</strong> : figer les versions des packages avec
 <code>renv</code></li>
-<li><strong>A2</strong> : Git, GitHub et GitLab</li>
+<li><strong>A2</strong> : Git, GitHub et GitLab avec RStudio</li>
 <li><strong>A3</strong> : rapports avec R Markdown</li>
 <li><strong>A4</strong> : rapports paramétrés et automatiques</li>
 </ul>
@@ -493,12 +493,16 @@ redémarrer R souvent (Ctrl + Maj + F10)</li>
 <p>Limites : la version de <strong>R</strong>, les bibliothèques système
 (GDAL…), → README, rig, Docker.</p>
 </div>
-<div id="a2-git-github-gitlab" class="section level2 segue">
-<h2 class="segue">A2 — Git, GitHub, GitLab</h2>
+<div id="a2-git-github-gitlab-avec-rstudio" class="section level2 segue">
+<h2 class="segue">A2 — Git, GitHub, GitLab avec RStudio</h2>
 </div>
 <div id="le-vocabulaire" class="section level2">
 <h2>Le vocabulaire</h2>
 <table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>Mot</th>
@@ -512,19 +516,20 @@ redémarrer R souvent (Ctrl + Maj + F10)</li>
 </tr>
 <tr class="even">
 <td>commit</td>
-<td>instantané + message + auteur + date</td>
+<td>instantané + message + auteur + date, <strong>sur votre
+ordinateur</strong></td>
 </tr>
 <tr class="odd">
-<td>add / commit</td>
-<td>choisir puis enregistrer</td>
+<td>push</td>
+<td>envoyer vos commits vers GitHub / GitLab</td>
 </tr>
 <tr class="even">
-<td>push / pull</td>
-<td>envoyer / récupérer (GitHub, GitLab)</td>
+<td>pull</td>
+<td>récupérer les commits des autres</td>
 </tr>
 <tr class="odd">
-<td>branche / merge</td>
-<td>travail parallèle / fusion</td>
+<td>clone</td>
+<td>copier un dépôt en ligne sur votre ordinateur</td>
 </tr>
 </tbody>
 </table>
@@ -532,6 +537,72 @@ redémarrer R souvent (Ctrl + Maj + F10)</li>
 Pas de données personnelles ni de gros fichiers dans un dépôt — surtout
 public.
 </div>
+</div>
+<div id="une-seule-fois-par-ordinateur" class="section level2">
+<h2>Une seule fois par ordinateur</h2>
+<ol style="list-style-type: decimal">
+<li>Installer <strong>Git for Windows</strong> (éditeur : Notepad ·
+branche : <code>main</code> · Git Credential Manager)</li>
+<li>RStudio : <em>Tools → Global Options → Git/SVN</em> →
+<code>git.exe</code> ; <em>Terminal</em> → <strong>Git
+Bash</strong></li>
+<li>Terminal de RStudio :</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">&quot;Prénom Nom&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">&quot;adresse@du.compte&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> init.defaultBranch main</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Comptes <strong>GitHub</strong> et <strong>GitLab</strong> (double
+authentification, garder les codes de secours)</li>
+</ol>
+</div>
+<div id="du-site-à-rstudio" class="section level2">
+<h2>Du site à RStudio</h2>
+<ol style="list-style-type: decimal">
+<li>Sur le site : <strong>New repository</strong> → nom,
+<em>Private</em>, <em>Add a README</em> → copier l’URL HTTPS</li>
+<li>RStudio : <em>File → New Project → Version Control → Git</em> →
+coller l’URL</li>
+<li>Dossier hors de OneDrive · le panneau <strong>Git</strong>
+apparaît</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>Statut</th>
+<th>Sens</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>?</code></td>
+<td>nouveau, pas encore suivi</td>
+</tr>
+<tr class="even">
+<td><code>M</code></td>
+<td>modifié</td>
+</tr>
+<tr class="odd">
+<td><code>A</code> / <code>D</code></td>
+<td>ajouté / supprimé</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="le-cycle-de-travail" class="section level2">
+<h2>Le cycle de travail</h2>
+<ul>
+<li><strong>Pull</strong> en ouvrant le projet</li>
+<li>travailler, enregistrer</li>
+<li><strong>Commit</strong> : cocher <em>Staged</em>, écrire un message
+clair, <em>Commit</em> — une modification logique = un commit</li>
+<li><strong>Push</strong> à la fin de la séance (ou quand un collègue en
+a besoin)</li>
+<li>Push rejeté ? → <strong>Pull</strong>, puis
+<strong>Push</strong></li>
+<li>premier Push : la fenêtre <strong>Git Credential Manager</strong>
+demande de se connecter</li>
+</ul>
 </div>
 <div id="lhistorique-répond-aux-questions" class="section level2">
 <h2>L’historique répond aux questions</h2>
@@ -542,27 +613,11 @@ e0ed893 2025-05-12 Fara Rasoa   Boxplots of coral cover per year
 06d0e2b 2025-05-02 Fara Rasoa   Add the cleaning script
 ed72085 2025-05-01 Fara Rasoa   Start the project: README, gitignore, import script</code></pre>
 <ul>
-<li><code>git show 8c390f6:R/03_bleaching.R</code> : le fichier à une
-date donnée</li>
-<li><code>git restore --source=8c390f6 fichier</code> : revenir en
-arrière (rien n’est perdu)</li>
+<li>panneau Git → <strong>History</strong> · <em>Filter by File</em> ·
+<em>View file @…</em></li>
+<li>clic droit → <strong>Ignore</strong> = ajouter au
+<code>.gitignore</code></li>
 </ul>
-</div>
-<div id="se-connecter-à-github-gitlab" class="section level2">
-<h2>Se connecter à GitHub / GitLab</h2>
-<ul>
-<li><strong>HTTPS + jeton</strong> :
-<code>usethis::create_github_token()</code> puis
-<code>gitcreds::gitcreds_set()</code></li>
-<li><strong>SSH</strong> : <code>ssh-keygen -t ed25519</code>, clé
-<strong>publique</strong> dans le compte,
-<code>ssh -T git@github.com</code></li>
-<li>deux comptes : alias dans <code>~/.ssh/config</code> →
-<code>git@github-work:org/projet.git</code></li>
-</ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">git</span> remote add origin git@github.com:compte/reef-monitoring.git</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main</span></code></pre></div>
-<p><strong>Pull avant de travailler, pull avant de pousser.</strong></p>
 </div>
 <div id="un-conflit-ce-nest-pas-grave" class="section level2">
 <h2>Un conflit, ce n’est pas grave</h2>
@@ -570,9 +625,10 @@ arrière (rien n’est perdu)</li>
 threshold &lt;- 25
 =======
 threshold &lt;- 20
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; hery-threshold</code></pre>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; 4a5c8d0</code></pre>
 <p>Garder la bonne ligne, <strong>supprimer les marqueurs</strong>,
-<code>git add</code>, <code>git commit</code>.</p>
+enregistrer, cocher <em>Staged</em>, <strong>Commit</strong>,
+<strong>Push</strong>.</p>
 </div>
 <div id="a3-r-markdown" class="section level2 segue">
 <h2 class="segue">A3 — R Markdown</h2>

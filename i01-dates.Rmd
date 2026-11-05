@@ -56,6 +56,12 @@ as.numeric(d)                    # days since 1970-01-01
 d + 45                           # 45 days later
 ```
 
+```{r, echo=FALSE}
+fa(c("`as.Date(x)`", "converts text to a **Date**; without `format`, the text must be `yyyy-mm-dd` (or `yyyy/mm/dd`)", "convertit du texte en **Date** ; sans `format`, le texte doit être `aaaa-mm-jj` (ou `aaaa/mm/jj`)", "text", "texte"),
+   c("`as.numeric(d)`", "the number behind a date: days since 1 January 1970", "le nombre derrière une date : jours depuis le 1er janvier 1970", "a Date", "une Date"),
+   c("`d + 45`", "adding a number to a Date adds **days**", "ajouter un nombre à une Date ajoute des **jours**", "", ""))
+```
+
 ## [Text to date: as.Date() and format]{.en}[Du texte à la date : as.Date() et format]{.fr} {#format}
 
 ::: en
@@ -89,6 +95,10 @@ lines$harvest_date <- as.Date(lines$harvest_date, format = "%d/%m/%Y")
 lines$harvest_date[1:3]
 ```
 
+```{r, echo=FALSE}
+fa(c("&nbsp;&nbsp;`format` (argument of `as.Date()`)", "describes how the text is written, with the codes of the table above; separators (`/`, `-`, space) are written as they appear", "décrit comment le texte est écrit, avec les codes du tableau ci-dessus ; les séparateurs (`/`, `-`, espace) s'écrivent tels qu'ils apparaissent", "text in quotes, e.g. `\"%d/%m/%Y\"`", "texte entre guillemets, ex. `\"%d/%m/%Y\"`"))
+```
+
 ::: {.callout .warning}
 ::: en
 If the format does not match the text, `as.Date()` returns `NA` **without error**. Always check: `sum(is.na(x))` before and after conversion must be equal.
@@ -114,6 +124,14 @@ difftime(as.Date("2025-12-31"), as.Date("2024-01-01"), units = "weeks")
 seq(as.Date("2024-01-01"), by = "month", length.out = 4)   # monthly sampling calendar
 ```
 
+```{r, echo=FALSE}
+fa(c("`date2 - date1`", "difference between two dates, in days (an object of class *difftime*); `as.numeric()` turns it into a plain number", "différence entre deux dates, en jours (un objet de classe *difftime*) ; `as.numeric()` le transforme en simple nombre", "", ""),
+   c("`format(x, format)`", "the **opposite** of `as.Date()`: writes a date as text, with the same `%` codes. Here the format is given by position (2nd argument)", "l'**inverse** de `as.Date()` : écrit une date en texte, avec les mêmes codes `%`. Ici le format est donné par position (2e argument)", "a Date; a text such as `\"%Y\"` or `\"%d %B %Y\"`", "une Date ; un texte comme `\"%Y\"` ou `\"%d %B %Y\"`"),
+   c("`as.integer(x)`", "converts to whole numbers (`\"03\"` → 3)", "convertit en nombres entiers (`\"03\"` → 3)", "", ""),
+   c("`difftime(time1, time2, units)`", "difference `time1 − time2` in the unit you choose", "différence `time1 − time2` dans l'unité choisie", "two dates; `units` = `\"days\"`, `\"weeks\"`, `\"hours\"`…", "deux dates ; `units` = `\"days\"`, `\"weeks\"`, `\"hours\"`…"),
+   c("`seq(from, by, length.out)`", "reminder (Beginner Session 2); with dates, `by` can be a word", "rappel (séance 2 du niveau débutant) ; avec des dates, `by` peut être un mot", "`by = \"day\"`, `\"week\"`, `\"month\"`, `\"year\"`", "`by = \"day\"`, `\"week\"`, `\"month\"`, `\"year\"`"))
+```
+
 ## [Seasons and periods]{.en}[Saisons et périodes]{.fr} {#seasons}
 
 ::: en
@@ -130,6 +148,11 @@ lines$season <- ifelse(lines$month %in% c(11, 12, 1, 2, 3, 4), "wet", "dry")
 table(lines$year, lines$season)
 ```
 
+```{r, echo=FALSE}
+fa(c("`ifelse(test, yes, no)`", "for each element: the `yes` value where `test` is `TRUE`, the `no` value where it is `FALSE` (and `NA` where `test` is `NA`)", "pour chaque élément : la valeur `yes` là où `test` vaut `TRUE`, la valeur `no` là où il vaut `FALSE` (et `NA` là où `test` vaut `NA`)", "a condition; two values or vectors", "une condition ; deux valeurs ou vecteurs"),
+   c("`%in%`", "reminder (Beginner Session 4): is the month in the list?", "rappel (séance 4 du niveau débutant) : le mois est-il dans la liste ?", "", ""))
+```
+
 ::: en
 `cut()` groups dates into periods, for example quarters:
 :::
@@ -139,6 +162,10 @@ table(lines$year, lines$season)
 
 ```{r}
 head(cut(lines$planting_date, breaks = "quarter"))
+```
+
+```{r, echo=FALSE}
+fa(c("`cut(x, breaks)`", "cuts values into classes and returns a factor; with dates, `breaks` can be a period", "découpe des valeurs en classes et renvoie un facteur ; avec des dates, `breaks` peut être une période", "`breaks = \"week\"`, `\"month\"`, `\"quarter\"` (3 months), `\"year\"`, or limits", "`breaks = \"week\"`, `\"month\"`, `\"quarter\"` (trimestre), `\"year\"`, ou des limites"))
 ```
 
 ## [The same with lubridate]{.en}[La même chose avec lubridate]{.fr} {#lubridate}
@@ -177,6 +204,13 @@ dmy(c("22/02/2024", "3-4-2024", "05.06.2024"))   # tolerant to separators
 floor_date(ymd("2024-02-22"), "month")          # first day of the month
 ```
 
+```{r, echo=FALSE}
+fa(c("`dmy()`, `ymd()`, `mdy()`", "text to Date; the **name** gives the order: **d**ay-**m**onth-**y**ear, **y**ear-**m**onth-**d**ay… Separators do not matter", "texte vers Date ; le **nom** donne l'ordre : **d**ay-**m**onth-**y**ear (jour-mois-année), **y**ear-**m**onth-**d**ay… Les séparateurs n'ont pas d'importance", "text", "texte"),
+   c("`month(x)`, `year(x)`, `day(x)`, `wday(x)`", "parts of a date, as numbers (`wday` = day of the week)", "parties d'une date, en nombres (`wday` = jour de la semaine)", "a Date", "une Date"),
+   c("`days(n)`, `weeks(n)`, `months(n)`", "a duration to add to a date", "une durée à ajouter à une date", "a whole number", "un nombre entier"),
+   c("`floor_date(x, unit)`", "rounds a date **down** to the start of the period", "arrondit une date **vers le bas** au début de la période", "a Date; `\"week\"`, `\"month\"`, `\"year\"`", "une Date ; `\"week\"`, `\"month\"`, `\"year\"`"))
+```
+
 ## [Growth rate of each line]{.en}[Taux de croissance de chaque ligne]{.fr} {#growth}
 
 ::: {.callout .ecology}
@@ -202,6 +236,11 @@ lines$final_weight_kg[i] <- lines$final_weight_kg[i] / 1000
 lines$sgr <- 100 * log(lines$final_weight_kg / lines$initial_weight_kg) / lines$days
 summary(lines$sgr)
 round(tapply(lines$sgr, lines$season, mean, na.rm = TRUE), 2)
+```
+
+```{r, echo=FALSE}
+fa(c("`log(x)`", "natural logarithm (Beginner Session 1)", "logarithme népérien (séance 1 du niveau débutant)", "", ""),
+   c("`tapply(X, INDEX, FUN, ...)`", "statistic per group (Beginner Session 6)", "statistique par groupe (séance 6 du niveau débutant)", "", ""))
 ```
 
 `r dl("I1_lines_dated.csv", "checkpoint: I1_lines_dated.csv", dir = "data/checkpoints")`

@@ -99,6 +99,15 @@ Les noms d'options prennent un **tiret** dans Quarto (`fig-cap`, `fig-width`, `c
 :::
 :::
 
+```{r, echo=FALSE}
+fa(c("`#| option: value`", "a chunk option written **inside** the chunk, one per line, in YAML style (`key: value`, `true`/`false` in lower case)", "une option de chunk écrite **dans** le chunk, une par ligne, au style YAML (`clé: valeur`, `true`/`false` en minuscules)", "", ""),
+   c("`#| label: fig-agb`", "name of the chunk; the prefix `fig-` / `tbl-` makes it a numbered figure / table that `@fig-agb` can cite", "nom du chunk ; le préfixe `fig-` / `tbl-` en fait une figure / un tableau numéroté que `@fig-agb` peut citer", "text without spaces", "texte sans espaces"),
+   c("`#| fig-cap:`, `#| tbl-cap:`", "caption of the figure / table", "légende de la figure / du tableau", "text in quotes", "texte entre guillemets"),
+   c("`#| fig-width:`, `#| fig-height:`", "size of the figure, in inches", "taille de la figure, en pouces", "numbers", "nombres"),
+   c("`#| echo:`, `#| include:`, `#| eval:`, `#| warning:`", "the same options as in R Markdown (Session A3), with YAML values", "les mêmes options qu'en R Markdown (séance A3), avec des valeurs YAML", "`true` / `false`", "`true` / `false`"),
+   c("`` `{r} x` ``", "inline code in Quarto: replaced by the value of `x`", "code en ligne dans Quarto : remplacé par la valeur de `x`", "", ""))
+```
+
 ## [The template of this session]{.en}[Le modèle de cette séance]{.fr} {#template}
 
 ::: en
@@ -124,16 +133,90 @@ Voici le haut de la sortie HTML (avec les liens vers les autres formats, en haut
 ## [The YAML header]{.en}[L'en-tête YAML]{.fr} {#yaml}
 
 ::: en
-- `author:` can be a list with `name`, `affiliation`, `email`, `orcid`.
-- `date: today` is replaced by the date of rendering; `date-format` chooses how it is written; `lang: fr` translates "Table of contents", "Figure", "Table" into French.
-- Under `format:`, each output has its own options. Options common to all (bibliography, `execute`) stay at the top level.
-- `execute:` sets the default chunk options of the whole document (`echo`, `warning`, `message`, `cache`…). A chunk can still change them with its own `#|` lines.
+Quarto keys are written with a **hyphen** (`number-sections`, `code-fold`), R Markdown keys with an **underscore** (`number_sections`, `code_folding`): same idea, different names — one more case where two tools do not use the same name for the same thing. Indentation (two spaces) says which key belongs to which.
+
+**Top level** (valid for every format):
+
+| Key | What it does | Value it expects |
+|---|---|---|
+| `title`, `subtitle` | texts at the top of the document | text |
+| `author` | the author(s); a simple text, or a list where each author has `name` and optionally `affiliation`, `email`, `orcid` | text, or a list starting with `- name:` |
+| `date` | date under the title; `today` = the day of rendering | `today`, or a date `2025-11-30` |
+| `date-format` | how the date is written: `D` day, `MMMM` month in letters, `YYYY` year | a pattern, e.g. `"D MMMM YYYY"` → 5 November 2026 |
+| `lang` | language of the words Quarto writes itself (Table of contents, Figure, Table, and, References) | `en`, `fr`… |
+| `format` | opens the list of outputs; each one (`html`, `typst`, `pdf`, `docx`) has its own options indented below it | output names |
+| `bibliography` | the BibTeX file of the references (next section) | path to a .bib file |
+| `execute` | default options of **all** chunks (below) | options indented below |
+
+**Under `format:`**:
+
+| Key | Formats | What it does | Value it expects |
+|---|---|---|---|
+| `toc` | all | adds a table of contents | `true` / `false` |
+| `toc-depth` | all | heading levels in the table of contents | a number (default 3) |
+| `number-sections` | all | numbers the headings 1, 1.1… (needed for `@sec-` references) | `true` / `false` |
+| `code-fold` | html | adds a *Code* button above each chunk; code hidden until the reader clicks | `true` / `false` |
+| `embed-resources` | html | puts images, styles and scripts **inside** the .html: one file to send | `true` / `false` |
+| `papersize` | typst, pdf | paper size | `a4`, `us-letter` |
+| `margin` with `x` and `y` | typst | `x` = left and right margins, `y` = top and bottom | lengths: `2.5cm`, `1in` |
+| `geometry` | pdf (LaTeX) | margins, in the syntax of the LaTeX package *geometry* | `margin=2.5cm`, or `left=3cm,right=2cm` |
+| `citeproc` | typst | lets Quarto format the citations (author–year, as in HTML) instead of Typst's own numbered style | `true` / `false` |
+| `lof`, `lot` | pdf (LaTeX) | **l**ist **o**f **f**igures, **l**ist **o**f **t**ables after the table of contents | `true` / `false` |
+| `reference-doc` | docx | Word file whose styles are copied (Session A9) | path to a .docx |
+
+**Under `execute:`** (the same option written as `#|` in a chunk wins over it):
+
+| Key | What it does | Value |
+|---|---|---|
+| `echo` | shows the code in the output | `true` / `false` |
+| `warning`, `message` | shows R warnings / messages (e.g. those of `library()`) | `true` / `false` |
+| `cache` | keeps chunk results between two renderings | `true` / `false` |
+| `freeze` | in a project only (Session A9): re-run the code only when the file changed | `auto`, `true`, `false` |
+
+The list of all options of a format is in the Quarto reference: <https://quarto.org/docs/reference/> (choose *HTML*, *Typst*, *PDF* or *Word*). In RStudio, **Ctrl + Space** inside the YAML proposes the valid keys.
 :::
 ::: fr
-- `author:` peut être une liste avec `name`, `affiliation`, `email`, `orcid`.
-- `date: today` est remplacé par la date de production ; `date-format` choisit sa forme ; `lang: fr` traduit « Table des matières », « Figure », « Tableau » en français.
-- Sous `format:`, chaque sortie a ses propres options. Les options communes (bibliographie, `execute`) restent au premier niveau.
-- `execute:` fixe les options de chunk par défaut de tout le document (`echo`, `warning`, `message`, `cache`…). Un chunk peut encore les changer avec ses propres lignes `#|`.
+Les clés Quarto s'écrivent avec un **tiret** (`number-sections`, `code-fold`), celles de R Markdown avec un **tiret bas** (`number_sections`, `code_folding`) : même idée, noms différents — encore un cas où deux outils n'utilisent pas le même nom pour la même chose. L'indentation (deux espaces) indique quelle clé appartient à laquelle.
+
+**Premier niveau** (valable pour tous les formats) :
+
+| Clé | Ce qu'elle fait | Valeur attendue |
+|---|---|---|
+| `title`, `subtitle` | textes en haut du document | texte |
+| `author` | le ou les auteurs ; un texte simple, ou une liste où chaque auteur a `name` et éventuellement `affiliation`, `email`, `orcid` | texte, ou une liste commençant par `- name:` |
+| `date` | date sous le titre ; `today` = le jour de la production | `today`, ou une date `2025-11-30` |
+| `date-format` | forme de la date : `D` jour, `MMMM` mois en lettres, `YYYY` année | un motif, ex. `"D MMMM YYYY"` → 5 novembre 2026 |
+| `lang` | langue des mots que Quarto écrit lui-même (Table des matières, Figure, Tableau, et, Références) | `en`, `fr`… |
+| `format` | ouvre la liste des sorties ; chacune (`html`, `typst`, `pdf`, `docx`) a ses options décalées en dessous | noms de sorties |
+| `bibliography` | le fichier BibTeX des références (section suivante) | chemin vers un .bib |
+| `execute` | options par défaut de **tous** les chunks (ci-dessous) | options décalées en dessous |
+
+**Sous `format:`** :
+
+| Clé | Formats | Ce qu'elle fait | Valeur attendue |
+|---|---|---|---|
+| `toc` | tous | ajoute une table des matières | `true` / `false` |
+| `toc-depth` | tous | niveaux de titres dans la table des matières | un nombre (3 par défaut) |
+| `number-sections` | tous | numérote les titres 1, 1.1… (nécessaire pour les renvois `@sec-`) | `true` / `false` |
+| `code-fold` | html | ajoute un bouton *Code* au-dessus de chaque chunk ; code caché jusqu'au clic du lecteur | `true` / `false` |
+| `embed-resources` | html | met images, styles et scripts **dans** le .html : un seul fichier à envoyer | `true` / `false` |
+| `papersize` | typst, pdf | format du papier | `a4`, `us-letter` |
+| `margin` avec `x` et `y` | typst | `x` = marges gauche et droite, `y` = haut et bas | longueurs : `2.5cm`, `1in` |
+| `geometry` | pdf (LaTeX) | marges, dans la syntaxe du package LaTeX *geometry* | `margin=2.5cm`, ou `left=3cm,right=2cm` |
+| `citeproc` | typst | laisse Quarto mettre en forme les citations (auteur–date, comme en HTML) au lieu du style numéroté propre à Typst | `true` / `false` |
+| `lof`, `lot` | pdf (LaTeX) | liste des figures (*list of figures*), liste des tableaux (*list of tables*) après la table des matières | `true` / `false` |
+| `reference-doc` | docx | fichier Word dont les styles sont copiés (séance A9) | chemin vers un .docx |
+
+**Sous `execute:`** (la même option écrite en `#|` dans un chunk l'emporte) :
+
+| Clé | Ce qu'elle fait | Valeur |
+|---|---|---|
+| `echo` | montre le code dans la sortie | `true` / `false` |
+| `warning`, `message` | montre les avertissements / messages de R (ex. ceux de `library()`) | `true` / `false` |
+| `cache` | garde les résultats des chunks entre deux productions | `true` / `false` |
+| `freeze` | dans un projet seulement (séance A9) : ne relance le code que si le fichier a changé | `auto`, `true`, `false` |
+
+La liste de toutes les options d'un format est dans la référence Quarto : <https://quarto.org/docs/reference/> (choisissez *HTML*, *Typst*, *PDF* ou *Word*). Dans RStudio, **Ctrl + Espace** dans le YAML propose les clés valides.
 :::
 
 ## [Cross-references]{.en}[Renvois]{.fr} {#xref}
@@ -323,7 +406,10 @@ quiz("a08", list(
         c("html", "docx", "pdf (LaTeX)", "toutes"), correct = 3),
   q_mcq("8. To cite in APA style instead of the default style you:", "8. Pour citer en style APA au lieu du style par défaut vous :",
         c("add csl: apa.csl to the YAML (with the .csl file)", "rename references.bib to apa.bib", "write the references by hand", "use format: apa"),
-        c("ajoutez csl: apa.csl au YAML (avec le fichier .csl)", "renommez references.bib en apa.bib", "écrivez les références à la main", "utilisez format: apa"), correct = 1)
+        c("ajoutez csl: apa.csl au YAML (avec le fichier .csl)", "renommez references.bib en apa.bib", "écrivez les références à la main", "utilisez format: apa"), correct = 1),
+  q_mcq("9. In a Quarto chunk, how do you hide the code but keep the result?", "9. Dans un chunk Quarto, comment cacher le code mais garder le résultat ?",
+        c("#| echo: false", "#| echo = FALSE", "{r, echo = FALSE} only", "#| include: false"),
+        c("#| echo: false", "#| echo = FALSE", "{r, echo = FALSE} seulement", "#| include: false"), correct = 1)
 ))
 ```
 

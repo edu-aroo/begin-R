@@ -645,6 +645,85 @@ présenter en format large.</strong></p>
 #&gt; 3    WQ03    29.0    28.6    28.1    27.3    25.3</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">dim</span>(wide)</span></code></pre></div>
 <pre><code>#&gt; [1] 10 37</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>library(tidyr)</code></td>
+<td>the tidyverse package for reshaping tables (install it once)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>check.names</code> (argument of
+<code>read.csv()</code>)</td>
+<td><code>TRUE</code> (default) changes column names that are not valid
+R names (<code>2023-01</code> → <code>X2023.01</code>);
+<code>FALSE</code> keeps them as in the file</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td><code>%&gt;%</code></td>
+<td>the pipe of the tidyverse; for our use it is the same as
+<code>|&gt;</code> (Beginner Session 8)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>library(tidyr)</code></td>
+<td>le package du tidyverse pour restructurer les tableaux (à installer
+une fois)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>check.names</code> (argument of
+<code>read.csv()</code>)</td>
+<td><code>TRUE</code> (défaut) modifie les noms de colonnes qui ne sont
+pas des noms R valides (<code>2023-01</code> → <code>X2023.01</code>) ;
+<code>FALSE</code> les garde comme dans le fichier</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td><code>%&gt;%</code></td>
+<td>le pipe du tidyverse ; pour notre usage, identique à
+<code>|&gt;</code> (séance 8 du niveau débutant)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="longer" class="section level2">
 <h2><span class="en">Wide to long: pivot_longer()</span><span
@@ -677,6 +756,95 @@ une autre (<code>values_to</code>).</p>
 #&gt; 6 WQ01    2023-06      24.6</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">dim</span>(long)                                  <span class="co"># 10 stations x 36 months = 360 rows</span></span></code></pre></div>
 <pre><code>#&gt; [1] 360   3</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pivot_longer(data, cols, names_to, values_to)</code></td>
+<td>wide → long: several columns become two columns (one with the old
+column <strong>names</strong>, one with their
+<strong>values</strong>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>cols</code></td>
+<td>the columns to stack; <code>-station</code> = all except
+<code>station</code>; <code>temp_C:turbidity_NTU</code> = from one to
+the other</td>
+<td>column names, as in <code>select()</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>names_to</code></td>
+<td>name of the new column that receives the old column names</td>
+<td>text in quotes</td>
+</tr>
+<tr class="even">
+<td>  <code>values_to</code></td>
+<td>name of the new column that receives the values</td>
+<td>text in quotes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pivot_longer(data, cols, names_to, values_to)</code></td>
+<td>large → long : plusieurs colonnes deviennent deux colonnes (une avec
+les <strong>noms</strong> des anciennes colonnes, une avec leurs
+<strong>valeurs</strong>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>cols</code></td>
+<td>les colonnes à empiler ; <code>-station</code> = toutes sauf
+<code>station</code> ; <code>temp_C:turbidity_NTU</code> = de l’une à
+l’autre</td>
+<td>noms de colonnes, comme dans <code>select()</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>names_to</code></td>
+<td>nom de la nouvelle colonne qui reçoit les anciens noms de
+colonnes</td>
+<td>texte entre guillemets</td>
+</tr>
+<tr class="even">
+<td>  <code>values_to</code></td>
+<td>nom de la nouvelle colonne qui reçoit les valeurs</td>
+<td>texte entre guillemets</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="separate" class="section level2">
 <h2><span class="en">Splitting a column: separate()</span><span
@@ -706,6 +874,111 @@ l’inverse.</p>
 #&gt;   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt;
 #&gt; 1 WQ01    2023/1      28.2
 #&gt; 2 WQ01    2023/2      29</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>separate(data, col, into, sep, convert)</code></td>
+<td>cuts one column into several</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>col</code></td>
+<td>the column to cut</td>
+<td>a column name</td>
+</tr>
+<tr class="odd">
+<td>  <code>into</code></td>
+<td>names of the new columns</td>
+<td>a text vector <code>c("year", "month")</code></td>
+</tr>
+<tr class="even">
+<td>  <code>sep</code></td>
+<td>where to cut</td>
+<td>a character in quotes, e.g. <code>"-"</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>convert</code></td>
+<td><code>TRUE</code>: the new columns get their real type (numbers
+instead of text)</td>
+<td><code>TRUE</code> / <code>FALSE</code> (default)</td>
+</tr>
+<tr class="even">
+<td><code>unite(data, col, ..., sep)</code></td>
+<td>the opposite: glues columns into a new one called
+<code>col</code></td>
+<td>new name in quotes, then the columns, then <code>sep</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>separate(data, col, into, sep, convert)</code></td>
+<td>coupe une colonne en plusieurs</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>col</code></td>
+<td>la colonne à couper</td>
+<td>un nom de colonne</td>
+</tr>
+<tr class="odd">
+<td>  <code>into</code></td>
+<td>noms des nouvelles colonnes</td>
+<td>un vecteur de texte <code>c("year", "month")</code></td>
+</tr>
+<tr class="even">
+<td>  <code>sep</code></td>
+<td>où couper</td>
+<td>un caractère entre guillemets, ex. <code>"-"</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>convert</code></td>
+<td><code>TRUE</code> : les nouvelles colonnes prennent leur vrai type
+(nombres au lieu de texte)</td>
+<td><code>TRUE</code> / <code>FALSE</code> (défaut)</td>
+</tr>
+<tr class="even">
+<td><code>unite(data, col, ..., sep)</code></td>
+<td>l’inverse : colle des colonnes dans une nouvelle appelée
+<code>col</code></td>
+<td>nouveau nom entre guillemets, puis les colonnes, puis
+<code>sep</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="parameters" class="section level2">
 <h2><span class="en">Several parameters: clean, then pivot</span><span
@@ -759,6 +1032,58 @@ d’un coup :</p>
 #&gt; 3 salinity_psu    720 34.4  31.6  36.5 
 #&gt; 4 temp_C          708 26.1  21.8  30   
 #&gt; 5 turbidity_NTU   720  4.39  0.8  33.1</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>group_by()</code> + <code>summarise()</code></td>
+<td>statistics per group (Beginner Session 8);
+<code>sum(!is.na(value))</code> = number of measured values</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>group_by()</code> + <code>summarise()</code></td>
+<td>statistiques par groupe (séance 8 du niveau débutant) ;
+<code>sum(!is.na(value))</code> = nombre de valeurs mesurées</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="wider" class="section level2">
 <h2><span class="en">Long to wide: pivot_wider()</span><span
@@ -792,6 +1117,95 @@ paramètre — utilisez <code>pivot_wider()</code> :
 #&gt;  8 WQ08      7.16  8.15         34.0   26.2          7.06
 #&gt;  9 WQ09      7.2   8.15         33.9   26.1          6.97
 #&gt; 10 WQ10      7.25  8.15         33.9   26.0          5.78</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pivot_wider(data, names_from, values_from)</code></td>
+<td>long → wide: the values of one column become new column names</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>names_from</code></td>
+<td>the column whose values become the new column names</td>
+<td>a column name, <strong>without</strong> quotes</td>
+</tr>
+<tr class="odd">
+<td>  <code>values_from</code></td>
+<td>the column whose values fill the new columns</td>
+<td>a column name, without quotes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pivot_wider(data, names_from, values_from)</code></td>
+<td>long → large : les valeurs d’une colonne deviennent de nouveaux noms
+de colonnes</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>names_from</code></td>
+<td>la colonne dont les valeurs deviennent les nouveaux noms de
+colonnes</td>
+<td>un nom de colonne, <strong>sans</strong> guillemets</td>
+</tr>
+<tr class="odd">
+<td>  <code>values_from</code></td>
+<td>la colonne dont les valeurs remplissent les nouvelles colonnes</td>
+<td>un nom de colonne, sans guillemets</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>Note the asymmetry: in <code>pivot_longer()</code> the
+<strong>new</strong> columns do not exist yet, so <code>names_to</code>
+and <code>values_to</code> take names <strong>in quotes</strong>; in
+<code>pivot_wider()</code> the columns already exist, so
+<code>names_from</code> and <code>values_from</code> take names
+<strong>without</strong> quotes.</p>
+</div>
+<div class="fr">
+<p>Remarquez l’asymétrie : dans <code>pivot_longer()</code> les
+<strong>nouvelles</strong> colonnes n’existent pas encore, donc
+<code>names_to</code> et <code>values_to</code> prennent des noms
+<strong>entre guillemets</strong> ; dans <code>pivot_wider()</code> les
+colonnes existent déjà, donc <code>names_from</code> et
+<code>values_from</code> prennent des noms <strong>sans</strong>
+guillemets.</p>
+</div>
 <div class="compare">
 <div class="col base">
 <p>R base</p>
@@ -887,7 +1301,7 @@ une colonne.</p>
 </div>
 </div>
 <div id="quiz-i02" class="quiz" data-quiz-id="i02"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUm93cyBhZnRlciBwaXZvdF9sb25nZXI/IiwiZnIiOiIxLiBMaWduZXMgYXByw6hzIHBpdm90X2xvbmdlciA/IiwiYW5zd2VyIjozNjAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIE1lYW4gdGVtcGVyYXR1cmUgaW4gSnVseSAyMDI0ICgyIGRlY2ltYWxzKT8iLCJmciI6IjIuIFRlbXDDqXJhdHVyZSBtb3llbm5lIGVuIGp1aWxsZXQgMjAyNCAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoyMy4zNiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE1pc3NpbmcgdGVtcGVyYXR1cmVzIGFmdGVyIGNsZWFuaW5nPyIsImZyIjoiMy4gVGVtcMOpcmF0dXJlcyBtYW5xdWFudGVzIGFwcsOocyBuZXR0b3lhZ2UgPyIsImFuc3dlciI6MTIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIFJvd3Mgb2YgdGhlIGxvbmcgdGFibGUgb2YgcGFyYW1ldGVycz8iLCJmciI6IjQuIExpZ25lcyBkdSB0YWJsZWF1IGxvbmcgZGVzIHBhcmFtw6h0cmVzID8iLCJhbnN3ZXIiOjM2MDAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIE1lYW4gZGlzc29sdmVkIG94eWdlbiAoMyBkZWNpbWFscyk/IiwiZnIiOiI1LiBPeHlnw6huZSBkaXNzb3VzIG1veWVuICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjcuMTc5LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI2YS4gU3RhdGlvbiB3aXRoIHRoZSBoaWdoZXN0IG1lYW4gdHVyYmlkaXR5PyIsImZyIjoiNmEuIFN0YXRpb24gw6AgbGEgdHVyYmlkaXTDqSBtb3llbm5lIGxhIHBsdXMgw6lsZXbDqWUgPyIsImFuc3dlciI6WyJXUTA4Il19LHsidHlwZSI6Im51bSIsImVuIjoiNmIuIE51bWJlciBvZiBjb2x1bW5zIG9mIHRoZSBzdGF0aW9uIHRhYmxlPyIsImZyIjoiNmIuIE5vbWJyZSBkZSBjb2xvbm5lcyBkdSB0YWJsZWF1IHBhciBzdGF0aW9uID8iLCJhbnN3ZXIiOjYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjcuIE1lYW4gc2FsaW5pdHkgaW4gMjAyNSAoMyBkZWNpbWFscyk/IiwiZnIiOiI3LiBTYWxpbml0w6kgbW95ZW5uZSBlbiAyMDI1ICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjM0LjQwNywidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBXaGljaCBmb3JtYXQgZG9lcyBnZ3Bsb3QyIG5lZWQgdG8gZHJhdyBvbmUgcGFuZWwgcGVyIHBhcmFtZXRlcj8iLCJmciI6IjguIFF1ZWwgZm9ybWF0IGZhdXQtaWwgw6AgZ2dwbG90MiBwb3VyIHVuIHBhbm5lYXUgcGFyIHBhcmFtw6h0cmUgPyIsIm9wdGlvbnNfZW4iOlsiV2lkZSIsIkxvbmciLCJFaXRoZXIiLCJOZWl0aGVyIl0sIm9wdGlvbnNfZnIiOlsiTGFyZ2UiLCJMb25nIiwiTGVzIGRldXgiLCJBdWN1biJdLCJhbnN3ZXIiOjF9XQ==">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUm93cyBhZnRlciBwaXZvdF9sb25nZXI/IiwiZnIiOiIxLiBMaWduZXMgYXByw6hzIHBpdm90X2xvbmdlciA/IiwiYW5zd2VyIjozNjAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIE1lYW4gdGVtcGVyYXR1cmUgaW4gSnVseSAyMDI0ICgyIGRlY2ltYWxzKT8iLCJmciI6IjIuIFRlbXDDqXJhdHVyZSBtb3llbm5lIGVuIGp1aWxsZXQgMjAyNCAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjoyMy4zNiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE1pc3NpbmcgdGVtcGVyYXR1cmVzIGFmdGVyIGNsZWFuaW5nPyIsImZyIjoiMy4gVGVtcMOpcmF0dXJlcyBtYW5xdWFudGVzIGFwcsOocyBuZXR0b3lhZ2UgPyIsImFuc3dlciI6MTIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIFJvd3Mgb2YgdGhlIGxvbmcgdGFibGUgb2YgcGFyYW1ldGVycz8iLCJmciI6IjQuIExpZ25lcyBkdSB0YWJsZWF1IGxvbmcgZGVzIHBhcmFtw6h0cmVzID8iLCJhbnN3ZXIiOjM2MDAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIE1lYW4gZGlzc29sdmVkIG94eWdlbiAoMyBkZWNpbWFscyk/IiwiZnIiOiI1LiBPeHlnw6huZSBkaXNzb3VzIG1veWVuICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjcuMTc5LCJ0b2wiOjAuMDAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI2YS4gU3RhdGlvbiB3aXRoIHRoZSBoaWdoZXN0IG1lYW4gdHVyYmlkaXR5PyIsImZyIjoiNmEuIFN0YXRpb24gw6AgbGEgdHVyYmlkaXTDqSBtb3llbm5lIGxhIHBsdXMgw6lsZXbDqWUgPyIsImFuc3dlciI6WyJXUTA4Il19LHsidHlwZSI6Im51bSIsImVuIjoiNmIuIE51bWJlciBvZiBjb2x1bW5zIG9mIHRoZSBzdGF0aW9uIHRhYmxlPyIsImZyIjoiNmIuIE5vbWJyZSBkZSBjb2xvbm5lcyBkdSB0YWJsZWF1IHBhciBzdGF0aW9uID8iLCJhbnN3ZXIiOjYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjcuIE1lYW4gc2FsaW5pdHkgaW4gMjAyNSAoMyBkZWNpbWFscyk/IiwiZnIiOiI3LiBTYWxpbml0w6kgbW95ZW5uZSBlbiAyMDI1ICgzIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjM0LjQwNywidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBXaGljaCBmb3JtYXQgZG9lcyBnZ3Bsb3QyIG5lZWQgdG8gZHJhdyBvbmUgcGFuZWwgcGVyIHBhcmFtZXRlcj8iLCJmciI6IjguIFF1ZWwgZm9ybWF0IGZhdXQtaWwgw6AgZ2dwbG90MiBwb3VyIHVuIHBhbm5lYXUgcGFyIHBhcmFtw6h0cmUgPyIsIm9wdGlvbnNfZW4iOlsiV2lkZSIsIkxvbmciLCJFaXRoZXIiLCJOZWl0aGVyIl0sIm9wdGlvbnNfZnIiOlsiTGFyZ2UiLCJMb25nIiwiTGVzIGRldXgiLCJBdWN1biJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOS4gSW4gcGl2b3RfbG9uZ2VyKCksIHdoaWNoIGFyZ3VtZW50IG5hbWVzIHRoZSBuZXcgY29sdW1uIHRoYXQgcmVjZWl2ZXMgdGhlIG9sZCBjb2x1bW4gbmFtZXM/IiwiZnIiOiI5LiBEYW5zIHBpdm90X2xvbmdlcigpLCBxdWVsIGFyZ3VtZW50IG5vbW1lIGxhIG5vdXZlbGxlIGNvbG9ubmUgcXVpIHJlw6dvaXQgbGVzIGFuY2llbnMgbm9tcyBkZSBjb2xvbm5lcyA/Iiwib3B0aW9uc19lbiI6WyJ2YWx1ZXNfdG8iLCJuYW1lc19mcm9tIiwibmFtZXNfdG8iLCJjb2xzIl0sIm9wdGlvbnNfZnIiOlsidmFsdWVzX3RvIiwibmFtZXNfZnJvbSIsIm5hbWVzX3RvIiwiY29scyJdLCJhbnN3ZXIiOjJ9XQ==">
 
 </div>
 <div class="solution" data-quiz="i02">

@@ -67,8 +67,21 @@ ncell(bathy)
 global(bathy, c("mean", "min", "max"), na.rm = TRUE)   # summary of all cells
 ```
 
+```{r, echo=FALSE}
+fa(c("`rast(x)`", "reads a raster file (`.tif`) as a **SpatRaster**", "lit un fichier raster (`.tif`) sous forme de **SpatRaster**", "path of the file", "chemin du fichier"),
+   c("`res(x)`, `ncell(x)`", "cell size (x, y) in the unit of the CRS; number of cells", "taille des cellules (x, y) dans l'unité du SCR ; nombre de cellules", "a SpatRaster", "un SpatRaster"),
+   c("`global(x, fun, na.rm)`", "a statistic computed over **all** the cells of each layer", "une statistique calculée sur **toutes** les cellules de chaque couche", "", ""),
+   c("&nbsp;&nbsp;`fun`", "the statistic(s), **as text**", "la ou les statistiques, **en texte**", "`\"mean\"`, `\"min\"`, `\"max\"`, `\"sum\"`, `\"sd\"`, or `c(...)`", "`\"mean\"`, `\"min\"`, `\"max\"`, `\"sum\"`, `\"sd\"`, ou `c(...)`"))
+```
+
 ```{r}
 plot(bathy, col = rev(hcl.colors(50, "Blues")), main = "Depth (m)")
+```
+
+```{r, echo=FALSE}
+fa(c("`plot(raster, col, main)`", "draws the raster with a colour legend", "dessine le raster avec une légende de couleurs", "", ""),
+   c("`hcl.colors(n, palette, rev)`", "`n` colours from a named palette (`\"Blues\"`, `\"YlOrRd\"`, `\"viridis\"`…); `rev = TRUE` reverses them", "`n` couleurs d'une palette nommée (`\"Blues\"`, `\"YlOrRd\"`, `\"viridis\"`…) ; `rev = TRUE` les inverse", "a number; a palette name", "un nombre ; un nom de palette"),
+   c("`rev(x)`", "reverses a vector (Beginner Session 2): here deep = dark blue", "inverse un vecteur (séance 2 du niveau débutant) : ici profond = bleu foncé", "", ""))
 ```
 
 ::: en
@@ -84,6 +97,13 @@ plot(bathy, col = rev(hcl.colors(50, "Blues")), main = "Depth (m)")
 sst <- rast("data/advanced/sst_2024.tif")
 nlyr(sst); names(sst)[1:3]; time(sst)[1:3]
 plot(sst[[1:6]], col = hcl.colors(50, "YlOrRd", rev = TRUE), range = c(23, 31.5), nc = 3)
+```
+
+```{r, echo=FALSE}
+fa(c("`nlyr(x)`, `names(x)`, `time(x)`", "number of layers, their names, their dates", "nombre de couches, leurs noms, leurs dates", "a SpatRaster", "un SpatRaster"),
+   c("`sst[[1:6]]`", "layers 1 to 6 (double brackets select layers, as columns of a list)", "couches 1 à 6 (les doubles crochets sélectionnent des couches, comme les éléments d'une liste)", "positions or names", "positions ou noms"),
+   c("&nbsp;&nbsp;`range` (in `plot()`)", "the same colour scale for every map, so that they can be compared", "la même échelle de couleurs pour toutes les cartes, pour pouvoir les comparer", "`c(min, max)`", "`c(min, max)`"),
+   c("&nbsp;&nbsp;`nc`", "number of columns of maps", "nombre de colonnes de cartes", "a whole number", "un nombre entier"))
 ```
 
 ```{r}
@@ -109,6 +129,18 @@ plot(sst_max, col = hcl.colors(50, "YlOrRd", rev = TRUE), main = "Max SST 2024 (
 plot(hot_mons, col = hcl.colors(4, "Reds", rev = TRUE), main = "Months > 29.5 °C")
 ```
 
+```{r, echo=FALSE}
+fa(c("`max(sst)`, `mean(sst)`, `sum(sst > 29.5)`", "on a multi-layer raster: computed **cell by cell across the layers**, the result is one layer", "sur un raster à plusieurs couches : calculé **cellule par cellule à travers les couches**, le résultat est une seule couche", "", ""),
+   c("`par(mfrow = c(1, 2))`", "two plots side by side (Beginner Session 7)", "deux graphiques côte à côte (séance 7 du niveau débutant)", "", ""))
+```
+
+::: en
+Watch the difference: `global(sst, "max")` gives one number **per layer** (over all cells), `max(sst)` gives one value **per cell** (over all layers). And `global()` wants the function name in quotes, while `extract(..., fun = mean)` below wants it without quotes.
+:::
+::: fr
+Attention à la différence : `global(sst, "max")` donne un nombre **par couche** (sur toutes les cellules), `max(sst)` donne une valeur **par cellule** (sur toutes les couches). Et `global()` veut le nom de la fonction entre guillemets, alors que `extract(..., fun = mean)` plus bas le veut sans guillemets.
+:::
+
 ::: {.callout .tip}
 ::: en
 The idea of **counting the time above a threshold** is the basis of real heat-stress indicators such as the *Degree Heating Weeks* of NOAA Coral Reef Watch (accumulated heat above the usual summer maximum over 12 weeks). Here we use a simple monthly version to learn the method.
@@ -131,6 +163,14 @@ plot(b_mask, col = rev(hcl.colors(50, "Blues")), main = "Depth inside Tanjona MP
 lines(tanjona)
 ```
 
+```{r, echo=FALSE}
+fa(c("`crs(x)`", "the CRS of a raster (terra's version of `st_crs()`)", "le SCR d'un raster (la version terra de `st_crs()`)", "", ""),
+   c("`vect(x)`", "converts an sf layer into a terra **SpatVector**", "convertit une couche sf en **SpatVector** de terra", "an sf object or a file path", "un objet sf ou un chemin de fichier"),
+   c("`crop(x, y)`", "cuts the raster to the **rectangle** around `y`", "découpe le raster au **rectangle** autour de `y`", "a raster; a SpatVector or extent", "un raster ; un SpatVector ou une étendue"),
+   c("`mask(x, mask)`", "sets to `NA` the cells **outside** the polygons", "met à `NA` les cellules **hors** des polygones", "a raster; a SpatVector", "un raster ; un SpatVector"),
+   c("`lines(v)`", "adds the outline of the polygons on the map", "ajoute le contour des polygones sur la carte", "a SpatVector", "un SpatVector"))
+```
+
 ```{r}
 # Reproject to UTM 38S (metres). "bilinear" for continuous values, "near" for classes.
 bathy_utm <- project(bathy, "EPSG:32738", method = "bilinear")
@@ -141,6 +181,22 @@ rcl <- matrix(c(0, 10, 1,  10, 30, 2,  30, Inf, 3), ncol = 3, byrow = TRUE)
 depth_cl <- classify(bathy, rcl)
 freq(depth_cl)
 ```
+
+```{r, echo=FALSE}
+fa(c("`project(x, y, method)`", "reprojects a raster (terra's `st_transform()`); cells are re-computed", "reprojette un raster (le `st_transform()` de terra) ; les cellules sont recalculées", "", ""),
+   c("&nbsp;&nbsp;`y`", "the new CRS", "le nouveau SCR", "`\"EPSG:32738\"` or another raster", "`\"EPSG:32738\"` ou un autre raster"),
+   c("&nbsp;&nbsp;`method`", "how new cell values are computed: `\"bilinear\"` (average of neighbours, continuous values), `\"near\"` (nearest cell, classes)", "comment les nouvelles valeurs sont calculées : `\"bilinear\"` (moyenne des voisins, valeurs continues), `\"near\"` (cellule la plus proche, classes)", "text", "texte"),
+   c("`matrix(data, ncol, byrow)`", "a table of numbers; `byrow = TRUE` fills it row by row: each row = from, to, new value", "un tableau de nombres ; `byrow = TRUE` le remplit ligne par ligne : chaque ligne = de, à, nouvelle valeur", "", ""),
+   c("`classify(x, rcl)`", "replaces value ranges by class numbers", "remplace des intervalles de valeurs par des numéros de classe", "a raster; the matrix `rcl`", "un raster ; la matrice `rcl`"),
+   c("`freq(x)`", "number of cells per value", "nombre de cellules par valeur", "a raster", "un raster"))
+```
+
+::: en
+`st_transform()` (sf, vectors) and `project()` (terra, rasters) do the same job with different names — and in the other direction, `crs()` is terra's name for sf's `st_crs()`.
+:::
+::: fr
+`st_transform()` (sf, vecteurs) et `project()` (terra, rasters) font le même travail avec des noms différents — et dans l'autre sens, `crs()` est le nom terra du `st_crs()` de sf.
+:::
 
 ::: {.callout .warning}
 ::: en
@@ -161,6 +217,11 @@ sites$depth_raster <- round(extract(bathy, sites_ll)$depth_m, 1)   # extract() a
 sites$sst_max      <- round(extract(sst_max, sites_ll)[, 2], 2)
 sites$hot_months   <- extract(hot_mons, sites_ll)[, 2]
 head(st_drop_geometry(sites)[, c("site_id", "zone", "depth_m", "depth_raster", "sst_max", "hot_months")], 6)
+```
+
+```{r, echo=FALSE}
+fa(c("`extract(x, y)`", "the value of the raster under each point of `y`; returns a data frame with a first column `ID` then one column per layer", "la valeur du raster sous chaque point de `y` ; renvoie un data frame avec une première colonne `ID` puis une colonne par couche", "a raster; a SpatVector in the same CRS", "un raster ; un SpatVector dans le même SCR"),
+   c("`[, 2]`, `$depth_m`", "take the column of values (not `ID`)", "prendre la colonne des valeurs (pas `ID`)", "", ""))
 ```
 
 ::: en
@@ -209,6 +270,11 @@ zones$sst_max    <- round(extract(sst_max, zones_ll, fun = max, na.rm = TRUE)[, 
 st_drop_geometry(zones)[, c("mpa", "zone", "depth_mean", "sst_max")]
 ```
 
+```{r, echo=FALSE}
+fa(c("`extract(x, polygons, fun, na.rm)`", "with polygons and `fun`: **one** value per polygon (zonal statistic)", "avec des polygones et `fun` : **une** valeur par polygone (statistique zonale)", "", ""),
+   c("&nbsp;&nbsp;`fun`", "the function applied to the cells of each polygon, **without** quotes", "la fonction appliquée aux cellules de chaque polygone, **sans** guillemets", "`mean`, `max`, `min`, `sum`", "`mean`, `max`, `min`, `sum`"))
+```
+
 ::: {.callout .try}
 ::: en
 **Try it.** Compute the **area of shallow water (0–10 m)** in each MPA: classify the depth, keep class 1, then `expanse()` (area of the non-NA cells) inside each MPA with `mask()`. Why is `expanse()` better than counting cells × 0.0025² here?
@@ -224,6 +290,19 @@ st_drop_geometry(zones)[, c("mpa", "zone", "depth_mean", "sst_max")]
 writeRaster(sst_max, here::here("data", "derived", "sst_max_2024.tif"), overwrite = TRUE)
 writeRaster(depth_cl, here::here("data", "derived", "depth_classes.tif"), datatype = "INT1U", overwrite = TRUE)
 ```
+
+```{r, echo=FALSE}
+fa(c("`writeRaster(x, filename, overwrite, datatype)`", "writes a raster file (GeoTIFF for `.tif`)", "écrit un fichier raster (GeoTIFF pour `.tif`)", "", ""),
+   c("&nbsp;&nbsp;`overwrite`", "`TRUE` replaces an existing file", "`TRUE` remplace un fichier existant", "`TRUE` / `FALSE` (default)", "`TRUE` / `FALSE` (défaut)"),
+   c("&nbsp;&nbsp;`datatype`", "how values are stored; `\"INT1U\"` = whole numbers 0–255 (small file for classes); default `\"FLT4S\"` = decimals", "comment les valeurs sont stockées ; `\"INT1U\"` = entiers 0–255 (petit fichier pour des classes) ; par défaut `\"FLT4S\"` = décimaux", "text", "texte"))
+```
+
+::: en
+Writing a file: `overwrite = TRUE` in terra, `delete_dsn` / `append = FALSE` in sf (Session A5), `overwrite` again in `file.copy()`… each package chose its own word.
+:::
+::: fr
+Écrire un fichier : `overwrite = TRUE` dans terra, `delete_dsn` / `append = FALSE` dans sf (séance A5), encore `overwrite` dans `file.copy()`… chaque package a choisi son propre mot.
+:::
 
 ::: en
 GeoTIFF (`.tif`) is the standard format; it opens in QGIS. Large rasters do not belong in Git (Session A2): keep them in `data/raw/` listed in `.gitignore`, and write in the README where to download them.
@@ -306,7 +385,10 @@ quiz("a06", list(
         c("mettre à NA les cellules hors des polygones", "découper le raster au rectangle des polygones", "calculer la moyenne par polygone", "changer la résolution"), correct = 1),
   q_mcq("9. A site was measured at 7 m but the raster gives 3 m. Most likely reason?", "9. Un site a été mesuré à 7 m mais le raster donne 3 m. Raison la plus probable ?",
         c("The raster is wrong and must be deleted", "A raster cell (≈ 270 m) is an interpolated average, not the exact spot", "The CRS is wrong", "extract() rounds values"),
-        c("Le raster est faux et doit être supprimé", "Une cellule (≈ 270 m) est une moyenne interpolée, pas le point exact", "Le SCR est faux", "extract() arrondit les valeurs"), correct = 2)
+        c("Le raster est faux et doit être supprimé", "Une cellule (≈ 270 m) est une moyenne interpolée, pas le point exact", "Le SCR est faux", "extract() arrondit les valeurs"), correct = 2),
+  q_mcq("10. What is the difference between global(sst, \"max\") and max(sst)?", "10. Quelle est la différence entre global(sst, \"max\") et max(sst) ?",
+        c("global() gives one value per layer (over all cells); max() gives one value per cell (over all layers)", "None", "global() is slower", "max() works only on one layer"),
+        c("global() donne une valeur par couche (sur toutes les cellules) ; max() donne une valeur par cellule (sur toutes les couches)", "Aucune", "global() est plus lent", "max() ne marche que sur une couche"), correct = 1)
 ))
 ```
 

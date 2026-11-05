@@ -620,6 +620,128 @@ les formes et la projection.</p>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;#dceef3&quot;</span>, <span class="at">colour =</span> <span class="cn">NA</span>), <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
 <p><img src="a07-maps_files/figure-html/map1-1.png" alt="" width="62%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_bbox(st_buffer(zones, 3000))</code></td>
+<td>the rectangle around the zones enlarged by 3 km: the map frame
+(Session A5)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_sf(data, aes(...), fill, colour, linewidth, alpha, shape, size)</code></td>
+<td>draws any sf layer (polygons, lines, points); the usual ggplot2
+settings apply (Intermediate I7)</td>
+<td>an sf object</td>
+</tr>
+<tr class="odd">
+<td><code>coord_sf(xlim, ylim, crs, datum, expand)</code></td>
+<td>the frame and the projection of the map</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>xlim</code>, <code>ylim</code></td>
+<td>limits, in the units of <code>crs</code> (here metres):
+<code>bb[c("xmin", "xmax")]</code></td>
+<td>two numbers</td>
+</tr>
+<tr class="odd">
+<td>  <code>crs</code></td>
+<td>the CRS in which the map is <strong>drawn</strong> (default: that of
+the first layer)</td>
+<td>an EPSG code or <code>st_crs()</code></td>
+</tr>
+<tr class="even">
+<td>  <code>datum</code></td>
+<td>the CRS of the <strong>graticule</strong> (grid lines and their
+labels); 4326 = degrees</td>
+<td>an EPSG code</td>
+</tr>
+<tr class="odd">
+<td><code>scale_x_continuous(breaks)</code></td>
+<td>on a map the breaks are given <strong>in degrees</strong> (the
+graticule), even if the map is drawn in metres</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_bbox(st_buffer(zones, 3000))</code></td>
+<td>le rectangle autour des zones élargi de 3 km : le cadre de la carte
+(séance A5)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_sf(data, aes(...), fill, colour, linewidth, alpha, shape, size)</code></td>
+<td>dessine n’importe quelle couche sf (polygones, lignes, points) ; les
+réglages habituels de ggplot2 s’appliquent (intermédiaire I7)</td>
+<td>un objet sf</td>
+</tr>
+<tr class="odd">
+<td><code>coord_sf(xlim, ylim, crs, datum, expand)</code></td>
+<td>le cadre et la projection de la carte</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>xlim</code>, <code>ylim</code></td>
+<td>limites, dans les unités de <code>crs</code> (ici des mètres) :
+<code>bb[c("xmin", "xmax")]</code></td>
+<td>deux nombres</td>
+</tr>
+<tr class="odd">
+<td>  <code>crs</code></td>
+<td>le SCR dans lequel la carte est <strong>dessinée</strong> (par
+défaut : celui de la première couche)</td>
+<td>un code EPSG ou <code>st_crs()</code></td>
+</tr>
+<tr class="even">
+<td>  <code>datum</code></td>
+<td>le SCR du <strong>graticule</strong> (lignes de la grille et leurs
+étiquettes) ; 4326 = degrés</td>
+<td>un code EPSG</td>
+</tr>
+<tr class="odd">
+<td><code>scale_x_continuous(breaks)</code></td>
+<td>sur une carte les graduations se donnent <strong>en degrés</strong>
+(le graticule), même si la carte est dessinée en mètres</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p><code>coord_sf()</code> does three jobs: the <strong>zoom</strong>
 (<code>xlim</code>, <code>ylim</code>, in the units of the CRS used for
@@ -649,7 +771,116 @@ class="fr">Étiquettes</span></h3>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>                           <span class="at">stat =</span> <span class="st">&quot;sf_coordinates&quot;</span>, <span class="at">size =</span> <span class="fl">2.6</span>, <span class="at">min.segment.length =</span> <span class="dv">0</span>, <span class="at">seed =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> bb[<span class="fu">c</span>(<span class="st">&quot;xmin&quot;</span>, <span class="st">&quot;xmax&quot;</span>)] <span class="sc">+</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">15000</span>), <span class="at">ylim =</span> bb[<span class="fu">c</span>(<span class="st">&quot;ymin&quot;</span>, <span class="st">&quot;ymax&quot;</span>)], <span class="at">datum =</span> <span class="dv">4326</span>) <span class="sc">+</span></span>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>)</span></code></pre></div>
-<p><img src="a07-maps_files/figure-html/unnamed-chunk-1-1.png" alt="" width="62%" style="display: block; margin: auto;" /></p>
+<p><img src="a07-maps_files/figure-html/unnamed-chunk-2-1.png" alt="" width="62%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>summarise(.groups = "drop")</code> without statistic</td>
+<td>only dissolves the polygons of each group (Session A5)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_sf_label(aes(label), nudge_x)</code></td>
+<td>a label in a box at the centre of each feature; <code>nudge_x</code>
+moves it, here in metres</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>ggrepel::geom_text_repel(...)</code></td>
+<td><strong>ggrepel</strong> package: labels pushed apart so they do not
+overlap, with a line to their point</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>aes(geometry = geometry)</code>,
+<code>stat = "sf_coordinates"</code></td>
+<td>tell ggrepel to take x and y from the geometry of the sf layer</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>min.segment.length</code></td>
+<td>shortest line drawn; 0 = always draw the line</td>
+<td>a number</td>
+</tr>
+<tr class="even">
+<td>  <code>seed</code></td>
+<td>fixes the random placement (like <code>set.seed()</code>), so the
+labels stay at the same place</td>
+<td>a whole number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>summarise(.groups = "drop")</code> without statistic</td>
+<td>fusionne seulement les polygones de chaque groupe (séance A5)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_sf_label(aes(label), nudge_x)</code></td>
+<td>une étiquette dans un cadre au centre de chaque entité ;
+<code>nudge_x</code> la déplace, ici en mètres</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>ggrepel::geom_text_repel(...)</code></td>
+<td>package <strong>ggrepel</strong> : étiquettes écartées pour ne pas
+se chevaucher, avec un trait vers leur point</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>aes(geometry = geometry)</code>,
+<code>stat = "sf_coordinates"</code></td>
+<td>indiquent à ggrepel de prendre x et y dans la géométrie de la couche
+sf</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>min.segment.length</code></td>
+<td>trait le plus court dessiné ; 0 = toujours dessiner le trait</td>
+<td>un nombre</td>
+</tr>
+<tr class="even">
+<td>  <code>seed</code></td>
+<td>fixe le placement aléatoire (comme <code>set.seed()</code>), pour
+que les étiquettes restent au même endroit</td>
+<td>un nombre entier</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="scale" class="section level2">
@@ -677,10 +908,151 @@ gauche de n’importe quelle carte en UTM :</p>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>             <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;cm&quot;</span>)), <span class="at">linewidth =</span> <span class="fl">0.7</span>),</span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> x0, <span class="at">y =</span> y0 <span class="sc">+</span> <span class="fl">2.4</span> <span class="sc">*</span> h, <span class="at">label =</span> <span class="st">&quot;N&quot;</span>, <span class="at">fontface =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">size =</span> <span class="fl">3.5</span>))</span>
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>}</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>bb[["xmin"]]</code></td>
+<td>one value of the bounding box, by name</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>list(annotate(...), ...)</code></td>
+<td>a ggplot can receive a <strong>list</strong> of layers with
+<code>+</code>: our function returns four annotations at once</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>annotate("rect" / "text" / "segment")</code></td>
+<td>reminders (Intermediate I8, I11); in UTM the positions are in
+metres, so <code>km * 1000</code> is the length of the bar</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>bb[["xmin"]]</code></td>
+<td>une valeur du rectangle englobant, par son nom</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>list(annotate(...), ...)</code></td>
+<td>un ggplot peut recevoir une <strong>liste</strong> de couches avec
+<code>+</code> : notre fonction renvoie quatre annotations d’un
+coup</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>annotate("rect" / "text" / "segment")</code></td>
+<td>rappels (intermédiaire I8, I11) ; en UTM les positions sont en
+mètres, donc <code>km * 1000</code> est la longueur de la barre</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># With the package ggspatial (optional: install.packages(&quot;ggspatial&quot;)), the same in two lines:</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">library</span>(ggspatial)</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">annotation_scale</span>(<span class="at">location =</span> <span class="st">&quot;bl&quot;</span>, <span class="at">width_hint =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">&quot;tl&quot;</span>, <span class="at">style =</span> north_arrow_fancy_orienteering)</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>annotation_scale(location, width_hint)</code></td>
+<td><strong>ggspatial</strong>: a scale bar computed from the CRS;
+<code>"bl"</code> = bottom left; <code>width_hint</code> = approximate
+share of the map width</td>
+<td><code>"bl"</code>, <code>"br"</code>, <code>"tl"</code>,
+<code>"tr"</code>; 0 to 1</td>
+</tr>
+<tr class="even">
+<td><code>annotation_north_arrow(location, style)</code></td>
+<td>a north arrow; <code>style</code> chooses its drawing</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>annotation_scale(location, width_hint)</code></td>
+<td><strong>ggspatial</strong> : une barre d’échelle calculée à partir
+du SCR ; <code>"bl"</code> = en bas à gauche ; <code>width_hint</code> =
+part approximative de la largeur de la carte</td>
+<td><code>"bl"</code>, <code>"br"</code>, <code>"tl"</code>,
+<code>"tr"</code> ; 0 à 1</td>
+</tr>
+<tr class="even">
+<td><code>annotation_north_arrow(location, style)</code></td>
+<td>une flèche du nord ; <code>style</code> choisit son dessin</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p>A scale bar drawn on a map in <strong>longitude/latitude</strong> is
@@ -722,6 +1094,106 @@ class="fr">Une carte thématique : évolution du corail</span></h2>
 <span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;#eef6f8&quot;</span>, <span class="at">colour =</span> <span class="cn">NA</span>))</span>
 <span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>map_change</span></code></pre></div>
 <p><img src="a07-maps_files/figure-html/change-1.png" alt="" width="62%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tidyr::pivot_wider(names_prefix = "y")</code></td>
+<td>one column per year, called <code>y2023</code>, <code>y2025</code>
+(Intermediate I2, I10)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>aes(linetype = zone)</code></td>
+<td>the line type depends on a column (here the outline of the
+zones)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>scale_fill_gradient2(low, mid, high, midpoint, name)</code></td>
+<td>a <strong>diverging</strong> colour scale: <code>low</code> colour
+for negative values, <code>mid</code> at <code>midpoint</code>,
+<code>high</code> for positive values</td>
+<td>three colours; a number (here 0)</td>
+</tr>
+<tr class="even">
+<td><code>scale_linetype_manual(values)</code></td>
+<td>chooses the line type of each category</td>
+<td>a named vector: <code>"solid"</code>, <code>"dashed"</code>,
+<code>"dotted"</code></td>
+</tr>
+<tr class="odd">
+<td><code>scale_size_area(max_size)</code></td>
+<td>reminder (Intermediate I11)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tidyr::pivot_wider(names_prefix = "y")</code></td>
+<td>une colonne par année, appelées <code>y2023</code>,
+<code>y2025</code> (intermédiaire I2, I10)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>aes(linetype = zone)</code></td>
+<td>le type de trait dépend d’une colonne (ici le contour des
+zones)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>scale_fill_gradient2(low, mid, high, midpoint, name)</code></td>
+<td>une échelle de couleurs <strong>divergente</strong> : couleur
+<code>low</code> pour les valeurs négatives, <code>mid</code> au
+<code>midpoint</code>, <code>high</code> pour les positives</td>
+<td>trois couleurs ; un nombre (ici 0)</td>
+</tr>
+<tr class="even">
+<td><code>scale_linetype_manual(values)</code></td>
+<td>choisit le type de trait de chaque catégorie</td>
+<td>un vecteur nommé : <code>"solid"</code>, <code>"dashed"</code>,
+<code>"dotted"</code></td>
+</tr>
+<tr class="odd">
+<td><code>scale_size_area(max_size)</code></td>
+<td>rappel (intermédiaire I11)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p><strong>Choosing colours.</strong> A quantity that goes from low to
 high: a <strong>sequential</strong> palette
@@ -758,6 +1230,78 @@ class="fr">Petits multiples : une carte par année</span></h2>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> bb[<span class="fu">c</span>(<span class="st">&quot;xmin&quot;</span>, <span class="st">&quot;xmax&quot;</span>)], <span class="at">ylim =</span> bb[<span class="fu">c</span>(<span class="st">&quot;ymin&quot;</span>, <span class="st">&quot;ymax&quot;</span>)]) <span class="sc">+</span></span>
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="fu">theme_void</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <p><img src="a07-maps_files/figure-html/facets-1.png" alt="" width="95%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>scale_colour_viridis_c(option = "mako", direction = -1, name)</code></td>
+<td>reminder (Intermediate I7): palette <em>mako</em>, reversed (high
+cover = dark), legend title</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>facet_wrap(~ year, nrow = 1)</code></td>
+<td>one map per year, all on one row</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>theme_void()</code></td>
+<td>a theme with no axes, no grid, no background: only the data</td>
+<td>optional <code>base_size</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>scale_colour_viridis_c(option = "mako", direction = -1, name)</code></td>
+<td>rappel (intermédiaire I7) : palette <em>mako</em>, inversée
+(couverture forte = foncé), titre de la légende</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>facet_wrap(~ year, nrow = 1)</code></td>
+<td>une carte par année, toutes sur une ligne</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>theme_void()</code></td>
+<td>un thème sans axes, ni grille, ni fond : seulement les données</td>
+<td><code>base_size</code> facultatif</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p><code>facet_wrap()</code> works with <code>geom_sf()</code> exactly
 as with other plots. Note the gaps: Tanjona has no points in 2022.</p>
@@ -802,6 +1346,101 @@ les couches vecteur dans le même SCR.</p>
 <span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Bathymetry interpolated from echo-sounder transects (simulated) · WGS84&quot;</span>) <span class="sc">+</span></span>
 <span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>)</span></code></pre></div>
 <p><img src="a07-maps_files/figure-html/raster-map-1.png" alt="" width="62%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>as.data.frame(r, xy = TRUE)</code></td>
+<td>a raster → a table with one row per cell: columns <code>x</code>,
+<code>y</code> (cell centre) and the values</td>
+<td>a SpatRaster; <code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td><code>cut(x, breaks, labels)</code></td>
+<td>depth classes (Intermediate I5)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>geom_raster(aes(x, y, fill))</code></td>
+<td>draws one square per row (cell): fast for regular grids</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>scale_fill_brewer(palette = "Blues")</code></td>
+<td>a ColorBrewer palette for ordered classes (Intermediate I7)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>range(x)</code>, <code>expand = FALSE</code></td>
+<td>frame = exactly the extent of the raster</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>as.data.frame(r, xy = TRUE)</code></td>
+<td>un raster → un tableau avec une ligne par cellule : colonnes
+<code>x</code>, <code>y</code> (centre de la cellule) et les
+valeurs</td>
+<td>un SpatRaster ; <code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td><code>cut(x, breaks, labels)</code></td>
+<td>classes de profondeur (intermédiaire I5)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>geom_raster(aes(x, y, fill))</code></td>
+<td>dessine un carré par ligne (cellule) : rapide pour des grilles
+régulières</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>scale_fill_brewer(palette = "Blues")</code></td>
+<td>une palette ColorBrewer pour des classes ordonnées (intermédiaire
+I7)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>range(x)</code>, <code>expand = FALSE</code></td>
+<td>cadre = exactement l’étendue du raster</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># With the package tidyterra (optional), a SpatRaster goes straight into ggplot:</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">library</span>(tidyterra)</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_spatraster</span>(<span class="at">data =</span> b_nf) <span class="sc">+</span> <span class="fu">scale_fill_whitebox_c</span>(<span class="at">palette =</span> <span class="st">&quot;deep&quot;</span>)</span></code></pre></div>
@@ -847,6 +1486,139 @@ code dans RStudio.</em></p>
 <span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;view&quot;</span>)                      <span class="co"># the same map, interactive (zoom, background tiles, pop-ups)</span></span>
 <span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="fu">tm_shape</span>(sites_ch) <span class="sc">+</span> <span class="fu">tm_dots</span>(<span class="at">fill =</span> <span class="st">&quot;change&quot;</span>, <span class="at">popup.vars =</span> <span class="fu">c</span>(<span class="st">&quot;site_id&quot;</span>, <span class="st">&quot;y2023&quot;</span>, <span class="st">&quot;y2025&quot;</span>))</span>
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;plot&quot;</span>)                      <span class="co"># back to static maps</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tmap_mode(mode)</code></td>
+<td><code>"plot"</code> = static maps, <code>"view"</code> = interactive
+web maps (zoom, background tiles)</td>
+<td><code>"plot"</code> / <code>"view"</code></td>
+</tr>
+<tr class="even">
+<td><code>tm_shape(shp, bbox)</code></td>
+<td>the layer to draw next (and, for the first one, the map frame)</td>
+<td>an sf or terra object</td>
+</tr>
+<tr class="odd">
+<td><code>tm_polygons(fill, fill_alpha, fill.scale)</code></td>
+<td>draws polygons; <code>fill</code> = a colour or <strong>a column
+name in quotes</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>tm_dots(fill, size, popup.vars)</code></td>
+<td>draws points; <code>popup.vars</code> = columns shown when clicking
+(view mode)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>tm_scale_categorical(values)</code>,
+<code>tm_scale_continuous(values, midpoint)</code></td>
+<td>how values become colours (tmap’s version of
+<code>scale_fill_…()</code>)</td>
+<td>colours or a palette name</td>
+</tr>
+<tr class="even">
+<td><code>tm_scalebar()</code>, <code>tm_compass()</code>,
+<code>tm_title()</code></td>
+<td>scale bar, north arrow, title;
+<code>position = c("left", "bottom")</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tmap_mode(mode)</code></td>
+<td><code>"plot"</code> = cartes statiques, <code>"view"</code> = cartes
+web interactives (zoom, fonds de carte)</td>
+<td><code>"plot"</code> / <code>"view"</code></td>
+</tr>
+<tr class="even">
+<td><code>tm_shape(shp, bbox)</code></td>
+<td>la couche à dessiner ensuite (et, pour la première, le cadre de la
+carte)</td>
+<td>un objet sf ou terra</td>
+</tr>
+<tr class="odd">
+<td><code>tm_polygons(fill, fill_alpha, fill.scale)</code></td>
+<td>dessine des polygones ; <code>fill</code> = une couleur ou
+<strong>un nom de colonne entre guillemets</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>tm_dots(fill, size, popup.vars)</code></td>
+<td>dessine des points ; <code>popup.vars</code> = colonnes affichées au
+clic (mode view)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>tm_scale_categorical(values)</code>,
+<code>tm_scale_continuous(values, midpoint)</code></td>
+<td>comment les valeurs deviennent des couleurs (la version tmap de
+<code>scale_fill_…()</code>)</td>
+<td>couleurs ou un nom de palette</td>
+</tr>
+<tr class="even">
+<td><code>tm_scalebar()</code>, <code>tm_compass()</code>,
+<code>tm_title()</code></td>
+<td>barre d’échelle, flèche du nord, titre ;
+<code>position = c("left", "bottom")</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>ggplot2 and tmap do the same maps with different words: a column is
+given <strong>without</strong> quotes inside <code>aes()</code> in
+ggplot2, but <strong>with</strong> quotes in tmap
+(<code>fill = "zone"</code>); transparency is <code>alpha</code> in
+ggplot2, <code>fill_alpha</code> in tmap; the colour scale is
+<code>scale_fill_…()</code> in ggplot2,
+<code>fill.scale = tm_scale_…()</code> in tmap.</p>
+</div>
+<div class="fr">
+<p>ggplot2 et tmap font les mêmes cartes avec des mots différents : une
+colonne se donne <strong>sans</strong> guillemets dans
+<code>aes()</code> avec ggplot2, mais <strong>avec</strong> guillemets
+dans tmap (<code>fill = "zone"</code>) ; la transparence s’appelle
+<code>alpha</code> dans ggplot2, <code>fill_alpha</code> dans tmap ;
+l’échelle de couleurs est <code>scale_fill_…()</code> dans ggplot2,
+<code>fill.scale = tm_scale_…()</code> dans tmap.</p>
+</div>
 <div class="callout tip">
 <div class="en">
 <p><strong>Which one?</strong> Use <strong>ggplot2 + sf</strong> when
@@ -876,6 +1648,68 @@ class="fr">Carte + graphique, et export</span></h2>
 <span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Hard coral cover (%)&quot;</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>)</span>
 <span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>(map_change <span class="sc">|</span> g_trend) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">widths =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">&quot;A&quot;</span>)</span></code></pre></div>
 <p><img src="a07-maps_files/figure-html/combo-1.png" alt="" width="95%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>plot_layout(widths)</code></td>
+<td>patchwork: relative widths of the plots side by side (here the map
+1.2 × wider)</td>
+<td>a vector of numbers</td>
+</tr>
+<tr class="even">
+<td><code>plot_annotation(tag_levels = "A")</code></td>
+<td>letters A, B on the panels (Intermediate I8)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>plot_layout(widths)</code></td>
+<td>patchwork : largeurs relatives des graphiques côte à côte (ici la
+carte 1,2 × plus large)</td>
+<td>un vecteur de nombres</td>
+</tr>
+<tr class="even">
+<td><code>plot_annotation(tag_levels = "A")</code></td>
+<td>lettres A, B sur les panneaux (intermédiaire I8)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>fig <span class="ot">&lt;-</span> (map_change <span class="sc">|</span> g_trend) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">widths =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">&quot;A&quot;</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">ggsave</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;figures&quot;</span>, <span class="st">&quot;map_coral_change.pdf&quot;</span>), fig, <span class="at">width =</span> <span class="dv">24</span>, <span class="at">height =</span> <span class="dv">14</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">ggsave</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;figures&quot;</span>, <span class="st">&quot;map_coral_change.png&quot;</span>), fig, <span class="at">width =</span> <span class="dv">24</span>, <span class="at">height =</span> <span class="dv">14</span>, <span class="at">units =</span> <span class="st">&quot;cm&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
@@ -963,7 +1797,7 @@ premier, pour que le résultat reste un objet sf.</p>
 </div>
 </div>
 <div id="quiz-a07" class="quiz" data-quiz-id="a07"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMmEuIE51bWJlciBvZiBzaXRlcyB0aGF0IGxvc3QgY29yYWwgYmV0d2VlbiAyMDIzIGFuZCAyMDI1PyIsImZyIjoiMmEuIE5vbWJyZSBkZSBzaXRlcyBheWFudCBwZXJkdSBkdSBjb3JhaWwgZW50cmUgMjAyMyBldCAyMDI1ID8iLCJhbnN3ZXIiOjE0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMmIuIFNpdGUgdGhhdCBsb3N0IHRoZSBtb3N0PyIsImZyIjoiMmIuIFNpdGUgcXVpIGEgbGUgcGx1cyBwZXJkdSA/IiwiYW5zd2VyIjpbIlIxMSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjJjLiBJdHMgY2hhbmdlIChwb2ludHMsIDEgZGVjaW1hbCwgbmVnYXRpdmUpPyIsImZyIjoiMmMuIFNhIHZhcmlhdGlvbiAocG9pbnRzLCAxIGTDqWNpbWFsZSwgbsOpZ2F0aXZlKSA/IiwiYW5zd2VyIjotMTMuNSwidG9sIjowLjA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMmQuIFNpdGVzIHdpdGggbGVzcyB0aGFuIDIwICUgY292ZXIgaW4gMjAyNT8iLCJmciI6IjJkLiBTaXRlcyBhdmVjIG1vaW5zIGRlIDIwICUgZGUgcmVjb3V2cmVtZW50IGVuIDIwMjUgPyIsImFuc3dlciI6NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTWVhbiBjaGFuZ2UgTm8tdGFrZSDiiJIgbWVhbiBjaGFuZ2UgRmlzaGluZyAoMSBkZWNpbWFsKT8iLCJmciI6IjMuIFZhcmlhdGlvbiBtb3llbm5lIE5vLXRha2Ug4oiSIHZhcmlhdGlvbiBtb3llbm5lIEZpc2hpbmcgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo2LjYsInRvbCI6MC4wNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIEluIGNvb3JkX3NmKGNycyA9IDMyNzM4LCBkYXR1bSA9IDQzMjYpLCB3aGF0IGRvZXMgZGF0dW0gPSA0MzI2IGRvPyIsImZyIjoiNi4gRGFucyBjb29yZF9zZihjcnMgPSAzMjczOCwgZGF0dW0gPSA0MzI2KSwgcXVlIGZhaXQgZGF0dW0gPSA0MzI2ID8iLCJvcHRpb25zX2VuIjpbIkRyYXdzIHRoZSBtYXAgaW4gbG9uZ2l0dWRlL2xhdGl0dWRlIiwiV3JpdGVzIHRoZSBncmF0aWN1bGUgbGluZXMgYW5kIGxhYmVscyBpbiBkZWdyZWVzLCB3aGlsZSB0aGUgbWFwIGlzIGRyYXduIGluIFVUTSIsIkNvbnZlcnRzIHRoZSBkYXRhIHBlcm1hbmVudGx5IiwiQWRkcyBhIHNjYWxlIGJhciJdLCJvcHRpb25zX2ZyIjpbIkRlc3NpbmUgbGEgY2FydGUgZW4gbG9uZ2l0dWRlL2xhdGl0dWRlIiwiw4ljcml0IGxlcyBsaWduZXMgZXQgw6l0aXF1ZXR0ZXMgZHUgZ3JhdGljdWxlIGVuIGRlZ3LDqXMsIGxhIGNhcnRlIHJlc3RhbnQgZGVzc2luw6llIGVuIFVUTSIsIkNvbnZlcnRpdCBsZXMgZG9ubsOpZXMgZMOpZmluaXRpdmVtZW50IiwiQWpvdXRlIHVuZSBiYXJyZSBkJ8OpY2hlbGxlIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBCZXN0IHBhbGV0dGUgZm9yIHRoZSBjaGFuZ2UgaW4gY292ZXIgKG5lZ2F0aXZlIGFuZCBwb3NpdGl2ZSB2YWx1ZXMpPyIsImZyIjoiNy4gTWVpbGxldXJlIHBhbGV0dGUgcG91ciBsYSB2YXJpYXRpb24gZHUgcmVjb3V2cmVtZW50ICh2YWxldXJzIG7DqWdhdGl2ZXMgZXQgcG9zaXRpdmVzKSA/Iiwib3B0aW9uc19lbiI6WyJTZXF1ZW50aWFsICh2aXJpZGlzKSIsIlF1YWxpdGF0aXZlIChTZXQxKSIsIkRpdmVyZ2luZyBjZW50cmVkIG9uIDAiLCJSYWluYm93Il0sIm9wdGlvbnNfZnIiOlsiU8OpcXVlbnRpZWxsZSAodmlyaWRpcykiLCJRdWFsaXRhdGl2ZSAoU2V0MSkiLCJEaXZlcmdlbnRlIGNlbnRyw6llIHN1ciAwIiwiQXJjLWVuLWNpZWwiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFRvIGRyYXcgYSB0ZXJyYSByYXN0ZXIgd2l0aCBnZ3Bsb3QyICh3aXRob3V0IGV4dHJhIHBhY2thZ2VzKSB5b3UgZmlyc3Q6IiwiZnIiOiI4LiBQb3VyIGRlc3NpbmVyIHVuIHJhc3RlciB0ZXJyYSBhdmVjIGdncGxvdDIgKHNhbnMgcGFja2FnZSBzdXBwbMOpbWVudGFpcmUpIHZvdXMgZGV2ZXogZCdhYm9yZCA6Iiwib3B0aW9uc19lbiI6WyJjb252ZXJ0IGl0IHRvIGEgZGF0YSBmcmFtZSB3aXRoIGFzLmRhdGEuZnJhbWUociwgeHkgPSBUUlVFKSIsImNvbnZlcnQgaXQgdG8gc2Ygd2l0aCBzdF9hc19zZigpIiwidXNlIGdlb21fc2YoZGF0YSA9IHIpIiwic2F2ZSBpdCBhcyBQTkciXSwib3B0aW9uc19mciI6WyJsZSBjb252ZXJ0aXIgZW4gZGF0YSBmcmFtZSBhdmVjIGFzLmRhdGEuZnJhbWUociwgeHkgPSBUUlVFKSIsImxlIGNvbnZlcnRpciBlbiBzZiBhdmVjIHN0X2FzX3NmKCkiLCJ1dGlsaXNlciBnZW9tX3NmKGRhdGEgPSByKSIsImwnZW5yZWdpc3RyZXIgZW4gUE5HIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBXaXRoIHRtYXAsIG9uZSBsaW5lIHN3aXRjaGVzIHRoZSBzYW1lIG1hcCB0byBhbiBpbnRlcmFjdGl2ZSB3ZWIgbWFwOiIsImZyIjoiOS4gQXZlYyB0bWFwLCB1bmUgbGlnbmUgdHJhbnNmb3JtZSBsYSBtw6ptZSBjYXJ0ZSBlbiBjYXJ0ZSB3ZWIgaW50ZXJhY3RpdmUgOiIsIm9wdGlvbnNfZW4iOlsidG1hcF9tb2RlKFwidmlld1wiKSIsInRtX2ludGVyYWN0aXZlKCkiLCJnZ3Bsb3RseSgpIiwidG1hcF9zYXZlKCkiXSwib3B0aW9uc19mciI6WyJ0bWFwX21vZGUoXCJ2aWV3XCIpIiwidG1faW50ZXJhY3RpdmUoKSIsImdncGxvdGx5KCkiLCJ0bWFwX3NhdmUoKSJdLCJhbnN3ZXIiOjB9XQ==">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMmEuIE51bWJlciBvZiBzaXRlcyB0aGF0IGxvc3QgY29yYWwgYmV0d2VlbiAyMDIzIGFuZCAyMDI1PyIsImZyIjoiMmEuIE5vbWJyZSBkZSBzaXRlcyBheWFudCBwZXJkdSBkdSBjb3JhaWwgZW50cmUgMjAyMyBldCAyMDI1ID8iLCJhbnN3ZXIiOjE0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMmIuIFNpdGUgdGhhdCBsb3N0IHRoZSBtb3N0PyIsImZyIjoiMmIuIFNpdGUgcXVpIGEgbGUgcGx1cyBwZXJkdSA/IiwiYW5zd2VyIjpbIlIxMSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjJjLiBJdHMgY2hhbmdlIChwb2ludHMsIDEgZGVjaW1hbCwgbmVnYXRpdmUpPyIsImZyIjoiMmMuIFNhIHZhcmlhdGlvbiAocG9pbnRzLCAxIGTDqWNpbWFsZSwgbsOpZ2F0aXZlKSA/IiwiYW5zd2VyIjotMTMuNSwidG9sIjowLjA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMmQuIFNpdGVzIHdpdGggbGVzcyB0aGFuIDIwICUgY292ZXIgaW4gMjAyNT8iLCJmciI6IjJkLiBTaXRlcyBhdmVjIG1vaW5zIGRlIDIwICUgZGUgcmVjb3V2cmVtZW50IGVuIDIwMjUgPyIsImFuc3dlciI6NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTWVhbiBjaGFuZ2UgTm8tdGFrZSDiiJIgbWVhbiBjaGFuZ2UgRmlzaGluZyAoMSBkZWNpbWFsKT8iLCJmciI6IjMuIFZhcmlhdGlvbiBtb3llbm5lIE5vLXRha2Ug4oiSIHZhcmlhdGlvbiBtb3llbm5lIEZpc2hpbmcgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo2LjYsInRvbCI6MC4wNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIEluIGNvb3JkX3NmKGNycyA9IDMyNzM4LCBkYXR1bSA9IDQzMjYpLCB3aGF0IGRvZXMgZGF0dW0gPSA0MzI2IGRvPyIsImZyIjoiNi4gRGFucyBjb29yZF9zZihjcnMgPSAzMjczOCwgZGF0dW0gPSA0MzI2KSwgcXVlIGZhaXQgZGF0dW0gPSA0MzI2ID8iLCJvcHRpb25zX2VuIjpbIkRyYXdzIHRoZSBtYXAgaW4gbG9uZ2l0dWRlL2xhdGl0dWRlIiwiV3JpdGVzIHRoZSBncmF0aWN1bGUgbGluZXMgYW5kIGxhYmVscyBpbiBkZWdyZWVzLCB3aGlsZSB0aGUgbWFwIGlzIGRyYXduIGluIFVUTSIsIkNvbnZlcnRzIHRoZSBkYXRhIHBlcm1hbmVudGx5IiwiQWRkcyBhIHNjYWxlIGJhciJdLCJvcHRpb25zX2ZyIjpbIkRlc3NpbmUgbGEgY2FydGUgZW4gbG9uZ2l0dWRlL2xhdGl0dWRlIiwiw4ljcml0IGxlcyBsaWduZXMgZXQgw6l0aXF1ZXR0ZXMgZHUgZ3JhdGljdWxlIGVuIGRlZ3LDqXMsIGxhIGNhcnRlIHJlc3RhbnQgZGVzc2luw6llIGVuIFVUTSIsIkNvbnZlcnRpdCBsZXMgZG9ubsOpZXMgZMOpZmluaXRpdmVtZW50IiwiQWpvdXRlIHVuZSBiYXJyZSBkJ8OpY2hlbGxlIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBCZXN0IHBhbGV0dGUgZm9yIHRoZSBjaGFuZ2UgaW4gY292ZXIgKG5lZ2F0aXZlIGFuZCBwb3NpdGl2ZSB2YWx1ZXMpPyIsImZyIjoiNy4gTWVpbGxldXJlIHBhbGV0dGUgcG91ciBsYSB2YXJpYXRpb24gZHUgcmVjb3V2cmVtZW50ICh2YWxldXJzIG7DqWdhdGl2ZXMgZXQgcG9zaXRpdmVzKSA/Iiwib3B0aW9uc19lbiI6WyJTZXF1ZW50aWFsICh2aXJpZGlzKSIsIlF1YWxpdGF0aXZlIChTZXQxKSIsIkRpdmVyZ2luZyBjZW50cmVkIG9uIDAiLCJSYWluYm93Il0sIm9wdGlvbnNfZnIiOlsiU8OpcXVlbnRpZWxsZSAodmlyaWRpcykiLCJRdWFsaXRhdGl2ZSAoU2V0MSkiLCJEaXZlcmdlbnRlIGNlbnRyw6llIHN1ciAwIiwiQXJjLWVuLWNpZWwiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFRvIGRyYXcgYSB0ZXJyYSByYXN0ZXIgd2l0aCBnZ3Bsb3QyICh3aXRob3V0IGV4dHJhIHBhY2thZ2VzKSB5b3UgZmlyc3Q6IiwiZnIiOiI4LiBQb3VyIGRlc3NpbmVyIHVuIHJhc3RlciB0ZXJyYSBhdmVjIGdncGxvdDIgKHNhbnMgcGFja2FnZSBzdXBwbMOpbWVudGFpcmUpIHZvdXMgZGV2ZXogZCdhYm9yZCA6Iiwib3B0aW9uc19lbiI6WyJjb252ZXJ0IGl0IHRvIGEgZGF0YSBmcmFtZSB3aXRoIGFzLmRhdGEuZnJhbWUociwgeHkgPSBUUlVFKSIsImNvbnZlcnQgaXQgdG8gc2Ygd2l0aCBzdF9hc19zZigpIiwidXNlIGdlb21fc2YoZGF0YSA9IHIpIiwic2F2ZSBpdCBhcyBQTkciXSwib3B0aW9uc19mciI6WyJsZSBjb252ZXJ0aXIgZW4gZGF0YSBmcmFtZSBhdmVjIGFzLmRhdGEuZnJhbWUociwgeHkgPSBUUlVFKSIsImxlIGNvbnZlcnRpciBlbiBzZiBhdmVjIHN0X2FzX3NmKCkiLCJ1dGlsaXNlciBnZW9tX3NmKGRhdGEgPSByKSIsImwnZW5yZWdpc3RyZXIgZW4gUE5HIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBXaXRoIHRtYXAsIG9uZSBsaW5lIHN3aXRjaGVzIHRoZSBzYW1lIG1hcCB0byBhbiBpbnRlcmFjdGl2ZSB3ZWIgbWFwOiIsImZyIjoiOS4gQXZlYyB0bWFwLCB1bmUgbGlnbmUgdHJhbnNmb3JtZSBsYSBtw6ptZSBjYXJ0ZSBlbiBjYXJ0ZSB3ZWIgaW50ZXJhY3RpdmUgOiIsIm9wdGlvbnNfZW4iOlsidG1hcF9tb2RlKFwidmlld1wiKSIsInRtX2ludGVyYWN0aXZlKCkiLCJnZ3Bsb3RseSgpIiwidG1hcF9zYXZlKCkiXSwib3B0aW9uc19mciI6WyJ0bWFwX21vZGUoXCJ2aWV3XCIpIiwidG1faW50ZXJhY3RpdmUoKSIsImdncGxvdGx5KCkiLCJ0bWFwX3NhdmUoKSJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiMTAuIEluIHNjYWxlX2ZpbGxfZ3JhZGllbnQyKGxvdyA9IFwiI2IyMTgyYlwiLCBtaWQgPSBcIndoaXRlXCIsIGhpZ2ggPSBcIiMyMTY2YWNcIiwgbWlkcG9pbnQgPSAwKSwgdGhlIHNpdGVzIHdpdGggbm8gY2hhbmdlIGFyZToiLCJmciI6IjEwLiBEYW5zIHNjYWxlX2ZpbGxfZ3JhZGllbnQyKGxvdyA9IFwiI2IyMTgyYlwiLCBtaWQgPSBcIndoaXRlXCIsIGhpZ2ggPSBcIiMyMTY2YWNcIiwgbWlkcG9pbnQgPSAwKSwgbGVzIHNpdGVzIHNhbnMgY2hhbmdlbWVudCBzb250IDoiLCJvcHRpb25zX2VuIjpbIndoaXRlIiwicmVkIiwiYmx1ZSIsImdyZXkiXSwib3B0aW9uc19mciI6WyJibGFuY3MiLCJyb3VnZXMiLCJibGV1cyIsImdyaXMiXSwiYW5zd2VyIjowfV0=">
 
 </div>
 <div class="solution" data-quiz="a07">

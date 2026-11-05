@@ -53,6 +53,11 @@ summ <- seaweed %>%
 summ
 ```
 
+```{r, echo=FALSE}
+fa(c("`se()`", "our function of Session I6", "notre fonction de la séance I6", "", ""),
+   c("`mean ± 1.96 × se`", "limits of the 95 % confidence interval of the mean (normal approximation, fine for n > 30)", "limites de l'intervalle de confiance à 95 % de la moyenne (approximation normale, correcte pour n > 30)", "", ""))
+```
+
 ```{r}
 dodge <- position_dodge(width = 0.5)          # shift the two techniques side by side
 ggplot(summ, aes(zone, mean, colour = technique)) +
@@ -61,6 +66,13 @@ ggplot(summ, aes(zone, mean, colour = technique)) +
   labs(x = NULL, y = "Mean SGR (% per day)", colour = NULL,
        caption = "Points: means; bars: 95 % confidence intervals") +
   theme_minimal(base_size = 13) + theme(legend.position = "top")
+```
+
+```{r, echo=FALSE}
+fa(c("`position_dodge(width)`", "shifts the groups side by side so they do not overlap (Beginner Session 10)", "décale les groupes côte à côte pour qu'ils ne se superposent pas (séance 10 du niveau débutant)", "a number: the distance between groups, in units of the x axis", "un nombre : la distance entre groupes, en unités de l'axe x"),
+   c("`geom_pointrange(aes(ymin, ymax), position, size)`", "a point (at `y`) with a vertical line from `ymin` to `ymax`", "un point (à `y`) avec un trait vertical de `ymin` à `ymax`", "columns for `ymin`, `ymax`; `size` of the point", "colonnes pour `ymin`, `ymax` ; `size` du point"),
+   c("&nbsp;&nbsp;`position`", "how overlapping elements are arranged; the same object `dodge` must be used in every layer", "comment les éléments qui se superposent sont disposés ; le même objet `dodge` doit être utilisé dans chaque couche", "`position_dodge()`, `\"identity\"`, `\"jitter\"`", "`position_dodge()`, `\"identity\"`, `\"jitter\"`"),
+   c("`colour = NULL` in `labs()`", "no title for the colour legend", "pas de titre pour la légende des couleurs", "", ""))
 ```
 
 ::: en
@@ -91,6 +103,20 @@ ggplot(wq_zone, aes(date, temp, colour = zone)) +
   theme_minimal()
 ```
 
+```{r, echo=FALSE}
+fa(c("`geom_line(linewidth)`", "joins the points of each group (here each `colour`) in the order of x; `linewidth` = thickness of the line", "relie les points de chaque groupe (ici chaque `colour`) dans l'ordre de x ; `linewidth` = épaisseur du trait", "a number (default 0.5)", "un nombre (0,5 par défaut)"),
+   c("`scale_x_date(date_breaks, date_labels)`", "a date axis", "un axe de dates", "", ""),
+   c("&nbsp;&nbsp;`date_breaks`", "the space between two ticks", "l'espace entre deux graduations", "`\"1 month\"`, `\"6 months\"`, `\"1 year\"`…", "`\"1 month\"`, `\"6 months\"`, `\"1 year\"`…"),
+   c("&nbsp;&nbsp;`date_labels`", "how the dates are written, with the `%` codes of Session I1", "comment les dates sont écrites, avec les codes `%` de la séance I1", "e.g. `\"%b %Y\"` → *Jan 2024*", "ex. `\"%b %Y\"` → *janv. 2024*"))
+```
+
+::: en
+In ggplot2 the thickness of a **line** is `linewidth`, while `size` is used for **points** and text (since ggplot2 3.4; older code uses `size` for lines too). One more case where the name depends on the element.
+:::
+::: fr
+Dans ggplot2, l'épaisseur d'une **ligne** s'appelle `linewidth`, alors que `size` sert pour les **points** et le texte (depuis ggplot2 3.4 ; du code plus ancien utilise aussi `size` pour les lignes). Encore un cas où le nom dépend de l'élément.
+:::
+
 ## [Ordering and annotating]{.en}[Ordonner et annoter]{.fr} {#annotate}
 
 ::: en
@@ -110,12 +136,30 @@ ggplot(seaweed, aes(reorder(village, sgr, FUN = median, na.rm = TRUE), sgr)) +
   labs(x = NULL, y = "SGR (% per day)") + theme_minimal()
 ```
 
+```{r, echo=FALSE}
+fa(c("`reorder(x, X, FUN, ...)`", "reorders the categories `x` according to a statistic of `X` (here the median SGR of each village); extra arguments (`na.rm`) go to `FUN`", "réordonne les catégories `x` selon une statistique de `X` (ici le SGR médian de chaque village) ; les arguments supplémentaires (`na.rm`) vont à `FUN`", "a categorical column, a numeric column, a function", "une colonne catégorielle, une colonne numérique, une fonction"),
+   c("`geom_hline(yintercept, linetype)`", "a horizontal line at `y = yintercept` (`geom_vline(xintercept)` for vertical)", "une ligne horizontale à `y = yintercept` (`geom_vline(xintercept)` pour verticale)", "a number; `\"solid\"`, `\"dashed\"`, `\"dotted\"`", "un nombre ; `\"solid\"`, `\"dashed\"`, `\"dotted\"`"),
+   c("`annotate(geom, x, y, label, ...)`", "adds **one** element at a position you give, not taken from the data", "ajoute **un** élément à une position que vous donnez, pas tirée des données", "`\"text\"`, `\"rect\"`, `\"segment\"`…, then its position and settings", "`\"text\"`, `\"rect\"`, `\"segment\"`…, puis sa position et ses réglages"),
+   c("`coord_flip()`", "swaps x and y: horizontal boxes, long names readable", "échange x et y : boîtes horizontales, noms longs lisibles", "nothing", "rien"))
+```
+
+::: en
+`linetype` in ggplot2 is the same idea as `lty` in base R (Beginner Session 7).
+:::
+::: fr
+`linetype` dans ggplot2 est la même idée que `lty` en R de base (séance 7 du niveau débutant).
+:::
+
 ```{r}
 ggplot(wq_zone, aes(date, temp, colour = zone)) +
   annotate("rect", xmin = as.Date("2024-11-01"), xmax = as.Date("2025-04-30"),
            ymin = -Inf, ymax = Inf, alpha = 0.15, fill = "#1b7f8c") +
   annotate("text", x = as.Date("2025-01-31"), y = 23.3, label = "wet season", colour = "#0b3d5c") +
   geom_line() + theme_minimal() + labs(x = NULL, y = "°C")
+```
+
+```{r, echo=FALSE}
+fa(c("`annotate(\"rect\", xmin, xmax, ymin, ymax, alpha, fill)`", "a shaded rectangle; `-Inf` / `Inf` = from the bottom to the top of the panel", "un rectangle ombré ; `-Inf` / `Inf` = du bas au haut du panneau", "positions in the units of the axes (here dates)", "positions dans les unités des axes (ici des dates)"))
 ```
 
 ## [Your own theme, and one figure per group]{.en}[Votre propre thème, et une figure par groupe]{.fr} {#own-theme}
@@ -140,6 +184,11 @@ p_v <- function(v) {
     labs(title = v, x = NULL, y = "SGR (% per day)") + theme_coop()
 }
 p_v("Lovobe")
+```
+
+```{r, echo=FALSE}
+fa(c("`theme_coop <- function(base_size = 12) {...}`", "a function (Session I6) that returns a theme: reuse it in every figure", "une fonction (séance I6) qui renvoie un thème : réutilisez-la dans chaque figure", "", ""),
+   c("`p_v(v)`", "a function that returns a ggplot for one village", "une fonction qui renvoie un ggplot pour un village", "", ""))
 ```
 
 ```{r, eval=FALSE}
@@ -173,10 +222,21 @@ pC <- ggplot(seaweed, aes(temp_mean, sgr)) + geom_point(alpha = 0.2, na.rm = TRU
                                     title = "Sea temperature and seaweed growth, 2024–2025")
 ```
 
+```{r, echo=FALSE}
+fa(c("`library(patchwork)`", "package to combine ggplots", "package pour combiner des ggplots", "", ""),
+   c("`p1 | p2`, `p1 / p2`", "side by side / one above the other; parentheses group them", "côte à côte / l'un au-dessus de l'autre ; les parenthèses les regroupent", "ggplot objects", "objets ggplot"),
+   c("`plot_annotation(tag_levels, title)`", "labels each plot (`\"A\"` → A, B, C; `\"a\"`, `\"1\"`) and adds a common title", "étiquette chaque graphique (`\"A\"` → A, B, C ; `\"a\"`, `\"1\"`) et ajoute un titre commun", "", ""),
+   c("`geom_smooth(method, formula)`", "a trend curve with its confidence band; `\"loess\"` = flexible curve, `\"lm\"` = straight line", "une courbe de tendance avec sa bande de confiance ; `\"loess\"` = courbe souple, `\"lm\"` = droite", "`method` in quotes; `formula = y ~ x`", "`method` entre guillemets ; `formula = y ~ x`"))
+```
+
 ```{r, eval=FALSE}
 fig <- (pA) / (pB | pC) + plot_annotation(tag_levels = "A")
 ggsave("outputs/figure_1.png", fig, width = 18, height = 16, units = "cm", dpi = 300)
 ggsave("outputs/figure_1.pdf", fig, width = 18, height = 16, units = "cm")   # vector, for printing
+```
+
+```{r, echo=FALSE}
+fa(c("`ggsave(filename, plot, width, height, units, dpi)`", "reminder (Beginner Session 8); with a PDF, `units = \"cm\"` works too (unlike `pdf()`)", "rappel (séance 8 du niveau débutant) ; avec un PDF, `units = \"cm\"` fonctionne aussi (contrairement à `pdf()`)", "", ""))
 ```
 
 ::: {.callout .ecology}
@@ -254,7 +314,12 @@ quiz("i08", list(
         c("trois graphiques en ligne", "p1 et p2 côte à côte, p3 en dessous", "p3 au-dessus de p1 et p2", "une erreur"), correct = 2),
   q_mcq("6. Why must position_dodge() have the same width in geom_col() and geom_errorbar()?", "6. Pourquoi position_dodge() doit-il avoir la même largeur dans geom_col() et geom_errorbar() ?",
         c("Otherwise the error bars are not centred on their bars", "To save memory", "It does not matter", "Because of the colours"),
-        c("Sinon les barres d'erreur ne sont pas centrées sur leurs barres", "Pour économiser la mémoire", "Cela n'a pas d'importance", "À cause des couleurs"), correct = 1)
+        c("Sinon les barres d'erreur ne sont pas centrées sur leurs barres", "Pour économiser la mémoire", "Cela n'a pas d'importance", "À cause des couleurs"), correct = 1),
+  q_mcq("7. In ggplot2, which argument sets the thickness of a line in geom_line()?", "7. Dans ggplot2, quel argument règle l'épaisseur d'une ligne dans geom_line() ?",
+        c("lwd", "linewidth", "lty", "alpha"), correct = 2),
+  q_mcq("8. scale_x_date(date_labels = \"%b %Y\") writes the dates as:", "8. scale_x_date(date_labels = \"%b %Y\") écrit les dates sous la forme :",
+        c("2024-01-15", "Jan 2024 (short month name and year)", "15/01", "Monday"),
+        c("2024-01-15", "janv. 2024 (nom de mois court et année)", "15/01", "lundi"), correct = 2)
 ))
 ```
 

@@ -61,6 +61,11 @@ hh <- hh[!duplicated(hh), ]          # 5 households synchronised twice
 dim(hh)
 ```
 
+```{r, echo=FALSE}
+fa(c("&nbsp;&nbsp;`na.strings = \"\"` (argument of `read.csv()`)", "empty cells (unanswered questions) are read as `NA` (Session I0)", "les cellules vides (questions sans réponse) sont lues comme `NA` (séance I0)", "", ""),
+   c("`df[!duplicated(df), ]`", "removes the rows that are exact copies (Beginner Session 5)", "retire les lignes qui sont des copies exactes (séance 5 du niveau débutant)", "", ""))
+```
+
 ## [Cleaning text with stringr]{.en}[Nettoyer du texte avec stringr]{.fr} {#stringr}
 
 ::: en
@@ -75,6 +80,13 @@ dim(hh)
 | `str_replace_all(x, "a", "b")` | `gsub("a", "b", x)` | replaces a pattern |
 | `str_split(x, ";")` | `strsplit(x, ";")` | splits into pieces |
 | `str_sub(x, 1, 3)` | `substr(x, 1, 3)` | extracts characters |
+:::
+
+::: en
+Look at the **order of the arguments**: stringr functions always take the text **first** (`str_replace_all(string, pattern, replacement)`), while `gsub()` and `grepl()` take the pattern first and the text last (`gsub(pattern, replacement, x)`). This is why the tidyverse authors wrote stringr: same order everywhere, and it works with the pipe.
+:::
+::: fr
+Regardez l'**ordre des arguments** : les fonctions de stringr prennent toujours le texte **en premier** (`str_replace_all(string, pattern, replacement)`), alors que `gsub()` et `grepl()` prennent d'abord le motif et le texte en dernier (`gsub(pattern, replacement, x)`). C'est pour cela que les auteurs du tidyverse ont écrit stringr : le même ordre partout, compatible avec le pipe.
 :::
 ::: fr
 **stringr** rassemble des fonctions de texte aux noms cohérents, toutes commençant par `str_`. Leurs équivalents en R de base fonctionnent aussi :
@@ -97,6 +109,12 @@ hh$mpa_benefits <- str_to_sentence(str_squish(hh$mpa_benefits))
 table(hh$mpa_benefits, useNA = "ifany")
 ```
 
+```{r, echo=FALSE}
+fa(c("`str_squish(string)`", "removes spaces at the start and end, and replaces double spaces inside by one", "retire les espaces au début et à la fin, et remplace les espaces doubles à l'intérieur par un seul", "text", "texte"),
+   c("`str_to_sentence(string)`", "capital first letter, the rest in lower case (`\"strongly AGREE\"` → `\"Strongly agree\"`)", "majuscule en première lettre, le reste en minuscules (`\"strongly AGREE\"` → `\"Strongly agree\"`)", "text", "texte"),
+   c("`table(x, useNA = \"ifany\")`", "counts, and shows the `NA` if there are any (Beginner Session 10)", "effectifs, et affiche les `NA` s'il y en a (séance 10 du niveau débutant)", "", ""))
+```
+
 ## [Ordered factors for Likert scales]{.en}[Facteurs ordonnés pour les échelles de Likert]{.fr} {#likert}
 
 ::: en
@@ -114,6 +132,11 @@ round(100 * prop.table(table(hh$mpa_benefits)), 1)    # percentages (NA excluded
 sum(hh$mpa_benefits >= "Agree", na.rm = TRUE)          # "agree" or "strongly agree"
 ```
 
+```{r, echo=FALSE}
+fa(c("`factor(x, levels, ordered)`", "reminder (Beginner Session 2); `ordered = TRUE` makes the order of `levels` meaningful, so `>=` and `<` can be used", "rappel (séance 2 du niveau débutant) ; `ordered = TRUE` donne un sens à l'ordre de `levels`, ce qui permet `>=` et `<`", "`TRUE` / `FALSE` (default)", "`TRUE` / `FALSE` (défaut)"),
+   c("`prop.table(x, margin)`", "turns a table of counts into proportions (sum = 1); multiply by 100 for %", "transforme un tableau d'effectifs en proportions (somme = 1) ; multipliez par 100 pour des %", "a `table()`", "une `table()`"))
+```
+
 ::: en
 Collapse categories when a scale is too detailed for the sample size, by renaming levels:
 :::
@@ -125,6 +148,10 @@ Regroupez des catégories quand une échelle est trop détaillée pour la taille
 b3 <- hh$mpa_benefits
 levels(b3) <- c("Disagree", "Disagree", "Neutral", "Agree", "Agree")   # same name = merged
 table(b3)
+```
+
+```{r, echo=FALSE}
+fa(c("`levels(f) <- c(...)`", "renames the levels, in their order; giving two levels the **same** new name merges them", "renomme les niveaux, dans leur ordre ; donner le **même** nouveau nom à deux niveaux les fusionne", "as many names as levels", "autant de noms que de niveaux"))
 ```
 
 ## [Multiple-choice answers]{.en}[Réponses à choix multiples]{.fr} {#multiple}
@@ -155,6 +182,19 @@ head(acts)
 sort(table(acts$activities), decreasing = TRUE)
 ```
 
+```{r, echo=FALSE}
+fa(c("`str_count(string, pattern)`", "how many times `pattern` appears in each text (here the separators `;`, so the number of answers = count + 1)", "combien de fois `pattern` apparaît dans chaque texte (ici les séparateurs `;`, donc nombre de réponses = compte + 1)", "text; a pattern in quotes", "texte ; un motif entre guillemets"),
+   c("`str_detect(string, pattern)`", "`TRUE` if `pattern` is in the text", "`TRUE` si `pattern` est dans le texte", "text; a pattern", "texte ; un motif"),
+   c("`separate_rows(data, ..., sep)`", "**tidyr**: one row per piece — a cell `\"fishing;seaweed\"` becomes two rows", "**tidyr** : une ligne par morceau — une cellule `\"fishing;seaweed\"` devient deux lignes", "column name(s); the separator in quotes", "nom(s) de colonne ; le séparateur entre guillemets"))
+```
+
+::: en
+`separate()` (Session I2) cuts a cell into **columns**, `separate_rows()` into **rows**. Both use `sep`.
+:::
+::: fr
+`separate()` (séance I2) coupe une cellule en **colonnes**, `separate_rows()` en **lignes**. Les deux utilisent `sep`.
+:::
+
 ## [Household variables from the member table]{.en}[Variables de ménage à partir des membres]{.fr} {#members}
 
 ::: en
@@ -175,6 +215,11 @@ hh <- left_join(hh, hh_vars, by = "hh_id")
 summary(hh$hh_size)
 ```
 
+```{r, echo=FALSE}
+fa(c("`n()`, `sum(condition)`", "inside `summarise()`: number of rows of the group; number of rows where the condition is `TRUE`", "dans `summarise()` : nombre de lignes du groupe ; nombre de lignes où la condition vaut `TRUE`", "", ""),
+   c("`left_join(x, y, by)`", "adds the household variables to the household table (Session I3)", "ajoute les variables de ménage au tableau des ménages (séance I3)", "", ""))
+```
+
 ## [Cross-tables and percentages]{.en}[Tableaux croisés et pourcentages]{.fr} {#crosstab}
 
 ::: en
@@ -190,6 +235,18 @@ addmargins(t1)
 round(100 * prop.table(t1, margin = 1), 1)      # % of each opinion within each village
 ```
 
+```{r, echo=FALSE}
+fa(c("`addmargins(x)`", "adds the totals of rows and columns (*Sum*) to a table", "ajoute les totaux des lignes et des colonnes (*Sum*) à un tableau", "a `table()`", "une `table()`"),
+   c("&nbsp;&nbsp;`margin` (argument of `prop.table()`)", "`1` = % within each **row** (rows sum to 100), `2` = within each **column**; nothing = of the grand total", "`1` = % dans chaque **ligne** (les lignes font 100), `2` = dans chaque **colonne** ; rien = du total général", "`1` or `2`", "`1` ou `2`"))
+```
+
+::: en
+`margin = 1` / `2` means rows / columns, as `MARGIN` in `apply()` (Beginner Session 4) — but here the argument is written in lower case: R is case-sensitive, so `prop.table(t1, MARGIN = 1)` would fail.
+:::
+::: fr
+`margin = 1` / `2` signifie lignes / colonnes, comme `MARGIN` dans `apply()` (séance 4 du niveau débutant) — mais ici l'argument s'écrit en minuscules : R est sensible à la casse, donc `prop.table(t1, MARGIN = 1)` échouerait.
+:::
+
 ::: compare
 ::: {.col .base}
 R base
@@ -204,6 +261,10 @@ dplyr
 ```{r}
 hh %>% count(main_income) %>%
   mutate(pct = round(100 * n / sum(n), 1))
+```
+
+```{r, echo=FALSE}
+fa(c("`count()` + `mutate()`", "counts per category (Beginner Session 8), then a column of % calculated from the column `n`", "effectifs par catégorie (séance 8 du niveau débutant), puis une colonne de % calculée à partir de la colonne `n`", "", ""))
 ```
 :::
 :::

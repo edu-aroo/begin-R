@@ -211,4 +211,20 @@ pC <- ggplot(seaweed, aes(temp_mean, sgr)) + geom_smooth(method = "loess", formu
 
 <div class="box tip">**À faire** : séances I5 à I8 en ligne, avec leurs quiz.</div>
 
+## Lire une échelle de couleur
+
+`scale_fill_viridis_c(option = "mako", direction = -1, name = "SGR moyen")`
+
+| Élément | Sens |
+|---|---|
+| `scale_fill_…` | règle l'esthétique `fill` (`scale_colour_…` pour `colour`) |
+| `viridis` | palette lisible par les daltoniens et en gris |
+| `_c` | variable **c**ontinue (`_d` : catégories) |
+| `option` | `"viridis"`, `"magma"`, `"plasma"`, `"mako"`… |
+| `direction` | `1` défaut, `-1` inverse (valeurs hautes foncées) |
+| `name` | titre de la légende (`"\n"` = retour à la ligne) |
+
+- épaisseur : `linewidth` (lignes) mais `size` (points, texte)
+- type de trait : `linetype` (ggplot2) = `lty` (R de base)
+
 ## Merci ! {.segue}

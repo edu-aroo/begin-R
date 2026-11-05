@@ -243,4 +243,17 @@ hh %>% separate_rows(activities, sep = ";") %>% count(activities, sort = TRUE)
 
 <div class="box tip">**À faire** : séances I0 à I4 en ligne, avec les fichiers checkpoint et les quiz (2 tentatives).</div>
 
+## Même idée, noms différents
+
+| Réglage | Fonction 1 | Fonction 2 |
+|---|---|---|
+| noms en 1re ligne | `read.csv(header =)` | `read_excel(col_names =)` |
+| valeurs manquantes | `read.csv(na.strings =)` | `read_excel(na =)` |
+| nouvelles colonnes | `pivot_longer(names_to = "x")` (guillemets) | `pivot_wider(names_from = x)` (sans) |
+| jointure à gauche | `left_join(x, y, by)` | `merge(x, y, by, all.x = TRUE)` |
+| ordre des arguments | `str_replace_all(texte, motif, remplacement)` | `gsub(motif, remplacement, texte)` |
+| % par ligne | `prop.table(t, margin = 1)` | `apply(m, MARGIN = 1, ...)` |
+
+Toujours : `?fonction` → *Usage*
+
 ## Merci ! {.segue}

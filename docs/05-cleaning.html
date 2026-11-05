@@ -705,6 +705,83 @@ class="fr">Combiner des conditions</span></h2>
 <pre><code>#&gt; [1]  TRUE FALSE FALSE  TRUE</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;HC&quot;</span>, <span class="st">&quot;SD&quot;</span>, <span class="st">&quot;MA&quot;</span>) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;HC&quot;</span>, <span class="st">&quot;SC&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; [1]  TRUE FALSE FALSE</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>a &amp; b</code></td>
+<td><code>TRUE</code> only where <strong>both</strong> <code>a</code>
+and <code>b</code> are <code>TRUE</code></td>
+<td>two conditions of the same length</td>
+</tr>
+<tr class="even">
+<td><code>a | b</code></td>
+<td><code>TRUE</code> where <strong>at least one</strong> is
+<code>TRUE</code> (the key is usually Alt Gr + 6 on a French
+keyboard)</td>
+<td>two conditions</td>
+</tr>
+<tr class="odd">
+<td><code>x %in% y</code></td>
+<td>reminder (Session 4): is each element of <code>x</code> in the list
+<code>y</code>?</td>
+<td>two vectors</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>a &amp; b</code></td>
+<td><code>TRUE</code> seulement là où <code>a</code> <strong>et</strong>
+<code>b</code> valent <code>TRUE</code></td>
+<td>deux conditions de même longueur</td>
+</tr>
+<tr class="even">
+<td><code>a | b</code></td>
+<td><code>TRUE</code> là où <strong>au moins une</strong> vaut
+<code>TRUE</code> (touche Alt Gr + 6 sur un clavier AZERTY)</td>
+<td>deux conditions</td>
+</tr>
+<tr class="odd">
+<td><code>x %in% y</code></td>
+<td>rappel (séance 4) : chaque élément de <code>x</code> est-il dans la
+liste <code>y</code> ?</td>
+<td>deux vecteurs</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="filter" class="section level2">
 <h2><span class="en">Filtering rows</span><span class="fr">Filtrer des
@@ -779,8 +856,8 @@ class="fr">Sélectionner des colonnes et trier</span></h2>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>small <span class="ot">&lt;-</span> sg[, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;quadrat&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]   <span class="co"># keep 3 columns</span></span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>small2 <span class="ot">&lt;-</span> sg[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>)]                                <span class="co"># drop columns 4 and 5</span></span>
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">names</span>(small2)</span></code></pre></div>
-<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;  
-#&gt; [6] &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;         
+#&gt; [5] &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
 <div class="en">
 <p><code>order()</code> returns the positions that would sort a vector;
 use it in the row position. Add <code>decreasing = TRUE</code> (or a
@@ -801,6 +878,99 @@ trier du plus grand au plus petit.</p>
 #&gt; 42 Tsiandamba      12             71
 #&gt; 1   Ambalaboy       1             69</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>sg_sorted <span class="ot">&lt;-</span> sg[<span class="fu">order</span>(sg<span class="sc">$</span>site, <span class="sc">-</span>sg<span class="sc">$</span>seagrass_cover), ]   <span class="co"># by site, then by cover (decreasing)</span></span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>order(..., decreasing = FALSE)</code></td>
+<td>the <strong>row positions</strong> in sorted order; put it in the
+row position of <code>[ , ]</code> to sort a whole table</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>...</code></td>
+<td>one or several columns: sort by the first, then by the second when
+the first is tied</td>
+<td>vectors of the same length</td>
+</tr>
+<tr class="odd">
+<td>  <code>decreasing</code></td>
+<td><code>TRUE</code> = from largest to smallest, for
+<strong>all</strong> the columns; <code>-column</code> reverses only
+that (numeric) column</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>order(..., decreasing = FALSE)</code></td>
+<td>les <strong>positions des lignes</strong> dans l’ordre trié ;
+placez-le à la position des lignes de <code>[ , ]</code> pour trier tout
+un tableau</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>...</code></td>
+<td>une ou plusieurs colonnes : tri selon la première, puis la deuxième
+en cas d’égalité</td>
+<td>vecteurs de même longueur</td>
+</tr>
+<tr class="odd">
+<td>  <code>decreasing</code></td>
+<td><code>TRUE</code> = du plus grand au plus petit, pour
+<strong>toutes</strong> les colonnes ; <code>-colonne</code> inverse
+seulement cette colonne (numérique)</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>Compare with Session 2: <code>sort()</code> returns the
+<strong>values</strong> sorted (fine for one vector),
+<code>order()</code> returns their <strong>positions</strong> (needed to
+sort the rows of a table). Both have the argument
+<code>decreasing</code>.</p>
+</div>
+<div class="fr">
+<p>Comparez avec la séance 2 : <code>sort()</code> renvoie les
+<strong>valeurs</strong> triées (suffisant pour un vecteur),
+<code>order()</code> renvoie leurs <strong>positions</strong>
+(nécessaire pour trier les lignes d’un tableau). Les deux ont l’argument
+<code>decreasing</code>.</p>
+</div>
 </div>
 <div id="subset" class="section level2">
 <h2><span class="en"><code>subset()</code> in depth</span><span
@@ -911,8 +1081,8 @@ Dans <code>subset()</code> on écrit les noms de colonnes
 <pre><code>#&gt; [1] 8</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>no_dates <span class="ot">&lt;-</span> <span class="fu">subset</span>(sg, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(date, quadrat))          <span class="co"># drop two columns, keep all rows</span></span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">names</span>(no_dates)</span></code></pre></div>
-<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;depth_m&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;  
-#&gt; [6] &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;depth_m&quot;          &quot;species&quot;         
+#&gt; [5] &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
 <div class="en">
 <p><code>subset()</code> returns a data frame, so you can chain it with
 other functions: <code>nrow(subset(...))</code> counts the rows,
@@ -985,14 +1155,14 @@ ce soit.</p>
 y a 62 lignes au lieu de 60.</p>
 </div>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">unique</span>(raw<span class="sc">$</span>site)          <span class="co"># 12 spellings for 4 sites!</span></span></code></pre></div>
-<pre><code>#&gt;  [1] &quot;Ambalaboy&quot;   &quot;ambalaboy&quot;   &quot;Ambalaboy &quot;  &quot;Fasimena&quot;    &quot;FASIMENA&quot;    &quot;fasimena&quot;    &quot;Tsiandamba&quot; 
-#&gt;  [8] &quot; Tsiandamba&quot; &quot;Belitsaky&quot;   &quot;belitsaky&quot;   &quot;Belitsaky &quot;  &quot;BELITSAKY&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;Ambalaboy&quot;   &quot;ambalaboy&quot;   &quot;Ambalaboy &quot;  &quot;Fasimena&quot;    &quot;FASIMENA&quot;    &quot;fasimena&quot;   
+#&gt;  [7] &quot;Tsiandamba&quot;  &quot; Tsiandamba&quot; &quot;Belitsaky&quot;   &quot;belitsaky&quot;   &quot;Belitsaky &quot;  &quot;BELITSAKY&quot;</code></pre>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">table</span>(raw<span class="sc">$</span>site)</span></code></pre></div>
 <pre><code>#&gt; 
-#&gt;  Tsiandamba   ambalaboy   Ambalaboy  Ambalaboy    belitsaky   Belitsaky   BELITSAKY  Belitsaky     fasimena 
-#&gt;           1           1          14           1           1          13           1           1           1 
-#&gt;    Fasimena    FASIMENA  Tsiandamba 
-#&gt;          13           1          14</code></pre>
+#&gt;  Tsiandamba   ambalaboy   Ambalaboy  Ambalaboy    belitsaky   Belitsaky   BELITSAKY 
+#&gt;           1           1          14           1           1          13           1 
+#&gt;  Belitsaky     fasimena    Fasimena    FASIMENA  Tsiandamba 
+#&gt;           1           1          13           1          14</code></pre>
 </div>
 <div id="fix-text" class="section level2">
 <h2><span class="en">Fixing text: spaces and case</span><span
@@ -1081,6 +1251,123 @@ whole package.</p>
 R). Le <code>::</code> permet d’utiliser une fonction sans charger tout
 le package.</p>
 </div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>gsub(pattern, replacement, x)</code></td>
+<td><strong>g</strong>lobal <strong>sub</strong>stitution: replaces
+every <code>pattern</code> by <code>replacement</code> in each text of
+<code>x</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>pattern</code></td>
+<td>what to look for</td>
+<td>text in quotes</td>
+</tr>
+<tr class="odd">
+<td>  <code>replacement</code></td>
+<td>what to put instead; <code>""</code> = delete</td>
+<td>text in quotes</td>
+</tr>
+<tr class="even">
+<td>  <code>x</code></td>
+<td>the texts to modify — the data come <strong>last</strong> here, not
+first as in most functions</td>
+<td>a text vector</td>
+</tr>
+<tr class="odd">
+<td><code>package::function</code></td>
+<td>uses a function of a package without loading the package</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>gsub(pattern, replacement, x)</code></td>
+<td><strong>sub</strong>stitution <strong>g</strong>lobale : remplace
+chaque <code>pattern</code> par <code>replacement</code> dans chaque
+texte de <code>x</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>pattern</code></td>
+<td>ce qu’il faut chercher</td>
+<td>texte entre guillemets</td>
+</tr>
+<tr class="odd">
+<td>  <code>replacement</code></td>
+<td>ce qu’il faut mettre à la place ; <code>""</code> = supprimer</td>
+<td>texte entre guillemets</td>
+</tr>
+<tr class="even">
+<td>  <code>x</code></td>
+<td>les textes à modifier — les données viennent <strong>en
+dernier</strong> ici, pas en premier comme dans la plupart des
+fonctions</td>
+<td>un vecteur de texte</td>
+</tr>
+<tr class="odd">
+<td><code>package::function</code></td>
+<td>utilise une fonction d’un package sans charger le package</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout warning">
+<div class="en">
+<p>In <code>pattern</code>, some characters have a special meaning
+(<code>.</code>, <code>(</code>, <code>+</code>, <code>?</code>,
+<code>$</code>…): <code>gsub(".", ",", "7.4")</code> replaces
+<strong>every</strong> character. To search for them literally, add
+<code>fixed = TRUE</code>:
+<code>gsub(".", ",", "7.4", fixed = TRUE)</code> gives
+<code>"7,4"</code>.</p>
+</div>
+<div class="fr">
+<p>Dans <code>pattern</code>, certains caractères ont un sens spécial
+(<code>.</code>, <code>(</code>, <code>+</code>, <code>?</code>,
+<code>$</code>…) : <code>gsub(".", ",", "7.4")</code> remplace
+<strong>chaque</strong> caractère. Pour les chercher tels quels, ajoutez
+<code>fixed = TRUE</code> :
+<code>gsub(".", ",", "7.4", fixed = TRUE)</code> donne
+<code>"7,4"</code>.</p>
+</div>
+</div>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>raw<span class="sc">$</span>site <span class="ot">&lt;-</span> <span class="fu">trimws</span>(raw<span class="sc">$</span>site)                       <span class="co"># 1. remove extra spaces</span></span>
 <span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a>raw<span class="sc">$</span>site <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">toTitleCase</span>(<span class="fu">tolower</span>(raw<span class="sc">$</span>site))  <span class="co"># 2. same case everywhere</span></span>
 <span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a><span class="fu">table</span>(raw<span class="sc">$</span>site)                                    <span class="co"># 4 sites again</span></span></code></pre></div>
@@ -1114,9 +1401,9 @@ valeurs qui ne sont pas de simples nombres.</p>
 </div>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">names</span>(raw)[<span class="fu">names</span>(raw) <span class="sc">==</span> <span class="st">&quot;Seagrass.cover....&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;seagrass_cover&quot;</span>   <span class="co"># rename one column</span></span>
 <span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a><span class="fu">unique</span>(raw<span class="sc">$</span>seagrass_cover)       <span class="co"># look for &quot;%&quot; and &quot;-&quot;</span></span></code></pre></div>
-<pre><code>#&gt;  [1] &quot;69&quot;  &quot;47&quot;  &quot;64&quot;  &quot;61&quot;  &quot;53%&quot; &quot;27&quot;  &quot;52&quot;  &quot;48&quot;  &quot;55&quot;  &quot;56&quot;  &quot;-&quot;   &quot;59&quot;  &quot;26&quot;  &quot;53&quot;  &quot;57&quot;  &quot;51&quot;  &quot;31&quot; 
-#&gt; [18] &quot;51%&quot; &quot;30&quot;  &quot;71&quot;  &quot;41&quot;  &quot;62&quot;  &quot;74&quot;  &quot;130&quot; &quot;37&quot;  &quot;10&quot;  &quot;32&quot;  &quot;42&quot;  &quot;48%&quot; &quot;33&quot;  &quot;40&quot;  &quot;45&quot;  &quot;44&quot;  &quot;50&quot; 
-#&gt; [35] &quot;46&quot;  &quot;49&quot;  &quot;35&quot;  &quot;72&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;69&quot;  &quot;47&quot;  &quot;64&quot;  &quot;61&quot;  &quot;53%&quot; &quot;27&quot;  &quot;52&quot;  &quot;48&quot;  &quot;55&quot;  &quot;56&quot;  &quot;-&quot;   &quot;59&quot;  &quot;26&quot;  &quot;53&quot; 
+#&gt; [15] &quot;57&quot;  &quot;51&quot;  &quot;31&quot;  &quot;51%&quot; &quot;30&quot;  &quot;71&quot;  &quot;41&quot;  &quot;62&quot;  &quot;74&quot;  &quot;130&quot; &quot;37&quot;  &quot;10&quot;  &quot;32&quot;  &quot;42&quot; 
+#&gt; [29] &quot;48%&quot; &quot;33&quot;  &quot;40&quot;  &quot;45&quot;  &quot;44&quot;  &quot;50&quot;  &quot;46&quot;  &quot;49&quot;  &quot;35&quot;  &quot;72&quot;</code></pre>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a>raw<span class="sc">$</span>seagrass_cover <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;%&quot;</span>, <span class="st">&quot;&quot;</span>, raw<span class="sc">$</span>seagrass_cover)    <span class="co"># remove the % sign</span></span>
 <span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a>raw<span class="sc">$</span>seagrass_cover[raw<span class="sc">$</span>seagrass_cover <span class="sc">==</span> <span class="st">&quot;-&quot;</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>        <span class="co"># &quot;-&quot; means not measured</span></span>
 <span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a>raw<span class="sc">$</span>seagrass_cover <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(raw<span class="sc">$</span>seagrass_cover)       <span class="co"># text -&gt; number</span></span>
@@ -1141,10 +1428,10 @@ donc par <code>NA</code> (on garde les autres informations du
 quadrat).</p>
 </div>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>raw[<span class="fu">which</span>(raw<span class="sc">$</span>seagrass_cover <span class="sc">&gt;</span> <span class="dv">100</span>), ]                     <span class="co"># inspect</span></span></code></pre></div>
-<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species seagrass_cover canopy_height_cm
-#&gt; 29 Fasimena     Inside      14 2026-03-11     0.7 Syringodium isoetifolium            130             12.4
-#&gt;    shoot_density
-#&gt; 29           532</code></pre>
+<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species seagrass_cover
+#&gt; 29 Fasimena     Inside      14 2026-03-11     0.7 Syringodium isoetifolium            130
+#&gt;    canopy_height_cm shoot_density
+#&gt; 29             12.4           532</code></pre>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a>raw<span class="sc">$</span>seagrass_cover[<span class="fu">which</span>(raw<span class="sc">$</span>seagrass_cover <span class="sc">&gt;</span> <span class="dv">100</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span>  <span class="co"># correct</span></span></code></pre></div>
 <div class="en">
 <p><code>duplicated()</code> returns <code>TRUE</code> for each row that
@@ -1163,6 +1450,70 @@ qui est la copie exacte d’une ligne précédente.</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a>clean <span class="ot">&lt;-</span> raw[<span class="sc">!</span><span class="fu">duplicated</span>(raw), ]    <span class="co"># keep only the first occurrence</span></span>
 <span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a><span class="fu">nrow</span>(clean)</span></code></pre></div>
 <pre><code>#&gt; [1] 60</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>duplicated(x)</code></td>
+<td><code>TRUE</code> for each row identical to an
+<strong>earlier</strong> row (the first occurrence stays
+<code>FALSE</code>)</td>
+<td>a data frame or a vector</td>
+</tr>
+<tr class="even">
+<td><code>df[!duplicated(df), ]</code></td>
+<td>keeps the rows that are <strong>not</strong> duplicates</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>duplicated(x)</code></td>
+<td><code>TRUE</code> pour chaque ligne identique à une ligne
+<strong>précédente</strong> (la première occurrence reste
+<code>FALSE</code>)</td>
+<td>un data frame ou un vecteur</td>
+</tr>
+<tr class="even">
+<td><code>df[!duplicated(df), ]</code></td>
+<td>garde les lignes qui ne sont <strong>pas</strong> des doublons</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><strong>Order matters.</strong> Fix the spelling <em>before</em>
@@ -1197,10 +1548,66 @@ fichier propre est votre <strong>base de données</strong>.</p>
 #&gt;  $ canopy_height_cm: num  18.8 17 18.8 20 18.1 16.4 NA 14 21.3 15.4 ...
 #&gt;  $ shoot_density   : int  648 464 504 560 484 224 440 372 556 432 ...</code></pre>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(clean))        <span class="co"># number of NA per column</span></span></code></pre></div>
-<pre><code>#&gt;             site       mpa_status          quadrat             date          depth_m          species 
-#&gt;                0                0                0                0                0                0 
-#&gt;   seagrass_cover canopy_height_cm    shoot_density 
-#&gt;                3                2                0</code></pre>
+<pre><code>#&gt;             site       mpa_status          quadrat             date          depth_m 
+#&gt;                0                0                0                0                0 
+#&gt;          species   seagrass_cover canopy_height_cm    shoot_density 
+#&gt;                0                3                2                0</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>colSums(is.na(df))</code></td>
+<td><code>is.na()</code> on a data frame gives a table of
+<code>TRUE</code>/<code>FALSE</code>; <code>colSums()</code> counts the
+<code>TRUE</code> of each column = number of <code>NA</code> per
+column</td>
+<td>a data frame</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>colSums(is.na(df))</code></td>
+<td><code>is.na()</code> sur un data frame donne un tableau de
+<code>TRUE</code>/<code>FALSE</code> ; <code>colSums()</code> compte les
+<code>TRUE</code> de chaque colonne = nombre de <code>NA</code> par
+colonne</td>
+<td>un data frame</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a><span class="fu">write.csv</span>(clean, <span class="st">&quot;outputs/seagrass_clean.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <div class="callout tip">
 <div class="en">
@@ -1308,7 +1715,7 @@ sites.</p>
 </div>
 </div>
 <div id="quiz-s05" class="quiz" data-quiz-id="s05"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMWEuIEN5bW9kb2NlYSBzZXJydWxhdGEgcXVhZHJhdHMgc2hhbGxvd2VyIHRoYW4gMS41IG0/IiwiZnIiOiIxYS4gUXVhZHJhdHMgw6AgQ3ltb2RvY2VhIHNlcnJ1bGF0YSDDoCBtb2lucyBkZSAxLDUgbSA/IiwiYW5zd2VyIjo2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIxYi4gT3V0c2lkZSBxdWFkcmF0cyB3aXRoIGNvdmVyIDwgMzAgJT8iLCJmciI6IjFiLiBRdWFkcmF0cyBob3JzIEFNUCBhdmVjIHJlY291dnJlbWVudCA8IDMwICUgPyIsImFuc3dlciI6MiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMWMuIE1lYW4gZGVwdGgsIEFtYmFsYWJveSBvciBGYXNpbWVuYSwgY292ZXIgPj0gNjAgJSAoMiBkZWNpbWFscyk/IiwiZnIiOiIxYy4gUHJvZm9uZGV1ciBtb3llbm5lLCBBbWJhbGFib3kgb3UgRmFzaW1lbmEsIHJlY291dnJlbWVudCA+PSA2MCAlICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjEuNzksInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIxZC4gQ29sdW1ucyBrZXB0IGJ5IHNlbGVjdCA9IHNpdGU6c3BlY2llcz8iLCJmciI6IjFkLiBDb2xvbm5lcyBnYXJkw6llcyBwYXIgc2VsZWN0ID0gc2l0ZTpzcGVjaWVzID8iLCJhbnN3ZXIiOjYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIFJvd3MgaW4gdGhlIG1lc3N5IGZpbGU/IiwiZnIiOiIyLiBMaWduZXMgZHUgZmljaGllciBzYWxlID8iLCJhbnN3ZXIiOjYyLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBEaWZmZXJlbnQgc2l0ZSBzcGVsbGluZ3MgYmVmb3JlIGNsZWFuaW5nPyIsImZyIjoiMy4gT3J0aG9ncmFwaGVzIGRlIHNpdGVzIGRpZmbDqXJlbnRlcyBhdmFudCBuZXR0b3lhZ2UgPyIsImFuc3dlciI6MTIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIER1cGxpY2F0ZWQgcm93cz8iLCJmciI6IjQuIExpZ25lcyBlbiBkb3VibGUgPyIsImFuc3dlciI6MiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gTnVtYmVyIG9mIE5BIGluIHNlYWdyYXNzX2NvdmVyIGFmdGVyIGNsZWFuaW5nPyIsImZyIjoiNS4gTm9tYnJlIGRlIE5BIGRhbnMgc2VhZ3Jhc3NfY292ZXIgYXByw6hzIG5ldHRveWFnZSA/IiwiYW5zd2VyIjozLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI2LiBNZWFuIGNvdmVyIG9mIHRoZSBjbGVhbiBkYXRhICgyIGRlY2ltYWxzKT8iLCJmciI6IjYuIFJlY291dnJlbWVudCBtb3llbiBkZXMgZG9ubsOpZXMgcHJvcHJlcyAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjo0OC44NCwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjcuIE1lYW4gY292ZXIgYXQgQmVsaXRzYWt5ICgyIGRlY2ltYWxzKT8iLCJmciI6IjcuIFJlY291dnJlbWVudCBtb3llbiDDoCBCZWxpdHNha3kgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6NDYuOTMsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI4LiBJbnNpZGUgcXVhZHJhdHMgd2l0aCBjb3ZlciA+IDUwICU/IiwiZnIiOiI4LiBRdWFkcmF0cyBJbnNpZGUgYXZlYyByZWNvdXZyZW1lbnQgPiA1MCAlID8iLCJhbnN3ZXIiOjIxLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn1d">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMWEuIEN5bW9kb2NlYSBzZXJydWxhdGEgcXVhZHJhdHMgc2hhbGxvd2VyIHRoYW4gMS41IG0/IiwiZnIiOiIxYS4gUXVhZHJhdHMgw6AgQ3ltb2RvY2VhIHNlcnJ1bGF0YSDDoCBtb2lucyBkZSAxLDUgbSA/IiwiYW5zd2VyIjo2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIxYi4gT3V0c2lkZSBxdWFkcmF0cyB3aXRoIGNvdmVyIDwgMzAgJT8iLCJmciI6IjFiLiBRdWFkcmF0cyBob3JzIEFNUCBhdmVjIHJlY291dnJlbWVudCA8IDMwICUgPyIsImFuc3dlciI6MiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMWMuIE1lYW4gZGVwdGgsIEFtYmFsYWJveSBvciBGYXNpbWVuYSwgY292ZXIgPj0gNjAgJSAoMiBkZWNpbWFscyk/IiwiZnIiOiIxYy4gUHJvZm9uZGV1ciBtb3llbm5lLCBBbWJhbGFib3kgb3UgRmFzaW1lbmEsIHJlY291dnJlbWVudCA+PSA2MCAlICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjEuNzksInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBSb3dzIGluIHRoZSBtZXNzeSBmaWxlPyIsImZyIjoiMi4gTGlnbmVzIGR1IGZpY2hpZXIgc2FsZSA/IiwiYW5zd2VyIjo2MiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gRGlmZmVyZW50IHNpdGUgc3BlbGxpbmdzIGJlZm9yZSBjbGVhbmluZz8iLCJmciI6IjMuIE9ydGhvZ3JhcGhlcyBkZSBzaXRlcyBkaWZmw6lyZW50ZXMgYXZhbnQgbmV0dG95YWdlID8iLCJhbnN3ZXIiOjEyLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBEdXBsaWNhdGVkIHJvd3M/IiwiZnIiOiI0LiBMaWduZXMgZW4gZG91YmxlID8iLCJhbnN3ZXIiOjIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIE51bWJlciBvZiBOQSBpbiBzZWFncmFzc19jb3ZlciBhZnRlciBjbGVhbmluZz8iLCJmciI6IjUuIE5vbWJyZSBkZSBOQSBkYW5zIHNlYWdyYXNzX2NvdmVyIGFwcsOocyBuZXR0b3lhZ2UgPyIsImFuc3dlciI6MywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNi4gTWVhbiBjb3ZlciBvZiB0aGUgY2xlYW4gZGF0YSAoMiBkZWNpbWFscyk/IiwiZnIiOiI2LiBSZWNvdXZyZW1lbnQgbW95ZW4gZGVzIGRvbm7DqWVzIHByb3ByZXMgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6NDguODQsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI3LiBNZWFuIGNvdmVyIGF0IEJlbGl0c2FreSAoMiBkZWNpbWFscyk/IiwiZnIiOiI3LiBSZWNvdXZyZW1lbnQgbW95ZW4gw6AgQmVsaXRzYWt5ICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjQ2LjkzLCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiOC4gSW5zaWRlIHF1YWRyYXRzIHdpdGggY292ZXIgPiA1MCAlPyIsImZyIjoiOC4gUXVhZHJhdHMgSW5zaWRlIGF2ZWMgcmVjb3V2cmVtZW50ID4gNTAgJSA/IiwiYW5zd2VyIjoyMSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9XQ==">
 
 </div>
 <div class="solution" data-quiz="s05">

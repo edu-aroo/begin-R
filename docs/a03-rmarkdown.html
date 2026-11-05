@@ -700,6 +700,198 @@ compris). C’est voulu : cela garantit que le rapport est
 reproductible.</p>
 </div>
 </div>
+<div id="the-yaml-header-key-by-keylen-tête-yaml-clé-par-clé"
+class="section level3">
+<h3><span class="en">The YAML header, key by key</span><span
+class="fr">L’en-tête YAML, clé par clé</span></h3>
+<div class="en">
+<p>YAML is a list of <code>key: value</code> pairs. <strong>Indentation
+matters</strong>: a key indented under another one (two spaces, never a
+tab) belongs to it. Here <code>toc: true</code> belongs to
+<code>bookdown::html_document2</code>, which belongs to
+<code>output</code>.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>title</code>, <code>author</code></td>
+<td>text printed at the top of the report</td>
+<td>text in quotes</td>
+</tr>
+<tr class="even">
+<td><code>date</code></td>
+<td>date printed under the title;
+<code>"`r format(Sys.Date(), '%d %B %Y')`"</code> writes
+<strong>today’s</strong> date at each knit</td>
+<td>text, or inline R code in quotes</td>
+</tr>
+<tr class="odd">
+<td><code>output</code></td>
+<td>the <strong>output format(s)</strong>; each one is a function name
+(<code>html_document</code>, <code>word_document</code>,
+<code>pdf_document</code>, or <code>bookdown::…2</code> versions that
+number figures)</td>
+<td>a format name, followed by its options indented below, or
+<code>default</code> (= no option)</td>
+</tr>
+<tr class="even">
+<td><code>toc</code></td>
+<td>adds a <strong>t</strong>able <strong>o</strong>f
+<strong>c</strong>ontents built from the <code>#</code> headings</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="odd">
+<td><code>toc_float</code></td>
+<td>HTML only: the table of contents stays visible on the left when you
+scroll</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>toc_depth</code></td>
+<td>which heading levels go in the table of contents</td>
+<td>a number, e.g. <code>2</code> (<code>#</code> and
+<code>##</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>number_sections</code></td>
+<td>numbers the headings (1, 1.1, 1.2…)</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>code_folding</code></td>
+<td>HTML only: adds a <em>Code</em> button; <code>hide</code> = code
+hidden until the reader clicks, <code>show</code> = shown but
+foldable</td>
+<td><code>none</code>, <code>hide</code>, <code>show</code></td>
+</tr>
+<tr class="odd">
+<td><code>reference_docx</code></td>
+<td>Word only: a Word file whose <strong>styles</strong> (fonts,
+headings, margins) are copied</td>
+<td>path to a .docx file</td>
+</tr>
+<tr class="even">
+<td><code>self_contained</code></td>
+<td>HTML only: images and styles inside the single .html file (default
+<code>true</code>)</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>true</code> and <code>false</code> are written in <strong>lower
+case</strong> in YAML (not <code>TRUE</code> as in R). Options are
+<strong>not shared</strong> between formats: <code>toc_float</code> and
+<code>code_folding</code> exist for <code>html_document</code> but not
+for <code>word_document</code> — check the help of the format,
+e.g. <code>?rmarkdown::html_document</code>, for the list of its
+options.</p>
+</div>
+<div class="fr">
+<p>Le YAML est une liste de paires <code>clé: valeur</code>.
+<strong>L’indentation compte</strong> : une clé décalée sous une autre
+(deux espaces, jamais de tabulation) lui appartient. Ici
+<code>toc: true</code> appartient à
+<code>bookdown::html_document2</code>, qui appartient à
+<code>output</code>.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Clé</th>
+<th>Ce qu’elle fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>title</code>, <code>author</code></td>
+<td>texte affiché en haut du rapport</td>
+<td>texte entre guillemets</td>
+</tr>
+<tr class="even">
+<td><code>date</code></td>
+<td>date affichée sous le titre ;
+<code>"`r format(Sys.Date(), '%d %B %Y')`"</code> écrit la date
+<strong>du jour</strong> à chaque knit</td>
+<td>texte, ou code R en ligne entre guillemets</td>
+</tr>
+<tr class="odd">
+<td><code>output</code></td>
+<td>le ou les <strong>formats de sortie</strong> ; chacun est un nom de
+fonction (<code>html_document</code>, <code>word_document</code>,
+<code>pdf_document</code>, ou les versions <code>bookdown::…2</code> qui
+numérotent les figures)</td>
+<td>un nom de format, suivi de ses options décalées en dessous, ou
+<code>default</code> (= aucune option)</td>
+</tr>
+<tr class="even">
+<td><code>toc</code></td>
+<td>ajoute une <strong>table des matières</strong> (<em>table of
+contents</em>) construite à partir des titres <code>#</code></td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="odd">
+<td><code>toc_float</code></td>
+<td>HTML seulement : la table des matières reste visible à gauche quand
+on fait défiler</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>toc_depth</code></td>
+<td>quels niveaux de titres vont dans la table des matières</td>
+<td>un nombre, ex. <code>2</code> (<code>#</code> et
+<code>##</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>number_sections</code></td>
+<td>numérote les titres (1, 1.1, 1.2…)</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr class="even">
+<td><code>code_folding</code></td>
+<td>HTML seulement : ajoute un bouton <em>Code</em> ; <code>hide</code>
+= code caché jusqu’au clic du lecteur, <code>show</code> = affiché mais
+repliable</td>
+<td><code>none</code>, <code>hide</code>, <code>show</code></td>
+</tr>
+<tr class="odd">
+<td><code>reference_docx</code></td>
+<td>Word seulement : un fichier Word dont les <strong>styles</strong>
+(polices, titres, marges) sont copiés</td>
+<td>chemin vers un .docx</td>
+</tr>
+<tr class="even">
+<td><code>self_contained</code></td>
+<td>HTML seulement : images et styles dans l’unique fichier .html (par
+défaut <code>true</code>)</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>true</code> et <code>false</code> s’écrivent en
+<strong>minuscules</strong> en YAML (pas <code>TRUE</code> comme dans
+R). Les options <strong>ne sont pas partagées</strong> entre formats :
+<code>toc_float</code> et <code>code_folding</code> existent pour
+<code>html_document</code> mais pas pour <code>word_document</code> —
+consultez l’aide du format, ex. <code>?rmarkdown::html_document</code>,
+pour la liste de ses options.</p>
+</div>
+</div>
 </div>
 <div id="markdown" class="section level2">
 <h2><span class="en">Markdown: formatting the text</span><span
@@ -934,6 +1126,96 @@ le rapport une seule fois, dans un chunk <code>setup</code> avec
 </tbody>
 </table>
 </div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>knitr::opts_chunk$set(...)</code></td>
+<td>sets the <strong>default</strong> options of all the chunks that
+follow; a chunk can still override them in its own
+<code>{r ...}</code></td>
+<td>options separated by commas, as in the table</td>
+</tr>
+<tr class="even">
+<td>  <code>out.width</code></td>
+<td>display width of the figure in the document (does not change how it
+is drawn)</td>
+<td><code>"80%"</code> or <code>"12cm"</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>dpi</code></td>
+<td>resolution of the figure (same as <code>res</code> in
+<code>png()</code>)</td>
+<td>a number, e.g. 150 or 300</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>knitr::opts_chunk$set(...)</code></td>
+<td>fixe les options <strong>par défaut</strong> de tous les chunks qui
+suivent ; un chunk peut encore les changer dans son propre
+<code>{r ...}</code></td>
+<td>options séparées par des virgules, comme dans le tableau</td>
+</tr>
+<tr class="even">
+<td>  <code>out.width</code></td>
+<td>largeur d’affichage de la figure dans le document (ne change pas son
+dessin)</td>
+<td><code>"80%"</code> ou <code>"12cm"</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>dpi</code></td>
+<td>résolution de la figure (comme <code>res</code> dans
+<code>png()</code>)</td>
+<td>un nombre, ex. 150 ou 300</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>Chunk options use <strong>dots</strong> (<code>fig.width</code>,
+<code>out.width</code>) — Quarto (Session A8) writes the same options
+with <strong>hyphens</strong> (<code>fig-width</code>) in
+<code>#|</code> lines.</p>
+</div>
+<div class="fr">
+<p>Les options de chunk utilisent des <strong>points</strong>
+(<code>fig.width</code>, <code>out.width</code>) — Quarto (séance A8)
+écrit les mêmes options avec des <strong>tirets</strong>
+(<code>fig-width</code>) dans les lignes <code>#|</code>.</p>
+</div>
 </div>
 <div id="inline" class="section level2">
 <h2><span class="en">Numbers inside the text</span><span class="fr">Des
@@ -955,6 +1237,70 @@ de l’objet</strong> dans le texte : les phrases restent lisibles.</p>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(hard_coral), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>nt <span class="ot">&lt;-</span> <span class="fu">round</span>(cover<span class="sc">$</span>m[cover<span class="sc">$</span>zone <span class="sc">==</span> <span class="st">&quot;No-take&quot;</span>], <span class="dv">1</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>fi <span class="ot">&lt;-</span> <span class="fu">round</span>(cover<span class="sc">$</span>m[cover<span class="sc">$</span>zone <span class="sc">==</span> <span class="st">&quot;Fishing&quot;</span>], <span class="dv">1</span>)</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>`r x`</code></td>
+<td>inline R code: replaced by the value of <code>x</code> when
+knitting</td>
+<td>an object name or a short calculation</td>
+</tr>
+<tr class="even">
+<td><code>max()</code>, <code>filter()</code>, <code>group_by()</code>,
+<code>summarise()</code></td>
+<td>reminders (Beginner Sessions 2 and 8)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>`r x`</code></td>
+<td>code R en ligne : remplacé par la valeur de <code>x</code> au moment
+du knit</td>
+<td>un nom d’objet ou un calcul court</td>
+</tr>
+<tr class="even">
+<td><code>max()</code>, <code>filter()</code>, <code>group_by()</code>,
+<code>summarise()</code></td>
+<td>rappels (séances 2 et 8 du niveau débutant)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>The source line…</p>
 <pre><code>In `r last_year`, mean hard coral cover was `r nt` % in No-take zones and `r fi` % in Fishing zones.</code></pre>
@@ -1060,12 +1406,214 @@ mis en forme (cellules fusionnées, couleurs, polices).</p>
 </tr>
 </tbody>
 </table>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>knitr::kable(x, digits, col.names, caption)</code></td>
+<td>turns a data frame into a formatted table in HTML, Word or PDF</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>digits</code></td>
+<td>number of decimals of the numeric columns</td>
+<td>a whole number (or one per column)</td>
+</tr>
+<tr class="odd">
+<td>  <code>col.names</code></td>
+<td>the titles of the columns shown in the report (the data keep their
+names)</td>
+<td>a text vector, one per column</td>
+</tr>
+<tr class="even">
+<td>  <code>caption</code></td>
+<td>the table title; with a bookdown format it gets a number and can be
+referred to</td>
+<td>text</td>
+</tr>
+<tr class="odd">
+<td>  <code>align</code></td>
+<td>alignment of each column</td>
+<td><code>"l"</code>, <code>"c"</code>, <code>"r"</code>,
+e.g. <code>"llrrr"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>knitr::kable(x, digits, col.names, caption)</code></td>
+<td>transforme un data frame en tableau mis en forme en HTML, Word ou
+PDF</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>digits</code></td>
+<td>nombre de décimales des colonnes numériques</td>
+<td>un nombre entier (ou un par colonne)</td>
+</tr>
+<tr class="odd">
+<td>  <code>col.names</code></td>
+<td>les titres des colonnes affichés dans le rapport (les données
+gardent leurs noms)</td>
+<td>un vecteur de texte, un par colonne</td>
+</tr>
+<tr class="even">
+<td>  <code>caption</code></td>
+<td>le titre du tableau ; avec un format bookdown il est numéroté et
+peut être cité</td>
+<td>texte</td>
+</tr>
+<tr class="odd">
+<td>  <code>align</code></td>
+<td>alignement de chaque colonne</td>
+<td><code>"l"</code>, <code>"c"</code>, <code>"r"</code>, ex.
+<code>"llrrr"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(flextable)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">flextable</span>(tab) <span class="sc">|&gt;</span></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">colformat_double</span>(<span class="at">digits =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">set_header_labels</span>(<span class="at">mpa =</span> <span class="st">&quot;MPA&quot;</span>, <span class="at">zone =</span> <span class="st">&quot;Zone&quot;</span>, <span class="at">transects =</span> <span class="st">&quot;Transects&quot;</span>, <span class="at">mean =</span> <span class="st">&quot;Mean (%)&quot;</span>, <span class="at">sd =</span> <span class="st">&quot;SD&quot;</span>) <span class="sc">|&gt;</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">merge_v</span>(<span class="at">j =</span> <span class="st">&quot;mpa&quot;</span>) <span class="sc">|&gt;</span>            <span class="co"># merge the repeated MPA names</span></span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">autofit</span>()</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>flextable(data)</code></td>
+<td>creates a table object that can be formatted step by step</td>
+<td>a data frame</td>
+</tr>
+<tr class="even">
+<td><code>colformat_double(x, digits)</code></td>
+<td>number of decimals of the columns with decimals</td>
+<td>a whole number</td>
+</tr>
+<tr class="odd">
+<td><code>set_header_labels(x, ...)</code></td>
+<td>header texts: <code>column = "Title"</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>merge_v(x, j)</code></td>
+<td>merges <strong>v</strong>ertically the identical neighbouring cells
+of column(s) <code>j</code></td>
+<td>column name(s) in quotes</td>
+</tr>
+<tr class="odd">
+<td><code>autofit(x)</code></td>
+<td>adjusts the column widths to their content</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>flextable(data)</code></td>
+<td>crée un objet tableau que l’on peut mettre en forme étape par
+étape</td>
+<td>un data frame</td>
+</tr>
+<tr class="even">
+<td><code>colformat_double(x, digits)</code></td>
+<td>nombre de décimales des colonnes à décimales</td>
+<td>un nombre entier</td>
+</tr>
+<tr class="odd">
+<td><code>set_header_labels(x, ...)</code></td>
+<td>textes d’en-tête : <code>colonne = "Titre"</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>merge_v(x, j)</code></td>
+<td>fusionne <strong>v</strong>erticalement les cellules voisines
+identiques de la ou des colonnes <code>j</code></td>
+<td>nom(s) de colonne entre guillemets</td>
+</tr>
+<tr class="odd">
+<td><code>autofit(x)</code></td>
+<td>ajuste la largeur des colonnes à leur contenu</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p><code>kable()</code> names the column titles <code>col.names</code>;
+flextable does it with a separate function,
+<code>set_header_labels()</code>, where each title is given <strong>by
+column name</strong>. Same goal, different tools.</p>
+</div>
+<div class="fr">
+<p><code>kable()</code> appelle les titres de colonnes
+<code>col.names</code> ; flextable le fait avec une fonction séparée,
+<code>set_header_labels()</code>, où chaque titre est donné <strong>par
+nom de colonne</strong>. Même but, outils différents.</p>
+</div>
 </div>
 <div id="figures" class="section level2">
 <h2><span class="en">Figures and cross-references</span><span
@@ -1107,6 +1655,70 @@ chaque renvoi suit.</p>
 <p class="caption">
 Mean hard coral cover (± SE) per year and zone, three MPAs together.
 </p>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>{r trend, fig.cap = "..."}</code></td>
+<td>the chunk label <code>trend</code> becomes the figure name:
+<code>\@ref(fig:trend)</code> in the text</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_line()</code>, <code>geom_pointrange()</code>,
+<code>scale_x_continuous(breaks)</code></td>
+<td>reminders (Intermediate I7–I8)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>{r trend, fig.cap = "..."}</code></td>
+<td>le label du chunk <code>trend</code> devient le nom de la figure :
+<code>\@ref(fig:trend)</code> dans le texte</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>geom_line()</code>, <code>geom_pointrange()</code>,
+<code>scale_x_continuous(breaks)</code></td>
+<td>rappels (intermédiaire I7–I8)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="callout try">
 <div class="en">
@@ -1219,11 +1831,67 @@ Console :</p>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                  <span class="at">output_format =</span> <span class="st">&quot;bookdown::word_document2&quot;</span>,</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>                  <span class="at">output_dir =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>))</span></code></pre></div>
 <div class="en">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument of <code>render()</code></th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>input</code> (first argument)</td>
+<td>the .Rmd file to produce</td>
+</tr>
+<tr class="even">
+<td><code>output_format</code></td>
+<td>which format of the YAML to use, as text
+(<code>"bookdown::word_document2"</code>); <code>"all"</code> = every
+format of the header. Without it: the first one</td>
+</tr>
+<tr class="odd">
+<td><code>output_dir</code></td>
+<td>folder where the result is written (created if needed)</td>
+</tr>
+</tbody>
+</table>
 <p><strong>Long reports:</strong> split them into several files and
 assemble them with child documents:
 <code>```{r, child = "methods.Rmd"}</code> <code>```</code>.</p>
 </div>
 <div class="fr">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument de <code>render()</code></th>
+<th>Ce qu’il fait</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>input</code> (premier argument)</td>
+<td>le fichier .Rmd à produire</td>
+</tr>
+<tr class="even">
+<td><code>output_format</code></td>
+<td>quel format du YAML utiliser, sous forme de texte
+(<code>"bookdown::word_document2"</code>) ; <code>"all"</code> = tous
+les formats de l’en-tête. Sans lui : le premier</td>
+</tr>
+<tr class="odd">
+<td><code>output_dir</code></td>
+<td>dossier où le résultat est écrit (créé si besoin)</td>
+</tr>
+</tbody>
+</table>
 <p><strong>Rapports longs :</strong> découpez-les en plusieurs fichiers
 et assemblez-les avec des documents enfants :
 <code>```{r, child = "methods.Rmd"}</code> <code>```</code>.</p>
@@ -1294,7 +1962,7 @@ reste en texte, le format de sortie n’est pas un format
 </div>
 </div>
 <div id="quiz-a03" class="quiz" data-quiz-id="a03"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMi4gVG90YWwgbnVtYmVyIG9mIHRyYW5zZWN0cyBpbiB0aGUgcmVwb3J0PyIsImZyIjoiMi4gTm9tYnJlIHRvdGFsIGRlIHRyYW5zZWN0cyBkYW5zIGxlIHJhcHBvcnQgPyIsImFuc3dlciI6MzYwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBNZWFuICUgb2YgYmxlYWNoZWQgY29sb25pZXMgaW4gMjAyNCAoMSBkZWNpbWFsKT8iLCJmciI6IjMuICUgbW95ZW4gZGUgY29sb25pZXMgYmxhbmNoaWVzIGVuIDIwMjQgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjoyNC45LCJ0b2wiOjAuMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBSb3dzIG9mIHRoZSAyMDI1IHRhYmxlPyIsImZyIjoiNC4gTGlnbmVzIGR1IHRhYmxlYXUgMjAyNSA/IiwiYW5zd2VyIjo2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI1LiBGaXNoaW5nIHRyYW5zZWN0cyBzdXJ2ZXllZCBpbiAyMDIyPyIsImZyIjoiNS4gVHJhbnNlY3RzIEZpc2hpbmcgc3VpdmlzIGVuIDIwMjIgPyIsImFuc3dlciI6MTgsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIE1lYW4gaGFyZCBjb3JhbCwgTm8tdGFrZSB6b25lIG9mIFRhbmpvbmEsIDIwMjUgKDEgZGVjaW1hbCk/IiwiZnIiOiI2LiBDb3JhaWwgZHVyIG1veWVuLCB6b25lIE5vLXRha2UgZGUgVGFuam9uYSwgMjAyNSAoMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjMxLjgsInRvbCI6MC4wNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIEEgY2h1bmsgbXVzdCBpbXBvcnQgdGhlIGRhdGEgd2l0aG91dCBzaG93aW5nIGFueXRoaW5nIGluIHRoZSByZXBvcnQuIE9wdGlvbj8iLCJmciI6IjcuIFVuIGNodW5rIGRvaXQgaW1wb3J0ZXIgbGVzIGRvbm7DqWVzIHNhbnMgcmllbiBtb250cmVyIGRhbnMgbGUgcmFwcG9ydC4gT3B0aW9uID8iLCJvcHRpb25zX2VuIjpbImVjaG8gPSBGQUxTRSIsImV2YWwgPSBGQUxTRSIsImluY2x1ZGUgPSBGQUxTRSIsInJlc3VsdHMgPSBcImhpZGVcIiJdLCJvcHRpb25zX2ZyIjpbImVjaG8gPSBGQUxTRSIsImV2YWwgPSBGQUxTRSIsImluY2x1ZGUgPSBGQUxTRSIsInJlc3VsdHMgPSBcImhpZGVcIiJdLCJhbnN3ZXIiOjJ9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gWW91ciBzY3JpcHQgd29ya3MgaW4gdGhlIENvbnNvbGUgYnV0IEtuaXQgc2F5cyBcIm9iamVjdCAncmVlZicgbm90IGZvdW5kXCIuIFdoeT8iLCJmciI6IjguIFZvdHJlIHNjcmlwdCBtYXJjaGUgZGFucyBsYSBDb25zb2xlIG1haXMgS25pdCBkaXQgwqsgb2JqZWN0ICdyZWVmJyBub3QgZm91bmQgwrsuIFBvdXJxdW9pID8iLCJvcHRpb25zX2VuIjpbIktuaXQgcnVucyBpbiBhIG5ldyBlbXB0eSBzZXNzaW9uOiByZWVmIGlzIG5vdCBjcmVhdGVkIGluc2lkZSB0aGUgLlJtZCIsIlRoZSBkYXRhIGZpbGUgaXMgdG9vIGxhcmdlIiwiS25pdCBvbmx5IHdvcmtzIHdpdGggZ2dwbG90MiIsInJlZWYgaXMgYSByZXNlcnZlZCB3b3JkIl0sIm9wdGlvbnNfZnIiOlsiS25pdCBzJ2V4w6ljdXRlIGRhbnMgdW5lIHNlc3Npb24gdmlkZSA6IHJlZWYgbidlc3QgcGFzIGNyw6nDqSBkYW5zIGxlIC5SbWQiLCJMZSBmaWNoaWVyIGRlIGRvbm7DqWVzIGVzdCB0cm9wIGdyb3MiLCJLbml0IG5lIG1hcmNoZSBxdSdhdmVjIGdncGxvdDIiLCJyZWVmIGVzdCB1biBtb3QgcsOpc2VydsOpIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBUbyByZWZlciB0byB0aGUgZmlndXJlIG9mIHRoZSBjaHVuayBsYWJlbGxlZCBcInRyZW5kXCIgeW91IHdyaXRlOiIsImZyIjoiOS4gUG91ciByZW52b3llciDDoCBsYSBmaWd1cmUgZHUgY2h1bmsgbm9tbcOpIMKrIHRyZW5kIMK7IHZvdXMgw6ljcml2ZXogOiIsIm9wdGlvbnNfZW4iOlsiRmlndXJlIHRyZW5kIiwiXFxAcmVmKGZpZzp0cmVuZCkiLCJbdHJlbmRdKCNmaWcpIiwiYHIgdHJlbmRgIl0sIm9wdGlvbnNfZnIiOlsiRmlndXJlIHRyZW5kIiwiXFxAcmVmKGZpZzp0cmVuZCkiLCJbdHJlbmRdKCNmaWcpIiwiYHIgdHJlbmRgIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gWW91ciBpbnN0aXR1dGlvbiB3YW50cyBpdHMgb3duIGZvbnRzIGFuZCBoZWFkaW5nIHN0eWxlcyBpbiBXb3JkLiBZb3UgdXNlOiIsImZyIjoiMTAuIFZvdHJlIGluc3RpdHV0aW9uIHZldXQgc2VzIHBvbGljZXMgZXQgc3R5bGVzIGRlIHRpdHJlcyBkYW5zIFdvcmQuIFZvdXMgdXRpbGlzZXogOiIsIm9wdGlvbnNfZW4iOlsicmVmZXJlbmNlX2RvY3ggaW4gdGhlIFlBTUwiLCJmaWcud2lkdGgiLCJhIENTUyBmaWxlIiwiY2FjaGUgPSBUUlVFIl0sIm9wdGlvbnNfZnIiOlsicmVmZXJlbmNlX2RvY3ggZGFucyBsZSBZQU1MIiwiZmlnLndpZHRoIiwidW4gZmljaGllciBDU1MiLCJjYWNoZSA9IFRSVUUiXSwiYW5zd2VyIjowfV0=">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMi4gVG90YWwgbnVtYmVyIG9mIHRyYW5zZWN0cyBpbiB0aGUgcmVwb3J0PyIsImZyIjoiMi4gTm9tYnJlIHRvdGFsIGRlIHRyYW5zZWN0cyBkYW5zIGxlIHJhcHBvcnQgPyIsImFuc3dlciI6MzYwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBNZWFuICUgb2YgYmxlYWNoZWQgY29sb25pZXMgaW4gMjAyNCAoMSBkZWNpbWFsKT8iLCJmciI6IjMuICUgbW95ZW4gZGUgY29sb25pZXMgYmxhbmNoaWVzIGVuIDIwMjQgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjoyNC45LCJ0b2wiOjAuMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBSb3dzIG9mIHRoZSAyMDI1IHRhYmxlPyIsImZyIjoiNC4gTGlnbmVzIGR1IHRhYmxlYXUgMjAyNSA/IiwiYW5zd2VyIjo2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI1LiBGaXNoaW5nIHRyYW5zZWN0cyBzdXJ2ZXllZCBpbiAyMDIyPyIsImZyIjoiNS4gVHJhbnNlY3RzIEZpc2hpbmcgc3VpdmlzIGVuIDIwMjIgPyIsImFuc3dlciI6MTgsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIE1lYW4gaGFyZCBjb3JhbCwgTm8tdGFrZSB6b25lIG9mIFRhbmpvbmEsIDIwMjUgKDEgZGVjaW1hbCk/IiwiZnIiOiI2LiBDb3JhaWwgZHVyIG1veWVuLCB6b25lIE5vLXRha2UgZGUgVGFuam9uYSwgMjAyNSAoMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjMxLjgsInRvbCI6MC4wNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIEEgY2h1bmsgbXVzdCBpbXBvcnQgdGhlIGRhdGEgd2l0aG91dCBzaG93aW5nIGFueXRoaW5nIGluIHRoZSByZXBvcnQuIE9wdGlvbj8iLCJmciI6IjcuIFVuIGNodW5rIGRvaXQgaW1wb3J0ZXIgbGVzIGRvbm7DqWVzIHNhbnMgcmllbiBtb250cmVyIGRhbnMgbGUgcmFwcG9ydC4gT3B0aW9uID8iLCJvcHRpb25zX2VuIjpbImVjaG8gPSBGQUxTRSIsImV2YWwgPSBGQUxTRSIsImluY2x1ZGUgPSBGQUxTRSIsInJlc3VsdHMgPSBcImhpZGVcIiJdLCJvcHRpb25zX2ZyIjpbImVjaG8gPSBGQUxTRSIsImV2YWwgPSBGQUxTRSIsImluY2x1ZGUgPSBGQUxTRSIsInJlc3VsdHMgPSBcImhpZGVcIiJdLCJhbnN3ZXIiOjJ9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gWW91ciBzY3JpcHQgd29ya3MgaW4gdGhlIENvbnNvbGUgYnV0IEtuaXQgc2F5cyBcIm9iamVjdCAncmVlZicgbm90IGZvdW5kXCIuIFdoeT8iLCJmciI6IjguIFZvdHJlIHNjcmlwdCBtYXJjaGUgZGFucyBsYSBDb25zb2xlIG1haXMgS25pdCBkaXQgwqsgb2JqZWN0ICdyZWVmJyBub3QgZm91bmQgwrsuIFBvdXJxdW9pID8iLCJvcHRpb25zX2VuIjpbIktuaXQgcnVucyBpbiBhIG5ldyBlbXB0eSBzZXNzaW9uOiByZWVmIGlzIG5vdCBjcmVhdGVkIGluc2lkZSB0aGUgLlJtZCIsIlRoZSBkYXRhIGZpbGUgaXMgdG9vIGxhcmdlIiwiS25pdCBvbmx5IHdvcmtzIHdpdGggZ2dwbG90MiIsInJlZWYgaXMgYSByZXNlcnZlZCB3b3JkIl0sIm9wdGlvbnNfZnIiOlsiS25pdCBzJ2V4w6ljdXRlIGRhbnMgdW5lIHNlc3Npb24gdmlkZSA6IHJlZWYgbidlc3QgcGFzIGNyw6nDqSBkYW5zIGxlIC5SbWQiLCJMZSBmaWNoaWVyIGRlIGRvbm7DqWVzIGVzdCB0cm9wIGdyb3MiLCJLbml0IG5lIG1hcmNoZSBxdSdhdmVjIGdncGxvdDIiLCJyZWVmIGVzdCB1biBtb3QgcsOpc2VydsOpIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBUbyByZWZlciB0byB0aGUgZmlndXJlIG9mIHRoZSBjaHVuayBsYWJlbGxlZCBcInRyZW5kXCIgeW91IHdyaXRlOiIsImZyIjoiOS4gUG91ciByZW52b3llciDDoCBsYSBmaWd1cmUgZHUgY2h1bmsgbm9tbcOpIMKrIHRyZW5kIMK7IHZvdXMgw6ljcml2ZXogOiIsIm9wdGlvbnNfZW4iOlsiRmlndXJlIHRyZW5kIiwiXFxAcmVmKGZpZzp0cmVuZCkiLCJbdHJlbmRdKCNmaWcpIiwiYHIgdHJlbmRgIl0sIm9wdGlvbnNfZnIiOlsiRmlndXJlIHRyZW5kIiwiXFxAcmVmKGZpZzp0cmVuZCkiLCJbdHJlbmRdKCNmaWcpIiwiYHIgdHJlbmRgIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gWW91ciBpbnN0aXR1dGlvbiB3YW50cyBpdHMgb3duIGZvbnRzIGFuZCBoZWFkaW5nIHN0eWxlcyBpbiBXb3JkLiBZb3UgdXNlOiIsImZyIjoiMTAuIFZvdHJlIGluc3RpdHV0aW9uIHZldXQgc2VzIHBvbGljZXMgZXQgc3R5bGVzIGRlIHRpdHJlcyBkYW5zIFdvcmQuIFZvdXMgdXRpbGlzZXogOiIsIm9wdGlvbnNfZW4iOlsicmVmZXJlbmNlX2RvY3ggaW4gdGhlIFlBTUwiLCJmaWcud2lkdGgiLCJhIENTUyBmaWxlIiwiY2FjaGUgPSBUUlVFIl0sIm9wdGlvbnNfZnIiOlsicmVmZXJlbmNlX2RvY3ggZGFucyBsZSBZQU1MIiwiZmlnLndpZHRoIiwidW4gZmljaGllciBDU1MiLCJjYWNoZSA9IFRSVUUiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjExLiBJbiBrbml0cjo6a2FibGUodGFiLCBkaWdpdHMgPSAxLCBjb2wubmFtZXMgPSBjKC4uLikpLCB3aGF0IGRvZXMgY29sLm5hbWVzIGNoYW5nZT8iLCJmciI6IjExLiBEYW5zIGtuaXRyOjprYWJsZSh0YWIsIGRpZ2l0cyA9IDEsIGNvbC5uYW1lcyA9IGMoLi4uKSksIHF1ZSBjaGFuZ2UgY29sLm5hbWVzID8iLCJvcHRpb25zX2VuIjpbIlRoZSBjb2x1bW4gdGl0bGVzIHNob3duIGluIHRoZSByZXBvcnQiLCJUaGUgbmFtZXMgb2YgdGhlIGNvbHVtbnMgb2YgdGFiIiwiVGhlIG51bWJlciBvZiBkZWNpbWFscyIsIlRoZSBvcmRlciBvZiB0aGUgcm93cyJdLCJvcHRpb25zX2ZyIjpbIkxlcyB0aXRyZXMgZGUgY29sb25uZXMgYWZmaWNow6lzIGRhbnMgbGUgcmFwcG9ydCIsIkxlcyBub21zIGRlcyBjb2xvbm5lcyBkZSB0YWIiLCJMZSBub21icmUgZGUgZMOpY2ltYWxlcyIsIkwnb3JkcmUgZGVzIGxpZ25lcyJdLCJhbnN3ZXIiOjB9XQ==">
 
 </div>
 <div class="solution" data-quiz="a03">

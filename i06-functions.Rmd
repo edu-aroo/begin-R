@@ -52,6 +52,11 @@ sgr(10, 25, 45)                                  # one line
 sgr(w_initial = 10, w_final = c(25, 30), days = 45)   # works on vectors too
 ```
 
+```{r, echo=FALSE}
+fa(c("`name <- function(arg1, arg2) { ... }`", "creates a function called `name`; **you** choose the names of its arguments, which exist only inside the `{ }`", "crée une fonction appelée `name` ; c'est **vous** qui choisissez les noms de ses arguments, qui n'existent qu'à l'intérieur des `{ }`", "argument names separated by commas", "noms d'arguments séparés par des virgules"),
+   c("last line of the body", "its value is what the function **returns** (`return(value)` does the same explicitly)", "sa valeur est ce que la fonction **renvoie** (`return(valeur)` fait la même chose explicitement)", "", ""))
+```
+
 ::: en
 - The **arguments** are local names: inside the function, `w_initial` is whatever you pass. Objects created inside the function disappear when it ends — they do not overwrite your objects.
 - The result is the **last value** computed. `return(x)` makes it explicit (useful to leave early).
@@ -66,6 +71,10 @@ sgr(w_initial = 10, w_final = c(25, 30), days = 45)   # works on vectors too
 ```{r}
 seaweed$sgr2 <- sgr(seaweed$initial_weight_kg, seaweed$final_weight_kg, seaweed$days)
 all.equal(seaweed$sgr, seaweed$sgr2)        # same as Session I1
+```
+
+```{r, echo=FALSE}
+fa(c("`all.equal(target, current)`", "`TRUE` if the two objects are equal (with a tiny tolerance for decimals); otherwise a description of the differences", "`TRUE` si les deux objets sont égaux (avec une infime tolérance pour les décimales) ; sinon une description des différences", "two objects", "deux objets"))
 ```
 
 ## [Default values]{.en}[Valeurs par défaut]{.fr} {#defaults}
@@ -88,6 +97,12 @@ describe(seaweed$sgr)
 describe(seaweed$sgr, digits = 4)
 ```
 
+```{r, echo=FALSE}
+fa(c("`function(x, digits = 2, na.rm = TRUE)`", "`= value` in the definition gives a **default value**: the user may leave the argument out", "`= valeur` dans la définition donne une **valeur par défaut** : l'utilisateur peut omettre l'argument", "", ""),
+   c("`mean(x, na.rm = na.rm)`", "passes our own argument to `mean()`: on the left the name of `mean()`'s argument, on the right our object of the same name", "transmet notre propre argument à `mean()` : à gauche le nom de l'argument de `mean()`, à droite notre objet du même nom", "", ""),
+   c("`c(n = n, mean = m, ...)`", "a named vector (Beginner Session 7): the names are printed above the values", "un vecteur nommé (séance 7 du niveau débutant) : les noms s'affichent au-dessus des valeurs", "", ""))
+```
+
 ## [Checking the arguments]{.en}[Vérifier les arguments]{.fr} {#checks}
 
 ::: en
@@ -107,6 +122,14 @@ sgr <- function(w_initial, w_final, days) {
 }
 sgr("10", 25, 45)
 sgr(10, 2500, 45)
+```
+
+```{r, echo=FALSE}
+fa(c("`is.numeric(x)`", "`TRUE` if `x` contains numbers (`is.character()`, `is.data.frame()`… work the same way)", "`TRUE` si `x` contient des nombres (`is.character()`, `is.data.frame()`… fonctionnent de même)", "any object", "n'importe quel objet"),
+   c("`||`, `&&`", "OR / AND for **one** `TRUE`/`FALSE` (in `if`); `|` and `&` (Beginner Session 5) work element by element on vectors", "OU / ET pour **un seul** `TRUE`/`FALSE` (dans `if`) ; `|` et `&` (séance 5 du niveau débutant) travaillent élément par élément sur des vecteurs", "", ""),
+   c("`any(x, na.rm)`", "`TRUE` if at least one element is `TRUE`", "`TRUE` si au moins un élément vaut `TRUE`", "a condition", "une condition"),
+   c("`stop(\"message\")`", "stops the function with an **error** and this message: nothing is returned", "arrête la fonction avec une **erreur** et ce message : rien n'est renvoyé", "text", "texte"),
+   c("`warning(\"message\")`", "shows a **warning** but the function continues and returns its result", "affiche un **avertissement** mais la fonction continue et renvoie son résultat", "text", "texte"))
 ```
 
 ::: en
@@ -137,6 +160,11 @@ r
 r$harvest_t
 ```
 
+```{r, echo=FALSE}
+fa(c("`list(name = value, ...)`", "a list: several objects of different types and lengths in one; each element is reached with `$name` or `[[\"name\"]]`", "une liste : plusieurs objets de types et longueurs différents en un seul ; chaque élément s'atteint avec `$nom` ou `[[\"nom\"]]`", "`name = object`, separated by commas", "`nom = objet`, séparés par des virgules"),
+   c("`names(which.max(...))`", "the **name** of the largest value of a `tapply()` result (here the farmer)", "le **nom** de la plus grande valeur d'un résultat de `tapply()` (ici le producteur)", "", ""))
+```
+
 ## [Applying a function to each group]{.en}[Appliquer une fonction à chaque groupe]{.fr} {#apply}
 
 ::: en
@@ -156,6 +184,12 @@ sapply(c("Lovobe", "Mahavelo", "Befasy"),
 
 library(dplyr)
 seaweed %>% group_by(zone) %>% summarise(mean = mean(sgr, na.rm = TRUE), se = se(sgr))
+```
+
+```{r, echo=FALSE}
+fa(c("`function(x) ...` on one line", "a short function: the `{ }` can be left out when the body is one expression", "une fonction courte : les `{ }` peuvent être omises quand le corps tient en une expression", "", ""),
+   c("`sapply(X, function(v) ...)`", "an **anonymous** function written directly inside `sapply()` (Beginner Session 4), called once for each element of `X`", "une fonction **anonyme** écrite directement dans `sapply()` (séance 4 du niveau débutant), appelée une fois pour chaque élément de `X`", "", ""),
+   c("your functions in `tapply()`, `summarise()`", "work exactly like `mean` or `sd`", "fonctionnent exactement comme `mean` ou `sd`", "", ""))
 ```
 
 ::: en
@@ -182,6 +216,10 @@ sgr <- function(w_initial, w_final, days) 100 * log(w_final / w_initial) / days
 
 # se(): standard error of the mean, ignoring NA
 se <- function(x) sd(x, na.rm = TRUE) / sqrt(sum(!is.na(x)))
+```
+
+```{r, echo=FALSE}
+fa(c("`source(\"scripts/functions.R\")`", "runs a whole script file: write this line at the top of your analysis to load your functions", "exécute tout un fichier de script : écrivez cette ligne en haut de votre analyse pour charger vos fonctions", "path of the `.R` file", "chemin du fichier `.R`"))
 ```
 
 ## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
@@ -248,7 +286,13 @@ quiz("i06", list(
   q_text("5b. Village with the highest CV?", "5b. Village au CV le plus élevé ?", a7),
   q_mcq("6. What does a function return?", "6. Que renvoie une fonction ?",
         c("All objects created inside it", "The last value computed (or return())", "Nothing unless you use print()", "Its first argument"),
-        c("Tous les objets créés à l'intérieur", "La dernière valeur calculée (ou return())", "Rien sauf avec print()", "Son premier argument"), correct = 2)
+        c("Tous les objets créés à l'intérieur", "La dernière valeur calculée (ou return())", "Rien sauf avec print()", "Son premier argument"), correct = 2),
+  q_mcq("7. describe <- function(x, digits = 2) {...}. What does describe(seaweed$sgr) use for digits?", "7. describe <- function(x, digits = 2) {...}. Quelle valeur describe(seaweed$sgr) utilise-t-elle pour digits ?",
+        c("An error: digits is missing", "0", "2, the default value", "The number of rows"),
+        c("Une erreur : digits manque", "0", "2, la valeur par défaut", "Le nombre de lignes"), correct = 3),
+  q_mcq("8. Inside a function, what is the difference between stop() and warning()?", "8. Dans une fonction, quelle est la différence entre stop() et warning() ?",
+        c("stop() ends the function with an error; warning() shows a message and the function still returns its result", "They are the same", "warning() ends the function; stop() only shows a message", "stop() pauses the function until you press Enter"),
+        c("stop() arrête la fonction avec une erreur ; warning() affiche un message et la fonction renvoie quand même son résultat", "Ce sont les mêmes", "warning() arrête la fonction ; stop() affiche seulement un message", "stop() met la fonction en pause jusqu'à Entrée"), correct = 1)
 ))
 ```
 

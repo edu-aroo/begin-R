@@ -522,9 +522,9 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore"><span class="en">A2 · Version control with
-Git, GitHub and GitLab</span><span class="fr">A2 · Gestion de versions
-avec Git, GitHub et GitLab</span></h1>
+<h1 class="title toc-ignore"><span class="en">A2 · Git and GitHub /
+GitLab with RStudio</span><span class="fr">A2 · Git et GitHub / GitLab
+avec RStudio</span></h1>
 <h3 class="subtitle">~3.5 h</h3>
 
 </div>
@@ -535,133 +535,358 @@ avec Git, GitHub et GitLab</span></h1>
 class="section level4 en">
 <h4>By the end of this session you will be able to</h4>
 <ul>
-<li>explain what Git does (a <strong>history</strong> of your project)
-and what GitHub / GitLab add (a <strong>shared copy
-online</strong>);</li>
-<li>configure Git, and <strong>commit</strong> changes from RStudio or
-the terminal;</li>
-<li>read the <strong>history</strong>, compare versions and go back to
-an old version of a file;</li>
-<li>write a good <code>.gitignore</code> for an R project (and keep
-personal or large data out);</li>
-<li>connect a project to <strong>GitHub or GitLab</strong> (HTTPS token
-or SSH key, several accounts), <strong>push</strong> and
-<strong>pull</strong>;</li>
-<li>use a <strong>branch</strong>, and solve a simple <strong>merge
-conflict</strong>.</li>
+<li>explain what <strong>Git</strong> does (the history of your project)
+and what <strong>GitHub</strong> and <strong>GitLab</strong> add (a copy
+online, to share and to keep safe);</li>
+<li>install Git on Windows, connect it to RStudio and <strong>configure
+it once</strong> (the only time you use the Terminal);</li>
+<li>create an account and a <strong>repository</strong> on GitHub or
+GitLab;</li>
+<li><strong>open the repository in RStudio</strong> as a
+version-controlled R project;</li>
+<li><strong>commit</strong>, <strong>push</strong> and
+<strong>pull</strong> with the buttons of RStudio — and know
+<strong>when</strong> to do each;</li>
+<li>read the <strong>history</strong>, keep files out of Git, and solve
+a simple <strong>conflict</strong>.</li>
 </ul>
 </div>
 <div id="à-la-fin-de-cette-séance-vous-saurez"
 class="section level4 fr">
 <h4>À la fin de cette séance vous saurez</h4>
 <ul>
-<li>expliquer ce que fait Git (un <strong>historique</strong> de votre
-projet) et ce qu’ajoutent GitHub / GitLab (une <strong>copie partagée en
-ligne</strong>) ;</li>
-<li>configurer Git, et <strong>valider</strong> (<em>commit</em>) des
-modifications depuis RStudio ou le terminal ;</li>
-<li>lire l’<strong>historique</strong>, comparer des versions et revenir
-à une ancienne version d’un fichier ;</li>
-<li>écrire un bon <code>.gitignore</code> pour un projet R (et garder
-hors du dépôt les données personnelles ou volumineuses) ;</li>
-<li>relier un projet à <strong>GitHub ou GitLab</strong> (jeton HTTPS ou
-clé SSH, plusieurs comptes), <strong>pousser</strong> (<em>push</em>) et
-<strong>récupérer</strong> (<em>pull</em>) ;</li>
-<li>utiliser une <strong>branche</strong>, et résoudre un
-<strong>conflit de fusion</strong> simple.</li>
+<li>expliquer ce que fait <strong>Git</strong> (l’historique de votre
+projet) et ce qu’ajoutent <strong>GitHub</strong> et
+<strong>GitLab</strong> (une copie en ligne, pour partager et garder en
+sécurité) ;</li>
+<li>installer Git sous Windows, le relier à RStudio et le
+<strong>configurer une fois</strong> (la seule fois où vous utilisez le
+Terminal) ;</li>
+<li>créer un compte et un <strong>dépôt</strong> sur GitHub ou GitLab
+;</li>
+<li><strong>ouvrir le dépôt dans RStudio</strong> comme projet R sous
+contrôle de version ;</li>
+<li><strong>valider (commit)</strong>, <strong>pousser (push)</strong>
+et <strong>récupérer (pull)</strong> avec les boutons de RStudio — et
+savoir <strong>quand</strong> faire chacun ;</li>
+<li>lire l’<strong>historique</strong>, garder des fichiers hors de Git,
+et résoudre un <strong>conflit</strong> simple.</li>
 </ul>
 </div>
 </div>
 <div class="callout ecology">
 <div class="en">
-<p><strong>Data of this session (simulated).</strong>
-<code>reef_project_git.zip</code> contains the
-<code>reef-monitoring</code> project of the NGO <strong>with its Git
-history</strong>: six commits made in May 2025 by the two analysts, Fara
-and Hery, while they prepared the coral analysis (import, cleaning, a
+<p><strong>Data of this session (simulated).</strong> You will put
+<strong>your own</strong> <code>reef-monitoring</code> project (Sessions
+A0–A1) under version control. To practise reading a history,
+<code>reef_project_git.zip</code> contains the same kind of project as
+prepared by the NGO <strong>with its Git history</strong>: six commits
+made in May 2025 by the two analysts, Fara and Hery (import, cleaning, a
 bleaching indicator whose threshold was changed after a meeting with the
-MPA managers, figures). <em>Type:</em> an R project + the hidden
-<code>.git/</code> folder that stores every version. The commands below
-are run on a copy made for this page.</p>
+MPA managers, figures). <em>Type:</em> an R project plus the hidden
+<code>.git</code> folder that stores every saved version.</p>
 </div>
 <div class="fr">
-<p><strong>Données de cette séance (simulées).</strong>
-<code>reef_project_git.zip</code> contient le projet
-<code>reef-monitoring</code> de l’ONG <strong>avec son historique
-Git</strong> : six <em>commits</em> faits en mai 2025 par les deux
-analystes, Fara et Hery, pendant la préparation de l’analyse corallienne
+<p><strong>Données de cette séance (simulées).</strong> Vous allez
+mettre <strong>votre</strong> projet <code>reef-monitoring</code>
+(séances A0–A1) sous contrôle de version. Pour vous entraîner à lire un
+historique, <code>reef_project_git.zip</code> contient le même type de
+projet préparé par l’ONG <strong>avec son historique Git</strong> : six
+<em>commits</em> faits en mai 2025 par les deux analystes, Fara et Hery
 (import, nettoyage, un indicateur de blanchissement dont le seuil a été
 changé après une réunion avec les gestionnaires des AMP, figures).
-<em>Type :</em> un projet R + le dossier caché <code>.git/</code> qui
-garde chaque version. Les commandes ci-dessous sont lancées sur une
-copie faite pour cette page.</p>
+<em>Type :</em> un projet R plus le dossier caché <code>.git</code> qui
+garde chaque version enregistrée.</p>
 </div>
 </div>
 <p><a class="btn-dl" href="data/advanced/reef_project_git.zip" download>⇩
 reef_project_git.zip</a></p>
 <div id="concepts" class="section level2">
-<h2><span class="en">Git in one picture</span><span class="fr">Git en
-une image</span></h2>
+<h2><span class="en">Git, GitHub and GitLab in a nutshell</span><span
+class="fr">Git, GitHub et GitLab en bref</span></h2>
 <div class="en">
-<p>Without Git, versions live in file names
-(<code>analysis_v3_FINAL.R</code>) and nobody knows what changed. With
-Git, the folder contains <strong>one</strong> version of each file, and
-a hidden <code>.git/</code> folder keeps <strong>every saved
-state</strong> (a <em>commit</em>) with its date, author and a message
-explaining why.</p>
+<ul>
+<li><strong>Git</strong> is a program on your computer. In a project
+folder, it records <strong>snapshots</strong> of your files
+(<em>commits</em>), each with a date, an author and a message saying
+why. You can see what changed, who changed it, and go back. No more
+<code>analysis_v3_FINAL.R</code>.</li>
+<li><strong>GitHub</strong> (github.com) and <strong>GitLab</strong>
+(gitlab.com) are <strong>websites</strong> that keep a copy of your
+project online (a <em>remote repository</em>). They are a backup, a way
+to share with colleagues, and a place to publish (Session A9). Both are
+free; you need only one. GitHub is the most used; GitLab is common in
+some institutions and allows free websites from private projects.</li>
+<li><strong>RStudio</strong> has a <strong>Git pane</strong> with
+buttons for everything you need every day: you do not need to type Git
+commands.</li>
+</ul>
 <table>
 <colgroup>
-<col width="50%" />
-<col width="50%" />
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th>Word</th>
 <th>Meaning</th>
+<th>In RStudio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>repository</strong> (repo)</td>
-<td>a project folder followed by Git (it contains
-<code>.git/</code>)</td>
+<td>repository (repo)</td>
+<td>a project folder followed by Git</td>
+<td>an R project with a <strong>Git</strong> tab</td>
 </tr>
 <tr class="even">
-<td><strong>commit</strong></td>
-<td>a saved snapshot of the project, with a message; identified by a
-code (<em>hash</em>), e.g. <code>4a5c8d0</code></td>
+<td>commit</td>
+<td>a saved snapshot, with a message</td>
+<td><strong>Commit</strong> button</td>
 </tr>
 <tr class="odd">
-<td><strong>staging</strong> (<code>git add</code>)</td>
-<td>choosing which changes go into the next commit</td>
+<td>stage</td>
+<td>choose which changes go into the next commit</td>
+<td>tick <strong>Staged</strong></td>
 </tr>
 <tr class="even">
-<td><strong>remote</strong></td>
-<td>a copy of the repository on a server: <strong>GitHub</strong>,
-<strong>GitLab</strong> (or Bitbucket)</td>
+<td>push</td>
+<td>send your commits to GitHub / GitLab</td>
+<td>green arrow <strong>Push</strong></td>
 </tr>
 <tr class="odd">
-<td><strong>push</strong> / <strong>pull</strong></td>
-<td>send your commits to the remote / get the commits of others</td>
+<td>pull</td>
+<td>get the commits made by others (or by you on another computer)</td>
+<td>blue arrow <strong>Pull</strong></td>
 </tr>
 <tr class="even">
-<td><strong>clone</strong></td>
-<td>download a whole repository (with its history)</td>
-</tr>
-<tr class="odd">
-<td><strong>branch</strong></td>
-<td>a parallel line of work, merged back later</td>
+<td>clone</td>
+<td>download a repository from GitHub / GitLab, with its history</td>
+<td><em>New Project → Version Control</em></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="fr">
-<p>Sans Git, les versions vivent dans les noms de fichiers
-(<code>analyse_v3_FINAL.R</code>) et personne ne sait ce qui a changé.
-Avec Git, le dossier contient <strong>une seule</strong> version de
-chaque fichier, et un dossier caché <code>.git/</code> garde
-<strong>chaque état enregistré</strong> (un <em>commit</em>) avec sa
-date, son auteur et un message expliquant pourquoi.</p>
+<ul>
+<li><strong>Git</strong> est un programme sur votre ordinateur. Dans un
+dossier de projet, il enregistre des <strong>instantanés</strong> de vos
+fichiers (<em>commits</em>), chacun avec une date, un auteur et un
+message qui dit pourquoi. Vous voyez ce qui a changé, qui l’a changé, et
+pouvez revenir en arrière. Fini les
+<code>analyse_v3_FINAL.R</code>.</li>
+<li><strong>GitHub</strong> (github.com) et <strong>GitLab</strong>
+(gitlab.com) sont des <strong>sites web</strong> qui gardent une copie
+de votre projet en ligne (un <em>dépôt distant</em>). C’est une
+sauvegarde, un moyen de partager avec des collègues, et un lieu de
+publication (séance A9). Les deux sont gratuits ; un seul suffit. GitHub
+est le plus utilisé ; GitLab est courant dans certaines institutions et
+permet des sites gratuits depuis des projets privés.</li>
+<li><strong>RStudio</strong> a un <strong>panneau Git</strong> avec des
+boutons pour tout ce dont vous avez besoin chaque jour : inutile de
+taper des commandes Git.</li>
+</ul>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Mot</th>
+<th>Signification</th>
+<th>Dans RStudio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>dépôt (<em>repository</em>, repo)</td>
+<td>un dossier de projet suivi par Git</td>
+<td>un projet R avec un onglet <strong>Git</strong></td>
+</tr>
+<tr class="even">
+<td>commit</td>
+<td>un instantané enregistré, avec un message</td>
+<td>bouton <strong>Commit</strong></td>
+</tr>
+<tr class="odd">
+<td>indexer (<em>stage</em>)</td>
+<td>choisir quelles modifications vont dans le prochain commit</td>
+<td>cocher <strong>Staged</strong></td>
+</tr>
+<tr class="even">
+<td>push</td>
+<td>envoyer vos commits vers GitHub / GitLab</td>
+<td>flèche verte <strong>Push</strong></td>
+</tr>
+<tr class="odd">
+<td>pull</td>
+<td>récupérer les commits faits par d’autres (ou par vous sur un autre
+ordinateur)</td>
+<td>flèche bleue <strong>Pull</strong></td>
+</tr>
+<tr class="even">
+<td>clone</td>
+<td>télécharger un dépôt depuis GitHub / GitLab, avec son
+historique</td>
+<td><em>New Project → Version Control</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Git is made for text files</strong> (scripts <code>.R</code>,
+reports <code>.Rmd</code>/<code>.qmd</code>, <code>README.md</code>,
+small CSV files). Do not put in a repository: large files (rasters,
+photos, big Excel files), files rebuilt by your scripts
+(<code>outputs/</code>), and above all <strong>personal data</strong>
+(names, phone numbers and GPS positions of interviewed people). We will
+exclude them with <code>.gitignore</code>.</p>
+</div>
+<div class="fr">
+<p><strong>Git est fait pour les fichiers texte</strong> (scripts
+<code>.R</code>, rapports <code>.Rmd</code>/<code>.qmd</code>,
+<code>README.md</code>, petits CSV). Ne mettez pas dans un dépôt : les
+gros fichiers (rasters, photos, gros fichiers Excel), les fichiers
+reconstruits par vos scripts (<code>outputs/</code>), et surtout les
+<strong>données personnelles</strong> (noms, téléphones et positions GPS
+des personnes enquêtées). Nous les exclurons avec
+<code>.gitignore</code>.</p>
+</div>
+</div>
+</div>
+<div id="install" class="section level2">
+<h2><span class="en">Step 1 — Install Git for Windows</span><span
+class="fr">Étape 1 — Installer Git pour Windows</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>Download <strong>Git for Windows</strong> from <a
+href="https://git-scm.com/download/win"
+class="uri">https://git-scm.com/download/win</a> (the <em>64-bit Git for
+Windows Setup</em>) and run it.</li>
+<li>Keep the default options, except on these screens:
+<ul>
+<li><em>Choosing the default editor used by Git</em>: choose <strong>Use
+Notepad as Git’s default editor</strong> (simpler than Vim);</li>
+<li><em>Adjusting the name of the initial branch in new
+repositories</em>: choose <strong>Override the default branch name for
+new repositories</strong> and keep <code>main</code>;</li>
+<li><em>Adjusting your PATH environment</em>: keep <strong>Git from the
+command line and also from 3rd-party software</strong> (RStudio is the
+“3rd-party software”);</li>
+<li><em>Choose a credential helper</em>: keep <strong>Git Credential
+Manager</strong> — it will handle your GitHub / GitLab login (Step
+8).</li>
+</ul></li>
+<li><strong>Close and reopen RStudio</strong> after the installation, so
+that it finds Git.</li>
+</ol>
+<p><em>Mac: open the Terminal app and type <code>git --version</code>;
+accept the installation of the “command line developer tools”. Linux:
+<code>sudo apt install git</code>.</em></p>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Téléchargez <strong>Git for Windows</strong> sur <a
+href="https://git-scm.com/download/win"
+class="uri">https://git-scm.com/download/win</a> (le <em>64-bit Git for
+Windows Setup</em>) et lancez-le.</li>
+<li>Gardez les options par défaut, sauf sur ces écrans :
+<ul>
+<li><em>Choosing the default editor used by Git</em> : choisissez
+<strong>Use Notepad as Git’s default editor</strong> (plus simple que
+Vim) ;</li>
+<li><em>Adjusting the name of the initial branch in new
+repositories</em> : choisissez <strong>Override the default branch name
+for new repositories</strong> et gardez <code>main</code> ;</li>
+<li><em>Adjusting your PATH environment</em> : gardez <strong>Git from
+the command line and also from 3rd-party software</strong> (RStudio est
+le « logiciel tiers ») ;</li>
+<li><em>Choose a credential helper</em> : gardez <strong>Git Credential
+Manager</strong> — il gérera votre connexion à GitHub / GitLab (étape
+8).</li>
+</ul></li>
+<li><strong>Fermez et rouvrez RStudio</strong> après l’installation,
+pour qu’il trouve Git.</li>
+</ol>
+<p><em>Mac : ouvrez l’application Terminal et tapez
+<code>git --version</code> ; acceptez l’installation des « command line
+developer tools ». Linux : <code>sudo apt install git</code>.</em></p>
+</div>
+</div>
+<div id="rstudio-options" class="section level2">
+<h2><span class="en">Step 2 — Connect Git to RStudio</span><span
+class="fr">Étape 2 — Relier Git à RStudio</span></h2>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" role="img" aria-label="RStudio Global Options, Git/SVN" font-family="Segoe UI, Source Sans 3, Arial, Helvetica, sans-serif">
+<rect x="20" y="20" width="640" height="360" rx="8" fill="#fff" stroke="#8a969c" stroke-width="1.5"/><rect x="20" y="20" width="640" height="32" rx="8" fill="#f3f3f3"/><rect x="20" y="44" width="640" height="8" fill="#f3f3f3"/><line x1="20" y1="52" x2="660" y2="52" stroke="#dcdcdc"/><rect x="32" y="29" width="14" height="14" rx="3" fill="#75aadb"/><text x="54" y="41" font-size="13" fill="#222">Options</text><text x="556" y="41" font-size="13" fill="#333">&#x2014;</text><rect x="594" y="31" width="10" height="10" fill="none" stroke="#333"/><text x="632" y="42" font-size="15" fill="#333">&#x2715;</text><text x="40" y="74" font-size="12.5" fill="#222">General</text><text x="40" y="93" font-size="12.5" fill="#222">Code</text><text x="40" y="112" font-size="12.5" fill="#222">Console</text><text x="40" y="131" font-size="12.5" fill="#222">Appearance</text><text x="40" y="150" font-size="12.5" fill="#222">Pane Layout</text><text x="40" y="169" font-size="12.5" fill="#222">Packages</text><text x="40" y="188" font-size="12.5" fill="#222">R Markdown</text><text x="40" y="207" font-size="12.5" fill="#222">Python</text><text x="40" y="226" font-size="12.5" fill="#222">Sweave</text><text x="40" y="245" font-size="12.5" fill="#222">Spelling</text><rect x="28" y="250" width="130" height="20" fill="#cce4f7"/><text x="40" y="264" font-size="12.5" fill="#222">Git/SVN</text><text x="40" y="283" font-size="12.5" fill="#222">Publishing</text><text x="40" y="302" font-size="12.5" fill="#222">Terminal</text><text x="40" y="321" font-size="12.5" fill="#222">Accessibility</text><text x="40" y="340" font-size="12.5" fill="#222">Copilot</text><line x1="165" y1="52" x2="165" y2="372" stroke="#ddd"/><rect x="182" y="62" width="14" height="14" rx="2" fill="#0067c0" stroke="#555"/><path d="M185 69 l3 3 l6 -7" stroke="#fff" stroke-width="2" fill="none"/><text x="204" y="74" font-size="12.5" fill="#222">Enable version control interface for RStudio projects</text><text x="182" y="102" font-size="12.5" fill="#333">Git executable:</text><rect x="182" y="108" width="330" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="190" y="125" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">C:/Program Files/Git/bin/git.exe</text><rect x="522" y="108" width="70" height="26" rx="4" fill="#fff" stroke="#b5b5b5"/><text x="557.0" y="125" text-anchor="middle" font-size="12.5" fill="#222">Browse...</text><text x="182" y="154" font-size="12.5" fill="#333">SVN executable:</text><rect x="182" y="160" width="330" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="190" y="177" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">(Not Found)</text><text x="182" y="226" font-size="12.5" fill="#0067c0" text-decoration="underline">Create SSH Key...</text><rect x="450" y="340" width="64" height="26" rx="4" fill="#0067c0" stroke="#0067c0"/><text x="482.0" y="357" text-anchor="middle" font-size="12.5" fill="#fff">OK</text><rect x="520" y="340" width="64" height="26" rx="4" fill="#fff" stroke="#b5b5b5"/><text x="552.0" y="357" text-anchor="middle" font-size="12.5" fill="#222">Cancel</text><rect x="590" y="340" width="60" height="26" rx="4" fill="#fff" stroke="#b5b5b5"/><text x="620.0" y="357" text-anchor="middle" font-size="12.5" fill="#222">Apply</text><circle cx="150" cy="260" r="11" fill="#d9694a"/><text x="150" y="264.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><circle cx="600" cy="121" r="11" fill="#d9694a"/><text x="600" y="125.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><circle cx="690" cy="70" r="11" fill="#d9694a"/><text x="690" y="74.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><text class="en" x="708" y="75" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Tools → Global Options… → Git/SVN</tspan></text><text class="fr" x="708" y="75" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Tools → Global Options… → Git/SVN</tspan></text><circle cx="690" cy="120" r="11" fill="#d9694a"/><text x="690" y="124.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><text class="en" x="708" y="125" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Path to git.exe: filled automatically</tspan><tspan x="708" dy="16">after installing Git for Windows.</tspan><tspan x="708" dy="16">Empty? Browse to C:/Program Files/Git/bin/</tspan><tspan x="708" dy="16">then restart RStudio.</tspan></text><text class="fr" x="708" y="125" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Chemin de git.exe : rempli tout seul</tspan><tspan x="708" dy="16">après installation de Git for Windows.</tspan><tspan x="708" dy="16">Vide ? Browse vers C:/Program Files/Git/bin/</tspan><tspan x="708" dy="16">puis redémarrez RStudio.</tspan></text><circle cx="690" cy="230" r="11" fill="#d9694a"/><text x="690" y="234.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><text class="en" x="708" y="235" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Tools → Global Options… → Terminal:</tspan><tspan x="708" dy="16">&quot;New terminals open with: Git Bash&quot;</tspan></text><text class="fr" x="708" y="235" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Tools → Global Options… → Terminal :</tspan><tspan x="708" dy="16">« New terminals open with: Git Bash »</tspan></text><circle cx="150" cy="298" r="11" fill="#d9694a"/><text x="150" y="302.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text>
+</svg><figcaption><span class="en">RStudio: Tools → Global Options → Git/SVN.</span><span class="fr">RStudio : Tools → Global Options → Git/SVN.</span></figcaption></figure>
+<div class="en">
+<p>In RStudio, <strong>Tools → Global Options… → Git/SVN</strong>:</p>
+<ul>
+<li><strong>Enable version control interface for RStudio
+projects</strong> must be ticked: it shows the Git pane in projects that
+use Git.</li>
+<li><strong>Git executable</strong> is the path to the program
+<code>git.exe</code>, normally
+<code>C:/Program Files/Git/bin/git.exe</code>. If it is empty, click
+<strong>Browse…</strong> and select that file, click
+<strong>OK</strong>, and restart RStudio.</li>
+</ul>
+<p>While you are in Global Options, open <strong>Terminal</strong> and
+set <strong>New terminals open with: Git Bash</strong> (a terminal that
+understands Git commands on Windows). Click <strong>OK</strong>.</p>
+</div>
+<div class="fr">
+<p>Dans RStudio, <strong>Tools → Global Options… → Git/SVN</strong>
+:</p>
+<ul>
+<li><strong>Enable version control interface for RStudio
+projects</strong> doit être coché : cela affiche le panneau Git dans les
+projets qui utilisent Git.</li>
+<li><strong>Git executable</strong> est le chemin du programme
+<code>git.exe</code>, normalement
+<code>C:/Program Files/Git/bin/git.exe</code>. S’il est vide, cliquez
+sur <strong>Browse…</strong> et sélectionnez ce fichier, cliquez
+<strong>OK</strong>, et redémarrez RStudio.</li>
+</ul>
+<p>Tant que vous êtes dans Global Options, ouvrez
+<strong>Terminal</strong> et réglez <strong>New terminals open with: Git
+Bash</strong> (un terminal qui comprend les commandes Git sous Windows).
+Cliquez <strong>OK</strong>.</p>
+</div>
+</div>
+<div id="config" class="section level2">
+<h2><span class="en">Step 3 — Tell Git who you are (once per
+computer)</span><span class="fr">Étape 3 — Dire à Git qui vous êtes (une
+fois par ordinateur)</span></h2>
+<div class="en">
+<p>Each commit is signed with a name and an e-mail. You set them
+<strong>once</strong> on each computer. This is the
+<strong>only</strong> time in this lesson that we type commands: in
+RStudio, <strong>Tools → Terminal → New Terminal</strong> (Alt + Shift +
+R) opens a terminal at the bottom, next to the Console. Type each line
+and press Enter:</p>
+</div>
+<div class="fr">
+<p>Chaque commit est signé d’un nom et d’un e-mail. Vous les réglez
+<strong>une fois</strong> sur chaque ordinateur. C’est la
+<strong>seule</strong> fois dans cette leçon que nous tapons des
+commandes : dans RStudio, <strong>Tools → Terminal → New
+Terminal</strong> (Alt + Maj + R) ouvre un terminal en bas, à côté de la
+Console. Tapez chaque ligne et appuyez sur Entrée :</p>
+</div>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">&quot;Fara Rasoa&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">&quot;fara@example.org&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> init.defaultBranch main</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> <span class="at">--list</span></span></code></pre></div>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 340" role="img" aria-label="First Git configuration in the RStudio Terminal" font-family="Segoe UI, Source Sans 3, Arial, Helvetica, sans-serif">
+<rect x="20" y="20" width="760" height="300" rx="8" fill="#fff" stroke="#8a969c" stroke-width="1.5"/><rect x="20" y="20" width="760" height="32" rx="8" fill="#f3f3f3"/><rect x="20" y="44" width="760" height="8" fill="#f3f3f3"/><line x1="20" y1="52" x2="780" y2="52" stroke="#dcdcdc"/><rect x="32" y="29" width="14" height="14" rx="3" fill="#75aadb"/><text x="54" y="41" font-size="13" fill="#222">RStudio</text><text x="676" y="41" font-size="13" fill="#333">&#x2014;</text><rect x="714" y="31" width="10" height="10" fill="none" stroke="#333"/><text x="752" y="42" font-size="15" fill="#333">&#x2715;</text><rect x="30" y="58" width="87" height="26" fill="#eef1f3" stroke="#ccd"/><text x="42" y="76" font-size="12.5" fill="#222">Console</text><rect x="119" y="58" width="96" height="26" fill="#fff" stroke="#ccd"/><text x="131" y="76" font-size="12.5" fill="#222">Terminal</text><rect x="217" y="58" width="159" height="26" fill="#eef1f3" stroke="#ccd"/><text x="229" y="76" font-size="12.5" fill="#222">Background Jobs</text><text x="388" y="76" font-size="12" fill="#5d6b75">Terminal 1 (Git Bash) ▾</text><rect x="30" y="86" width="740" height="222" fill="#fff" stroke="#ccd"/><text x="42" y="110" font-size="13" fill="#3a8a3a" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">Fara@LAPTOP MINGW64 ~/Documents/R/reef-monitoring (main)</text><text x="42" y="132" font-size="13" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">&#36; git config --global user.name &quot;Fara Rasoa&quot;</text><text x="42" y="154" font-size="13" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">&#36; git config --global user.email &quot;fara@example.org&quot;</text><text x="42" y="176" font-size="13" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">&#36; git config --global init.defaultBranch main</text><text x="42" y="198" font-size="13" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">&#36; git config --global --list</text><text x="42" y="220" font-size="13" fill="#555" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">user.name=Fara Rasoa</text><text x="42" y="242" font-size="13" fill="#555" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">user.email=fara@example.org</text><text x="42" y="264" font-size="13" fill="#555" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">init.defaultbranch=main</text><text x="42" y="286" font-size="13" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">&#36; </text><circle cx="800" cy="105" r="11" fill="#d9694a"/><text x="800" y="109.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><text class="en" x="818" y="110" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="818" dy="0">Tools → Terminal → New Terminal</tspan><tspan x="818" dy="16">(Alt + Shift + R). Once per computer.</tspan></text><text class="fr" x="818" y="110" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="818" dy="0">Tools → Terminal → New Terminal</tspan><tspan x="818" dy="16">(Alt + Maj + R). Une fois par ordinateur.</tspan></text><circle cx="800" cy="170" r="11" fill="#d9694a"/><text x="800" y="174.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><text class="en" x="818" y="175" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="818" dy="0">Your name and the e-mail of</tspan><tspan x="818" dy="16">your GitHub / GitLab account.</tspan></text><text class="fr" x="818" y="175" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="818" dy="0">Votre nom et l&#x27;e-mail de votre</tspan><tspan x="818" dy="16">compte GitHub / GitLab.</tspan></text><circle cx="800" cy="235" r="11" fill="#d9694a"/><text x="800" y="239.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><text class="en" x="818" y="240" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="818" dy="0">--list checks what Git knows.</tspan></text><text class="fr" x="818" y="240" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="818" dy="0">--list vérifie ce que Git a retenu.</tspan></text>
+</svg><figcaption><span class="en">The first configuration in the Terminal of RStudio (Git Bash).</span><span class="fr">La première configuration dans le Terminal de RStudio (Git Bash).</span></figcaption></figure>
+<div class="en">
 <table>
 <colgroup>
 <col width="50%" />
@@ -669,501 +894,906 @@ date, son auteur et un message expliquant pourquoi.</p>
 </colgroup>
 <thead>
 <tr class="header">
-<th>Mot</th>
+<th>Part of the command</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>git config</code></td>
+<td>the Git command that reads and writes Git
+<strong>settings</strong></td>
+</tr>
+<tr class="even">
+<td><code>--global</code></td>
+<td>an <strong>option</strong>: the setting is for every project of this
+Windows user (without it, only for the current project)</td>
+</tr>
+<tr class="odd">
+<td><code>user.name "Fara Rasoa"</code></td>
+<td>the <strong>name</strong> written in your commits — your real name,
+between quotes because it has a space</td>
+</tr>
+<tr class="even">
+<td><code>user.email "…"</code></td>
+<td>the <strong>e-mail</strong> written in your commits: use the one of
+your GitHub / GitLab account, so the website links the commits to
+you</td>
+</tr>
+<tr class="odd">
+<td><code>init.defaultBranch main</code></td>
+<td>the name of the main branch of new repositories (<code>main</code>,
+like GitHub and GitLab)</td>
+</tr>
+<tr class="even">
+<td><code>--list</code></td>
+<td>prints all the settings, to check them</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Without the Terminal</strong>, the package
+<code>usethis</code> does the same from the Console:</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Partie de la commande</th>
 <th>Signification</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>dépôt</strong> (<em>repository</em>, repo)</td>
-<td>un dossier de projet suivi par Git (il contient
-<code>.git/</code>)</td>
+<td><code>git config</code></td>
+<td>la commande Git qui lit et écrit les <strong>réglages</strong> de
+Git</td>
 </tr>
 <tr class="even">
-<td><strong>commit</strong></td>
-<td>un instantané enregistré du projet, avec un message ; identifié par
-un code (<em>hash</em>), ex. <code>4a5c8d0</code></td>
+<td><code>--global</code></td>
+<td>une <strong>option</strong> : le réglage vaut pour tous les projets
+de cet utilisateur Windows (sans elle, seulement pour le projet
+courant)</td>
 </tr>
 <tr class="odd">
-<td><strong>indexation</strong> (<code>git add</code>,
-<em>staging</em>)</td>
-<td>choisir quelles modifications vont dans le prochain commit</td>
+<td><code>user.name "Fara Rasoa"</code></td>
+<td>le <strong>nom</strong> écrit dans vos commits — votre vrai nom,
+entre guillemets car il contient une espace</td>
 </tr>
 <tr class="even">
-<td><strong>dépôt distant</strong> (<em>remote</em>)</td>
-<td>une copie du dépôt sur un serveur : <strong>GitHub</strong>,
-<strong>GitLab</strong> (ou Bitbucket)</td>
+<td><code>user.email "…"</code></td>
+<td>l’<strong>e-mail</strong> écrit dans vos commits : utilisez celui de
+votre compte GitHub / GitLab, pour que le site vous associe les
+commits</td>
 </tr>
 <tr class="odd">
-<td><strong>push</strong> / <strong>pull</strong></td>
-<td>envoyer vos commits vers le distant / récupérer les commits des
-autres</td>
+<td><code>init.defaultBranch main</code></td>
+<td>le nom de la branche principale des nouveaux dépôts
+(<code>main</code>, comme GitHub et GitLab)</td>
 </tr>
 <tr class="even">
-<td><strong>clone</strong></td>
-<td>télécharger un dépôt entier (avec son historique)</td>
-</tr>
-<tr class="odd">
-<td><strong>branche</strong></td>
-<td>une ligne de travail parallèle, fusionnée plus tard</td>
+<td><code>--list</code></td>
+<td>affiche tous les réglages, pour les vérifier</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Sans le Terminal</strong>, le package <code>usethis</code>
+fait la même chose depuis la Console :</p>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_git_config</span>(<span class="at">user.name =</span> <span class="st">&quot;Fara Rasoa&quot;</span>,          <span class="co"># name written in the commits (text)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>                        <span class="at">user.email =</span> <span class="st">&quot;fara@example.org&quot;</span>)    <span class="co"># e-mail of your GitHub / GitLab account (text)</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">git_default_branch_configure</span>()                     <span class="co"># no argument needed: sets the default branch to &quot;main&quot;</span></span></code></pre></div>
+<div class="en">
+<p><code>usethis::use_git_config()</code> writes Git settings; each
+argument has the <strong>name of the Git setting</strong> with a dot
+(<code>user.name =</code>, <code>user.email =</code>) and takes a
+<strong>text</strong> value. <code>pkg::function()</code> calls a
+function of a package without <code>library()</code> (Beginner, Session
+8).</p>
+</div>
+<div class="fr">
+<p><code>usethis::use_git_config()</code> écrit des réglages Git ;
+chaque argument porte le <strong>nom du réglage Git</strong> avec un
+point (<code>user.name =</code>, <code>user.email =</code>) et attend
+une valeur <strong>texte</strong>. <code>pkg::fonction()</code> appelle
+une fonction d’un package sans <code>library()</code> (débutant, séance
+8).</p>
+</div>
+</div>
+<div id="account" class="section level2">
+<h2><span class="en">Step 4 — Create an account</span><span
+class="fr">Étape 4 — Créer un compte</span></h2>
+<div class="en">
+<p><strong>GitHub</strong> — go to <a href="https://github.com"
+class="uri">https://github.com</a> → <strong>Sign up</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>enter your e-mail (the same as in Step 3), a password and a
+<strong>username</strong> — it appears in the address of your projects
+(<code>github.com/username/…</code>), so choose something short and
+professional, e.g. <code>fara-rasoa</code>;</li>
+<li>confirm with the code sent by e-mail;</li>
+<li>set up <strong>two-factor authentication</strong> when GitHub asks
+(it is required for accounts that push code): install an authenticator
+app on your phone (e.g. Microsoft Authenticator), scan the QR code, and
+<strong>save the recovery codes</strong> in a safe place.</li>
+</ol>
+<p><strong>GitLab</strong> — go to <a href="https://gitlab.com"
+class="uri">https://gitlab.com</a> → <strong>Register now</strong>:
+first and last name, username, e-mail, password, then confirm your
+e-mail. GitLab may ask you to confirm your identity (for example with a
+phone number) before you can use some features; follow its instructions.
+You can also activate two-factor authentication in <em>Preferences →
+Account</em>.</p>
+</div>
+<div class="fr">
+<p><strong>GitHub</strong> — allez sur <a href="https://github.com"
+class="uri">https://github.com</a> → <strong>Sign up</strong> :</p>
+<ol style="list-style-type: decimal">
+<li>saisissez votre e-mail (le même qu’à l’étape 3), un mot de passe et
+un <strong>nom d’utilisateur</strong> — il apparaît dans l’adresse de
+vos projets (<code>github.com/nom/…</code>), choisissez donc quelque
+chose de court et professionnel, ex. <code>fara-rasoa</code> ;</li>
+<li>confirmez avec le code envoyé par e-mail ;</li>
+<li>activez l’<strong>authentification à deux facteurs</strong> quand
+GitHub le demande (elle est obligatoire pour les comptes qui envoient du
+code) : installez une application d’authentification sur votre téléphone
+(ex. Microsoft Authenticator), scannez le QR code, et <strong>gardez les
+codes de récupération</strong> en lieu sûr.</li>
+</ol>
+<p><strong>GitLab</strong> — allez sur <a href="https://gitlab.com"
+class="uri">https://gitlab.com</a> → <strong>Register now</strong> :
+prénom et nom, nom d’utilisateur, e-mail, mot de passe, puis confirmez
+votre e-mail. GitLab peut vous demander de confirmer votre identité (par
+exemple avec un numéro de téléphone) avant d’utiliser certaines
+fonctions ; suivez ses instructions. Vous pouvez aussi activer
+l’authentification à deux facteurs dans <em>Preferences →
+Account</em>.</p>
+</div>
+</div>
+<div id="create-repo" class="section level2">
+<h2><span class="en">Step 5 — Create a repository online</span><span
+class="fr">Étape 5 — Créer un dépôt en ligne</span></h2>
+<div class="en">
+<p>The easiest way to work with RStudio is to <strong>create the
+repository online first</strong>, then download it into RStudio (Step
+6).</p>
+</div>
+<div class="fr">
+<p>La façon la plus simple de travailler avec RStudio est de
+<strong>créer d’abord le dépôt en ligne</strong>, puis de le télécharger
+dans RStudio (étape 6).</p>
+</div>
+<div id="github" class="section level3">
+<h3>GitHub</h3>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 510" role="img" aria-label="Create a new repository on GitHub" font-family="Segoe UI, Source Sans 3, Arial, Helvetica, sans-serif">
+<rect x="20" y="20" width="640" height="470" rx="8" fill="#fff" stroke="#8a969c" stroke-width="1.5"/><rect x="20" y="20" width="640" height="32" rx="8" fill="#f3f3f3"/><rect x="20" y="44" width="640" height="8" fill="#f3f3f3"/><line x1="20" y1="52" x2="660" y2="52" stroke="#dcdcdc"/><rect x="32" y="29" width="14" height="14" rx="3" fill="#24292f"/><text x="54" y="41" font-size="13" fill="#222">Create a new repository - GitHub — Microsoft Edge</text><text x="556" y="41" font-size="13" fill="#333">&#x2014;</text><rect x="594" y="31" width="10" height="10" fill="none" stroke="#333"/><text x="632" y="42" font-size="15" fill="#333">&#x2715;</text><rect x="21" y="53" width="638" height="30" fill="#f6f8fa"/><text x="40" y="73" font-size="12" fill="#57606a">github.com/new</text><text x="50" y="112" font-size="20" font-weight="600" fill="#1f2328">Create a new repository</text><text x="50" y="142" font-size="12.5" fill="#333">Owner *</text><rect x="50" y="148" width="140" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="58" y="165" font-size="12.5" fill="#111" >fara-rasoa ▾</text><text x="198" y="166" font-size="18" fill="#57606a">/</text><text x="212" y="142" font-size="12.5" fill="#333">Repository name *</text><rect x="212" y="148" width="250" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="220" y="165" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">reef-monitoring</text><text x="50" y="198" font-size="12.5" fill="#333">Description (optional)</text><rect x="50" y="204" width="412" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="58" y="221" font-size="12.5" fill="#111" >Coral reef monitoring of the three MPAs</text><circle cx="57" cy="253" r="7" fill="#fff" stroke="#555"/><text x="72" y="258" font-size="12.5" fill="#222">Public — anyone on the internet can see it</text><circle cx="57" cy="277" r="7" fill="#fff" stroke="#555"/><circle cx="57" cy="277" r="3.5" fill="#0067c0"/><text x="72" y="282" font-size="12.5" fill="#222">Private — you choose who can see and commit</text><rect x="50" y="306" width="14" height="14" rx="2" fill="#0067c0" stroke="#555"/><path d="M53 313 l3 3 l6 -7" stroke="#fff" stroke-width="2" fill="none"/><text x="72" y="318" font-size="12.5" fill="#222">Add a README file</text><rect x="50" y="346" width="170" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="58" y="363" font-size="12.5" fill="#111" >Add .gitignore: R ▾</text><rect x="232" y="346" width="170" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="240" y="363" font-size="12.5" fill="#111" >Choose a license: None ▾</text><rect x="50" y="400" width="160" height="26" rx="4" fill="#1f883d" stroke="#1a7f37"/><text x="130.0" y="417" text-anchor="middle" font-size="12.5" fill="#fff" font-weight="600">Create repository</text><circle cx="480" cy="160" r="11" fill="#d9694a"/><text x="480" y="164.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><circle cx="480" cy="270" r="11" fill="#d9694a"/><text x="480" y="274.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><circle cx="480" cy="314" r="11" fill="#d9694a"/><text x="480" y="318.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><circle cx="225" cy="413" r="11" fill="#d9694a"/><text x="225" y="417.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">4</text><circle cx="690" cy="120" r="11" fill="#d9694a"/><text x="690" y="124.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><text class="en" x="708" y="125" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Profile picture → Your repositories → New</tspan><tspan x="708" dy="16">(or the + button, top right). Short name,</tspan><tspan x="708" dy="16">no spaces: it will be the project folder.</tspan></text><text class="fr" x="708" y="125" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Photo de profil → Your repositories → New</tspan><tspan x="708" dy="16">(ou le bouton +, en haut à droite). Nom court,</tspan><tspan x="708" dy="16">sans espaces : ce sera le dossier du projet.</tspan></text><circle cx="690" cy="205" r="11" fill="#d9694a"/><text x="690" y="209.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><text class="en" x="708" y="210" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Private: only you and the people you invite.</tspan><tspan x="708" dy="16">Free accounts: GitHub Pages needs Public.</tspan></text><text class="fr" x="708" y="210" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Private : vous seul et les personnes invitées.</tspan><tspan x="708" dy="16">Compte gratuit : GitHub Pages demande Public.</tspan></text><circle cx="690" cy="270" r="11" fill="#d9694a"/><text x="690" y="274.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><text class="en" x="708" y="275" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Tick README + .gitignore template R:</tspan><tspan x="708" dy="16">the repository is ready to be cloned.</tspan></text><text class="fr" x="708" y="275" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Cochez README + modèle .gitignore R :</tspan><tspan x="708" dy="16">le dépôt est prêt à être cloné.</tspan></text><circle cx="690" cy="335" r="11" fill="#d9694a"/><text x="690" y="339.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">4</text><text class="en" x="708" y="340" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Then Code ▾ → HTTPS → copy the address</tspan><tspan x="708" dy="16">https://github.com/fara-rasoa/reef-monitoring.git</tspan></text><text class="fr" x="708" y="340" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Puis Code ▾ → HTTPS → copiez l&#x27;adresse</tspan><tspan x="708" dy="16">https://github.com/fara-rasoa/reef-monitoring.git</tspan></text>
+</svg><figcaption><span class="en">GitHub: Create a new repository.</span><span class="fr">GitHub : Create a new repository.</span></figcaption></figure>
+<div class="en">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>What to choose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Repository name</strong></td>
+<td>short, lower case, no spaces: it becomes the name of the project
+folder (<code>reef-monitoring</code>)</td>
+</tr>
+<tr class="even">
+<td><strong>Description</strong></td>
+<td>one sentence, optional</td>
+</tr>
+<tr class="odd">
+<td><strong>Public / Private</strong></td>
+<td><em>Private</em>: only you and the people you invite can see it.
+<em>Public</em>: everybody can see it (needed for a free GitHub Pages
+website, Session A9)</td>
+</tr>
+<tr class="even">
+<td><strong>Add a README file</strong></td>
+<td>tick it: the repository starts with one file, so it can be cloned at
+once</td>
+</tr>
+<tr class="odd">
+<td><strong>Add .gitignore</strong></td>
+<td>choose the template <strong>R</strong>: it already excludes
+<code>.Rhistory</code>, <code>.RData</code>,
+<code>.Rproj.user/</code>…</td>
+</tr>
+<tr class="even">
+<td><strong>Choose a license</strong></td>
+<td><em>None</em> for data and internal work; a licence (e.g. MIT,
+CC-BY) only if you want others to reuse your code</td>
+</tr>
+</tbody>
+</table>
+<p>Click <strong>Create repository</strong>, then the green <strong>Code
+▾</strong> button → <strong>HTTPS</strong> → copy the address
+(<code>https://github.com/fara-rasoa/reef-monitoring.git</code>).</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Champ</th>
+<th>Que choisir</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Repository name</strong></td>
+<td>court, en minuscules, sans espaces : il devient le nom du dossier du
+projet (<code>reef-monitoring</code>)</td>
+</tr>
+<tr class="even">
+<td><strong>Description</strong></td>
+<td>une phrase, facultative</td>
+</tr>
+<tr class="odd">
+<td><strong>Public / Private</strong></td>
+<td><em>Private</em> : seuls vous et les personnes invitées le voient.
+<em>Public</em> : tout le monde le voit (nécessaire pour un site GitHub
+Pages gratuit, séance A9)</td>
+</tr>
+<tr class="even">
+<td><strong>Add a README file</strong></td>
+<td>cochez : le dépôt commence avec un fichier, il peut donc être cloné
+tout de suite</td>
+</tr>
+<tr class="odd">
+<td><strong>Add .gitignore</strong></td>
+<td>choisissez le modèle <strong>R</strong> : il exclut déjà
+<code>.Rhistory</code>, <code>.RData</code>,
+<code>.Rproj.user/</code>…</td>
+</tr>
+<tr class="even">
+<td><strong>Choose a license</strong></td>
+<td><em>None</em> pour des données et un travail interne ; une licence
+(ex. MIT, CC-BY) seulement si vous voulez que d’autres réutilisent votre
+code</td>
+</tr>
+</tbody>
+</table>
+<p>Cliquez sur <strong>Create repository</strong>, puis sur le bouton
+vert <strong>Code ▾</strong> → <strong>HTTPS</strong> → copiez l’adresse
+(<code>https://github.com/fara-rasoa/reef-monitoring.git</code>).</p>
+</div>
+</div>
+<div id="gitlab" class="section level3">
+<h3>GitLab</h3>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 510" role="img" aria-label="Create a blank project on GitLab" font-family="Segoe UI, Source Sans 3, Arial, Helvetica, sans-serif">
+<rect x="20" y="20" width="640" height="470" rx="8" fill="#fff" stroke="#8a969c" stroke-width="1.5"/><rect x="20" y="20" width="640" height="32" rx="8" fill="#f3f3f3"/><rect x="20" y="44" width="640" height="8" fill="#f3f3f3"/><line x1="20" y1="52" x2="660" y2="52" stroke="#dcdcdc"/><rect x="32" y="29" width="14" height="14" rx="3" fill="#fc6d26"/><text x="54" y="41" font-size="13" fill="#222">Create blank project · GitLab — Microsoft Edge</text><text x="556" y="41" font-size="13" fill="#333">&#x2014;</text><rect x="594" y="31" width="10" height="10" fill="none" stroke="#333"/><text x="632" y="42" font-size="15" fill="#333">&#x2715;</text><rect x="21" y="53" width="638" height="30" fill="#fafafa"/><text x="40" y="73" font-size="12" fill="#57606a">gitlab.com/projects/new#blank_project</text><text x="50" y="112" font-size="20" font-weight="600" fill="#28272d">Create blank project</text><text x="50" y="142" font-size="12.5" fill="#333">Project name</text><rect x="50" y="148" width="412" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="58" y="165" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">reef-monitoring</text><text x="50" y="198" font-size="12.5" fill="#333">Project URL</text><rect x="50" y="204" width="200" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="58" y="221" font-size="12.5" fill="#111" >gitlab.com/fara-rasoa/ ▾</text><text x="262" y="198" font-size="12.5" fill="#333">Project slug</text><rect x="262" y="204" width="200" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="270" y="221" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">reef-monitoring</text><text x="50" y="258" font-size="12.5" fill="#333">Visibility Level</text><circle cx="57" cy="275" r="7" fill="#fff" stroke="#555"/><circle cx="57" cy="275" r="3.5" fill="#0067c0"/><text x="72" y="280" font-size="12.5" fill="#222">Private</text><circle cx="57" cy="299" r="7" fill="#fff" stroke="#555"/><text x="72" y="304" font-size="12.5" fill="#222">Internal</text><circle cx="57" cy="323" r="7" fill="#fff" stroke="#555"/><text x="72" y="328" font-size="12.5" fill="#222">Public</text><text x="50" y="358" font-size="12.5" fill="#333">Project Configuration</text><rect x="50" y="368" width="14" height="14" rx="2" fill="#0067c0" stroke="#555"/><path d="M53 375 l3 3 l6 -7" stroke="#fff" stroke-width="2" fill="none"/><text x="72" y="380" font-size="12.5" fill="#222">Initialize repository with a README</text><rect x="50" y="410" width="140" height="26" rx="4" fill="#1f75cb" stroke="#1f75cb"/><text x="120.0" y="427" text-anchor="middle" font-size="12.5" fill="#fff" font-weight="600">Create project</text><rect x="200" y="410" width="80" height="26" rx="4" fill="#fff" stroke="#b5b5b5"/><text x="240.0" y="427" text-anchor="middle" font-size="12.5" fill="#222">Cancel</text><circle cx="480" cy="160" r="11" fill="#d9694a"/><text x="480" y="164.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><circle cx="480" cy="290" r="11" fill="#d9694a"/><text x="480" y="294.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><circle cx="480" cy="376" r="11" fill="#d9694a"/><text x="480" y="380.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><circle cx="300" cy="423" r="11" fill="#d9694a"/><text x="300" y="427.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">4</text><circle cx="690" cy="120" r="11" fill="#d9694a"/><text x="690" y="124.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><text class="en" x="708" y="125" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">New project (+ button) → Create blank project.</tspan><tspan x="708" dy="16">The slug is the folder and the address.</tspan></text><text class="fr" x="708" y="125" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">New project (bouton +) → Create blank project.</tspan><tspan x="708" dy="16">Le slug est le dossier et l&#x27;adresse.</tspan></text><circle cx="690" cy="205" r="11" fill="#d9694a"/><text x="690" y="209.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><text class="en" x="708" y="210" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Private projects can still have a website</tspan><tspan x="708" dy="16">(GitLab Pages, Session A9).</tspan></text><text class="fr" x="708" y="210" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Un projet privé peut quand même avoir un site</tspan><tspan x="708" dy="16">(GitLab Pages, séance A9).</tspan></text><circle cx="690" cy="270" r="11" fill="#d9694a"/><text x="690" y="274.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><text class="en" x="708" y="275" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Tick it: the project can be cloned at once.</tspan><tspan x="708" dy="16">Add the .gitignore later from RStudio.</tspan></text><text class="fr" x="708" y="275" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Cochez : le projet peut être cloné tout de suite.</tspan><tspan x="708" dy="16">Ajoutez le .gitignore ensuite depuis RStudio.</tspan></text><circle cx="690" cy="335" r="11" fill="#d9694a"/><text x="690" y="339.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">4</text><text class="en" x="708" y="340" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Then Code ▾ → Clone with HTTPS → copy</tspan><tspan x="708" dy="16">https://gitlab.com/fara-rasoa/reef-monitoring.git</tspan></text><text class="fr" x="708" y="340" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="708" dy="0">Puis Code ▾ → Clone with HTTPS → copiez</tspan><tspan x="708" dy="16">https://gitlab.com/fara-rasoa/reef-monitoring.git</tspan></text>
+</svg><figcaption><span class="en">GitLab: Create blank project.</span><span class="fr">GitLab : Create blank project.</span></figcaption></figure>
+<div class="en">
+<p><strong>New project</strong> (+ button) → <strong>Create blank
+project</strong>: <em>Project name</em>, <em>Visibility Level</em>
+(Private / Internal / Public), tick <strong>Initialize repository with a
+README</strong>, <strong>Create project</strong>. Then <strong>Code ▾ →
+Clone with HTTPS</strong> → copy the address
+(<code>https://gitlab.com/fara-rasoa/reef-monitoring.git</code>). GitLab
+has no R <code>.gitignore</code> template here: you will add it from
+RStudio (Step 9).</p>
+</div>
+<div class="fr">
+<p><strong>New project</strong> (bouton +) → <strong>Create blank
+project</strong> : <em>Project name</em>, <em>Visibility Level</em>
+(Private / Internal / Public), cochez <strong>Initialize repository with
+a README</strong>, <strong>Create project</strong>. Puis <strong>Code ▾
+→ Clone with HTTPS</strong> → copiez l’adresse
+(<code>https://gitlab.com/fara-rasoa/reef-monitoring.git</code>). GitLab
+n’a pas ici de modèle <code>.gitignore</code> pour R : vous l’ajouterez
+depuis RStudio (étape 9).</p>
+</div>
+</div>
+</div>
+<div id="clone" class="section level2">
+<h2><span class="en">Step 6 — Open the repository in RStudio</span><span
+class="fr">Étape 6 — Ouvrir le dépôt dans RStudio</span></h2>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 420" role="img" aria-label="RStudio New Project Wizard: clone a Git repository" font-family="Segoe UI, Source Sans 3, Arial, Helvetica, sans-serif">
+<rect x="20" y="20" width="300" height="300" rx="8" fill="#fff" stroke="#8a969c" stroke-width="1.5"/><rect x="20" y="20" width="300" height="32" rx="8" fill="#f3f3f3"/><rect x="20" y="44" width="300" height="8" fill="#f3f3f3"/><line x1="20" y1="52" x2="320" y2="52" stroke="#dcdcdc"/><rect x="32" y="29" width="14" height="14" rx="3" fill="#75aadb"/><text x="54" y="41" font-size="13" fill="#222">New Project Wizard</text><text x="216" y="41" font-size="13" fill="#333">&#x2014;</text><rect x="254" y="31" width="10" height="10" fill="none" stroke="#333"/><text x="292" y="42" font-size="15" fill="#333">&#x2715;</text><text x="40" y="82" font-size="14" font-weight="600" fill="#222">Create Project</text><rect x="40" y="100" width="260" height="46" rx="4" fill="#fff" stroke="#ccc"/><text x="58" y="128" font-size="13.5" fill="#222">New Directory</text><rect x="40" y="156" width="260" height="46" rx="4" fill="#fff" stroke="#ccc"/><text x="58" y="184" font-size="13.5" fill="#222">Existing Directory</text><rect x="40" y="212" width="260" height="46" rx="4" fill="#cce4f7" stroke="#ccc"/><text x="58" y="240" font-size="13.5" fill="#222">Version Control</text><text x="340" y="180" font-size="26" fill="#5d6b75">→</text><rect x="370" y="20" width="300" height="300" rx="8" fill="#fff" stroke="#8a969c" stroke-width="1.5"/><rect x="370" y="20" width="300" height="32" rx="8" fill="#f3f3f3"/><rect x="370" y="44" width="300" height="8" fill="#f3f3f3"/><line x1="370" y1="52" x2="670" y2="52" stroke="#dcdcdc"/><rect x="382" y="29" width="14" height="14" rx="3" fill="#75aadb"/><text x="404" y="41" font-size="13" fill="#222">New Project Wizard</text><text x="566" y="41" font-size="13" fill="#333">&#x2014;</text><rect x="604" y="31" width="10" height="10" fill="none" stroke="#333"/><text x="642" y="42" font-size="15" fill="#333">&#x2715;</text><text x="390" y="82" font-size="14" font-weight="600" fill="#222">Create Project from Version Control</text><rect x="390" y="100" width="260" height="46" rx="4" fill="#cce4f7" stroke="#ccc"/><text x="408" y="128" font-size="13.5" fill="#222">Git</text><rect x="390" y="156" width="260" height="46" rx="4" fill="#fff" stroke="#ccc"/><text x="408" y="184" font-size="13.5" fill="#222">Subversion</text><text x="690" y="180" font-size="26" fill="#5d6b75">→</text><rect x="720" y="20" width="420" height="300" rx="8" fill="#fff" stroke="#8a969c" stroke-width="1.5"/><rect x="720" y="20" width="420" height="32" rx="8" fill="#f3f3f3"/><rect x="720" y="44" width="420" height="8" fill="#f3f3f3"/><line x1="720" y1="52" x2="1140" y2="52" stroke="#dcdcdc"/><rect x="732" y="29" width="14" height="14" rx="3" fill="#75aadb"/><text x="754" y="41" font-size="13" fill="#222">New Project Wizard</text><text x="1036" y="41" font-size="13" fill="#333">&#x2014;</text><rect x="1074" y="31" width="10" height="10" fill="none" stroke="#333"/><text x="1112" y="42" font-size="15" fill="#333">&#x2715;</text><text x="740" y="82" font-size="14" font-weight="600" fill="#222">Clone Git Repository</text><text x="740" y="106" font-size="12.5" fill="#333">Repository URL:</text><rect x="740" y="112" width="380" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="748" y="129" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">https://github.com/fara-rasoa/reef-monitoring.git</text><text x="740" y="160" font-size="12.5" fill="#333">Project directory name:</text><rect x="740" y="166" width="380" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="748" y="183" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">reef-monitoring</text><text x="740" y="214" font-size="12.5" fill="#333">Create project as subdirectory of:</text><rect x="740" y="220" width="300" height="26" rx="3" fill="#fff" stroke="#9e9e9e"/><text x="748" y="237" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">~/Documents/R</text><rect x="1048" y="220" width="72" height="26" rx="4" fill="#fff" stroke="#b5b5b5"/><text x="1084.0" y="237" text-anchor="middle" font-size="12.5" fill="#222">Browse...</text><rect x="740" y="262" width="14" height="14" rx="2" fill="#fff" stroke="#555"/><text x="762" y="274" font-size="12.5" fill="#222">Open in new session</text><rect x="930" y="288" width="110" height="26" rx="4" fill="#0067c0" stroke="#0067c0"/><text x="985.0" y="305" text-anchor="middle" font-size="12.5" fill="#fff">Create Project</text><rect x="1048" y="288" width="72" height="26" rx="4" fill="#fff" stroke="#b5b5b5"/><text x="1084.0" y="305" text-anchor="middle" font-size="12.5" fill="#222">Cancel</text><circle cx="30" cy="345" r="11" fill="#d9694a"/><text x="30" y="349.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><text class="en" x="48" y="350" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="48" dy="0">File → New Project… → Version Control</tspan></text><text class="fr" x="48" y="350" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="48" dy="0">File → New Project… → Version Control</tspan></text><circle cx="380" cy="345" r="11" fill="#d9694a"/><text x="380" y="349.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><text class="en" x="398" y="350" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="398" dy="0">→ Git</tspan></text><text class="fr" x="398" y="350" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="398" dy="0">→ Git</tspan></text><circle cx="730" cy="345" r="11" fill="#d9694a"/><text x="730" y="349.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><text class="en" x="748" y="350" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="748" dy="0">Paste the HTTPS address; the folder name fills itself;</tspan><tspan x="748" dy="16">choose where to store it (avoid OneDrive folders);</tspan><tspan x="748" dy="16">Create Project: RStudio downloads (clones) the</tspan><tspan x="748" dy="16">repository and opens it as an R project with a Git tab.</tspan></text><text class="fr" x="748" y="350" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="748" dy="0">Collez l&#x27;adresse HTTPS ; le nom du dossier se remplit seul ;</tspan><tspan x="748" dy="16">choisissez où le ranger (évitez les dossiers OneDrive) ;</tspan><tspan x="748" dy="16">Create Project : RStudio télécharge (clone) le</tspan><tspan x="748" dy="16">dépôt et l&#x27;ouvre comme projet R avec un onglet Git.</tspan></text>
+</svg><figcaption><span class="en">RStudio: File → New Project → Version Control → Git.</span><span class="fr">RStudio : File → New Project → Version Control → Git.</span></figcaption></figure>
+<div class="en">
+<p><strong>File → New Project… → Version Control → Git</strong>,
+then:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Repository URL</strong></td>
+<td>the HTTPS address copied in Step 5</td>
+</tr>
+<tr class="even">
+<td><strong>Project directory name</strong></td>
+<td>the name of the folder that will be created (filled automatically
+from the address)</td>
+</tr>
+<tr class="odd">
+<td><strong>Create project as subdirectory of</strong></td>
+<td>where this folder goes on your computer
+(e.g. <code>Documents/R</code>). Avoid folders synchronised by OneDrive,
+Google Drive or Dropbox: they fight with Git</td>
+</tr>
+<tr class="even">
+<td><strong>Open in new session</strong></td>
+<td>tick it to keep your current project open in another window</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Create Project</strong>: RStudio <em>clones</em> the
+repository (downloads it with its history), adds an <code>.Rproj</code>
+file and opens the project. A new <strong>Git</strong> tab appears in
+the top-right pane. If the repository is private, Windows asks you to
+sign in (Step 8).</p>
+<p>You can now organise the project as in Session A0 (folders
+<code>data/raw</code>, <code>R</code>, <code>outputs</code>…) and run
+<code>renv::init()</code> (Session A1).</p>
+</div>
+<div class="fr">
+<p><strong>File → New Project… → Version Control → Git</strong>, puis
+:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Champ</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Repository URL</strong></td>
+<td>l’adresse HTTPS copiée à l’étape 5</td>
+</tr>
+<tr class="even">
+<td><strong>Project directory name</strong></td>
+<td>le nom du dossier qui sera créé (rempli automatiquement à partir de
+l’adresse)</td>
+</tr>
+<tr class="odd">
+<td><strong>Create project as subdirectory of</strong></td>
+<td>où va ce dossier sur votre ordinateur (ex.
+<code>Documents/R</code>). Évitez les dossiers synchronisés par
+OneDrive, Google Drive ou Dropbox : ils se battent avec Git</td>
+</tr>
+<tr class="even">
+<td><strong>Open in new session</strong></td>
+<td>cochez-le pour garder votre projet actuel ouvert dans une autre
+fenêtre</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Create Project</strong> : RStudio <em>clone</em> le dépôt (le
+télécharge avec son historique), ajoute un fichier <code>.Rproj</code>
+et ouvre le projet. Un nouvel onglet <strong>Git</strong> apparaît dans
+le panneau en haut à droite. Si le dépôt est privé, Windows vous demande
+de vous connecter (étape 8).</p>
+<p>Vous pouvez maintenant organiser le projet comme à la séance A0
+(dossiers <code>data/raw</code>, <code>R</code>, <code>outputs</code>…)
+et lancer <code>renv::init()</code> (séance A1).</p>
 </div>
 <div class="callout tip">
 <div class="en">
-<p><strong>Git is not a backup of your data.</strong> It is made for
-<strong>text files</strong> (scripts, Rmd, Quarto, README, small CSV).
-Large files (rasters, photos, big Excel files) and <strong>personal
-data</strong> (names and phone numbers of interviewed households!) do
-not belong in a repository — especially a public one.</p>
+<p><strong>You already have a project (e.g. <code>reef-monitoring</code>
+of Session A0)?</strong> Two ways:</p>
+<ul>
+<li><em>simplest</em>: create an empty repository online (Step 5), clone
+it in RStudio (Step 6), then <strong>copy your files</strong> into the
+new folder with the Windows file explorer, and commit them (Step
+7);</li>
+<li><em>with GitHub</em>: open your project and run
+<code>usethis::use_git()</code> (starts Git in the project, offers a
+first commit and restarts RStudio, which then shows the Git tab), then
+<code>usethis::use_github(private = TRUE)</code> (creates the repository
+on GitHub and pushes; <code>private = TRUE</code> makes it private,
+<code>FALSE</code> public). It needs a GitHub token: see Step 8.</li>
+</ul>
 </div>
 <div class="fr">
-<p><strong>Git n’est pas une sauvegarde de vos données.</strong> Il est
-fait pour les <strong>fichiers texte</strong> (scripts, Rmd, Quarto,
-README, petits CSV). Les gros fichiers (rasters, photos, gros fichiers
-Excel) et les <strong>données personnelles</strong> (noms et téléphones
-des ménages enquêtés !) n’ont pas leur place dans un dépôt — surtout
-public.</p>
+<p><strong>Vous avez déjà un projet (ex. <code>reef-monitoring</code> de
+la séance A0) ?</strong> Deux façons :</p>
+<ul>
+<li><em>la plus simple</em> : créez un dépôt vide en ligne (étape 5),
+clonez-le dans RStudio (étape 6), puis <strong>copiez vos
+fichiers</strong> dans le nouveau dossier avec l’explorateur de fichiers
+Windows, et validez-les (étape 7) ;</li>
+<li><em>avec GitHub</em> : ouvrez votre projet et lancez
+<code>usethis::use_git()</code> (démarre Git dans le projet, propose un
+premier commit et redémarre RStudio, qui affiche alors l’onglet Git),
+puis <code>usethis::use_github(private = TRUE)</code> (crée le dépôt sur
+GitHub et pousse ; <code>private = TRUE</code> le rend privé,
+<code>FALSE</code> public). Il faut un jeton GitHub : voir l’étape
+8.</li>
+</ul>
 </div>
 </div>
 </div>
-<div id="install" class="section level2">
-<h2><span class="en">Install and configure</span><span
-class="fr">Installer et configurer</span></h2>
+<div id="pane" class="section level2">
+<h2><span class="en">The Git pane</span><span class="fr">Le panneau
+Git</span></h2>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 370" role="img" aria-label="The Git pane of RStudio" font-family="Segoe UI, Source Sans 3, Arial, Helvetica, sans-serif">
+<rect x="20" y="20" width="560" height="330" rx="8" fill="#fff" stroke="#8a969c" stroke-width="1.5"/><rect x="20" y="20" width="560" height="32" rx="8" fill="#f3f3f3"/><rect x="20" y="44" width="560" height="8" fill="#f3f3f3"/><line x1="20" y1="52" x2="580" y2="52" stroke="#dcdcdc"/><rect x="32" y="29" width="14" height="14" rx="3" fill="#75aadb"/><text x="54" y="41" font-size="13" fill="#222">RStudio — reef-monitoring</text><text x="476" y="41" font-size="13" fill="#333">&#x2014;</text><rect x="514" y="31" width="10" height="10" fill="none" stroke="#333"/><text x="552" y="42" font-size="15" fill="#333">&#x2715;</text><rect x="30" y="58" width="112.19999999999999" height="24" fill="#eef1f3" stroke="#ccd"/><text x="41" y="75" font-size="12.5" fill="#222" font-weight="400">Environment</text><rect x="144.2" y="58" width="79.39999999999999" height="24" fill="#eef1f3" stroke="#ccd"/><text x="155.2" y="75" font-size="12.5" fill="#222" font-weight="400">History</text><rect x="225.59999999999997" y="58" width="112.19999999999999" height="24" fill="#eef1f3" stroke="#ccd"/><text x="236.59999999999997" y="75" font-size="12.5" fill="#222" font-weight="400">Connections</text><rect x="339.79999999999995" y="58" width="46.599999999999994" height="24" fill="#fff" stroke="#ccd"/><text x="350.79999999999995" y="75" font-size="12.5" fill="#222" font-weight="600">Git</text><rect x="388.4" y="58" width="87.6" height="24" fill="#eef1f3" stroke="#ccd"/><text x="399.4" y="75" font-size="12.5" fill="#222" font-weight="400">Tutorial</text><rect x="30" y="84" width="540" height="30" fill="#f7f8f9" stroke="#ccd"/><text x="40" y="104" font-size="12.5" fill="#333">≠ Diff</text><text x="92" y="104" font-size="12.5" fill="#333">✔ Commit</text><text x="160" y="104" font-size="12.5" fill="#2b6cb0">⬇ Pull</text><text x="214" y="104" font-size="12.5" fill="#2f855a">⬆ Push</text><text x="268" y="104" font-size="12.5" fill="#333">🕘 History</text><text x="336" y="104" font-size="12.5" fill="#333">More ▾</text><text x="430" y="104" font-size="12.5" fill="#333">⎇ main ▾</text><text x="545" y="104" font-size="14" fill="#333">⟳</text><text x="40" y="142" font-size="12" fill="#5d6b75">Staged</text><text x="100" y="142" font-size="12" fill="#5d6b75">Status</text><text x="160" y="142" font-size="12" fill="#5d6b75">Path</text><rect x="44" y="152" width="14" height="14" fill="#fff" stroke="#555"/><rect x="104" y="151" width="18" height="17" rx="3" fill="#c27a00"/><text x="113" y="164" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">M</text><text x="160" y="164" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">R/02_clean.R</text><rect x="44" y="178" width="14" height="14" fill="#0067c0" stroke="#555"/><path d="M47 185 l3 3 l6 -7" stroke="#fff" stroke-width="2" fill="none"/><rect x="104" y="177" width="18" height="17" rx="3" fill="#2f855a"/><text x="113" y="190" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">A</text><text x="160" y="190" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">R/03_analysis.R</text><rect x="44" y="204" width="14" height="14" fill="#fff" stroke="#555"/><rect x="104" y="203" width="18" height="17" rx="3" fill="#c53030"/><text x="113" y="216" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">D</text><text x="160" y="216" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">R/old_test.R</text><rect x="44" y="230" width="14" height="14" fill="#fff" stroke="#555"/><rect x="104" y="229" width="18" height="17" rx="3" fill="#7b8a93"/><text x="113" y="242" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">?</text><text x="160" y="242" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">notes_field.txt</text><rect x="44" y="256" width="14" height="14" fill="#fff" stroke="#555"/><rect x="104" y="255" width="18" height="17" rx="3" fill="#6b46c1"/><text x="113" y="268" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">R</text><text x="160" y="268" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">R/01_import.R ← import.R</text><circle cx="64" cy="122" r="11" fill="#d9694a"/><text x="64" y="126.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><circle cx="196" cy="122" r="11" fill="#d9694a"/><text x="196" y="126.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><circle cx="300" cy="122" r="11" fill="#d9694a"/><text x="300" y="126.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><circle cx="500" cy="122" r="11" fill="#d9694a"/><text x="500" y="126.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">4</text><circle cx="84" cy="284" r="11" fill="#d9694a"/><text x="84" y="288.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">5</text><circle cx="610" cy="50" r="11" fill="#d9694a"/><text x="610" y="54.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><text class="en" x="628" y="55" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="628" dy="0">Diff / Commit: open the Review Changes window.</tspan></text><text class="fr" x="628" y="55" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="628" dy="0">Diff / Commit : ouvrent la fenêtre Review Changes.</tspan></text><circle cx="610" cy="90" r="11" fill="#d9694a"/><text x="610" y="94.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><text class="en" x="628" y="95" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="628" dy="0">Pull (blue): get the commits of the others.</tspan><tspan x="628" dy="16">Push (green): send your commits online.</tspan></text><text class="fr" x="628" y="95" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="628" dy="0">Pull (bleu) : récupérer les commits des autres.</tspan><tspan x="628" dy="16">Push (vert) : envoyer vos commits en ligne.</tspan></text><circle cx="610" cy="145" r="11" fill="#d9694a"/><text x="610" y="149.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><text class="en" x="628" y="150" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="628" dy="0">History: every commit; More ▾: Revert,</tspan><tspan x="628" dy="16">Ignore, Shell… (right-click works too).</tspan></text><text class="fr" x="628" y="150" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="628" dy="0">History : tous les commits ; More ▾ : Revert,</tspan><tspan x="628" dy="16">Ignore, Shell… (le clic droit marche aussi).</tspan></text><circle cx="610" cy="200" r="11" fill="#d9694a"/><text x="610" y="204.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">4</text><text class="en" x="628" y="205" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="628" dy="0">Current branch; the menu creates or</tspan><tspan x="628" dy="16">changes branch.</tspan></text><text class="fr" x="628" y="205" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="628" dy="0">Branche actuelle ; le menu crée ou</tspan><tspan x="628" dy="16">change de branche.</tspan></text><circle cx="610" cy="255" r="11" fill="#d9694a"/><text x="610" y="259.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">5</text><text class="en" x="628" y="260" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="628" dy="0">Status: M modified · A added (new, staged) ·</tspan><tspan x="628" dy="16">D deleted · ? not followed yet (untracked) ·</tspan><tspan x="628" dy="16">R renamed. Tick &quot;Staged&quot; to put a change</tspan><tspan x="628" dy="16">in the next commit.</tspan></text><text class="fr" x="628" y="260" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="628" dy="0">Statut : M modifié · A ajouté (nouveau, indexé) ·</tspan><tspan x="628" dy="16">D supprimé · ? pas encore suivi (untracked) ·</tspan><tspan x="628" dy="16">R renommé. Cochez « Staged » pour mettre une</tspan><tspan x="628" dy="16">modification dans le prochain commit.</tspan></text>
+</svg><figcaption><span class="en">The Git pane of RStudio.</span><span class="fr">Le panneau Git de RStudio.</span></figcaption></figure>
+<div class="en">
+<p>The Git pane lists every file that <strong>changed since the last
+commit</strong> (a file that did not change is not listed). The coloured
+letter is its <strong>status</strong>:</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Status</th>
+<th>Meaning</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>?</strong> (grey)</td>
+<td>new file, not followed by Git yet (<em>untracked</em>)</td>
+<td>tick <em>Staged</em> to add it — or ignore it (Step 9)</td>
+</tr>
+<tr class="even">
+<td><strong>A</strong> (green)</td>
+<td>new file, added to the next commit</td>
+<td>commit</td>
+</tr>
+<tr class="odd">
+<td><strong>M</strong> (orange)</td>
+<td>modified file</td>
+<td>tick <em>Staged</em>, commit</td>
+</tr>
+<tr class="even">
+<td><strong>D</strong> (red)</td>
+<td>deleted file</td>
+<td>tick <em>Staged</em> to record the deletion</td>
+</tr>
+<tr class="odd">
+<td><strong>R</strong> (purple)</td>
+<td>renamed file</td>
+<td>tick <em>Staged</em></td>
+</tr>
+<tr class="even">
+<td><strong>U</strong> (orange)</td>
+<td>conflict to solve (Step 11)</td>
+<td>open the file, solve, tick <em>Staged</em></td>
+</tr>
+</tbody>
+</table>
+<p>Click ⟳ (top right of the pane) to refresh the list.</p>
+</div>
+<div class="fr">
+<p>Le panneau Git liste chaque fichier <strong>modifié depuis le dernier
+commit</strong> (un fichier inchangé n’est pas listé). La lettre colorée
+est son <strong>statut</strong> :</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Statut</th>
+<th>Signification</th>
+<th>Que faire</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>?</strong> (gris)</td>
+<td>nouveau fichier, pas encore suivi par Git (<em>untracked</em>)</td>
+<td>cocher <em>Staged</em> pour l’ajouter — ou l’ignorer (étape 9)</td>
+</tr>
+<tr class="even">
+<td><strong>A</strong> (vert)</td>
+<td>nouveau fichier, ajouté au prochain commit</td>
+<td>valider</td>
+</tr>
+<tr class="odd">
+<td><strong>M</strong> (orange)</td>
+<td>fichier modifié</td>
+<td>cocher <em>Staged</em>, valider</td>
+</tr>
+<tr class="even">
+<td><strong>D</strong> (rouge)</td>
+<td>fichier supprimé</td>
+<td>cocher <em>Staged</em> pour enregistrer la suppression</td>
+</tr>
+<tr class="odd">
+<td><strong>R</strong> (violet)</td>
+<td>fichier renommé</td>
+<td>cocher <em>Staged</em></td>
+</tr>
+<tr class="even">
+<td><strong>U</strong> (orange)</td>
+<td>conflit à résoudre (étape 11)</td>
+<td>ouvrir le fichier, résoudre, cocher <em>Staged</em></td>
+</tr>
+</tbody>
+</table>
+<p>Cliquez sur ⟳ (en haut à droite du panneau) pour actualiser la
+liste.</p>
+</div>
+</div>
+<div id="commit" class="section level2">
+<h2><span class="en">Step 7 — Commit</span><span class="fr">Étape 7 —
+Valider (commit)</span></h2>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 510" role="img" aria-label="RStudio Review Changes window" font-family="Segoe UI, Source Sans 3, Arial, Helvetica, sans-serif">
+<rect x="20" y="20" width="820" height="470" rx="8" fill="#fff" stroke="#8a969c" stroke-width="1.5"/><rect x="20" y="20" width="820" height="32" rx="8" fill="#f3f3f3"/><rect x="20" y="44" width="820" height="8" fill="#f3f3f3"/><line x1="20" y1="52" x2="840" y2="52" stroke="#dcdcdc"/><rect x="32" y="29" width="14" height="14" rx="3" fill="#75aadb"/><text x="54" y="41" font-size="13" fill="#222">RStudio: Review Changes</text><text x="736" y="41" font-size="13" fill="#333">&#x2014;</text><rect x="774" y="31" width="10" height="10" fill="none" stroke="#333"/><text x="812" y="42" font-size="15" fill="#333">&#x2715;</text><text x="34" y="70" font-size="12.5" fill="#333">◉ Changes   ○ History</text><text x="230" y="70" font-size="12.5" fill="#333">⎇ main ▾</text><text x="470" y="70" font-size="12.5" fill="#2b6cb0">⬇ Pull</text><text x="530" y="70" font-size="12.5" fill="#2f855a">⬆ Push</text><rect x="30" y="82" width="400" height="160" fill="#fff" stroke="#ccd"/><text x="40" y="100" font-size="12" fill="#5d6b75">Staged  Status  Path</text><rect x="46" y="110" width="14" height="14" fill="#0067c0" stroke="#555"/><path d="M49 117 l3 3 l6 -7" stroke="#fff" stroke-width="2" fill="none"/><rect x="96" y="109" width="18" height="17" rx="3" fill="#c27a00"/><text x="105" y="122" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">M</text><text x="140" y="122" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">R/02_clean.R</text><rect x="46" y="136" width="14" height="14" fill="#0067c0" stroke="#555"/><path d="M49 143 l3 3 l6 -7" stroke="#fff" stroke-width="2" fill="none"/><rect x="96" y="135" width="18" height="17" rx="3" fill="#2f855a"/><text x="105" y="148" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">A</text><text x="140" y="148" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">R/03_analysis.R</text><rect x="46" y="162" width="14" height="14" fill="#fff" stroke="#555"/><rect x="96" y="161" width="18" height="17" rx="3" fill="#7b8a93"/><text x="105" y="174" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">?</text><text x="140" y="174" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">notes_field.txt</text><text x="440" y="100" font-size="12.5" fill="#333">Commit message</text><rect x="440" y="106" width="390" height="100" fill="#fff" stroke="#9e9e9e"/><text x="448" y="126" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">Remove duplicated transects of 2026</text><rect x="440" y="216" width="14" height="14" rx="2" fill="#fff" stroke="#555"/><text x="462" y="228" font-size="12.5" fill="#222">Amend previous commit</text><rect x="760" y="212" width="70" height="26" rx="4" fill="#e9e9e9" stroke="#b5b5b5"/><text x="795.0" y="229" text-anchor="middle" font-size="12.5" fill="#222">Commit</text><rect x="30" y="252" width="800" height="226" fill="#fff" stroke="#ccd"/><text x="40" y="270" font-size="12" fill="#5d6b75">R/02_clean.R    Show ◉ Staged ○ Unstaged    Context 5 line ▾</text><text x="44" y="290" font-size="12.5" fill="#57606a" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace"> @@ -3,6 +3,7 @@</text><text x="44" y="314" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">  old &lt;- read.csv(here(&quot;data&quot;, &quot;raw&quot;, &quot;reef_monitoring.csv&quot;))</text><text x="44" y="338" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">  new &lt;- read.csv(here(&quot;data&quot;, &quot;raw&quot;, &quot;reef_monitoring_2026.csv&quot;))</text><rect x="31" y="347" width="798" height="22" fill="#ffebe9"/><text x="44" y="362" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">- new&#36;site_id &lt;- toupper(new&#36;site_id)</text><rect x="31" y="371" width="798" height="22" fill="#e6ffec"/><text x="44" y="386" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">+ new &lt;- distinct(new)                 # rows typed twice</text><rect x="31" y="395" width="798" height="22" fill="#e6ffec"/><text x="44" y="410" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">+ new&#36;site_id &lt;- toupper(new&#36;site_id)</text><text x="44" y="434" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">  all &lt;- bind_rows(old, new)</text><rect x="600" y="450" width="110" height="26" rx="4" fill="#fff" stroke="#b5b5b5"/><text x="655.0" y="467" text-anchor="middle" font-size="12.5" fill="#222">Stage selection</text><rect x="716" y="450" width="110" height="26" rx="4" fill="#fff" stroke="#b5b5b5"/><text x="771.0" y="467" text-anchor="middle" font-size="12.5" fill="#222">Discard selection</text><circle cx="30" cy="118" r="11" fill="#d9694a"/><text x="30" y="122.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><circle cx="640" cy="160" r="11" fill="#d9694a"/><text x="640" y="164.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><circle cx="795" cy="202" r="11" fill="#d9694a"/><text x="795" y="206.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><circle cx="30" cy="330" r="11" fill="#d9694a"/><text x="30" y="334.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">4</text><circle cx="600" cy="66" r="11" fill="#d9694a"/><text x="600" y="70.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">5</text><circle cx="870" cy="60" r="11" fill="#d9694a"/><text x="870" y="64.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><text class="en" x="888" y="65" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">Tick the files that go together</tspan><tspan x="888" dy="16">in this commit (Staged).</tspan></text><text class="fr" x="888" y="65" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">Cochez les fichiers qui vont</tspan><tspan x="888" dy="16">ensemble dans ce commit (Staged).</tspan></text><circle cx="870" cy="120" r="11" fill="#d9694a"/><text x="870" y="124.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><text class="en" x="888" y="125" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">A short sentence saying WHY,</tspan><tspan x="888" dy="16">e.g. &quot;Remove duplicated transects&quot;.</tspan></text><text class="fr" x="888" y="125" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">Une phrase courte qui dit POURQUOI,</tspan><tspan x="888" dy="16">ex. « Supprime les transects en double ».</tspan></text><circle cx="870" cy="180" r="11" fill="#d9694a"/><text x="870" y="184.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><text class="en" x="888" y="185" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">Commit: the snapshot is saved on</tspan><tspan x="888" dy="16">YOUR computer only. A window</tspan><tspan x="888" dy="16">confirms it; close it.</tspan></text><text class="fr" x="888" y="185" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">Commit : l&#x27;instantané est enregistré sur</tspan><tspan x="888" dy="16">VOTRE ordinateur seulement. Une fenêtre</tspan><tspan x="888" dy="16">le confirme ; fermez-la.</tspan></text><circle cx="870" cy="260" r="11" fill="#d9694a"/><text x="870" y="264.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">4</text><text class="en" x="888" y="265" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">Check the changes: green = added,</tspan><tspan x="888" dy="16">red = removed. &quot;Discard&quot; undoes a</tspan><tspan x="888" dy="16">change that was not committed.</tspan></text><text class="fr" x="888" y="265" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">Vérifiez les changements : vert = ajouté,</tspan><tspan x="888" dy="16">rouge = supprimé. « Discard » annule une</tspan><tspan x="888" dy="16">modification non validée.</tspan></text><circle cx="870" cy="340" r="11" fill="#d9694a"/><text x="870" y="344.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">5</text><text class="en" x="888" y="345" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">Then Push to send the commits</tspan><tspan x="888" dy="16">online (and Pull first if you</tspan><tspan x="888" dy="16">work with others).</tspan></text><text class="fr" x="888" y="345" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">Puis Push pour envoyer les commits</tspan><tspan x="888" dy="16">en ligne (et Pull d&#x27;abord si vous</tspan><tspan x="888" dy="16">travaillez à plusieurs).</tspan></text>
+</svg><figcaption><span class="en">The Review Changes window (Commit button of the Git pane).</span><span class="fr">La fenêtre Review Changes (bouton Commit du panneau Git).</span></figcaption></figure>
 <div class="en">
 <ol style="list-style-type: decimal">
-<li>Install Git: <strong>Windows</strong> — <em>Git for Windows</em>
-from <a href="https://git-scm.com" class="uri">https://git-scm.com</a>
-(keep the default options; it also installs <strong>Git Bash</strong>, a
-terminal); <strong>Mac</strong> — type <code>git --version</code> in the
-Terminal and accept the installation of the developer tools;
-<strong>Linux</strong> — <code>sudo apt install git</code>.</li>
-<li>Restart RStudio. <em>Tools → Global Options → Git/SVN</em> must show
-the path of <code>git.exe</code>.</li>
-<li>Tell Git who you are (once per computer). The e-mail should be the
-one of your GitHub / GitLab account:</li>
+<li>In the Git pane, click <strong>Commit</strong>: the <strong>Review
+Changes</strong> window opens.</li>
+<li><strong>Tick Staged</strong> for the files that belong to the same
+change (e.g. the cleaning script and the README that explains it). Click
+a file to see its <strong>diff</strong>: green lines added, red lines
+removed.</li>
+<li>Write a <strong>commit message</strong>: one short sentence that
+says <em>why</em>, e.g. <em>“Remove duplicated transects of 2026”</em>.
+Bad messages: <em>“update”</em>, <em>“changes”</em>,
+<em>“final”</em>.</li>
+<li>Click <strong>Commit</strong>. A small window confirms it (“1 file
+changed…”): close it.</li>
 </ol>
+<p>The commit is now saved <strong>on your computer only</strong>.
+Nothing is online yet: that is the Push (Step 8).</p>
+<p><strong>When to commit?</strong> After each <strong>logical step that
+works</strong>: a script that runs, a figure finished, a section of a
+report written, a bug fixed. Commit <strong>often</strong> — several
+times per work session — with small commits: they are easier to
+understand and to undo. Do not commit a script that does not run, and do
+not wait until the end of the week.</p>
 </div>
 <div class="fr">
 <ol style="list-style-type: decimal">
-<li>Installez Git : <strong>Windows</strong> — <em>Git for Windows</em>
-depuis <a href="https://git-scm.com" class="uri">https://git-scm.com</a>
-(gardez les options par défaut ; il installe aussi <strong>Git
-Bash</strong>, un terminal) ; <strong>Mac</strong> — tapez
-<code>git --version</code> dans le Terminal et acceptez l’installation
-des outils de développement ; <strong>Linux</strong> —
-<code>sudo apt install git</code>.</li>
-<li>Redémarrez RStudio. <em>Tools → Global Options → Git/SVN</em> doit
-afficher le chemin de <code>git.exe</code>.</li>
-<li>Dites à Git qui vous êtes (une fois par ordinateur). L’e-mail doit
-être celui de votre compte GitHub / GitLab :</li>
+<li>Dans le panneau Git, cliquez sur <strong>Commit</strong> : la
+fenêtre <strong>Review Changes</strong> s’ouvre.</li>
+<li><strong>Cochez Staged</strong> pour les fichiers qui font partie de
+la même modification (ex. le script de nettoyage et le README qui
+l’explique). Cliquez sur un fichier pour voir son <strong>diff</strong>
+: lignes vertes ajoutées, lignes rouges supprimées.</li>
+<li>Écrivez un <strong>message de commit</strong> : une courte phrase
+qui dit <em>pourquoi</em>, ex. <em>« Supprime les transects en double de
+2026 »</em>. Mauvais messages : <em>« update »</em>, <em>« modifs
+»</em>, <em>« final »</em>.</li>
+<li>Cliquez sur <strong>Commit</strong>. Une petite fenêtre le confirme
+(« 1 file changed… ») : fermez-la.</li>
 </ol>
-</div>
-<div class="compare">
-<div class="col base">
-<p><strong><span class="en">Terminal (RStudio: Tools →
-Terminal)</span><span class="fr">Terminal (RStudio : Tools →
-Terminal)</span></strong></p>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">&quot;Your Name&quot;</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">&quot;you@example.org&quot;</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> init.defaultBranch main</span></code></pre></div>
-</div>
-<div class="col pkg">
-<p><strong><span class="en">From R, with usethis</span><span
-class="fr">Depuis R, avec usethis</span></strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_git_config</span>(<span class="at">user.name =</span> <span class="st">&quot;Your Name&quot;</span>,</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>                        <span class="at">user.email =</span> <span class="st">&quot;you@example.org&quot;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">git_default_branch_configure</span>()</span></code></pre></div>
+<p>Le commit est maintenant enregistré <strong>sur votre ordinateur
+seulement</strong>. Rien n’est encore en ligne : c’est le Push (étape
+8).</p>
+<p><strong>Quand valider ?</strong> Après chaque <strong>étape logique
+qui marche</strong> : un script qui tourne, une figure terminée, une
+section de rapport écrite, une erreur corrigée. Validez
+<strong>souvent</strong> — plusieurs fois par séance de travail — avec
+de petits commits : ils sont plus faciles à comprendre et à annuler. Ne
+validez pas un script qui ne tourne pas, et n’attendez pas la fin de la
+semaine.</p>
 </div>
 </div>
-</div>
-<div id="cycle" class="section level2">
-<h2><span class="en">The daily cycle: change, add, commit</span><span
-class="fr">Le cycle quotidien : modifier, indexer, valider</span></h2>
+<div id="push-pull" class="section level2">
+<h2><span class="en">Step 8 — Push and pull</span><span class="fr">Étape
+8 — Pousser (push) et récupérer (pull)</span></h2>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 185" role="img" aria-label="The daily Git cycle in RStudio" font-family="Segoe UI, Source Sans 3, Arial, Helvetica, sans-serif">
+<rect x="20" y="40" width="205" height="70" rx="12" fill="#fff" stroke="#2b6cb0" stroke-width="2.5"/><text x="122" y="72" text-anchor="middle" font-size="17" font-weight="700" fill="#2b6cb0">⬇ Pull</text><text class="en" x="122" y="96" text-anchor="middle" font-size="12" fill="#5d6b75">when you start working</text><text class="fr" x="122" y="96" text-anchor="middle" font-size="12" fill="#5d6b75">quand vous commencez</text><text x="232" y="82" font-size="20" fill="#5d6b75">→</text><rect x="255" y="40" width="205" height="70" rx="12" fill="#fff" stroke="#3c4a52" stroke-width="2.5"/><text x="357" y="72" text-anchor="middle" font-size="17" font-weight="700" fill="#3c4a52">✎ Edit, save, run</text><text class="en" x="357" y="96" text-anchor="middle" font-size="12" fill="#5d6b75">your scripts and reports</text><text class="fr" x="357" y="96" text-anchor="middle" font-size="12" fill="#5d6b75">vos scripts et rapports</text><text x="467" y="82" font-size="20" fill="#5d6b75">→</text><rect x="490" y="40" width="205" height="70" rx="12" fill="#fff" stroke="#c27a00" stroke-width="2.5"/><text x="592" y="72" text-anchor="middle" font-size="17" font-weight="700" fill="#c27a00">✔ Stage + Commit</text><text class="en" x="592" y="96" text-anchor="middle" font-size="12" fill="#5d6b75">after each logical step that works</text><text class="fr" x="592" y="96" text-anchor="middle" font-size="12" fill="#5d6b75">après chaque étape logique qui marche</text><text x="702" y="82" font-size="20" fill="#5d6b75">→</text><rect x="725" y="40" width="205" height="70" rx="12" fill="#fff" stroke="#2f855a" stroke-width="2.5"/><text x="827" y="72" text-anchor="middle" font-size="17" font-weight="700" fill="#2f855a">⬆ Push</text><text class="en" x="827" y="96" text-anchor="middle" font-size="12" fill="#5d6b75">end of session (Pull just before)</text><text class="fr" x="827" y="96" text-anchor="middle" font-size="12" fill="#5d6b75">fin de séance (Pull juste avant)</text><path d="M 125 112 C 125 160, 830 160, 830 112" fill="none" stroke="#5d6b75" stroke-dasharray="5 4"/><text class="en" x="477" y="168" text-anchor="middle" font-size="12.5" fill="#5d6b75">Commit often (many small commits) · push at least once per work session · always pull before pushing</text><text class="fr" x="477" y="168" text-anchor="middle" font-size="12.5" fill="#5d6b75">Validez souvent (beaucoup de petits commits) · poussez au moins une fois par séance de travail · toujours pull avant push</text>
+</svg><figcaption><span class="en">The daily cycle.</span><span class="fr">Le cycle quotidien.</span></figcaption></figure>
 <div class="en">
-<p>The commands below are really run on this page (in a temporary
-folder). In RStudio you do the same with the <strong>Git</strong> pane:
-tick <em>Staged</em>, click <em>Commit</em>, write the message.</p>
+<ul>
+<li><strong>Push</strong> (green arrow ⬆, in the Git pane or the Review
+Changes window) sends your commits to GitHub / GitLab. Refresh the page
+of your repository in the browser: your files and messages are
+there.</li>
+<li><strong>Pull</strong> (blue arrow ⬇) downloads the commits that are
+online and not yet on your computer: those of a colleague, or yours made
+on another computer.</li>
+</ul>
+<p><strong>When?</strong></p>
+<ul>
+<li><strong>Pull when you start working</strong> (open the project →
+Pull), so you start from the latest version.</li>
+<li><strong>Push at least at the end of each work session</strong> —
+your work is then backed up online — and whenever a colleague needs your
+changes.</li>
+<li><strong>Pull just before you push</strong>. If RStudio says the push
+was <em>rejected</em> (“Updates were rejected… fetch first”), somebody
+pushed in the meantime: click <strong>Pull</strong>, then
+<strong>Push</strong> again.</li>
+</ul>
 </div>
 <div class="fr">
-<p>Les commandes ci-dessous sont réellement exécutées sur cette page
-(dans un dossier temporaire). Dans RStudio, vous faites la même chose
-avec le panneau <strong>Git</strong> : cochez <em>Staged</em>, cliquez
-sur <em>Commit</em>, écrivez le message.</p>
+<ul>
+<li><strong>Push</strong> (flèche verte ⬆, dans le panneau Git ou la
+fenêtre Review Changes) envoie vos commits vers GitHub / GitLab.
+Actualisez la page de votre dépôt dans le navigateur : vos fichiers et
+messages y sont.</li>
+<li><strong>Pull</strong> (flèche bleue ⬇) télécharge les commits qui
+sont en ligne et pas encore sur votre ordinateur : ceux d’un collègue,
+ou les vôtres faits sur un autre ordinateur.</li>
+</ul>
+<p><strong>Quand ?</strong></p>
+<ul>
+<li><strong>Pull quand vous commencez à travailler</strong> (ouvrir le
+projet → Pull), pour partir de la dernière version.</li>
+<li><strong>Push au moins à la fin de chaque séance de travail</strong>
+— votre travail est alors sauvegardé en ligne — et dès qu’un collègue a
+besoin de vos modifications.</li>
+<li><strong>Pull juste avant de pousser</strong>. Si RStudio dit que le
+push a été <em>rejeté</em> (« Updates were rejected… fetch first »),
+quelqu’un a poussé entre-temps : cliquez sur <strong>Pull</strong>, puis
+à nouveau sur <strong>Push</strong>.</li>
+</ul>
 </div>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">git</span> init <span class="at">-q</span> <span class="at">-b</span> main                       <span class="co"># 1. turn the folder into a repository (once)</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> R data/raw</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;reef &lt;- read.csv(&quot;data/raw/reef_monitoring.csv&quot;)&#39;</span> <span class="op">&gt;</span> R/01_import.R</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;# Reef monitoring&#39;</span> <span class="op">&gt;</span> README.md</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">git</span> status <span class="at">--short</span>                        <span class="co"># ?? = new files, not followed yet</span></span></code></pre></div>
-<pre><code>?? R/
-?? README.md</code></pre>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">git</span> add README.md R/01_import.R           <span class="co"># 2. stage: choose what goes in the commit</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-q</span> <span class="at">-m</span> <span class="st">&quot;Start the project: README and import script&quot;</span>   <span class="co"># 3. commit with a message</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span>                         <span class="co"># the history: one line per commit</span></span></code></pre></div>
-<pre><code>246537b Start the project: README and import script</code></pre>
+<div id="the-first-push-signing-inle-premier-push-se-connecter"
+class="section level3">
+<h3><span class="en">The first push: signing in</span><span
+class="fr">Le premier push : se connecter</span></h3>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" role="img" aria-label="Git Credential Manager sign-in window on Windows" font-family="Segoe UI, Source Sans 3, Arial, Helvetica, sans-serif">
+<rect x="20" y="20" width="420" height="290" rx="8" fill="#fff" stroke="#8a969c" stroke-width="1.5"/><rect x="20" y="20" width="420" height="32" rx="8" fill="#f3f3f3"/><rect x="20" y="44" width="420" height="8" fill="#f3f3f3"/><line x1="20" y1="52" x2="440" y2="52" stroke="#dcdcdc"/><rect x="32" y="29" width="14" height="14" rx="3" fill="#24292f"/><text x="54" y="41" font-size="13" fill="#222">Connect to GitHub</text><text x="336" y="41" font-size="13" fill="#333">&#x2014;</text><rect x="374" y="31" width="10" height="10" fill="none" stroke="#333"/><text x="412" y="42" font-size="15" fill="#333">&#x2715;</text><text x="230" y="96" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2328">GitHub</text><text x="230" y="124" text-anchor="middle" font-size="13" fill="#57606a">Sign in</text><text x="140" y="154" font-size="12.5" fill="#0067c0" font-weight="600">Browser/Device</text><text x="260" y="154" font-size="12.5" fill="#57606a">Token</text><line x1="130" y1="160" x2="245" y2="160" stroke="#0067c0" stroke-width="2"/><rect x="120" y="182" width="220" height="26" rx="4" fill="#1f883d" stroke="#1a7f37"/><text x="230.0" y="199" text-anchor="middle" font-size="12.5" fill="#fff" font-weight="600">Sign in with your browser</text><rect x="120" y="220" width="220" height="26" rx="4" fill="#fff" stroke="#b5b5b5"/><text x="230.0" y="237" text-anchor="middle" font-size="12.5" fill="#222">Sign in with a code</text><text x="230" y="280" text-anchor="middle" font-size="12" fill="#57606a">Don't have an account? Sign up</text><circle cx="350" cy="195" r="11" fill="#d9694a"/><text x="350" y="199.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><circle cx="470" cy="80" r="11" fill="#d9694a"/><text x="470" y="84.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><text class="en" x="488" y="85" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="488" dy="0">Windows only asks once: the first Push (or Pull</tspan><tspan x="488" dy="16">of a private repository) opens this window of</tspan><tspan x="488" dy="16">Git Credential Manager (installed with Git).</tspan><tspan x="488" dy="16">Sign in in the browser, authorise, done:</tspan><tspan x="488" dy="16">the password is kept safely by Windows.</tspan></text><text class="fr" x="488" y="85" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="488" dy="0">Windows ne le demande qu&#x27;une fois : le premier Push</tspan><tspan x="488" dy="16">(ou Pull d&#x27;un dépôt privé) ouvre cette fenêtre de</tspan><tspan x="488" dy="16">Git Credential Manager (installé avec Git).</tspan><tspan x="488" dy="16">Connectez-vous dans le navigateur, autorisez, c&#x27;est fait :</tspan><tspan x="488" dy="16">le mot de passe est gardé en sécurité par Windows.</tspan></text><circle cx="470" cy="200" r="11" fill="#d9694a"/><text x="470" y="204.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><text class="en" x="488" y="205" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="488" dy="0">GitLab: the same window says &quot;Connect to GitLab&quot;.</tspan><tspan x="488" dy="16">A token also works (Token tab): see below.</tspan></text><text class="fr" x="488" y="205" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="488" dy="0">GitLab : la même fenêtre dit « Connect to GitLab ».</tspan><tspan x="488" dy="16">Un jeton marche aussi (onglet Token) : voir plus bas.</tspan></text>
+</svg><figcaption><span class="en">Git Credential Manager asks you to sign in once.</span><span class="fr">Git Credential Manager vous demande de vous connecter une fois.</span></figcaption></figure>
 <div class="en">
-<p>Now we change a file. <code>git diff</code> shows exactly what
-changed (<code>-</code> removed, <code>+</code> added) before we
-commit:</p>
+<p>GitHub and GitLab do not accept your account password from Git. On
+Windows, the <strong>first</strong> Push (or Pull of a private
+repository) opens a <strong>Git Credential Manager</strong> window:
+click <strong>Sign in with your browser</strong>, log in on the website,
+click <strong>Authorize</strong>. Windows then remembers it safely: you
+will not be asked again on this computer.</p>
+<p>If that window does not appear, use a <strong>personal access
+token</strong> (a long password made only for Git):</p>
 </div>
 <div class="fr">
-<p>Modifions maintenant un fichier. <code>git diff</code> montre
-exactement ce qui a changé (<code>-</code> supprimé, <code>+</code>
-ajouté) avant de valider :</p>
+<p>GitHub et GitLab n’acceptent pas le mot de passe de votre compte
+depuis Git. Sous Windows, le <strong>premier</strong> Push (ou Pull d’un
+dépôt privé) ouvre une fenêtre <strong>Git Credential Manager</strong> :
+cliquez sur <strong>Sign in with your browser</strong>, connectez-vous
+sur le site, cliquez sur <strong>Authorize</strong>. Windows s’en
+souvient ensuite en sécurité : on ne vous le redemandera plus sur cet
+ordinateur.</p>
+<p>Si cette fenêtre n’apparaît pas, utilisez un <strong>jeton d’accès
+personnel</strong> (<em>personal access token</em> : un long mot de
+passe fait uniquement pour Git) :</p>
 </div>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;sites &lt;- read.csv(&quot;data/raw/reef_sites.csv&quot;)&#39;</span> <span class="op">&gt;&gt;</span> R/01_import.R</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">git</span> diff</span></code></pre></div>
-<pre><code>diff --git a/R/01_import.R b/R/01_import.R
-index 17ee4f4..cef9078 100644
---- a/R/01_import.R
-+++ b/R/01_import.R
-@@ -1 +1,2 @@
- reef &lt;- read.csv(&quot;data/raw/reef_monitoring.csv&quot;)
-+sites &lt;- read.csv(&quot;data/raw/reef_sites.csv&quot;)</code></pre>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">GIT_AUTHOR_DATE</span><span class="op">=</span><span class="st">&quot;2025-06-03T10:00:00+0300&quot;</span> <span class="va">GIT_COMMITTER_DATE</span><span class="op">=</span><span class="st">&quot;2025-06-03T10:00:00+0300&quot;</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-q</span> <span class="at">-am</span> <span class="st">&quot;Import the sites table&quot;</span>   <span class="co"># -a: stage every modified (already followed) file</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--format</span><span class="op">=</span><span class="st">&quot;%h  %ad  %an  %s&quot;</span> <span class="at">--date</span><span class="op">=</span>short</span></code></pre></div>
-<pre><code>90ecbee  2025-06-03  Fara Rasoa  Import the sites table
-246537b  2025-06-02  Fara Rasoa  Start the project: README and import script</code></pre>
-<div class="callout tip">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">create_github_token</span>()   <span class="co"># opens GitHub on the page to create a token: keep the proposed boxes, set an expiry date, copy the token</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>gitcreds<span class="sc">::</span><span class="fu">gitcreds_set</span>()         <span class="co"># then paste the token when the Console asks for it; it is stored safely by Windows</span></span></code></pre></div>
 <div class="en">
-<p><strong>Good commit messages</strong> say <em>why</em> in a short
-sentence, in the imperative: “Lower the bleaching threshold to 20 %”,
-“Fix the site names of Tanjona”. Bad: “update”, “changes”, “final”.
-<strong>Commit often</strong>: one commit = one logical change.</p>
+<p><code>create_github_token()</code> needs no argument; it only opens
+the right web page with the right boxes ticked.
+<code>gitcreds_set()</code> asks for the token in the Console and stores
+it in the Windows credential store, where Git and <code>usethis</code>
+find it. <strong>GitLab:</strong> <em>Preferences → Access tokens → Add
+new token</em>, tick the scopes <code>read_repository</code> and
+<code>write_repository</code>, copy the token; at the first Push, choose
+the <em>Token</em> tab of the Credential Manager window (or type your
+username and paste the token as password). A token is like a password:
+never put it in a script or a commit.</p>
 </div>
 <div class="fr">
-<p><strong>Les bons messages de commit</strong> disent <em>pourquoi</em>
-en une courte phrase, à l’impératif : « Lower the bleaching threshold to
-20 % », « Corrige les noms de sites de Tanjona ». Mauvais : « update »,
-« modifs », « final ». <strong>Validez souvent</strong> : un commit =
-une modification logique.</p>
-</div>
-</div>
-</div>
-<div id="history" class="section level2">
-<h2><span class="en">Travelling in the history</span><span
-class="fr">Voyager dans l’historique</span></h2>
-<div class="en">
-<p>Let us open the NGO project (<code>reef_project_git.zip</code>).
-These commands answer the classic questions: <em>who changed this, when,
-and what was the value before?</em></p>
-</div>
-<div class="fr">
-<p>Ouvrons le projet de l’ONG (<code>reef_project_git.zip</code>). Ces
-commandes répondent aux questions classiques : <em>qui a changé ceci,
-quand, et quelle était la valeur avant ?</em></p>
-</div>
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$NGO</span><span class="st">&quot;</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--format</span><span class="op">=</span><span class="st">&quot;%h  %ad  %&lt;(12)%an %s&quot;</span> <span class="at">--date</span><span class="op">=</span>short    <span class="co"># who did what, when</span></span></code></pre></div>
-<pre><code>cb39eea  2025-05-12  Fara Rasoa   Explain the order of the scripts in the README
-e0ed893  2025-05-12  Fara Rasoa   Boxplots of coral cover per year
-4a5c8d0  2025-05-09  Hery Nirina  Lower the bleaching threshold to 20 %
-8c390f6  2025-05-05  Hery Nirina  Flag severe bleaching
-06d0e2b  2025-05-02  Fara Rasoa   Add the cleaning script
-ed72085  2025-05-01  Fara Rasoa   Start the project: README, gitignore, import script</code></pre>
-<div class="sourceCode" id="cb13"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$NGO</span><span class="st">&quot;</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">--</span> R/03_bleaching.R        <span class="co"># only the commits that touched this file</span></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">git</span> show 4a5c8d0 <span class="at">--stat</span> <span class="at">--format</span><span class="op">=</span><span class="st">&quot;%h %an: %s&quot;</span>  <span class="co"># what one commit changed</span></span></code></pre></div>
-<pre><code>4a5c8d0 Lower the bleaching threshold to 20 %
-8c390f6 Flag severe bleaching
-4a5c8d0 Hery Nirina: Lower the bleaching threshold to 20 %
-
- R/03_bleaching.R | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)</code></pre>
-<div class="sourceCode" id="cb15"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$NGO</span><span class="st">&quot;</span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">git</span> show 8c390f6:R/03_bleaching.R            <span class="co"># the file as it was in an older commit</span></span></code></pre></div>
-<pre><code>bleach_threshold &lt;- 30   # % of colonies bleached = severe
-reef$severe &lt;- reef$bleached_pct &gt;= bleach_threshold
-table(reef$year, reef$severe)</code></pre>
-<div class="en">
-<p>To <strong>go back</strong> to an old version of one file:
-<code>git restore --source=8c390f6 R/03_bleaching.R</code>, then commit.
-Nothing is ever lost: the newer version is still in the history. In
-RStudio: Git pane → <em>History</em> (clock icon) lets you browse every
-commit and every file.</p>
-</div>
-<div class="fr">
-<p>Pour <strong>revenir</strong> à une ancienne version d’un fichier :
-<code>git restore --source=8c390f6 R/03_bleaching.R</code>, puis
-validez. Rien n’est jamais perdu : la version plus récente reste dans
-l’historique. Dans RStudio : panneau Git → <em>History</em> (icône
-horloge) permet de parcourir chaque commit et chaque fichier.</p>
-</div>
-<div class="callout try">
-<div class="en">
-<p><strong>Try it.</strong> Unzip <code>reef_project_git.zip</code>,
-open <code>reef-monitoring</code> in RStudio (<em>File → New Project →
-Existing Directory</em>) and open the <strong>History</strong> of the
-Git pane. Who wrote the figures script? When was the README last
-changed?</p>
-</div>
-<div class="fr">
-<p><strong>À vous.</strong> Décompressez
-<code>reef_project_git.zip</code>, ouvrez <code>reef-monitoring</code>
-dans RStudio (<em>File → New Project → Existing Directory</em>) et
-ouvrez l’<strong>History</strong> du panneau Git. Qui a écrit le script
-des figures ? Quand le README a-t-il été modifié pour la dernière fois
-?</p>
+<p><code>create_github_token()</code> n’a pas besoin d’argument ; elle
+ouvre seulement la bonne page web avec les bonnes cases cochées.
+<code>gitcreds_set()</code> demande le jeton dans la Console et le range
+dans le gestionnaire d’identifiants de Windows, où Git et
+<code>usethis</code> le trouvent. <strong>GitLab :</strong>
+<em>Preferences → Access tokens → Add new token</em>, cochez les droits
+<code>read_repository</code> et <code>write_repository</code>, copiez le
+jeton ; au premier Push, choisissez l’onglet <em>Token</em> de la
+fenêtre Credential Manager (ou tapez votre nom d’utilisateur et collez
+le jeton comme mot de passe). Un jeton est comme un mot de passe : ne le
+mettez jamais dans un script ni dans un commit.</p>
 </div>
 </div>
 </div>
 <div id="gitignore" class="section level2">
-<h2><span class="en">What Git must ignore</span><span class="fr">Ce que
-Git doit ignorer</span></h2>
+<h2><span class="en">Step 9 — Keep files out of Git:
+.gitignore</span><span class="fr">Étape 9 — Garder des fichiers hors de
+Git : .gitignore</span></h2>
 <div class="en">
-<p>The file <code>.gitignore</code> lists the files Git never follows. A
-good start for an R project with renv:</p>
+<p><code>.gitignore</code> is a text file at the root of the project:
+each line is a file or a folder that Git must <strong>never</strong>
+follow. The quickest way in RStudio: in the Git pane,
+<strong>right-click</strong> a file or folder → <strong>Ignore…</strong>
+→ <strong>Save</strong>. You can also open <code>.gitignore</code> in
+RStudio and type the lines. A good start for an R project:</p>
 </div>
 <div class="fr">
-<p>Le fichier <code>.gitignore</code> liste les fichiers que Git ne suit
-jamais. Un bon début pour un projet R avec renv :</p>
+<p><code>.gitignore</code> est un fichier texte à la racine du projet :
+chaque ligne est un fichier ou un dossier que Git ne doit
+<strong>jamais</strong> suivre. Le plus rapide dans RStudio : dans le
+panneau Git, <strong>clic droit</strong> sur un fichier ou un dossier →
+<strong>Ignore…</strong> → <strong>Save</strong>. Vous pouvez aussi
+ouvrir <code>.gitignore</code> dans RStudio et taper les lignes. Un bon
+début pour un projet R :</p>
 </div>
-<div class="sourceCode" id="cb17"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># R and RStudio</span></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="ex">.Rhistory</span></span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="ex">.RData</span></span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="ex">.Rproj.user/</span></span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co"># renv: the library is rebuilt by renv::restore() (renv/.gitignore already does it)</span></span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="ex">renv/library/</span></span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="co"># results that the scripts can rebuild</span></span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="ex">outputs/</span></span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="ex">data/derived/</span></span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="co"># rendered reports</span></span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="ex">*.html</span></span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="ex">*.docx</span></span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co"># large or confidential data: share them another way (drive, data repository)</span></span>
-<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="ex">data/raw/household_survey_names.csv</span></span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="ex">*.tif</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">.Rproj.user/</span>          <span class="co"># RStudio settings of YOUR computer</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="ex">.Rhistory</span>             <span class="co"># history of the Console</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="ex">.RData</span>                <span class="co"># saved workspace (we never use it, Session A0)</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="ex">renv/library/</span>         <span class="co"># packages: rebuilt by renv::restore() (Session A1)</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="ex">outputs/</span>              <span class="co"># results rebuilt by the scripts</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="ex">data/derived/</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="ex">*.html</span>                <span class="co"># rendered reports</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="ex">*.tif</span>                 <span class="co"># large rasters: share them another way</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="ex">data/raw/household_survey_names.csv</span>   <span class="co"># personal data: NEVER online</span></span></code></pre></div>
 <div class="en">
-<p><code>usethis::use_git_ignore(c("outputs/", "*.tif"))</code> adds
-lines from R. Ignoring a file <strong>after</strong> it was committed is
-not enough: also run <code>git rm --cached file</code> to stop following
-it (it stays on your disk).</p>
+<p><code>#</code> starts a comment; <code>*</code> means “any
+characters” (<code>*.html</code> = every HTML file); a name ending with
+<code>/</code> is a folder. Commit the <code>.gitignore</code> itself. A
+file committed <strong>before</strong> it was ignored stays in the
+history: avoid committing personal data even once.</p>
 </div>
 <div class="fr">
-<p><code>usethis::use_git_ignore(c("outputs/", "*.tif"))</code> ajoute
-des lignes depuis R. Ignorer un fichier <strong>après</strong> l’avoir
-validé ne suffit pas : lancez aussi <code>git rm --cached fichier</code>
-pour qu’il ne soit plus suivi (il reste sur votre disque).</p>
+<p><code>#</code> commence un commentaire ; <code>*</code> signifie «
+n’importe quels caractères » (<code>*.html</code> = tous les fichiers
+HTML) ; un nom terminé par <code>/</code> est un dossier. Validez le
+<code>.gitignore</code> lui-même. Un fichier validé
+<strong>avant</strong> d’être ignoré reste dans l’historique : évitez de
+valider des données personnelles, même une fois.</p>
 </div>
 </div>
-<div id="remote" class="section level2">
-<h2><span class="en">GitHub or GitLab: your project online</span><span
-class="fr">GitHub ou GitLab : votre projet en ligne</span></h2>
+<div id="history" class="section level2">
+<h2><span class="en">Step 10 — History and going back</span><span
+class="fr">Étape 10 — Historique et retour en arrière</span></h2>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 420" role="img" aria-label="RStudio Git history viewer" font-family="Segoe UI, Source Sans 3, Arial, Helvetica, sans-serif">
+<rect x="20" y="20" width="820" height="380" rx="8" fill="#fff" stroke="#8a969c" stroke-width="1.5"/><rect x="20" y="20" width="820" height="32" rx="8" fill="#f3f3f3"/><rect x="20" y="44" width="820" height="8" fill="#f3f3f3"/><line x1="20" y1="52" x2="840" y2="52" stroke="#dcdcdc"/><rect x="32" y="29" width="14" height="14" rx="3" fill="#75aadb"/><text x="54" y="41" font-size="13" fill="#222">RStudio: Review Changes</text><text x="736" y="41" font-size="13" fill="#333">&#x2014;</text><rect x="774" y="31" width="10" height="10" fill="none" stroke="#333"/><text x="812" y="42" font-size="15" fill="#333">&#x2715;</text><text x="34" y="70" font-size="12.5" fill="#333">○ Changes   ◉ History</text><text x="230" y="70" font-size="12.5" fill="#333">⎇ main ▾    (all commits) ▾    Filter by File...</text><rect x="30" y="82" width="800" height="150" fill="#fff" stroke="#ccd"/><text x="40" y="100" font-size="12" fill="#5d6b75">Subject                                                     Author              Date          SHA</text><text x="40" y="122" font-size="12.5" fill="#222">Explain the order of the scripts in the README</text><text x="475" y="122" font-size="12.5" fill="#222">Fara Rasoa</text><text x="625" y="122" font-size="12.5" fill="#222">2025-05-12</text><text x="740" y="122" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">cb39eea</text><text x="40" y="144" font-size="12.5" fill="#222">Boxplots of coral cover per year</text><text x="475" y="144" font-size="12.5" fill="#222">Fara Rasoa</text><text x="625" y="144" font-size="12.5" fill="#222">2025-05-12</text><text x="740" y="144" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">e0ed893</text><rect x="31" y="151" width="798" height="21" fill="#cce4f7"/><text x="40" y="166" font-size="12.5" fill="#222">Lower the bleaching threshold to 20 %</text><text x="475" y="166" font-size="12.5" fill="#222">Hery Nirina</text><text x="625" y="166" font-size="12.5" fill="#222">2025-05-09</text><text x="740" y="166" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">4a5c8d0</text><text x="40" y="188" font-size="12.5" fill="#222">Flag severe bleaching</text><text x="475" y="188" font-size="12.5" fill="#222">Hery Nirina</text><text x="625" y="188" font-size="12.5" fill="#222">2025-05-05</text><text x="740" y="188" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">8c390f6</text><text x="40" y="210" font-size="12.5" fill="#222">Add the cleaning script</text><text x="475" y="210" font-size="12.5" fill="#222">Fara Rasoa</text><text x="625" y="210" font-size="12.5" fill="#222">2025-05-02</text><text x="740" y="210" font-size="12.5" fill="#222" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">06d0e2b</text><rect x="30" y="240" width="800" height="150" fill="#fff" stroke="#ccd"/><text x="40" y="258" font-size="12" fill="#5d6b75">SHA 4a5c8d0 · Author Hery Nirina · Date 2025-05-09   R/03_bleaching.R   (View file @ 4a5c8d0)</text><rect x="31" y="271" width="798" height="22" fill="#ffebe9"/><text x="44" y="286" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">- bleach_threshold &lt;- 30   # % of colonies bleached = severe</text><rect x="31" y="295" width="798" height="22" fill="#e6ffec"/><text x="44" y="310" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">+ bleach_threshold &lt;- 20   # changed after the meeting with the MPA managers</text><text x="44" y="334" font-size="12.5" fill="#111" font-family="Consolas, JetBrains Mono, DejaVu Sans Mono, monospace">  reef&#36;severe &lt;- reef&#36;bleached_pct &gt;= bleach_threshold</text><circle cx="160" cy="66" r="11" fill="#d9694a"/><text x="160" y="70.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><circle cx="30" cy="166" r="11" fill="#d9694a"/><text x="30" y="170.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><circle cx="760" cy="258" r="11" fill="#d9694a"/><text x="760" y="262.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><circle cx="870" cy="60" r="11" fill="#d9694a"/><text x="870" y="64.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1</text><text class="en" x="888" y="65" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">Git pane → History (clock icon),</tspan><tspan x="888" dy="16">or Changes/History at the top.</tspan></text><text class="fr" x="888" y="65" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">Panneau Git → History (icône horloge),</tspan><tspan x="888" dy="16">ou Changes/History en haut.</tspan></text><circle cx="870" cy="130" r="11" fill="#d9694a"/><text x="870" y="134.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2</text><text class="en" x="888" y="135" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">One line per commit: what, who, when,</tspan><tspan x="888" dy="16">and its code (SHA). Click a commit…</tspan></text><text class="fr" x="888" y="135" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">Une ligne par commit : quoi, qui, quand,</tspan><tspan x="888" dy="16">et son code (SHA). Cliquez sur un commit…</tspan></text><circle cx="870" cy="210" r="11" fill="#d9694a"/><text x="870" y="214.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3</text><text class="en" x="888" y="215" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">…to see what it changed. &quot;View file&quot;</tspan><tspan x="888" dy="16">shows the whole file as it was then.</tspan><tspan x="888" dy="16">&quot;Filter by File&quot; keeps the commits of</tspan><tspan x="888" dy="16">one file.</tspan></text><text class="fr" x="888" y="215" font-size="13" fill="#0b3d5c" text-anchor="start"><tspan x="888" dy="0">…pour voir ce qu&#x27;il a changé. « View file »</tspan><tspan x="888" dy="16">montre le fichier entier tel qu&#x27;il était.</tspan><tspan x="888" dy="16">« Filter by File » garde les commits</tspan><tspan x="888" dy="16">d&#x27;un seul fichier.</tspan></text>
+</svg><figcaption><span class="en">History: every commit, who made it, when, and what it changed.</span><span class="fr">History : chaque commit, qui l'a fait, quand, et ce qu'il a changé.</span></figcaption></figure>
 <div class="en">
-<p><strong>GitHub</strong> (github.com) and <strong>GitLab</strong>
-(gitlab.com, or a server of your institution) are both free for public
-and private repositories. They work the same way for what we do here;
-the main difference is the vocabulary (GitHub <em>pull request</em> =
-GitLab <em>merge request</em>) and the publishing service (Session
-A9).</p>
-<p><strong>1. Create the empty repository online</strong> (<em>New
-repository</em> / <em>New project</em>), without README (your project
-already has one).</p>
-<p><strong>2. Prove who you are.</strong> Two methods:</p>
+<ul>
+<li><strong>History</strong> (clock icon of the Git pane): one line per
+commit with its message, author, date and <strong>SHA</strong> (its
+identity code, e.g. <code>4a5c8d0</code>). Click a commit to see what it
+changed. <strong>Filter by File…</strong> keeps the commits of one file.
+<strong>View file @…</strong> opens the whole file as it was at that
+commit: copy what you need.</li>
+<li><strong>Undo changes that are not committed yet</strong>:
+right-click the file in the Git pane → <strong>Revert…</strong>. The
+file goes back to its last committed version. Careful: what you changed
+since is lost.</li>
+<li>On the website, the history is in <strong>Commits</strong> (GitHub)
+or <strong>Code → Commits</strong> (GitLab).</li>
+</ul>
 </div>
 <div class="fr">
-<p><strong>GitHub</strong> (github.com) et <strong>GitLab</strong>
-(gitlab.com, ou un serveur de votre institution) sont tous deux gratuits
-pour les dépôts publics et privés. Ils fonctionnent de la même façon
-pour ce que nous faisons ici ; la principale différence est le
-vocabulaire (GitHub <em>pull request</em> = GitLab <em>merge
-request</em>) et le service de publication (séance A9).</p>
-<p><strong>1. Créez le dépôt vide en ligne</strong> (<em>New
-repository</em> / <em>New project</em>), sans README (votre projet en a
-déjà un).</p>
-<p><strong>2. Prouvez qui vous êtes.</strong> Deux méthodes :</p>
+<ul>
+<li><strong>History</strong> (icône horloge du panneau Git) : une ligne
+par commit avec son message, son auteur, sa date et son
+<strong>SHA</strong> (son code d’identité, ex. <code>4a5c8d0</code>).
+Cliquez sur un commit pour voir ce qu’il a changé. <strong>Filter by
+File…</strong> garde les commits d’un seul fichier. <strong>View file
+@…</strong> ouvre le fichier entier tel qu’il était à ce commit : copiez
+ce dont vous avez besoin.</li>
+<li><strong>Annuler des modifications pas encore validées</strong> :
+clic droit sur le fichier dans le panneau Git →
+<strong>Revert…</strong>. Le fichier revient à sa dernière version
+validée. Attention : ce que vous avez changé depuis est perdu.</li>
+<li>Sur le site, l’historique est dans <strong>Commits</strong> (GitHub)
+ou <strong>Code → Commits</strong> (GitLab).</li>
+</ul>
 </div>
-<div class="compare">
-<div class="col base">
-<p><strong><span class="en">HTTPS + personal token (easiest)</span><span
-class="fr">HTTPS + jeton personnel (le plus simple)</span></strong></p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">create_github_token</span>()   <span class="co"># opens GitHub: create a token, copy it</span></span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>gitcreds<span class="sc">::</span><span class="fu">gitcreds_set</span>()         <span class="co"># paste it: stored safely</span></span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co"># GitLab: Preferences -&gt; Access tokens (scopes</span></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co"># read_repository + write_repository), then the same</span></span></code></pre></div>
-</div>
-<div class="col pkg">
-<p><strong><span class="en">SSH key (no token to renew)</span><span
-class="fr">Clé SSH (pas de jeton à renouveler)</span></strong></p>
-<div class="sourceCode" id="cb19"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">ssh-keygen</span> <span class="at">-t</span> ed25519 <span class="at">-C</span> <span class="st">&quot;you@example.org&quot;</span>   <span class="co"># Enter x3</span></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">cat</span> ~/.ssh/id_ed25519.pub   <span class="co"># copy this PUBLIC key into</span></span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="co"># GitHub: Settings -&gt; SSH and GPG keys -&gt; New SSH key</span></span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co"># GitLab: Preferences -&gt; SSH Keys</span></span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-T</span> git@github.com       <span class="co"># test: &quot;Hi &lt;name&gt;! ...&quot;</span></span></code></pre></div>
-</div>
-</div>
+<div class="callout try">
 <div class="en">
-<p><strong>3. Connect and push</strong> (in the Terminal of your
-project):</p>
+<p><strong>Try it.</strong> Unzip <code>reef_project_git.zip</code>. It
+has no <code>.Rproj</code> yet: <strong>File → New Project… → Existing
+Directory</strong> → choose the <code>reef-monitoring</code> folder →
+<strong>Create Project</strong>. The Git tab appears (the new
+<code>.Rproj</code> file shows as <code>?</code>). Open
+<strong>History</strong>: who changed the bleaching threshold, when, and
+from which value to which value?</p>
 </div>
 <div class="fr">
-<p><strong>3. Reliez et poussez</strong> (dans le Terminal de votre
-projet) :</p>
+<p><strong>À vous.</strong> Décompressez
+<code>reef_project_git.zip</code>. Il n’a pas encore de
+<code>.Rproj</code> : <strong>File → New Project… → Existing
+Directory</strong> → choisissez le dossier <code>reef-monitoring</code>
+→ <strong>Create Project</strong>. L’onglet Git apparaît (le nouveau
+fichier <code>.Rproj</code> s’affiche en <code>?</code>). Ouvrez
+<strong>History</strong> : qui a changé le seuil de blanchissement,
+quand, et de quelle valeur à quelle valeur ?</p>
 </div>
-<div class="sourceCode" id="cb20"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">git</span> remote add origin git@github.com:your-account/reef-monitoring.git      <span class="co"># SSH</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="co"># or: https://github.com/your-account/reef-monitoring.git                  # HTTPS</span></span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="co"># GitLab: git@gitlab.com:your-account/reef-monitoring.git</span></span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main        <span class="co"># first time; afterwards: git push</span></span></code></pre></div>
-<div class="en">
-<p>From R, <code>usethis::use_git()</code> then
-<code>usethis::use_github()</code> do steps 1 and 3 for GitHub in one go
-(with a token).</p>
 </div>
-<div class="fr">
-<p>Depuis R, <code>usethis::use_git()</code> puis
-<code>usethis::use_github()</code> font les étapes 1 et 3 pour GitHub
-d’un coup (avec un jeton).</p>
 </div>
-<div
-id="two-accounts-on-one-computer-sshdeux-comptes-sur-un-même-ordinateur-ssh"
-class="section level3">
-<h3><span class="en">Two accounts on one computer (SSH)</span><span
-class="fr">Deux comptes sur un même ordinateur (SSH)</span></h3>
-<div class="en">
-<p>With a personal and a work account, give each its own key and an
-<strong>alias</strong> in <code>~/.ssh/config</code>. The alias then
-replaces <code>github.com</code> in the address of the remote — and it
-must be <strong>exactly</strong> the alias written in the config file,
-or the push fails with <em>Could not resolve hostname</em>.</p>
-</div>
-<div class="fr">
-<p>Avec un compte personnel et un compte professionnel, donnez à chacun
-sa propre clé et un <strong>alias</strong> dans
-<code>~/.ssh/config</code>. L’alias remplace alors
-<code>github.com</code> dans l’adresse du dépôt distant — et il doit
-être <strong>exactement</strong> l’alias écrit dans le fichier config,
-sinon le push échoue avec <em>Could not resolve hostname</em>.</p>
-</div>
-<div class="sourceCode" id="cb21"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># ~/.ssh/config</span></span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="ex">Host</span> github-work</span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>    <span class="ex">HostName</span> github.com</span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>    <span class="ex">User</span> git</span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>    <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519_work</span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="ex">Host</span> github-perso</span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>    <span class="ex">HostName</span> github.com</span>
-<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>    <span class="ex">User</span> git</span>
-<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>    <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519_perso</span>
-<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a></span>
-<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a><span class="co"># test each alias, then use it in the remote address:</span></span>
-<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-T</span> git@github-work</span>
-<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a><span class="fu">git</span> remote set-url origin git@github-work:organisation/reef-monitoring.git</span>
-<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a><span class="fu">git</span> remote <span class="at">-v</span>                       <span class="co"># check which address is used</span></span></code></pre></div>
-</div>
-<div
-id="working-with-others-pull-before-you-pushtravailler-à-plusieurs-pull-avant-push"
-class="section level3">
-<h3><span class="en">Working with others: pull before you
-push</span><span class="fr">Travailler à plusieurs : pull avant
-push</span></h3>
+<div id="collaborate" class="section level2">
+<h2><span class="en">Step 11 — Working with others</span><span
+class="fr">Étape 11 — Travailler à plusieurs</span></h2>
 <div class="en">
 <ol style="list-style-type: decimal">
-<li><strong>Pull</strong> (blue arrow in RStudio) before starting to
-work: you get your colleagues’ commits.</li>
-<li>Work, commit.</li>
-<li><strong>Pull</strong> again, then <strong>push</strong> (green
-arrow). If Git refuses the push (<em>rejected — fetch first</em>),
-somebody pushed in the meantime: pull, then push.</li>
+<li><strong>Invite</strong> your colleague: GitHub → your repository →
+<em>Settings → Collaborators → Add people</em>; GitLab → <em>Manage →
+Members → Invite members</em> (role <em>Developer</em>). She clones the
+repository in RStudio (Step 6).</li>
+<li>Each of you follows the cycle <strong>Pull → work → Commit → Pull →
+Push</strong>. If you work on different files, Git merges everything
+automatically.</li>
+<li><strong>A conflict</strong> happens when you both changed
+<strong>the same lines</strong> of the same file. After your Pull,
+RStudio shows the file with status <strong>U</strong>. Open it: Git
+wrote both versions between markers:</li>
 </ol>
-<p>To start from somebody else’s project:
-<code>git clone &lt;address&gt;</code> or, in RStudio, <em>File → New
-Project → Version Control → Git</em>.</p>
 </div>
 <div class="fr">
 <ol style="list-style-type: decimal">
-<li><strong>Pull</strong> (flèche bleue dans RStudio) avant de commencer
-à travailler : vous récupérez les commits de vos collègues.</li>
-<li>Travaillez, validez.</li>
-<li><strong>Pull</strong> à nouveau, puis <strong>push</strong> (flèche
-verte). Si Git refuse le push (<em>rejected — fetch first</em>),
-quelqu’un a poussé entre-temps : pull, puis push.</li>
+<li><strong>Invitez</strong> votre collègue : GitHub → votre dépôt →
+<em>Settings → Collaborators → Add people</em> ; GitLab → <em>Manage →
+Members → Invite members</em> (rôle <em>Developer</em>). Elle clone le
+dépôt dans RStudio (étape 6).</li>
+<li>Chacun suit le cycle <strong>Pull → travail → Commit → Pull →
+Push</strong>. Si vous travaillez sur des fichiers différents, Git
+fusionne tout automatiquement.</li>
+<li><strong>Un conflit</strong> arrive quand vous avez tous deux modifié
+<strong>les mêmes lignes</strong> du même fichier. Après votre Pull,
+RStudio affiche le fichier avec le statut <strong>U</strong>. Ouvrez-le
+: Git a écrit les deux versions entre des marqueurs :</li>
 </ol>
-<p>Pour partir du projet de quelqu’un d’autre :
-<code>git clone &lt;adresse&gt;</code> ou, dans RStudio, <em>File → New
-Project → Version Control → Git</em>.</p>
 </div>
-</div>
-</div>
-<div id="branches" class="section level2">
-<h2><span class="en">Branches and conflicts</span><span
-class="fr">Branches et conflits</span></h2>
-<div class="en">
-<p>A <strong>branch</strong> lets you try something (a new indicator, a
-new figure) without disturbing the main version. If it works, you
-<strong>merge</strong> it; if not, you delete it. Here Hery changes the
-threshold on a branch while Fara changes the same line on
-<code>main</code>:</p>
-</div>
-<div class="fr">
-<p>Une <strong>branche</strong> permet d’essayer quelque chose (un
-nouvel indicateur, une nouvelle figure) sans perturber la version
-principale. Si ça marche, on la <strong>fusionne</strong>
-(<em>merge</em>) ; sinon on la supprime. Ici Hery change le seuil sur
-une branche pendant que Fara change la même ligne sur <code>main</code>
-:</p>
-</div>
-<div class="sourceCode" id="cb22"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;threshold &lt;- 30&#39;</span> <span class="op">&gt;</span> R/02_indicator.R <span class="kw">&amp;&amp;</span> <span class="fu">git</span> add . <span class="kw">&amp;&amp;</span> <span class="fu">git</span> commit <span class="at">-q</span> <span class="at">-m</span> <span class="st">&quot;Add the bleaching indicator&quot;</span></span>
-<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-q</span> <span class="at">-c</span> hery-threshold                 <span class="co"># new branch, and go on it</span></span>
-<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;threshold &lt;- 20&#39;</span> <span class="op">&gt;</span> R/02_indicator.R <span class="kw">&amp;&amp;</span> <span class="fu">git</span> commit <span class="at">-q</span> <span class="at">-am</span> <span class="st">&quot;Threshold 20 % (managers&#39; request)&quot;</span></span>
-<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-q</span> main                              <span class="co"># back on main</span></span>
-<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;threshold &lt;- 25&#39;</span> <span class="op">&gt;</span> R/02_indicator.R <span class="kw">&amp;&amp;</span> <span class="fu">git</span> commit <span class="at">-q</span> <span class="at">-am</span> <span class="st">&quot;Threshold 25 % (literature)&quot;</span></span>
-<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a><span class="fu">git</span> merge hery-threshold <span class="kw">||</span> <span class="fu">true</span>                <span class="co"># same line changed on both sides -&gt; conflict</span></span></code></pre></div>
-<pre><code>Auto-merging R/02_indicator.R
-CONFLICT (content): Merge conflict in R/02_indicator.R
-Automatic merge failed; fix conflicts and then commit the result.</code></pre>
-<div class="sourceCode" id="cb24"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="fu">cat</span> R/02_indicator.R</span></code></pre></div>
 <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-threshold &lt;- 25
+bleach_threshold &lt;- 25   # your version
 =======
-threshold &lt;- 20
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; hery-threshold</code></pre>
+bleach_threshold &lt;- 20   # the version of your colleague
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; 4a5c8d0</code></pre>
 <div class="en">
-<p>Git cannot choose between 25 and 20: it writes <strong>both</strong>
-versions between markers. You decide (talk to Hery!), edit the file to
-keep the right line and <strong>delete the markers</strong>, then add
-and commit:</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Decide together which is right, <strong>edit the file</strong> to
+keep only the right line(s), <strong>delete the three marker
+lines</strong>, save.</li>
+<li>In the Git pane: tick <strong>Staged</strong> for the file,
+<strong>Commit</strong> (RStudio proposes a “Merge…” message),
+<strong>Push</strong>.</li>
+</ol>
+<p>Conflicts are rare if you <strong>pull often</strong> and
+<strong>commit small changes</strong>.</p>
+<p><em>Going further: a</em> <strong>branch</strong> <em>(Git pane →
+“New Branch” button) lets you try something without touching the main
+version; you then merge it on the website with a</em> Pull request
+<em>(GitHub) or</em> Merge request <em>(GitLab). Useful in teams, not
+needed for your own projects.</em></p>
 </div>
 <div class="fr">
-<p>Git ne peut pas choisir entre 25 et 20 : il écrit <strong>les
-deux</strong> versions entre des marqueurs. C’est vous qui décidez
-(parlez avec Hery !), modifiez le fichier pour garder la bonne ligne et
-<strong>supprimez les marqueurs</strong>, puis indexez et validez :</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Décidez ensemble laquelle est juste, <strong>modifiez le
+fichier</strong> pour ne garder que la ou les bonnes lignes,
+<strong>supprimez les trois lignes de marqueurs</strong>,
+enregistrez.</li>
+<li>Dans le panneau Git : cochez <strong>Staged</strong> pour le
+fichier, <strong>Commit</strong> (RStudio propose un message « Merge…
+»), <strong>Push</strong>.</li>
+</ol>
+<p>Les conflits sont rares si vous <strong>faites souvent Pull</strong>
+et <strong>validez de petites modifications</strong>.</p>
+<p><em>Pour aller plus loin : une</em> <strong>branche</strong>
+<em>(panneau Git → bouton « New Branch ») permet d’essayer quelque chose
+sans toucher la version principale ; on la fusionne ensuite sur le site
+avec une</em> Pull request <em>(GitHub) ou une</em> Merge request
+<em>(GitLab). Utile en équipe, pas nécessaire pour vos propres
+projets.</em></p>
 </div>
-<div class="sourceCode" id="cb26"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$DEMO</span><span class="st">&quot;</span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;threshold &lt;- 20   # agreed with the MPA managers, 2025-06-04&#39;</span> <span class="op">&gt;</span> R/02_indicator.R</span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a><span class="fu">git</span> add R/02_indicator.R <span class="kw">&amp;&amp;</span> <span class="fu">git</span> commit <span class="at">-q</span> <span class="at">-m</span> <span class="st">&quot;Merge hery-threshold: keep 20 %&quot;</span></span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">--graph</span></span></code></pre></div>
-<pre><code>*   fde48cf Merge hery-threshold: keep 20 %
-|\  
-| * c862be0 Threshold 20 % (managers&#39; request)
-* | b73c1f8 Threshold 25 % (literature)
-|/  
-* 0264722 Add the bleaching indicator
-* 90ecbee Import the sites table
-* 246537b Start the project: README and import script</code></pre>
 </div>
 <div id="application" class="section level2">
 <h2><span class="en">Application work &amp; quiz</span><span
@@ -1171,79 +1801,114 @@ class="fr">Travail d’application et quiz</span></h2>
 <div class="application">
 <div id="application-work-a2" class="section level3 en">
 <h3>Application work A2</h3>
-<p><strong>Part A — explore</strong> (unzip
-<code>reef_project_git.zip</code>; Terminal or RStudio History):</p>
+<p><strong>Part A — your project, with RStudio only:</strong></p>
 <ol style="list-style-type: decimal">
+<li>Install and configure Git (Steps 1–3). Create a GitHub
+<strong>or</strong> GitLab account (Step 4).</li>
+<li>Create a <strong>private</strong> repository
+<code>reef-monitoring</code> (Step 5) and clone it in RStudio (Step
+6).</li>
+<li>Copy in it the folders and files of your Session A0–A1 project. Add
+a <code>.gitignore</code> (Step 9). <strong>Commit</strong> in two or
+three logical commits (e.g. “Add raw data and README”, “Add the analysis
+scripts”), then <strong>Push</strong>. Check on the website.</li>
+<li>Change the README directly on the website (pencil icon → <em>Commit
+changes</em>), then <strong>Pull</strong> in RStudio: the change
+arrives.</li>
+</ol>
+<p><strong>Part B — read a history</strong> (the NGO project of the
+<em>Try it</em> box, in RStudio’s History):</p>
+<ol start="5" style="list-style-type: decimal">
 <li>How many commits does the project have?</li>
 <li>Who made the <strong>last</strong> change to
-<code>R/03_bleaching.R</code>?</li>
+<code>R/03_bleaching.R</code>? How many commits changed this file
+(<em>Filter by File</em>)?</li>
 <li>What was the value of <code>bleach_threshold</code> when the file
 was <strong>first</strong> committed?</li>
-<li>Short hash (7 characters) of the commit that <strong>added</strong>
+<li>SHA (7 characters) of the commit that <strong>added</strong>
 <code>R/02_clean.R</code>.</li>
-<li>How many files does Git follow (<code>git ls-files</code>)?</li>
 </ol>
-<p><strong>Part B — your project:</strong> in your
-<code>reef-monitoring</code> project (Sessions A0–A1), add a
-<code>.gitignore</code>, make your first commit, create a
-<strong>private</strong> repository on GitHub <strong>or</strong>
-GitLab, connect it and push. Then change the README online (pencil
-icon), and <strong>pull</strong> it into RStudio.</p>
 </div>
 <div id="travail-dapplication-a2" class="section level3 fr">
 <h3>Travail d’application A2</h3>
-<p><strong>Partie A — explorer</strong> (décompressez
-<code>reef_project_git.zip</code> ; Terminal ou History de RStudio)
-:</p>
+<p><strong>Partie A — votre projet, avec RStudio seulement
+:</strong></p>
 <ol style="list-style-type: decimal">
+<li>Installez et configurez Git (étapes 1–3). Créez un compte GitHub
+<strong>ou</strong> GitLab (étape 4).</li>
+<li>Créez un dépôt <strong>privé</strong> <code>reef-monitoring</code>
+(étape 5) et clonez-le dans RStudio (étape 6).</li>
+<li>Copiez-y les dossiers et fichiers de votre projet des séances A0–A1.
+Ajoutez un <code>.gitignore</code> (étape 9). <strong>Validez</strong>
+en deux ou trois commits logiques (ex. « Ajoute les données brutes et le
+README », « Ajoute les scripts d’analyse »), puis <strong>Push</strong>.
+Vérifiez sur le site.</li>
+<li>Modifiez le README directement sur le site (icône crayon →
+<em>Commit changes</em>), puis faites <strong>Pull</strong> dans RStudio
+: la modification arrive.</li>
+</ol>
+<p><strong>Partie B — lire un historique</strong> (le projet de l’ONG de
+l’encadré <em>À vous</em>, dans l’History de RStudio) :</p>
+<ol start="5" style="list-style-type: decimal">
 <li>Combien de commits compte le projet ?</li>
 <li>Qui a fait la <strong>dernière</strong> modification de
-<code>R/03_bleaching.R</code> ?</li>
+<code>R/03_bleaching.R</code> ? Combien de commits ont modifié ce
+fichier (<em>Filter by File</em>) ?</li>
 <li>Quelle était la valeur de <code>bleach_threshold</code> lors du
 <strong>premier</strong> commit de ce fichier ?</li>
-<li>Hash court (7 caractères) du commit qui a <strong>ajouté</strong>
+<li>SHA (7 caractères) du commit qui a <strong>ajouté</strong>
 <code>R/02_clean.R</code>.</li>
-<li>Combien de fichiers Git suit-il (<code>git ls-files</code>) ?</li>
 </ol>
-<p><strong>Partie B — votre projet :</strong> dans votre projet
-<code>reef-monitoring</code> (séances A0–A1), ajoutez un
-<code>.gitignore</code>, faites votre premier commit, créez un dépôt
-<strong>privé</strong> sur GitHub <strong>ou</strong> GitLab, reliez-le
-et poussez. Modifiez ensuite le README en ligne (icône crayon), et
-récupérez-le (<strong>pull</strong>) dans RStudio.</p>
 </div>
 </div>
 <div class="hint">
 <div class="en">
-<p><code>git log --oneline -- R/03_bleaching.R</code> lists the commits
-of one file, newest first: the <strong>last</strong> line is the first
-commit. <code>git show &lt;hash&gt;:R/03_bleaching.R</code> prints the
-file at that commit.
-<code>git log --diff-filter=A -- R/02_clean.R</code> shows the commit
-that <strong>A</strong>dded the file.</p>
+<p>In History, choose <strong>Filter by File…</strong> →
+<code>R/03_bleaching.R</code>: only its commits remain, the newest at
+the top. Click the <strong>bottom</strong> one (the first) →
+<strong>View file @…</strong> to read the file as it was. The SHA is in
+the last column of the list.</p>
 </div>
 <div class="fr">
-<p><code>git log --oneline -- R/03_bleaching.R</code> liste les commits
-d’un fichier, du plus récent au plus ancien : la
-<strong>dernière</strong> ligne est le premier commit.
-<code>git show &lt;hash&gt;:R/03_bleaching.R</code> affiche le fichier à
-ce commit. <code>git log --diff-filter=A -- R/02_clean.R</code> montre
-le commit qui a <strong>A</strong>jouté le fichier.</p>
+<p>Dans History, choisissez <strong>Filter by File…</strong> →
+<code>R/03_bleaching.R</code> : seuls ses commits restent, le plus
+récent en haut. Cliquez sur celui du <strong>bas</strong> (le premier) →
+<strong>View file @…</strong> pour lire le fichier tel qu’il était. Le
+SHA est dans la dernière colonne de la liste.</p>
 </div>
 </div>
 <div id="quiz-a02" class="quiz" data-quiz-id="a02"
-data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIGNvbW1pdHM/IiwiZnIiOiIxLiBOb21icmUgZGUgY29tbWl0cyA/IiwiYW5zd2VyIjo2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMi4gQXV0aG9yIG9mIHRoZSBsYXN0IGNoYW5nZSB0byBSLzAzX2JsZWFjaGluZy5SIChmaXJzdCBhbmQgbGFzdCBuYW1lKT8iLCJmciI6IjIuIEF1dGV1ciBkZSBsYSBkZXJuacOocmUgbW9kaWZpY2F0aW9uIGRlIFIvMDNfYmxlYWNoaW5nLlIgKHByw6lub20gZXQgbm9tKSA/IiwiYW5zd2VyIjpbIkhlcnkgTmlyaW5hIl19LHsidHlwZSI6Im51bSIsImVuIjoiMy4gRmlyc3QgdmFsdWUgb2YgYmxlYWNoX3RocmVzaG9sZD8iLCJmciI6IjMuIFByZW1pw6hyZSB2YWxldXIgZGUgYmxlYWNoX3RocmVzaG9sZCA/IiwiYW5zd2VyIjozMCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjQuIFNob3J0IGhhc2ggb2YgdGhlIGNvbW1pdCB0aGF0IGFkZGVkIFIvMDJfY2xlYW4uUj8iLCJmciI6IjQuIEhhc2ggY291cnQgZHUgY29tbWl0IHF1aSBhIGFqb3V0w6kgUi8wMl9jbGVhbi5SID8iLCJhbnN3ZXIiOlsiMDZkMGUyYiJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIE51bWJlciBvZiBmaWxlcyBmb2xsb3dlZCBieSBHaXQ/IiwiZnIiOiI1LiBOb21icmUgZGUgZmljaGllcnMgc3VpdmlzIHBhciBHaXQgPyIsImFuc3dlciI6NiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gV2hpY2ggZmlsZSBzaG91bGQgYmUgaW4gLmdpdGlnbm9yZT8iLCJmciI6IjYuIFF1ZWwgZmljaGllciBkb2l0IMOqdHJlIGRhbnMgLmdpdGlnbm9yZSA/Iiwib3B0aW9uc19lbiI6WyJSLzAxX2ltcG9ydC5SIiwiUkVBRE1FLm1kIiwicmVudi9saWJyYXJ5LyIsInJlbnYubG9jayJdLCJvcHRpb25zX2ZyIjpbIlIvMDFfaW1wb3J0LlIiLCJSRUFETUUubWQiLCJyZW52L2xpYnJhcnkvIiwicmVudi5sb2NrIl0sImFuc3dlciI6Mn0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBnaXQgcHVzaCBpcyByZWplY3RlZCB3aXRoIFwiZmV0Y2ggZmlyc3RcIi4gV2hhdCBkbyB5b3UgZG8/IiwiZnIiOiI3LiBnaXQgcHVzaCBlc3QgcmVmdXPDqSBhdmVjIMKrIGZldGNoIGZpcnN0IMK7LiBRdWUgZmFpdGVzLXZvdXMgPyIsIm9wdGlvbnNfZW4iOlsiRGVsZXRlIHRoZSByZW1vdGUgcmVwb3NpdG9yeSIsIlB1bGwgZmlyc3QsIHRoZW4gcHVzaCIsIlVzZSBnaXQgcHVzaCAtLWZvcmNlIiwiQ29tbWl0IGFnYWluIl0sIm9wdGlvbnNfZnIiOlsiU3VwcHJpbWVyIGxlIGTDqXDDtHQgZGlzdGFudCIsIkZhaXJlIHVuIHB1bGwgZCdhYm9yZCwgcHVpcyBwdXNoIiwiVXRpbGlzZXIgZ2l0IHB1c2ggLS1mb3JjZSIsIlJlZmFpcmUgdW4gY29tbWl0Il0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBBIHN1cnZleSBmaWxlIGNvbnRhaW5zIHRoZSBuYW1lcyBhbmQgcGhvbmUgbnVtYmVycyBvZiBob3VzZWhvbGRzLiBPbiBhIHB1YmxpYyBHaXRIdWIgcmVwb3NpdG9yeSB5b3U6IiwiZnIiOiI4LiBVbiBmaWNoaWVyIGQnZW5xdcOqdGUgY29udGllbnQgbGVzIG5vbXMgZXQgdMOpbMOpcGhvbmVzIGRlcyBtw6luYWdlcy4gU3VyIHVuIGTDqXDDtHQgR2l0SHViIHB1YmxpYyB2b3VzIDoiLCJvcHRpb25zX2VuIjpbImtlZXAgaXQgb3V0IG9mIHRoZSByZXBvc2l0b3J5ICguZ2l0aWdub3JlKSBhbmQgc2hhcmUgYW4gYW5vbnltaXNlZCB2ZXJzaW9uIiwiY29tbWl0IGl0OiBHaXQgaXMgYSBiYWNrdXAiLCJjb21taXQgaXQgaW4gYSBwcml2YXRlIGJyYW5jaCIsInppcCBpdCBiZWZvcmUgY29tbWl0dGluZyJdLCJvcHRpb25zX2ZyIjpbImxlIGdhcmRleiBob3JzIGR1IGTDqXDDtHQgKC5naXRpZ25vcmUpIGV0IHBhcnRhZ2V6IHVuZSB2ZXJzaW9uIGFub255bWlzw6llIiwibGUgdmFsaWRleiA6IEdpdCBlc3QgdW5lIHNhdXZlZ2FyZGUiLCJsZSB2YWxpZGV6IHN1ciB1bmUgYnJhbmNoZSBwcml2w6llIiwibGUgemlwcGV6IGF2YW50IGRlIGxlIHZhbGlkZXIiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIEFmdGVyIGEgbWVyZ2UgY29uZmxpY3QsIHRoZSBmaWxlIGNvbnRhaW5zIDw8PDw8PDwsID09PT09PT0gYW5kID4+Pj4+Pj4uIFlvdSBtdXN0OiIsImZyIjoiOS4gQXByw6hzIHVuIGNvbmZsaXQgZGUgZnVzaW9uLCBsZSBmaWNoaWVyIGNvbnRpZW50IDw8PDw8PDwsID09PT09PT0gZXQgPj4+Pj4+Pi4gVm91cyBkZXZleiA6Iiwib3B0aW9uc19lbiI6WyJydW4gZ2l0IG1lcmdlIGFnYWluIiwiZGVsZXRlIHRoZSBmaWxlIiwia2VlcCB0aGUgcmlnaHQgbGluZXMsIGRlbGV0ZSB0aGUgbWFya2VycywgdGhlbiBhZGQgYW5kIGNvbW1pdCIsInB1c2ggaW1tZWRpYXRlbHkiXSwib3B0aW9uc19mciI6WyJyZWxhbmNlciBnaXQgbWVyZ2UiLCJzdXBwcmltZXIgbGUgZmljaGllciIsImdhcmRlciBsZXMgYm9ubmVzIGxpZ25lcywgc3VwcHJpbWVyIGxlcyBtYXJxdWV1cnMsIHB1aXMgYWRkIGV0IGNvbW1pdCIsInBvdXNzZXIgaW1tw6lkaWF0ZW1lbnQiXSwiYW5zd2VyIjoyfV0=">
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiNS4gTnVtYmVyIG9mIGNvbW1pdHM/IiwiZnIiOiI1LiBOb21icmUgZGUgY29tbWl0cyA/IiwiYW5zd2VyIjo2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiNmEuIEF1dGhvciBvZiB0aGUgbGFzdCBjaGFuZ2UgdG8gUi8wM19ibGVhY2hpbmcuUiAoZmlyc3QgYW5kIGxhc3QgbmFtZSk/IiwiZnIiOiI2YS4gQXV0ZXVyIGRlIGxhIGRlcm5pw6hyZSBtb2RpZmljYXRpb24gZGUgUi8wM19ibGVhY2hpbmcuUiAocHLDqW5vbSBldCBub20pID8iLCJhbnN3ZXIiOlsiSGVyeSBOaXJpbmEiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI2Yi4gTnVtYmVyIG9mIGNvbW1pdHMgdGhhdCBjaGFuZ2VkIFIvMDNfYmxlYWNoaW5nLlI/IiwiZnIiOiI2Yi4gTm9tYnJlIGRlIGNvbW1pdHMgYXlhbnQgbW9kaWZpw6kgUi8wM19ibGVhY2hpbmcuUiA/IiwiYW5zd2VyIjoyLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI3LiBGaXJzdCB2YWx1ZSBvZiBibGVhY2hfdGhyZXNob2xkPyIsImZyIjoiNy4gUHJlbWnDqHJlIHZhbGV1ciBkZSBibGVhY2hfdGhyZXNob2xkID8iLCJhbnN3ZXIiOjMwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiOC4gU0hBIG9mIHRoZSBjb21taXQgdGhhdCBhZGRlZCBSLzAyX2NsZWFuLlI/IiwiZnIiOiI4LiBTSEEgZHUgY29tbWl0IHF1aSBhIGFqb3V0w6kgUi8wMl9jbGVhbi5SID8iLCJhbnN3ZXIiOlsiMDZkMGUyYiJdfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIFlvdSBjbGlja2VkIENvbW1pdC4gV2hlcmUgYXJlIHlvdXIgY2hhbmdlcyBub3c/IiwiZnIiOiI5LiBWb3VzIGF2ZXogY2xpcXXDqSBzdXIgQ29tbWl0LiBPw7kgc29udCB2b3MgbW9kaWZpY2F0aW9ucyBtYWludGVuYW50ID8iLCJvcHRpb25zX2VuIjpbIk9uIEdpdEh1YiAvIEdpdExhYiIsIlNhdmVkIG9uIHlvdXIgY29tcHV0ZXIgb25seSwgdW50aWwgeW91IFB1c2giLCJTZW50IGJ5IGUtbWFpbCB0byB5b3VyIGNvbGxlYWd1ZXMiLCJOb3doZXJlOiB5b3UgbXVzdCBQdWxsIGZpcnN0Il0sIm9wdGlvbnNfZnIiOlsiU3VyIEdpdEh1YiAvIEdpdExhYiIsIkVucmVnaXN0csOpZXMgc3VyIHZvdHJlIG9yZGluYXRldXIgc2V1bGVtZW50LCBqdXNxdSdhdSBQdXNoIiwiRW52b3nDqWVzIHBhciBlLW1haWwgw6Agdm9zIGNvbGzDqGd1ZXMiLCJOdWxsZSBwYXJ0IDogaWwgZmF1dCBkJ2Fib3JkIFB1bGwiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjEwLiBJbiB0aGUgR2l0IHBhbmUgYSBmaWxlIGhhcyB0aGUgc3RhdHVzIFwiP1wiLiBJdCBtZWFuczoiLCJmciI6IjEwLiBEYW5zIGxlIHBhbm5lYXUgR2l0IHVuIGZpY2hpZXIgYSBsZSBzdGF0dXQgwqsgPyDCuy4gQ2VsYSBzaWduaWZpZSA6Iiwib3B0aW9uc19lbiI6WyJBIG5ldyBmaWxlIHRoYXQgR2l0IGRvZXMgbm90IGZvbGxvdyB5ZXQiLCJUaGUgZmlsZSBoYXMgYW4gZXJyb3IiLCJBIGZpbGUgZGVsZXRlZCBieSBhIGNvbGxlYWd1ZSIsIkEgY29uZmxpY3QiXSwib3B0aW9uc19mciI6WyJVbiBub3V2ZWF1IGZpY2hpZXIgcXVlIEdpdCBuZSBzdWl0IHBhcyBlbmNvcmUiLCJMZSBmaWNoaWVyIGNvbnRpZW50IHVuZSBlcnJldXIiLCJVbiBmaWNoaWVyIHN1cHByaW3DqSBwYXIgdW4gY29sbMOoZ3VlIiwiVW4gY29uZmxpdCJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiMTEuIFlvdSBvcGVuIHlvdXIgcHJvamVjdCBpbiB0aGUgbW9ybmluZyB0byBjb250aW51ZSB0aGUgYW5hbHlzaXMgd2l0aCBhIGNvbGxlYWd1ZS4gRmlyc3QgeW91OiIsImZyIjoiMTEuIFZvdXMgb3V2cmV6IHZvdHJlIHByb2pldCBsZSBtYXRpbiBwb3VyIGNvbnRpbnVlciBsJ2FuYWx5c2UgYXZlYyB1bmUgY29sbMOoZ3VlLiBEJ2Fib3JkIHZvdXMgOiIsIm9wdGlvbnNfZW4iOlsiUHVzaCIsIkNvbW1pdCIsIlB1bGwiLCJkZWxldGUgdGhlIC5naXRpZ25vcmUiXSwib3B0aW9uc19mciI6WyJmYWl0ZXMgUHVzaCIsImZhaXRlcyBDb21taXQiLCJmYWl0ZXMgUHVsbCIsInN1cHByaW1leiBsZSAuZ2l0aWdub3JlIl0sImFuc3dlciI6Mn0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMi4gUHVzaCBpcyByZWplY3RlZDogXCJVcGRhdGVzIHdlcmUgcmVqZWN0ZWTigKYgZmV0Y2ggZmlyc3RcIi4gWW91OiIsImZyIjoiMTIuIExlIFB1c2ggZXN0IHJlamV0w6kgOiDCqyBVcGRhdGVzIHdlcmUgcmVqZWN0ZWTigKYgZmV0Y2ggZmlyc3QgwrsuIFZvdXMgOiIsIm9wdGlvbnNfZW4iOlsiZGVsZXRlIHRoZSByZXBvc2l0b3J5IGFuZCBzdGFydCBhZ2FpbiIsImNsaWNrIFB1bGwsIHRoZW4gUHVzaCBhZ2FpbiIsIkNvbW1pdCBhZ2FpbiB0aGUgc2FtZSBmaWxlcyIsInJlbmFtZSB0aGUgcHJvamVjdCJdLCJvcHRpb25zX2ZyIjpbInN1cHByaW1leiBsZSBkw6lww7R0IGV0IHJlY29tbWVuY2V6IiwiY2xpcXVleiBzdXIgUHVsbCwgcHVpcyDDoCBub3V2ZWF1IFB1c2giLCJ2YWxpZGV6IMOgIG5vdXZlYXUgbGVzIG3Dqm1lcyBmaWNoaWVycyIsInJlbm9tbWV6IGxlIHByb2pldCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiMTMuIFdoaWNoIGZpbGUgbXVzdCBiZSBpbiAuZ2l0aWdub3JlPyIsImZyIjoiMTMuIFF1ZWwgZmljaGllciBkb2l0IMOqdHJlIGRhbnMgLmdpdGlnbm9yZSA/Iiwib3B0aW9uc19lbiI6WyJSLzAyX2NsZWFuLlIiLCJSRUFETUUubWQiLCJyZW52LmxvY2siLCJhIENTViB3aXRoIHRoZSBuYW1lcyBhbmQgcGhvbmUgbnVtYmVycyBvZiBpbnRlcnZpZXdlZCBob3VzZWhvbGRzIl0sIm9wdGlvbnNfZnIiOlsiUi8wMl9jbGVhbi5SIiwiUkVBRE1FLm1kIiwicmVudi5sb2NrIiwidW4gQ1NWIGF2ZWMgbGVzIG5vbXMgZXQgdMOpbMOpcGhvbmVzIGRlcyBtw6luYWdlcyBlbnF1w6p0w6lzIl0sImFuc3dlciI6M31d">
 
 </div>
 <div class="solution" data-quiz="a02">
-<div class="sourceCode" id="cb28"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="bu">cd</span> reef-monitoring</span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>                               <span class="co"># 1: 6 commits</span></span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a><span class="fu">git</span> log <span class="at">-1</span> <span class="at">--format</span><span class="op">=</span><span class="st">&quot;%an&quot;</span> <span class="at">--</span> R/03_bleaching.R           <span class="co"># 2: Hery Nirina</span></span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">--</span> R/03_bleaching.R                   <span class="co"># the last line = first commit (8c390f6)</span></span>
-<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a><span class="fu">git</span> show 8c390f6:R/03_bleaching.R                       <span class="co"># 3: bleach_threshold &lt;- 30</span></span>
-<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">--diff-filter</span><span class="op">=</span>A <span class="at">--</span> R/02_clean.R       <span class="co"># 4: 06d0e2b</span></span>
-<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>                                    <span class="co"># 5: 6 files</span></span></code></pre></div>
+<div class="en">
+<p><strong>Part B, in RStudio</strong> (Git pane → History): 6 commits
+in the list; <em>Filter by File</em> → <code>R/03_bleaching.R</code>
+keeps 2 commits, the newest by <strong>Hery Nirina</strong>
+(<code>4a5c8d0</code>, “Lower the bleaching threshold to 20 %”); click
+the bottom one (<code>8c390f6</code>) → <em>View file</em>:
+<code>bleach_threshold &lt;- 30</code>; <em>Filter by File</em> →
+<code>R/02_clean.R</code>: the commit “Add the cleaning script” is
+<code>06d0e2b</code>.</p>
+<p><strong>Part A:</strong> your repository online shows your files,
+your commit messages and, after step 4, the README change also appears
+in RStudio after <strong>Pull</strong>.</p>
+</div>
+<div class="fr">
+<p><strong>Partie B, dans RStudio</strong> (panneau Git → History) : 6
+commits dans la liste ; <em>Filter by File</em> →
+<code>R/03_bleaching.R</code> garde 2 commits, le plus récent par
+<strong>Hery Nirina</strong> (<code>4a5c8d0</code>, « Lower the
+bleaching threshold to 20 % ») ; cliquez sur celui du bas
+(<code>8c390f6</code>) → <em>View file</em> :
+<code>bleach_threshold &lt;- 30</code> ; <em>Filter by File</em> →
+<code>R/02_clean.R</code> : le commit « Add the cleaning script » est
+<code>06d0e2b</code>.</p>
+<p><strong>Partie A :</strong> votre dépôt en ligne montre vos fichiers,
+vos messages de commit et, après l’étape 4, la modification du README
+apparaît aussi dans RStudio après <strong>Pull</strong>.</p>
+</div>
 </div>
 </div>
 

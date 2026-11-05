@@ -16,7 +16,7 @@ window.COURSE_CONFIG = {
   author: "Aroo Falinirina",
 
   // Course version shown in the footer (describe changes in whats-new.Rmd)
-  version: "4.0", versionDate: "2026-11",
+  version: "4.4", versionDate: "2026-11",
 
   // Default language for a first visit: "en" or "fr"
   defaultLang: "fr",
@@ -27,7 +27,7 @@ window.COURSE_CONFIG = {
 
   // Google Apps Script web-app URL. Empty "" = DEMO MODE (accounts below,
   // progress saved only in the browser).
-  scriptUrl: "https://script.google.com/macros/s/AKfycbx8SoconujJoMp6-6jlo33EUmO6VdGNnSV9oQL_PWsFpqRir3jUbSxzZB4eKgKYCayh/exec",
+  scriptUrl: "https://script.google.com/macros/s/AKfycby8yxnrz1WL1btgTNRBQQ8nCjBu9DdIYQRAee3TzIvYSilO28HnVCEWBpckwNHvx4qP/exec",
 
   // DEMO MODE only (real accounts are in the Google Sheet, never here: this file is public)
   demoUsers: [

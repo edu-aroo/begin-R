@@ -665,14 +665,205 @@ que vous savez des data frames et de dplyr fonctionne encore.</p>
 <pre><code>#&gt; [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">st_geometry_type</span>(zones, <span class="at">by_geometry =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] MULTIPOLYGON
-#&gt; 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT MULTILINESTRING MULTIPOLYGON ... TRIANGLE</code></pre>
+#&gt; 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT MULTILINESTRING ... TRIANGLE</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_layers(dsn)</code></td>
+<td>lists the layers of a GeoPackage (name, geometry type, number of
+features)</td>
+<td>path of the file (<code>dsn</code> = <em>data source name</em>)</td>
+</tr>
+<tr class="even">
+<td><code>st_read(dsn, layer, quiet)</code></td>
+<td>reads one layer as an <strong>sf</strong> object (a data frame + a
+geometry column)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>layer</code></td>
+<td>which layer of the file (needed when there are several)</td>
+<td>the layer name in quotes</td>
+</tr>
+<tr class="even">
+<td>  <code>quiet</code></td>
+<td><code>TRUE</code> hides the reading summary</td>
+<td><code>TRUE</code> / <code>FALSE</code> (default)</td>
+</tr>
+<tr class="odd">
+<td><code>st_geometry_type(x, by_geometry)</code></td>
+<td>POINT, LINESTRING, POLYGON, MULTIPOLYGON…;
+<code>by_geometry = FALSE</code> = one answer for the whole layer</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_layers(dsn)</code></td>
+<td>liste les couches d’un GeoPackage (nom, type de géométrie, nombre
+d’entités)</td>
+<td>chemin du fichier (<code>dsn</code> = <em>data source
+name</em>)</td>
+</tr>
+<tr class="even">
+<td><code>st_read(dsn, layer, quiet)</code></td>
+<td>lit une couche sous forme d’objet <strong>sf</strong> (un data frame
++ une colonne de géométrie)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>layer</code></td>
+<td>quelle couche du fichier (nécessaire quand il y en a plusieurs)</td>
+<td>le nom de la couche entre guillemets</td>
+</tr>
+<tr class="even">
+<td>  <code>quiet</code></td>
+<td><code>TRUE</code> cache le résumé de lecture</td>
+<td><code>TRUE</code> / <code>FALSE</code> (défaut)</td>
+</tr>
+<tr class="odd">
+<td><code>st_geometry_type(x, by_geometry)</code></td>
+<td>POINT, LINESTRING, POLYGON, MULTIPOLYGON… ;
+<code>by_geometry = FALSE</code> = une seule réponse pour toute la
+couche</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>land  <span class="ot">&lt;-</span> <span class="fu">st_read</span>(gpkg, <span class="at">layer =</span> <span class="st">&quot;land&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">st_read</span>(gpkg, <span class="at">layer =</span> <span class="st">&quot;reef_sites&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(land), <span class="at">col =</span> <span class="st">&quot;#efe6d2&quot;</span>, <span class="at">border =</span> <span class="st">&quot;grey60&quot;</span>, <span class="at">axes =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">st_bbox</span>(zones)[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)], <span class="at">ylim =</span> <span class="fu">st_bbox</span>(zones)[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)])</span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(zones), <span class="at">col =</span> <span class="fu">ifelse</span>(zones<span class="sc">$</span>zone <span class="sc">==</span> <span class="st">&quot;No-take&quot;</span>, <span class="st">&quot;#1b7f8c55&quot;</span>, <span class="st">&quot;#d9694a33&quot;</span>), <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(sites), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.7</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="a05-sf_files/figure-html/unnamed-chunk-2-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="a05-sf_files/figure-html/unnamed-chunk-3-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_geometry(x)</code></td>
+<td>only the geometry column (otherwise <code>plot()</code> draws one
+map per attribute)</td>
+<td>an sf object</td>
+</tr>
+<tr class="even">
+<td><code>st_bbox(x)</code></td>
+<td>the bounding box: <code>xmin</code>, <code>ymin</code>,
+<code>xmax</code>, <code>ymax</code>; <code>[c(1, 3)]</code> = the x
+limits</td>
+<td>an sf object</td>
+</tr>
+<tr class="odd">
+<td><code>plot(..., col, border, axes, add)</code></td>
+<td>base R plot (Beginner Session 7); <code>axes = TRUE</code> draws the
+coordinates; <code>add = TRUE</code> draws <strong>on</strong> the
+previous map</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>"#1b7f8c55"</code></td>
+<td>a hex colour with 2 more characters = transparency (<code>00</code>
+invisible, <code>ff</code> opaque)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_geometry(x)</code></td>
+<td>seulement la colonne de géométrie (sinon <code>plot()</code> dessine
+une carte par attribut)</td>
+<td>un objet sf</td>
+</tr>
+<tr class="even">
+<td><code>st_bbox(x)</code></td>
+<td>le rectangle englobant : <code>xmin</code>, <code>ymin</code>,
+<code>xmax</code>, <code>ymax</code> ; <code>[c(1, 3)]</code> = les
+limites en x</td>
+<td>un objet sf</td>
+</tr>
+<tr class="odd">
+<td><code>plot(..., col, border, axes, add)</code></td>
+<td>graphique de R de base (séance 7 du niveau débutant) ;
+<code>axes = TRUE</code> dessine les coordonnées ;
+<code>add = TRUE</code> dessine <strong>sur</strong> la carte
+précédente</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>"#1b7f8c55"</code></td>
+<td>une couleur hexadécimale avec 2 caractères de plus = transparence
+(<code>00</code> invisible, <code>ff</code> opaque)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p><code>plot(st_geometry(x))</code> is the quickest look. Without
 <code>st_geometry()</code>, <code>plot(zones)</code> draws one small map
@@ -802,6 +993,93 @@ par fichier. N’envoyez jamais le <code>.shp</code> seul !</td>
 #&gt; 8     M108   Ankarabe  Ankaramena harvested  2025-05-12 POINT (43.61879 -22.63657)
 #&gt; 9     M201 Ambalakely Nosy Fasika reference  2025-05-11 POINT (43.64482 -22.83314)
 #&gt; 10    M202 Ambalakely Nosy Fasika reference  2025-05-22  POINT (43.64791 -22.8404)</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_read("…/villages.shp")</code></td>
+<td>a shapefile is read through its <code>.shp</code>; the
+<code>.dbf</code>, <code>.shx</code>, <code>.prj</code> must be in the
+same folder</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>st_as_sf(x, coords, crs)</code></td>
+<td>table with coordinate columns → sf points (Intermediate I11)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>coords</code></td>
+<td>x then y: <strong>longitude first</strong></td>
+<td><code>c("lon", "lat")</code></td>
+</tr>
+<tr class="even">
+<td>  <code>crs</code></td>
+<td>the coordinate system <strong>in which the numbers are
+written</strong> (it does not convert)</td>
+<td>an EPSG code, e.g. 4326</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_read("…/villages.shp")</code></td>
+<td>un shapefile se lit par son <code>.shp</code> ; les
+<code>.dbf</code>, <code>.shx</code>, <code>.prj</code> doivent être
+dans le même dossier</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>st_as_sf(x, coords, crs)</code></td>
+<td>tableau avec colonnes de coordonnées → points sf (intermédiaire
+I11)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>  <code>coords</code></td>
+<td>x puis y : <strong>longitude d’abord</strong></td>
+<td><code>c("lon", "lat")</code></td>
+</tr>
+<tr class="even">
+<td>  <code>crs</code></td>
+<td>le système de coordonnées <strong>dans lequel les nombres sont
+écrits</strong> (il ne convertit pas)</td>
+<td>un code EPSG, ex. 4326</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="crs" class="section level2">
 <h2><span class="en">Coordinate reference systems</span><span
@@ -852,6 +1130,92 @@ dans le <strong>même SCR</strong> avant d’être combinées :
 <pre><code>#&gt;             X       Y
 #&gt; [1,] 357946.1 7496856
 #&gt; [2,] 361888.9 7490515</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_crs(x)</code></td>
+<td>the CRS of a layer; <code>$epsg</code> = its EPSG code,
+<code>$units</code> = its unit</td>
+<td>an sf object</td>
+</tr>
+<tr class="even">
+<td><code>st_transform(x, crs)</code></td>
+<td><strong>converts</strong> the coordinates into another CRS</td>
+<td>a layer; an EPSG code or <code>st_crs(other_layer)</code></td>
+</tr>
+<tr class="odd">
+<td><code>st_coordinates(x)</code></td>
+<td>a matrix of the coordinates (<code>X</code>, <code>Y</code>)</td>
+<td>an sf object</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_crs(x)</code></td>
+<td>le SCR d’une couche ; <code>$epsg</code> = son code EPSG,
+<code>$units</code> = son unité</td>
+<td>un objet sf</td>
+</tr>
+<tr class="even">
+<td><code>st_transform(x, crs)</code></td>
+<td><strong>convertit</strong> les coordonnées dans un autre SCR</td>
+<td>une couche ; un code EPSG ou <code>st_crs(autre_couche)</code></td>
+</tr>
+<tr class="odd">
+<td><code>st_coordinates(x)</code></td>
+<td>une matrice des coordonnées (<code>X</code>, <code>Y</code>)</td>
+<td>un objet sf</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p>Two arguments with the same name, two different jobs:
+<code>crs</code> in <code>st_as_sf()</code> <strong>declares</strong>
+the system of the numbers you have; <code>crs</code> in
+<code>st_transform()</code> gives the system you
+<strong>want</strong>.</p>
+</div>
+<div class="fr">
+<p>Deux arguments du même nom, deux rôles différents : <code>crs</code>
+dans <code>st_as_sf()</code> <strong>déclare</strong> le système des
+nombres que vous avez ; <code>crs</code> dans
+<code>st_transform()</code> donne le système que vous
+<strong>voulez</strong>.</p>
+</div>
 <div class="callout warning">
 <div class="en">
 <p><code>st_crs()</code> returning <code>NA</code> means the CRS is
@@ -898,14 +1262,80 @@ class="fr">Attributs avec dplyr</span></h2>
 #&gt; Bounding box:  xmin: 340891.7 ymin: 7420209 xmax: 365568 ymax: 7500064
 #&gt; Projected CRS: WGS 84 / UTM zone 38S
 #&gt; # A tibble: 3 × 3
-#&gt;   mpa         n_zones                                                                                     geom
-#&gt;   &lt;chr&gt;         &lt;int&gt;                                                                            &lt;POLYGON [m]&gt;
-#&gt; 1 Ankaramena        3 ((361039.3 7485971, 361002.9 7485765, 360955.1 7485558, 360905.4 7485351, 360855.6 7485…
-#&gt; 2 Nosy Fasika       3 ((362037.9 7456549, 361864.8 7456365, 361691.8 7456180, 361518.7 7455995, 361343.9 7455…
-#&gt; 3 Tanjona           3 ((355985.6 7426770, 355905.2 7426540, 355824.9 7426310, 355744.6 7426080, 355663.6 7425…</code></pre>
+#&gt;   mpa         n_zones                                                                    geom
+#&gt;   &lt;chr&gt;         &lt;int&gt;                                                           &lt;POLYGON [m]&gt;
+#&gt; 1 Ankaramena        3 ((361039.3 7485971, 361002.9 7485765, 360955.1 7485558, 360905.4 74853…
+#&gt; 2 Nosy Fasika       3 ((362037.9 7456549, 361864.8 7456365, 361691.8 7456180, 361518.7 74559…
+#&gt; 3 Tanjona           3 ((355985.6 7426770, 355905.2 7426540, 355824.9 7426310, 355744.6 74260…</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>zones_table <span class="ot">&lt;-</span> <span class="fu">st_drop_geometry</span>(zones)                          <span class="co"># back to a plain data frame</span></span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">class</span>(zones_table)</span></code></pre></div>
 <pre><code>#&gt; [1] &quot;data.frame&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>filter()</code>, <code>select()</code>,
+<code>group_by()</code>, <code>summarise()</code></td>
+<td>dplyr verbs (Beginner Session 8) work on sf objects; the geometry is
+kept, and <code>summarise()</code> merges it per group</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>st_drop_geometry(x)</code></td>
+<td>removes the geometry: a plain data frame (faster for tables)</td>
+<td>an sf object</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>filter()</code>, <code>select()</code>,
+<code>group_by()</code>, <code>summarise()</code></td>
+<td>les verbes dplyr (séance 8 du niveau débutant) marchent sur les
+objets sf ; la géométrie est gardée, et <code>summarise()</code> la
+fusionne par groupe</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>st_drop_geometry(x)</code></td>
+<td>retire la géométrie : un simple data frame (plus rapide pour les
+tableaux)</td>
+<td>un objet sf</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>To add field results to the sites, join a normal table by its key —
 the spatial object must come <strong>first</strong> to stay spatial
@@ -930,6 +1360,58 @@ premier</strong> pour rester spatial (intermédiaire, séance I3) :</p>
 #&gt; 1     R01 Ankaramena No-take 43.57797 -22.6684     7.1   42.90000   POINT (353904 7492489)
 #&gt; 2     R02 Ankaramena No-take 43.56615 -22.6900     6.6   44.66667 POINT (352712.6 7490085)
 #&gt; 3     R03 Ankaramena No-take 43.58251 -22.7116     3.5   50.43333 POINT (354416.2 7487710)</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>left_join(sites, cover25, by)</code></td>
+<td>attribute join (Intermediate I3): the sf object must be
+<strong>first</strong> to stay spatial</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>left_join(sites, cover25, by)</code></td>
+<td>jointure attributaire (intermédiaire I3) : l’objet sf doit être
+<strong>en premier</strong> pour rester spatial</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="measure" class="section level2">
 <h2><span class="en">Measuring: areas and distances</span><span
@@ -945,6 +1427,70 @@ class="fr">Mesurer : surfaces et distances</span></h2>
 #&gt;   &lt;chr&gt;       &lt;dbl&gt;
 #&gt; 1 Fishing      441.
 #&gt; 2 No-take      294.</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_area(x)</code></td>
+<td>area of each polygon, <strong>with its unit</strong>
+(<code>[m^2]</code>) taken from the CRS</td>
+<td>polygons</td>
+</tr>
+<tr class="even">
+<td><code>as.numeric(x)</code></td>
+<td>removes the unit: a plain number you can divide (<code>/ 1e6</code>
+→ km²)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_area(x)</code></td>
+<td>surface de chaque polygone, <strong>avec son unité</strong>
+(<code>[m^2]</code>) tirée du SCR</td>
+<td>des polygones</td>
+</tr>
+<tr class="even">
+<td><code>as.numeric(x)</code></td>
+<td>retire l’unité : un simple nombre que l’on peut diviser
+(<code>/ 1e6</code> → km²)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">st_distance</span>(sites, villages_utm)     <span class="co"># matrix: 18 sites x 12 villages, in metres</span></span>
 <span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a><span class="fu">dim</span>(d)</span></code></pre></div>
 <pre><code>#&gt; [1] 18 12</code></pre>
@@ -957,6 +1503,71 @@ class="fr">Mesurer : surfaces et distances</span></h2>
 #&gt; 2     R02        Ankarabe            8.56         7.75
 #&gt; 3     R03        Mahavelo            7.89         6.82
 #&gt; 4     R04        Ankarabe            9.66         5.90</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_distance(x, y)</code></td>
+<td>matrix of the distances between every feature of <code>x</code>
+(rows) and every feature of <code>y</code> (columns), in the unit of the
+CRS</td>
+<td>two layers in the same CRS</td>
+</tr>
+<tr class="even">
+<td><code>apply(d, 1, which.min)</code></td>
+<td>for each row (<code>1</code>, Beginner Session 4): the column of the
+smallest distance = the nearest village</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_distance(x, y)</code></td>
+<td>matrice des distances entre chaque entité de <code>x</code> (lignes)
+et chaque entité de <code>y</code> (colonnes), dans l’unité du SCR</td>
+<td>deux couches dans le même SCR</td>
+</tr>
+<tr class="even">
+<td><code>apply(d, 1, which.min)</code></td>
+<td>pour chaque ligne (<code>1</code>, séance 4 du niveau débutant) : la
+colonne de la plus petite distance = le village le plus proche</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout tip">
 <div class="en">
 <p>Areas and distances are only correct in a <strong>projected</strong>
@@ -1069,6 +1680,78 @@ les attributs des deux)</td>
 <span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a><span class="fu">plot</span>(no_take, <span class="at">col =</span> <span class="st">&quot;#1b7f8c88&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(villages_utm), <span class="at">pch =</span> <span class="dv">15</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="a05-sf_files/figure-html/buffer-1.png" alt="" width="60%" style="display: block; margin: auto;" /></p>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_union(x)</code></td>
+<td>merges all features into one geometry</td>
+<td>a layer</td>
+</tr>
+<tr class="even">
+<td><code>st_buffer(x, dist)</code></td>
+<td>zone of width <code>dist</code> around the features, in the unit of
+the CRS (metres in UTM; never in degrees)</td>
+<td>a layer; a number</td>
+</tr>
+<tr class="odd">
+<td><code>st_intersection(x, y)</code></td>
+<td>the parts of <code>x</code> that are inside <code>y</code></td>
+<td>two layers in the same CRS</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_union(x)</code></td>
+<td>fusionne toutes les entités en une seule géométrie</td>
+<td>une couche</td>
+</tr>
+<tr class="even">
+<td><code>st_buffer(x, dist)</code></td>
+<td>zone de largeur <code>dist</code> autour des entités, dans l’unité
+du SCR (mètres en UTM ; jamais en degrés)</td>
+<td>une couche ; un nombre</td>
+</tr>
+<tr class="odd">
+<td><code>st_intersection(x, y)</code></td>
+<td>les parties de <code>x</code> qui sont dans <code>y</code></td>
+<td>deux couches dans le même SCR</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="join" class="section level2">
 <h2><span class="en">Spatial questions: predicates and joins</span><span
@@ -1121,6 +1804,94 @@ clé est la <strong>position</strong>.</p>
 #&gt; 7     Tanjona Fishing       2
 #&gt; 8     Tanjona No-take       3
 #&gt; 9     Tanjona Fishing       1</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_intersects(x, y)</code></td>
+<td>for each feature of <code>x</code>, the list of the features of
+<code>y</code> it touches</td>
+<td>two layers</td>
+</tr>
+<tr class="even">
+<td><code>lengths(list)</code></td>
+<td>the length of each element of a list: here the number of features
+touched (<code>&gt; 0</code> = touches at least one)</td>
+<td>a list</td>
+</tr>
+<tr class="odd">
+<td><code>st_join(x, y, join = st_intersects)</code></td>
+<td>spatial join: adds to <code>x</code> the attributes of the features
+of <code>y</code> at the same place</td>
+<td>two sf objects</td>
+</tr>
+<tr class="even">
+<td><code>select(zones, mpa_poly = mpa)</code></td>
+<td><code>select()</code> can rename while selecting:
+<code>new = old</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_intersects(x, y)</code></td>
+<td>pour chaque entité de <code>x</code>, la liste des entités de
+<code>y</code> qu’elle touche</td>
+<td>deux couches</td>
+</tr>
+<tr class="even">
+<td><code>lengths(list)</code></td>
+<td>la longueur de chaque élément d’une liste : ici le nombre d’entités
+touchées (<code>&gt; 0</code> = en touche au moins une)</td>
+<td>une liste</td>
+</tr>
+<tr class="odd">
+<td><code>st_join(x, y, join = st_intersects)</code></td>
+<td>jointure spatiale : ajoute à <code>x</code> les attributs des
+entités de <code>y</code> au même endroit</td>
+<td>deux objets sf</td>
+</tr>
+<tr class="even">
+<td><code>select(zones, mpa_poly = mpa)</code></td>
+<td><code>select()</code> peut renommer en sélectionnant :
+<code>nouveau = ancien</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="callout try">
 <div class="en">
 <p><strong>Try it.</strong> With
@@ -1146,6 +1917,96 @@ couches</span></h2>
 <span id="cb49-3"><a href="#cb49-3" tabindex="-1"></a><span class="co"># for a colleague who only uses Excel: coordinates as columns</span></span>
 <span id="cb49-4"><a href="#cb49-4" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">st_drop_geometry</span>(sites25), <span class="fu">st_coordinates</span>(<span class="fu">st_transform</span>(sites25, <span class="dv">4326</span>)))</span>
 <span id="cb49-5"><a href="#cb49-5" tabindex="-1"></a><span class="fu">write.csv</span>(out, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;tables&quot;</span>, <span class="st">&quot;reef_sites_2025_lonlat.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_write(obj, dsn, layer, delete_dsn, append)</code></td>
+<td>writes a layer; the format follows the extension
+(<code>.gpkg</code>, <code>.shp</code>, <code>.geojson</code>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>delete_dsn</code></td>
+<td><code>TRUE</code> deletes the whole <strong>file</strong> before
+writing</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>append</code></td>
+<td><code>FALSE</code> replaces the <strong>layer</strong> if it exists
+(other layers of the GeoPackage are kept); <code>TRUE</code> adds
+rows</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>cbind(a, b)</code></td>
+<td>puts the attribute table and the coordinates side by side (Beginner
+Session 4)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>st_write(obj, dsn, layer, delete_dsn, append)</code></td>
+<td>écrit une couche ; le format suit l’extension (<code>.gpkg</code>,
+<code>.shp</code>, <code>.geojson</code>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>  <code>delete_dsn</code></td>
+<td><code>TRUE</code> supprime tout le <strong>fichier</strong> avant
+d’écrire</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td>  <code>append</code></td>
+<td><code>FALSE</code> remplace la <strong>couche</strong> si elle
+existe (les autres couches du GeoPackage sont gardées) ;
+<code>TRUE</code> ajoute des lignes</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>cbind(a, b)</code></td>
+<td>met côte à côte la table attributaire et les coordonnées (séance 4
+du niveau débutant)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="en">
 <p>All these files open in <strong>QGIS</strong> (free GIS software): R
 does the analysis reproducibly, QGIS is handy to look, check and draw by

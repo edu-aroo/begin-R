@@ -79,6 +79,45 @@ Quand vous cliquez sur **Knit**, `knitr` exécute les chunks et écrit leurs ré
 :::
 :::
 
+### [The YAML header, key by key]{.en}[L'en-tête YAML, clé par clé]{.fr}
+
+::: en
+YAML is a list of `key: value` pairs. **Indentation matters**: a key indented under another one (two spaces, never a tab) belongs to it. Here `toc: true` belongs to `bookdown::html_document2`, which belongs to `output`.
+
+| Key | What it does | Value it expects |
+|---|---|---|
+| `title`, `author` | text printed at the top of the report | text in quotes |
+| `date` | date printed under the title; `` "`r knitr::inline_expr("format(Sys.Date(), '%d %B %Y')")`" `` writes **today's** date at each knit | text, or inline R code in quotes |
+| `output` | the **output format(s)**; each one is a function name (`html_document`, `word_document`, `pdf_document`, or `bookdown::…2` versions that number figures) | a format name, followed by its options indented below, or `default` (= no option) |
+| `toc` | adds a **t**able **o**f **c**ontents built from the `#` headings | `true` / `false` |
+| `toc_float` | HTML only: the table of contents stays visible on the left when you scroll | `true` / `false` |
+| `toc_depth` | which heading levels go in the table of contents | a number, e.g. `2` (`#` and `##`) |
+| `number_sections` | numbers the headings (1, 1.1, 1.2…) | `true` / `false` |
+| `code_folding` | HTML only: adds a *Code* button; `hide` = code hidden until the reader clicks, `show` = shown but foldable | `none`, `hide`, `show` |
+| `reference_docx` | Word only: a Word file whose **styles** (fonts, headings, margins) are copied | path to a .docx file |
+| `self_contained` | HTML only: images and styles inside the single .html file (default `true`) | `true` / `false` |
+
+`true` and `false` are written in **lower case** in YAML (not `TRUE` as in R). Options are **not shared** between formats: `toc_float` and `code_folding` exist for `html_document` but not for `word_document` — check the help of the format, e.g. `?rmarkdown::html_document`, for the list of its options.
+:::
+::: fr
+Le YAML est une liste de paires `clé: valeur`. **L'indentation compte** : une clé décalée sous une autre (deux espaces, jamais de tabulation) lui appartient. Ici `toc: true` appartient à `bookdown::html_document2`, qui appartient à `output`.
+
+| Clé | Ce qu'elle fait | Valeur attendue |
+|---|---|---|
+| `title`, `author` | texte affiché en haut du rapport | texte entre guillemets |
+| `date` | date affichée sous le titre ; `` "`r knitr::inline_expr("format(Sys.Date(), '%d %B %Y')")`" `` écrit la date **du jour** à chaque knit | texte, ou code R en ligne entre guillemets |
+| `output` | le ou les **formats de sortie** ; chacun est un nom de fonction (`html_document`, `word_document`, `pdf_document`, ou les versions `bookdown::…2` qui numérotent les figures) | un nom de format, suivi de ses options décalées en dessous, ou `default` (= aucune option) |
+| `toc` | ajoute une **table des matières** (*table of contents*) construite à partir des titres `#` | `true` / `false` |
+| `toc_float` | HTML seulement : la table des matières reste visible à gauche quand on fait défiler | `true` / `false` |
+| `toc_depth` | quels niveaux de titres vont dans la table des matières | un nombre, ex. `2` (`#` et `##`) |
+| `number_sections` | numérote les titres (1, 1.1, 1.2…) | `true` / `false` |
+| `code_folding` | HTML seulement : ajoute un bouton *Code* ; `hide` = code caché jusqu'au clic du lecteur, `show` = affiché mais repliable | `none`, `hide`, `show` |
+| `reference_docx` | Word seulement : un fichier Word dont les **styles** (polices, titres, marges) sont copiés | chemin vers un .docx |
+| `self_contained` | HTML seulement : images et styles dans l'unique fichier .html (par défaut `true`) | `true` / `false` |
+
+`true` et `false` s'écrivent en **minuscules** en YAML (pas `TRUE` comme dans R). Les options **ne sont pas partagées** entre formats : `toc_float` et `code_folding` existent pour `html_document` mais pas pour `word_document` — consultez l'aide du format, ex. `?rmarkdown::html_document`, pour la liste de ses options.
+:::
+
 ## [Markdown: formatting the text]{.en}[Markdown : mettre en forme le texte]{.fr} {#markdown}
 
 ::: en
@@ -139,6 +178,19 @@ Les options se placent dans les accolades : ```` ```{r label, echo = FALSE, fig.
 | `cache = TRUE` | garde les résultats entre deux knits | calculs longs (avec prudence) |
 :::
 
+```{r, echo=FALSE}
+fa(c("`knitr::opts_chunk$set(...)`", "sets the **default** options of all the chunks that follow; a chunk can still override them in its own `{r ...}`", "fixe les options **par défaut** de tous les chunks qui suivent ; un chunk peut encore les changer dans son propre `{r ...}`", "options separated by commas, as in the table", "options séparées par des virgules, comme dans le tableau"),
+   c("&nbsp;&nbsp;`out.width`", "display width of the figure in the document (does not change how it is drawn)", "largeur d'affichage de la figure dans le document (ne change pas son dessin)", "`\"80%\"` or `\"12cm\"`", "`\"80%\"` ou `\"12cm\"`"),
+   c("&nbsp;&nbsp;`dpi`", "resolution of the figure (same as `res` in `png()`)", "résolution de la figure (comme `res` dans `png()`)", "a number, e.g. 150 or 300", "un nombre, ex. 150 ou 300"))
+```
+
+::: en
+Chunk options use **dots** (`fig.width`, `out.width`) — Quarto (Session A8) writes the same options with **hyphens** (`fig-width`) in `#|` lines.
+:::
+::: fr
+Les options de chunk utilisent des **points** (`fig.width`, `out.width`) — Quarto (séance A8) écrit les mêmes options avec des **tirets** (`fig-width`) dans les lignes `#|`.
+:::
+
 ## [Numbers inside the text]{.en}[Des nombres dans le texte]{.fr} {#inline}
 
 ::: en
@@ -154,6 +206,11 @@ cover <- reef %>% filter(year == last_year) %>% group_by(zone) %>%
   summarise(m = mean(hard_coral), .groups = "drop")
 nt <- round(cover$m[cover$zone == "No-take"], 1)
 fi <- round(cover$m[cover$zone == "Fishing"], 1)
+```
+
+```{r, echo=FALSE}
+fa(c("`` `r x` ``", "inline R code: replaced by the value of `x` when knitting", "code R en ligne : remplacé par la valeur de `x` au moment du knit", "an object name or a short calculation", "un nom d'objet ou un calcul court"),
+   c("`max()`, `filter()`, `group_by()`, `summarise()`", "reminders (Beginner Sessions 2 and 8)", "rappels (séances 2 et 8 du niveau débutant)", "", ""))
 ```
 
 ::: en
@@ -202,6 +259,14 @@ knitr::kable(tab, digits = 1,
              caption = paste("Hard coral cover per MPA and zone,", last_year))
 ```
 
+```{r, echo=FALSE}
+fa(c("`knitr::kable(x, digits, col.names, caption)`", "turns a data frame into a formatted table in HTML, Word or PDF", "transforme un data frame en tableau mis en forme en HTML, Word ou PDF", "", ""),
+   c("&nbsp;&nbsp;`digits`", "number of decimals of the numeric columns", "nombre de décimales des colonnes numériques", "a whole number (or one per column)", "un nombre entier (ou un par colonne)"),
+   c("&nbsp;&nbsp;`col.names`", "the titles of the columns shown in the report (the data keep their names)", "les titres des colonnes affichés dans le rapport (les données gardent leurs noms)", "a text vector, one per column", "un vecteur de texte, un par colonne"),
+   c("&nbsp;&nbsp;`caption`", "the table title; with a bookdown format it gets a number and can be referred to", "le titre du tableau ; avec un format bookdown il est numéroté et peut être cité", "text", "texte"),
+   c("&nbsp;&nbsp;`align`", "alignment of each column", "alignement de chaque colonne", "`\"l\"`, `\"c\"`, `\"r\"`, e.g. `\"llrrr\"`", "`\"l\"`, `\"c\"`, `\"r\"`, ex. `\"llrrr\"`"))
+```
+
 ```{r flextable, eval=FALSE}
 library(flextable)
 flextable(tab) |>
@@ -210,6 +275,21 @@ flextable(tab) |>
   merge_v(j = "mpa") |>            # merge the repeated MPA names
   autofit()
 ```
+
+```{r, echo=FALSE}
+fa(c("`flextable(data)`", "creates a table object that can be formatted step by step", "crée un objet tableau que l'on peut mettre en forme étape par étape", "a data frame", "un data frame"),
+   c("`colformat_double(x, digits)`", "number of decimals of the columns with decimals", "nombre de décimales des colonnes à décimales", "a whole number", "un nombre entier"),
+   c("`set_header_labels(x, ...)`", "header texts: `column = \"Title\"`", "textes d'en-tête : `colonne = \"Titre\"`", "", ""),
+   c("`merge_v(x, j)`", "merges **v**ertically the identical neighbouring cells of column(s) `j`", "fusionne **v**erticalement les cellules voisines identiques de la ou des colonnes `j`", "column name(s) in quotes", "nom(s) de colonne entre guillemets"),
+   c("`autofit(x)`", "adjusts the column widths to their content", "ajuste la largeur des colonnes à leur contenu", "", ""))
+```
+
+::: en
+`kable()` names the column titles `col.names`; flextable does it with a separate function, `set_header_labels()`, where each title is given **by column name**. Same goal, different tools.
+:::
+::: fr
+`kable()` appelle les titres de colonnes `col.names` ; flextable le fait avec une fonction séparée, `set_header_labels()`, où chaque titre est donné **par nom de colonne**. Même but, outils différents.
+:::
 
 ## [Figures and cross-references]{.en}[Figures et renvois]{.fr} {#figures}
 
@@ -229,6 +309,11 @@ ggplot(trend, aes(year, m, colour = zone)) +
   scale_colour_manual(values = c("No-take" = "#1b7f8c", "Fishing" = "#d9694a")) +
   scale_x_continuous(breaks = 2019:2025) +
   labs(x = NULL, y = "Hard coral cover (%)", colour = NULL) + theme_minimal(base_size = 12)
+```
+
+```{r, echo=FALSE}
+fa(c("`{r trend, fig.cap = \"...\"}`", "the chunk label `trend` becomes the figure name: `\\@ref(fig:trend)` in the text", "le label du chunk `trend` devient le nom de la figure : `\\@ref(fig:trend)` dans le texte", "", ""),
+   c("`geom_line()`, `geom_pointrange()`, `scale_x_continuous(breaks)`", "reminders (Intermediate I7–I8)", "rappels (intermédiaire I7–I8)", "", ""))
 ```
 
 ::: {.callout .try}
@@ -268,9 +353,21 @@ rmarkdown::render(here::here("reports", "reef_report.Rmd"),
 ```
 
 ::: en
+| Argument of `render()` | What it does |
+|---|---|
+| `input` (first argument) | the .Rmd file to produce |
+| `output_format` | which format of the YAML to use, as text (`"bookdown::word_document2"`); `"all"` = every format of the header. Without it: the first one |
+| `output_dir` | folder where the result is written (created if needed) |
+
 **Long reports:** split them into several files and assemble them with child documents: ```` ```{r, child = "methods.Rmd"} ```` ```` ``` ````.
 :::
 ::: fr
+| Argument de `render()` | Ce qu'il fait |
+|---|---|
+| `input` (premier argument) | le fichier .Rmd à produire |
+| `output_format` | quel format du YAML utiliser, sous forme de texte (`"bookdown::word_document2"`) ; `"all"` = tous les formats de l'en-tête. Sans lui : le premier |
+| `output_dir` | dossier où le résultat est écrit (créé si besoin) |
+
 **Rapports longs :** découpez-les en plusieurs fichiers et assemblez-les avec des documents enfants : ```` ```{r, child = "methods.Rmd"} ```` ```` ``` ````.
 :::
 
@@ -339,7 +436,10 @@ quiz("a03", list(
         c("Figure trend", "\\@ref(fig:trend)", "[trend](#fig)", "`r trend`"), correct = 2),
   q_mcq("10. Your institution wants its own fonts and heading styles in Word. You use:", "10. Votre institution veut ses polices et styles de titres dans Word. Vous utilisez :",
         c("reference_docx in the YAML", "fig.width", "a CSS file", "cache = TRUE"),
-        c("reference_docx dans le YAML", "fig.width", "un fichier CSS", "cache = TRUE"), correct = 1)
+        c("reference_docx dans le YAML", "fig.width", "un fichier CSS", "cache = TRUE"), correct = 1),
+  q_mcq("11. In knitr::kable(tab, digits = 1, col.names = c(...)), what does col.names change?", "11. Dans knitr::kable(tab, digits = 1, col.names = c(...)), que change col.names ?",
+        c("The column titles shown in the report", "The names of the columns of tab", "The number of decimals", "The order of the rows"),
+        c("Les titres de colonnes affichés dans le rapport", "Les noms des colonnes de tab", "Le nombre de décimales", "L'ordre des lignes"), correct = 1)
 ))
 ```
 

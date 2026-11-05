@@ -86,6 +86,13 @@ ggplot(seaweed, aes(temp_mean, sgr)) +
 `alpha` (0 = transparent, 1 = opaque) révèle où les points se superposent : indispensable avec plus de 2 000 points.
 :::
 
+```{r, echo=FALSE}
+fa(c("`aes(..., colour = column)`", "**mapping**: the colour depends on a column, and a legend is made", "**association** : la couleur dépend d'une colonne, et une légende est créée", "a column name, without quotes", "un nom de colonne, sans guillemets"),
+   c("`geom_point(colour = \"#1b7f8c\")`", "**setting**: one fixed colour for all points, **outside** `aes()`, no legend", "**réglage fixe** : une seule couleur pour tous les points, **hors de** `aes()`, pas de légende", "a colour in quotes", "une couleur entre guillemets"),
+   c("&nbsp;&nbsp;`alpha`", "transparency: 0 = invisible, 1 = opaque; useful when points overlap", "transparence : 0 = invisible, 1 = opaque ; utile quand les points se superposent", "a number between 0 and 1", "un nombre entre 0 et 1"),
+   c("&nbsp;&nbsp;`na.rm`", "`TRUE` removes the rows with `NA` silently (otherwise a warning)", "`TRUE` retire les lignes avec `NA` sans rien dire (sinon un avertissement)", "`TRUE` / `FALSE`", "`TRUE` / `FALSE`"))
+```
+
 ## [Axes: limits, breaks, labels]{.en}[Axes : limites, graduations, étiquettes]{.fr} {#axes}
 
 ::: en
@@ -101,6 +108,13 @@ ggplot(seaweed, aes(temp_mean, sgr)) +
   scale_x_continuous(breaks = seq(23, 30, by = 1)) +
   scale_y_continuous(breaks = seq(1, 6, by = 0.5),
                      labels = function(v) paste0(v, " %/d"))   # custom labels
+```
+
+```{r, echo=FALSE}
+fa(c("`scale_x_continuous(breaks, labels, limits)`", "controls a numeric x axis (`scale_y_continuous()` for y)", "contrôle un axe x numérique (`scale_y_continuous()` pour y)", "", ""),
+   c("&nbsp;&nbsp;`breaks`", "positions of the ticks", "positions des graduations", "a vector of numbers, e.g. `seq(23, 30, by = 1)`", "un vecteur de nombres, ex. `seq(23, 30, by = 1)`"),
+   c("&nbsp;&nbsp;`labels`", "text written at each tick; can be a function that receives the values (`v`) and returns texts", "texte écrit à chaque graduation ; peut être une fonction qui reçoit les valeurs (`v`) et renvoie des textes", "a text vector, or a function", "un vecteur de texte, ou une fonction"),
+   c("&nbsp;&nbsp;`limits`", "range of the axis — **removes** data outside (see the warning below)", "étendue de l'axe — **retire** les données en dehors (voir l'avertissement ci-dessous)", "`c(min, max)`", "`c(min, max)`"))
 ```
 
 ::: {.callout .warning}
@@ -125,6 +139,12 @@ ggplot(turb, aes(station, value)) +
   geom_boxplot(fill = "#a8d5da") +
   scale_y_log10(breaks = c(1, 2, 5, 10, 20)) +
   labs(x = NULL, y = "Turbidity (NTU, log scale)")
+```
+
+```{r, echo=FALSE}
+fa(c("`subset(data, condition)`", "keeps the rows of one parameter (Beginner Session 5)", "garde les lignes d'un paramètre (séance 5 du niveau débutant)", "", ""),
+   c("`scale_y_log10(breaks)`", "logarithmic y axis; the labels still show the real values", "axe y logarithmique ; les étiquettes affichent toujours les vraies valeurs", "`breaks` as above", "`breaks` comme ci-dessus"),
+   c("`coord_cartesian(xlim, ylim)`", "zooms on a range without removing data", "zoome sur une étendue sans retirer de données", "`c(min, max)`", "`c(min, max)`"))
 ```
 
 ## [Colours that work for everyone]{.en}[Des couleurs qui marchent pour tout le monde]{.fr} {#colours}
@@ -158,11 +178,31 @@ ggplot(seaweed, aes(zone, sgr, fill = technique)) +
   scale_fill_brewer(palette = "Dark2")
 ```
 
+```{r, echo=FALSE}
+fa(c("`aes(..., fill = technique)`", "the **fill** of the boxes depends on the technique (`fill` for areas, `colour` for outlines, points, lines)", "le **remplissage** des boîtes dépend de la technique (`fill` pour les surfaces, `colour` pour les contours, points, lignes)", "", ""),
+   c("`scale_fill_brewer(palette)`", "fill colours taken from a ready-made **ColorBrewer** palette, for categories", "couleurs de remplissage prises dans une palette **ColorBrewer** toute faite, pour des catégories", "a palette name: `\"Dark2\"`, `\"Set2\"`, `\"Paired\"`… (`RColorBrewer::display.brewer.all()` shows them)", "un nom de palette : `\"Dark2\"`, `\"Set2\"`, `\"Paired\"`… (`RColorBrewer::display.brewer.all()` les montre)"))
+```
+
 ```{r}
 ggplot(seaweed, aes(planting_date, sgr, colour = temp_mean)) +
   geom_point(alpha = 0.6, size = 1.2, na.rm = TRUE) +
   scale_colour_viridis_c(option = "plasma", name = "Temp. (°C)")
 ```
+
+```{r, echo=FALSE}
+fa(c("`scale_colour_viridis_c(option, direction, name)`", "colour scale for a **c**ontinuous variable (the final `_c`), readable by colour-blind people and in grey; `scale_fill_viridis_c()` is the same for `fill`; `_d` for categories", "échelle de couleur pour une variable **c**ontinue (le `_c` final), lisible par les daltoniens et en gris ; `scale_fill_viridis_c()` est la même pour `fill` ; `_d` pour des catégories", "", ""),
+   c("&nbsp;&nbsp;`option`", "which of the viridis palettes", "laquelle des palettes viridis", "`\"viridis\"` (default), `\"magma\"`, `\"plasma\"`, `\"inferno\"`, `\"cividis\"`, `\"mako\"`, `\"rocket\"`, `\"turbo\"`", "`\"viridis\"` (défaut), `\"magma\"`, `\"plasma\"`, `\"inferno\"`, `\"cividis\"`, `\"mako\"`, `\"rocket\"`, `\"turbo\"`"),
+   c("&nbsp;&nbsp;`direction`", "`1`: low values dark, high values light; `-1` reverses the order", "`1` : valeurs basses foncées, hautes claires ; `-1` inverse l'ordre", "`1` (default) or `-1`", "`1` (défaut) ou `-1`"),
+   c("&nbsp;&nbsp;`name`", "title of the legend; `\"\\n\"` inside it starts a new line", "titre de la légende ; `\"\\n\"` à l'intérieur passe à la ligne", "text", "texte"),
+   c("&nbsp;&nbsp;`size` (in `geom_point()`)", "size of the points (default 1.5)", "taille des points (1,5 par défaut)", "a number", "un nombre"))
+```
+
+::: en
+The legend title can be given in two places: `name =` in the `scale_*()` function, or `labs(colour = "...")`. Both do the same; if you use both, the last one added wins.
+:::
+::: fr
+Le titre de la légende peut être donné à deux endroits : `name =` dans la fonction `scale_*()`, ou `labs(colour = "...")`. Les deux font la même chose ; si vous utilisez les deux, le dernier ajouté l'emporte.
+:::
 
 ::: en
 To force the order of categories (e.g. North → South), set factor levels before plotting: `seaweed$zone <- factor(seaweed$zone, levels = c("North", "Centre", "South"))`.
@@ -193,6 +233,16 @@ ggplot(seaweed, aes(zone, sgr, fill = technique)) +
   theme(legend.position = "top",
         plot.title = element_text(face = "bold"),
         panel.grid.major.x = element_blank())
+```
+
+```{r, echo=FALSE}
+fa(c("&nbsp;&nbsp;`outlier.alpha` (in `geom_boxplot()`)", "transparency of the outlier points only", "transparence des points extrêmes seulement", "0 to 1", "0 à 1"),
+   c("`scale_fill_manual(values)`", "your own colours, one per category, by name", "vos propres couleurs, une par catégorie, par nom", "a named vector `c(\"long-line\" = \"#1b7f8c\", ...)`", "un vecteur nommé `c(\"long-line\" = \"#1b7f8c\", ...)`"),
+   c("`labs(title, subtitle, caption, x, y, fill)`", "all the texts of the plot: title, subtitle under it, caption at the bottom right (source of the data), axis titles, legend title (named after its aesthetic: `fill`, `colour`…)", "tous les textes du graphique : titre, sous-titre, note en bas à droite (source des données), titres des axes, titre de légende (nommé d'après son esthétique : `fill`, `colour`…)", "text; `NULL` = none", "texte ; `NULL` = aucun"),
+   c("`theme_minimal(base_size)`", "a ready-made look; `base_size` = size of all texts, in points", "un aspect prêt à l'emploi ; `base_size` = taille de tous les textes, en points", "a number (default 11)", "un nombre (11 par défaut)"),
+   c("`theme(...)`", "changes **one element** at a time (table below); add it **after** `theme_minimal()`, otherwise it is overwritten", "modifie **un élément** à la fois (tableau ci-dessous) ; ajoutez-le **après** `theme_minimal()`, sinon il est écrasé", "`element = value`", "`élément = valeur`"),
+   c("`element_text(size, face, angle, hjust)`", "settings of a text element: size; `face` = `\"bold\"`, `\"italic\"`; angle in degrees; `hjust` = horizontal alignment (0 left, 0.5 centre, 1 right)", "réglages d'un élément de texte : taille ; `face` = `\"bold\"`, `\"italic\"` ; angle en degrés ; `hjust` = alignement horizontal (0 gauche, 0,5 centre, 1 droite)", "", ""),
+   c("`element_blank()`", "removes the element", "supprime l'élément", "nothing", "rien"))
 ```
 
 ::: en
@@ -231,6 +281,12 @@ ggplot(wq_tidy, aes(date, value)) +
   theme_bw()
 ```
 
+```{r, echo=FALSE}
+fa(c("`facet_wrap(~ var, scales, ncol)`", "one panel per value of `var`, placed in rows", "un panneau par valeur de `var`, placés en lignes", "", ""),
+   c("&nbsp;&nbsp;`scales`", "`\"fixed\"` (default): same axes everywhere; `\"free_y\"`: each panel has its own y axis (needed when the units differ); `\"free_x\"`, `\"free\"`", "`\"fixed\"` (défaut) : mêmes axes partout ; `\"free_y\"` : chaque panneau a son propre axe y (nécessaire quand les unités diffèrent) ; `\"free_x\"`, `\"free\"`", "text", "texte"),
+   c("&nbsp;&nbsp;`ncol`, `nrow`", "number of columns / rows of panels", "nombre de colonnes / de lignes de panneaux", "a whole number", "un nombre entier"))
+```
+
 ::: en
 `facet_grid(rows ~ cols)` crosses two variables:
 :::
@@ -243,6 +299,10 @@ ggplot(seaweed, aes(sgr)) +
   geom_histogram(binwidth = 0.25, fill = "#4a7d3a", colour = "white", na.rm = TRUE) +
   facet_grid(season ~ technique) +
   labs(x = "SGR (% per day)", y = "Number of lines")
+```
+
+```{r, echo=FALSE}
+fa(c("`facet_grid(rows ~ cols)`", "a grid of panels: one row per value of the variable on the left of `~`, one column per value of the variable on the right", "une grille de panneaux : une ligne par valeur de la variable à gauche de `~`, une colonne par valeur de la variable à droite", "a formula", "une formule"))
 ```
 
 ## [Application work & quiz]{.en}[Travail d'application et quiz]{.fr} {#application}
@@ -309,7 +369,10 @@ quiz("i07", list(
         c("blue points", "red points with a legend \"blue\"", "an error", "black points"),
         c("des points bleus", "des points rouges avec une légende « blue »", "une erreur", "des points noirs"), correct = 2),
   q_mcq("9. Which palette suits a continuous variable and colour-blind readers?", "9. Quelle palette convient à une variable continue et aux daltoniens ?",
-        c("scale_colour_viridis_c()", "scale_colour_brewer(palette = \"Set1\")", "red to green gradient", "rainbow()"), correct = 1)
+        c("scale_colour_viridis_c()", "scale_colour_brewer(palette = \"Set1\")", "red to green gradient", "rainbow()"), correct = 1),
+  q_mcq("10. In scale_fill_viridis_c(option = \"mako\", direction = -1), what does direction = -1 do?", "10. Dans scale_fill_viridis_c(option = \"mako\", direction = -1), que fait direction = -1 ?",
+        c("Reverses the colour order (high values dark)", "Removes the legend", "Uses a log scale", "Chooses the palette mako"),
+        c("Inverse l'ordre des couleurs (valeurs hautes foncées)", "Supprime la légende", "Utilise une échelle log", "Choisit la palette mako"), correct = 1)
 ))
 ```
 
