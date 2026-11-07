@@ -222,7 +222,7 @@ zv <- vect(st_transform(st_read("data/raw/monitoring_gis.gpkg", "mpa_zones"), cr
 bm <- mask(crop(bathy, zv), zv)
 global(bm > 20, "sum", na.rm = TRUE)                                     # 2
 sites <- st_read("data/raw/monitoring_gis.gpkg", "reef_sites")
-d <- extract(bathy, vect(st_transform(sites, crs(bathy))))$depth_m
+d <- terra::extract(bathy, vect(st_transform(sites, crs(bathy))))$depth_m
 sites$site_id[which.max(d)]                                              # 3
 ```
 :::

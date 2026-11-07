@@ -665,7 +665,7 @@ que vous savez des data frames et de dplyr fonctionne encore.</p>
 <pre><code>#&gt; [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">st_geometry_type</span>(zones, <span class="at">by_geometry =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] MULTIPOLYGON
-#&gt; 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT MULTILINESTRING ... TRIANGLE</code></pre>
+#&gt; 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT MULTILINESTRING MULTIPOLYGON ... TRIANGLE</code></pre>
 <div class="fa-box">
 <div class="en">
 <p><strong>Functions and arguments used here</strong></p>
@@ -1262,11 +1262,11 @@ class="fr">Attributs avec dplyr</span></h2>
 #&gt; Bounding box:  xmin: 340891.7 ymin: 7420209 xmax: 365568 ymax: 7500064
 #&gt; Projected CRS: WGS 84 / UTM zone 38S
 #&gt; # A tibble: 3 × 3
-#&gt;   mpa         n_zones                                                                    geom
-#&gt;   &lt;chr&gt;         &lt;int&gt;                                                           &lt;POLYGON [m]&gt;
-#&gt; 1 Ankaramena        3 ((361039.3 7485971, 361002.9 7485765, 360955.1 7485558, 360905.4 74853…
-#&gt; 2 Nosy Fasika       3 ((362037.9 7456549, 361864.8 7456365, 361691.8 7456180, 361518.7 74559…
-#&gt; 3 Tanjona           3 ((355985.6 7426770, 355905.2 7426540, 355824.9 7426310, 355744.6 74260…</code></pre>
+#&gt;   mpa         n_zones                                                                                   geom
+#&gt;   &lt;chr&gt;         &lt;int&gt;                                                                          &lt;POLYGON [m]&gt;
+#&gt; 1 Ankaramena        3 ((361039.3 7485971, 361002.9 7485765, 360955.1 7485558, 360905.4 7485351, 360855.6 74…
+#&gt; 2 Nosy Fasika       3 ((362037.9 7456549, 361864.8 7456365, 361691.8 7456180, 361518.7 7455995, 361343.9 74…
+#&gt; 3 Tanjona           3 ((355985.6 7426770, 355905.2 7426540, 355824.9 7426310, 355744.6 7426080, 355663.6 74…</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>zones_table <span class="ot">&lt;-</span> <span class="fu">st_drop_geometry</span>(zones)                          <span class="co"># back to a plain data frame</span></span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">class</span>(zones_table)</span></code></pre></div>
 <pre><code>#&gt; [1] &quot;data.frame&quot;</code></pre>

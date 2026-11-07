@@ -926,29 +926,28 @@ colonnes, quel type pour chaque colonne, les valeurs semblent-elles
 plausibles ?</p>
 </div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">head</span>(sg)          <span class="co"># first 6 rows (tail() for the last ones)</span></span></code></pre></div>
-<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species seagrass_cover
-#&gt; 1 Ambalaboy     Inside       1 2026-03-10     2.8     Thalassia hemprichii             69
-#&gt; 2 Ambalaboy     Inside       2 2026-03-10     0.9 Syringodium isoetifolium             47
-#&gt; 3 Ambalaboy     Inside       3 2026-03-10     2.3     Thalassia hemprichii             64
-#&gt; 4 Ambalaboy     Inside       4 2026-03-10     0.4      Cymodocea serrulata             61
-#&gt; 5 Ambalaboy     Inside       5 2026-03-10     1.9     Thalassia hemprichii             53
-#&gt; 6 Ambalaboy     Inside       6 2026-03-10     1.5 Syringodium isoetifolium             27
-#&gt;   canopy_height_cm shoot_density
-#&gt; 1             18.8           648
-#&gt; 2             17.0           464
-#&gt; 3             18.8           504
-#&gt; 4             20.0           560
-#&gt; 5             18.1           484
-#&gt; 6             16.4           224</code></pre>
+<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species seagrass_cover canopy_height_cm
+#&gt; 1 Ambalaboy     Inside       1 2026-03-10     2.8     Thalassia hemprichii             69             18.8
+#&gt; 2 Ambalaboy     Inside       2 2026-03-10     0.9 Syringodium isoetifolium             47             17.0
+#&gt; 3 Ambalaboy     Inside       3 2026-03-10     2.3     Thalassia hemprichii             64             18.8
+#&gt; 4 Ambalaboy     Inside       4 2026-03-10     0.4      Cymodocea serrulata             61             20.0
+#&gt; 5 Ambalaboy     Inside       5 2026-03-10     1.9     Thalassia hemprichii             53             18.1
+#&gt; 6 Ambalaboy     Inside       6 2026-03-10     1.5 Syringodium isoetifolium             27             16.4
+#&gt;   shoot_density
+#&gt; 1           648
+#&gt; 2           464
+#&gt; 3           504
+#&gt; 4           560
+#&gt; 5           484
+#&gt; 6           224</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">dim</span>(sg)           <span class="co"># number of rows and columns</span></span></code></pre></div>
 <pre><code>#&gt; [1] 60  9</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">nrow</span>(sg); <span class="fu">ncol</span>(sg)</span></code></pre></div>
 <pre><code>#&gt; [1] 60</code></pre>
 <pre><code>#&gt; [1] 9</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">names</span>(sg)         <span class="co"># column names</span></span></code></pre></div>
-<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;            
-#&gt; [5] &quot;depth_m&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot;
-#&gt; [9] &quot;shoot_density&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;             &quot;depth_m&quot;         
+#&gt; [6] &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
 <div class="fa-box">
 <div class="en">
 <p><strong>Functions and arguments used here</strong></p>
@@ -1057,22 +1056,22 @@ distribution de chaque colonne numérique, y compris le nombre de
 <code>NA</code> :</p>
 </div>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">summary</span>(sg)</span></code></pre></div>
-<pre><code>#&gt;         site        mpa_status    quadrat          date       depth_m           species  
-#&gt;  Length   :60   Length   :60   Min.   : 1   Length   :60   Min.   :0.400   Length   :60  
-#&gt;  N.unique : 4   N.unique : 2   1st Qu.: 4   N.unique : 4   1st Qu.:0.875   N.unique : 4  
-#&gt;  N.blank  : 0   N.blank  : 0   Median : 8   N.blank  : 0   Median :1.600   N.blank  : 0  
-#&gt;  Min.nchar: 8   Min.nchar: 6   Mean   : 8   Min.nchar:10   Mean   :1.630   Min.nchar:19  
-#&gt;  Max.nchar:10   Max.nchar: 7   3rd Qu.:12   Max.nchar:10   3rd Qu.:2.225   Max.nchar:24  
-#&gt;                                Max.   :15                  Max.   :3.000                 
-#&gt;                                                                                          
-#&gt;  seagrass_cover  canopy_height_cm shoot_density  
-#&gt;  Min.   :10.00   Min.   : 6.70    Min.   :168.0  
-#&gt;  1st Qu.:40.75   1st Qu.:14.07    1st Qu.:375.0  
-#&gt;  Median :50.00   Median :17.30    Median :438.0  
-#&gt;  Mean   :48.50   Mean   :16.64    Mean   :425.7  
-#&gt;  3rd Qu.:59.00   3rd Qu.:19.48    3rd Qu.:493.0  
-#&gt;  Max.   :74.00   Max.   :22.80    Max.   :664.0  
-#&gt;                  NAs    :2</code></pre>
+<pre><code>#&gt;         site        mpa_status    quadrat          date       depth_m           species   seagrass_cover 
+#&gt;  Length   :60   Length   :60   Min.   : 1   Length   :60   Min.   :0.400   Length   :60   Min.   :10.00  
+#&gt;  N.unique : 4   N.unique : 2   1st Qu.: 4   N.unique : 4   1st Qu.:0.875   N.unique : 4   1st Qu.:40.75  
+#&gt;  N.blank  : 0   N.blank  : 0   Median : 8   N.blank  : 0   Median :1.600   N.blank  : 0   Median :50.00  
+#&gt;  Min.nchar: 8   Min.nchar: 6   Mean   : 8   Min.nchar:10   Mean   :1.630   Min.nchar:19   Mean   :48.50  
+#&gt;  Max.nchar:10   Max.nchar: 7   3rd Qu.:12   Max.nchar:10   3rd Qu.:2.225   Max.nchar:24   3rd Qu.:59.00  
+#&gt;                                Max.   :15                  Max.   :3.000                  Max.   :74.00  
+#&gt;                                                                                                          
+#&gt;  canopy_height_cm shoot_density  
+#&gt;  Min.   : 6.70    Min.   :168.0  
+#&gt;  1st Qu.:14.07    1st Qu.:375.0  
+#&gt;  Median :17.30    Median :438.0  
+#&gt;  Mean   :16.64    Mean   :425.7  
+#&gt;  3rd Qu.:19.48    3rd Qu.:493.0  
+#&gt;  Max.   :22.80    Max.   :664.0  
+#&gt;  NAs    :2</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">View</span>(sg)          <span class="co"># opens the table in a spreadsheet-like tab (capital V!)</span></span></code></pre></div>
 <div class="fa-box">
 <div class="en">
@@ -1172,10 +1171,8 @@ forme de vecteur. RStudio propose les noms de colonnes après avoir tapé
 <pre><code>#&gt; [1] &quot;Ambalaboy&quot;  &quot;Fasimena&quot;   &quot;Tsiandamba&quot; &quot;Belitsaky&quot;</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">table</span>(sg<span class="sc">$</span>species)                 <span class="co"># number of quadrats per dominant species</span></span></code></pre></div>
 <pre><code>#&gt; 
-#&gt;      Cymodocea serrulata Syringodium isoetifolium     Thalassia hemprichii 
-#&gt;                       17                       13                       21 
-#&gt; Thalassodendron ciliatum 
-#&gt;                        9</code></pre>
+#&gt;      Cymodocea serrulata Syringodium isoetifolium     Thalassia hemprichii Thalassodendron ciliatum 
+#&gt;                       17                       13                       21                        9</code></pre>
 <div class="en">
 <p>Square brackets on a data frame take <strong>two</strong> positions:
 <code>[rows, columns]</code>. Leave one empty to mean “all”.</p>
@@ -1186,10 +1183,10 @@ positions : <code>[lignes, colonnes]</code>. Laisser vide signifie «
 tout ».</p>
 </div>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>sg[<span class="dv">1</span>, ]                                   <span class="co"># row 1, all columns</span></span></code></pre></div>
-<pre><code>#&gt;        site mpa_status quadrat       date depth_m              species seagrass_cover
-#&gt; 1 Ambalaboy     Inside       1 2026-03-10     2.8 Thalassia hemprichii             69
-#&gt;   canopy_height_cm shoot_density
-#&gt; 1             18.8           648</code></pre>
+<pre><code>#&gt;        site mpa_status quadrat       date depth_m              species seagrass_cover canopy_height_cm
+#&gt; 1 Ambalaboy     Inside       1 2026-03-10     2.8 Thalassia hemprichii             69             18.8
+#&gt;   shoot_density
+#&gt; 1           648</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>sg[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;seagrass_cover&quot;</span>)]      <span class="co"># rows 1-3, two columns</span></span></code></pre></div>
 <pre><code>#&gt;        site seagrass_cover
 #&gt; 1 Ambalaboy             69

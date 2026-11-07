@@ -213,14 +213,23 @@ fa(c("`project(x, y, method)`", "reprojects a raster (terra's `st_transform()`);
 sites <- st_read("data/advanced/monitoring_gis.gpkg", "reef_sites", quiet = TRUE)
 sites_ll <- vect(st_transform(sites, crs(sst)))           # points in the raster's CRS
 
-sites$depth_raster <- round(extract(bathy, sites_ll)$depth_m, 1)   # extract() adds an ID column
-sites$sst_max      <- round(extract(sst_max, sites_ll)[, 2], 2)
-sites$hot_months   <- extract(hot_mons, sites_ll)[, 2]
+sites$depth_raster <- round(terra::extract(bathy, sites_ll)$depth_m, 1)   # terra::extract() adds an ID column
+sites$sst_max      <- round(terra::extract(sst_max, sites_ll)[, 2], 2)
+sites$hot_months   <- terra::extract(hot_mons, sites_ll)[, 2]
 head(st_drop_geometry(sites)[, c("site_id", "zone", "depth_m", "depth_raster", "sst_max", "hot_months")], 6)
 ```
 
+::: {.callout .warning}
+::: en
+**Why `terra::extract()` and not just `extract()`?** The package **tidyr** (Intermediate I2) also has a function called `extract()`. If tidyr was loaded after terra (by `library(tidyr)` or `library(tidyverse)`), R uses tidyr's version and stops with *"no applicable method for 'extract' applied to an object of class SpatRaster"*. Writing `package::function()` always calls the right one — a good habit whenever two packages share a function name (`dplyr::filter()` vs `stats::filter()`, `dplyr::select()` vs `MASS::select()`…).
+:::
+::: fr
+**Pourquoi `terra::extract()` et pas simplement `extract()` ?** Le package **tidyr** (intermédiaire I2) a aussi une fonction appelée `extract()`. Si tidyr a été chargé après terra (par `library(tidyr)` ou `library(tidyverse)`), R utilise la version de tidyr et s'arrête avec *« no applicable method for 'extract' applied to an object of class SpatRaster »*. Écrire `package::fonction()` appelle toujours la bonne — une bonne habitude chaque fois que deux packages ont une fonction du même nom (`dplyr::filter()` et `stats::filter()`, `dplyr::select()` et `MASS::select()`…).
+:::
+:::
+
 ```{r, echo=FALSE}
-fa(c("`extract(x, y)`", "the value of the raster under each point of `y`; returns a data frame with a first column `ID` then one column per layer", "la valeur du raster sous chaque point de `y` ; renvoie un data frame avec une première colonne `ID` puis une colonne par couche", "a raster; a SpatVector in the same CRS", "un raster ; un SpatVector dans le même SCR"),
+fa(c("`terra::extract(x, y)`", "the value of the raster under each point of `y`; returns a data frame with a first column `ID` then one column per layer", "la valeur du raster sous chaque point de `y` ; renvoie un data frame avec une première colonne `ID` puis une colonne par couche", "a raster; a SpatVector in the same CRS", "un raster ; un SpatVector dans le même SCR"),
    c("`[, 2]`, `$depth_m`", "take the column of values (not `ID`)", "prendre la colonne des valeurs (pas `ID`)", "", ""))
 ```
 
@@ -264,14 +273,14 @@ Les sites les plus chauds ont davantage blanchi (corrélation positive), et à t
 :::
 
 ```{r}
-zs <- extract(bathy, zones_ll, fun = mean, na.rm = TRUE)          # one row per zone
+zs <- terra::extract(bathy, zones_ll, fun = mean, na.rm = TRUE)          # one row per zone
 zones$depth_mean <- round(zs$depth_m, 1)
-zones$sst_max    <- round(extract(sst_max, zones_ll, fun = max, na.rm = TRUE)[, 2], 2)
+zones$sst_max    <- round(terra::extract(sst_max, zones_ll, fun = max, na.rm = TRUE)[, 2], 2)
 st_drop_geometry(zones)[, c("mpa", "zone", "depth_mean", "sst_max")]
 ```
 
 ```{r, echo=FALSE}
-fa(c("`extract(x, polygons, fun, na.rm)`", "with polygons and `fun`: **one** value per polygon (zonal statistic)", "avec des polygones et `fun` : **une** valeur par polygone (statistique zonale)", "", ""),
+fa(c("`terra::extract(x, polygons, fun, na.rm)`", "with polygons and `fun`: **one** value per polygon (zonal statistic)", "avec des polygones et `fun` : **une** valeur par polygone (statistique zonale)", "", ""),
    c("&nbsp;&nbsp;`fun`", "the function applied to the cells of each polygon, **without** quotes", "la fonction appliquée aux cellules de chaque polygone, **sans** guillemets", "`mean`, `max`, `min`, `sum`", "`mean`, `max`, `min`, `sum`"))
 ```
 
@@ -319,15 +328,15 @@ Z <- st_read("data/advanced/monitoring_gis.gpkg", "mpa_zones", quiet = TRUE)
 S <- st_read("data/advanced/monitoring_gis.gpkg", "reef_sites", quiet = TRUE)
 SV <- vect(st_transform(S, 4326)); ZV <- vect(st_transform(Z, 4326))
 a1 <- ncell(B)
-a2 <- round(mean(extract(B, SV)$depth_m), 2)
-mar <- extract(SST[[3]], SV)[, 2]
+a2 <- round(mean(terra::extract(B, SV)$depth_m), 2)
+mar <- terra::extract(SST[[3]], SV)[, 2]
 a3 <- S$site_id[which.max(mar)]
 a4 <- as.numeric(global(sum(SST > 29.5), "max", na.rm = TRUE)[1, 1])
-smax <- extract(max(SST), SV)[, 2]
+smax <- terra::extract(max(SST), SV)[, 2]
 R <- read.csv("data/advanced/reef_monitoring.csv")
 b24 <- tapply(R$bleached_pct[R$year == 2024], R$site_id[R$year == 2024], mean)[S$site_id]
 a5 <- round(cor(smax, b24), 2)
-zd <- extract(B, ZV, fun = mean, na.rm = TRUE)$depth_m
+zd <- terra::extract(B, ZV, fun = mean, na.rm = TRUE)$depth_m
 a6 <- round(zd[Z$mpa == "Nosy Fasika" & Z$zone == "No-take"], 1)
 ```
 
@@ -399,16 +408,16 @@ bathy <- rast(here("data", "raw", "bathymetry.tif")); sst <- rast(here("data", "
 ncell(bathy)                                                         # 1
 sites <- st_read(here("data", "raw", "monitoring_gis.gpkg"), "reef_sites")
 sv <- vect(st_transform(sites, crs(bathy)))
-mean(extract(bathy, sv)$depth_m)                                     # 2
-march <- extract(sst[[3]], sv)[, 2]; sites$site_id[which.max(march)] # 3
+mean(terra::extract(bathy, sv)$depth_m)                                     # 2
+march <- terra::extract(sst[[3]], sv)[, 2]; sites$site_id[which.max(march)] # 3
 global(sum(sst > 29.5), "max", na.rm = TRUE)                         # 4
-sites$sst_max <- extract(max(sst), sv)[, 2]
+sites$sst_max <- terra::extract(max(sst), sv)[, 2]
 reef <- read.csv(here("data", "raw", "reef_monitoring.csv"))
 b24 <- reef %>% filter(year == 2024) %>% group_by(site_id) %>% summarise(bleached = mean(bleached_pct))
 d <- left_join(st_drop_geometry(sites), b24, by = "site_id")
 cor(d$sst_max, d$bleached)                                           # 5
 zones <- st_read(here("data", "raw", "monitoring_gis.gpkg"), "mpa_zones")
-zones$depth_mean <- extract(bathy, vect(st_transform(zones, crs(bathy))), fun = mean, na.rm = TRUE)$depth_m
+zones$depth_mean <- terra::extract(bathy, vect(st_transform(zones, crs(bathy))), fun = mean, na.rm = TRUE)$depth_m
 filter(st_drop_geometry(zones), mpa == "Nosy Fasika", zone == "No-take")   # 6
 writeRaster(max(sst), here("data", "derived", "sst_max_2024.tif"), overwrite = TRUE)   # 7
 write.csv(d, here("outputs", "tables", "sites_heat_bleaching_2024.csv"), row.names = FALSE)

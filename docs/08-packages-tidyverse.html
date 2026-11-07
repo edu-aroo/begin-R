@@ -1151,8 +1151,8 @@ ou réordonner des colonnes</span></h3>
 #&gt; 2 Ambalaboy       2             47
 #&gt; 3 Ambalaboy       3             64</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">names</span>(sg[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>)])  <span class="co"># drop</span></span></code></pre></div>
-<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;         
-#&gt; [5] &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;  
+#&gt; [6] &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
 </div>
 <div class="col pkg">
 <p>dplyr</p>
@@ -1163,8 +1163,8 @@ ou réordonner des colonnes</span></h3>
 #&gt; 2 Ambalaboy       2             47
 #&gt; 3 Ambalaboy       3             64</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">select</span>(sg, <span class="sc">-</span>date, <span class="sc">-</span>depth_m))</span></code></pre></div>
-<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;         
-#&gt; [5] &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;  
+#&gt; [6] &quot;canopy_height_cm&quot; &quot;shoot_density&quot;</code></pre>
 </div>
 </div>
 <div class="fa-box">
@@ -1643,10 +1643,8 @@ par catégorie</span></h3>
 <p>R base</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">table</span>(sg<span class="sc">$</span>species)</span></code></pre></div>
 <pre><code>#&gt; 
-#&gt;      Cymodocea serrulata Syringodium isoetifolium     Thalassia hemprichii 
-#&gt;                       17                       13                       21 
-#&gt; Thalassodendron ciliatum 
-#&gt;                        9</code></pre>
+#&gt;      Cymodocea serrulata Syringodium isoetifolium     Thalassia hemprichii Thalassodendron ciliatum 
+#&gt;                       17                       13                       21                        9</code></pre>
 </div>
 <div class="col pkg">
 <p>dplyr</p>

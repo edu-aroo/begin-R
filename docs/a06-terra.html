@@ -1323,9 +1323,9 @@ class="fr">Extraire les valeurs aux sites</span></h2>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/advanced/monitoring_gis.gpkg&quot;</span>, <span class="st">&quot;reef_sites&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>sites_ll <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="fu">st_transform</span>(sites, <span class="fu">crs</span>(sst)))           <span class="co"># points in the raster&#39;s CRS</span></span>
 <span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>sites<span class="sc">$</span>depth_raster <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">extract</span>(bathy, sites_ll)<span class="sc">$</span>depth_m, <span class="dv">1</span>)   <span class="co"># extract() adds an ID column</span></span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>sites<span class="sc">$</span>sst_max      <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">extract</span>(sst_max, sites_ll)[, <span class="dv">2</span>], <span class="dv">2</span>)</span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>sites<span class="sc">$</span>hot_months   <span class="ot">&lt;-</span> <span class="fu">extract</span>(hot_mons, sites_ll)[, <span class="dv">2</span>]</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>sites<span class="sc">$</span>depth_raster <span class="ot">&lt;-</span> <span class="fu">round</span>(terra<span class="sc">::</span><span class="fu">extract</span>(bathy, sites_ll)<span class="sc">$</span>depth_m, <span class="dv">1</span>)   <span class="co"># terra::extract() adds an ID column</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>sites<span class="sc">$</span>sst_max      <span class="ot">&lt;-</span> <span class="fu">round</span>(terra<span class="sc">::</span><span class="fu">extract</span>(sst_max, sites_ll)[, <span class="dv">2</span>], <span class="dv">2</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>sites<span class="sc">$</span>hot_months   <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(hot_mons, sites_ll)[, <span class="dv">2</span>]</span>
 <span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">st_drop_geometry</span>(sites)[, <span class="fu">c</span>(<span class="st">&quot;site_id&quot;</span>, <span class="st">&quot;zone&quot;</span>, <span class="st">&quot;depth_m&quot;</span>, <span class="st">&quot;depth_raster&quot;</span>, <span class="st">&quot;sst_max&quot;</span>, <span class="st">&quot;hot_months&quot;</span>)], <span class="dv">6</span>)</span></code></pre></div>
 <pre><code>#&gt;   site_id    zone depth_m depth_raster sst_max hot_months
 #&gt; 1     R01 No-take     7.1          3.1   29.68          1
@@ -1334,6 +1334,33 @@ class="fr">Extraire les valeurs aux sites</span></h2>
 #&gt; 4     R04 Fishing     7.2         12.0   29.40          0
 #&gt; 5     R05 Fishing    10.9          1.0   29.68          1
 #&gt; 6     R06 Fishing    11.7         12.1   29.73          1</code></pre>
+<div class="callout warning">
+<div class="en">
+<p><strong>Why <code>terra::extract()</code> and not just
+<code>extract()</code>?</strong> The package <strong>tidyr</strong>
+(Intermediate I2) also has a function called <code>extract()</code>. If
+tidyr was loaded after terra (by <code>library(tidyr)</code> or
+<code>library(tidyverse)</code>), R uses tidyr’s version and stops with
+<em>“no applicable method for ‘extract’ applied to an object of class
+SpatRaster”</em>. Writing <code>package::function()</code> always calls
+the right one — a good habit whenever two packages share a function name
+(<code>dplyr::filter()</code> vs <code>stats::filter()</code>,
+<code>dplyr::select()</code> vs <code>MASS::select()</code>…).</p>
+</div>
+<div class="fr">
+<p><strong>Pourquoi <code>terra::extract()</code> et pas simplement
+<code>extract()</code> ?</strong> Le package <strong>tidyr</strong>
+(intermédiaire I2) a aussi une fonction appelée <code>extract()</code>.
+Si tidyr a été chargé après terra (par <code>library(tidyr)</code> ou
+<code>library(tidyverse)</code>), R utilise la version de tidyr et
+s’arrête avec <em>« no applicable method for ‘extract’ applied to an
+object of class SpatRaster »</em>. Écrire
+<code>package::fonction()</code> appelle toujours la bonne — une bonne
+habitude chaque fois que deux packages ont une fonction du même nom
+(<code>dplyr::filter()</code> et <code>stats::filter()</code>,
+<code>dplyr::select()</code> et <code>MASS::select()</code>…).</p>
+</div>
+</div>
 <div class="fa-box">
 <div class="en">
 <p><strong>Functions and arguments used here</strong></p>
@@ -1352,7 +1379,7 @@ class="fr">Extraire les valeurs aux sites</span></h2>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>extract(x, y)</code></td>
+<td><code>terra::extract(x, y)</code></td>
 <td>the value of the raster under each point of <code>y</code>; returns
 a data frame with a first column <code>ID</code> then one column per
 layer</td>
@@ -1383,7 +1410,7 @@ layer</td>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>extract(x, y)</code></td>
+<td><code>terra::extract(x, y)</code></td>
 <td>la valeur du raster sous chaque point de <code>y</code> ; renvoie un
 data frame avec une première colonne <code>ID</code> puis une colonne
 par couche</td>
@@ -1470,9 +1497,9 @@ maximum temperature of each MPA…</p>
 fonction donne une valeur par polygone : la profondeur moyenne de chaque
 zone d’AMP, la température maximale de chaque AMP…</p>
 </div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>zs <span class="ot">&lt;-</span> <span class="fu">extract</span>(bathy, zones_ll, <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)          <span class="co"># one row per zone</span></span>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>zs <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(bathy, zones_ll, <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)          <span class="co"># one row per zone</span></span>
 <span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>zones<span class="sc">$</span>depth_mean <span class="ot">&lt;-</span> <span class="fu">round</span>(zs<span class="sc">$</span>depth_m, <span class="dv">1</span>)</span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>zones<span class="sc">$</span>sst_max    <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">extract</span>(sst_max, zones_ll, <span class="at">fun =</span> max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)[, <span class="dv">2</span>], <span class="dv">2</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>zones<span class="sc">$</span>sst_max    <span class="ot">&lt;-</span> <span class="fu">round</span>(terra<span class="sc">::</span><span class="fu">extract</span>(sst_max, zones_ll, <span class="at">fun =</span> max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)[, <span class="dv">2</span>], <span class="dv">2</span>)</span>
 <span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="fu">st_drop_geometry</span>(zones)[, <span class="fu">c</span>(<span class="st">&quot;mpa&quot;</span>, <span class="st">&quot;zone&quot;</span>, <span class="st">&quot;depth_mean&quot;</span>, <span class="st">&quot;sst_max&quot;</span>)]</span></code></pre></div>
 <pre><code>#&gt;           mpa    zone depth_mean sst_max
 #&gt; 1  Ankaramena Fishing        9.7   29.80
@@ -1502,7 +1529,7 @@ zone d’AMP, la température maximale de chaque AMP…</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>extract(x, polygons, fun, na.rm)</code></td>
+<td><code>terra::extract(x, polygons, fun, na.rm)</code></td>
 <td>with polygons and <code>fun</code>: <strong>one</strong> value per
 polygon (zonal statistic)</td>
 <td></td>
@@ -1534,7 +1561,7 @@ polygon (zonal statistic)</td>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>extract(x, polygons, fun, na.rm)</code></td>
+<td><code>terra::extract(x, polygons, fun, na.rm)</code></td>
 <td>avec des polygones et <code>fun</code> : <strong>une</strong> valeur
 par polygone (statistique zonale)</td>
 <td></td>
@@ -1746,16 +1773,16 @@ data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIGNlbGxzIG9mIGJhdGh5bWV0cnku
 <span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="fu">ncell</span>(bathy)                                                         <span class="co"># 1</span></span>
 <span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;monitoring_gis.gpkg&quot;</span>), <span class="st">&quot;reef_sites&quot;</span>)</span>
 <span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>sv <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="fu">st_transform</span>(sites, <span class="fu">crs</span>(bathy)))</span>
-<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">extract</span>(bathy, sv)<span class="sc">$</span>depth_m)                                     <span class="co"># 2</span></span>
-<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a>march <span class="ot">&lt;-</span> <span class="fu">extract</span>(sst[[<span class="dv">3</span>]], sv)[, <span class="dv">2</span>]; sites<span class="sc">$</span>site_id[<span class="fu">which.max</span>(march)] <span class="co"># 3</span></span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="fu">mean</span>(terra<span class="sc">::</span><span class="fu">extract</span>(bathy, sv)<span class="sc">$</span>depth_m)                                     <span class="co"># 2</span></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a>march <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(sst[[<span class="dv">3</span>]], sv)[, <span class="dv">2</span>]; sites<span class="sc">$</span>site_id[<span class="fu">which.max</span>(march)] <span class="co"># 3</span></span>
 <span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="fu">global</span>(<span class="fu">sum</span>(sst <span class="sc">&gt;</span> <span class="fl">29.5</span>), <span class="st">&quot;max&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)                         <span class="co"># 4</span></span>
-<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a>sites<span class="sc">$</span>sst_max <span class="ot">&lt;-</span> <span class="fu">extract</span>(<span class="fu">max</span>(sst), sv)[, <span class="dv">2</span>]</span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a>sites<span class="sc">$</span>sst_max <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(<span class="fu">max</span>(sst), sv)[, <span class="dv">2</span>]</span>
 <span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a>reef <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;reef_monitoring.csv&quot;</span>))</span>
 <span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a>b24 <span class="ot">&lt;-</span> reef <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2024</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site_id) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">bleached =</span> <span class="fu">mean</span>(bleached_pct))</span>
 <span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">left_join</span>(<span class="fu">st_drop_geometry</span>(sites), b24, <span class="at">by =</span> <span class="st">&quot;site_id&quot;</span>)</span>
 <span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a><span class="fu">cor</span>(d<span class="sc">$</span>sst_max, d<span class="sc">$</span>bleached)                                           <span class="co"># 5</span></span>
 <span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;monitoring_gis.gpkg&quot;</span>), <span class="st">&quot;mpa_zones&quot;</span>)</span>
-<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a>zones<span class="sc">$</span>depth_mean <span class="ot">&lt;-</span> <span class="fu">extract</span>(bathy, <span class="fu">vect</span>(<span class="fu">st_transform</span>(zones, <span class="fu">crs</span>(bathy))), <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>depth_m</span>
+<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a>zones<span class="sc">$</span>depth_mean <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(bathy, <span class="fu">vect</span>(<span class="fu">st_transform</span>(zones, <span class="fu">crs</span>(bathy))), <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>depth_m</span>
 <span id="cb31-16"><a href="#cb31-16" tabindex="-1"></a><span class="fu">filter</span>(<span class="fu">st_drop_geometry</span>(zones), mpa <span class="sc">==</span> <span class="st">&quot;Nosy Fasika&quot;</span>, zone <span class="sc">==</span> <span class="st">&quot;No-take&quot;</span>)   <span class="co"># 6</span></span>
 <span id="cb31-17"><a href="#cb31-17" tabindex="-1"></a><span class="fu">writeRaster</span>(<span class="fu">max</span>(sst), <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;derived&quot;</span>, <span class="st">&quot;sst_max_2024.tif&quot;</span>), <span class="at">overwrite =</span> <span class="cn">TRUE</span>)   <span class="co"># 7</span></span>
 <span id="cb31-18"><a href="#cb31-18" tabindex="-1"></a><span class="fu">write.csv</span>(d, <span class="fu">here</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;tables&quot;</span>, <span class="st">&quot;sites_heat_bleaching_2024.csv&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>

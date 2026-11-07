@@ -93,7 +93,7 @@ install.packages(c("here", "renv", "usethis", "gitcreds", "jsonlite", "rmarkdown
 | `global(r, "mean", na.rm = TRUE)` | [Summary of all cells]{.en}[Résumé de toutes les cellules]{.fr} |
 | `crop()`, `mask()`, `project(r, "EPSG:32738", method = "bilinear")` | [Cut · keep inside polygons · reproject ("near" for classes)]{.en}[Découper · garder dans des polygones · reprojeter ("near" pour des classes)]{.fr} |
 | `classify(r, matrix)`, `max(r)`, `sum(r > 29.5)` | [Classes · raster algebra]{.en}[Classes · algèbre de rasters]{.fr} |
-| `extract(r, vect(points))` · `extract(r, vect(polygons), fun = mean)` | [Values at sites · zonal statistics]{.en}[Valeurs aux sites · statistiques zonales]{.fr} |
+| `terra::extract(r, vect(points))` · `terra::extract(r, vect(polygons), fun = mean)` | [Values at sites · zonal statistics]{.en}[Valeurs aux sites · statistiques zonales]{.fr} |
 | `vect(sf)`, `st_as_sf(v)`, `writeRaster()` | [sf ↔ terra · save GeoTIFF]{.en}[sf ↔ terra · enregistrer en GeoTIFF]{.fr} |
 
 ## [A7 — Maps]{.en}[A7 — Cartes]{.fr} {.no-track}

@@ -1151,10 +1151,10 @@ donne 1, 2, …, length(x) — plus sûr que <code>1:length(x)</code> quand
 <span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  loss[i] <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(d<span class="sc">$</span>status <span class="sc">!=</span> <span class="st">&quot;harvested&quot;</span>), <span class="dv">1</span>)</span>
 <span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>}</span>
 <span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>loss</span></code></pre></div>
-<pre><code>#&gt;  Ambalakely Ambatofotsy  Ampasimena   Andrevobe    Ankarabe   Antsiraka      Befasy 
-#&gt;         8.2        11.1        12.1         7.7         4.5        10.4        14.2 
-#&gt;      Lovobe    Mahavelo  Sarondrano Tsiandavaka  Tsimanjaka 
-#&gt;        13.6         8.6         8.9        13.3         8.8</code></pre>
+<pre><code>#&gt;  Ambalakely Ambatofotsy  Ampasimena   Andrevobe    Ankarabe   Antsiraka      Befasy      Lovobe    Mahavelo 
+#&gt;         8.2        11.1        12.1         7.7         4.5        10.4        14.2        13.6         8.6 
+#&gt;  Sarondrano Tsiandavaka  Tsimanjaka 
+#&gt;         8.9        13.3         8.8</code></pre>
 <div class="fa-box">
 <div class="en">
 <p><strong>Functions and arguments used here</strong></p>
@@ -1340,10 +1340,10 @@ groupe, plus courts et plus rapides :</p>
 </div>
 </div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">tapply</span>(seaweed<span class="sc">$</span>status <span class="sc">!=</span> <span class="st">&quot;harvested&quot;</span>, seaweed<span class="sc">$</span>village, mean), <span class="dv">1</span>)   <span class="co"># = loss</span></span></code></pre></div>
-<pre><code>#&gt;  Ambalakely Ambatofotsy  Ampasimena   Andrevobe    Ankarabe   Antsiraka      Befasy 
-#&gt;         8.2        11.1        12.1         7.7         4.5        10.4        14.2 
-#&gt;      Lovobe    Mahavelo  Sarondrano Tsiandavaka  Tsimanjaka 
-#&gt;        13.6         8.6         8.9        13.3         8.8</code></pre>
+<pre><code>#&gt;  Ambalakely Ambatofotsy  Ampasimena   Andrevobe    Ankarabe   Antsiraka      Befasy      Lovobe    Mahavelo 
+#&gt;         8.2        11.1        12.1         7.7         4.5        10.4        14.2        13.6         8.6 
+#&gt;  Sarondrano Tsiandavaka  Tsimanjaka 
+#&gt;         8.9        13.3         8.8</code></pre>
 <div class="en">
 <p>Use a loop when each turn does something that has no vectorised
 equivalent: <strong>writing files</strong>, drawing <strong>one graph

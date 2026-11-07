@@ -675,10 +675,10 @@ class="fr">Lignes et colonnes par numéro</span></h3>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>sg[<span class="dv">2</span>, <span class="dv">7</span>]                  <span class="co"># row 2, column 7 -&gt; one value</span></span></code></pre></div>
 <pre><code>#&gt; [1] 47</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>sg[<span class="dv">2</span>, ]                   <span class="co"># row 2, all columns -&gt; one row (a data frame)</span></span></code></pre></div>
-<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species seagrass_cover
-#&gt; 2 Ambalaboy     Inside       2 2026-03-10     0.9 Syringodium isoetifolium             47
-#&gt;   canopy_height_cm shoot_density
-#&gt; 2               17           464</code></pre>
+<pre><code>#&gt;        site mpa_status quadrat       date depth_m                  species seagrass_cover canopy_height_cm
+#&gt; 2 Ambalaboy     Inside       2 2026-03-10     0.9 Syringodium isoetifolium             47               17
+#&gt;   shoot_density
+#&gt; 2           464</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>sg[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]              <span class="co"># rows 1 to 3, columns 1 to 4</span></span></code></pre></div>
 <pre><code>#&gt;        site mpa_status quadrat       date
 #&gt; 1 Ambalaboy     Inside       1 2026-03-10
@@ -1363,17 +1363,16 @@ colonnes</span></h2>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a>sg<span class="sc">$</span>campaign <span class="ot">&lt;-</span> <span class="cn">NULL</span>                     <span class="co"># 1. delete one column with NULL</span></span>
 <span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a>sg <span class="ot">&lt;-</span> sg[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">13</span>)]                  <span class="co"># 2. delete by position (minus sign)</span></span>
 <span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a><span class="fu">names</span>(sg)</span></code></pre></div>
-<pre><code>#&gt;  [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;            
-#&gt;  [5] &quot;depth_m&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot;
-#&gt;  [9] &quot;shoot_density&quot;    &quot;cover_prop&quot;       &quot;shoots_counted&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;             &quot;depth_m&quot;         
+#&gt;  [6] &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;    &quot;cover_prop&quot;      
+#&gt; [11] &quot;shoots_counted&quot;</code></pre>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="co"># 3. delete by name: keep the columns whose name is NOT in the list</span></span>
 <span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a>sg <span class="ot">&lt;-</span> sg[, <span class="sc">!</span>(<span class="fu">names</span>(sg) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;canopy_index&quot;</span>))]</span>
 <span id="cb47-3"><a href="#cb47-3" tabindex="-1"></a><span class="co"># 4. same with subset() and select = -c(...)</span></span>
 <span id="cb47-4"><a href="#cb47-4" tabindex="-1"></a>sg <span class="ot">&lt;-</span> <span class="fu">subset</span>(sg, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(cover_prop))</span>
 <span id="cb47-5"><a href="#cb47-5" tabindex="-1"></a><span class="fu">names</span>(sg)</span></code></pre></div>
-<pre><code>#&gt;  [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;            
-#&gt;  [5] &quot;depth_m&quot;          &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot;
-#&gt;  [9] &quot;shoot_density&quot;    &quot;shoots_counted&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;site&quot;             &quot;mpa_status&quot;       &quot;quadrat&quot;          &quot;date&quot;             &quot;depth_m&quot;         
+#&gt;  [6] &quot;species&quot;          &quot;seagrass_cover&quot;   &quot;canopy_height_cm&quot; &quot;shoot_density&quot;    &quot;shoots_counted&quot;</code></pre>
 <div class="fa-box">
 <div class="en">
 <p><strong>Functions and arguments used here</strong></p>
@@ -1509,14 +1508,14 @@ listant dans le nouvel ordre.</p>
 <span id="cb49-2"><a href="#cb49-2" tabindex="-1"></a>sg <span class="ot">&lt;-</span> sg[, <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;quadrat&quot;</span>, <span class="st">&quot;cover_pct&quot;</span>, <span class="st">&quot;species&quot;</span>, <span class="st">&quot;mpa_status&quot;</span>,</span>
 <span id="cb49-3"><a href="#cb49-3" tabindex="-1"></a>             <span class="st">&quot;date&quot;</span>, <span class="st">&quot;depth_m&quot;</span>, <span class="st">&quot;canopy_height_cm&quot;</span>, <span class="st">&quot;shoot_density&quot;</span>)]  <span class="co"># reorder (and keep 9)</span></span>
 <span id="cb49-4"><a href="#cb49-4" tabindex="-1"></a><span class="fu">head</span>(sg, <span class="dv">3</span>)</span></code></pre></div>
-<pre><code>#&gt;        site quadrat cover_pct                  species mpa_status       date depth_m
-#&gt; 1 Ambalaboy       1        69     Thalassia hemprichii     Inside 2026-03-10     2.8
-#&gt; 2 Ambalaboy       2        47 Syringodium isoetifolium     Inside 2026-03-10     0.9
-#&gt; 3 Ambalaboy       3        64     Thalassia hemprichii     Inside 2026-03-10     2.3
-#&gt;   canopy_height_cm shoot_density
-#&gt; 1             18.8           648
-#&gt; 2             17.0           464
-#&gt; 3             18.8           504</code></pre>
+<pre><code>#&gt;        site quadrat cover_pct                  species mpa_status       date depth_m canopy_height_cm
+#&gt; 1 Ambalaboy       1        69     Thalassia hemprichii     Inside 2026-03-10     2.8             18.8
+#&gt; 2 Ambalaboy       2        47 Syringodium isoetifolium     Inside 2026-03-10     0.9             17.0
+#&gt; 3 Ambalaboy       3        64     Thalassia hemprichii     Inside 2026-03-10     2.3             18.8
+#&gt;   shoot_density
+#&gt; 1           648
+#&gt; 2           464
+#&gt; 3           504</code></pre>
 <div class="fa-box">
 <div class="en">
 <p><strong>Functions and arguments used here</strong></p>
@@ -1775,10 +1774,10 @@ fois la même ligne.</p>
 </table>
 </div>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a><span class="fu">sapply</span>(sg, class)                    <span class="co"># the type of every column, in one line</span></span></code></pre></div>
-<pre><code>#&gt;             site          quadrat        cover_pct          species       mpa_status 
-#&gt;      &quot;character&quot;        &quot;numeric&quot;        &quot;numeric&quot;      &quot;character&quot;      &quot;character&quot; 
-#&gt;             date          depth_m canopy_height_cm    shoot_density 
-#&gt;      &quot;character&quot;        &quot;numeric&quot;        &quot;numeric&quot;        &quot;numeric&quot;</code></pre>
+<pre><code>#&gt;             site          quadrat        cover_pct          species       mpa_status             date 
+#&gt;      &quot;character&quot;        &quot;numeric&quot;        &quot;numeric&quot;      &quot;character&quot;      &quot;character&quot;      &quot;character&quot; 
+#&gt;          depth_m canopy_height_cm    shoot_density 
+#&gt;        &quot;numeric&quot;        &quot;numeric&quot;        &quot;numeric&quot;</code></pre>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a>num <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;cover_pct&quot;</span>, <span class="st">&quot;depth_m&quot;</span>, <span class="st">&quot;canopy_height_cm&quot;</span>, <span class="st">&quot;shoot_density&quot;</span>)</span>
 <span id="cb57-2"><a href="#cb57-2" tabindex="-1"></a><span class="fu">sapply</span>(sg[, num], mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># extra arguments go after the function</span></span></code></pre></div>
 <pre><code>#&gt;        cover_pct          depth_m canopy_height_cm    shoot_density 

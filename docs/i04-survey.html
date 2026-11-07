@@ -831,21 +831,17 @@ R de base fonctionnent aussi :</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">table</span>(hh<span class="sc">$</span>mpa_benefits, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; 
-#&gt;              Agree     Strongly agree  Strongly disagree              agree 
-#&gt;                  5                  4                  1                  9 
-#&gt;              Agree           Disagree            neutral            Neutral 
-#&gt;                136                 46                  5                102 
-#&gt;     strongly agree     Strongly agree  strongly disagree  Strongly disagree 
-#&gt;                  4                 71                  1                 28 
-#&gt;               &lt;NA&gt; 
-#&gt;                  8</code></pre>
+#&gt;              Agree     Strongly agree  Strongly disagree              agree              Agree 
+#&gt;                  5                  4                  1                  9                136 
+#&gt;           Disagree            neutral            Neutral     strongly agree     Strongly agree 
+#&gt;                 46                  5                102                  4                 71 
+#&gt;  strongly disagree  Strongly disagree               &lt;NA&gt; 
+#&gt;                  1                 28                  8</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>hh<span class="sc">$</span>mpa_benefits <span class="ot">&lt;-</span> <span class="fu">str_to_sentence</span>(<span class="fu">str_squish</span>(hh<span class="sc">$</span>mpa_benefits))</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">table</span>(hh<span class="sc">$</span>mpa_benefits, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; 
-#&gt;             Agree          Disagree           Neutral    Strongly agree Strongly disagree 
-#&gt;               150                46               107                79                30 
-#&gt;              &lt;NA&gt; 
-#&gt;                 8</code></pre>
+#&gt;             Agree          Disagree           Neutral    Strongly agree Strongly disagree              &lt;NA&gt; 
+#&gt;               150                46               107                79                30                 8</code></pre>
 <div class="fa-box">
 <div class="en">
 <p><strong>Functions and arguments used here</strong></p>

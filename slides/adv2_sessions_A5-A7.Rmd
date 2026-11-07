@@ -104,7 +104,7 @@ c(res = res(bathy)[1], cellules = ncell(bathy), couches_sst = nlyr(sst))
 
 ```{r, fig.width = 6, fig.height = 3.6, out.width = "55%"}
 sv <- vect(st_transform(sites, crs(sst)))
-heat <- data.frame(site_id = sites$site_id, zone = sites$zone, sst_max = extract(max(sst), sv)[, 2]) |>
+heat <- data.frame(site_id = sites$site_id, zone = sites$zone, sst_max = terra::extract(max(sst), sv)[, 2]) |>
   left_join(reef |> filter(year == 2024) |> group_by(site_id) |> summarise(bl = mean(bleached_pct)), by = "site_id")
 ggplot(heat, aes(sst_max, bl, colour = zone)) + geom_point(size = 3) +
   labs(x = "SST max 2024 (°C)", y = "Blanchies 2024 (%)", colour = NULL) + theme_minimal()
@@ -115,7 +115,7 @@ r = `r round(cor(heat$sst_max, heat$bl), 2)` : un **indice**, pas une preuve (18
 ## Statistiques zonales
 
 ```{r}
-zs <- extract(bathy, vect(st_transform(zones, 4326)), fun = mean, na.rm = TRUE)
+zs <- terra::extract(bathy, vect(st_transform(zones, 4326)), fun = mean, na.rm = TRUE)
 data.frame(mpa = zones$mpa, zone = zones$zone, prof = round(zs$depth_m, 1))[1:4, ]
 ```
 

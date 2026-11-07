@@ -905,7 +905,7 @@
     }
     const l = CFG.levels.find(x => x.id === lv);
     box.innerHTML = `<div class="rc-cert">
-      <div class="rc-cert-band"></div>
+     
       <p class="rc-cert-small">${t("Certificate of completion", "Certificat de réussite")}</p>
       <h1>${t(CFG.title.en, CFG.title.fr)}</h1>
       <p>${t("This certifies that", "Ce certificat atteste que")}</p>
@@ -913,7 +913,7 @@
       <p>${t(`has completed the <b>${l.en}</b> level with a score of <b>${c.pct} %</b>.`,
              `a validé le niveau <b>${l.fr}</b> avec un score de <b>${c.pct} %</b>.`)}</p>
       <div class="rc-cert-foot">
-        <div><span class="rc-cert-sign">${CFG.author}</span><br><small>${t("Instructor", "Formateur")}</small></div>
+        <div><span class="rc-cert-sign">Aroniaina M. Falinirina</span><br><small>${t("Instructor", "Formateur")}</small></div>
         <div><b>${c.date}</b><br><small>${t("Date", "Date")}</small></div>
         <div><code>${c.code}</code><br><small>${t("Verification code", "Code de vérification")}</small></div>
       </div></div>
@@ -951,6 +951,19 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     addWatermark();
+    // Certificate preview for the teacher (cert-preview.html): works ONLY on the
+    // teacher's own computer (localhost or a file opened from disk), never online.
+    if (PAGE_ID === "cert-preview") {
+      const box = document.getElementById("certificate-box");
+      const local = ["localhost", "127.0.0.1", ""].indexOf(location.hostname) !== -1;
+      if (!local) { if (box) box.innerHTML = "<p>Preview available on your own computer only.</p>"; return; }
+      AUTH = { user: "preview", name: "<span class=\"en\">Student Name</span><span class=\"fr\">Nom de l'étudiant</span>", level: "advanced", role: "student", openPages: [] };
+      STATE = emptyState();
+      CFG.levels.forEach(l => { STATE.certificates[l.id] = { code: "RC-PREVIEW-0001", date: new Date().toISOString().slice(0, 10), pct: 88 }; });
+      document.documentElement.classList.add("rc-authed");
+      buildCertificate();
+      return;
+    }    
     try { AUTH = JSON.parse(sessionStorage.getItem(AUTH_KEY)); } catch (e) { AUTH = null; }
     if (!AUTH) { showLogin(); return; }
     try { STATE = Object.assign(emptyState(), migrateState(JSON.parse(sessionStorage.getItem("rc_state_cache")))); }

@@ -29,7 +29,7 @@ ap4a <- round(global(SST[[8]], "mean", na.rm = TRUE)[1, 1], 2)
 Bm <- mask(crop(B, vect(st_transform(Z, 4326))), vect(st_transform(Z, 4326)))
 ap4b <- as.numeric(global(Bm > 20, "sum", na.rm = TRUE)[1, 1])
 S <- st_read(gpkg, "reef_sites", quiet = TRUE)
-dS <- extract(B, vect(st_transform(S, 4326)))$depth_m
+dS <- terra::extract(B, vect(st_transform(S, 4326)))$depth_m
 ap4c <- S$site_id[which.max(dS)]
 # ap5 -- mangroves ----------------------------------------------------------------------
 P <- ca_plots(); TR <- ca_trees_clean()

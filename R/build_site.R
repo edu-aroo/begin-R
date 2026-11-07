@@ -21,3 +21,4 @@ for (d in c("assets", "docs/assets")) {
 # 4. GitHub Pages: do not run Jekyll
 file.create("docs/.nojekyll")
 message(length(idx), " quizzes indexed. Site built in docs/. Check docs/index.html, then commit + push.")
+
