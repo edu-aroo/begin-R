@@ -347,6 +347,7 @@
     box.innerHTML = `
       <div class="rc-login-card">
         <div class="rc-login-wave" aria-hidden="true"></div>
+         <img class="rc-login-logo" src="assets/img/logo.png" alt="Logo">
         <h1>${t(CFG.title.en, CFG.title.fr)}</h1>
         <p class="rc-login-sub">${t(CFG.subtitle.en, CFG.subtitle.fr)}</p>
         <form>
