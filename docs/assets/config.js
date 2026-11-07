@@ -38,6 +38,7 @@ window.COURSE_CONFIG = {
   // Quiz rules: attempts per quiz, and the share of the level's total points
   // (best attempt of every quiz, practice quizzes included) needed to open the next level.
   maxAttempts: 2,
+  manualLevelUnlock: true,
   passThreshold: 0.75,
 
   // Shown in the "you need help" message

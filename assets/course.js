@@ -270,6 +270,7 @@
     const i = LEVEL_IDS.indexOf(levelId);
     if (i <= 0) return true;
     if (i <= LEVEL_IDS.indexOf(AUTH.level || "beginner")) return true;
+    if (CFG.manualLevelUnlock) return false;          // only the "level" column opens a level
     return isUnlocked(LEVEL_IDS[i - 1]) && levelStats(LEVEL_IDS[i - 1]).passed;
   }
 
@@ -310,8 +311,11 @@
           showModal(`<h2>${t("Congratulations!", "Félicitations !")} 🎉</h2>
             <p>${t(`You passed the <b>${levelLabel(levelId, "en")}</b> level with <b>${Math.round(100 * st.pct)} %</b>.`,
                    `Vous avez validé le niveau <b>${levelLabel(levelId, "fr")}</b> avec <b>${Math.round(100 * st.pct)} %</b>.`)}</p>
-            ${next ? `<p>${t(`The <b>${levelLabel(next, "en")}</b> level is now open.`,
-                             `Le niveau <b>${levelLabel(next, "fr")}</b> est maintenant ouvert.`)}</p>` : ""}
+           ${next ? (CFG.manualLevelUnlock
+              ? `<p>${t(`Your teacher has been informed and will open the <b>${levelLabel(next, "en")}</b> level for you.`,
+                        `Votre formateur a été prévenu et vous ouvrira le niveau <b>${levelLabel(next, "fr")}</b>.`)}</p>`
+              : `<p>${t(`The <b>${levelLabel(next, "en")}</b> level is now open.`,
+                        `Le niveau <b>${levelLabel(next, "fr")}</b> est maintenant ouvert.`)}</p>`) : ""}
             <p><a class="rc-continue" href="certificate.html?level=${levelId}">${t("See my certificate", "Voir mon certificat")}</a></p>`);
         }).catch(() => {});
     } else if (ps.passed && !wasPassed) {
@@ -848,7 +852,8 @@
       const open = isUnlocked(l.id), st = levelStats(l.id);
       let status;
       if (!l.pages.length) status = `<span class="rc-tag soon">${t("coming soon", "bientôt")}</span>`;
-      else if (!open) status = `<span class="rc-tag locked">🔒 ${t("locked", "verrouillé")}</span>`;
+      else if (!open) status = `<span class="rc-tag locked">🔒 ${CFG.manualLevelUnlock
+        ? t("locked — opened by the teacher", "verrouillé — ouvert par le formateur") : t("locked", "verrouillé")}</span>`;
       else if (!st.passed && LEVEL_IDS.indexOf(l.id) < LEVEL_IDS.indexOf(AUTH.level || "beginner") && !isTeacher())
         status = `<span class="rc-tag soon">${t("skipped — open for revision", "dispensé — ouvert pour révision")}</span>`;
       else if (l.inProgress && open) status = `<span class="rc-tag open">${t("in preparation", "en préparation")} · ${t("score", "score")} ${Math.round(100 * st.pct)} % · ${st.done}/${st.n} quiz</span>`;
