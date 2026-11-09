@@ -31,14 +31,13 @@ window.COURSE_CONFIG = {
 
   // DEMO MODE only (real accounts are in the Google Sheet, never here: this file is public)
   demoUsers: [
-    { user: "demo",    pass: "demo",    name: "Demo Student", level: "beginner", role: "student" },
+    { user: "demo",    pass: "demo",    name: "Demo Student", level: "beginner, intermediate, advanced", role: "student" },
     { user: "teacher", pass: "teacher", name: "Demo Teacher", level: "advanced", role: "teacher" }
   ],
 
   // Quiz rules: attempts per quiz, and the share of the level's total points
   // (best attempt of every quiz, practice quizzes included) needed to open the next level.
   maxAttempts: 2,
-  manualLevelUnlock: true,
   passThreshold: 0.75,
 
   // Shown in the "you need help" message

@@ -75,7 +75,8 @@
     if (action === "login") {
       let st = null;
       try { st = JSON.parse(localStorage.getItem(key)); } catch (e) {}
-      return Promise.resolve({ ok: true, name: u.name, level: u.level, role: u.role, state: st });
+      return Promise.resolve({ ok: true, name: u.name, level: u.level, role: u.role, state: st,
+                               levels: String(u.level).split(/[,;\s]+/).filter(x => x) });
     }
     if (action === "unlock") {
       const code = "DEMO-" + data.passed.slice(0, 3).toUpperCase() + "-" + Date.now().toString(36).toUpperCase();
@@ -247,7 +248,6 @@
     const f = findPage(pageId);
     if (!f) return true;                                 // home page, help, cheatsheets…
     if (!isUnlocked(f.level.id)) return false;
-    if (LEVEL_IDS.indexOf(f.level.id) < LEVEL_IDS.indexOf(AUTH.level || "beginner")) return true;
     if (f.i === 0 || manuallyOpened(pageId) || isSkipped(pageId)) return true;   // skipped = open for revision
     if (pageQuizIds(f.page).some(id => STATE.quizzes[id])) return true;   // work already started is never hidden
     return pageStats(f.level.pages[f.i - 1].id).passed;
@@ -263,15 +263,20 @@
     return !!nxt && manuallyOpened(nxt.id);
   }
 
-  // A level is open if: teacher; or level granted in the Google Sheet (column "level");
-  // or the previous level is open AND passed.
+  // Levels the student registered for = column "level" of the Google Sheet,
+  // e.g. "beginner", "intermediate, advanced", "beginner, intermediate, advanced".
+  function grantedLevels() {
+    const g = (AUTH && AUTH.levels && AUTH.levels.length) ? AUTH.levels : [(AUTH && AUTH.level) || "beginner"];
+    return LEVEL_IDS.filter(id => g.indexOf(id) !== -1);          // in course order
+  }
+  // A level is open if: teacher; or it is in the student's list AND it is the first
+  // level of the list, or the previous level of the list is passed.
   function isUnlocked(levelId) {
     if (isTeacher()) return true;
-    const i = LEVEL_IDS.indexOf(levelId);
-    if (i <= 0) return true;
-    if (i <= LEVEL_IDS.indexOf(AUTH.level || "beginner")) return true;
-    if (CFG.manualLevelUnlock) return false;          // only the "level" column opens a level
-    return isUnlocked(LEVEL_IDS[i - 1]) && levelStats(LEVEL_IDS[i - 1]).passed;
+    const g = grantedLevels(), k = g.indexOf(levelId);
+    if (k === -1) return false;                       // not in the registration
+    if (k === 0) return true;                         // starting level
+    return isUnlocked(g[k - 1]) && levelStats(g[k - 1]).passed;
   }
 
   // Called after each quiz of the page:
@@ -285,8 +290,7 @@
     const f = findPage(pageId);
     if (!f) return;
     const ps = pageStats(pageId), levelId = f.level.id;
-    // a level below the one given in the Sheet is optional revision: no "stuck" alert
-    const optional = LEVEL_IDS.indexOf(levelId) < LEVEL_IDS.indexOf(AUTH.level || "beginner");
+    const optional = false;
     if (ps.stuck && !optional && !manuallyOpenedNext(pageId)) {
       if (!STATE.alerts[pageId]) {
         STATE.alerts[pageId] = new Date().toISOString();
@@ -299,23 +303,23 @@
     }
     const st = levelStats(levelId);
     const next = LEVEL_IDS[LEVEL_IDS.indexOf(levelId) + 1];
+    const nextGranted = !!next && grantedLevels().indexOf(next) !== -1;
     const inProgress = !!f.level.inProgress;          // level still being written: no certificate yet
     if (st.passed && !inProgress && !STATE.certificates[levelId]) {
       api("unlock", { user: AUTH.user, pass: AUTH.pass, passed: levelId, level: next,
                       pct: Math.round(100 * st.pct) })
         .then(r => {
           if (!r.ok) return;
-          if (r.level) { AUTH.level = r.level; sessionStorage.setItem(AUTH_KEY, JSON.stringify(AUTH)); }
           if (r.certificate) STATE.certificates[levelId] = r.certificate;
           saveSoon();
           showModal(`<h2>${t("Congratulations!", "Félicitations !")} 🎉</h2>
             <p>${t(`You passed the <b>${levelLabel(levelId, "en")}</b> level with <b>${Math.round(100 * st.pct)} %</b>.`,
                    `Vous avez validé le niveau <b>${levelLabel(levelId, "fr")}</b> avec <b>${Math.round(100 * st.pct)} %</b>.`)}</p>
-           ${next ? (CFG.manualLevelUnlock
-              ? `<p>${t(`Your teacher has been informed and will open the <b>${levelLabel(next, "en")}</b> level for you.`,
-                        `Votre formateur a été prévenu et vous ouvrira le niveau <b>${levelLabel(next, "fr")}</b>.`)}</p>`
-              : `<p>${t(`The <b>${levelLabel(next, "en")}</b> level is now open.`,
-                        `Le niveau <b>${levelLabel(next, "fr")}</b> est maintenant ouvert.`)}</p>`) : ""}
+           ${next ? (nextGranted
+              ? `<p>${t(`The <b>${levelLabel(next, "en")}</b> level is now open.`,
+                        `Le niveau <b>${levelLabel(next, "fr")}</b> est maintenant ouvert.`)}</p>`
+              : `<p>${t(`To continue with the <b>${levelLabel(next, "en")}</b> level, <a href="help.html">contact me</a>.`,
+                        `Pour continuer avec le niveau <b>${levelLabel(next, "fr")}</b>, <a href="help.html">contactez-moi</a>.`)}</p>`) : ""}
             <p><a class="rc-continue" href="certificate.html?level=${levelId}">${t("See my certificate", "Voir mon certificat")}</a></p>`);
         }).catch(() => {});
     } else if (ps.passed && !wasPassed) {
@@ -387,7 +391,7 @@
         const r = await api("login", { user: user, pass: pass });
         if (!r.ok) { msg.innerHTML = t("Wrong username or password.", "Identifiant ou mot de passe incorrect."); return; }
         AUTH = { user: user, pass: pass, name: r.name || user,
-                 level: r.level || "beginner", role: r.role || "student",
+                 level: r.level || "beginner", levels: r.levels || null, role: r.role || "student",
                  openPages: r.openPages || [] };
         sessionStorage.setItem(AUTH_KEY, JSON.stringify(AUTH));
         STATE = r.state ? Object.assign(emptyState(), migrateState(r.state)) : emptyState();
@@ -755,11 +759,21 @@
     const lv = levelOfPage(PAGE_ID);
     if (!lv || isPageOpen(PAGE_ID)) return false;
     if (isUnlocked(lv)) return lockSession();
-    const prev = LEVEL_IDS[LEVEL_IDS.indexOf(lv) - 1];
-    const st = levelStats(prev);
     document.documentElement.classList.add("rc-page-locked");
     const card = document.createElement("div");
     card.className = "rc-lock-card";
+    const g = grantedLevels();
+    if (g.indexOf(lv) === -1) {                       // level not in the student's registration
+      card.innerHTML = `<div class="rc-lock-icon">🔒</div>
+        <h2>${t(`The ${levelLabel(lv, "en")} level is not part of your registration`, `Le niveau ${levelLabel(lv, "fr")} ne fait pas partie de votre inscription`)}</h2>
+        <p>${t("To follow it, please contact me.", "Pour le suivre, merci de me contacter.")}</p>
+        <p><a class="rc-continue" href="help.html">${t("Contact me", "Me contacter")}</a>
+           <a href="index.html">${t("Back to my dashboard", "Retour à mon tableau de bord")}</a></p>`;
+      document.querySelector(".main-container").prepend(card);
+      return true;
+    }
+    const prev = g[g.indexOf(lv) - 1];                // previous level of the registration
+    const st = levelStats(prev);
     card.innerHTML = `<div class="rc-lock-icon">🔒</div>
       <h2>${t(`The ${levelLabel(lv, "en")} level is locked`, `Le niveau ${levelLabel(lv, "fr")} est verrouillé`)}</h2>
       <p>${t(`It opens when you complete all quizzes of the <b>${levelLabel(prev, "en")}</b> level with at least <b>${Math.round(PASS * 100)} %</b> of the points.`,
@@ -846,20 +860,19 @@
     const cont = STATE.lastPage && STATE.lastPage !== "index"
       ? `<a class="rc-continue" href="${STATE.lastPage}.html${STATE.lastSection ? "#" + STATE.lastSection : ""}">
            ${t("Continue where you stopped", "Reprendre là où vous vous êtes arrêté")} →</a>`
-      : `<a class="rc-continue" href="00-installation.html">${t("Start the course", "Commencer le cours")} →</a>`;
+      : `<a class="rc-continue" href="${((CFG.levels.find(l => l.id === (isTeacher() ? "beginner" : grantedLevels()[0])) || CFG.levels[0]).pages[0] || {id: "00-installation"}).id}.html">${t("Start the course", "Commencer le cours")} →</a>`;
     let html = `<p class="rc-hello">${t("Hello", "Bonjour")} <b>${AUTH.name}</b></p>${cont}`;
     CFG.levels.forEach(l => {
       const open = isUnlocked(l.id), st = levelStats(l.id);
       let status;
       if (!l.pages.length) status = `<span class="rc-tag soon">${t("coming soon", "bientôt")}</span>`;
-      else if (!open) status = `<span class="rc-tag locked">🔒 ${CFG.manualLevelUnlock
-        ? t("locked — opened by the teacher", "verrouillé — ouvert par le formateur") : t("locked", "verrouillé")}</span>`;
-      else if (!st.passed && LEVEL_IDS.indexOf(l.id) < LEVEL_IDS.indexOf(AUTH.level || "beginner") && !isTeacher())
-        status = `<span class="rc-tag soon">${t("skipped — open for revision", "dispensé — ouvert pour révision")}</span>`;
+      else if (!open) status = grantedLevels().indexOf(l.id) === -1
+        ? `<span class="rc-tag locked">🔒 ${t("not in your registration", "hors de votre inscription")}</span> <a href="help.html">${t("contact me", "me contacter")}</a>`
+        : `<span class="rc-tag locked">🔒 ${t("opens when the previous level is passed", "s'ouvre quand le niveau précédent est validé")}</span>`;
       else if (l.inProgress && open) status = `<span class="rc-tag open">${t("in preparation", "en préparation")} · ${t("score", "score")} ${Math.round(100 * st.pct)} % · ${st.done}/${st.n} quiz</span>`;
       else if (st.passed) status = `<span class="rc-tag passed">✓ ${t("passed", "validé")} · ${Math.round(100 * st.pct)} %</span>
                                     ${STATE.certificates[l.id] ? `<a href="certificate.html?level=${l.id}">${t("certificate", "certificat")}</a>` : ""}`;
-      else if (levelHasStuckPage(l.id) && !isTeacher() && LEVEL_IDS.indexOf(l.id) >= LEVEL_IDS.indexOf(AUTH.level || "beginner")) status = `<span class="rc-tag stuck">${t("needs help", "besoin d'aide")}</span> <a href="help.html">${t("contact me", "me contacter")}</a>`;
+      else if (levelHasStuckPage(l.id) && !isTeacher()) status = `<span class="rc-tag stuck">${t("needs help", "besoin d'aide")}</span> <a href="help.html">${t("contact me", "me contacter")}</a>`;
       else status = `<span class="rc-tag open">${t("score", "score")} ${Math.round(100 * st.pct)} % · ${st.done}/${st.n} quiz</span>`;
       html += `<div class="rc-level ${open ? "" : "is-locked"}"><h3>${t(l.en, l.fr)} ${status}</h3>`;
       if (l.pages.length && open) {
