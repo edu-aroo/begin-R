@@ -1,6 +1,6 @@
 ---
 title: "[A7 · Thematic maps with ggplot2, sf and tmap]{.en}[A7 · Cartes thématiques avec ggplot2, sf et tmap]{.fr}"
-pagetitle: "R for marine sciences · A7"
+pagetitle: "R4Marine Research · A7"
 subtitle: "~3 h"
 ---
 

@@ -1,10 +1,21 @@
 ---
 title: "[What's new]{.en}[Nouveautés]{.fr}"
-pagetitle: "R for marine sciences · What's new"
+pagetitle: "R4Marine Research · What's new"
 ---
 
 <!-- Add a section at the TOP each time you publish a new version, and change
      "version" and "versionDate" in assets/config.js -->
+
+## v4.5 — 2026-11 {.no-track}
+
+::: en
+- New course title: **R4Marine Research - R Programming for Marine Sciences Research**.
+- Each certificate page now shows a personal message and a Bible verse for the level passed.
+:::
+::: fr
+- Nouveau titre du cours : **R4Marine Research - Programmation en R pour la Recherche en Sciences Marines**.
+- Chaque page de certificat affiche maintenant un message personnel et un verset biblique pour le niveau validé.
+:::
 
 ## v4.4 — 2026-11 {.no-track}
 

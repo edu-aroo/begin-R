@@ -1,6 +1,6 @@
 ---
 title: "[5 · Filtering & cleaning data]{.en}[5 · Filtrer et nettoyer les données]{.fr}"
-pagetitle: "R course · Session 5"
+pagetitle: "R4Marine Research · Session 5"
 subtitle: "~3 h"
 ---
 

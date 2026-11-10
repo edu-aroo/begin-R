@@ -1,6 +1,6 @@
 ---
 title: "[A0 · Organising a reproducible project]{.en}[A0 · Organiser un projet reproductible]{.fr}"
-pagetitle: "R for marine sciences · A0"
+pagetitle: "R4Marine Research · A0"
 subtitle: "~2.5 h"
 ---
 

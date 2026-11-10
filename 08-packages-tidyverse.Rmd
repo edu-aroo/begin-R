@@ -1,6 +1,6 @@
 ---
 title: "[8 · Packages, dplyr & ggplot2]{.en}[8 · Packages, dplyr et ggplot2]{.fr}"
-pagetitle: "R course · Session 8"
+pagetitle: "R4Marine Research · Session 8"
 subtitle: "~3.5 h"
 ---
 

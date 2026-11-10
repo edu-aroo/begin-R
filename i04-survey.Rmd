@@ -1,6 +1,6 @@
 ---
 title: "[I4 · Survey data and text]{.en}[I4 · Données d'enquête et texte]{.fr}"
-pagetitle: "R for marine sciences · I4"
+pagetitle: "R4Marine Research · I4"
 subtitle: "~3 h"
 ---
 

@@ -1,6 +1,6 @@
 ---
-title: "[R for marine sciences]{.en}[R pour les sciences marines]{.fr}"
-pagetitle: "R for marine sciences · Home"
+title: "[R4Marine Research - R Programming for Marine Sciences Research]{.en}[R4Marine Research - Programmation en R pour la Recherche en Sciences Marines]{.fr}"
+pagetitle: "R4Marine Research · Home"
 subtitle: "[From your first line of code to reproducible analyses]{.en}[De la première ligne de code aux analyses reproductibles]{.fr}"
 ---
 

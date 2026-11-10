@@ -1,6 +1,6 @@
 ---
 title: "[10 · Final project: hard coral cover in three MPAs]{.en}[10 · Projet final : couverture en corail dur dans trois AMP]{.fr}"
-pagetitle: "R course · Session 10"
+pagetitle: "R4Marine Research · Session 10"
 subtitle: "~4 h"
 ---
 

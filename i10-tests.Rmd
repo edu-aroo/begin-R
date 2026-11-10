@@ -1,6 +1,6 @@
 ---
 title: "[I10 · Comparing means and proportions, correlations: choosing the right test]{.en}[I10 · Comparer des moyennes et des proportions, corrélations : choisir le bon test]{.fr}"
-pagetitle: "R for marine sciences · I10"
+pagetitle: "R4Marine Research · I10"
 subtitle: "~3.5 h"
 ---
 

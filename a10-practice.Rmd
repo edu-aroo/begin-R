@@ -1,6 +1,6 @@
 ---
 title: "[A10 · Practice session]{.en}[A10 · Séance d'exercices]{.fr}"
-pagetitle: "R for marine sciences · A10"
+pagetitle: "R4Marine Research · A10"
 subtitle: "~3.5 h"
 ---
 

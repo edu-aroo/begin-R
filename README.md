@@ -1,4 +1,4 @@
-# R for marine sciences
+# R4Marine Research - R Programming for Marine Sciences Research
 
 *by Aroo Falinirina* — version 4.0 (2026-11)
 

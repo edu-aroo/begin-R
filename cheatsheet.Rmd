@@ -1,6 +1,6 @@
 ---
 title: "[Cheatsheet — every function of the course]{.en}[Aide-mémoire — toutes les fonctions du cours]{.fr}"
-pagetitle: "R course · Cheatsheet"
+pagetitle: "R4Marine Research · Cheatsheet"
 subtitle: "[Print it (Ctrl + P) and keep it next to your keyboard]{.en}[Imprimez-le (Ctrl + P) et gardez-le près du clavier]{.fr}"
 ---
 

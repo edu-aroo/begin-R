@@ -1,6 +1,6 @@
 ---
 title: "[A9 · Quarto (2): PDF, page layout and publishing online]{.en}[A9 · Quarto (2) : PDF, mise en page et publication en ligne]{.fr}"
-pagetitle: "R for marine sciences · A9"
+pagetitle: "R4Marine Research · A9"
 subtitle: "~3 h"
 ---
 

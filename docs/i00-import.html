@@ -11,7 +11,7 @@
 
 
 
-<title>R for marine sciences · I0</title>
+<title>R4Marine Research · I0</title>
 
 <script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -335,7 +335,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+      <a class="navbar-brand" href="index.html">R4Marine Research</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -992,10 +992,10 @@ types, valeurs manquantes, étendues, catégories.</p>
 #&gt;  $ status           : chr [1:2575] &quot;harvested&quot; &quot;harvested&quot; &quot;harvested&quot; &quot;grazed by fish&quot; ...
 #&gt;  $ notes            : chr [1:2575] NA NA NA NA ...</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(lines))            <span class="co"># missing values per column</span></span></code></pre></div>
-<pre><code>#&gt;           line_id         farmer_id             cycle     planting_date      harvest_date     line_length_m 
-#&gt;                 0                 0                 0                 0                 0                 0 
-#&gt; initial_weight_kg   final_weight_kg            status             notes 
-#&gt;                 0               258                 0              2402</code></pre>
+<pre><code>#&gt;           line_id         farmer_id             cycle     planting_date      harvest_date 
+#&gt;                 0                 0                 0                 0                 0 
+#&gt;     line_length_m initial_weight_kg   final_weight_kg            status             notes 
+#&gt;                 0                 0               258                 0              2402</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">summary</span>(lines<span class="sc">$</span>final_weight_kg)   <span class="co"># look at the maximum!</span></span></code></pre></div>
 <pre><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 #&gt;    15.8    39.9    50.7   226.4    65.4 92600.0     258</code></pre>

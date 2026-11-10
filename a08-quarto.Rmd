@@ -1,6 +1,6 @@
 ---
 title: "[A8 · Quarto (1): reports with cross-references and citations]{.en}[A8 · Quarto (1) : rapports avec renvois et citations]{.fr}"
-pagetitle: "R for marine sciences · A8"
+pagetitle: "R4Marine Research · A8"
 subtitle: "~3.5 h"
 ---
 

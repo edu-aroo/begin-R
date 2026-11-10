@@ -1,6 +1,6 @@
 ---
 title: "[Need help?]{.en}[Besoin d'aide ?]{.fr}"
-pagetitle: "R for marine sciences · Help"
+pagetitle: "R4Marine Research · Help"
 ---
 
 <!-- course.js (PART 9, buildHelpPage) writes the help message in this box -->

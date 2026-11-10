@@ -1,6 +1,6 @@
 ---
 title: "[A2 · Git and GitHub / GitLab with RStudio]{.en}[A2 · Git et GitHub / GitLab avec RStudio]{.fr}"
-pagetitle: "R for marine sciences · A2"
+pagetitle: "R4Marine Research · A2"
 subtitle: "~3.5 h"
 ---
 

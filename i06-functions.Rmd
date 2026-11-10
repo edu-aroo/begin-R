@@ -1,6 +1,6 @@
 ---
 title: "[I6 · Writing your own functions]{.en}[I6 · Écrire ses propres fonctions]{.fr}"
-pagetitle: "R for marine sciences · I6"
+pagetitle: "R4Marine Research · I6"
 subtitle: "~3 h"
 ---
 

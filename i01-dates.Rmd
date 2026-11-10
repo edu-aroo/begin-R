@@ -1,6 +1,6 @@
 ---
 title: "[I1 · Dates]{.en}[I1 · Les dates]{.fr}"
-pagetitle: "R for marine sciences · I1"
+pagetitle: "R4Marine Research · I1"
 subtitle: "~2.5 h"
 ---
 

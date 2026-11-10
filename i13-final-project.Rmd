@@ -1,6 +1,6 @@
 ---
 title: "[I13 · Final project: sea cucumber farming in three farms]{.en}[I13 · Projet final : élevage d'holothuries dans trois fermes]{.fr}"
-pagetitle: "R for marine sciences · I13"
+pagetitle: "R4Marine Research · I13"
 subtitle: "~4.5 h"
 ---
 

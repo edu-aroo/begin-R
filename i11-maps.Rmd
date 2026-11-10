@@ -1,6 +1,6 @@
 ---
 title: "[I11 · First maps with ggplot2]{.en}[I11 · Premières cartes avec ggplot2]{.fr}"
-pagetitle: "R for marine sciences · I11"
+pagetitle: "R4Marine Research · I11"
 subtitle: "~2.5 h"
 ---
 

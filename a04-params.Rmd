@@ -1,6 +1,6 @@
 ---
 title: "[A4 · Parameterised and automatic reports]{.en}[A4 · Rapports paramétrés et automatiques]{.fr}"
-pagetitle: "R for marine sciences · A4"
+pagetitle: "R4Marine Research · A4"
 subtitle: "~3 h"
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "[Advanced level — reproducible projects, reports and maps]{.en}[Niveau avancé — projets reproductibles, rapports et cartes]{.fr}"
-pagetitle: "R for marine sciences · Advanced"
+pagetitle: "R4Marine Research · Advanced"
 subtitle: "[≈ 40 h · 12 sessions]{.en}[≈ 40 h · 12 séances]{.fr}"
 ---
 

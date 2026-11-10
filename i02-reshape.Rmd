@@ -1,6 +1,6 @@
 ---
 title: "[I2 · Reshaping tables]{.en}[I2 · Restructurer des tableaux]{.fr}"
-pagetitle: "R for marine sciences · I2"
+pagetitle: "R4Marine Research · I2"
 subtitle: "~2.5 h"
 ---
 

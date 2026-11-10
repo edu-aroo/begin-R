@@ -9,7 +9,7 @@ output_dir: "docs"          # GitHub Pages will publish this folder
 exclude: ["R", "apps-script", "_intermediate", "slides", "pdf_kit", "README.md", "*.Rproj", "docs", "accounts_to_paste.csv"]
 
 navbar:
-  title: "R · Marine Sciences"
+  title: "R4Marine Research"
   left:
     - text: "Home"
       href: index.html

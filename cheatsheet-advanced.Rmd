@@ -1,6 +1,6 @@
 ---
 title: "[Cheatsheet — Advanced level]{.en}[Aide-mémoire — Niveau avancé]{.fr}"
-pagetitle: "R for marine sciences · Advanced cheatsheet"
+pagetitle: "R4Marine Research · Advanced cheatsheet"
 subtitle: "[Print it (Ctrl + P) and keep it next to your keyboard]{.en}[Imprimez-le (Ctrl + P) et gardez-le près du clavier]{.fr}"
 ---
 

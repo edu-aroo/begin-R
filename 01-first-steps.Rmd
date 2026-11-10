@@ -1,6 +1,6 @@
 ---
 title: "[1 · First steps: objects & functions]{.en}[1 · Premiers pas : objets et fonctions]{.fr}"
-pagetitle: "R course · Session 1"
+pagetitle: "R4Marine Research · Session 1"
 subtitle: "~2 h"
 ---
 

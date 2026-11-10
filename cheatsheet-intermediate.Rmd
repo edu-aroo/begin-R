@@ -1,6 +1,6 @@
 ---
 title: "[Cheatsheet — Intermediate level]{.en}[Aide-mémoire — Niveau intermédiaire]{.fr}"
-pagetitle: "R for marine sciences · Intermediate cheatsheet"
+pagetitle: "R4Marine Research · Intermediate cheatsheet"
 subtitle: "[Print it (Ctrl + P) and keep it next to your keyboard]{.en}[Imprimez-le (Ctrl + P) et gardez-le près du clavier]{.fr}"
 ---
 

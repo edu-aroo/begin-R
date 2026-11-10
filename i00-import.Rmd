@@ -1,6 +1,6 @@
 ---
 title: "[I0 · Importing real-world files]{.en}[I0 · Importer des fichiers réels]{.fr}"
-pagetitle: "R for marine sciences · I0"
+pagetitle: "R4Marine Research · I0"
 subtitle: "~2.5 h"
 ---
 

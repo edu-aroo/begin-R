@@ -1,6 +1,6 @@
 ---
 title: "[4 · Inside a data frame: [ , ], $ and columns]{.en}[4 · Dans un data frame : [ , ], $ et colonnes]{.fr}"
-pagetitle: "R course · Session 4"
+pagetitle: "R4Marine Research · Session 4"
 subtitle: "~3.5 h"
 ---
 

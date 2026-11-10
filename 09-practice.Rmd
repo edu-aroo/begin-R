@@ -1,6 +1,6 @@
 ---
 title: "[9 · Practice session]{.en}[9 · Séance d'exercices]{.fr}"
-pagetitle: "R course · Session 9"
+pagetitle: "R4Marine Research · Session 9"
 subtitle: "~3 h"
 ---
 

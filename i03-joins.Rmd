@@ -1,6 +1,6 @@
 ---
 title: "[I3 · Joining tables]{.en}[I3 · Joindre des tableaux]{.fr}"
-pagetitle: "R for marine sciences · I3"
+pagetitle: "R4Marine Research · I3"
 subtitle: "~3 h"
 ---
 

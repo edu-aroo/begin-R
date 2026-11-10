@@ -8,7 +8,7 @@
 window.COURSE_CONFIG = {
 
   // Course title (login screen) — one per language
-  title: { en: "R for marine sciences", fr: "R pour les sciences marines" },
+  title: { en: "R4Marine Research - R Programming for Marine Sciences Research", fr: "R4Marine Research - Programmation en R pour la Recherche en Sciences Marines" },
   subtitle: { en: "From your first line of code to reproducible analyses",
               fr: "De la première ligne de code aux analyses reproductibles" },
 
@@ -16,7 +16,7 @@ window.COURSE_CONFIG = {
   author: "Aroo Falinirina",
 
   // Course version shown in the footer (describe changes in whats-new.Rmd)
-  version: "4.4", versionDate: "2026-11",
+  version: "4.5", versionDate: "2026-11",
 
   // Default language for a first visit: "en" or "fr"
   defaultLang: "fr",
@@ -39,6 +39,35 @@ window.COURSE_CONFIG = {
   // (best attempt of every quiz, practice quizzes included) needed to open the next level.
   maxAttempts: 2,
   passThreshold: 0.75,
+
+  // Message and Bible verse shown on the certificate page of each level
+  // (on the page only, not printed on the certificate PDF). Edit freely.
+  certificateMessages: {
+    beginner: {
+      en: "Your first step into R! Remember, every expert was once a beginner. You earned this achievement through your willingness to learn. Keep going!",
+      fr: "Votre premier pas dans R ! N'oubliez pas : tout expert a d'abord été débutant. Vous avez obtenu cette réussite grâce à votre envie d'apprendre. Continuez !",
+      verse_en: "Not unto us, O LORD, not unto us, but unto thy name give glory, for thy mercy, and for thy truth's sake.",
+      ref_en: "Psalm 115:1 (KJV)",
+      verse_fr: "Non pas à nous, Éternel, non pas à nous, mais à ton nom donne gloire, à cause de ta bonté, à cause de ta fidélité !",
+      ref_fr: "Psaume 115:1 (Louis Segond 1910)"
+    },
+    intermediate: {
+      en: "Congratulations! You are no longer just following instructions; you are developing your own skills. Remember, the real achievement is not knowing every command, but knowing how to find your way when you don't know the answer.",
+      fr: "Félicitations ! Vous ne vous contentez plus de suivre des instructions : vous développez vos propres compétences. N'oubliez pas : la vraie réussite n'est pas de connaître chaque commande, mais de savoir trouver votre chemin quand vous ne connaissez pas la réponse.",
+      verse_en: "But by the grace of God I am what I am: and his grace which was bestowed upon me was not in vain; but I laboured more abundantly than they all: yet not I, but the grace of God which was with me.",
+      ref_en: "1 Corinthians 15:10 (KJV)",
+      verse_fr: "Par la grâce de Dieu je suis ce que je suis, et sa grâce envers moi n'a pas été vaine ; loin de là, j'ai travaillé plus qu'eux tous, non pas moi toutefois, mais la grâce de Dieu qui est avec moi.",
+      ref_fr: "1 Corinthiens 15:10 (Louis Segond 1910)"
+    },
+    advanced: {
+      en: "You made it! This achievement is entirely yours. I shared knowledge, guidance, and a few tricks along the way, but your determination, patience, and hard work made this journey possible. You should be incredibly proud of yourself. And remember: mastering R doesn't mean knowing everything; it means never stopping learning!",
+      fr: "Vous y êtes arrivé ! Cette réussite vous appartient entièrement. J'ai partagé des connaissances, des conseils et quelques astuces en chemin, mais ce sont votre détermination, votre patience et votre travail qui ont rendu ce parcours possible. Vous pouvez être vraiment fier de vous. Et n'oubliez pas : maîtriser R ne veut pas dire tout savoir, mais ne jamais cesser d'apprendre !",
+      verse_en: "I can do all things through Christ which strengtheneth me.",
+      ref_en: "Philippians 4:13 (KJV)",
+      verse_fr: "Je puis tout par celui qui me fortifie.",
+      ref_fr: "Philippiens 4:13 (Louis Segond 1910)"
+    }
+  },
 
   // Shown in the "you need help" message
   contact: { email: "aroo.madaeducation@gmail.com", facebook: "Aroo Falinirina" },

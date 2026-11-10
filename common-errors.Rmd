@@ -1,6 +1,6 @@
 ---
 title: "[Common errors and how to fix them]{.en}[Erreurs fréquentes et comment les corriger]{.fr}"
-pagetitle: "R for marine sciences · Common errors"
+pagetitle: "R4Marine Research · Common errors"
 subtitle: "[Read the message: R usually tells you what is wrong]{.en}[Lisez le message : R dit généralement ce qui ne va pas]{.fr}"
 ---
 

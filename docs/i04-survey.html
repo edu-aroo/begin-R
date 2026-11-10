@@ -11,7 +11,7 @@
 
 
 
-<title>R for marine sciences · I4</title>
+<title>R4Marine Research · I4</title>
 
 <script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -335,7 +335,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R · Marine Sciences</a>
+      <a class="navbar-brand" href="index.html">R4Marine Research</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -840,8 +840,10 @@ R de base fonctionnent aussi :</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>hh<span class="sc">$</span>mpa_benefits <span class="ot">&lt;-</span> <span class="fu">str_to_sentence</span>(<span class="fu">str_squish</span>(hh<span class="sc">$</span>mpa_benefits))</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">table</span>(hh<span class="sc">$</span>mpa_benefits, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; 
-#&gt;             Agree          Disagree           Neutral    Strongly agree Strongly disagree              &lt;NA&gt; 
-#&gt;               150                46               107                79                30                 8</code></pre>
+#&gt;             Agree          Disagree           Neutral    Strongly agree Strongly disagree 
+#&gt;               150                46               107                79                30 
+#&gt;              &lt;NA&gt; 
+#&gt;                 8</code></pre>
 <div class="fa-box">
 <div class="en">
 <p><strong>Functions and arguments used here</strong></p>

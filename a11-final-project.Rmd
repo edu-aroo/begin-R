@@ -1,6 +1,6 @@
 ---
 title: "[A11 · Final project: the 2026 monitoring reports, reproducible and published]{.en}[A11 · Projet final : les rapports de suivi 2026, reproductibles et publiés]{.fr}"
-pagetitle: "R for marine sciences · A11"
+pagetitle: "R4Marine Research · A11"
 subtitle: "~5 h"
 ---
 

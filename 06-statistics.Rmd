@@ -1,6 +1,6 @@
 ---
 title: "[6 · Descriptive statistics by group]{.en}[6 · Statistiques descriptives par groupe]{.fr}"
-pagetitle: "R course · Session 6"
+pagetitle: "R4Marine Research · Session 6"
 subtitle: "~2.5 h"
 ---
 

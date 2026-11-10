@@ -1,6 +1,6 @@
 ---
 title: "[I8 · Mastering ggplot2 (2): summaries, time, annotations, layouts]{.en}[I8 · Maîtriser ggplot2 (2) : résumés, temps, annotations, mises en page]{.fr}"
-pagetitle: "R for marine sciences · I8"
+pagetitle: "R4Marine Research · I8"
 subtitle: "~3 h"
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "[0 · Install R, Rtools & RStudio]{.en}[0 · Installer R, Rtools et RStudio]{.fr}"
-pagetitle: "R course · Session 0"
+pagetitle: "R4Marine Research · Session 0"
 subtitle: "~1.5 h"
 ---
 

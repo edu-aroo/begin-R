@@ -1,6 +1,6 @@
 ---
 title: "[I12 · Practice session]{.en}[I12 · Séance d'exercices]{.fr}"
-pagetitle: "R for marine sciences · I12"
+pagetitle: "R4Marine Research · I12"
 subtitle: "~3.5 h"
 ---
 

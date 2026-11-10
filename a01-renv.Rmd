@@ -1,6 +1,6 @@
 ---
 title: "[A1 · Package versions with renv]{.en}[A1 · Versions des packages avec renv]{.fr}"
-pagetitle: "R for marine sciences · A1"
+pagetitle: "R4Marine Research · A1"
 subtitle: "~2 h"
 ---
 

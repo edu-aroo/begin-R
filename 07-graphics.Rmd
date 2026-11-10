@@ -1,6 +1,6 @@
 ---
 title: "[7 · Graphs with base R]{.en}[7 · Graphiques avec R de base]{.fr}"
-pagetitle: "R course · Session 7"
+pagetitle: "R4Marine Research · Session 7"
 subtitle: "~3 h"
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "[2 · Vectors & data types]{.en}[2 · Vecteurs et types de données]{.fr}"
-pagetitle: "R course · Session 2"
+pagetitle: "R4Marine Research · Session 2"
 subtitle: "~2.5 h"
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "[A5 · Vector GIS data with sf]{.en}[A5 · Données SIG vecteur avec sf]{.fr}"
-pagetitle: "R for marine sciences · A5"
+pagetitle: "R4Marine Research · A5"
 subtitle: "~3.5 h"
 ---
 

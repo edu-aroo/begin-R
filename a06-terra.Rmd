@@ -1,6 +1,6 @@
 ---
 title: "[A6 · Rasters with terra]{.en}[A6 · Rasters avec terra]{.fr}"
-pagetitle: "R for marine sciences · A6"
+pagetitle: "R4Marine Research · A6"
 subtitle: "~3 h"
 ---
 

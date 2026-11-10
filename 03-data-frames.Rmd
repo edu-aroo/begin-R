@@ -1,6 +1,6 @@
 ---
 title: "[3 · Data frames & importing data]{.en}[3 · Data frames et importation]{.fr}"
-pagetitle: "R course · Session 3"
+pagetitle: "R4Marine Research · Session 3"
 subtitle: "~2.5 h"
 ---
 

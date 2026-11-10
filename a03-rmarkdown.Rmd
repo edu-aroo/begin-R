@@ -1,6 +1,6 @@
 ---
 title: "[A3 · Reports with R Markdown]{.en}[A3 · Rapports avec R Markdown]{.fr}"
-pagetitle: "R for marine sciences · A3"
+pagetitle: "R4Marine Research · A3"
 subtitle: "~3 h"
 ---
 

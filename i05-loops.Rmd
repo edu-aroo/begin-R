@@ -1,6 +1,6 @@
 ---
 title: "[I5 · Conditions and loops]{.en}[I5 · Conditions et boucles]{.fr}"
-pagetitle: "R for marine sciences · I5"
+pagetitle: "R4Marine Research · I5"
 subtitle: "~2.5 h"
 ---
 

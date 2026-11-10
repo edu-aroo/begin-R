@@ -1,6 +1,6 @@
 ---
 title: "Certificate preview"
-pagetitle: "R for marine sciences · Certificate preview"
+pagetitle: "R4Marine Research · Certificate preview"
 ---
 
 <!-- Teacher tool: a sample certificate drawn with the current texts (course.js,

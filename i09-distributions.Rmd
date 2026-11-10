@@ -1,6 +1,6 @@
 ---
 title: "[I9 · Distributions, transformations and the meaning of a p-value]{.en}[I9 · Distributions, transformations et sens d'une p-value]{.fr}"
-pagetitle: "R for marine sciences · I9"
+pagetitle: "R4Marine Research · I9"
 subtitle: "~3 h"
 ---
 

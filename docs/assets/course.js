@@ -923,7 +923,12 @@
       return;
     }
     const l = CFG.levels.find(x => x.id === lv);
-    box.innerHTML = `<div class="rc-cert">
+    // message + verse of the level (config.js, certificateMessages): on the page only, not printed
+    const m = (CFG.certificateMessages || {})[lv];
+    const msg = m ? `<div class="rc-cert-msg rc-noprint">${t(m.en, m.fr)}</div>` : "";
+    const verse = m && m.verse_en ? `<blockquote class="rc-cert-verse rc-noprint">
+        <p>${t(`“${m.verse_en}”`, `« ${m.verse_fr} »`)}</p><footer>${t(m.ref_en, m.ref_fr)}</footer></blockquote>` : "";
+    box.innerHTML = `${msg}<div class="rc-cert">
      
       <p class="rc-cert-small">${t("Certificate of completion", "Certificat de réussite")}</p>
       <h1>${t(CFG.title.en, CFG.title.fr)}</h1>
@@ -936,7 +941,8 @@
         <div><b>${c.date}</b><br><small>${t("Date", "Date")}</small></div>
         <div><code>${c.code}</code><br><small>${t("Verification code", "Code de vérification")}</small></div>
       </div></div>
-      <p class="rc-noprint"><button class="rc-submit" onclick="window.print()">${t("Print / save as PDF", "Imprimer / enregistrer en PDF")}</button></p>`;
+      <p class="rc-noprint"><button class="rc-submit" onclick="window.print()">${t("Print / save as PDF", "Imprimer / enregistrer en PDF")}</button></p>
+      ${verse}`;
   }
 
   /* --------------------------------------------------------------------------
