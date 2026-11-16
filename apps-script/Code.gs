@@ -28,7 +28,7 @@
 // Address of your course site, WITH the final slash. Used to read the list of
 // quizzes (assets/quiz_index.json) to check level scores. Leave "" to skip checks.
 const SITE_URL = "https://edu-aroo.github.io/begin-R/";                         // e.g. ""
-const ALERT_EMAIL = "aroofalinirina@gmail.com";   // receives "needs help" and "level passed" e-mails
+const ALERT_EMAIL = "aroo.madaeducation@gmail.com";   // receives "needs help" and "level passed" e-mails
 const MAX_ATTEMPTS = 2;                      // same value as maxAttempts in config.js
 const PASS = 0.75;                           // same value as passThreshold in config.js
 const LEVELS = ["beginner", "intermediate", "advanced"];
@@ -85,12 +85,14 @@ function doPost(e) {
   lock.waitLock(10000);
   try {
     if (req.action === "login")  return out({ ok: true, name: student.full_name, level: student.level,
-                                              role: student.role, openPages: student.openPages,
-                                              state: readState(student.username) });
+                                              levels: student.levels, role: student.role, openPages: student.openPages,
+                                              state: withScores(readState(student.username), student.username),
+                                              certificates: userCertificates(student.username) });
     if (req.action === "save")   { writeState(student, req.state); return out({ ok: true }); }
     if (student.role === "teacher") return out({ ok: true });          // teacher: nothing else recorded
     if (req.action === "score")  { logScore(student, req); return out({ ok: true }); }
     if (req.action === "unlock") return out(unlockLevel(student, req));
+    if (req.action === "resend") { resendScores(student, req); return out({ ok: true }); }
     if (req.action === "stuck")  { raiseAlert(student, req); return out({ ok: true }); }
     return out({ ok: false, error: "unknown_action" });
   } finally {
@@ -99,7 +101,7 @@ function doPost(e) {
 }
 
 // Opening the URL in a browser simply shows that the script is alive
-function doGet() { return out({ ok: true, message: "Course backend is running (v3.1)" }); }
+function doGet() { return out({ ok: true, message: "Course backend is running (v3.3)" }); }
 
 // ---- Helpers ---------------------------------------------------------------------
 function out(obj) {
@@ -141,7 +143,13 @@ function checkLogin(user, pass) {
   if (!s) return null;
   s.username = user;
   s.full_name = String(s.full_name || user);
-  s.level = LEVELS.indexOf(String(s.level).toLowerCase()) !== -1 ? String(s.level).toLowerCase() : "beginner";
+  // column "level" = the levels the student registered for, separated by commas,
+  // e.g. "beginner" or "beginner, intermediate" or "intermediate, advanced".
+  // s.levels = that list (in course order); s.level = the highest one.
+  const asked = String(s.level || "").toLowerCase().split(/[,;\s]+/).map(function (x) { return x.trim(); });
+  s.levels = LEVELS.filter(function (l) { return asked.indexOf(l) !== -1; });
+  if (!s.levels.length) s.levels = ["beginner"];
+  s.level = s.levels[s.levels.length - 1];
   s.role = String(s.role).toLowerCase() === "teacher" ? "teacher" : "student";
   s.openPages = String(s.open_pages || "").split(/[,;\s]+/)               // "05-cleaning, i03-joins"
                   .map(function (x) { return x.trim().replace(/\.html$/, ""); })
@@ -156,10 +164,74 @@ function readState(user) {
 }
 function writeState(student, state) {
   const r = rows("progress").find(function (x) { return String(x.username).toLowerCase() === student.username; });
+  if (r) { try { state = mergeState(JSON.parse(r.state_json), state); } catch (err) {} }
   const vals = { username: student.username, full_name: student.full_name, last_page: state.lastPage || "",
                  last_section: state.lastSection || "", updated: new Date(), state_json: JSON.stringify(state) };
   if (!r) { addRow("progress", vals); return; }
   Object.keys(vals).forEach(function (k) { setCell("progress", r._row, k, vals[k]); });
+}
+
+// A save NEVER removes quiz results: an old browser tab, a second device or a page
+// opened without the saved progress could otherwise send an emptier state and erase
+// the student's work. Quizzes: the best of both (number of attempts too).
+// Sessions ("pages") not in the new state, certificates and alerts are kept.
+function mergeState(old, neu) {
+  if (!old || typeof old !== "object") return neu;
+  if (!neu || typeof neu !== "object") return old;
+  const q = {}, oq = old.quizzes || {}, nq = neu.quizzes || {};
+  Object.keys(oq).concat(Object.keys(nq)).forEach(function (id) {
+    if (q[id]) return;
+    const a = oq[id], b = nq[id];
+    if (!a || !b) { q[id] = a || b; return; }
+    const m = Number(b.max) || Number(a.max) || 1, am = Number(a.max) || m;
+    const aBest = Math.round(10 * (Number(a.best) || 0) * m / am) / 10;      // same scale as b
+    const aMore = (Number(a.attempts) || 0) > (Number(b.attempts) || 0);
+    const rec = JSON.parse(JSON.stringify(aMore ? a : b));                 // the record with more attempts
+    if (aMore) rec.score = Math.round(10 * (Number(a.score) || 0) * m / am) / 10;
+    rec.max = m;
+    rec.best = Math.max(aBest, Number(b.best) || 0);
+    rec.attempts = Math.max(Number(a.attempts) || 0, Number(b.attempts) || 0);
+    q[id] = rec;
+  });
+  neu.quizzes = q;
+  neu.pages = Object.assign({}, old.pages || {}, neu.pages || {});
+  neu.certificates = Object.assign({}, old.certificates || {}, neu.certificates || {});
+  neu.alerts = Object.assign({}, old.alerts || {}, neu.alerts || {});
+  if (old.legacy) neu.legacy = Object.assign({}, old.legacy, neu.legacy || {});
+  return neu;
+}
+
+// At login: any quiz recorded in the "scores" tab but missing (or lower) in the
+// saved progress is put back, so progress lost before v4.7 comes back by itself.
+function withScores(state, username) {
+  const mine = rows("scores").filter(function (r) { return String(r.username).trim().toLowerCase() === username; });
+  if (!mine.length) return state;
+  state = state || { version: 3, pages: {}, quizzes: {}, certificates: {}, alerts: {} };
+  state.quizzes = state.quizzes || {};
+  const byQuiz = {};
+  mine.forEach(function (r) { const id = String(r.quiz); (byQuiz[id] = byQuiz[id] || []).push(r); });
+  Object.keys(byQuiz).forEach(function (id) {
+    const att = byQuiz[id], last = att[att.length - 1];
+    const max = Number(last.max) || 1;
+    const scale = function (r) { const rm = Number(r.max) || max; return Math.round(10 * (Number(r.score) || 0) * max / rm) / 10; };
+    const best = att.reduce(function (m, r) { return Math.max(m, scale(r)); }, 0);
+    const tries = Math.min(MAX_ATTEMPTS, Math.max(1, att.filter(function (r) { return r.attempt !== "resent"; }).length));
+    const cur = state.quizzes[id];
+    if (cur) {
+      const cm = Number(cur.max) || max, cb = Math.round(10 * (Number(cur.best) || 0) * max / cm) / 10;
+      if (cb >= best && (Number(cur.attempts) || 0) >= tries) return;
+      cur.best = Math.max(cb, best); cur.max = max;
+      cur.score = Math.round(10 * (Number(cur.score) || 0) * max / cm) / 10;
+      cur.attempts = Math.max(Number(cur.attempts) || 0, tries);
+      return;
+    }
+    let ans = [];
+    try { ans = JSON.parse(last.answers); } catch (err) {}
+    state.quizzes[id] = { score: scale(last), max: max, best: best, attempts: tries,
+                          date: last.timestamp instanceof Date ? last.timestamp.toISOString() : String(last.timestamp),
+                          answers: ans };
+  });
+  return state;
 }
 
 // One row per attempt; attempts beyond MAX_ATTEMPTS are ignored
@@ -171,6 +243,38 @@ function logScore(student, req) {
   addRow("scores", { timestamp: new Date(), username: student.username, full_name: student.full_name,
     quiz: req.quiz, page: req.page, score: req.score, max: req.max,
     answers: JSON.stringify(req.answers), attempt: n + 1 });
+}
+
+// The website sends again the best score of each quiz it has in memory, when the
+// server refuses a certificate (some "score" requests may have been lost, e.g. bad
+// internet). A row is added ONLY when the scores tab has no row for that quiz, or a
+// lower best score. Added rows have attempt = "resent".
+function resendScores(student, req) {
+  const mine = rows("scores").filter(function (r) { return String(r.username).toLowerCase() === student.username; });
+  (req.rows || []).forEach(function (q) {
+    if (!q || !q.quiz) return;
+    const att = mine.filter(function (r) { return String(r.quiz) === String(q.quiz); });
+    const best = att.reduce(function (m, r) { return Math.max(m, Number(r.score) || 0); }, -1);
+    if (att.length && best >= Number(q.score)) return;
+    addRow("scores", { timestamp: new Date(), username: student.username, full_name: student.full_name,
+      quiz: q.quiz, page: q.page || "", score: Number(q.score) || 0, max: Number(q.max) || "",
+      answers: JSON.stringify(q.answers || ""), attempt: "resent" });
+  });
+}
+
+// Certificates of one student (certificates tab), sent at login. A row you add by
+// hand in the tab (code, date, username, full_name, level, score_pct) also works.
+function userCertificates(username) {
+  const out = {};
+  rows("certificates").forEach(function (c) {
+    if (String(c.username).trim().toLowerCase() !== username) return;
+    const lv = String(c.level).trim().toLowerCase();
+    if (LEVELS.indexOf(lv) === -1) return;
+    const d = c.date instanceof Date ? Utilities.formatDate(c.date, Session.getScriptTimeZone(), "yyyy-MM-dd")
+                                     : String(c.date).slice(0, 10);
+    out[lv] = { code: String(c.code), date: d, pct: Number(c.score_pct) || 0 };
+  });
+  return out;
 }
 
 // ---- Levels --------------------------------------------------------------------
@@ -205,8 +309,10 @@ function levelResult(username, level, idx, allScores, openPages) {
     return !skipped;
   });
   let earned = 0, total = 0, possible = 0, done = 0;
+  const missing = [];
   ids.forEach(function (id) {
     const att = mine.filter(function (r) { return String(r.quiz) === id; });
+    if (!att.length) missing.push(id);
     const max = idx[id].max;
     // If the quiz changed size since the attempt (row max differs from the
     // current quiz index), the score is rescaled: 9/12 becomes 7.5/10.
@@ -218,7 +324,7 @@ function levelResult(username, level, idx, allScores, openPages) {
     if (att.length) { done++; earned += best; }
     possible += att.length >= MAX_ATTEMPTS ? best : max;
   });
-  return { n: ids.length, done: done, pct: total ? earned / total : 0,
+  return { n: ids.length, done: done, pct: total ? earned / total : 0, missing: missing,
            passed: ids.length > 0 && done === ids.length && earned >= PASS * total - 1e-9,
            stuck: ids.length > 0 && possible < PASS * total - 1e-9 };
 }
@@ -226,21 +332,25 @@ function levelResult(username, level, idx, allScores, openPages) {
 // The website says "I passed level X": we check it in the scores tab (if the
 // quiz list is available), raise the level in "students" and issue a certificate.
 function unlockLevel(student, req) {
+  if (LEVELS.indexOf(req.passed) === -1) return { ok: false, error: "bad_level" };
+  // one certificate per student and level: an existing row (also one added by hand) is returned
+  let cert = rows("certificates").find(function (c) {
+    return String(c.username).trim().toLowerCase() === student.username &&
+           String(c.level).trim().toLowerCase() === req.passed;
+  });
   const idx = quizIndex();
   let pct = Number(req.pct) || 0;
-  if (idx) {
+  if (!cert && idx) {
     const res = levelResult(student.username, req.passed, idx, rows("scores"), student.openPages);
-    if (!res.passed) return { ok: false, error: "not_passed" };
+    if (!res.passed) {
+      // req.final = second try, after the website resent its scores: tell the teacher (once)
+      if (req.final) notifyCertificateRefused(student, req, res);
+      return { ok: false, error: "not_passed", missing: res.missing, pct: Math.round(100 * res.pct) };
+    }
     pct = Math.round(100 * res.pct);
   }
-  // raise the level (never lower it)
-  if (req.level && LEVELS.indexOf(req.level) > LEVELS.indexOf(student.level)) {
-    setCell("students", student._row, "level", req.level);
-  }
-  // one certificate per student and level
-  let cert = rows("certificates").find(function (c) {
-    return String(c.username).toLowerCase() === student.username && c.level === req.passed;
-  });
+  // The "level" column is NOT changed here: you open the next level yourself by
+  // adding it to the student's list (e.g. "beginner" -> "beginner, intermediate").
   if (!cert) {
     cert = { code: "RMS-" + req.passed.slice(0, 3).toUpperCase() + "-" +
                     Utilities.getUuid().slice(0, 8).toUpperCase(),
@@ -249,8 +359,32 @@ function unlockLevel(student, req) {
     addRow("certificates", cert);
     notifyLevelPassed(student, req.passed, req.level, cert);     // e-mail to the teacher, once
   }
-  return { ok: true, level: req.level || student.level,
-           certificate: { code: cert.code, date: String(cert.date).slice(0, 10), pct: Number(cert.score_pct) } };
+  return { ok: true, level: student.level, levels: student.levels,
+           certificate: userCertificates(student.username)[req.passed] ||
+                        { code: cert.code, date: String(cert.date).slice(0, 10), pct: Number(cert.score_pct) } };
+}
+
+// E-mail to the teacher when the website says a level is passed but the scores tab
+// does not confirm it (sent once per student and level). To issue the certificate
+// anyway, add a row in the certificates tab: the student gets it at the next login.
+function notifyCertificateRefused(student, req, res) {
+  if (!ALERT_EMAIL) return;
+  const props = PropertiesService.getScriptProperties();
+  const key = "refused_" + student.username + "_" + req.passed;
+  if (props.getProperty(key)) return;
+  props.setProperty(key, new Date().toISOString());
+  MailApp.sendEmail(ALERT_EMAIL,
+    "[R course] Certificate NOT issued: " + student.full_name + " (" + req.passed + ")",
+    "The website says this student passed a level, but the scores tab does not confirm it.\n\n" +
+    "Name:            " + student.full_name + "\n" +
+    "Username:        " + student.username + "\n" +
+    "Level:           " + req.passed + "\n" +
+    "Score (website): " + (req.pct || "-") + " %\n" +
+    "Score (sheet):   " + Math.round(100 * res.pct) + " % (" + res.done + "/" + res.n + " quizzes)\n" +
+    "Quizzes with no row in the scores tab: " + (res.missing.join(", ") || "none") + "\n\n" +
+    "Check the scores tab. To issue the certificate by hand, add a row in the certificates tab:\n" +
+    "code | date | username | full_name | level | score_pct\n" +
+    "The student sees it at the next login.\n");
 }
 
 // E-mail to the teacher when a student passes a level (sent once, with the certificate)

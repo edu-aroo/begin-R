@@ -4,5 +4,6 @@ pagetitle: "R4Marine Research · Certificate"
 ---
 
 <!-- course.js (PART 9, buildCertificate) draws the certificate of the level
-     given in the address: certificate.html?level=beginner -->
+     given in the address: certificate.html?level=beginner
+     certificate.html alone = "My certificates" (list of the student's certificates) -->
 <div id="certificate-box"></div>

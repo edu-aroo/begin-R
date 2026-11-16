@@ -6,6 +6,30 @@ pagetitle: "R4Marine Research · What's new"
 <!-- Add a section at the TOP each time you publish a new version, and change
      "version" and "versionDate" in assets/config.js -->
 
+## v4.7 — 2026-11 {.no-track}
+
+::: en
+- Your quiz results can no longer be erased by an old tab or a second device: each save keeps the best result of every quiz.
+- Quiz results recorded on the server are restored at login if they were missing from your progress.
+:::
+::: fr
+- Vos résultats de quiz ne peuvent plus être effacés par un ancien onglet ou un second appareil : chaque sauvegarde garde le meilleur résultat de chaque quiz.
+- Les résultats de quiz enregistrés sur le serveur sont restaurés à la connexion s'ils manquaient dans votre progression.
+:::
+
+## v4.6 — 2026-11 {.no-track}
+
+::: en
+- **My certificates** link in the menu: lists your certificates.
+- Certificates are now read from the course register at login.
+- If a certificate cannot be issued automatically, a message says so (and the teacher is informed) instead of nothing happening.
+:::
+::: fr
+- Lien **Mes certificats** dans le menu : liste vos certificats.
+- Les certificats sont maintenant lus dans le registre du cours à la connexion.
+- Si un certificat ne peut pas être délivré automatiquement, un message l'indique (et le formateur est informé) au lieu de ne rien afficher.
+:::
+
 ## v4.5 — 2026-11 {.no-track}
 
 ::: en

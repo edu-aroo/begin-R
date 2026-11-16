@@ -16,7 +16,7 @@ window.COURSE_CONFIG = {
   author: "Aroo Falinirina",
 
   // Course version shown in the footer (describe changes in whats-new.Rmd)
-  version: "4.5", versionDate: "2026-11",
+  version: "4.7", versionDate: "2026-11",
 
   // Default language for a first visit: "en" or "fr"
   defaultLang: "fr",
