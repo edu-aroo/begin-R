@@ -1327,13 +1327,20 @@ class="fr">Extraire les valeurs aux sites</span></h2>
 <span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>sites<span class="sc">$</span>sst_max      <span class="ot">&lt;-</span> <span class="fu">round</span>(terra<span class="sc">::</span><span class="fu">extract</span>(sst_max, sites_ll)[, <span class="dv">2</span>], <span class="dv">2</span>)</span>
 <span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>sites<span class="sc">$</span>hot_months   <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(hot_mons, sites_ll)[, <span class="dv">2</span>]</span>
 <span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">st_drop_geometry</span>(sites)[, <span class="fu">c</span>(<span class="st">&quot;site_id&quot;</span>, <span class="st">&quot;zone&quot;</span>, <span class="st">&quot;depth_m&quot;</span>, <span class="st">&quot;depth_raster&quot;</span>, <span class="st">&quot;sst_max&quot;</span>, <span class="st">&quot;hot_months&quot;</span>)], <span class="dv">6</span>)</span></code></pre></div>
-<pre><code>#&gt;   site_id    zone depth_m depth_raster sst_max hot_months
-#&gt; 1     R01 No-take     7.1          3.1   29.68          1
-#&gt; 2     R02 No-take     6.6         10.0   29.68          1
-#&gt; 3     R03 No-take     3.5         12.4   29.58          1
-#&gt; 4     R04 Fishing     7.2         12.0   29.40          0
-#&gt; 5     R05 Fishing    10.9          1.0   29.68          1
-#&gt; 6     R06 Fishing    11.7         12.1   29.73          1</code></pre>
+<pre><code>#&gt;   site_id    zone depth_m depth_raster
+#&gt; 1     R01 No-take     7.1          3.1
+#&gt; 2     R02 No-take     6.6         10.0
+#&gt; 3     R03 No-take     3.5         12.4
+#&gt; 4     R04 Fishing     7.2         12.0
+#&gt; 5     R05 Fishing    10.9          1.0
+#&gt; 6     R06 Fishing    11.7         12.1
+#&gt;   sst_max hot_months
+#&gt; 1   29.68          1
+#&gt; 2   29.68          1
+#&gt; 3   29.58          1
+#&gt; 4   29.40          0
+#&gt; 5   29.68          1
+#&gt; 6   29.73          1</code></pre>
 <div class="callout warning">
 <div class="en">
 <p><strong>Why <code>terra::extract()</code> and not just

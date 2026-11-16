@@ -639,11 +639,16 @@ que vous savez des data frames et de dplyr fonctionne encore.</p>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">st_layers</span>(gpkg)                                    <span class="co"># what is inside the GeoPackage?</span></span></code></pre></div>
 <pre><code>#&gt; Driver: GPKG 
 #&gt; Available layers:
-#&gt;       layer_name geometry_type features fields              crs_name
-#&gt; 1           land       Polygon        1      1 WGS 84 / UTM zone 38S
-#&gt; 2      mpa_zones Multi Polygon        9      4 WGS 84 / UTM zone 38S
-#&gt; 3     reef_sites         Point       18      6 WGS 84 / UTM zone 38S
-#&gt; 4 mangrove_plots         Point       24      7 WGS 84 / UTM zone 38S</code></pre>
+#&gt;       layer_name geometry_type features
+#&gt; 1           land       Polygon        1
+#&gt; 2      mpa_zones Multi Polygon        9
+#&gt; 3     reef_sites         Point       18
+#&gt; 4 mangrove_plots         Point       24
+#&gt;   fields              crs_name
+#&gt; 1      1 WGS 84 / UTM zone 38S
+#&gt; 2      4 WGS 84 / UTM zone 38S
+#&gt; 3      6 WGS 84 / UTM zone 38S
+#&gt; 4      7 WGS 84 / UTM zone 38S</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">st_read</span>(gpkg, <span class="at">layer =</span> <span class="st">&quot;mpa_zones&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>zones                                              <span class="co"># header + a data frame with &quot;geom&quot;</span></span></code></pre></div>
 <pre><code>#&gt; Simple feature collection with 9 features and 4 fields
@@ -651,21 +656,31 @@ que vous savez des data frames et de dplyr fonctionne encore.</p>
 #&gt; Dimension:     XY
 #&gt; Bounding box:  xmin: 340891.7 ymin: 7420209 xmax: 365568 ymax: 7500064
 #&gt; Projected CRS: WGS 84 / UTM zone 38S
-#&gt;           mpa    zone  part created                           geom
-#&gt; 1  Ankaramena Fishing north    2015 MULTIPOLYGON (((359067.1 74...
-#&gt; 2  Ankaramena No-take  core    2015 MULTIPOLYGON (((361171.4 74...
-#&gt; 3  Ankaramena Fishing south    2015 MULTIPOLYGON (((359734 7480...
-#&gt; 4 Nosy Fasika Fishing north    2017 MULTIPOLYGON (((365472.4 74...
-#&gt; 5 Nosy Fasika No-take  core    2017 MULTIPOLYGON (((365546.8 74...
-#&gt; 6 Nosy Fasika Fishing south    2017 MULTIPOLYGON (((357982.3 74...
-#&gt; 7     Tanjona Fishing north    2019 MULTIPOLYGON (((355302.6 74...
-#&gt; 8     Tanjona No-take  core    2019 MULTIPOLYGON (((356660.5 74...
-#&gt; 9     Tanjona Fishing south    2019 MULTIPOLYGON (((353962.5 74...</code></pre>
+#&gt;           mpa    zone  part created
+#&gt; 1  Ankaramena Fishing north    2015
+#&gt; 2  Ankaramena No-take  core    2015
+#&gt; 3  Ankaramena Fishing south    2015
+#&gt; 4 Nosy Fasika Fishing north    2017
+#&gt; 5 Nosy Fasika No-take  core    2017
+#&gt; 6 Nosy Fasika Fishing south    2017
+#&gt; 7     Tanjona Fishing north    2019
+#&gt; 8     Tanjona No-take  core    2019
+#&gt; 9     Tanjona Fishing south    2019
+#&gt;                             geom
+#&gt; 1 MULTIPOLYGON (((359067.1 74...
+#&gt; 2 MULTIPOLYGON (((361171.4 74...
+#&gt; 3 MULTIPOLYGON (((359734 7480...
+#&gt; 4 MULTIPOLYGON (((365472.4 74...
+#&gt; 5 MULTIPOLYGON (((365546.8 74...
+#&gt; 6 MULTIPOLYGON (((357982.3 74...
+#&gt; 7 MULTIPOLYGON (((355302.6 74...
+#&gt; 8 MULTIPOLYGON (((356660.5 74...
+#&gt; 9 MULTIPOLYGON (((353962.5 74...</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">class</span>(zones)</span></code></pre></div>
 <pre><code>#&gt; [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">st_geometry_type</span>(zones, <span class="at">by_geometry =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] MULTIPOLYGON
-#&gt; 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT MULTILINESTRING ... TRIANGLE</code></pre>
+#&gt; 18 Levels: GEOMETRY POINT ... TRIANGLE</code></pre>
 <div class="fa-box">
 <div class="en">
 <p><strong>Functions and arguments used here</strong></p>
@@ -968,10 +983,14 @@ par fichier. N’envoyez jamais le <code>.shp</code> seul !</td>
 #&gt; Dimension:     XY
 #&gt; Bounding box:  xmin: 43.6177 ymin: -22.7455 xmax: 43.6555 ymax: -22.6293
 #&gt; Geodetic CRS:  WGS 84
-#&gt;     village  zone n_farmers                 geometry
-#&gt; 1  Ankarabe North         7 POINT (43.6177 -22.6293)
-#&gt; 2 Antsiraka North         9 POINT (43.6555 -22.6869)
-#&gt; 3  Mahavelo North        14 POINT (43.6501 -22.7455)</code></pre>
+#&gt;     village  zone n_farmers
+#&gt; 1  Ankarabe North         7
+#&gt; 2 Antsiraka North         9
+#&gt; 3  Mahavelo North        14
+#&gt;                   geometry
+#&gt; 1 POINT (43.6177 -22.6293)
+#&gt; 2 POINT (43.6555 -22.6869)
+#&gt; 3 POINT (43.6501 -22.7455)</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># A CSV with longitude / latitude -&gt; spatial points</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>plots_csv <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/advanced/mangrove_plots.csv&quot;</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(plots_csv, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>), <span class="at">crs =</span> <span class="dv">4326</span>)   <span class="co"># 4326 = WGS84 lon/lat</span></span>
@@ -982,17 +1001,28 @@ par fichier. N’envoyez jamais le <code>.shp</code> seul !</td>
 #&gt; Bounding box:  xmin: 43.56959 ymin: -23.13706 xmax: 43.659 ymax: -22.6223
 #&gt; Geodetic CRS:  WGS 84
 #&gt; First 10 features:
-#&gt;    plot_id      patch         mpa    status survey_date                   geometry
-#&gt; 1     M101   Ankarabe  Ankaramena reference  2025-05-11 POINT (43.63852 -22.65646)
-#&gt; 2     M102   Ankarabe  Ankaramena reference  2025-05-19 POINT (43.62766 -22.64417)
-#&gt; 3     M103   Ankarabe  Ankaramena harvested  2025-05-26 POINT (43.61049 -22.62406)
-#&gt; 4     M104   Ankarabe  Ankaramena harvested  2025-05-28 POINT (43.61166 -22.62538)
-#&gt; 5     M105   Ankarabe  Ankaramena  restored  2025-05-05 POINT (43.61687 -22.63417)
-#&gt; 6     M106   Ankarabe  Ankaramena  restored  2025-05-05   POINT (43.6097 -22.6223)
-#&gt; 7     M107   Ankarabe  Ankaramena reference  2025-05-26 POINT (43.63394 -22.64892)
-#&gt; 8     M108   Ankarabe  Ankaramena harvested  2025-05-12 POINT (43.61879 -22.63657)
-#&gt; 9     M201 Ambalakely Nosy Fasika reference  2025-05-11 POINT (43.64482 -22.83314)
-#&gt; 10    M202 Ambalakely Nosy Fasika reference  2025-05-22  POINT (43.64791 -22.8404)</code></pre>
+#&gt;    plot_id      patch         mpa    status
+#&gt; 1     M101   Ankarabe  Ankaramena reference
+#&gt; 2     M102   Ankarabe  Ankaramena reference
+#&gt; 3     M103   Ankarabe  Ankaramena harvested
+#&gt; 4     M104   Ankarabe  Ankaramena harvested
+#&gt; 5     M105   Ankarabe  Ankaramena  restored
+#&gt; 6     M106   Ankarabe  Ankaramena  restored
+#&gt; 7     M107   Ankarabe  Ankaramena reference
+#&gt; 8     M108   Ankarabe  Ankaramena harvested
+#&gt; 9     M201 Ambalakely Nosy Fasika reference
+#&gt; 10    M202 Ambalakely Nosy Fasika reference
+#&gt;    survey_date                   geometry
+#&gt; 1   2025-05-11 POINT (43.63852 -22.65646)
+#&gt; 2   2025-05-19 POINT (43.62766 -22.64417)
+#&gt; 3   2025-05-26 POINT (43.61049 -22.62406)
+#&gt; 4   2025-05-28 POINT (43.61166 -22.62538)
+#&gt; 5   2025-05-05 POINT (43.61687 -22.63417)
+#&gt; 6   2025-05-05   POINT (43.6097 -22.6223)
+#&gt; 7   2025-05-26 POINT (43.63394 -22.64892)
+#&gt; 8   2025-05-12 POINT (43.61879 -22.63657)
+#&gt; 9   2025-05-11 POINT (43.64482 -22.83314)
+#&gt; 10  2025-05-22  POINT (43.64791 -22.8404)</code></pre>
 <div class="fa-box">
 <div class="en">
 <p><strong>Functions and arguments used here</strong></p>
@@ -1249,10 +1279,14 @@ class="fr">Attributs avec dplyr</span></h2>
 #&gt; Dimension:     XY
 #&gt; Bounding box:  xmin: 343409.2 ymin: 7426876 xmax: 365568 ymax: 7494134
 #&gt; Projected CRS: WGS 84 / UTM zone 38S
-#&gt;           mpa    zone                           geom
-#&gt; 1  Ankaramena No-take MULTIPOLYGON (((361171.4 74...
-#&gt; 2 Nosy Fasika No-take MULTIPOLYGON (((365546.8 74...
-#&gt; 3     Tanjona No-take MULTIPOLYGON (((356660.5 74...</code></pre>
+#&gt;           mpa    zone
+#&gt; 1  Ankaramena No-take
+#&gt; 2 Nosy Fasika No-take
+#&gt; 3     Tanjona No-take
+#&gt;                             geom
+#&gt; 1 MULTIPOLYGON (((361171.4 74...
+#&gt; 2 MULTIPOLYGON (((365546.8 74...
+#&gt; 3 MULTIPOLYGON (((356660.5 74...</code></pre>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># summarise() on groups MERGES the geometries (&quot;dissolve&quot;): one polygon per MPA</span></span>
 <span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>mpas <span class="ot">&lt;-</span> zones <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(mpa) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">n_zones =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>mpas</span></code></pre></div>
@@ -1262,11 +1296,11 @@ class="fr">Attributs avec dplyr</span></h2>
 #&gt; Bounding box:  xmin: 340891.7 ymin: 7420209 xmax: 365568 ymax: 7500064
 #&gt; Projected CRS: WGS 84 / UTM zone 38S
 #&gt; # A tibble: 3 × 3
-#&gt;   mpa         n_zones                                                                                  geom
-#&gt;   &lt;chr&gt;         &lt;int&gt;                                                                         &lt;POLYGON [m]&gt;
-#&gt; 1 Ankaramena        3 ((361039.3 7485971, 361002.9 7485765, 360955.1 7485558, 360905.4 7485351, 360855.6 7…
-#&gt; 2 Nosy Fasika       3 ((362037.9 7456549, 361864.8 7456365, 361691.8 7456180, 361518.7 7455995, 361343.9 7…
-#&gt; 3 Tanjona           3 ((355985.6 7426770, 355905.2 7426540, 355824.9 7426310, 355744.6 7426080, 355663.6 7…</code></pre>
+#&gt;   mpa        n_zones                      geom
+#&gt;   &lt;chr&gt;        &lt;int&gt;             &lt;POLYGON [m]&gt;
+#&gt; 1 Ankaramena       3 ((361039.3 7485971, 3610…
+#&gt; 2 Nosy Fasi…       3 ((362037.9 7456549, 3618…
+#&gt; 3 Tanjona          3 ((355985.6 7426770, 3559…</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>zones_table <span class="ot">&lt;-</span> <span class="fu">st_drop_geometry</span>(zones)                          <span class="co"># back to a plain data frame</span></span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">class</span>(zones_table)</span></code></pre></div>
 <pre><code>#&gt; [1] &quot;data.frame&quot;</code></pre>
@@ -1356,10 +1390,18 @@ premier</strong> pour rester spatial (intermédiaire, séance I3) :</p>
 #&gt; Dimension:     XY
 #&gt; Bounding box:  xmin: 352712.6 ymin: 7487710 xmax: 354416.2 ymax: 7492489
 #&gt; Projected CRS: WGS 84 / UTM zone 38S
-#&gt;   site_id        mpa    zone      lon      lat depth_m hard_coral                     geom
-#&gt; 1     R01 Ankaramena No-take 43.57797 -22.6684     7.1   42.90000   POINT (353904 7492489)
-#&gt; 2     R02 Ankaramena No-take 43.56615 -22.6900     6.6   44.66667 POINT (352712.6 7490085)
-#&gt; 3     R03 Ankaramena No-take 43.58251 -22.7116     3.5   50.43333 POINT (354416.2 7487710)</code></pre>
+#&gt;   site_id        mpa    zone      lon
+#&gt; 1     R01 Ankaramena No-take 43.57797
+#&gt; 2     R02 Ankaramena No-take 43.56615
+#&gt; 3     R03 Ankaramena No-take 43.58251
+#&gt;        lat depth_m hard_coral
+#&gt; 1 -22.6684     7.1   42.90000
+#&gt; 2 -22.6900     6.6   44.66667
+#&gt; 3 -22.7116     3.5   50.43333
+#&gt;                       geom
+#&gt; 1   POINT (353904 7492489)
+#&gt; 2 POINT (352712.6 7490085)
+#&gt; 3 POINT (354416.2 7487710)</code></pre>
 <div class="fa-box">
 <div class="en">
 <p><strong>Functions and arguments used here</strong></p>
@@ -1498,11 +1540,16 @@ class="fr">Mesurer : surfaces et distances</span></h2>
 <span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>sites<span class="sc">$</span>dist_village_km   <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">apply</span>(d, <span class="dv">1</span>, min) <span class="sc">/</span> <span class="dv">1000</span>, <span class="dv">2</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>sites<span class="sc">$</span>dist_land_km      <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(<span class="fu">st_distance</span>(sites, land)) <span class="sc">/</span> <span class="dv">1000</span>, <span class="dv">2</span>)   <span class="co"># distance to the coast</span></span>
 <span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">st_drop_geometry</span>(sites)[, <span class="fu">c</span>(<span class="st">&quot;site_id&quot;</span>, <span class="st">&quot;nearest_village&quot;</span>, <span class="st">&quot;dist_village_km&quot;</span>, <span class="st">&quot;dist_land_km&quot;</span>)], <span class="dv">4</span>)</span></code></pre></div>
-<pre><code>#&gt;   site_id nearest_village dist_village_km dist_land_km
-#&gt; 1     R01        Ankarabe            5.95         5.31
-#&gt; 2     R02        Ankarabe            8.56         7.75
-#&gt; 3     R03        Mahavelo            7.89         6.82
-#&gt; 4     R04        Ankarabe            9.66         5.90</code></pre>
+<pre><code>#&gt;   site_id nearest_village dist_village_km
+#&gt; 1     R01        Ankarabe            5.95
+#&gt; 2     R02        Ankarabe            8.56
+#&gt; 3     R03        Mahavelo            7.89
+#&gt; 4     R04        Ankarabe            9.66
+#&gt;   dist_land_km
+#&gt; 1         5.31
+#&gt; 2         7.75
+#&gt; 3         6.82
+#&gt; 4         5.90</code></pre>
 <div class="fa-box">
 <div class="en">
 <p><strong>Functions and arguments used here</strong></p>
@@ -1777,7 +1824,8 @@ clé est la <strong>position</strong>.</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="co"># Which villages are within 2 km of a No-take zone?</span></span>
 <span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>near <span class="ot">&lt;-</span> <span class="fu">lengths</span>(<span class="fu">st_intersects</span>(villages_utm, belt)) <span class="sc">&gt;</span> <span class="dv">0</span>     <span class="co"># TRUE/FALSE for each village</span></span>
 <span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>villages_utm<span class="sc">$</span>village[near]</span></code></pre></div>
-<pre><code>#&gt; [1] &quot;Antsiraka&quot;  &quot;Ampasimena&quot; &quot;Befasy&quot;     &quot;Andrevobe&quot;  &quot;Tsimanjaka&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;Antsiraka&quot;  &quot;Ampasimena&quot; &quot;Befasy&quot;    
+#&gt; [4] &quot;Andrevobe&quot;  &quot;Tsimanjaka&quot;</code></pre>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="co"># In which MPA zone is each mangrove plot? (plots are on land: none!)</span></span>
 <span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">lengths</span>(<span class="fu">st_intersects</span>(plots_utm, zones)))</span></code></pre></div>
 <pre><code>#&gt; 

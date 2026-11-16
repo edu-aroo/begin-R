@@ -939,7 +939,8 @@ Lue naïvement, R prend le titre comme nom de colonne :</p>
 </div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>bad <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/seaweed_farming.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">names</span>(bad)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
-<pre><code>#&gt; [1] &quot;Seaweed lines register — Fanantenana cooperative&quot; &quot;...2&quot;                                            
+<pre><code>#&gt; [1] &quot;Seaweed lines register — Fanantenana cooperative&quot;
+#&gt; [2] &quot;...2&quot;                                            
 #&gt; [3] &quot;...3&quot;</code></pre>
 <div class="en">
 <p><code>skip = 3</code> ignores the first 3 rows. Other useful
@@ -958,12 +959,12 @@ utiles : <code>range = "A4:J200"</code> (un bloc exact de cellules),
 <pre><code>#&gt; [1] 2575   10</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">head</span>(lines, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt; # A tibble: 3 × 10
-#&gt;   line_id farmer_id cycle planting_date       harvest_date line_length_m initial_weight_kg final_weight_kg
-#&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;                &lt;dbl&gt;             &lt;dbl&gt;           &lt;dbl&gt;
-#&gt; 1 L0001   F013          1 2024-01-08 00:00:00 22/02/2024              15               8.4            55.3
-#&gt; 2 L0002   F013          1 2024-01-08 00:00:00 20/02/2024              15              10.2            47.8
-#&gt; 3 L0003   F013          1 2024-01-08 00:00:00 26/02/2024              15               8.2            51.1
-#&gt; # ℹ 2 more variables: status &lt;chr&gt;, notes &lt;chr&gt;</code></pre>
+#&gt;   line_id farmer_id cycle planting_date       harvest_date line_length_m initial_weight_kg
+#&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;                &lt;dbl&gt;             &lt;dbl&gt;
+#&gt; 1 L0001   F013          1 2024-01-08 00:00:00 22/02/2024              15               8.4
+#&gt; 2 L0002   F013          1 2024-01-08 00:00:00 20/02/2024              15              10.2
+#&gt; 3 L0003   F013          1 2024-01-08 00:00:00 26/02/2024              15               8.2
+#&gt; # ℹ 3 more variables: final_weight_kg &lt;dbl&gt;, status &lt;chr&gt;, notes &lt;chr&gt;</code></pre>
 </div>
 </div>
 <div id="check" class="section level2">
@@ -1097,9 +1098,9 @@ cohérents.</li>
 </ol>
 </div>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">unique</span>(farmers<span class="sc">$</span>village))</span></code></pre></div>
-<pre><code>#&gt;  [1] &quot;Ambalakely&quot;  &quot;AMBALAKELY&quot;  &quot;Ambatofotsy&quot; &quot;Ampasimena&quot;  &quot;Andrevobe&quot;   &quot;ANDREVOBE&quot;   &quot;Ankarabe&quot;   
-#&gt;  [8] &quot;Antsiraka&quot;   &quot;Befasy&quot;      &quot;BEFASY&quot;      &quot;Lovobe&quot;      &quot;LOVOBE&quot;      &quot;Mahavelo&quot;    &quot;MAHAVELO&quot;   
-#&gt; [15] &quot;Sarondrano&quot;  &quot;Tsiandavaka&quot; &quot;Tsimanjaka&quot;  &quot;TSIMANJAKA&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;Ambalakely&quot;  &quot;AMBALAKELY&quot;  &quot;Ambatofotsy&quot; &quot;Ampasimena&quot;  &quot;Andrevobe&quot;   &quot;ANDREVOBE&quot;  
+#&gt;  [7] &quot;Ankarabe&quot;    &quot;Antsiraka&quot;   &quot;Befasy&quot;      &quot;BEFASY&quot;      &quot;Lovobe&quot;      &quot;LOVOBE&quot;     
+#&gt; [13] &quot;Mahavelo&quot;    &quot;MAHAVELO&quot;    &quot;Sarondrano&quot;  &quot;Tsiandavaka&quot; &quot;Tsimanjaka&quot;  &quot;TSIMANJAKA&quot;</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>farmers<span class="sc">$</span>village <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">toTitleCase</span>(<span class="fu">tolower</span>(<span class="fu">trimws</span>(farmers<span class="sc">$</span>village)))   <span class="co"># Beginner, Session 5</span></span>
 <span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(farmers<span class="sc">$</span>village))</span></code></pre></div>
 <pre><code>#&gt; [1] 12</code></pre>

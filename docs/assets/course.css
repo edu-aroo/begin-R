@@ -287,3 +287,7 @@ a.rc-tag { text-decoration: none; }
 .rc-cert-verse p { margin: 0 0 6px; }
 .rc-cert-verse footer { font-style: normal; font-size: .85em; color: var(--muted); }
 .rc-cert-verse footer::before { content: "— "; }
+
+/* "My certificates" list (certificate.html without ?level=) */
+.rc-cert-list { list-style: none; padding: 0; max-width: 680px; }
+.rc-cert-list li { padding: 10px 14px; margin: 8px 0; border: 1px solid #d8e2e8; border-radius: 6px; background: #fff; }

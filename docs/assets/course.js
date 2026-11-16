@@ -84,7 +84,7 @@
         certificate: { code: code, date: new Date().toISOString().slice(0, 10), pct: data.pct } });
     }
     if (action === "save") { try { localStorage.setItem(key, JSON.stringify(data.state)); } catch (e) {} }
-    return Promise.resolve({ ok: true });
+    return Promise.resolve({ ok: true });         // "score", "stuck", "resend"
   }
 
   function cacheState() {   // copy of the state for the next page opened in this tab
@@ -285,6 +285,59 @@
   //  2. session newly passed -> say that the next session is open;
   //  3. level passed -> unlock the next level (server records it, e-mails the teacher
   //     and issues a certificate).
+  // Ask the server for the certificate of a passed level. If the server refuses
+  // (its scores tab misses some quiz rows, e.g. lost on a bad connection), the
+  // browser resends its best score of each quiz of the level and asks again
+  // (final: true -> the teacher gets an e-mail if it is still refused).
+  // Resolves true (certificate received) or false (refused / no connection).
+  const CERT_BUSY = {};
+  function certPending(levelId, v) {            // "refused" mark, kept for this browser session
+    const k = "rc_cert_pending_" + levelId;
+    try { if (v === undefined) return sessionStorage.getItem(k);
+          if (v) sessionStorage.setItem(k, v); else sessionStorage.removeItem(k); } catch (e) {}
+    return null;
+  }
+  function requestCertificate(levelId) {
+    if (CERT_BUSY[levelId]) return CERT_BUSY[levelId];
+    CERT_BUSY[levelId] = (async () => {
+      const st = levelStats(levelId);
+      const next = LEVEL_IDS[LEVEL_IDS.indexOf(levelId) + 1];
+      const base = { user: AUTH.user, pass: AUTH.pass, passed: levelId, level: next, pct: Math.round(100 * st.pct) };
+      try {
+        let r = await api("unlock", base);
+        if (!r.ok && r.error === "not_passed" && !DEMO) {
+          const rows = Object.keys(QIDX).filter(id => QIDX[id].level === levelId && STATE.quizzes[id]).map(id => {
+            const q = STATE.quizzes[id];
+            return { quiz: id, page: QIDX[id].page, score: q.best, max: q.max, answers: q.answers || "" };
+          });
+          await api("resend", { user: AUTH.user, pass: AUTH.pass, rows: rows });
+          r = await api("unlock", Object.assign({ final: true }, base));
+        }
+        if (r.ok && r.certificate) {
+          STATE.certificates[levelId] = r.certificate;
+          certPending(levelId, null);
+          saveSoon(); cacheState();
+          return true;
+        }
+        if (r.error === "not_passed") certPending(levelId, "refused");
+        return false;
+      } catch (e) { return false; }
+      finally { delete CERT_BUSY[levelId]; }
+    })();
+    return CERT_BUSY[levelId];
+  }
+  // At start-up: a passed level without a certificate is asked again (once per
+  // browser session), e.g. after an earlier failure on a bad connection.
+  function ensureCertificates() {
+    if (isTeacher()) return;
+    CFG.levels.forEach(l => {
+      if (l.inProgress || !l.pages.length || STATE.certificates[l.id] || !levelStats(l.id).passed) return;
+      const k = "rc_cert_try_" + l.id;
+      try { if (sessionStorage.getItem(k)) return; sessionStorage.setItem(k, "1"); } catch (e) {}
+      requestCertificate(l.id).then(() => { buildDashboard(); buildCertificate(); });
+    });
+  }
+
   function checkProgress(pageId, wasPassed) {
     if (isTeacher()) return;
     const f = findPage(pageId);
@@ -306,12 +359,16 @@
     const nextGranted = !!next && grantedLevels().indexOf(next) !== -1;
     const inProgress = !!f.level.inProgress;          // level still being written: no certificate yet
     if (st.passed && !inProgress && !STATE.certificates[levelId]) {
-      api("unlock", { user: AUTH.user, pass: AUTH.pass, passed: levelId, level: next,
-                      pct: Math.round(100 * st.pct) })
-        .then(r => {
-          if (!r.ok) return;
-          if (r.certificate) STATE.certificates[levelId] = r.certificate;
-          saveSoon();
+      requestCertificate(levelId).then(ok => {
+          if (!ok) {
+            showModal(`<h2>${t("Level passed!", "Niveau validé !")} ✓</h2>
+              <p>${t(`You passed the <b>${levelLabel(levelId, "en")}</b> level with <b>${Math.round(100 * st.pct)} %</b>.`,
+                     `Vous avez validé le niveau <b>${levelLabel(levelId, "fr")}</b> avec <b>${Math.round(100 * st.pct)} %</b>.`)}</p>
+              <p>${t(`Your certificate could not be issued automatically (some scores did not reach the server). I have been informed; you can also <a href="help.html">contact me</a>. It will appear in <a href="certificate.html">My certificates</a> once issued.`,
+                     `Votre certificat n'a pas pu être délivré automatiquement (des scores ne sont pas arrivés sur le serveur). J'en ai été informé ; vous pouvez aussi <a href="help.html">me contacter</a>. Il apparaîtra dans <a href="certificate.html">Mes certificats</a> une fois délivré.`)}</p>`);
+            return;
+          }
+          buildDashboard();
           showModal(`<h2>${t("Congratulations!", "Félicitations !")} 🎉</h2>
             <p>${t(`You passed the <b>${levelLabel(levelId, "en")}</b> level with <b>${Math.round(100 * st.pct)} %</b>.`,
                    `Vous avez validé le niveau <b>${levelLabel(levelId, "fr")}</b> avec <b>${Math.round(100 * st.pct)} %</b>.`)}</p>
@@ -321,7 +378,7 @@
               : `<p>${t(`To continue with the <b>${levelLabel(next, "en")}</b> level, <a href="help.html">contact me</a>.`,
                         `Pour continuer avec le niveau <b>${levelLabel(next, "fr")}</b>, <a href="help.html">contactez-moi</a>.`)}</p>`) : ""}
             <p><a class="rc-continue" href="certificate.html?level=${levelId}">${t("See my certificate", "Voir mon certificat")}</a></p>`);
-        }).catch(() => {});
+        });
     } else if (ps.passed && !wasPassed) {
       const nxt = f.level.pages[f.i + 1];
       if (nxt) showModal(`<h2>${t("Session passed!", "Séance validée !")} ✓</h2>
@@ -395,6 +452,8 @@
                  openPages: r.openPages || [] };
         sessionStorage.setItem(AUTH_KEY, JSON.stringify(AUTH));
         STATE = r.state ? Object.assign(emptyState(), migrateState(r.state)) : emptyState();
+        // certificates recorded in the Sheet (certificates tab) win over the browser copy
+        if (r.certificates) Object.keys(r.certificates).forEach(lv => { STATE.certificates[lv] = r.certificates[lv]; });
         cacheState();
         // Resume: jump to the page and section where the student stopped
         if (STATE.lastPage && STATE.lastPage !== PAGE_ID) {
@@ -459,6 +518,7 @@
     const ul = document.createElement("ul");
     ul.className = "nav navbar-nav navbar-right rc-nav-extra";
     ul.innerHTML = `
+      <li><a href="certificate.html" class="rc-cert-link">${t("My certificates", "Mes certificats")}</a></li>
       <li><a href="#" class="rc-lang-btn" title="Language / Langue">${t("FR", "EN")}</a></li>
       <li><span class="rc-user">${AUTH.name}${isTeacher() ? ' <span class="rc-badge">teacher</span>' : ""}</span>
           <span class="rc-save" data-s=""></span></li>
@@ -871,7 +931,9 @@
         : `<span class="rc-tag locked">🔒 ${t("opens when the previous level is passed", "s'ouvre quand le niveau précédent est validé")}</span>`;
       else if (l.inProgress && open) status = `<span class="rc-tag open">${t("in preparation", "en préparation")} · ${t("score", "score")} ${Math.round(100 * st.pct)} % · ${st.done}/${st.n} quiz</span>`;
       else if (st.passed) status = `<span class="rc-tag passed">✓ ${t("passed", "validé")} · ${Math.round(100 * st.pct)} %</span>
-                                    ${STATE.certificates[l.id] ? `<a href="certificate.html?level=${l.id}">${t("certificate", "certificat")}</a>` : ""}`;
+                                    ${STATE.certificates[l.id] ? `<a href="certificate.html?level=${l.id}">${t("certificate", "certificat")}</a>`
+                                      : certPending(l.id) ? `<span class="rc-tag stuck">${t("certificate pending", "certificat en attente")}</span> <a href="help.html">${t("contact me", "me contacter")}</a>`
+                                      : `<span class="rc-tag soon">${t("certificate being issued…", "certificat en cours…")}</span>`}`;
       else if (levelHasStuckPage(l.id) && !isTeacher()) status = `<span class="rc-tag stuck">${t("needs help", "besoin d'aide")}</span> <a href="help.html">${t("contact me", "me contacter")}</a>`;
       else status = `<span class="rc-tag open">${t("score", "score")} ${Math.round(100 * st.pct)} % · ${st.done}/${st.n} quiz</span>`;
       html += `<div class="rc-level ${open ? "" : "is-locked"}"><h3>${t(l.en, l.fr)} ${status}</h3>`;
@@ -912,14 +974,30 @@
     box.innerHTML = helpMessage(pageId);
   }
 
-  function buildCertificate() {
+  function buildCertificate(defaultLevel) {
     const box = document.getElementById("certificate-box");
     if (!box) return;
-    const lv = new URLSearchParams(location.search).get("level") || "beginner";
+    const lv = new URLSearchParams(location.search).get("level") || defaultLevel;
+    if (!lv) {                                    // certificate.html alone = "My certificates"
+      const items = CFG.levels.map(l => {
+        const c = STATE.certificates[l.id];
+        if (c) return `<li><a href="certificate.html?level=${l.id}">${t(l.en, l.fr)}</a> — ${c.pct} % · ${c.date}</li>`;
+        if (!isTeacher() && !l.inProgress && l.pages.length && levelStats(l.id).passed)
+          return `<li>${t(l.en, l.fr)} — ${certPending(l.id)
+            ? `${t("pending: the server could not confirm all your scores.", "en attente : le serveur n'a pas pu confirmer tous vos scores.")} <a href="help.html">${t("Contact me", "Contactez-moi")}</a>`
+            : t("being issued… reload the page in a moment.", "en cours… rechargez la page dans un instant.")}</li>`;
+        return "";
+      }).join("");
+      box.innerHTML = items ? `<h2>${t("My certificates", "Mes certificats")}</h2><ul class="rc-cert-list">${items}</ul>`
+        : `<p>${t("No certificate yet: a certificate is issued when you pass a level (75 %).",
+                  "Pas encore de certificat : un certificat est délivré quand vous validez un niveau (75 %).")}</p>`;
+      return;
+    }
     const c = STATE.certificates[lv];
     if (!c) {
       box.innerHTML = `<p>${t("No certificate yet for this level: it is issued when you pass the level.",
-                              "Pas encore de certificat pour ce niveau : il est délivré quand vous validez le niveau.")}</p>`;
+                              "Pas encore de certificat pour ce niveau : il est délivré quand vous validez le niveau.")}</p>
+        <p><a href="certificate.html">${t("My certificates", "Mes certificats")}</a></p>`;
       return;
     }
     const l = CFG.levels.find(x => x.id === lv);
@@ -965,6 +1043,7 @@
     buildDashboard();
     buildHelpPage();
     buildCertificate();
+    ensureCertificates();
     cacheState();
     if (fresh || PAGE_ID !== "index") saveSoon();
   }
@@ -986,13 +1065,25 @@
       STATE = emptyState();
       CFG.levels.forEach(l => { STATE.certificates[l.id] = { code: "RC-PREVIEW-0001", date: new Date().toISOString().slice(0, 10), pct: 88 }; });
       document.documentElement.classList.add("rc-authed");
-      buildCertificate();
+      buildCertificate("beginner");
       return;
     }    
     try { AUTH = JSON.parse(sessionStorage.getItem(AUTH_KEY)); } catch (e) { AUTH = null; }
     if (!AUTH) { showLogin(); return; }
-    try { STATE = Object.assign(emptyState(), migrateState(JSON.parse(sessionStorage.getItem("rc_state_cache")))); }
-    catch (e) { STATE = emptyState(); }
+    // No saved progress in this tab (should not happen): reload it from the server
+    // instead of starting from an empty progress that would then be saved.
+    let cached = null;
+    try { cached = JSON.parse(sessionStorage.getItem("rc_state_cache")); } catch (e) {}
+    if (!cached) {
+      api("login", { user: AUTH.user, pass: AUTH.pass }).then(r => {
+        if (!r.ok) { sessionStorage.removeItem(AUTH_KEY); AUTH = null; showLogin(); return; }
+        STATE = r.state ? Object.assign(emptyState(), migrateState(r.state)) : emptyState();
+        if (r.certificates) Object.keys(r.certificates).forEach(lv => { STATE.certificates[lv] = r.certificates[lv]; });
+        start(false);
+      }).catch(() => { sessionStorage.removeItem(AUTH_KEY); AUTH = null; showLogin(); });
+      return;
+    }
+    STATE = Object.assign(emptyState(), migrateState(cached));
     start(false);
   });
 })();
